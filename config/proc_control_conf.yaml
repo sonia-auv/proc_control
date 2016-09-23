@@ -1,0 +1,14 @@
+# Informations of the subscribed topics
+/proc_mapping/topics/points_topic: "/provider_sonar/point_cloud2"
+/proc_mapping/topics/odometry: "/proc_navigation/odom"
+
+/proc_mapping/map/width: 20
+/proc_mapping/map/heigth: 20
+/proc_mapping/map/origin_x: 10.0
+/proc_mapping/map/origin_y: 10.0
+
+/proc_mapping/tile/number_of_scanlines: 10
+
+/proc_mapping/map/pixel_to_m: 0.025
+# Distance in meters of data to eliminate (turbulence in front must be rejected from the dataset)
+/proc_mapping/map/sonar_threshold: 3.0

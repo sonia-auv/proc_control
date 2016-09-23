@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<package>
+  <name>proc_control</name>
+  <version>0.0.0</version>
+  <description>The proc_control package</description>
+
+  <maintainer email="jeremie.st.jules.prevost@gmail.com">Jeremie</maintainer>
+
+  <license>GPLv3</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>roscpp</build_depend>
+  <build_depend>std_msgs</build_depend>
+  <build_depend>lib_atlas</build_depend>
+  <build_depend>sonia_msgs</build_depend>
+  <build_depend>geometry_msgs</build_depend>
+  <build_depend>provider_dvl</build_depend>
+  <build_depend>sensor_msgs</build_depend>
+
+  <run_depend>roscpp</run_depend>
+  <run_depend>std_msgs</run_depend>
+  <run_depend>message_runtime</run_depend>
+  <run_depend>lib_atlas</run_depend>
+  <run_depend>provider_dvl</run_depend>
+  <run_depend>sonia_msgs</run_depend>
+  <run_depend>geometry_msgs</run_depend>
+  <run_depend>sensor_msgs</run_depend>
+</package>

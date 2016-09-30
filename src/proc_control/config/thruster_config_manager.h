@@ -1,0 +1,14 @@
+//
+// Created by jeremie on 9/23/16.
+//
+
+#ifndef PROC_CONTROL_THRUSTERCONFIGMANAGER_H
+#define PROC_CONTROL_THRUSTERCONFIGMANAGER_H
+
+
+class ThrusterConfigManager {
+
+};
+
+
+#endif //PROC_CONTROL_THRUSTERCONFIGMANAGER_H

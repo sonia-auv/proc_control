@@ -1,0 +1,13 @@
+thrusters:
+  - name: Port
+    efforts: [0.5, 0.0, 0.0,0.0, 0.0, 0.0]
+  - name: Starboard
+    efforts: [0.5, 0.0, 0.0, 0.0, 0.0, 0.0]
+  - name: Front_Depth
+    efforts: [0, 0.0, 0.5, 0.0, 0.5, 0.0]
+  - name: Back_Depth
+    efforts: [0.0, 0.0, 0.5, 0.0, -0.5, 0.0]
+  - name: Front_Heading
+    efforts: [0.0, 0.5, 0.0, 0.5, 0.0, 0.0]
+  - name: Back_Heading
+    efforts: [0.0, 0.5, 0.0, 0.5, 0.0, 0.0]

@@ -24,6 +24,8 @@
  */
 
 #include <gtest/gtest.h>
+#include <proc_control/config/node_config_manager.h>
+#include <proc_control/config/thruster_config_manager.h>
 #include "proc_control/config/algorithm_config/PID_config_manager.h"
 char **argv_g;
 int argc_g ;
@@ -32,6 +34,8 @@ TEST(ConfigTest, PIDonfig) {
 
   ros::init(argc_g , argv_g , "proc_control");
   PIDConfigManager mng;
+  NodeConfigManager mng_2;
+  ThrusterConfigManager mng_3;
   ros::spin();
   std::cout << "DOnE" << std::endl;
 

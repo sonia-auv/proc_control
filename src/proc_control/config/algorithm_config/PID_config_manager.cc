@@ -39,7 +39,6 @@ void PIDConfigManager::WriteConfig( const proc_control::PIDConfig &config )
 void PIDConfigManager::ReadConfig( proc_control::PIDConfig &config )
 {
   YAML::Node node = YAML::LoadFile(file_path_);
-
   if (node["P"]) {
     p_ = node["P"].as<double>();
   }

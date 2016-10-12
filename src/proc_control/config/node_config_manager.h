@@ -9,6 +9,9 @@
 #include "proc_control/NodeConfig.h"
 #include "proc_control/config/config_manager.h"
 
+/*!
+ * Class to handler configuration for the node. It can select the control algorithm.
+ */
 class NodeConfigManager : public ConfigManager<proc_control::NodeConfig> {
 public:
     NodeConfigManager();

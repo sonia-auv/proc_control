@@ -12,7 +12,9 @@
 #include <proc_control/config/config_manager.h>
 #include "proc_control/property.h"
 
-
+/*!
+ * Holds the configuration for the PID algorithm implementation
+ */
 class PIDConfigManager : public ConfigManager<proc_control::PIDConfig> {
   public:
   PIDConfigManager();

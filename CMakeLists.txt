@@ -24,7 +24,7 @@
 #===============================================================================
 # G L O B A L   P R O J E C T   C O N F I G U R A T I O N
 
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 3.0)
 project(proc_control)
 
 if (NOT CMAKE_BUILD_TYPE)
@@ -70,10 +70,10 @@ generate_dynamic_reconfigure_options(
 #)
 
 # Generate added messages and services with any dependencies listed here
-#generate_messages(
-#  DEPENDENCIES
-#  std_msgs  # Or other packages containing msgs
-#)
+generate_messages(
+  DEPENDENCIES
+  std_msgs  # Or other packages containing msgs
+)
 
 catkin_package(
     INCLUDE_DIRS ${proc_control_SRC_DIR}

@@ -14,7 +14,7 @@
 
 
 template <class T>
-class ConfigManager {
+class ConfigManager : public atlas::Subject<>{
 
   protected:
   ConfigManager(const std::string &manager_name)
@@ -65,6 +65,9 @@ inline void ConfigManager<T>::CallBackDynamicReconfigure(T &config, uint32_t lev
     UpdateFromConfig(current_config_);
     // Save the configuration to file.
     WriteConfig(current_config_);
+
+    // Notify attached observer
+    Notify();
   }
 }
 
@@ -78,6 +81,7 @@ inline void ConfigManager<T>::Init()
 
   // The original configuration as default.
   server_.setConfigDefault(current_config_);
+  //server_.updateConfig(current_config_);
 
   // Set the callback.
   server_.setCallback(boost::bind(&ConfigManager<T>::CallBackDynamicReconfigure, this, _1, _2));

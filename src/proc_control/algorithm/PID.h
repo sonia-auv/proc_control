@@ -6,8 +6,19 @@
 #define PROC_CONTROL_PID_H
 
 
-class PID {
+#include <ctime>
+#include <cmath>
+#include <algorithm>
 
+class ControlAlgorithm_PID {
+public :
+    double getValueForError(double error);
+
+private :
+    double lastError;
+    double integrationSum;
+    time_t  lastTime;
+    double p,i,d, iLimit, minActuation, maxActuation;
 };
 
 

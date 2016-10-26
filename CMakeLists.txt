@@ -55,6 +55,8 @@ find_package(
 
 generate_dynamic_reconfigure_options(
         cfg/PID_reconf.cfg
+        cfg/Node_reconf.cfg
+        cfg/Thruster_reconf.cfg
 )
 
 #add_message_files(

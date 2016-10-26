@@ -5,13 +5,26 @@
 #ifndef PROC_CONTROL_NODECONFIGMANAGER_H
 #define PROC_CONTROL_NODECONFIGMANAGER_H
 
+#include <proc_control/property.h>
+#include "proc_control/NodeConfig.h"
+#include "proc_control/config/config_manager.h"
 
-class NodeConfigManager {
+/*!
+ * Class to handler configuration for the node. It can select the control algorithm.
+ */
+class NodeConfigManager : public ConfigManager<proc_control::NodeConfig> {
 public:
-    NodeConfigManager() = default;
+    NodeConfigManager();
     ~NodeConfigManager()= default;
 
+  void UpdateFromConfig(const proc_control::NodeConfig &config );
+  void WriteConfig( const proc_control::NodeConfig &config );
+  void ReadConfig( proc_control::NodeConfig &config );
 
+  private:
+  enum class Algorithm{PID_4_AXIS = 0, PID_5_AXIS};
+  int algorithm_to_use_;
+  const std::string file_path_ = kConfigPath + "node" + kConfigExt;
 
 
 };

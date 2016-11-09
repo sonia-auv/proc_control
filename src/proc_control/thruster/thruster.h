@@ -12,10 +12,10 @@
 
 class Thruster {
   public:
-  Thruster(const std::string &id) : id_(id)
+  Thruster(const std::string &id) : linear_effort_({0.0f}),
+                                    rotationnal_effort_({0.0f}),
+                                    id_(id)
   {
-    linear_effort_.fill(0.0f);
-    rotationnal_effort_.fill(0.0f);
     ros::NodeHandle n;
     std::string pub_name = std::string("/provider_can/") + id_ + std::string("_msgs");
     publisher_ = n.advertise<sonia_msgs::ThrusterMsg>(pub_name, 100);
@@ -60,6 +60,12 @@ inline void Thruster::SetFrom6AxisArray(const std::array<double, 6> &array_axis)
 {
   std::copy(array_axis.begin(), array_axis.begin() + 3, linear_effort_.begin());
   std::copy(array_axis.begin() + 3, array_axis.end(), rotationnal_effort_.begin());
+
+  for(int i = 0; i < 3; i++)
+  {
+    linear_effort_[i] /=100.0f;
+    rotationnal_effort_[i] /=100.0f;
+  }
 }
 
 inline void Thruster::Pubish(double thrust_value)

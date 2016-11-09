@@ -10,7 +10,7 @@ ThrusterConfigManager::ThrusterConfigManager()
     : ConfigManager("Thruster")
 {
   Init();
-  Notify();
+  signal_();
 }
 
 void ThrusterConfigManager::UpdateFromConfig(const proc_control::ThrusterConfig &config )

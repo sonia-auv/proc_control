@@ -4,8 +4,7 @@
 
 #include "thruster_manager.h"
 
-ThrusterManager::ThrusterManager() :
-  atlas::Observer<>(thruster_config_manager_)
+ThrusterManager::ThrusterManager()
 {
   // Add all the thrusters
   thrusters_.push_back(Thruster("port"));
@@ -15,9 +14,12 @@ ThrusterManager::ThrusterManager() :
   thrusters_.push_back(Thruster("front_depth"));
   thrusters_.push_back(Thruster("back_depth"));
 
+  thruster_config_manager_.AddObserver(boost::bind(&ThrusterManager::UpdateThrustvector, this));
+
+  UpdateThrustvector();
 }
 
-void ThrusterManager::Commit(std::array<double, 3> &linear_target, std::array<double, 3> &rotational_target)
+std::array<double, 6> ThrusterManager::Commit(std::array<double, 3> &linear_target, std::array<double, 3> &rotational_target)
 {
   // legacy code...
   const double POWER_LIMIT_BEFORE_LUT = 43.0f;
@@ -89,6 +91,8 @@ void ThrusterManager::Commit(std::array<double, 3> &linear_target, std::array<do
 
   }
   //-
+  std::array<double, 6> thrust_vec = {0};
+  int i = 0;
   for (auto t : thrusters_) {
     double target = 0;
     std::array<double,3> thruster_effort_lin = t.GetLinearEffort();
@@ -109,5 +113,8 @@ void ThrusterManager::Commit(std::array<double, 3> &linear_target, std::array<do
 
 
     t.Pubish(target);
+    thrust_vec[i] = target;
+    i++;
   }
+  return thrust_vec;
 }

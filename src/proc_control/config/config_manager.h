@@ -10,11 +10,16 @@
 #include <ros/ros.h>
 #include <dynamic_reconfigure/server.h>
 #include <lib_atlas/pattern/subject.h>
-#include <boost/bind.hpp>
+#include <functional>
+#include <boost/signals2.hpp>
 
 
 template <class T>
-class ConfigManager : public atlas::Subject<>{
+class ConfigManager {
+
+  public:
+  typedef boost::signals2::signal<void ()>  CallbackSignal_t;
+  boost::signals2::connection AddObserver(const CallbackSignal_t::slot_type &subscriber);
 
   protected:
   ConfigManager(const std::string &manager_name)
@@ -23,7 +28,6 @@ class ConfigManager : public atlas::Subject<>{
         current_config_() {}
 
   void Init();
-
   // Update the specific variables with the provided configuration
   virtual void UpdateFromConfig(const T &config ) = 0;
   // Save the specific variables to the config to the file.
@@ -34,11 +38,14 @@ class ConfigManager : public atlas::Subject<>{
   // Returns manager's name and and configuration path..
   std::string GetManagerName();
 
+  CallbackSignal_t signal_;
+
   private:
   // Function called when a configuration is changed.
   void CallBackDynamicReconfigure(T &config, uint32_t level);
 
   private:
+
   std::string manager_name_, config_path_;
   dynamic_reconfigure::Server<T> server_;
   T current_config_;
@@ -67,7 +74,7 @@ inline void ConfigManager<T>::CallBackDynamicReconfigure(T &config, uint32_t lev
     WriteConfig(current_config_);
 
     // Notify attached observer
-    Notify();
+    signal_();
   }
 }
 
@@ -88,5 +95,12 @@ inline void ConfigManager<T>::Init()
 
   is_initing_ = false;
 }
+
+template <class T>
+inline boost::signals2::connection ConfigManager<T>::AddObserver(const CallbackSignal_t::slot_type &subscriber)
+{
+  return signal_.connect(subscriber);
+}
+
 
 #endif //PROC_CONTROL_CONFIG_MANAGER_H

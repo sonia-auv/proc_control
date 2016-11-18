@@ -5,13 +5,10 @@
 #ifndef PROC_CONTROL_CONTROLALGORITHM_H
 #define PROC_CONTROL_CONTROLALGORITHM_H
 
-#include <vector>
+#include <array>
 
 class ControlAlgorithm {
-    void GetErrorFromPositionAndTarget();
-    void UpdatePosition(std::vector<double> position_vector);
-    void UpdateTarget(std::vector<double> target_position);
-    virtual void GetActuationForError(std::vector<double> error_vector) = 0;
-
+  public:
+    virtual std::array<double, 6> CalculateActuationForError(const std::array<double, 6> &error) = 0;
 };
 #endif //PROC_CONTROL_CONTROLALGORITHM_H

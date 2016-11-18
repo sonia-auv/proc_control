@@ -10,10 +10,9 @@ ThrusterConfigManager::ThrusterConfigManager()
     : ConfigManager("Thruster")
 {
   Init();
-  signal_();
 }
 
-void ThrusterConfigManager::UpdateFromConfig(const proc_control::ThrusterConfig &config )
+void ThrusterConfigManager::OnDynamicReconfigureChange(const proc_control::ThrusterConfig &config )
 {
   thruster_list_["port"] = {config.Port_X, config.Port_Y, config.Port_Z, config.Port_PITCH, config.Port_ROLL, config.Port_YAW};
   thruster_list_["starboard"]  = {config.Starboard_X, config.Starboard_Y, config.Starboard_Z, config.Starboard_PITCH, config.Starboard_ROLL, config.Starboard_YAW};
@@ -23,7 +22,7 @@ void ThrusterConfigManager::UpdateFromConfig(const proc_control::ThrusterConfig 
   thruster_list_["back_heading"]  = {config.Back_Heading_X, config.Back_Heading_Y, config.Back_Heading_Z, config.Back_Heading_PITCH, config.Back_Heading_ROLL, config.Back_Heading_YAW};
 }
 
-void ThrusterConfigManager::WriteConfig( const proc_control::ThrusterConfig &config )
+void ThrusterConfigManager::WriteConfigFile(const proc_control::ThrusterConfig &config)
 {
   YAML::Emitter out;
   out << YAML::BeginMap;
@@ -37,7 +36,7 @@ void ThrusterConfigManager::WriteConfig( const proc_control::ThrusterConfig &con
   fout << out.c_str();
 }
 
-void ThrusterConfigManager::ReadConfig( proc_control::ThrusterConfig &config )
+void ThrusterConfigManager::ReadConfigFile(proc_control::ThrusterConfig &config)
 {
   YAML::Node node = YAML::LoadFile(file_path_);
 

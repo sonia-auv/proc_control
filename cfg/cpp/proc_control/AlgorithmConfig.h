@@ -7,8 +7,8 @@
 // 
 // ********************************************************/
 
-#ifndef __proc_control__PIDCONFIG_H__
-#define __proc_control__PIDCONFIG_H__
+#ifndef __proc_control__ALGORITHMCONFIG_H__
+#define __proc_control__ALGORITHMCONFIG_H__
 
 #include <dynamic_reconfigure/config_tools.h>
 #include <limits>
@@ -21,9 +21,9 @@
 
 namespace proc_control
 {
-  class PIDConfigStatics;
+  class AlgorithmConfigStatics;
   
-  class PIDConfig
+  class AlgorithmConfig
   {
   public:
     class AbstractParamDescription : public dynamic_reconfigure::ParamDescription
@@ -39,13 +39,13 @@ namespace proc_control
         edit_method = e;
       }
       
-      virtual void clamp(PIDConfig &config, const PIDConfig &max, const PIDConfig &min) const = 0;
-      virtual void calcLevel(uint32_t &level, const PIDConfig &config1, const PIDConfig &config2) const = 0;
-      virtual void fromServer(const ros::NodeHandle &nh, PIDConfig &config) const = 0;
-      virtual void toServer(const ros::NodeHandle &nh, const PIDConfig &config) const = 0;
-      virtual bool fromMessage(const dynamic_reconfigure::Config &msg, PIDConfig &config) const = 0;
-      virtual void toMessage(dynamic_reconfigure::Config &msg, const PIDConfig &config) const = 0;
-      virtual void getValue(const PIDConfig &config, boost::any &val) const = 0;
+      virtual void clamp(AlgorithmConfig &config, const AlgorithmConfig &max, const AlgorithmConfig &min) const = 0;
+      virtual void calcLevel(uint32_t &level, const AlgorithmConfig &config1, const AlgorithmConfig &config2) const = 0;
+      virtual void fromServer(const ros::NodeHandle &nh, AlgorithmConfig &config) const = 0;
+      virtual void toServer(const ros::NodeHandle &nh, const AlgorithmConfig &config) const = 0;
+      virtual bool fromMessage(const dynamic_reconfigure::Config &msg, AlgorithmConfig &config) const = 0;
+      virtual void toMessage(dynamic_reconfigure::Config &msg, const AlgorithmConfig &config) const = 0;
+      virtual void getValue(const AlgorithmConfig &config, boost::any &val) const = 0;
     };
 
     typedef boost::shared_ptr<AbstractParamDescription> AbstractParamDescriptionPtr;
@@ -56,14 +56,14 @@ namespace proc_control
     {
     public:
       ParamDescription(std::string name, std::string type, uint32_t level, 
-          std::string description, std::string edit_method, T PIDConfig::* f) :
+          std::string description, std::string edit_method, T AlgorithmConfig::* f) :
         AbstractParamDescription(name, type, level, description, edit_method),
         field(f)
       {}
 
-      T (PIDConfig::* field);
+      T (AlgorithmConfig::* field);
 
-      virtual void clamp(PIDConfig &config, const PIDConfig &max, const PIDConfig &min) const
+      virtual void clamp(AlgorithmConfig &config, const AlgorithmConfig &max, const AlgorithmConfig &min) const
       {
         if (config.*field > max.*field)
           config.*field = max.*field;
@@ -72,33 +72,33 @@ namespace proc_control
           config.*field = min.*field;
       }
 
-      virtual void calcLevel(uint32_t &comb_level, const PIDConfig &config1, const PIDConfig &config2) const
+      virtual void calcLevel(uint32_t &comb_level, const AlgorithmConfig &config1, const AlgorithmConfig &config2) const
       {
         if (config1.*field != config2.*field)
           comb_level |= level;
       }
 
-      virtual void fromServer(const ros::NodeHandle &nh, PIDConfig &config) const
+      virtual void fromServer(const ros::NodeHandle &nh, AlgorithmConfig &config) const
       {
         nh.getParam(name, config.*field);
       }
 
-      virtual void toServer(const ros::NodeHandle &nh, const PIDConfig &config) const
+      virtual void toServer(const ros::NodeHandle &nh, const AlgorithmConfig &config) const
       {
         nh.setParam(name, config.*field);
       }
 
-      virtual bool fromMessage(const dynamic_reconfigure::Config &msg, PIDConfig &config) const
+      virtual bool fromMessage(const dynamic_reconfigure::Config &msg, AlgorithmConfig &config) const
       {
         return dynamic_reconfigure::ConfigTools::getParameter(msg, name, config.*field);
       }
 
-      virtual void toMessage(dynamic_reconfigure::Config &msg, const PIDConfig &config) const
+      virtual void toMessage(dynamic_reconfigure::Config &msg, const AlgorithmConfig &config) const
       {
         dynamic_reconfigure::ConfigTools::appendParameter(msg, name, config.*field);
       }
 
-      virtual void getValue(const PIDConfig &config, boost::any &val) const
+      virtual void getValue(const AlgorithmConfig &config, boost::any &val) const
       {
         val = config.*field;
       }
@@ -121,7 +121,7 @@ namespace proc_control
 
       virtual void toMessage(dynamic_reconfigure::Config &msg, const boost::any &config) const = 0;
       virtual bool fromMessage(const dynamic_reconfigure::Config &msg, boost::any &config) const =0;
-      virtual void updateParams(boost::any &cfg, PIDConfig &top) const= 0;
+      virtual void updateParams(boost::any &cfg, AlgorithmConfig &top) const= 0;
       virtual void setInitialState(boost::any &cfg) const = 0;
 
 
@@ -181,7 +181,7 @@ namespace proc_control
 
       }
 
-      virtual void updateParams(boost::any &cfg, PIDConfig &top) const
+      virtual void updateParams(boost::any &cfg, AlgorithmConfig &top) const
       {
         PT* config = boost::any_cast<PT*>(cfg);
 
@@ -207,7 +207,7 @@ namespace proc_control
       }
 
       T (PT::* field);
-      std::vector<PIDConfig::AbstractGroupDescriptionConstPtr> groups;
+      std::vector<AlgorithmConfig::AbstractGroupDescriptionConstPtr> groups;
     };
     
 class DEFAULT
@@ -219,22 +219,18 @@ class DEFAULT
       name = "Default";
     }
 
-    void setParams(PIDConfig &config, const std::vector<AbstractParamDescriptionConstPtr> params)
+    void setParams(AlgorithmConfig &config, const std::vector<AbstractParamDescriptionConstPtr> params)
     {
       for (std::vector<AbstractParamDescriptionConstPtr>::const_iterator _i = params.begin(); _i != params.end(); ++_i)
       {
         boost::any val;
         (*_i)->getValue(config, val);
 
-        if("P"==(*_i)->name){P = boost::any_cast<double>(val);}
-        if("I"==(*_i)->name){I = boost::any_cast<double>(val);}
-        if("D"==(*_i)->name){D = boost::any_cast<double>(val);}
+        if("Algorithm"==(*_i)->name){Algorithm = boost::any_cast<int>(val);}
       }
     }
 
-    double P;
-double I;
-double D;
+    int Algorithm;
 
     bool state;
     std::string name;
@@ -245,11 +241,7 @@ double D;
 
 
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      double P;
-//#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      double I;
-//#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      double D;
+      int Algorithm;
 //#line 218 "/opt/ros/indigo/share/dynamic_reconfigure/templates/ConfigType.h.template"
 
     bool __fromMessage__(dynamic_reconfigure::Config &msg)
@@ -274,7 +266,7 @@ double D;
 
       if (count != dynamic_reconfigure::ConfigTools::size(msg))
       {
-        ROS_ERROR("PIDConfig::__fromMessage__ called with an unexpected parameter.");
+        ROS_ERROR("AlgorithmConfig::__fromMessage__ called with an unexpected parameter.");
         ROS_ERROR("Booleans:");
         for (unsigned int i = 0; i < msg.bools.size(); i++)
           ROS_ERROR("  %s", msg.bools[i].name.c_str());
@@ -346,13 +338,13 @@ double D;
     void __clamp__()
     {
       const std::vector<AbstractParamDescriptionConstPtr> &__param_descriptions__ = __getParamDescriptions__();
-      const PIDConfig &__max__ = __getMax__();
-      const PIDConfig &__min__ = __getMin__();
+      const AlgorithmConfig &__max__ = __getMax__();
+      const AlgorithmConfig &__min__ = __getMin__();
       for (std::vector<AbstractParamDescriptionConstPtr>::const_iterator i = __param_descriptions__.begin(); i != __param_descriptions__.end(); ++i)
         (*i)->clamp(*this, __max__, __min__);
     }
 
-    uint32_t __level__(const PIDConfig &config) const
+    uint32_t __level__(const AlgorithmConfig &config) const
     {
       const std::vector<AbstractParamDescriptionConstPtr> &__param_descriptions__ = __getParamDescriptions__();
       uint32_t level = 0;
@@ -362,66 +354,46 @@ double D;
     }
     
     static const dynamic_reconfigure::ConfigDescription &__getDescriptionMessage__();
-    static const PIDConfig &__getDefault__();
-    static const PIDConfig &__getMax__();
-    static const PIDConfig &__getMin__();
+    static const AlgorithmConfig &__getDefault__();
+    static const AlgorithmConfig &__getMax__();
+    static const AlgorithmConfig &__getMin__();
     static const std::vector<AbstractParamDescriptionConstPtr> &__getParamDescriptions__();
     static const std::vector<AbstractGroupDescriptionConstPtr> &__getGroupDescriptions__();
     
   private:
-    static const PIDConfigStatics *__get_statics__();
+    static const AlgorithmConfigStatics *__get_statics__();
   };
   
   template <> // Max and min are ignored for strings.
-  inline void PIDConfig::ParamDescription<std::string>::clamp(PIDConfig &config, const PIDConfig &max, const PIDConfig &min) const
+  inline void AlgorithmConfig::ParamDescription<std::string>::clamp(AlgorithmConfig &config, const AlgorithmConfig &max, const AlgorithmConfig &min) const
   {
     return;
   }
 
-  class PIDConfigStatics
+  class AlgorithmConfigStatics
   {
-    friend class PIDConfig;
+    friend class AlgorithmConfig;
     
-    PIDConfigStatics()
+    AlgorithmConfigStatics()
     {
-PIDConfig::GroupDescription<PIDConfig::DEFAULT, PIDConfig> Default("Default", "", 0, 0, true, &PIDConfig::groups);
+AlgorithmConfig::GroupDescription<AlgorithmConfig::DEFAULT, AlgorithmConfig> Default("Default", "", 0, 0, true, &AlgorithmConfig::groups);
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __min__.P = -100.0;
+      __min__.Algorithm = 0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __max__.P = 100.0;
+      __max__.Algorithm = 1;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __default__.P = 0.0;
+      __default__.Algorithm = 0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      Default.abstract_parameters.push_back(PIDConfig::AbstractParamDescriptionConstPtr(new PIDConfig::ParamDescription<double>("P", "double", 0, "The proportional coefficient", "", &PIDConfig::P)));
+      Default.abstract_parameters.push_back(AlgorithmConfig::AbstractParamDescriptionConstPtr(new AlgorithmConfig::ParamDescription<int>("Algorithm", "int", 0, "Selection for the control algorithm", "{'enum_description': 'Selection of algorithm', 'enum': [{'srcline': 8, 'description': 'Control XYZ Yaw', 'srcfile': '/home/jeremie/sonia_log/ros_sonia_ws/src/proc_control/cfg/Algorithm_reconf.cfg', 'cconsttype': 'const int', 'value': 0, 'ctype': 'int', 'type': 'int', 'name': 'PID_4_axis'}, {'srcline': 9, 'description': 'Control XYZ Yaw and Pitch', 'srcfile': '/home/jeremie/sonia_log/ros_sonia_ws/src/proc_control/cfg/Algorithm_reconf.cfg', 'cconsttype': 'const int', 'value': 1, 'ctype': 'int', 'type': 'int', 'name': 'PID_5_axis'}]}", &AlgorithmConfig::Algorithm)));
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __param_descriptions__.push_back(PIDConfig::AbstractParamDescriptionConstPtr(new PIDConfig::ParamDescription<double>("P", "double", 0, "The proportional coefficient", "", &PIDConfig::P)));
-//#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __min__.I = -100.0;
-//#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __max__.I = 100.0;
-//#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __default__.I = 0.0;
-//#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      Default.abstract_parameters.push_back(PIDConfig::AbstractParamDescriptionConstPtr(new PIDConfig::ParamDescription<double>("I", "double", 0, "The integral coefficient", "", &PIDConfig::I)));
-//#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __param_descriptions__.push_back(PIDConfig::AbstractParamDescriptionConstPtr(new PIDConfig::ParamDescription<double>("I", "double", 0, "The integral coefficient", "", &PIDConfig::I)));
-//#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __min__.D = -100.0;
-//#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __max__.D = 100.0;
-//#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __default__.D = 0.0;
-//#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      Default.abstract_parameters.push_back(PIDConfig::AbstractParamDescriptionConstPtr(new PIDConfig::ParamDescription<double>("D", "double", 0, "The derivative coefficient", "", &PIDConfig::D)));
-//#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __param_descriptions__.push_back(PIDConfig::AbstractParamDescriptionConstPtr(new PIDConfig::ParamDescription<double>("D", "double", 0, "The derivative coefficient", "", &PIDConfig::D)));
+      __param_descriptions__.push_back(AlgorithmConfig::AbstractParamDescriptionConstPtr(new AlgorithmConfig::ParamDescription<int>("Algorithm", "int", 0, "Selection for the control algorithm", "{'enum_description': 'Selection of algorithm', 'enum': [{'srcline': 8, 'description': 'Control XYZ Yaw', 'srcfile': '/home/jeremie/sonia_log/ros_sonia_ws/src/proc_control/cfg/Algorithm_reconf.cfg', 'cconsttype': 'const int', 'value': 0, 'ctype': 'int', 'type': 'int', 'name': 'PID_4_axis'}, {'srcline': 9, 'description': 'Control XYZ Yaw and Pitch', 'srcfile': '/home/jeremie/sonia_log/ros_sonia_ws/src/proc_control/cfg/Algorithm_reconf.cfg', 'cconsttype': 'const int', 'value': 1, 'ctype': 'int', 'type': 'int', 'name': 'PID_5_axis'}]}", &AlgorithmConfig::Algorithm)));
 //#line 233 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       Default.convertParams();
 //#line 233 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __group_descriptions__.push_back(PIDConfig::AbstractGroupDescriptionConstPtr(new PIDConfig::GroupDescription<PIDConfig::DEFAULT, PIDConfig>(Default)));
+      __group_descriptions__.push_back(AlgorithmConfig::AbstractGroupDescriptionConstPtr(new AlgorithmConfig::GroupDescription<AlgorithmConfig::DEFAULT, AlgorithmConfig>(Default)));
 //#line 353 "/opt/ros/indigo/share/dynamic_reconfigure/templates/ConfigType.h.template"
 
-      for (std::vector<PIDConfig::AbstractGroupDescriptionConstPtr>::const_iterator i = __group_descriptions__.begin(); i != __group_descriptions__.end(); ++i)
+      for (std::vector<AlgorithmConfig::AbstractGroupDescriptionConstPtr>::const_iterator i = __group_descriptions__.begin(); i != __group_descriptions__.end(); ++i)
       {
         __description_message__.groups.push_back(**i);
       }
@@ -429,57 +401,57 @@ PIDConfig::GroupDescription<PIDConfig::DEFAULT, PIDConfig> Default("Default", ""
       __min__.__toMessage__(__description_message__.min, __param_descriptions__, __group_descriptions__); 
       __default__.__toMessage__(__description_message__.dflt, __param_descriptions__, __group_descriptions__); 
     }
-    std::vector<PIDConfig::AbstractParamDescriptionConstPtr> __param_descriptions__;
-    std::vector<PIDConfig::AbstractGroupDescriptionConstPtr> __group_descriptions__;
-    PIDConfig __max__;
-    PIDConfig __min__;
-    PIDConfig __default__;
+    std::vector<AlgorithmConfig::AbstractParamDescriptionConstPtr> __param_descriptions__;
+    std::vector<AlgorithmConfig::AbstractGroupDescriptionConstPtr> __group_descriptions__;
+    AlgorithmConfig __max__;
+    AlgorithmConfig __min__;
+    AlgorithmConfig __default__;
     dynamic_reconfigure::ConfigDescription __description_message__;
 
-    static const PIDConfigStatics *get_instance()
+    static const AlgorithmConfigStatics *get_instance()
     {
       // Split this off in a separate function because I know that
       // instance will get initialized the first time get_instance is
       // called, and I am guaranteeing that get_instance gets called at
       // most once.
-      static PIDConfigStatics instance;
+      static AlgorithmConfigStatics instance;
       return &instance;
     }
   };
 
-  inline const dynamic_reconfigure::ConfigDescription &PIDConfig::__getDescriptionMessage__() 
+  inline const dynamic_reconfigure::ConfigDescription &AlgorithmConfig::__getDescriptionMessage__() 
   {
     return __get_statics__()->__description_message__;
   }
 
-  inline const PIDConfig &PIDConfig::__getDefault__()
+  inline const AlgorithmConfig &AlgorithmConfig::__getDefault__()
   {
     return __get_statics__()->__default__;
   }
   
-  inline const PIDConfig &PIDConfig::__getMax__()
+  inline const AlgorithmConfig &AlgorithmConfig::__getMax__()
   {
     return __get_statics__()->__max__;
   }
   
-  inline const PIDConfig &PIDConfig::__getMin__()
+  inline const AlgorithmConfig &AlgorithmConfig::__getMin__()
   {
     return __get_statics__()->__min__;
   }
   
-  inline const std::vector<PIDConfig::AbstractParamDescriptionConstPtr> &PIDConfig::__getParamDescriptions__()
+  inline const std::vector<AlgorithmConfig::AbstractParamDescriptionConstPtr> &AlgorithmConfig::__getParamDescriptions__()
   {
     return __get_statics__()->__param_descriptions__;
   }
 
-  inline const std::vector<PIDConfig::AbstractGroupDescriptionConstPtr> &PIDConfig::__getGroupDescriptions__()
+  inline const std::vector<AlgorithmConfig::AbstractGroupDescriptionConstPtr> &AlgorithmConfig::__getGroupDescriptions__()
   {
     return __get_statics__()->__group_descriptions__;
   }
 
-  inline const PIDConfigStatics *PIDConfig::__get_statics__()
+  inline const AlgorithmConfigStatics *AlgorithmConfig::__get_statics__()
   {
-    const static PIDConfigStatics *statics;
+    const static AlgorithmConfigStatics *statics;
   
     if (statics) // Common case
       return statics;
@@ -489,12 +461,15 @@ PIDConfig::GroupDescription<PIDConfig::DEFAULT, PIDConfig> Default("Default", ""
     if (statics) // In case we lost a race.
       return statics;
 
-    statics = PIDConfigStatics::get_instance();
+    statics = AlgorithmConfigStatics::get_instance();
     
     return statics;
   }
 
-
+//#line 8 "/home/jeremie/sonia_log/ros_sonia_ws/src/proc_control/cfg/Algorithm_reconf.cfg"
+      const int Algorithm_PID_4_axis = 0;
+//#line 9 "/home/jeremie/sonia_log/ros_sonia_ws/src/proc_control/cfg/Algorithm_reconf.cfg"
+      const int Algorithm_PID_5_axis = 1;
 }
 
-#endif // __PIDRECONFIGURATOR_H__
+#endif // __ALGORITHMRECONFIGURATOR_H__

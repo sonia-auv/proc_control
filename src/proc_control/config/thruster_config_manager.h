@@ -22,9 +22,9 @@ class ThrusterConfigManager : public ConfigManager<proc_control::ThrusterConfig>
   ThrusterConfigManager();
 
   // ConfigManager override
-  void UpdateFromConfig(const proc_control::ThrusterConfig &config );
-  void WriteConfig( const proc_control::ThrusterConfig &config );
-  void ReadConfig( proc_control::ThrusterConfig &config );
+  void OnDynamicReconfigureChange(const proc_control::ThrusterConfig &config ) override ;
+  void WriteConfigFile(const proc_control::ThrusterConfig &config) override ;
+  void ReadConfigFile(proc_control::ThrusterConfig &config) override ;
 
   std::array<double, 6> GetThrusterConfig(const std::string &name);
 

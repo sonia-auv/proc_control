@@ -45,7 +45,7 @@ TEST(ThrustConversion, thrust) {
   in5 = {0.43,100,32.43,0,0,-96.57}, out5 = {0.21,0.21, 53.45,-43.45, 16.21,16.21};
 
   std::vector<std::array<double, 6>> ins {in1, in2, in3, in4, in5}, outs {out1, out2, out3, out4, out5};
-  for( int i = 0; i < ins.size(); i++)
+  for( size_t i = 0; i < ins.size(); i++)
   {
     std::array<double,3> in_lin, in_rot;
     std::array<double, 6> out;
@@ -62,6 +62,14 @@ TEST(ThrustConversion, thrust) {
       mse += pow((out[j] - outs[i][j]),2);
     }
     std::cout << std::sqrt(mse) << std::endl;
+
+    for( int j = 0;j < 6; j++)
+    {
+      int val = int(fabs(out[j]));
+      std::cout << Thruster::POSITIVE_LINEAR_LUT[val] << "\t";
+    }
+    std::cout << std::endl << std::endl;
+
   }
   //ros::spin();
   std::cout << "DOnE" << std::endl;

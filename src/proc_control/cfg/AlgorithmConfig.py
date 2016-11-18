@@ -34,5 +34,5 @@ for param in extract_params(config_description):
     type[param['name']] = param['type']
     all_level = all_level | param['level']
 
-Node_PID_4_axis = 0
-Node_PID_5_axis = 1
+Algorithm_PID_4_axis = 0
+Algorithm_PID_5_axis = 1

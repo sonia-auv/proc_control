@@ -19,21 +19,25 @@ class ConfigManager {
 
   public:
   typedef boost::signals2::signal<void ()>  CallbackSignal_t;
+
   boost::signals2::connection AddObserver(const CallbackSignal_t::slot_type &subscriber);
 
   protected:
   ConfigManager(const std::string &manager_name)
-      : manager_name_(manager_name),
+      : signal_() ,
+        manager_name_(manager_name),
         server_(ros::NodeHandle(std::string("~/") + manager_name)),
-        current_config_() {}
+        current_config_()
+  {
+  }
 
   void Init();
   // Update the specific variables with the provided configuration
-  virtual void UpdateFromConfig(const T &config ) = 0;
+  virtual void OnDynamicReconfigureChange(const T &config) = 0;
   // Save the specific variables to the config to the file.
-  virtual void WriteConfig( const T &config ) = 0;
+  virtual void WriteConfigFile(const T &config) = 0;
   // Read the specific variables from the file and fills config.
-  virtual void ReadConfig( T &config ) = 0;
+  virtual void ReadConfigFile(T &config) = 0;
 
   // Returns manager's name and and configuration path..
   std::string GetManagerName();
@@ -46,7 +50,7 @@ class ConfigManager {
 
   private:
 
-  std::string manager_name_, config_path_;
+  std::string manager_name_;
   dynamic_reconfigure::Server<T> server_;
   T current_config_;
   bool is_initing_;
@@ -58,7 +62,6 @@ inline std::string ConfigManager<T>::GetManagerName()
   return manager_name_;
 }
 
-
 template <class T>
 inline void ConfigManager<T>::CallBackDynamicReconfigure(T &config, uint32_t level)
 {
@@ -69,12 +72,15 @@ inline void ConfigManager<T>::CallBackDynamicReconfigure(T &config, uint32_t lev
     // Save new config
     current_config_ = config;
     // Calls the manager so it update itself
-    UpdateFromConfig(current_config_);
+    OnDynamicReconfigureChange(current_config_);
     // Save the configuration to file.
-    WriteConfig(current_config_);
+    WriteConfigFile(current_config_);
 
     // Notify attached observer
     signal_();
+  }else
+  {
+    config = current_config_;
   }
 }
 
@@ -84,11 +90,10 @@ inline void ConfigManager<T>::Init()
 {
   is_initing_ = true;
   // Load the configuration from file.
-  ReadConfig(current_config_);
+  ReadConfigFile(current_config_);
 
   // The original configuration as default.
   server_.setConfigDefault(current_config_);
-  //server_.updateConfig(current_config_);
 
   // Set the callback.
   server_.setCallback(boost::bind(&ConfigManager<T>::CallBackDynamicReconfigure, this, _1, _2));

@@ -16,17 +16,20 @@ class ThrusterManager {
   ThrusterManager();
 
   // Observer override
-  void UpdateThrustvector();
+  void UpdateThrustVector();
 
   std::array<double, 6> Commit(std::array<double, 3> &linear_effort, std::array<double, 3> &rotational_target);
+
   private:
 
   std::vector<Thruster> thrusters_;
   ThrusterConfigManager thruster_config_manager_;
+  boost::signals2::connection connexion_to_config_;
 };
 
-inline void ThrusterManager::UpdateThrustvector()
+inline void ThrusterManager::UpdateThrustVector()
 {
+  std::cout << "Update to the thruster values" << std::endl;
   for(auto &thruster : thrusters_)
   {
     thruster.SetFrom6AxisArray(thruster_config_manager_.GetThrusterConfig(thruster.GetID()));

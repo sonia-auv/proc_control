@@ -12,6 +12,8 @@
 
 class Thruster {
   public:
+  static std::array<double,101> POSITIVE_LINEAR_LUT;
+
   Thruster(const std::string &id) : linear_effort_({0.0f}),
                                     rotationnal_effort_({0.0f}),
                                     id_(id)

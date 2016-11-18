@@ -54,8 +54,8 @@ find_package(
 )
 
 generate_dynamic_reconfigure_options(
-        cfg/PID_reconf.cfg
-        cfg/Node_reconf.cfg
+        cfg/PID4Axis_reconf.cfg
+        cfg/Algorithm_reconf.cfg
         cfg/Thruster_reconf.cfg
 )
 
@@ -64,10 +64,13 @@ generate_dynamic_reconfigure_options(
 #    FILES
 #)
 
-#add_service_files(
-#        DIRECTORY srv
-#        FILES
-#)
+add_service_files(
+     DIRECTORY srv
+     FILES
+     SetGlobalTarget.srv
+     SetLocalTarget.srv
+     EnableControl.srv
+)
 
 # Generate added messages and services with any dependencies listed here
 generate_messages(

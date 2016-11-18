@@ -1,0 +1,5 @@
+#X Y Z
+bool[3] position
+#R P Y
+bool[3] direction
+---

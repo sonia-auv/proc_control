@@ -384,9 +384,9 @@ NodeConfig::GroupDescription<NodeConfig::DEFAULT, NodeConfig> Default("Default",
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __default__.Algorithm = 0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      Default.abstract_parameters.push_back(NodeConfig::AbstractParamDescriptionConstPtr(new NodeConfig::ParamDescription<int>("Algorithm", "int", 0, "Selection for the control algorithm", "{'enum_description': 'Selection of algorithm', 'enum': [{'srcline': 8, 'description': 'Control XYZ Yaw', 'srcfile': '/home/jeremie/sonia_log/ros_sonia_ws/src/proc_control/cfg/Node_reconf.cfg', 'cconsttype': 'const int', 'value': 0, 'ctype': 'int', 'type': 'int', 'name': 'PID_4_axis'}, {'srcline': 9, 'description': 'Control XYZ Yaw and Pitch', 'srcfile': '/home/jeremie/sonia_log/ros_sonia_ws/src/proc_control/cfg/Node_reconf.cfg', 'cconsttype': 'const int', 'value': 1, 'ctype': 'int', 'type': 'int', 'name': 'PID_5_axis'}]}", &NodeConfig::Algorithm)));
+      Default.abstract_parameters.push_back(NodeConfig::AbstractParamDescriptionConstPtr(new NodeConfig::ParamDescription<int>("Algorithm", "int", 0, "Selection for the control algorithm", "{'enum_description': 'Selection of algorithm', 'enum': [{'srcline': 8, 'description': 'Control XYZ Yaw', 'srcfile': '/home/jeremie/sonia_log/ros_sonia_ws/src/proc_control/cfg/Algorithm_reconf.cfg', 'cconsttype': 'const int', 'value': 0, 'ctype': 'int', 'type': 'int', 'name': 'PID_4_axis'}, {'srcline': 9, 'description': 'Control XYZ Yaw and Pitch', 'srcfile': '/home/jeremie/sonia_log/ros_sonia_ws/src/proc_control/cfg/Algorithm_reconf.cfg', 'cconsttype': 'const int', 'value': 1, 'ctype': 'int', 'type': 'int', 'name': 'PID_5_axis'}]}", &NodeConfig::Algorithm)));
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __param_descriptions__.push_back(NodeConfig::AbstractParamDescriptionConstPtr(new NodeConfig::ParamDescription<int>("Algorithm", "int", 0, "Selection for the control algorithm", "{'enum_description': 'Selection of algorithm', 'enum': [{'srcline': 8, 'description': 'Control XYZ Yaw', 'srcfile': '/home/jeremie/sonia_log/ros_sonia_ws/src/proc_control/cfg/Node_reconf.cfg', 'cconsttype': 'const int', 'value': 0, 'ctype': 'int', 'type': 'int', 'name': 'PID_4_axis'}, {'srcline': 9, 'description': 'Control XYZ Yaw and Pitch', 'srcfile': '/home/jeremie/sonia_log/ros_sonia_ws/src/proc_control/cfg/Node_reconf.cfg', 'cconsttype': 'const int', 'value': 1, 'ctype': 'int', 'type': 'int', 'name': 'PID_5_axis'}]}", &NodeConfig::Algorithm)));
+      __param_descriptions__.push_back(NodeConfig::AbstractParamDescriptionConstPtr(new NodeConfig::ParamDescription<int>("Algorithm", "int", 0, "Selection for the control algorithm", "{'enum_description': 'Selection of algorithm', 'enum': [{'srcline': 8, 'description': 'Control XYZ Yaw', 'srcfile': '/home/jeremie/sonia_log/ros_sonia_ws/src/proc_control/cfg/Algorithm_reconf.cfg', 'cconsttype': 'const int', 'value': 0, 'ctype': 'int', 'type': 'int', 'name': 'PID_4_axis'}, {'srcline': 9, 'description': 'Control XYZ Yaw and Pitch', 'srcfile': '/home/jeremie/sonia_log/ros_sonia_ws/src/proc_control/cfg/Algorithm_reconf.cfg', 'cconsttype': 'const int', 'value': 1, 'ctype': 'int', 'type': 'int', 'name': 'PID_5_axis'}]}", &NodeConfig::Algorithm)));
 //#line 233 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       Default.convertParams();
 //#line 233 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
@@ -466,9 +466,9 @@ NodeConfig::GroupDescription<NodeConfig::DEFAULT, NodeConfig> Default("Default",
     return statics;
   }
 
-//#line 8 "/home/jeremie/sonia_log/ros_sonia_ws/src/proc_control/cfg/Node_reconf.cfg"
+//#line 8 "/home/jeremie/sonia_log/ros_sonia_ws/src/proc_control/cfg/Algorithm_reconf.cfg"
       const int Node_PID_4_axis = 0;
-//#line 9 "/home/jeremie/sonia_log/ros_sonia_ws/src/proc_control/cfg/Node_reconf.cfg"
+//#line 9 "/home/jeremie/sonia_log/ros_sonia_ws/src/proc_control/cfg/Algorithm_reconf.cfg"
       const int Node_PID_5_axis = 1;
 }
 

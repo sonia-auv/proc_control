@@ -14,9 +14,11 @@ ThrusterManager::ThrusterManager()
   thrusters_.push_back(Thruster("front_depth"));
   thrusters_.push_back(Thruster("back_depth"));
 
-  thruster_config_manager_.AddObserver(boost::bind(&ThrusterManager::UpdateThrustvector, this));
+  connexion_to_config_ = thruster_config_manager_.AddObserver(boost::bind(&ThrusterManager::UpdateThrustVector, this));
+  if( connexion_to_config_.connected())
+    std::cout << "Thruster manager is connected to the configuration" << std::endl;
 
-  UpdateThrustvector();
+  UpdateThrustVector();
 }
 
 std::array<double, 6> ThrusterManager::Commit(std::array<double, 3> &linear_target, std::array<double, 3> &rotational_target)

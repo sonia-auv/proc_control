@@ -199,7 +199,7 @@ public class PositionController extends Controller {
 			double errorPitch = Util.getAngleDifference(directionProvider.getPitch(), waypoint.getPitch());
 
 			double actuationYaw = yawPID.getValueForError(errorYaw);
-			double actuationPitch = pitchPID.getValueForError(errorPitch);
+			double actuationPitch = pitchPID.GetValueForError(errorPitch);
 
 			if (isControllingHeading) {
 				rotationalEffort.setZ(actuationYaw);

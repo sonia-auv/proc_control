@@ -1,0 +1,5 @@
+#X Y Z
+float64[3] position
+#R P Y
+float64[3] direction
+---

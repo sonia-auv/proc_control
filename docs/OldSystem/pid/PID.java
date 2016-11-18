@@ -8,9 +8,9 @@ import ca.etsmtl.sonia.auv6.config.ConfigValue;
 
 //merge
 public class PID {
-	private double integrationSum;
-	// private double lastTime, lastError;
-	private double lastTime, lastError, lastVelocity, lastWrench;
+	private double integration_sum_;
+	// private double last_time_, last_error_;
+	private double last_time_, last_error_, lastVelocity, lastWrench;
 
 	private ConfigValue<Double> p, i, d, iLimit, pMultiplier, maxActuation, minActuation, minErrorThreshold,
 			maxErrorThreshold, maxSpeed, iMultiplier;
@@ -49,8 +49,8 @@ public class PID {
 		iMultiplierOn = new ConfigValue<Boolean>(key + ".iMultiplierOn", Boolean.class);
 		maxSpeed = new ConfigValue<Double>(key + ".maxSpeed", Double.class);
 		iMultiplier = new ConfigValue<Double>(key + ".iMultiplier", Double.class);
-		lastTime = 0;
-		lastError = 0;
+		last_time_ = 0;
+		last_error_ = 0;
 		lastVelocity = 0;
 		lastWrench = 0;
 
@@ -99,7 +99,7 @@ public class PID {
 
 	public double getValueForErrorWithAdjustment(double inputError, double velocity) {
 		double nowTime = System.nanoTime() / 1E9; // Current timestamp
-		double deltaTime = nowTime - lastTime; // Time since last integration
+		double deltaTime = nowTime - last_time_; // Time since last integration
 
 		// int lastThrusterEffort = (int) (lastWrench *
 		// thrusterEffort.getValue());
@@ -123,8 +123,8 @@ public class PID {
 		// adjustment
 		lastVelocity = velocity * -1;
 		lastWrench = pidEffort - feedBack;
-		lastTime = nowTime;
-		lastError = inputError;
+		last_time_ = nowTime;
+		last_error_ = inputError;
 
 		DecimalFormat df = new DecimalFormat("#.##");
 		df.setMaximumFractionDigits(2);
@@ -164,7 +164,7 @@ public class PID {
 
 	private double calculPidEffort(double feedBack, double inputError, double deltaTime) {
 		// Compute and add the derivative gain term
-		double speed = (inputError - lastError) / (deltaTime);
+		double speed = (inputError - last_error_) / (deltaTime);
 
 		return p.getValue() * inputError + d.getValue() * speed + feedBack;
 	}
@@ -193,9 +193,9 @@ public class PID {
 		return estimatedVelocity - meanVelocity;
 	}
 
-	public double getValueForError(double error) {
+	public double GetValueForError(double error) {
 		double nowTime = System.nanoTime() / 1E9; // Current timestamps
-		double deltaTime = nowTime - lastTime; // Time since last integration
+		double deltaTime = nowTime - last_time_; // Time since last integration
 		double actuation = 0; // Actuation (output of PID block)
 		
 		// FIXME : Figure out what is the heuristic behind this
@@ -209,18 +209,18 @@ public class PID {
 		actuation = (p.getValue() * error);
 		
 		// Compute and add the derivative gain term
-		actuation += d.getValue() * ( (error - lastError) / (deltaTime) );
+		actuation += d.getValue() * ( (error - last_error_) / (deltaTime) );
 		
 		// Integrate cumulative error
-		integrationSum += (error * deltaTime);
+		integration_sum_ += (error * deltaTime);
 		// Reset I if position crosses target (if error is 0 or changes sign)
-		if ( (Math.signum(error) != Math.signum(lastError)) || (error == 0.0) ) {
-			integrationSum = 0;
+		if ( (Math.signum(error) != Math.signum(last_error_)) || (error == 0.0) ) {
+			integration_sum_ = 0;
 		} else {
 			// Clip I to prevent Integral WindUp
-			integrationSum = Math.min( Math.max(integrationSum, -(iLimit.getValue().doubleValue())), 
+			integration_sum_ = Math.min( Math.max(integration_sum_, -(iLimit.getValue().doubleValue())),
 										iLimit.getValue().doubleValue() );
-			actuation += (i.getValue() * integrationSum);
+			actuation += (i.getValue() * integration_sum_);
 		}
 
 		// Clip Actuation
@@ -228,8 +228,8 @@ public class PID {
 								maxActuation.getValue().doubleValue() );
 
 		// Persist all the previous values
-		lastTime = nowTime;
-		lastError = error;
+		last_time_ = nowTime;
+		last_error_ = error;
 
 		return actuation;
 	}

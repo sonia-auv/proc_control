@@ -25,8 +25,8 @@ class ControlSystem : public atlas::ServiceServerManager<ControlSystem> {
   private:
 
   void OdomCallback(const nav_msgs::Odometry::ConstPtr &odo_in);
-  void EnableControlServiceCallback(const proc_control::EnableControlRequest &request,
-                                const proc_control::EnableControlResponse &response);
+  bool EnableControlServiceCallback(proc_control::EnableControlRequest &request,
+                                proc_control::EnableControlResponse &response);
   void GlobalTargetCallback(const nav_msgs::Odometry::ConstPtr &target_in);
   void LocalTargetCallback(const nav_msgs::Odometry::ConstPtr &target_in);
 
@@ -53,12 +53,26 @@ inline void ControlSystem::SetTarget(OdometryInfo &array_out,
   array_out[4] = pitch;
   array_out[5] = yaw;
 }
-inline void ControlSystem::EnableControlServiceCallback(
-    const proc_control::EnableControlRequest &request,
-    const proc_control::EnableControlResponse &response)
+
+inline bool ControlSystem::EnableControlServiceCallback(
+    proc_control::EnableControlRequest &request,
+    proc_control::EnableControlResponse &response)
 {
-  std::copy(request.position.begin(), request.position.end(), enable_control_.begin());
-  std::copy(request.direction.begin(), request.direction.end(), enable_control_.begin()+3);
+  // If don't care, reuse same value, else check if enable or not.
+  enable_control_[0] = (request.X == request.DONT_CARE) ? (enable_control_[0]) : (request.X == request.ENABLE);
+  enable_control_[1] = (request.Y == request.DONT_CARE) ? (enable_control_[1]) : (request.Y == request.ENABLE);
+  enable_control_[2] = (request.Z == request.DONT_CARE) ? (enable_control_[2]) : (request.Z == request.ENABLE);
+  enable_control_[3] = (request.ROLL == request.DONT_CARE) ? (enable_control_[3]) : (request.ROLL == request.ENABLE );
+  enable_control_[4] = (request.PITCH == request.DONT_CARE) ? (enable_control_[4]) : (request.PITCH == request.ENABLE );
+  enable_control_[5] = (request.YAW == request.DONT_CARE) ? (enable_control_[5]) : (request.YAW == request.ENABLE );
+  std::vector<std::string> tmp {"X", "Y", "Z", "ROLL", "PITCH", "YAW"};
+  std::cout << "Active control: ";
+  for(int i = 0; i < 6; i ++)
+  {
+    std::cout  << tmp[i] + " : " + (enable_control_[i] ? "true":"false") + "\t";
+  }
+  std::cout << std::endl;
+  return true;
 }
 
 #endif //PROC_CONTROL_CONTROL_SYSTEM_H

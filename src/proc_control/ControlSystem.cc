@@ -18,11 +18,8 @@ ControlSystem::ControlSystem(const ros::NodeHandlePtr &nh):
                                 &ControlSystem::OdomCallback, this);
   target_odometry_subs_ = nh->subscribe("/controller_mission/global_target", 100,
                                    &ControlSystem::GlobalTargetCallback, this);
-//  RegisterService<proc_control::EnableControl>(base_node_name + "enable_control",
-//                               &ControlSystem::EnableControlServiceCallback, *this);
-
-
-
+  RegisterService<proc_control::EnableControl>(base_node_name + "enable_control",
+                               &ControlSystem::EnableControlServiceCallback, *this);
 }
 
 void ControlSystem::OdomCallback(const nav_msgs::Odometry::ConstPtr &odo_in)
@@ -69,10 +66,17 @@ void ControlSystem::LocalTargetCallback(const nav_msgs::Odometry::ConstPtr &targ
 void ControlSystem::Control()
 {
   std::array<double,6> error;
-//  std::array<double, 3> linear_target, rotationnal_target;
   for(int i = 0; i < 6; i++)
   {
     error[i] = targeted_position_[i] - world_position_[i];
+    if( !enable_control_[i])
+    {
+      error[i] = 0.0f;
+    }
   }
+  std::array<double,6> actuation = algo_manager_.GetActuationForError(error);
+  std::array<double, 3> actuation_lin = {actuation[0], actuation[2], actuation[2]};
+  std::array<double, 3> actuation_rot = {actuation[3], actuation[4], actuation[5]};
+  thruster_manager_.Commit(actuation_lin,actuation_rot);
 
 }

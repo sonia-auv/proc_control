@@ -24,8 +24,6 @@
  */
 
 #include <gtest/gtest.h>
-#include <proc_control/config/algorithm_config_manager.h>
-#include <proc_control/config/thruster_config_manager.h>
 #include "proc_control/ControlSystem.h"
 
 char **argv_g;

@@ -14,8 +14,8 @@ class Thruster {
   public:
   static std::array<double,101> POSITIVE_LINEAR_LUT;
 
-  Thruster(const std::string &id) : linear_effort_({0.0f}),
-                                    rotationnal_effort_({0.0f}),
+  Thruster(const std::string &id) : linear_effort_({0.0}),
+                                    rotationnal_effort_({0.0}),
                                     id_(id)
   {
     ros::NodeHandle n;
@@ -23,15 +23,15 @@ class Thruster {
     publisher_ = n.advertise<sonia_msgs::ThrusterMsg>(pub_name, 100);
   };
 
-  void Pubish(double thrust_value);
+  void Publish(double thrust_value) const;
 
   void SetFrom6AxisArray(const std::array<double, 6> &array_axis);
-  std::array<double, 3> GetLinearEffort();
-  std::array<double, 3> GetRotationnalEffort();
+  std::array<double, 3> GetLinearEffort() const ;
+  std::array<double, 3> GetRotationnalEffort() const ;
 
-  std::string GetID(){return id_;}
+  std::string GetID() const {return id_;}
 
-  double LinearizeForce(double force);
+  double LinearizeForce(double force) const;
 
   private:
   std::array<double, 3> linear_effort_;
@@ -40,12 +40,12 @@ class Thruster {
   std::string id_;
 };
 
-inline std::array<double, 3> Thruster::GetLinearEffort()
+inline std::array<double, 3> Thruster::GetLinearEffort() const
 {
   return linear_effort_;
 };
 
-inline std::array<double, 3> Thruster::GetRotationnalEffort()
+inline std::array<double, 3> Thruster::GetRotationnalEffort() const
 {
   return rotationnal_effort_;
 };
@@ -53,7 +53,7 @@ inline std::array<double, 3> Thruster::GetRotationnalEffort()
 // Using Louis-Phillippe's formula (from is PFE) we linearize the exponential response of the thruster
 // by applying a inverse power fonction
 // Ex if the conversion from % to total force is x^2, we apply x^1/2 so that 50 % == max force/2...
-inline double Thruster::LinearizeForce(double force)
+inline double Thruster::LinearizeForce(double force) const
 {
   return 11.9 * std::pow(force,0.45106) + 5;
 }
@@ -70,7 +70,7 @@ inline void Thruster::SetFrom6AxisArray(const std::array<double, 6> &array_axis)
   }
 }
 
-inline void Thruster::Pubish(double thrust_value)
+inline void Thruster::Publish(double thrust_value) const
 {
   sonia_msgs::ThrusterMsg msg;
   msg.speed = (short)LinearizeForce(thrust_value);

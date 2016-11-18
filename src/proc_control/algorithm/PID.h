@@ -14,14 +14,15 @@
 
 class PID {
 public :
-  PID(PIDValues &pid_values):last_error_(0), integration_sum_(0), last_time_(0), pid_values_(pid_values){}
+  PID(const std::string &name):last_error_(0), integration_sum_(0), last_time_(0), pid_values_(name){}
   double GetValueForError(double error);
+  PIDValues & GetPIDValues() {return pid_values_;};
 
 private :
     double last_error_;
     double integration_sum_;
     time_t  last_time_;
-    PIDValues &pid_values_;
+    PIDValues pid_values_;
 };
 
 

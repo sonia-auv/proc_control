@@ -9,23 +9,15 @@
 #include <string>
 #include <ros/ros.h>
 #include <dynamic_reconfigure/server.h>
-#include <lib_atlas/pattern/subject.h>
-#include <functional>
-#include <boost/signals2.hpp>
+#include <yaml-cpp/yaml.h>
 
 
 template <class T>
 class ConfigManager {
 
-  public:
-  typedef boost::signals2::signal<void ()>  CallbackSignal_t;
-
-  boost::signals2::connection AddObserver(const CallbackSignal_t::slot_type &subscriber);
-
   protected:
   ConfigManager(const std::string &manager_name)
-      : signal_() ,
-        manager_name_(manager_name),
+      : manager_name_(manager_name),
         server_(ros::NodeHandle(std::string("~/") + manager_name)),
         current_config_()
   {
@@ -41,8 +33,6 @@ class ConfigManager {
 
   // Returns manager's name and and configuration path..
   std::string GetManagerName();
-
-  CallbackSignal_t signal_;
 
   private:
   // Function called when a configuration is changed.
@@ -75,9 +65,6 @@ inline void ConfigManager<T>::CallBackDynamicReconfigure(T &config, uint32_t lev
     OnDynamicReconfigureChange(current_config_);
     // Save the configuration to file.
     WriteConfigFile(current_config_);
-
-    // Notify attached observer
-    signal_();
   }else
   {
     config = current_config_;
@@ -99,13 +86,9 @@ inline void ConfigManager<T>::Init()
   server_.setCallback(boost::bind(&ConfigManager<T>::CallBackDynamicReconfigure, this, _1, _2));
 
   is_initing_ = false;
-}
 
-template <class T>
-inline boost::signals2::connection ConfigManager<T>::AddObserver(const CallbackSignal_t::slot_type &subscriber)
-{
-  return signal_.connect(subscriber);
+  // This makes sure the node has the good configuration.
+  CallBackDynamicReconfigure(current_config_, 0);
 }
-
 
 #endif //PROC_CONTROL_CONFIG_MANAGER_H

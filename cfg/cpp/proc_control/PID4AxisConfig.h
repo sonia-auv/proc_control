@@ -226,6 +226,7 @@ class DEFAULT
         boost::any val;
         (*_i)->getValue(config, val);
 
+        if("CONSTANT_DEPTH_FORCE"==(*_i)->name){CONSTANT_DEPTH_FORCE = boost::any_cast<double>(val);}
         if("X_P"==(*_i)->name){X_P = boost::any_cast<double>(val);}
         if("X_I"==(*_i)->name){X_I = boost::any_cast<double>(val);}
         if("X_D"==(*_i)->name){X_D = boost::any_cast<double>(val);}
@@ -253,7 +254,8 @@ class DEFAULT
       }
     }
 
-    double X_P;
+    double CONSTANT_DEPTH_FORCE;
+double X_P;
 double X_I;
 double X_D;
 double X_I_LIMIT;
@@ -286,6 +288,8 @@ double YAW_MAX_ACTUATION;
 
 
 
+//#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
+      double CONSTANT_DEPTH_FORCE;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       double X_P;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
@@ -469,6 +473,16 @@ double YAW_MAX_ACTUATION;
     PID4AxisConfigStatics()
     {
 PID4AxisConfig::GroupDescription<PID4AxisConfig::DEFAULT, PID4AxisConfig> Default("Default", "", 0, 0, true, &PID4AxisConfig::groups);
+//#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
+      __min__.CONSTANT_DEPTH_FORCE = -100.0;
+//#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
+      __max__.CONSTANT_DEPTH_FORCE = 100.0;
+//#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
+      __default__.CONSTANT_DEPTH_FORCE = 0.0;
+//#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
+      Default.abstract_parameters.push_back(PID4AxisConfig::AbstractParamDescriptionConstPtr(new PID4AxisConfig::ParamDescription<double>("CONSTANT_DEPTH_FORCE", "double", 0, "Constant effort to keep the submarine depth", "", &PID4AxisConfig::CONSTANT_DEPTH_FORCE)));
+//#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
+      __param_descriptions__.push_back(PID4AxisConfig::AbstractParamDescriptionConstPtr(new PID4AxisConfig::ParamDescription<double>("CONSTANT_DEPTH_FORCE", "double", 0, "Constant effort to keep the submarine depth", "", &PID4AxisConfig::CONSTANT_DEPTH_FORCE)));
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __min__.X_P = -100.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"

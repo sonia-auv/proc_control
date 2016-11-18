@@ -4,3 +4,5 @@ catkin_add_gtest( thrust_conversion thrust_conversion_test.cc ${proc_control_FIL
 target_link_libraries(thrust_conversion pthread ${catkin_LIBRARIES} ${lib_atlas_LIBRARIES} yaml-cpp)
 catkin_add_gtest( control_test control_test.cc ${proc_control_FILES})
 target_link_libraries(control_test pthread ${catkin_LIBRARIES} ${lib_atlas_LIBRARIES} yaml-cpp)
+catkin_add_gtest( PID_test PID_actuation_test.cc ${proc_control_FILES})
+target_link_libraries(PID_test pthread ${catkin_LIBRARIES} ${lib_atlas_LIBRARIES} yaml-cpp )

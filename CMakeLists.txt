@@ -40,7 +40,6 @@ set(proc_control_SRC_DIR "src")
 
 #===============================================================================
 # C A T K I N   C O N F I G U R A T I O N
-
 find_package(
     catkin REQUIRED COMPONENTS
     roscpp
@@ -67,8 +66,8 @@ generate_dynamic_reconfigure_options(
 add_service_files(
      DIRECTORY srv
      FILES
-     SetGlobalTarget.srv
-     SetLocalTarget.srv
+     SetPositionTarget.srv
+     GetPositionTarget.srv
      EnableControl.srv
 )
 
@@ -100,13 +99,13 @@ include_directories(
     ${proc_control_SRC_DIR}
     "${proc_control_SRC_DIR}/../cfg/cpp/"
     ${lib_atlas_INCLUDE_DIRS}
+        ${Boost_INCLUDE_DIRS}
 )
 
 #==========================================================================
 # C R E A T E   E X E C U T A B L E
-
 add_executable(${PROJECT_NAME}_node ${proc_control_SRC_DIR}/${PROJECT_NAME}/main.cc ${proc_control_FILES})
-target_link_libraries(${PROJECT_NAME}_node ${catkin_LIBRARIES} ${lib_atlas_LIBRARIES} yaml-cpp)
+target_link_libraries(${PROJECT_NAME}_node ${catkin_LIBRARIES} ${lib_atlas_LIBRARIES} yaml-cpp ${Boost_LIBRARIES})
 add_dependencies(${PROJECT_NAME}_node
         sonia_msgs_generate_messages_cpp
         ${PROJECT_NAME}_generate_messages_cpp

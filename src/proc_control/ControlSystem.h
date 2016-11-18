@@ -8,15 +8,18 @@
 #include <ros/ros.h>
 #include <nav_msgs/Odometry.h>
 
+
 #include <lib_atlas/ros/service_server_manager.h>
 
 #include "proc_control/EnableControl.h"
 #include "proc_control/thruster/thruster_manager.h"
 #include "proc_control/algorithm/AlgorithmManager.h"
+#include "proc_control/SetPositionTarget.h"
+#include "proc_control/GetPositionTarget.h"
 
 class ControlSystem : public atlas::ServiceServerManager<ControlSystem> {
   public:
-  typedef std::array<double, 3> OdometryInfo;
+  typedef std::array<double, 6> OdometryInfo;
 
   ControlSystem(const ros::NodeHandlePtr &nh);
 
@@ -27,7 +30,12 @@ class ControlSystem : public atlas::ServiceServerManager<ControlSystem> {
   void OdomCallback(const nav_msgs::Odometry::ConstPtr &odo_in);
   bool EnableControlServiceCallback(proc_control::EnableControlRequest &request,
                                 proc_control::EnableControlResponse &response);
-  void GlobalTargetCallback(const nav_msgs::Odometry::ConstPtr &target_in);
+
+  bool GetPositionTargetServiceCallback(proc_control::GetPositionTargetRequest & request,
+                                   proc_control::GetPositionTargetResponse & response);
+
+  bool GlobalTargetServiceCallback(proc_control::SetPositionTargetRequest & request,
+                                   proc_control::SetPositionTargetResponse & response);
   void LocalTargetCallback(const nav_msgs::Odometry::ConstPtr &target_in);
 
   void SetTarget(OdometryInfo &array,

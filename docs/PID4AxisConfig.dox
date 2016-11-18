@@ -2,6 +2,7 @@
 
 Reads and maintains the following parameters on the ROS server
 
+- \b "~CONSTANT_DEPTH_FORCE" : \b [double] Constant effort to keep the submarine depth min: -100.0, default: 0.0, max: 100.0
 - \b "~X_P" : \b [double] X: The proportional coefficient min: -100.0, default: 0.0, max: 100.0
 - \b "~X_I" : \b [double] X: The integration coefficient min: -100.0, default: 0.0, max: 100.0
 - \b "~X_D" : \b [double] X: The derivative coefficient min: -100.0, default: 0.0, max: 100.0

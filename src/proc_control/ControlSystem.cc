@@ -6,9 +6,6 @@
 #include <eigen3/Eigen/Eigen>
 #include <eigen3/Eigen/Geometry>
 #include <lib_atlas/maths/matrix.h>
-#include <proc_control/SetGlobalTarget.h>
-#include <proc_control/SetLocalTarget.h>
-#include <proc_control/EnableControl.h>
 
 ControlSystem::ControlSystem(const ros::NodeHandlePtr &nh):
     atlas::ServiceServerManager<ControlSystem>()
@@ -16,8 +13,12 @@ ControlSystem::ControlSystem(const ros::NodeHandlePtr &nh):
   std::string base_node_name ("/proc_control/");
   nav_odometry_subs_ = nh->subscribe("/proc_navigation/odom", 100,
                                 &ControlSystem::OdomCallback, this);
-  target_odometry_subs_ = nh->subscribe("/controller_mission/global_target", 100,
-                                   &ControlSystem::GlobalTargetCallback, this);
+
+
+  RegisterService<proc_control::SetPositionTarget>(base_node_name + "set_global_target",
+                                                 &ControlSystem::GlobalTargetServiceCallback, *this);
+  RegisterService<proc_control::GetPositionTarget>(base_node_name + "get_target",
+                                                 &ControlSystem::GetPositionTargetServiceCallback, *this);
   RegisterService<proc_control::EnableControl>(base_node_name + "enable_control",
                                &ControlSystem::EnableControlServiceCallback, *this);
 }
@@ -33,15 +34,29 @@ void ControlSystem::OdomCallback(const nav_msgs::Odometry::ConstPtr &odo_in)
             odo_in->twist.twist.angular.z);
 }
 
-void ControlSystem::GlobalTargetCallback(const nav_msgs::Odometry::ConstPtr &target_in)
+bool ControlSystem::GlobalTargetServiceCallback(proc_control::SetPositionTargetRequest & request,
+                                                proc_control::SetPositionTargetResponse & response)
 {
   SetTarget(targeted_position_,
-            target_in->twist.twist.linear.x,
-            target_in->twist.twist.linear.y,
-            target_in->twist.twist.linear.z,
-            target_in->twist.twist.angular.x,
-            target_in->twist.twist.angular.y,
-            target_in->twist.twist.angular.z);
+            request.X,
+            request.Y,
+            request.Z,
+            request.ROLL,
+            request.PITCH,
+            request.YAW);
+  return true;
+}
+
+bool ControlSystem::GetPositionTargetServiceCallback(proc_control::GetPositionTargetRequest & request,
+                                      proc_control::GetPositionTargetResponse & response)
+{
+  response.X = targeted_position_[0];
+  response.Y = targeted_position_[1];
+  response.Z = targeted_position_[2];
+  response.ROLL = targeted_position_[3];
+  response.PITCH = targeted_position_[4];
+  response.YAW = targeted_position_[5];
+  return true;
 }
 
 void ControlSystem::LocalTargetCallback(const nav_msgs::Odometry::ConstPtr &target_in)

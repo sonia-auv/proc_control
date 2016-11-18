@@ -1,6 +1,7 @@
 \subsubsection usage Usage
 \verbatim
 <node name="proc_control" pkg="proc_control" type="proc_control">
+  <param name="CONSTANT_DEPTH_FORCE" type="double" value="0.0" />
   <param name="X_P" type="double" value="0.0" />
   <param name="X_I" type="double" value="0.0" />
   <param name="X_D" type="double" value="0.0" />

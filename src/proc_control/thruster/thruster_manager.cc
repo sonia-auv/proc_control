@@ -17,6 +17,8 @@ ThrusterManager::ThrusterManager()
   thruster_list_.push_back(Thruster("back_depth"));
 
   Init();
+
+
 }
 
 std::array<double, 6>
@@ -99,20 +101,11 @@ ThrusterManager::Commit(std::array<double, 3> &linear_target, std::array<double,
     std::array<double,3> thruster_effort_lin = t.GetLinearEffort();
     std::array<double,3> thruster_effort_rot = t.GetRotationnalEffort();
     //-
-    target += linear_target[0] * thruster_effort_lin[0];
-    target += linear_target[1] * thruster_effort_lin[1];
-    target += linear_target[2] * thruster_effort_lin[2];
-    //-
-    //We use lateral thruster for rotating excepted if the lateral distance is 120%% higher than forward.
-    if(linear_target[1] < linear_target[0] * 1.2 ){
-      target += rotational_target[2] * thruster_effort_rot[1];
+    for( int i = 0; i < 3; i ++)
+    {
+      target += linear_target[i] * thruster_effort_lin[i];
+      target += rotational_target[i] * thruster_effort_rot[i];
     }
-    else{
-      target += rotational_target[2] * thruster_effort_rot[0];
-    }
-    target += rotational_target[1] * thruster_effort_rot[2];
-
-
     t.Publish((int)target);
     thrust_vec[i] = target;
     i++;
@@ -154,6 +147,7 @@ void ThrusterManager::OnDynamicReconfigureChange(const proc_control::ThrusterCon
 
 void ThrusterManager::WriteConfigFile(const proc_control::ThrusterConfig &config)
 {
+  return;
   YAML::Emitter out;
   out << YAML::BeginMap;
   for(size_t i = 0; i < thruster_list_.size(); i++)

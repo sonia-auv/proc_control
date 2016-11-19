@@ -88,9 +88,11 @@ inline void Thruster::Publish(int thrust_value)
   rq.device_id = rq.DEVICE_ID_actuators;
   rq.unique_id = can_id_;
   rq.method_number = rq.METHOD_MOTOR_set_speed;
-  rq.parameter_value = LinearizeForce(thrust_value);
+  rq.parameter_value = POSITIVE_LINEAR_LUT[std::min(abs(thrust_value), 100)];
+  if( thrust_value < 0)
+    rq.parameter_value *= -1;
   client_.call(rq, response);
-  std::cout << id_ << " set at : " << rq.parameter_value << std::endl;
+  //std::cout << id_ << " set at : " << rq.parameter_value << std::endl;
   // Do nothing with response
 }
 

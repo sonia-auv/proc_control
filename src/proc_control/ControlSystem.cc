@@ -97,6 +97,19 @@ void ControlSystem::Control()
   std::array<double,6> actuation = algo_manager_.GetActuationForError(error);
   std::array<double, 3> actuation_lin = {actuation[0], actuation[2], actuation[2]};
   std::array<double, 3> actuation_rot = {actuation[3], actuation[4], actuation[5]};
+
+  for( int i = 0; i < 3; i++)
+  {
+    if( !enable_control_[i])
+    {
+      actuation_lin [i] = 0.0f;
+    }
+    if( !enable_control_[i+3])
+    {
+      actuation_rot [i] = 0.0f;
+    }
+  }
+
   thruster_manager_.Commit(actuation_lin,actuation_rot);
 
 }

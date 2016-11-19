@@ -30,13 +30,12 @@ ControlSystem::ControlSystem(const ros::NodeHandlePtr &nh):
 
 void ControlSystem::OdomCallback(const nav_msgs::Odometry::ConstPtr &odo_in)
 {
-  SetTarget(world_position_,
-            odo_in->twist.twist.linear.x,
-            odo_in->twist.twist.linear.y,
-            odo_in->twist.twist.linear.z,
-            odo_in->twist.twist.angular.x,
-            odo_in->twist.twist.angular.y,
-            odo_in->twist.twist.angular.z);
+  world_position_[0] = odo_in->twist.twist.linear.x;
+  world_position_[1] = odo_in->twist.twist.linear.y;
+  world_position_[2] = odo_in->twist.twist.linear.z;
+  world_position_[3] = odo_in->twist.twist.angular.x;
+  world_position_[4] = odo_in->twist.twist.angular.y;
+  world_position_[5] = odo_in->twist.twist.angular.z;
 }
 
 bool ControlSystem::GlobalTargetServiceCallback(proc_control::SetPositionTargetRequest & request,

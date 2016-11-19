@@ -94,7 +94,7 @@ void ControlSystem::Control()
     }
   }
   std::array<double,6> actuation = algo_manager_.GetActuationForError(error);
-  std::array<double, 3> actuation_lin = {actuation[0], actuation[2], actuation[2]};
+  std::array<double, 3> actuation_lin = {actuation[0], actuation[1], actuation[2]};
   std::array<double, 3> actuation_rot = {actuation[3], actuation[4], actuation[5]};
 
   for( int i = 0; i < 3; i++)

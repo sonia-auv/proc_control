@@ -12,7 +12,7 @@ from std_msgs.msg import String
 def keypad_callback(data):
     try:
         send_can_msg = rospy.ServiceProxy('/provider_can/send_can_message', SendCanMessage)
-
+        
         request_device_id = SendCanMessageRequest.DEVICE_ID_actuators
         request_unique_id = [SendCanMessageRequest.UNIQUE_ID_ACT_port_motor, SendCanMessageRequest.UNIQUE_ID_ACT_starboard_motor,
                              SendCanMessageRequest.UNIQUE_ID_ACT_back_depth_motor, SendCanMessageRequest.UNIQUE_ID_ACT_front_depth_motor,
@@ -25,7 +25,7 @@ def keypad_callback(data):
         for i in range(len(request_unique_id)):
             """device_id, unique_id, method_number, parameter_value"""
             resp1 = send_can_msg(request_device_id, request_unique_id[i], request_method_number, value[i])
-        
+
     except rospy.ServiceException, e:
         print "Service call failed: %s"%e
 

@@ -94,7 +94,7 @@ ThrusterManager::Commit(std::array<double, 3> &linear_target, std::array<double,
   //-
   std::array<double, 6> thrust_vec = {0};
   int i = 0;
-  for (const auto &t : thruster_list_) {
+  for (auto &t : thruster_list_) {
     double target = 0;
     std::array<double,3> thruster_effort_lin = t.GetLinearEffort();
     std::array<double,3> thruster_effort_rot = t.GetRotationnalEffort();

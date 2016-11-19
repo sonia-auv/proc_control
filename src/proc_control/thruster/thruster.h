@@ -13,6 +13,7 @@
 #include <sonia_msgs/SendCanMessage.h>
 #include <sonia_msgs/SendCanMessageRequest.h>
 #include <sonia_msgs/SendCanMessageResponse.h>
+#include <sonia_msgs/SendCanMsg.h>
 
 class Thruster {
   public:
@@ -30,7 +31,8 @@ class Thruster {
     else if(id == "back_heading") { can_id_ = sonia_msgs::SendCanMessage::Request::UNIQUE_ID_ACT_back_heading_motor; }
     else if(id == "front_depth") { can_id_ = sonia_msgs::SendCanMessage::Request::UNIQUE_ID_ACT_front_depth_motor; }
     else if(id == "back_depth") { can_id_ = sonia_msgs::SendCanMessage::Request::UNIQUE_ID_ACT_back_depth_motor; }
-    client_ = n.serviceClient<sonia_msgs::SendCanMessage>("/provider_can/send_can_msg");
+    //client_ = n.serviceClient<sonia_msgs::SendCanMessage>("/provider_can/send_can_message");
+    publisher_ = n.advertise<sonia_msgs::SendCanMsg>("/provider_can/send_can_msg", 100);
   };
 
   void Publish(int thrust_value);
@@ -49,6 +51,7 @@ class Thruster {
   std::string id_;
   unsigned char can_id_;
   ros::ServiceClient client_;
+  ros::Publisher publisher_;
 };
 
 inline std::array<double, 3> Thruster::GetLinearEffort() const
@@ -83,15 +86,24 @@ inline void Thruster::SetFrom6AxisArray(const std::array<double, 6> &array_axis)
 
 inline void Thruster::Publish(int thrust_value)
 {
-  sonia_msgs::SendCanMessageRequest rq;
-  sonia_msgs::SendCanMessageResponse response;
-  rq.device_id = rq.DEVICE_ID_actuators;
-  rq.unique_id = can_id_;
-  rq.method_number = rq.METHOD_MOTOR_set_speed;
-  rq.parameter_value = POSITIVE_LINEAR_LUT[std::min(abs(thrust_value), 100)];
+  sonia_msgs::SendCanMsg msg;
+  msg.device_id = msg.DEVICE_ID_actuators;
+  msg.unique_id = can_id_;
+  msg.method_number = msg.METHOD_MOTOR_set_speed;
+  msg.parameter_value = POSITIVE_LINEAR_LUT[std::min(abs(thrust_value), 100)];
   if( thrust_value < 0)
-    rq.parameter_value *= -1;
-  client_.call(rq, response);
+    msg.parameter_value *= -1;
+  publisher_.publish(msg);
+
+//  sonia_msgs::SendCanMessageRequest rq;
+//  sonia_msgs::SendCanMessageResponse response;
+//  rq.device_id = rq.DEVICE_ID_actuators;
+//  rq.unique_id = can_id_;
+//  rq.method_number = rq.METHOD_MOTOR_set_speed;
+//  rq.parameter_value = POSITIVE_LINEAR_LUT[std::min(abs(thrust_value), 100)];
+//  if( thrust_value < 0)
+//    rq.parameter_value *= -1;
+//  client_.call(rq, response);
   //std::cout << id_ << " set at : " << rq.parameter_value << std::endl;
   // Do nothing with response
 }

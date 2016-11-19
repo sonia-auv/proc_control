@@ -17,8 +17,6 @@ ThrusterManager::ThrusterManager()
   thruster_list_.push_back(Thruster("back_depth"));
 
   Init();
-
-
 }
 
 std::array<double, 6>

@@ -65,8 +65,8 @@ inline void Thruster::SetFrom6AxisArray(const std::array<double, 6> &array_axis)
 
   for(int i = 0; i < 3; i++)
   {
-    linear_effort_[i] /=100.0f;
-    rotationnal_effort_[i] /=100.0f;
+    linear_effort_[i] ;
+    rotationnal_effort_[i];
   }
 }
 

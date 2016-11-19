@@ -518,9 +518,9 @@ double Back_Heading_ROLL;
     {
 ThrusterConfig::GroupDescription<ThrusterConfig::DEFAULT, ThrusterConfig> Default("Default", "", 0, 0, true, &ThrusterConfig::groups);
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __min__.Port_X = -100.0;
+      __min__.Port_X = -1.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __max__.Port_X = 100.0;
+      __max__.Port_X = 1.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __default__.Port_X = 0.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
@@ -528,9 +528,9 @@ ThrusterConfig::GroupDescription<ThrusterConfig::DEFAULT, ThrusterConfig> Defaul
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __param_descriptions__.push_back(ThrusterConfig::AbstractParamDescriptionConstPtr(new ThrusterConfig::ParamDescription<double>("Port_X", "double", 0, "Port: The force in X", "", &ThrusterConfig::Port_X)));
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __min__.Port_Y = -100.0;
+      __min__.Port_Y = -1.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __max__.Port_Y = 100.0;
+      __max__.Port_Y = 1.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __default__.Port_Y = 0.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
@@ -538,9 +538,9 @@ ThrusterConfig::GroupDescription<ThrusterConfig::DEFAULT, ThrusterConfig> Defaul
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __param_descriptions__.push_back(ThrusterConfig::AbstractParamDescriptionConstPtr(new ThrusterConfig::ParamDescription<double>("Port_Y", "double", 0, "Port: The force in Y", "", &ThrusterConfig::Port_Y)));
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __min__.Port_Z = -100.0;
+      __min__.Port_Z = -1.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __max__.Port_Z = 100.0;
+      __max__.Port_Z = 1.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __default__.Port_Z = 0.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
@@ -548,9 +548,9 @@ ThrusterConfig::GroupDescription<ThrusterConfig::DEFAULT, ThrusterConfig> Defaul
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __param_descriptions__.push_back(ThrusterConfig::AbstractParamDescriptionConstPtr(new ThrusterConfig::ParamDescription<double>("Port_Z", "double", 0, "Port: The force in Z", "", &ThrusterConfig::Port_Z)));
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __min__.Port_YAW = -100.0;
+      __min__.Port_YAW = -1.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __max__.Port_YAW = 100.0;
+      __max__.Port_YAW = 1.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __default__.Port_YAW = 0.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
@@ -558,9 +558,9 @@ ThrusterConfig::GroupDescription<ThrusterConfig::DEFAULT, ThrusterConfig> Defaul
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __param_descriptions__.push_back(ThrusterConfig::AbstractParamDescriptionConstPtr(new ThrusterConfig::ParamDescription<double>("Port_YAW", "double", 0, "Port: The force in YAW", "", &ThrusterConfig::Port_YAW)));
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __min__.Port_PITCH = -100.0;
+      __min__.Port_PITCH = -1.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __max__.Port_PITCH = 100.0;
+      __max__.Port_PITCH = 1.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __default__.Port_PITCH = 0.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
@@ -568,9 +568,9 @@ ThrusterConfig::GroupDescription<ThrusterConfig::DEFAULT, ThrusterConfig> Defaul
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __param_descriptions__.push_back(ThrusterConfig::AbstractParamDescriptionConstPtr(new ThrusterConfig::ParamDescription<double>("Port_PITCH", "double", 0, "Port: The force in PITCH", "", &ThrusterConfig::Port_PITCH)));
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __min__.Port_ROLL = -100.0;
+      __min__.Port_ROLL = -1.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __max__.Port_ROLL = 100.0;
+      __max__.Port_ROLL = 1.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __default__.Port_ROLL = 0.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
@@ -578,9 +578,9 @@ ThrusterConfig::GroupDescription<ThrusterConfig::DEFAULT, ThrusterConfig> Defaul
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __param_descriptions__.push_back(ThrusterConfig::AbstractParamDescriptionConstPtr(new ThrusterConfig::ParamDescription<double>("Port_ROLL", "double", 0, "Port: The force in ROLL", "", &ThrusterConfig::Port_ROLL)));
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __min__.Starboard_X = -100.0;
+      __min__.Starboard_X = -1.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __max__.Starboard_X = 100.0;
+      __max__.Starboard_X = 1.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __default__.Starboard_X = 0.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
@@ -588,9 +588,9 @@ ThrusterConfig::GroupDescription<ThrusterConfig::DEFAULT, ThrusterConfig> Defaul
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __param_descriptions__.push_back(ThrusterConfig::AbstractParamDescriptionConstPtr(new ThrusterConfig::ParamDescription<double>("Starboard_X", "double", 0, "Starboard: The force in X", "", &ThrusterConfig::Starboard_X)));
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __min__.Starboard_Y = -100.0;
+      __min__.Starboard_Y = -1.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __max__.Starboard_Y = 100.0;
+      __max__.Starboard_Y = 1.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __default__.Starboard_Y = 0.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
@@ -598,9 +598,9 @@ ThrusterConfig::GroupDescription<ThrusterConfig::DEFAULT, ThrusterConfig> Defaul
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __param_descriptions__.push_back(ThrusterConfig::AbstractParamDescriptionConstPtr(new ThrusterConfig::ParamDescription<double>("Starboard_Y", "double", 0, "Starboard: The force in Y", "", &ThrusterConfig::Starboard_Y)));
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __min__.Starboard_Z = -100.0;
+      __min__.Starboard_Z = -1.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __max__.Starboard_Z = 100.0;
+      __max__.Starboard_Z = 1.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __default__.Starboard_Z = 0.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
@@ -608,9 +608,9 @@ ThrusterConfig::GroupDescription<ThrusterConfig::DEFAULT, ThrusterConfig> Defaul
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __param_descriptions__.push_back(ThrusterConfig::AbstractParamDescriptionConstPtr(new ThrusterConfig::ParamDescription<double>("Starboard_Z", "double", 0, "Starboard: The force in Z", "", &ThrusterConfig::Starboard_Z)));
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __min__.Starboard_YAW = -100.0;
+      __min__.Starboard_YAW = -1.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __max__.Starboard_YAW = 100.0;
+      __max__.Starboard_YAW = 1.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __default__.Starboard_YAW = 0.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
@@ -618,9 +618,9 @@ ThrusterConfig::GroupDescription<ThrusterConfig::DEFAULT, ThrusterConfig> Defaul
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __param_descriptions__.push_back(ThrusterConfig::AbstractParamDescriptionConstPtr(new ThrusterConfig::ParamDescription<double>("Starboard_YAW", "double", 0, "Starboard: The force in YAW", "", &ThrusterConfig::Starboard_YAW)));
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __min__.Starboard_PITCH = -100.0;
+      __min__.Starboard_PITCH = -1.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __max__.Starboard_PITCH = 100.0;
+      __max__.Starboard_PITCH = 1.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __default__.Starboard_PITCH = 0.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
@@ -628,9 +628,9 @@ ThrusterConfig::GroupDescription<ThrusterConfig::DEFAULT, ThrusterConfig> Defaul
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __param_descriptions__.push_back(ThrusterConfig::AbstractParamDescriptionConstPtr(new ThrusterConfig::ParamDescription<double>("Starboard_PITCH", "double", 0, "Starboard: The force in PITCH", "", &ThrusterConfig::Starboard_PITCH)));
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __min__.Starboard_ROLL = -100.0;
+      __min__.Starboard_ROLL = -1.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __max__.Starboard_ROLL = 100.0;
+      __max__.Starboard_ROLL = 1.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __default__.Starboard_ROLL = 0.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
@@ -638,9 +638,9 @@ ThrusterConfig::GroupDescription<ThrusterConfig::DEFAULT, ThrusterConfig> Defaul
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __param_descriptions__.push_back(ThrusterConfig::AbstractParamDescriptionConstPtr(new ThrusterConfig::ParamDescription<double>("Starboard_ROLL", "double", 0, "Starboard: The force in ROLL", "", &ThrusterConfig::Starboard_ROLL)));
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __min__.Front_Depth_X = -100.0;
+      __min__.Front_Depth_X = -1.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __max__.Front_Depth_X = 100.0;
+      __max__.Front_Depth_X = 1.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __default__.Front_Depth_X = 0.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
@@ -648,9 +648,9 @@ ThrusterConfig::GroupDescription<ThrusterConfig::DEFAULT, ThrusterConfig> Defaul
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __param_descriptions__.push_back(ThrusterConfig::AbstractParamDescriptionConstPtr(new ThrusterConfig::ParamDescription<double>("Front_Depth_X", "double", 0, "Front_Depth: The force in X", "", &ThrusterConfig::Front_Depth_X)));
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __min__.Front_Depth_Y = -100.0;
+      __min__.Front_Depth_Y = -1.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __max__.Front_Depth_Y = 100.0;
+      __max__.Front_Depth_Y = 1.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __default__.Front_Depth_Y = 0.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
@@ -658,9 +658,9 @@ ThrusterConfig::GroupDescription<ThrusterConfig::DEFAULT, ThrusterConfig> Defaul
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __param_descriptions__.push_back(ThrusterConfig::AbstractParamDescriptionConstPtr(new ThrusterConfig::ParamDescription<double>("Front_Depth_Y", "double", 0, "Front_Depth: The force in Y", "", &ThrusterConfig::Front_Depth_Y)));
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __min__.Front_Depth_Z = -100.0;
+      __min__.Front_Depth_Z = -1.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __max__.Front_Depth_Z = 100.0;
+      __max__.Front_Depth_Z = 1.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __default__.Front_Depth_Z = 0.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
@@ -668,9 +668,9 @@ ThrusterConfig::GroupDescription<ThrusterConfig::DEFAULT, ThrusterConfig> Defaul
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __param_descriptions__.push_back(ThrusterConfig::AbstractParamDescriptionConstPtr(new ThrusterConfig::ParamDescription<double>("Front_Depth_Z", "double", 0, "Front_Depth: The force in Z", "", &ThrusterConfig::Front_Depth_Z)));
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __min__.Front_Depth_YAW = -100.0;
+      __min__.Front_Depth_YAW = -1.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __max__.Front_Depth_YAW = 100.0;
+      __max__.Front_Depth_YAW = 1.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __default__.Front_Depth_YAW = 0.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
@@ -678,9 +678,9 @@ ThrusterConfig::GroupDescription<ThrusterConfig::DEFAULT, ThrusterConfig> Defaul
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __param_descriptions__.push_back(ThrusterConfig::AbstractParamDescriptionConstPtr(new ThrusterConfig::ParamDescription<double>("Front_Depth_YAW", "double", 0, "Front_Depth: The force in YAW", "", &ThrusterConfig::Front_Depth_YAW)));
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __min__.Front_Depth_PITCH = -100.0;
+      __min__.Front_Depth_PITCH = -1.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __max__.Front_Depth_PITCH = 100.0;
+      __max__.Front_Depth_PITCH = 1.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __default__.Front_Depth_PITCH = 0.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
@@ -688,9 +688,9 @@ ThrusterConfig::GroupDescription<ThrusterConfig::DEFAULT, ThrusterConfig> Defaul
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __param_descriptions__.push_back(ThrusterConfig::AbstractParamDescriptionConstPtr(new ThrusterConfig::ParamDescription<double>("Front_Depth_PITCH", "double", 0, "Front_Depth: The force in PITCH", "", &ThrusterConfig::Front_Depth_PITCH)));
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __min__.Front_Depth_ROLL = -100.0;
+      __min__.Front_Depth_ROLL = -1.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __max__.Front_Depth_ROLL = 100.0;
+      __max__.Front_Depth_ROLL = 1.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __default__.Front_Depth_ROLL = 0.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
@@ -698,9 +698,9 @@ ThrusterConfig::GroupDescription<ThrusterConfig::DEFAULT, ThrusterConfig> Defaul
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __param_descriptions__.push_back(ThrusterConfig::AbstractParamDescriptionConstPtr(new ThrusterConfig::ParamDescription<double>("Front_Depth_ROLL", "double", 0, "Front_Depth: The force in ROLL", "", &ThrusterConfig::Front_Depth_ROLL)));
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __min__.Back_Depth_X = -100.0;
+      __min__.Back_Depth_X = -1.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __max__.Back_Depth_X = 100.0;
+      __max__.Back_Depth_X = 1.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __default__.Back_Depth_X = 0.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
@@ -708,9 +708,9 @@ ThrusterConfig::GroupDescription<ThrusterConfig::DEFAULT, ThrusterConfig> Defaul
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __param_descriptions__.push_back(ThrusterConfig::AbstractParamDescriptionConstPtr(new ThrusterConfig::ParamDescription<double>("Back_Depth_X", "double", 0, "Back_Depth: The force in X", "", &ThrusterConfig::Back_Depth_X)));
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __min__.Back_Depth_Y = -100.0;
+      __min__.Back_Depth_Y = -1.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __max__.Back_Depth_Y = 100.0;
+      __max__.Back_Depth_Y = 1.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __default__.Back_Depth_Y = 0.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
@@ -718,9 +718,9 @@ ThrusterConfig::GroupDescription<ThrusterConfig::DEFAULT, ThrusterConfig> Defaul
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __param_descriptions__.push_back(ThrusterConfig::AbstractParamDescriptionConstPtr(new ThrusterConfig::ParamDescription<double>("Back_Depth_Y", "double", 0, "Back_Depth: The force in Y", "", &ThrusterConfig::Back_Depth_Y)));
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __min__.Back_Depth_Z = -100.0;
+      __min__.Back_Depth_Z = -1.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __max__.Back_Depth_Z = 100.0;
+      __max__.Back_Depth_Z = 1.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __default__.Back_Depth_Z = 0.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
@@ -728,9 +728,9 @@ ThrusterConfig::GroupDescription<ThrusterConfig::DEFAULT, ThrusterConfig> Defaul
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __param_descriptions__.push_back(ThrusterConfig::AbstractParamDescriptionConstPtr(new ThrusterConfig::ParamDescription<double>("Back_Depth_Z", "double", 0, "Back_Depth: The force in Z", "", &ThrusterConfig::Back_Depth_Z)));
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __min__.Back_Depth_YAW = -100.0;
+      __min__.Back_Depth_YAW = -1.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __max__.Back_Depth_YAW = 100.0;
+      __max__.Back_Depth_YAW = 1.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __default__.Back_Depth_YAW = 0.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
@@ -738,9 +738,9 @@ ThrusterConfig::GroupDescription<ThrusterConfig::DEFAULT, ThrusterConfig> Defaul
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __param_descriptions__.push_back(ThrusterConfig::AbstractParamDescriptionConstPtr(new ThrusterConfig::ParamDescription<double>("Back_Depth_YAW", "double", 0, "Back_Depth: The force in YAW", "", &ThrusterConfig::Back_Depth_YAW)));
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __min__.Back_Depth_PITCH = -100.0;
+      __min__.Back_Depth_PITCH = -1.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __max__.Back_Depth_PITCH = 100.0;
+      __max__.Back_Depth_PITCH = 1.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __default__.Back_Depth_PITCH = 0.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
@@ -748,9 +748,9 @@ ThrusterConfig::GroupDescription<ThrusterConfig::DEFAULT, ThrusterConfig> Defaul
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __param_descriptions__.push_back(ThrusterConfig::AbstractParamDescriptionConstPtr(new ThrusterConfig::ParamDescription<double>("Back_Depth_PITCH", "double", 0, "Back_Depth: The force in PITCH", "", &ThrusterConfig::Back_Depth_PITCH)));
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __min__.Back_Depth_ROLL = -100.0;
+      __min__.Back_Depth_ROLL = -1.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __max__.Back_Depth_ROLL = 100.0;
+      __max__.Back_Depth_ROLL = 1.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __default__.Back_Depth_ROLL = 0.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
@@ -758,9 +758,9 @@ ThrusterConfig::GroupDescription<ThrusterConfig::DEFAULT, ThrusterConfig> Defaul
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __param_descriptions__.push_back(ThrusterConfig::AbstractParamDescriptionConstPtr(new ThrusterConfig::ParamDescription<double>("Back_Depth_ROLL", "double", 0, "Back_Depth: The force in ROLL", "", &ThrusterConfig::Back_Depth_ROLL)));
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __min__.Front_Heading_X = -100.0;
+      __min__.Front_Heading_X = -1.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __max__.Front_Heading_X = 100.0;
+      __max__.Front_Heading_X = 1.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __default__.Front_Heading_X = 0.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
@@ -768,9 +768,9 @@ ThrusterConfig::GroupDescription<ThrusterConfig::DEFAULT, ThrusterConfig> Defaul
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __param_descriptions__.push_back(ThrusterConfig::AbstractParamDescriptionConstPtr(new ThrusterConfig::ParamDescription<double>("Front_Heading_X", "double", 0, "Front_Heading: The force in X", "", &ThrusterConfig::Front_Heading_X)));
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __min__.Front_Heading_Y = -100.0;
+      __min__.Front_Heading_Y = -1.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __max__.Front_Heading_Y = 100.0;
+      __max__.Front_Heading_Y = 1.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __default__.Front_Heading_Y = 0.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
@@ -778,9 +778,9 @@ ThrusterConfig::GroupDescription<ThrusterConfig::DEFAULT, ThrusterConfig> Defaul
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __param_descriptions__.push_back(ThrusterConfig::AbstractParamDescriptionConstPtr(new ThrusterConfig::ParamDescription<double>("Front_Heading_Y", "double", 0, "Front_Heading: The force in Y", "", &ThrusterConfig::Front_Heading_Y)));
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __min__.Front_Heading_Z = -100.0;
+      __min__.Front_Heading_Z = -1.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __max__.Front_Heading_Z = 100.0;
+      __max__.Front_Heading_Z = 1.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __default__.Front_Heading_Z = 0.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
@@ -788,9 +788,9 @@ ThrusterConfig::GroupDescription<ThrusterConfig::DEFAULT, ThrusterConfig> Defaul
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __param_descriptions__.push_back(ThrusterConfig::AbstractParamDescriptionConstPtr(new ThrusterConfig::ParamDescription<double>("Front_Heading_Z", "double", 0, "Front_Heading: The force in Z", "", &ThrusterConfig::Front_Heading_Z)));
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __min__.Front_Heading_YAW = -100.0;
+      __min__.Front_Heading_YAW = -1.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __max__.Front_Heading_YAW = 100.0;
+      __max__.Front_Heading_YAW = 1.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __default__.Front_Heading_YAW = 0.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
@@ -798,9 +798,9 @@ ThrusterConfig::GroupDescription<ThrusterConfig::DEFAULT, ThrusterConfig> Defaul
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __param_descriptions__.push_back(ThrusterConfig::AbstractParamDescriptionConstPtr(new ThrusterConfig::ParamDescription<double>("Front_Heading_YAW", "double", 0, "Front_Heading: The force in YAW", "", &ThrusterConfig::Front_Heading_YAW)));
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __min__.Front_Heading_PITCH = -100.0;
+      __min__.Front_Heading_PITCH = -1.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __max__.Front_Heading_PITCH = 100.0;
+      __max__.Front_Heading_PITCH = 1.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __default__.Front_Heading_PITCH = 0.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
@@ -808,9 +808,9 @@ ThrusterConfig::GroupDescription<ThrusterConfig::DEFAULT, ThrusterConfig> Defaul
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __param_descriptions__.push_back(ThrusterConfig::AbstractParamDescriptionConstPtr(new ThrusterConfig::ParamDescription<double>("Front_Heading_PITCH", "double", 0, "Front_Heading: The force in PITCH", "", &ThrusterConfig::Front_Heading_PITCH)));
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __min__.Front_Heading_ROLL = -100.0;
+      __min__.Front_Heading_ROLL = -1.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __max__.Front_Heading_ROLL = 100.0;
+      __max__.Front_Heading_ROLL = 1.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __default__.Front_Heading_ROLL = 0.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
@@ -818,9 +818,9 @@ ThrusterConfig::GroupDescription<ThrusterConfig::DEFAULT, ThrusterConfig> Defaul
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __param_descriptions__.push_back(ThrusterConfig::AbstractParamDescriptionConstPtr(new ThrusterConfig::ParamDescription<double>("Front_Heading_ROLL", "double", 0, "Front_Heading: The force in ROLL", "", &ThrusterConfig::Front_Heading_ROLL)));
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __min__.Back_Heading_X = -100.0;
+      __min__.Back_Heading_X = -1.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __max__.Back_Heading_X = 100.0;
+      __max__.Back_Heading_X = 1.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __default__.Back_Heading_X = 0.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
@@ -828,9 +828,9 @@ ThrusterConfig::GroupDescription<ThrusterConfig::DEFAULT, ThrusterConfig> Defaul
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __param_descriptions__.push_back(ThrusterConfig::AbstractParamDescriptionConstPtr(new ThrusterConfig::ParamDescription<double>("Back_Heading_X", "double", 0, "Back_Heading: The force in X", "", &ThrusterConfig::Back_Heading_X)));
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __min__.Back_Heading_Y = -100.0;
+      __min__.Back_Heading_Y = -1.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __max__.Back_Heading_Y = 100.0;
+      __max__.Back_Heading_Y = 1.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __default__.Back_Heading_Y = 0.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
@@ -838,9 +838,9 @@ ThrusterConfig::GroupDescription<ThrusterConfig::DEFAULT, ThrusterConfig> Defaul
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __param_descriptions__.push_back(ThrusterConfig::AbstractParamDescriptionConstPtr(new ThrusterConfig::ParamDescription<double>("Back_Heading_Y", "double", 0, "Back_Heading: The force in Y", "", &ThrusterConfig::Back_Heading_Y)));
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __min__.Back_Heading_Z = -100.0;
+      __min__.Back_Heading_Z = -1.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __max__.Back_Heading_Z = 100.0;
+      __max__.Back_Heading_Z = 1.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __default__.Back_Heading_Z = 0.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
@@ -848,9 +848,9 @@ ThrusterConfig::GroupDescription<ThrusterConfig::DEFAULT, ThrusterConfig> Defaul
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __param_descriptions__.push_back(ThrusterConfig::AbstractParamDescriptionConstPtr(new ThrusterConfig::ParamDescription<double>("Back_Heading_Z", "double", 0, "Back_Heading: The force in Z", "", &ThrusterConfig::Back_Heading_Z)));
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __min__.Back_Heading_YAW = -100.0;
+      __min__.Back_Heading_YAW = -1.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __max__.Back_Heading_YAW = 100.0;
+      __max__.Back_Heading_YAW = 1.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __default__.Back_Heading_YAW = 0.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
@@ -858,9 +858,9 @@ ThrusterConfig::GroupDescription<ThrusterConfig::DEFAULT, ThrusterConfig> Defaul
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __param_descriptions__.push_back(ThrusterConfig::AbstractParamDescriptionConstPtr(new ThrusterConfig::ParamDescription<double>("Back_Heading_YAW", "double", 0, "Back_Heading: The force in YAW", "", &ThrusterConfig::Back_Heading_YAW)));
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __min__.Back_Heading_PITCH = -100.0;
+      __min__.Back_Heading_PITCH = -1.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __max__.Back_Heading_PITCH = 100.0;
+      __max__.Back_Heading_PITCH = 1.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __default__.Back_Heading_PITCH = 0.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
@@ -868,9 +868,9 @@ ThrusterConfig::GroupDescription<ThrusterConfig::DEFAULT, ThrusterConfig> Defaul
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __param_descriptions__.push_back(ThrusterConfig::AbstractParamDescriptionConstPtr(new ThrusterConfig::ParamDescription<double>("Back_Heading_PITCH", "double", 0, "Back_Heading: The force in PITCH", "", &ThrusterConfig::Back_Heading_PITCH)));
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __min__.Back_Heading_ROLL = -100.0;
+      __min__.Back_Heading_ROLL = -1.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
-      __max__.Back_Heading_ROLL = 100.0;
+      __max__.Back_Heading_ROLL = 1.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"
       __default__.Back_Heading_ROLL = 0.0;
 //#line 259 "/opt/ros/indigo/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator.py"

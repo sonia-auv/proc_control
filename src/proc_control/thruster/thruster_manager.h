@@ -38,13 +38,12 @@ class ThrusterManager  : public ConfigManager<proc_control::ThrusterConfig>{
 };
 
 inline void ThrusterManager::WriteEfforts(size_t thruster_index, YAML::Emitter &out) {
-  out << YAML::Key << (thruster_index);
-  out << YAML::Value ;
+  out << YAML::Key << thruster_list_[thruster_index].GetID();
+  out << YAML::Value;
   out << YAML::Flow;
   std::array<double, 3> lin_array  = thruster_list_[thruster_index].GetLinearEffort();
   std::array<double, 3> rot_array  = thruster_list_[thruster_index].GetRotationnalEffort();
-  std::vector<double> tot_vec(lin_array.begin(), lin_array.end());
-  tot_vec.insert(tot_vec.end(), rot_array.begin(), rot_array.end());
+  std::vector<double> tot_vec = {lin_array[0], lin_array[1],lin_array[2],rot_array[3],rot_array[4],rot_array[5]};
   out << tot_vec;
 }
 

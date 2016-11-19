@@ -10,6 +10,7 @@
 
 
 #include <lib_atlas/ros/service_server_manager.h>
+#include <proc_control/PositionTarget.h>
 
 #include "proc_control/EnableControl.h"
 #include "proc_control/thruster/thruster_manager.h"
@@ -36,8 +37,9 @@ class ControlSystem : public atlas::ServiceServerManager<ControlSystem> {
 
   bool GlobalTargetServiceCallback(proc_control::SetPositionTargetRequest & request,
                                    proc_control::SetPositionTargetResponse & response);
-  void LocalTargetCallback(const nav_msgs::Odometry::ConstPtr &target_in);
-
+  bool LocalTargetServiceCallback(proc_control::SetPositionTargetRequest &request,
+                                          proc_control::SetPositionTargetResponse &response);
+  void PublishTargetedPosition();
   void SetTarget(OdometryInfo &array,
                  double x, double y, double z,
                  double roll, double pitch, double yaw);
@@ -45,6 +47,7 @@ class ControlSystem : public atlas::ServiceServerManager<ControlSystem> {
   AlgorithmManager algo_manager_;
   ThrusterManager thruster_manager_;
   ros::Subscriber nav_odometry_subs_, target_odometry_subs_;
+  ros::Publisher target_publisher_;
   OdometryInfo world_position_, targeted_position_;
   std::array<bool, 6> enable_control_;
 
@@ -54,12 +57,7 @@ inline void ControlSystem::SetTarget(OdometryInfo &array_out,
                                      double x, double y, double z,
                                      double roll, double pitch, double yaw)
 {
-  array_out[0] = x;
-  array_out[1] = y;
-  array_out[2] = z;
-  array_out[3] = roll;
-  array_out[4] = pitch;
-  array_out[5] = yaw;
+
 }
 
 inline bool ControlSystem::EnableControlServiceCallback(
@@ -83,4 +81,15 @@ inline bool ControlSystem::EnableControlServiceCallback(
   return true;
 }
 
+inline void ControlSystem::PublishTargetedPosition()
+{
+  proc_control::PositionTarget msg;
+  msg.X = targeted_position_[0];
+  msg.Y = targeted_position_[1];
+  msg.Z = targeted_position_[2];
+  msg.ROLL = targeted_position_[3];
+  msg.PITCH = targeted_position_[4];
+  msg.YAW = targeted_position_[5];
+  target_publisher_.publish(msg);
+}
 #endif //PROC_CONTROL_CONTROL_SYSTEM_H

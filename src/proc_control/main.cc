@@ -24,11 +24,20 @@
  */
 
 #include <ros/ros.h>
+#include "ControlSystem.h"
+
 int main(int argc, char** argv) {
-  ros::init(argc, argv, "proc_control_node");
-
-  ros::NodeHandle nh;
-
+  ros::init(argc, argv, "proc_control");
+  ros::NodeHandle node = ros::NodeHandle(std::string("~/proc_control"));
+  ros::NodeHandlePtr ptr(&node);
+  ControlSystem system1(ptr);
+  ros::Rate r(14); // 10 hz
+  while(ros::ok())
+  {
+    system1.Control();
+    r.sleep();
+    ros::spinOnce();
+  }
   std::cout << "Proc control up and running" << std::endl;
 
 }

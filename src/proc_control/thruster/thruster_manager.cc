@@ -113,7 +113,7 @@ ThrusterManager::Commit(std::array<double, 3> &linear_target, std::array<double,
     target += rotational_target[1] * thruster_effort_rot[2];
 
 
-    t.Publish(target);
+    t.Publish((int)target);
     thrust_vec[i] = target;
     i++;
   }

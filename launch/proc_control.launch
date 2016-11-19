@@ -2,5 +2,5 @@
 	<node name="proc_control"
 	    pkg="proc_control"
 	    type="proc_control_node"
-	    output="log" />
+	    output="screen" />
 </launch>

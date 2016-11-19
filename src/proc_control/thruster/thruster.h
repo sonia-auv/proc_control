@@ -30,10 +30,10 @@ class Thruster {
     else if(id == "back_heading") { can_id_ = sonia_msgs::SendCanMessage::Request::UNIQUE_ID_ACT_back_heading_motor; }
     else if(id == "front_depth") { can_id_ = sonia_msgs::SendCanMessage::Request::UNIQUE_ID_ACT_front_depth_motor; }
     else if(id == "back_depth") { can_id_ = sonia_msgs::SendCanMessage::Request::UNIQUE_ID_ACT_back_depth_motor; }
-    client_ = n.serviceClient<sonia_msgs::SendCanMessage>("/provider_can/send_can_message");
+    client_ = n.serviceClient<sonia_msgs::SendCanMessage>("/provider_can/send_can_msg");
   };
 
-  void Publish(double thrust_value);
+  void Publish(int thrust_value);
 
   void SetFrom6AxisArray(const std::array<double, 6> &array_axis);
   std::array<double, 3> GetLinearEffort() const ;
@@ -81,7 +81,7 @@ inline void Thruster::SetFrom6AxisArray(const std::array<double, 6> &array_axis)
   }
 }
 
-inline void Thruster::Publish(double thrust_value)
+inline void Thruster::Publish(int thrust_value)
 {
   sonia_msgs::SendCanMessageRequest rq;
   sonia_msgs::SendCanMessageResponse response;
@@ -90,6 +90,7 @@ inline void Thruster::Publish(double thrust_value)
   rq.method_number = rq.METHOD_MOTOR_set_speed;
   rq.parameter_value = LinearizeForce(thrust_value);
   client_.call(rq, response);
+  std::cout << id_ << " set at : " << rq.parameter_value << std::endl;
   // Do nothing with response
 }
 

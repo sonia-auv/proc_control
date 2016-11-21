@@ -84,6 +84,14 @@ bool ControlSystem::LocalTargetServiceCallback(proc_control::SetPositionTargetRe
 
 void ControlSystem::Control()
 {
+
+  ROS_INFO("Current Position: %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f",
+            world_position_[0], world_position_[1], world_position_[2],
+            world_position_[3], world_position_[4], world_position_[5]);
+  ROS_INFO("Target Position:  %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f",
+            targeted_position_[0], targeted_position_[1], targeted_position_[2],
+            targeted_position_[3], targeted_position_[4], targeted_position_[5]);
+
   std::array<double,6> error;
   for(int i = 0; i < 6; i++)
   {
@@ -94,9 +102,11 @@ void ControlSystem::Control()
     }
   }
   std::array<double,6> actuation = algo_manager_.GetActuationForError(error);
+  ROS_INFO("Actuation :       %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f",
+            actuation[0], actuation[1], actuation[2],
+            actuation[3], actuation[4], actuation[5]);
   std::array<double, 3> actuation_lin = {actuation[0], actuation[1], actuation[2]};
   std::array<double, 3> actuation_rot = {actuation[3], actuation[4], actuation[5]};
-
   for( int i = 0; i < 3; i++)
   {
     if( !enable_control_[i])
@@ -109,6 +119,12 @@ void ControlSystem::Control()
     }
   }
 
-  thruster_manager_.Commit(actuation_lin,actuation_rot);
+  std::array<double, 6> thrust_force = thruster_manager_.Commit(actuation_lin,actuation_rot);
+  ROS_INFO("Thrust :    Port: %10.4f, Startboard: %10.4f, "
+               "FrontHeading: %10.4f, BackHeading: %10.4f, "
+               "FrontDepth: %10.4f, BackDepth:%10.4f",
+           thrust_force[0], thrust_force[1], thrust_force[2],
+           thrust_force[3], thrust_force[4], thrust_force[5]);
 
+  ROS_INFO("\n");
 }

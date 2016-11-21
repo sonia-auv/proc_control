@@ -46,10 +46,6 @@ class ThrusterControl:
             try:
                 for i in range(len(self.values)):
                     """device_id, unique_id, method_number, parameter_value"""
-                    print "rosservice call /provider_can/send_can_message "+str(self.request_device_id) + " " \
-                          + str(self.request_unique_id[i]) + " " \
-                          + str(self.request_method_number) + " " \
-                          + str(self.values[i])
                     self.node(self.request_device_id, self.request_unique_id[i], self.request_method_number, self.values[i])
 
             except rospy.ServiceException, e:

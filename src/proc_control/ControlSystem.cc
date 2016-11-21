@@ -93,7 +93,7 @@ void ControlSystem::Control()
             targeted_position_[3], targeted_position_[4], targeted_position_[5]);
 
   std::array<double,6> error;
-  for(int i = 0; i < 6; i++)
+  for(int i = 0; i < 5; i++)
   {
     error[i] = targeted_position_[i] - world_position_[i];
     if( !enable_control_[i])
@@ -101,12 +101,21 @@ void ControlSystem::Control()
       error[i] = 0.0f;
     }
   }
+
+  // Yaw is a special case because it can loop around.
+  double error_yaw = targeted_position_[YAW] - world_position_[YAW];
+  if( std::fabs(error_yaw) > 180.0 )
+  {
+    error_yaw = std::copysign(360 - std::fabs(error_yaw), -error_yaw);
+  }
+  error[YAW] = error_yaw;
+
   std::array<double,6> actuation = algo_manager_.GetActuationForError(error);
   ROS_INFO("Actuation :       %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f",
-            actuation[0], actuation[1], actuation[2],
-            actuation[3], actuation[4], actuation[5]);
-  std::array<double, 3> actuation_lin = {actuation[0], actuation[1], actuation[2]};
-  std::array<double, 3> actuation_rot = {actuation[3], actuation[4], actuation[5]};
+            actuation[X], actuation[Y], actuation[Z],
+            actuation[ROLL], actuation[PITCH], actuation[YAW]);
+  std::array<double, 3> actuation_lin = {actuation[X], actuation[Y], actuation[Z]};
+  std::array<double, 3> actuation_rot = {actuation[ROLL], actuation[PITCH], actuation[YAW]};
   for( int i = 0; i < 3; i++)
   {
     if( !enable_control_[i])

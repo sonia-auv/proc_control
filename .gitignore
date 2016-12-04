@@ -28,5 +28,9 @@
 *.out
 *.app
 
+# Dynamic reconfigure
+cfg/cpp/proc_control/AlgorithmConfig.h
+src/proc_control/cfg/AlgorithmConfig.py 
+
 #IDE
 .idea/

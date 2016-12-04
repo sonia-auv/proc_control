@@ -3,9 +3,7 @@ __author__ = 'jeremie'
 
 import rospy
 from provider_keypad.msg import Keypad
-from sonia_msgs.srv import SendCanMessage
-from sonia_msgs.srv import SendCanMessageRequest
-from sonia_msgs.srv import SendCanMessageResponse
+from sonia_msgs.msg import SendCanMsg
 import time
 
 from std_msgs.msg import String
@@ -14,11 +12,11 @@ class ThrusterControl:
     def __init__(self):
         self.node = None
         self.values = list()
-        self.request_device_id = SendCanMessageRequest.DEVICE_ID_actuators
-        self.request_unique_id = [SendCanMessageRequest.UNIQUE_ID_ACT_port_motor, SendCanMessageRequest.UNIQUE_ID_ACT_starboard_motor,
-                                  SendCanMessageRequest.UNIQUE_ID_ACT_back_depth_motor, SendCanMessageRequest.UNIQUE_ID_ACT_front_depth_motor,
-                                  SendCanMessageRequest.UNIQUE_ID_ACT_back_heading_motor, SendCanMessageRequest.UNIQUE_ID_ACT_front_heading_motor]
-        self.request_method_number = SendCanMessageRequest.METHOD_MOTOR_set_speed
+        self.request_device_id = SendCanMsg.DEVICE_ID_actuators
+        self.request_unique_id = [SendCanMsg.UNIQUE_ID_ACT_port_motor, SendCanMsg.UNIQUE_ID_ACT_starboard_motor,
+                                  SendCanMsg.UNIQUE_ID_ACT_back_depth_motor, SendCanMsg.UNIQUE_ID_ACT_front_depth_motor,
+                                  SendCanMsg.UNIQUE_ID_ACT_back_heading_motor, SendCanMsg.UNIQUE_ID_ACT_front_heading_motor]
+        self.request_method_number = SendCanMsg.METHOD_MOTOR_set_speed
 
     def keypad_callback(self, data):
         self.values = [(float(data.LJ_Up + data.LJ_Down) / 127.0)*100.0, (float(data.RJ_Up + data.RJ_Down) / 127.0)*100.0,
@@ -36,17 +34,13 @@ class ThrusterControl:
         rospy.init_node('thruster_control', anonymous=True)
 
         rospy.Subscriber("/provider_keypad/Keypad", Keypad, self.keypad_callback)
-
-        self.node = rospy.ServiceProxy('/provider_can/send_can_message', SendCanMessage)
-        self.node(2,1,0,50)
-        time.sleep(2)
-        self.node(2,1,0,0)
+        publisher = rospy.Publisher("/provider_can/send_can_msg", SendCanMsg, queue_size=10)
         while(1):
             time.sleep(0.1)
             try:
                 for i in range(len(self.values)):
                     """device_id, unique_id, method_number, parameter_value"""
-                    self.node(self.request_device_id, self.request_unique_id[i], self.request_method_number, self.values[i])
+                    publisher.publish(self.request_device_id, self.request_unique_id[i], self.request_method_number, self.values[i])
 
             except rospy.ServiceException, e:
                 print "Service call failed: %s"%e

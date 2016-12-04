@@ -30,6 +30,11 @@ void AlgorithmManager::OnDynamicReconfigureChange(const proc_control::AlgorithmC
     default:
       std::cout << "Not implemented yet" << std::endl;
   }
+
+  bounding_box_x_ = config.BBox_X;
+  bounding_box_y_ = config.BBox_Y;
+  bounding_box_z_ = config.BBox_Z;
+  bounding_box_yaw_ = config.BBox_Yaw;
 }
 
 void AlgorithmManager::WriteConfigFile( const proc_control::AlgorithmConfig &config )
@@ -38,6 +43,15 @@ void AlgorithmManager::WriteConfigFile( const proc_control::AlgorithmConfig &con
   out << YAML::BeginMap;
   out << YAML::Key << "Algorithm";
   out << YAML::Value << ConversionEnumInt(algorithm_to_use_);
+  out << YAML::Key << "BBox_X";
+  out << YAML::Value << bounding_box_x_;
+  out << YAML::Key << "BBox_Y";
+  out << YAML::Value << bounding_box_y_;
+  out << YAML::Key << "BBox_Z";
+  out << YAML::Value << bounding_box_z_;
+  out << YAML::Key << "BBox_Yaw";
+  out << YAML::Value << bounding_box_yaw_;
+
   std::ofstream fout(file_path_);
   fout << out.c_str();
 }
@@ -49,6 +63,22 @@ void AlgorithmManager::ReadConfigFile( proc_control::AlgorithmConfig &config )
   if (node["Algorithm"]) {
     algorithm_to_use_ = ConversionEnumInt(node["Algorithm"].as<int>());
   }
+  if (node["BBox_X"]) {
+    bounding_box_x_ = node["BBox_X"].as<double>();
+  }
+  if (node["BBox_Y"]) {
+    bounding_box_y_= node["BBox_Y"].as<double>();
+  }
+  if (node["BBox_Z"]) {
+    bounding_box_z_ = node["BBox_Z"].as<double>();
+  }
+  if (node["BBox_Yaw"]) {
+    bounding_box_yaw_ = node["BBox_Yaw"].as<double>();
+  }
   config.Algorithm = ConversionEnumInt(algorithm_to_use_);
+  config.BBox_X = bounding_box_x_;
+  config.BBox_Y = bounding_box_y_;
+  config.BBox_Z = bounding_box_z_;
+  config.BBox_Yaw = bounding_box_yaw_;
 }
 

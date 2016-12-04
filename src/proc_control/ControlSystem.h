@@ -40,25 +40,19 @@ class ControlSystem : public atlas::ServiceServerManager<ControlSystem> {
   bool LocalTargetServiceCallback(proc_control::SetPositionTargetRequest &request,
                                           proc_control::SetPositionTargetResponse &response);
   void PublishTargetedPosition();
-  void SetTarget(OdometryInfo &array,
-                 double x, double y, double z,
-                 double roll, double pitch, double yaw);
+
+  bool EvaluateTargetReached(const std::array<double,6> &target_error);
 
   AlgorithmManager algo_manager_;
   ThrusterManager thruster_manager_;
   ros::Subscriber nav_odometry_subs_, target_odometry_subs_;
-  ros::Publisher target_publisher_;
+  ros::Publisher target_publisher_, target_is_reached_publisher_;
   OdometryInfo world_position_, targeted_position_;
   std::array<bool, 6> enable_control_;
 
+  int stability_count_;
+
 };
-
-inline void ControlSystem::SetTarget(OdometryInfo &array_out,
-                                     double x, double y, double z,
-                                     double roll, double pitch, double yaw)
-{
-
-}
 
 inline bool ControlSystem::EnableControlServiceCallback(
     proc_control::EnableControlRequest &request,

@@ -7,6 +7,7 @@
 
 #include <memory>
 #include <proc_control/property.h>
+#include <cmath>
 #include "proc_control/algorithm/ControlAlgorithm.h"
 #include "proc_control/config/config_manager.h"
 #include "proc_control/AlgorithmConfig.h"
@@ -26,9 +27,12 @@ class AlgorithmManager : public ConfigManager<proc_control::AlgorithmConfig>  {
 
   std::array<double, 6> GetActuationForError(const std::array<double, 6> &error);
 
+  bool IsInBoundingBox(double error_x, double error_y, double error_z, double error_yaw);
+
   private:
 
   AlgorithmTypes algorithm_to_use_;
+  double bounding_box_x_, bounding_box_y_, bounding_box_z_, bounding_box_yaw_;
   std::vector<std::shared_ptr<ControlAlgorithm>> algorithms_;
   std::shared_ptr<ControlAlgorithm> current_algorithm_;
 
@@ -60,5 +64,14 @@ inline AlgorithmManager::AlgorithmTypes AlgorithmManager::ConversionEnumInt(int 
     case 1: return AlgorithmTypes::PID_5_AXIS;
   }
   return AlgorithmTypes::PID_4_AXIS;
+}
+
+
+inline bool AlgorithmManager::IsInBoundingBox(double error_x, double error_y, double error_z, double error_yaw)
+{
+  return std::fabs(error_x) < bounding_box_x_ &&
+      std::fabs(error_y) < bounding_box_y_ &&
+      std::fabs(error_z) < bounding_box_z_ &&
+      std::fabs(error_yaw) < bounding_box_yaw_;
 }
 #endif //PROC_CONTROL_ALGORITHMMANAGER_H

@@ -7,14 +7,16 @@
 #include <eigen3/Eigen/Geometry>
 #include <lib_atlas/maths/matrix.h>
 #include <proc_control/PositionTarget.h>
+#include <proc_control/TargetReached.h>
 
 ControlSystem::ControlSystem(const ros::NodeHandlePtr &nh):
-    atlas::ServiceServerManager<ControlSystem>()
+    atlas::ServiceServerManager<ControlSystem>(), stability_count_(0)
 {
   std::string base_node_name ("/proc_control/");
   nav_odometry_subs_ = nh->subscribe("/proc_navigation/odom", 100,
                                      &ControlSystem::OdomCallback, this);
   target_publisher_ = nh->advertise<proc_control::PositionTarget>("/proc_control/current_target", 100);
+  target_is_reached_publisher_ = nh->advertise<proc_control::TargetReached>("/proc_control/target_reached", 100);
 
   RegisterService<proc_control::SetPositionTarget>(base_node_name + "set_global_target",
                                                    &ControlSystem::GlobalTargetServiceCallback, *this);
@@ -92,8 +94,9 @@ void ControlSystem::Control()
             targeted_position_[0], targeted_position_[1], targeted_position_[2],
             targeted_position_[3], targeted_position_[4], targeted_position_[5]);
 
+  // Calculate the error
   std::array<double,6> error;
-  for(int i = 0; i < 5; i++)
+  for(int i = 0; i < 6; i++)
   {
     error[i] = targeted_position_[i] - world_position_[i];
     if( !enable_control_[i])
@@ -110,6 +113,13 @@ void ControlSystem::Control()
   }
   error[YAW] = error_yaw;
 
+  // Handle the is target reached message
+  proc_control::TargetReached msg_target_reached;
+  msg_target_reached.target_is_reached = static_cast<unsigned char> (EvaluateTargetReached(error) ? 1 : 0);
+  target_is_reached_publisher_.publish(msg_target_reached);
+
+
+  // Calculate required actuation
   std::array<double,6> actuation = algo_manager_.GetActuationForError(error);
   ROS_INFO("Actuation :       %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f",
             actuation[X], actuation[Y], actuation[Z],
@@ -128,6 +138,7 @@ void ControlSystem::Control()
     }
   }
 
+  // Process the actuation
   std::array<double, 6> thrust_force = thruster_manager_.Commit(actuation_lin,actuation_rot);
   ROS_INFO("Thrust :    Port: %10.4f, Startboard: %10.4f, "
                "FrontHeading: %10.4f, BackHeading: %10.4f, "
@@ -136,4 +147,16 @@ void ControlSystem::Control()
            thrust_force[3], thrust_force[4], thrust_force[5]);
 
   ROS_INFO("\n");
+}
+
+bool ControlSystem::EvaluateTargetReached(const std::array<double,6> &target_error)
+{
+  if( algo_manager_.IsInBoundingBox(target_error[X], target_error[Y], target_error[Z], target_error[YAW]) )
+  {
+    stability_count_++;
+  }else{
+    stability_count_ = 0;
+  }
+
+  return stability_count_ > 14;
 }

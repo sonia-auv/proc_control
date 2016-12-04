@@ -24,73 +24,73 @@ ThrusterManager::Commit(std::array<double, 3> &linear_target, std::array<double,
 {
   // legacy code...
   const double POWER_LIMIT_BEFORE_LUT = 43.0f;
-//  for (const auto &t  : thruster_list_) {
-//    std::array<double,3> thruster_effort_lin = t.GetLinearEffort();
-//    std::array<double,3> thruster_effort_rot = t.GetRotationnalEffort();
-//    // 2014-10-31 KC Change to limit Thruster effort earlier in the
-//    // process to 24 (55% from lookup table)
-//    double pretendedLinearEffortYTarget = linear_target[1] * thruster_effort_lin[1];
-//    double pretendedLinearEffortXTarget = linear_target[0] * thruster_effort_lin[0];
-//    double pretendedLinearEffortZTarget = linear_target[2]* thruster_effort_lin[2];
-//    // -
-//    double pretendedRotationEffortZTargetY = rotational_target[2] * thruster_effort_rot[1];
-//    double pretendedRotationEffortZTargetX = rotational_target[2] * thruster_effort_rot[0];
-//    double pretendedRotationEffortYTarget = rotational_target[1] * thruster_effort_rot[2];
-//    if(pretendedLinearEffortYTarget < pretendedLinearEffortXTarget * 1.2){
-//      // -
-//      // We put a higher priority on rotation, since we should attain
-//      // this
-//      // goal faster.
-//      if ((std::abs(pretendedLinearEffortYTarget)
-//           + std::abs(pretendedRotationEffortZTargetY)) > POWER_LIMIT_BEFORE_LUT) {
-//        // Setting the Y linear effort to what is left after rotational effort
-//        if ((POWER_LIMIT_BEFORE_LUT - std::abs(pretendedRotationEffortZTargetY)) <= 0){
-//          linear_target[1] = 0;
-//          //-
-//        }
-//        else{
-//          linear_target[1] = atlas::signum(linear_target[1])
-//                             * ((POWER_LIMIT_BEFORE_LUT - std::abs(pretendedRotationEffortZTargetY)) / std::abs(thruster_effort_lin[1]));
-//        }
-//      }
-//    }
-//    else{
-//      // -
-//      // We put a higher priority on rotation, since we should attain
-//      // this
-//      // goal faster.
-//      if ((std::abs(pretendedLinearEffortXTarget)
-//           + std::abs(pretendedRotationEffortZTargetX)) > POWER_LIMIT_BEFORE_LUT) {
-//        // Setting the Y linear effort to what is left after rotational effort
-//        if ((POWER_LIMIT_BEFORE_LUT - std::abs(pretendedRotationEffortZTargetX)) <= 0){
-//          linear_target[0] = (0);
-//          //-
-//        }
-//        else{
-//          linear_target[0] = (atlas::signum(linear_target[0])
-//                              * ((POWER_LIMIT_BEFORE_LUT - std::abs(pretendedRotationEffortZTargetX)) / std::abs(thruster_effort_lin[0])));
-//        }
-//      }
-//
-//    }
-//    // We put a higher priority on rotation, since we should attain
-//    // this
-//    // goal faster.
-//    if ((std::abs(pretendedLinearEffortZTarget)
-//         + std::abs(pretendedRotationEffortYTarget)) > POWER_LIMIT_BEFORE_LUT) {
-//      // Setting the Z linear effort to what is left after rotational effort
-//      if ((POWER_LIMIT_BEFORE_LUT - std::abs(pretendedRotationEffortYTarget)) <= 0){
-//        linear_target[3] = (0);
-//
-//      }
-//      else{
-//        linear_target[3] = (atlas::signum(linear_target[2])
-//                            * ((POWER_LIMIT_BEFORE_LUT - std::abs(pretendedRotationEffortYTarget)) / std::abs(thruster_effort_lin[2])));
-//
-//      }
-//    }
-//
-//  }
+  for (const auto &t  : thruster_list_) {
+    std::array<double,3> thruster_effort_lin = t.GetLinearEffort();
+    std::array<double,3> thruster_effort_rot = t.GetRotationnalEffort();
+    // 2014-10-31 KC Change to limit Thruster effort earlier in the
+    // process to 24 (55% from lookup table)
+    double pretendedLinearEffortYTarget = linear_target[1] * thruster_effort_lin[1];
+    double pretendedLinearEffortXTarget = linear_target[0] * thruster_effort_lin[0];
+    double pretendedLinearEffortZTarget = linear_target[2]* thruster_effort_lin[2];
+    // -
+    double pretendedRotationEffortZTargetY = rotational_target[2] * thruster_effort_rot[1];
+    double pretendedRotationEffortZTargetX = rotational_target[2] * thruster_effort_rot[0];
+    double pretendedRotationEffortYTarget = rotational_target[1] * thruster_effort_rot[2];
+    if(pretendedLinearEffortYTarget < pretendedLinearEffortXTarget * 1.2){
+      // -
+      // We put a higher priority on rotation, since we should attain
+      // this
+      // goal faster.
+      if ((std::abs(pretendedLinearEffortYTarget)
+           + std::abs(pretendedRotationEffortZTargetY)) > POWER_LIMIT_BEFORE_LUT) {
+        // Setting the Y linear effort to what is left after rotational effort
+        if ((POWER_LIMIT_BEFORE_LUT - std::abs(pretendedRotationEffortZTargetY)) <= 0){
+          linear_target[1] = 0;
+          //-
+        }
+        else{
+          linear_target[1] = atlas::signum(linear_target[1])
+                             * ((POWER_LIMIT_BEFORE_LUT - std::abs(pretendedRotationEffortZTargetY)) / std::abs(thruster_effort_lin[1]));
+        }
+      }
+    }
+    else{
+      // -
+      // We put a higher priority on rotation, since we should attain
+      // this
+      // goal faster.
+      if ((std::abs(pretendedLinearEffortXTarget)
+           + std::abs(pretendedRotationEffortZTargetX)) > POWER_LIMIT_BEFORE_LUT) {
+        // Setting the Y linear effort to what is left after rotational effort
+        if ((POWER_LIMIT_BEFORE_LUT - std::abs(pretendedRotationEffortZTargetX)) <= 0){
+          linear_target[0] = (0);
+          //-
+        }
+        else{
+          linear_target[0] = (atlas::signum(linear_target[0])
+                              * ((POWER_LIMIT_BEFORE_LUT - std::abs(pretendedRotationEffortZTargetX)) / std::abs(thruster_effort_lin[0])));
+        }
+      }
+
+    }
+    // We put a higher priority on rotation, since we should attain
+    // this
+    // goal faster.
+    if ((std::abs(pretendedLinearEffortZTarget)
+         + std::abs(pretendedRotationEffortYTarget)) > POWER_LIMIT_BEFORE_LUT) {
+      // Setting the Z linear effort to what is left after rotational effort
+      if ((POWER_LIMIT_BEFORE_LUT - std::abs(pretendedRotationEffortYTarget)) <= 0){
+        linear_target[3] = (0);
+
+      }
+      else{
+        linear_target[3] = (atlas::signum(linear_target[2])
+                            * ((POWER_LIMIT_BEFORE_LUT - std::abs(pretendedRotationEffortYTarget)) / std::abs(thruster_effort_lin[2])));
+
+      }
+    }
+
+  }
   //-
   std::array<double, 6> thrust_vec = {0};
   int i = 0;

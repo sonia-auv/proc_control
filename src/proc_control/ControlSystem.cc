@@ -69,11 +69,11 @@ bool ControlSystem::LocalTargetServiceCallback(proc_control::SetPositionTargetRe
                                         proc_control::SetPositionTargetResponse &response)
 {
   // We simply use the current yaw to rotate the translation into the good world position and add it to the position
-  Eigen::Matrix3d original_rotation = atlas::EulerToRot(Eigen::Vector3d(0,0,atlas::DegreeToRadian(world_position_[5])));
-  Eigen::Vector3d translation(request.X,request.Y,request.Z), original_position(world_position_[0],
-                                                                                world_position_[1],
-                                                                                world_position_[2]);
-  Eigen::Vector3d final_pos = original_position + (original_rotation*translation);
+  Eigen::Matrix3d original_rotation = atlas::EulerToRot(Eigen::Vector3d(atlas::DegreeToRadian(world_position_[YAW]),0,0));
+  Eigen::Vector3d translation(request.X,request.Y,request.Z), original_position(world_position_[X],
+                                                                                world_position_[Y],
+                                                                                world_position_[Z]);
+  Eigen::Vector3d final_pos = original_position + (original_rotation * translation);
 
   for( int i = 0; i < 3; i++)
   {
@@ -112,6 +112,11 @@ void ControlSystem::Control()
     error_yaw = std::copysign(360 - std::fabs(error_yaw), -error_yaw);
   }
   error[YAW] = error_yaw;
+
+  error = GetLocalError(error);
+
+  ROS_INFO("Local error:  %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f",
+           error[0], error[1], error[2], error[3], error[4], error[5]);
 
   // Handle the is target reached message
   proc_control::TargetReached msg_target_reached;
@@ -160,3 +165,22 @@ bool ControlSystem::EvaluateTargetReached(const std::array<double,6> &target_err
 
   return stability_count_ > 14;
 }
+
+
+std::array<double,6> ControlSystem::GetLocalError(const std::array<double,6> &global_error)
+{
+
+  Eigen::Matrix3d inverse_rotation = atlas::EulerToRot(Eigen::Vector3d(atlas::DegreeToRadian(-world_position_[YAW]),0,0));
+
+  Eigen::Vector3d go_to_pos(global_error[X], global_error[Y], global_error[Z]); ;
+  Eigen::Vector3d local_conversion = inverse_rotation * go_to_pos;
+
+
+  std::array<double,6> target ;
+  for(int i = 0; i < 3; i++)
+  {
+    target[i] = local_conversion[i];
+    target[i+3] = global_error[i+3];
+  }
+  return target;
+};

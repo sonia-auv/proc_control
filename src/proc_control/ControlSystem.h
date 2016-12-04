@@ -43,6 +43,9 @@ class ControlSystem : public atlas::ServiceServerManager<ControlSystem> {
 
   bool EvaluateTargetReached(const std::array<double,6> &target_error);
 
+  std::array<double,6> GetLocalError(const std::array<double,6> &global_error);
+
+
   AlgorithmManager algo_manager_;
   ThrusterManager thruster_manager_;
   ros::Subscriber nav_odometry_subs_, target_odometry_subs_;

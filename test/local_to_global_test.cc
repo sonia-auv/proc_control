@@ -29,13 +29,24 @@
 #include <eigen3/Eigen/Eigen>
 
 TEST(LocalGlobalTest, first) {
-  Eigen::Matrix3d original_rotation = atlas::EulerToRot(Eigen::Vector3d(0,0,atlas::DegreeToRadian(-45)));
-  Eigen::Vector3d original_position(2,3,0), translation(4.33013,-2.5,0) ;
+  double rotation = 315;
+  Eigen::Matrix3d original_rotation = atlas::EulerToRot(Eigen::Vector3d(atlas::DegreeToRadian(rotation),0,0));
+  Eigen::Vector3d original_position(2,3,0), translation(1,0,0) ;
+
 
   Eigen::Vector3d final_pos = original_position + (original_rotation*translation);
   Eigen::Vector3d euler_final = atlas::RotToEuler(original_rotation);
-  std::cout << atlas::RadianToDegree(euler_final[0]) << "\t" << atlas::RadianToDegree(euler_final[1]) << "\t" << atlas::RadianToDegree(euler_final[2]) << std::endl;
-  std::cout << final_pos[0] << "\t" << final_pos[1] << "\t" << final_pos[2];
+  //std::cout << atlas::RadianToDegree(euler_final[0]) << "\t" << atlas::RadianToDegree(euler_final[1]) << "\t" << atlas::RadianToDegree(euler_final[2]) << std::endl;
+  //std::cout << final_pos[0] << "\t" << final_pos[1] << "\t" << final_pos[2] << std::endl;
+
+  Eigen::Matrix3d inverse_rotation = atlas::EulerToRot(Eigen::Vector3d(atlas::DegreeToRadian(-rotation),0,0));
+  Eigen::Vector3d go_to_pos(final_pos[0]-original_position[0], final_pos[1]-original_position[1], final_pos[2]-original_position[2]); ;
+  Eigen::Vector3d local_conversion = inverse_rotation*go_to_pos;
+
+  std::cout << translation[0] << "\t" << translation[1] << "\t" << translation[2] << std::endl;
+  std::cout << local_conversion[0] << "\t" << local_conversion[1] << "\t" << local_conversion[2] << std::endl;
+
+
 }
 
 int main(int argc, char **argv) {

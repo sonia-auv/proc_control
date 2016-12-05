@@ -35,7 +35,7 @@ class ThrusterControl:
 
         rospy.Subscriber("/provider_keypad/Keypad", Keypad, self.keypad_callback)
         publisher = rospy.Publisher("/provider_can/send_can_msg", SendCanMsg, queue_size=10)
-        while(1):
+        while(rospy.is_shutdown()):
             time.sleep(0.1)
             try:
                 for i in range(len(self.values)):

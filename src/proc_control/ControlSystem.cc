@@ -35,9 +35,9 @@ void ControlSystem::OdomCallback(const nav_msgs::Odometry::ConstPtr &odo_in)
   world_position_[0] = odo_in->twist.twist.linear.x;
   world_position_[1] = odo_in->twist.twist.linear.y;
   world_position_[2] = odo_in->twist.twist.linear.z;
-  world_position_[3] = atlas::RadianToDegree(odo_in->twist.twist.angular.x);
-  world_position_[4] = atlas::RadianToDegree(odo_in->twist.twist.angular.y);
-  world_position_[5] = atlas::RadianToDegree(odo_in->twist.twist.angular.z);
+  world_position_[3] = odo_in->twist.twist.angular.x;
+  world_position_[4] = odo_in->twist.twist.angular.y;
+  world_position_[5] = odo_in->twist.twist.angular.z;
 }
 
 bool ControlSystem::GlobalTargetServiceCallback(proc_control::SetPositionTargetRequest & request,

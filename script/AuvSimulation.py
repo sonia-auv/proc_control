@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 __author__ = 'jeremie'
 import math
+import numpy
 import rospy
+import random
 from sensor_msgs.msg import Imu
-from tf.transformations import quaternion_about_axis
+from tf.transformations import quaternion_about_axis, unit_vector, quaternion_multiply, quaternion_conjugate
 from sonia_msgs.msg import SendCanMsg, BottomTracking
 import time
 
@@ -12,12 +14,14 @@ from std_msgs.msg import String
 
 # send_can_msg  = None
 class AUVSimulation:
-    DELTA_ORIENTATION = 6
-    DELTA_VITESSE = 1
+    DELTA_ORIENTATION = 5
+    DELTA_VITESSE = 500
     port_effort = 0
     starboard_effort = 0
     back_heading_effort = 0
     front_heading_effort = 0
+    front_vector = (1,0,0)
+    heading_vector = (0,-1,0)
 
     yaw = 0
 
@@ -33,18 +37,37 @@ class AUVSimulation:
     def publish_data(self):
         rate = rospy.Rate(100)
         while not rospy.is_shutdown():
-            velocity_x = (self.starboard_effort + self.port_effort)/200.0 * self.DELTA_VITESSE * abs(math.cos(math.radians(self.yaw))) + \
-                         (self.front_heading_effort + self.back_heading_effort)/200.0 *self.DELTA_VITESSE * abs(math.sin(math.radians(self.yaw)))
-            velocity_y = (self.starboard_effort + self.port_effort)/200.0*self.DELTA_VITESSE * abs(math.sin(math.radians(self.yaw))) + \
-                         (self.front_heading_effort + self.back_heading_effort)/200.0 *self.DELTA_VITESSE *abs(math.cos(math.radians(self.yaw)))
+            back_heading_effort = self.back_heading_effort
+            front_heading_effort = self.front_heading_effort
+            port_effort = self.port_effort
+            starboard_effort = self.starboard_effort
+
+            heading_rotation_effort = back_heading_effort - front_heading_effort
+            front_rotation_effort = port_effort - starboard_effort
+            self.yaw += (heading_rotation_effort / 200.0) * self.DELTA_ORIENTATION
+            self.yaw += random.randrange(-1000,1000) / 100000.0
+            self.yaw %= 360.0
+
+            freeze_yaw = self.yaw
+            quat = quaternion_about_axis(math.radians(freeze_yaw), (0, 0, 1))
+            ### Select the value near 0.
+            north_effort = (port_effort + starboard_effort) / 200.0
+            east_effort = (front_heading_effort + back_heading_effort) / 200.0
+            front_vector = tuple([i * north_effort for i in self.front_vector])
+            heading_vector = tuple([i * east_effort for i in self.heading_vector])
+            front_vector_rot = numpy.nan_to_num(qv_mult(quat,front_vector))
+            heading_vector_rot = numpy.nan_to_num(qv_mult(quat,heading_vector))
+
+            velocity_north = (front_vector_rot[0] + heading_vector_rot[0]) * self.DELTA_VITESSE
+            velocity_east = (front_vector_rot[1] + heading_vector_rot[1]) * self.DELTA_VITESSE * -1
+
             bottom_tracking = BottomTracking()
-            bottom_tracking.velocity=(velocity_x,velocity_y,0,0)
-            bottom_tracking.time = time.time()
+            bottom_tracking.velocity=(velocity_north,velocity_east,0,0)
+            bottom_tracking.time = time.time() * 1000
 
             self.publisher_dvl.publish(bottom_tracking)
 
             imu = Imu()
-            quat = quaternion_about_axis(math.radians(self.yaw), (0, 0, 1))
             imu.orientation.x = quat[0]
             imu.orientation.y = quat[1]
             imu.orientation.z = quat[2]
@@ -61,22 +84,28 @@ class AUVSimulation:
                 self.starboard_effort = sendcanmessage.parameter_value
                 pass
             elif sendcanmessage.unique_id == SendCanMsg.UNIQUE_ID_ACT_back_depth_motor:
+                # TODO : Handle depth
                 pass
             elif sendcanmessage.unique_id == SendCanMsg.UNIQUE_ID_ACT_front_depth_motor:
                 pass
             elif sendcanmessage.unique_id == SendCanMsg.UNIQUE_ID_ACT_back_heading_motor:
                 self.back_heading_effort = sendcanmessage.parameter_value
-                self.yaw += sendcanmessage.parameter_value / 100.0 * self.DELTA_ORIENTATION
-                self.yaw = self.yaw % 360
                 pass
             elif sendcanmessage.unique_id == SendCanMsg.UNIQUE_ID_ACT_front_heading_motor:
                 self.front_heading_effort = sendcanmessage.parameter_value
-                self.yaw -= sendcanmessage.parameter_value / 100.0 * self.DELTA_ORIENTATION
-                self.yaw = self.yaw % 360
                 pass
 
         pass
 
+
+def qv_mult(q1, v1):
+    v1 = unit_vector(v1)
+    q2 = list(v1)
+    q2.append(0.0)
+    return quaternion_multiply(
+        quaternion_multiply(q1, q2),
+        quaternion_conjugate(q1)
+    )[:3]
 
 if __name__ == '__main__':
     tmp = AUVSimulation()

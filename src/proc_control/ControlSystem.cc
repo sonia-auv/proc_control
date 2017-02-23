@@ -49,6 +49,7 @@ bool ControlSystem::GlobalTargetServiceCallback(proc_control::SetPositionTargetR
   targeted_position_[3] = request.ROLL;
   targeted_position_[4] = request.PITCH;
   targeted_position_[5] = request.YAW;
+  PublishTargetedPosition();
   return true;
 }
 

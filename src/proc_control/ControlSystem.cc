@@ -88,10 +88,10 @@ bool ControlSystem::LocalTargetServiceCallback(proc_control::SetPositionTargetRe
 void ControlSystem::Control()
 {
 
-  ROS_INFO("Current Position: %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f",
+  ROS_DEBUG("Current Position: %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f",
             world_position_[0], world_position_[1], world_position_[2],
             world_position_[3], world_position_[4], world_position_[5]);
-  ROS_INFO("Target Position:  %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f",
+  ROS_DEBUG("Target Position:  %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f",
             targeted_position_[0], targeted_position_[1], targeted_position_[2],
             targeted_position_[3], targeted_position_[4], targeted_position_[5]);
 
@@ -116,7 +116,7 @@ void ControlSystem::Control()
 
   error = GetLocalError(error);
 
-  ROS_INFO("Local error:  %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f",
+  ROS_DEBUG("Local error:  %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f",
            error[0], error[1], error[2], error[3], error[4], error[5]);
 
   // Handle the is target reached message
@@ -127,7 +127,7 @@ void ControlSystem::Control()
 
   // Calculate required actuation
   std::array<double,6> actuation = algo_manager_.GetActuationForError(error);
-  ROS_INFO("Actuation :       %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f",
+  ROS_DEBUG("Actuation :       %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f",
             actuation[X], actuation[Y], actuation[Z],
             actuation[ROLL], actuation[PITCH], actuation[YAW]);
   std::array<double, 3> actuation_lin = {actuation[X], actuation[Y], actuation[Z]};
@@ -146,13 +146,13 @@ void ControlSystem::Control()
 
   // Process the actuation
   std::array<double, 6> thrust_force = thruster_manager_.Commit(actuation_lin,actuation_rot);
-  ROS_INFO("Thrust :    Port: %10.4f, Startboard: %10.4f, "
+  ROS_DEBUG("Thrust :    Port: %10.4f, Startboard: %10.4f, "
                "FrontHeading: %10.4f, BackHeading: %10.4f, "
                "FrontDepth: %10.4f, BackDepth:%10.4f",
            thrust_force[0], thrust_force[1], thrust_force[2],
            thrust_force[3], thrust_force[4], thrust_force[5]);
 
-  ROS_INFO("\n");
+  ROS_DEBUG("\n");
 }
 
 bool ControlSystem::EvaluateTargetReached(const std::array<double,6> &target_error)

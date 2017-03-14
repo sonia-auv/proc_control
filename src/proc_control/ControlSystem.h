@@ -20,6 +20,7 @@
 
 class ControlSystem : public atlas::ServiceServerManager<ControlSystem> {
   public:
+  // X Y Z ROLL PITCH YAW
   typedef std::array<double, 6> OdometryInfo;
 
   ControlSystem(const ros::NodeHandlePtr &nh);

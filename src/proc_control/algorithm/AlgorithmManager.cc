@@ -4,16 +4,17 @@
 
 #include "AlgorithmManager.h"
 #include "PID4Axis_Algorithm.h"
+#include "PIDZAxis_Algorithm.h"
 #include <memory>
 #include <yaml-cpp/yaml.h>
 #include <fstream>
 
 AlgorithmManager::AlgorithmManager()
     : ConfigManager("Algorithm"),
-      algorithm_to_use_(AlgorithmTypes ::PID_4_AXIS),
+      algorithm_to_use_(AlgorithmTypes::PID_Z_AXIS),
       current_algorithm_(nullptr)
 {
-  algorithms_.push_back(std::make_shared<PID4Axis_Algorithm>());
+  algorithms_.push_back(std::make_shared<PIDZAxis_Algorithm>());
   current_algorithm_ = algorithms_[0];
   Init();
 }

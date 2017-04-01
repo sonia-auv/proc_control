@@ -8,7 +8,7 @@
 
 #include <array>
 #include <ros/ros.h>
-#include <proc_control/Thruster.h>
+#include <proc_control/ThrusterEffort.h>
 #include <lib_atlas/ros/service_client_manager.h>
 
 class Thruster {
@@ -71,9 +71,9 @@ inline void Thruster::SetFrom6AxisArray(const std::array<double, 6> &array_axis)
 
 inline void Thruster::Publish(int thrust_value) {
   //TODO: Send thrust_value through RS485
-  proc_control::Thruster msg;
+  proc_control::ThrusterEffort msg;
 
-  msg.speed;
+  msg.effort;
 //  msg.device_id = msg.DEVICE_ID_actuators;
 //  msg.unique_id = can_id_;
 //  msg.method_number = msg.METHOD_MOTOR_set_speed;

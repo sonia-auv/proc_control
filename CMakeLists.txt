@@ -45,7 +45,6 @@ find_package(
     roscpp
     std_msgs
     message_generation
-    sonia_msgs
     geometry_msgs
     sensor_msgs
     lib_atlas
@@ -63,6 +62,7 @@ add_message_files(
     FILES
     PositionTarget.msg
     TargetReached.msg
+    Thruster.msg
 )
 
 add_service_files(
@@ -82,7 +82,7 @@ generate_messages(
 catkin_package(
     INCLUDE_DIRS ${proc_control_SRC_DIR}
     LIBRARIES
-    CATKIN_DEPENDS roscpp message_runtime std_msgs lib_atlas sonia_msgs
+    CATKIN_DEPENDS roscpp message_runtime std_msgs lib_atlas
     dynamic_reconfigure
 )
 
@@ -109,7 +109,6 @@ include_directories(
 add_executable(${PROJECT_NAME}_node ${proc_control_SRC_DIR}/${PROJECT_NAME}/main.cc ${proc_control_FILES})
 target_link_libraries(${PROJECT_NAME}_node ${catkin_LIBRARIES} ${lib_atlas_LIBRARIES} yaml-cpp ${Boost_LIBRARIES})
 add_dependencies(${PROJECT_NAME}_node
-        sonia_msgs_generate_messages_cpp
         ${PROJECT_NAME}_generate_messages_cpp
         ${PROJECT_NAME}_gencfg)
 

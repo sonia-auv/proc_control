@@ -8,12 +8,8 @@
 
 #include <array>
 #include <ros/ros.h>
-#include <sonia_msgs/ThrusterMsg.h>
+#include <proc_control/Thruster.h>
 #include <lib_atlas/ros/service_client_manager.h>
-#include <sonia_msgs/SendCanMessage.h>
-#include <sonia_msgs/SendCanMessageRequest.h>
-#include <sonia_msgs/SendCanMessageResponse.h>
-#include <sonia_msgs/SendCanMsg.h>
 
 class Thruster {
   public:
@@ -24,15 +20,6 @@ class Thruster {
                                     id_(id),
                                     can_id_(0)
   {
-    ros::NodeHandle n;
-    if( id == "port") { can_id_ = sonia_msgs::SendCanMessage::Request::UNIQUE_ID_ACT_port_motor;}
-    else if(id == "starboard") {can_id_ = sonia_msgs::SendCanMessage::Request::UNIQUE_ID_ACT_starboard_motor;}
-    else if(id == "front_heading") { can_id_ = sonia_msgs::SendCanMessage::Request::UNIQUE_ID_ACT_front_heading_motor; }
-    else if(id == "back_heading") { can_id_ = sonia_msgs::SendCanMessage::Request::UNIQUE_ID_ACT_back_heading_motor; }
-    else if(id == "front_depth") { can_id_ = sonia_msgs::SendCanMessage::Request::UNIQUE_ID_ACT_front_depth_motor; }
-    else if(id == "back_depth") { can_id_ = sonia_msgs::SendCanMessage::Request::UNIQUE_ID_ACT_back_depth_motor; }
-    //client_ = n.serviceClient<sonia_msgs::SendCanMessage>("/provider_can/send_can_message");
-    publisher_ = n.advertise<sonia_msgs::SendCanMsg>("/provider_can/send_can_msg", 100);
   };
 
   void Publish(int thrust_value);
@@ -86,14 +73,14 @@ inline void Thruster::SetFrom6AxisArray(const std::array<double, 6> &array_axis)
 
 inline void Thruster::Publish(int thrust_value)
 {
-  sonia_msgs::SendCanMsg msg;
-  msg.device_id = msg.DEVICE_ID_actuators;
-  msg.unique_id = can_id_;
-  msg.method_number = msg.METHOD_MOTOR_set_speed;
-  msg.parameter_value = POSITIVE_LINEAR_LUT[std::min(abs(thrust_value), 100)];
-  if( thrust_value < 0)
-    msg.parameter_value *= -1;
-  publisher_.publish(msg);
+//  sonia_msgs::SendCanMsg msg;
+//  msg.device_id = msg.DEVICE_ID_actuators;
+//  msg.unique_id = can_id_;
+//  msg.method_number = msg.METHOD_MOTOR_set_speed;
+//  msg.parameter_value = POSITIVE_LINEAR_LUT[std::min(abs(thrust_value), 100)];
+//  if( thrust_value < 0)
+//    msg.parameter_value *= -1;
+//  publisher_.publish(msg);
 
 //  sonia_msgs::SendCanMessageRequest rq;
 //  sonia_msgs::SendCanMessageResponse response;

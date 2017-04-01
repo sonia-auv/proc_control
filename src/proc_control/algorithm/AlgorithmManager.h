@@ -20,7 +20,7 @@ class AlgorithmManager : public ConfigManager<proc_control::AlgorithmConfig>  {
   void WriteConfigFile( const proc_control::AlgorithmConfig &config ) override ;
   void ReadConfigFile( proc_control::AlgorithmConfig &config ) override ;
 
-  enum class AlgorithmTypes{PID_4_AXIS = 0, PID_5_AXIS};
+  enum class AlgorithmTypes{PID_4_AXIS = 0, PID_5_AXIS, PID_Z_AXIS};
 
   int ConversionEnumInt(AlgorithmTypes enum_);
   AlgorithmTypes ConversionEnumInt(int enum_);
@@ -51,6 +51,7 @@ inline int AlgorithmManager::ConversionEnumInt(AlgorithmManager::AlgorithmTypes 
   {
     case AlgorithmManager::AlgorithmTypes::PID_4_AXIS: return 0;
     case AlgorithmManager::AlgorithmTypes::PID_5_AXIS: return 1;
+    case AlgorithmManager::AlgorithmTypes::PID_Z_AXIS: return 2;
   }
   return 0;
 }
@@ -62,6 +63,7 @@ inline AlgorithmManager::AlgorithmTypes AlgorithmManager::ConversionEnumInt(int 
     default:
     case 0: return AlgorithmTypes::PID_4_AXIS;
     case 1: return AlgorithmTypes::PID_5_AXIS;
+    case 2: return AlgorithmTypes ::PID_Z_AXIS;
   }
   return AlgorithmTypes::PID_4_AXIS;
 }

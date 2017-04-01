@@ -17,8 +17,7 @@ class Thruster {
 
   Thruster(const std::string &id) : linear_effort_({0.0}),
                                     rotationnal_effort_({0.0}),
-                                    id_(id),
-                                    can_id_(0)
+                                    id_(id)
   {
   };
 
@@ -36,7 +35,6 @@ class Thruster {
   std::array<double, 3> linear_effort_;
   std::array<double, 3> rotationnal_effort_;
   std::string id_;
-  unsigned char can_id_;
   ros::ServiceClient client_;
   ros::Publisher publisher_;
 };
@@ -71,9 +69,11 @@ inline void Thruster::SetFrom6AxisArray(const std::array<double, 6> &array_axis)
   }
 }
 
-inline void Thruster::Publish(int thrust_value)
-{
-//  sonia_msgs::SendCanMsg msg;
+inline void Thruster::Publish(int thrust_value) {
+  //TODO: Send thrust_value through RS485
+  proc_control::Thruster msg;
+
+  msg.speed;
 //  msg.device_id = msg.DEVICE_ID_actuators;
 //  msg.unique_id = can_id_;
 //  msg.method_number = msg.METHOD_MOTOR_set_speed;

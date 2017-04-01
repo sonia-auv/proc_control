@@ -63,7 +63,7 @@ add_message_files(
     FILES
     PositionTarget.msg
     TargetReached.msg
-    Thruster.msg
+    ThrusterEffort.msg
 )
 
 add_service_files(

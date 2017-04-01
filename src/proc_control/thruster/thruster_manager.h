@@ -22,7 +22,7 @@ class ThrusterManager  : public ConfigManager<proc_control::ThrusterConfig>{
   void WriteConfigFile(const proc_control::ThrusterConfig &config) override ;
   void ReadConfigFile(proc_control::ThrusterConfig &config) override ;
 
-  std::array<double, 6> Commit(std::array<double, 3> &linear_effort, std::array<double, 3> &rotational_target);
+  std::array<double, 8> Commit(std::array<double, 3> &linear_effort, std::array<double, 3> &rotational_target);
 
   private:
   // Writes to a YAML node an effort array

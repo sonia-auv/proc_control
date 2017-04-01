@@ -61,8 +61,7 @@ class ControlSystem : public atlas::ServiceServerManager<ControlSystem> {
 
 inline bool ControlSystem::EnableControlServiceCallback(
     proc_control::EnableControlRequest &request,
-    proc_control::EnableControlResponse &response)
-{
+    proc_control::EnableControlResponse &response) {
   // If don't care, reuse same value, else check if enable or not.
   enable_control_[0] = (request.X == request.DONT_CARE) ? (enable_control_[0]) : (request.X == request.ENABLE);
   enable_control_[1] = (request.Y == request.DONT_CARE) ? (enable_control_[1]) : (request.Y == request.ENABLE);
@@ -80,8 +79,7 @@ inline bool ControlSystem::EnableControlServiceCallback(
   return true;
 }
 
-inline void ControlSystem::PublishTargetedPosition()
-{
+inline void ControlSystem::PublishTargetedPosition() {
   proc_control::PositionTarget msg;
   msg.X = targeted_position_[0];
   msg.Y = targeted_position_[1];

@@ -15,12 +15,14 @@ ThrusterManager::ThrusterManager()
   thruster_list_.push_back(Thruster("T4"));
   thruster_list_.push_back(Thruster("T5"));
   thruster_list_.push_back(Thruster("T6"));
+  thruster_list_.push_back(Thruster("T7"));
+  thruster_list_.push_back(Thruster("T8"));
 
   Init();
 }
 
-std::array<double, 6>
-ThrusterManager::Commit(std::array<double, 3> &linear_target, std::array<double, 3> &rotational_target)
+std::array<double, 8> ThrusterManager::Commit(std::array<double, 3> &linear_target,
+                                              std::array<double, 3> &rotational_target)
 {
   // legacy code...
   const double POWER_LIMIT_BEFORE_LUT = 43.0f;
@@ -92,7 +94,7 @@ ThrusterManager::Commit(std::array<double, 3> &linear_target, std::array<double,
 
   }
   //-
-  std::array<double, 6> thrust_vec = {0};
+  std::array<double, 8> thrust_vec = {0};
   int i = 0;
   for (auto &t : thruster_list_) {
     double target = 0;
@@ -139,6 +141,14 @@ void ThrusterManager::OnDynamicReconfigureChange(const proc_control::ThrusterCon
       t.SetFrom6AxisArray(
           {config.T6_X, config.T6_Y, config.T6_Z,
            config.T6_PITCH, config.T6_ROLL, config.T6_YAW});
+    } else if (t.GetID() == "T7") {
+      t.SetFrom6AxisArray(
+          {config.T7_X, config.T7_Y, config.T7_Z,
+           config.T7_PITCH, config.T7_ROLL, config.T7_YAW});
+    } else if (t.GetID() == "T8") {
+      t.SetFrom6AxisArray(
+          {config.T8_X, config.T8_Y, config.T8_Z,
+           config.T8_PITCH, config.T8_ROLL, config.T8_YAW});
     }
   }
 }
@@ -168,9 +178,10 @@ void ThrusterManager::ReadConfigFile(proc_control::ThrusterConfig &config)
   ReadEfforts("T4", node);
   ReadEfforts("T5", node);
   ReadEfforts("T6", node);
+  ReadEfforts("T7", node);
+  ReadEfforts("T8", node);
 
-  for(const auto &t : thruster_list_)
-  {
+  for(const auto &t : thruster_list_) {
     if( t.GetID() == "T1"){
       config.T1_X = t.GetLinearEffort()[0];
       config.T1_Y = t.GetLinearEffort()[1];
@@ -178,47 +189,55 @@ void ThrusterManager::ReadConfigFile(proc_control::ThrusterConfig &config)
       config.T1_PITCH = t.GetRotationnalEffort()[0];
       config.T1_ROLL = t.GetRotationnalEffort()[1];
       config.T1_YAW = t.GetRotationnalEffort()[2];
-    }
-    else if( t.GetID() == "T2"){
+    } else if( t.GetID() == "T2"){
       config.T2_X = t.GetLinearEffort()[0];
       config.T2_Y = t.GetLinearEffort()[1];
       config.T2_Z = t.GetLinearEffort()[2];
       config.T2_PITCH = t.GetRotationnalEffort()[0];
       config.T2_ROLL = t.GetRotationnalEffort()[1];
       config.T2_YAW = t.GetRotationnalEffort()[2];
-    }
-    else if( t.GetID() == "T3"){
+    } else if( t.GetID() == "T3"){
       config.T3_X = t.GetLinearEffort()[0];
       config.T3_Y = t.GetLinearEffort()[1];
       config.T3_Z = t.GetLinearEffort()[2];
       config.T3_PITCH = t.GetRotationnalEffort()[0];
       config.T3_ROLL = t.GetRotationnalEffort()[1];
       config.T3_YAW = t.GetRotationnalEffort()[2];
-    }
-    else if( t.GetID() == "T4"){
+    } else if( t.GetID() == "T4"){
       config.T4_X = t.GetLinearEffort()[0];
       config.T4_Y = t.GetLinearEffort()[1];
       config.T4_Z = t.GetLinearEffort()[2];
       config.T4_PITCH = t.GetRotationnalEffort()[0];
       config.T4_ROLL = t.GetRotationnalEffort()[1];
       config.T4_YAW = t.GetRotationnalEffort()[2];
-    }
-    else if( t.GetID() == "T5"){
+    } else if( t.GetID() == "T5"){
       config.T5_X = t.GetLinearEffort()[0];
       config.T5_Y = t.GetLinearEffort()[1];
       config.T5_Z = t.GetLinearEffort()[2];
       config.T5_PITCH = t.GetRotationnalEffort()[0];
       config.T5_ROLL = t.GetRotationnalEffort()[1];
       config.T5_YAW = t.GetRotationnalEffort()[2];
-    }
-    else if( t.GetID() == "T6"){
+    } else if( t.GetID() == "T6"){
       config.T6_X = t.GetLinearEffort()[0];
       config.T6_Y = t.GetLinearEffort()[1];
       config.T6_Z = t.GetLinearEffort()[2];
       config.T6_PITCH = t.GetRotationnalEffort()[0];
       config.T6_ROLL = t.GetRotationnalEffort()[1];
       config.T6_YAW = t.GetRotationnalEffort()[2];
+    } else if( t.GetID() == "T7"){
+      config.T7_X = t.GetLinearEffort()[0];
+      config.T7_Y = t.GetLinearEffort()[1];
+      config.T7_Z = t.GetLinearEffort()[2];
+      config.T7_PITCH = t.GetRotationnalEffort()[0];
+      config.T7_ROLL = t.GetRotationnalEffort()[1];
+      config.T7_YAW = t.GetRotationnalEffort()[2];
+    } else if( t.GetID() == "T8"){
+      config.T8_X = t.GetLinearEffort()[0];
+      config.T8_Y = t.GetLinearEffort()[1];
+      config.T8_Z = t.GetLinearEffort()[2];
+      config.T8_PITCH = t.GetRotationnalEffort()[0];
+      config.T8_ROLL = t.GetRotationnalEffort()[1];
+      config.T8_YAW = t.GetRotationnalEffort()[2];
     }
-
   }
 }

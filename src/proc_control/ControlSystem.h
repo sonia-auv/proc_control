@@ -8,9 +8,8 @@
 #include <ros/ros.h>
 #include <nav_msgs/Odometry.h>
 
-
-#include <lib_atlas/ros/service_server_manager.h>
 #include <proc_control/PositionTarget.h>
+#include <eigen3/Eigen/Eigen>
 
 #include "proc_control/EnableControl.h"
 #include "proc_control/thruster/thruster_manager.h"
@@ -18,7 +17,9 @@
 #include "proc_control/SetPositionTarget.h"
 #include "proc_control/GetPositionTarget.h"
 
-class ControlSystem : public atlas::ServiceServerManager<ControlSystem> {
+#define DEGREE_TO_RAD M_PI/180.0f
+
+class ControlSystem {
   public:
   // X Y Z ROLL PITCH YAW
   typedef std::array<double, 6> OdometryInfo;
@@ -46,11 +47,24 @@ class ControlSystem : public atlas::ServiceServerManager<ControlSystem> {
 
   std::array<double,6> GetLocalError(const std::array<double,6> &global_error);
 
+  inline double DegreeToRadian(const double &degree) {
+    return degree * DEGREE_TO_RAD;
+  }
+
+  inline Eigen::Matrix3d EulerToRot(const Eigen::Vector3d &vec) {
+    Eigen::Matrix3d m;
+    m = Eigen::AngleAxisd(vec.x(), Eigen::Vector3d::UnitZ())
+        * Eigen::AngleAxisd(vec.y(), Eigen::Vector3d::UnitY())
+        * Eigen::AngleAxisd(vec.z(), Eigen::Vector3d::UnitX());
+    return m;
+  }
+
 
   AlgorithmManager algo_manager_;
   ThrusterManager thruster_manager_;
   ros::Subscriber nav_odometry_subs_, target_odometry_subs_;
   ros::Publisher target_publisher_, target_is_reached_publisher_;
+  ros::ServiceServer set_global_target_server_, set_local_target_server_, get_target_server_, enable_control_server_;
   OdometryInfo world_position_ = { {0.0, 0.0, 0.0, 0.0, 0.0, 0.0} };
   OdometryInfo targeted_position_ = { {0.0, 0.0, 0.0, 0.0, 0.0, 0.0} };
   std::array<bool, 6> enable_control_;

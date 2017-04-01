@@ -8,7 +8,6 @@
 #include <vector>
 #include <yaml-cpp/yaml.h>
 #include <proc_control/property.h>
-#include "lib_atlas/maths/numbers.h"
 #include "proc_control/thruster/thruster.h"
 #include "proc_control/config/config_manager.h"
 #include "proc_control/ThrusterConfig.h"
@@ -21,6 +20,11 @@ class ThrusterManager  : public ConfigManager<proc_control::ThrusterConfig>{
   void OnDynamicReconfigureChange(const proc_control::ThrusterConfig &config ) override ;
   void WriteConfigFile(const proc_control::ThrusterConfig &config) override ;
   void ReadConfigFile(proc_control::ThrusterConfig &config) override ;
+
+  template <typename Tp_>
+  inline int signum(Tp_ val) {
+    return (Tp_(0) < val) - (val < Tp_(0));
+  }
 
   std::array<double, 8> Commit(std::array<double, 3> &linear_effort, std::array<double, 3> &rotational_target);
 
@@ -59,7 +63,7 @@ inline void ThrusterManager::ReadEfforts (const std::string &thruster_name, YAML
     }
     for(auto &t : thruster_list_)
     {
-      if( t.GetID() == thruster_name)
+      if( t.GetID() == t.GetIDFromName(thruster_name))
         t.SetFrom6AxisArray(force_array);
     }
 

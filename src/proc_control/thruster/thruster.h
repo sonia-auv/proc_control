@@ -9,32 +9,52 @@
 #include <array>
 #include <ros/ros.h>
 #include <proc_control/ThrusterEffort.h>
-#include <lib_atlas/ros/service_client_manager.h>
 
 class Thruster {
   public:
   static std::array<double,101> POSITIVE_LINEAR_LUT;
 
-  Thruster(const std::string &id) : linear_effort_({0.0}),
-                                    rotationnal_effort_({0.0}),
-                                    id_(id)
+  Thruster(const uint8_t &id) : linear_effort_({0.0}), rotationnal_effort_({0.0}), id_(id)
   {
+    ros::NodeHandle n;
+    publisher_ = n.advertise<proc_control::ThrusterEffort>("/proc_control/thruster_effort", 100);
   };
 
-  void Publish(int thrust_value);
+  void Publish(uint8_t ID, int16_t thrust_value);
 
   void SetFrom6AxisArray(const std::array<double, 6> &array_axis);
   std::array<double, 3> GetLinearEffort() const ;
   std::array<double, 3> GetRotationnalEffort() const ;
 
-  std::string GetID() const {return id_;}
+  uint16_t GetID() const {return id_;}
+
+  uint16_t GetIDFromName(std::string name) const {
+    if (name == "T1") {
+      return 1;
+    } else if (name == "T2") {
+      return 2;
+    } else if (name == "T3") {
+      return 3;
+    } else if (name == "T4") {
+      return 4;
+    } else if (name == "T5") {
+      return 5;
+    } else if (name == "T6") {
+      return 6;
+    } else if (name == "T7") {
+      return 7;
+    } else if (name == "T8") {
+      return 8;
+    }
+    return 10;
+  }
 
   double LinearizeForce(double force) const;
 
   private:
   std::array<double, 3> linear_effort_;
   std::array<double, 3> rotationnal_effort_;
-  std::string id_;
+  uint8_t id_;
   ros::ServiceClient client_;
   ros::Publisher publisher_;
 };
@@ -69,11 +89,13 @@ inline void Thruster::SetFrom6AxisArray(const std::array<double, 6> &array_axis)
   }
 }
 
-inline void Thruster::Publish(int thrust_value) {
+inline void Thruster::Publish(uint8_t ID, int16_t thrust_value) {
   //TODO: Send thrust_value through RS485
   proc_control::ThrusterEffort msg;
+  msg.ID = ID;
+  msg.effort = thrust_value;
 
-  msg.effort;
+  publisher_.publish(msg);
 //  msg.device_id = msg.DEVICE_ID_actuators;
 //  msg.unique_id = can_id_;
 //  msg.method_number = msg.METHOD_MOTOR_set_speed;

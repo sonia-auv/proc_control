@@ -47,9 +47,10 @@ find_package(
     message_generation
     geometry_msgs
     sensor_msgs
-    lib_atlas
     dynamic_reconfigure
 )
+
+find_package(Eigen3 REQUIRED)
 
 generate_dynamic_reconfigure_options(
         cfg/PIDZAxis_reconf.cfg
@@ -83,7 +84,7 @@ generate_messages(
 catkin_package(
     INCLUDE_DIRS ${proc_control_SRC_DIR}
     LIBRARIES
-    CATKIN_DEPENDS roscpp message_runtime std_msgs lib_atlas
+    CATKIN_DEPENDS roscpp message_runtime std_msgs
     dynamic_reconfigure
 )
 
@@ -101,14 +102,14 @@ include_directories(
     ${catkin_INCLUDE_DIRS}
     ${proc_control_SRC_DIR}
     "${proc_control_SRC_DIR}/../cfg/cpp/"
-    ${lib_atlas_INCLUDE_DIRS}
+        ${Eigen_INCLUDE_DIRS}
         ${Boost_INCLUDE_DIRS}
 )
 
 #==========================================================================
 # C R E A T E   E X E C U T A B L E
 add_executable(${PROJECT_NAME}_node ${proc_control_SRC_DIR}/${PROJECT_NAME}/main.cc ${proc_control_FILES})
-target_link_libraries(${PROJECT_NAME}_node ${catkin_LIBRARIES} ${lib_atlas_LIBRARIES} yaml-cpp ${Boost_LIBRARIES})
+target_link_libraries(${PROJECT_NAME}_node ${catkin_LIBRARIES} ${Eigen_LIBRARIES} yaml-cpp ${Boost_LIBRARIES})
 add_dependencies(${PROJECT_NAME}_node
         ${PROJECT_NAME}_generate_messages_cpp
         ${PROJECT_NAME}_gencfg)

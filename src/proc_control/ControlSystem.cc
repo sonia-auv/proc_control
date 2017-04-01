@@ -5,12 +5,10 @@
 #include "ControlSystem.h"
 #include <eigen3/Eigen/Eigen>
 #include <eigen3/Eigen/Geometry>
-#include <lib_atlas/maths/matrix.h>
 #include <proc_control/PositionTarget.h>
 #include <proc_control/TargetReached.h>
 
-ControlSystem::ControlSystem(const ros::NodeHandlePtr &nh):
-    atlas::ServiceServerManager<ControlSystem>(), stability_count_(0)
+ControlSystem::ControlSystem(const ros::NodeHandlePtr &nh): stability_count_(0)
 {
   std::string base_node_name ("/proc_control/");
   nav_odometry_subs_ = nh->subscribe("/proc_navigation/odom", 100,
@@ -18,16 +16,10 @@ ControlSystem::ControlSystem(const ros::NodeHandlePtr &nh):
   target_publisher_ = nh->advertise<proc_control::PositionTarget>("/proc_control/current_target", 100);
   target_is_reached_publisher_ = nh->advertise<proc_control::TargetReached>("/proc_control/target_reached", 100);
 
-  RegisterService<proc_control::SetPositionTarget>(base_node_name + "set_global_target",
-                                                   &ControlSystem::GlobalTargetServiceCallback, *this);
-  RegisterService<proc_control::SetPositionTarget>(base_node_name + "set_local_target",
-                                                   &ControlSystem::LocalTargetServiceCallback, *this);
-
-  RegisterService<proc_control::GetPositionTarget>(base_node_name + "get_target",
-                                                   &ControlSystem::GetPositionTargetServiceCallback, *this);
-
-  RegisterService<proc_control::EnableControl>(base_node_name + "enable_control",
-                                               &ControlSystem::EnableControlServiceCallback, *this);
+  set_global_target_server_ = nh->advertiseService("/proc_control/set_global_target", &ControlSystem::GlobalTargetServiceCallback, this);
+  set_local_target_server_ = nh->advertiseService("/proc_control/set_local_target", &ControlSystem::LocalTargetServiceCallback, this);
+  get_target_server_ = nh->advertiseService("/proc_control/get_target", &ControlSystem::GetPositionTargetServiceCallback, this);
+  enable_control_server_ = nh->advertiseService("/proc_control/enable_control", &ControlSystem::EnableControlServiceCallback, this);
 }
 
 void ControlSystem::OdomCallback(const nav_msgs::Odometry::ConstPtr &odo_in)
@@ -70,10 +62,11 @@ bool ControlSystem::LocalTargetServiceCallback(proc_control::SetPositionTargetRe
                                         proc_control::SetPositionTargetResponse &response)
 {
   // We simply use the current yaw to rotate the translation into the good world position and add it to the position
-  Eigen::Matrix3d original_rotation = atlas::EulerToRot(Eigen::Vector3d(atlas::DegreeToRadian(world_position_[YAW]),0,0));
+  Eigen::Matrix3d original_rotation = EulerToRot(Eigen::Vector3d(DegreeToRadian(world_position_[YAW]),0,0));
   Eigen::Vector3d translation(request.X,request.Y,request.Z), original_position(world_position_[X],
                                                                                 world_position_[Y],
                                                                                 world_position_[Z]);
+
   Eigen::Vector3d final_pos = original_position + (original_rotation * translation);
 
   for( int i = 0; i < 3; i++)
@@ -168,7 +161,7 @@ bool ControlSystem::EvaluateTargetReached(const std::array<double,6> &target_err
 std::array<double,6> ControlSystem::GetLocalError(const std::array<double,6> &global_error)
 {
 
-  Eigen::Matrix3d inverse_rotation = atlas::EulerToRot(Eigen::Vector3d(atlas::DegreeToRadian(-world_position_[YAW]),0,0));
+  Eigen::Matrix3d inverse_rotation = EulerToRot(Eigen::Vector3d(DegreeToRadian(-world_position_[YAW]),0,0));
 
   Eigen::Vector3d go_to_pos(global_error[X], global_error[Y], global_error[Z]); ;
   Eigen::Vector3d local_conversion = inverse_rotation * go_to_pos;

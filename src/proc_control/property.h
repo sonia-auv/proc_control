@@ -5,13 +5,13 @@
 #ifndef PROC_CONTROL_PROPERTY_H
 #define PROC_CONTROL_PROPERTY_H
 
-#include <lib_atlas/config.h>
 #include <string>
 
 const std::string kNodeName = "/proc_control/";
 
-const std::string kProjectPath =
-    atlas::kWorkspaceRoot + "/src" + kNodeName;
+const std::string kProjectFolderPath = std::getenv("ROS_SONIA_WS");
+
+const std::string kProjectPath = kProjectFolderPath + "/src" + kNodeName;
 
 const std::string kConfigPath = kProjectPath + "config/";
 

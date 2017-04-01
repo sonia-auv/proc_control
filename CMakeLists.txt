@@ -36,6 +36,8 @@ endif (NOT CMAKE_BUILD_TYPE)
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -std=c++11 -Wall")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -std=c++11 -O3 -s")
 
+set(CMAKE_MODULE_PATH "/usr/share/cmake-3.0/Modules")
+
 set(proc_control_SRC_DIR "src")
 
 #===============================================================================
@@ -49,8 +51,6 @@ find_package(
     sensor_msgs
     dynamic_reconfigure
 )
-
-find_package(Eigen3 REQUIRED)
 
 generate_dynamic_reconfigure_options(
         cfg/PIDZAxis_reconf.cfg
@@ -102,7 +102,6 @@ include_directories(
     ${catkin_INCLUDE_DIRS}
     ${proc_control_SRC_DIR}
     "${proc_control_SRC_DIR}/../cfg/cpp/"
-        ${Eigen_INCLUDE_DIRS}
         ${Boost_INCLUDE_DIRS}
 )
 

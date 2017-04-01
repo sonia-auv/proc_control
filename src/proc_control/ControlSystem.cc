@@ -144,10 +144,9 @@ void ControlSystem::Control()
   }
 
   // Process the actuation
-  std::array<double, 6> thrust_force = thruster_manager_.Commit(actuation_lin,actuation_rot);
-  ROS_INFO("Thrust :    T5: %10.4f, T6: %10.4f, T7: %10.4f, T8: %10.4f",
-           thrust_force[0], thrust_force[1], thrust_force[2],
-           thrust_force[3], thrust_force[4], thrust_force[5]);
+  std::array<double, 6> thrust_force = thruster_manager_.Commit(actuation_lin, actuation_rot);
+  ROS_INFO("Thrust : T5: %10.4f, T6: %10.4f, T7: %10.4f, T8: %10.4f",
+           thrust_force[0], thrust_force[1], thrust_force[2], thrust_force[3]);
 
   ROS_DEBUG("\n");
 }

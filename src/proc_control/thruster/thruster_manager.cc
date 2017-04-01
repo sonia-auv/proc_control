@@ -9,12 +9,12 @@ ThrusterManager::ThrusterManager()
     : ConfigManager("Thruster")
 {
   // Add all the thrusters
-  thruster_list_.push_back(Thruster("port"));
-  thruster_list_.push_back(Thruster("starboard"));
-  thruster_list_.push_back(Thruster("front_heading"));
-  thruster_list_.push_back(Thruster("back_heading"));
-  thruster_list_.push_back(Thruster("front_depth"));
-  thruster_list_.push_back(Thruster("back_depth"));
+  thruster_list_.push_back(Thruster("T1"));
+  thruster_list_.push_back(Thruster("T2"));
+  thruster_list_.push_back(Thruster("T3"));
+  thruster_list_.push_back(Thruster("T4"));
+  thruster_list_.push_back(Thruster("T5"));
+  thruster_list_.push_back(Thruster("T6"));
 
   Init();
 }
@@ -115,30 +115,30 @@ ThrusterManager::Commit(std::array<double, 3> &linear_target, std::array<double,
 void ThrusterManager::OnDynamicReconfigureChange(const proc_control::ThrusterConfig &config ) {
   std::cout << "Update on thruster configuration" << std::endl;
   for (auto &t : thruster_list_) {
-    if (t.GetID() == "port") {
+    if (t.GetID() == "T1") {
       t.SetFrom6AxisArray(
-          {config.Port_X, config.Port_Y, config.Port_Z,
-           config.Port_PITCH, config.Port_ROLL, config.Port_YAW});
-    } else if (t.GetID() == "starboard") {
+          {config.T1_X, config.T1_Y, config.T1_Z,
+           config.T1_PITCH, config.T1_ROLL, config.T1_YAW});
+    } else if (t.GetID() == "T2") {
       t.SetFrom6AxisArray(
-          {config.Starboard_X, config.Starboard_Y, config.Starboard_Z,
-           config.Starboard_PITCH, config.Starboard_ROLL, config.Starboard_YAW});
-    } else if (t.GetID() == "back_heading") {
+          {config.T2_X, config.T2_Y, config.T2_Z,
+           config.T2_PITCH, config.T2_ROLL, config.T2_YAW});
+    } else if (t.GetID() == "T3") {
       t.SetFrom6AxisArray(
-          {config.Back_Heading_X, config.Back_Heading_Y, config.Back_Heading_Z,
-           config.Back_Heading_PITCH,config.Back_Heading_ROLL, config.Back_Heading_YAW});
-    } else if (t.GetID() == "front_heading") {
+          {config.T3_X, config.T3_Y, config.T3_Z,
+           config.T3_PITCH,config.T3_ROLL, config.T3_YAW});
+    } else if (t.GetID() == "T4") {
       t.SetFrom6AxisArray(
-          {config.Front_Heading_X, config.Front_Heading_Y, config.Front_Heading_Z,
-           config.Front_Heading_PITCH, config.Front_Heading_ROLL, config.Front_Heading_YAW});
-    } else if (t.GetID() == "front_depth") {
+          {config.T4_X, config.T4_Y, config.T4_Z,
+           config.T4_PITCH, config.T4_ROLL, config.T4_YAW});
+    } else if (t.GetID() == "T5") {
       t.SetFrom6AxisArray(
-          {config.Front_Depth_X, config.Front_Depth_Y, config.Front_Depth_Z,
-           config.Front_Depth_PITCH, config.Front_Depth_ROLL, config.Front_Depth_YAW});
-    } else if (t.GetID() == "back_depth") {
+          {config.T5_X, config.T5_Y, config.T5_Z,
+           config.T5_PITCH, config.T5_ROLL, config.T5_YAW});
+    } else if (t.GetID() == "T6") {
       t.SetFrom6AxisArray(
-          {config.Back_Depth_X, config.Back_Depth_Y, config.Back_Depth_Z,
-           config.Back_Depth_PITCH, config.Back_Depth_ROLL, config.Back_Depth_YAW});
+          {config.T6_X, config.T6_Y, config.T6_Z,
+           config.T6_PITCH, config.T6_ROLL, config.T6_YAW});
     }
   }
 }
@@ -162,66 +162,63 @@ void ThrusterManager::ReadConfigFile(proc_control::ThrusterConfig &config)
 {
   YAML::Node node = YAML::LoadFile(file_path_);
 
-  ReadEfforts("port", node);
-  ReadEfforts("starboard", node);
-  ReadEfforts("front_depth", node);
-  ReadEfforts("back_depth", node);
-  ReadEfforts("front_heading", node);
-  ReadEfforts("back_heading", node);
+  ReadEfforts("T1", node);
+  ReadEfforts("T2", node);
+  ReadEfforts("T3", node);
+  ReadEfforts("T4", node);
+  ReadEfforts("T5", node);
+  ReadEfforts("T6", node);
 
   for(const auto &t : thruster_list_)
   {
-    if( t.GetID() == "port"){
-      config.Port_X = t.GetLinearEffort()[0];
-      config.Port_Y = t.GetLinearEffort()[1];
-      config.Port_Z = t.GetLinearEffort()[2];
-      config.Port_PITCH = t.GetRotationnalEffort()[0];
-      config.Port_ROLL = t.GetRotationnalEffort()[1];
-      config.Port_YAW = t.GetRotationnalEffort()[2];
+    if( t.GetID() == "T1"){
+      config.T1_X = t.GetLinearEffort()[0];
+      config.T1_Y = t.GetLinearEffort()[1];
+      config.T1_Z = t.GetLinearEffort()[2];
+      config.T1_PITCH = t.GetRotationnalEffort()[0];
+      config.T1_ROLL = t.GetRotationnalEffort()[1];
+      config.T1_YAW = t.GetRotationnalEffort()[2];
     }
-    else if( t.GetID() == "starboard"){
-      config.Starboard_X = t.GetLinearEffort()[0];
-      config.Starboard_Y = t.GetLinearEffort()[1];
-      config.Starboard_Z = t.GetLinearEffort()[2];
-      config.Starboard_PITCH = t.GetRotationnalEffort()[0];
-      config.Starboard_ROLL = t.GetRotationnalEffort()[1];
-      config.Starboard_YAW = t.GetRotationnalEffort()[2];
+    else if( t.GetID() == "T2"){
+      config.T2_X = t.GetLinearEffort()[0];
+      config.T2_Y = t.GetLinearEffort()[1];
+      config.T2_Z = t.GetLinearEffort()[2];
+      config.T2_PITCH = t.GetRotationnalEffort()[0];
+      config.T2_ROLL = t.GetRotationnalEffort()[1];
+      config.T2_YAW = t.GetRotationnalEffort()[2];
     }
-    else if( t.GetID() == "front_heading"){
-      config.Front_Heading_X = t.GetLinearEffort()[0];
-      config.Front_Heading_Y = t.GetLinearEffort()[1];
-      config.Front_Heading_Z = t.GetLinearEffort()[2];
-      config.Front_Heading_PITCH = t.GetRotationnalEffort()[0];
-      config.Front_Heading_ROLL = t.GetRotationnalEffort()[1];
-      config.Front_Heading_YAW = t.GetRotationnalEffort()[2];
-
+    else if( t.GetID() == "T3"){
+      config.T3_X = t.GetLinearEffort()[0];
+      config.T3_Y = t.GetLinearEffort()[1];
+      config.T3_Z = t.GetLinearEffort()[2];
+      config.T3_PITCH = t.GetRotationnalEffort()[0];
+      config.T3_ROLL = t.GetRotationnalEffort()[1];
+      config.T3_YAW = t.GetRotationnalEffort()[2];
     }
-    else if( t.GetID() == "back_heading"){
-      config.Back_Heading_X = t.GetLinearEffort()[0];
-      config.Back_Heading_Y = t.GetLinearEffort()[1];
-      config.Back_Heading_Z = t.GetLinearEffort()[2];
-      config.Back_Heading_PITCH = t.GetRotationnalEffort()[0];
-      config.Back_Heading_ROLL = t.GetRotationnalEffort()[1];
-      config.Back_Heading_YAW = t.GetRotationnalEffort()[2];
+    else if( t.GetID() == "T4"){
+      config.T4_X = t.GetLinearEffort()[0];
+      config.T4_Y = t.GetLinearEffort()[1];
+      config.T4_Z = t.GetLinearEffort()[2];
+      config.T4_PITCH = t.GetRotationnalEffort()[0];
+      config.T4_ROLL = t.GetRotationnalEffort()[1];
+      config.T4_YAW = t.GetRotationnalEffort()[2];
     }
-    else if( t.GetID() == "front_depth"){
-      config.Front_Depth_X = t.GetLinearEffort()[0];
-      config.Front_Depth_Y = t.GetLinearEffort()[1];
-      config.Front_Depth_Z = t.GetLinearEffort()[2];
-      config.Front_Depth_PITCH = t.GetRotationnalEffort()[0];
-      config.Front_Depth_ROLL = t.GetRotationnalEffort()[1];
-      config.Front_Depth_YAW = t.GetRotationnalEffort()[2];
+    else if( t.GetID() == "T5"){
+      config.T5_X = t.GetLinearEffort()[0];
+      config.T5_Y = t.GetLinearEffort()[1];
+      config.T5_Z = t.GetLinearEffort()[2];
+      config.T5_PITCH = t.GetRotationnalEffort()[0];
+      config.T5_ROLL = t.GetRotationnalEffort()[1];
+      config.T5_YAW = t.GetRotationnalEffort()[2];
     }
-    else if( t.GetID() == "back_depth"){
-      config.Back_Depth_X = t.GetLinearEffort()[0];
-      config.Back_Depth_Y = t.GetLinearEffort()[1];
-      config.Back_Depth_Z = t.GetLinearEffort()[2];
-      config.Back_Depth_PITCH = t.GetRotationnalEffort()[0];
-      config.Back_Depth_ROLL = t.GetRotationnalEffort()[1];
-      config.Back_Depth_YAW = t.GetRotationnalEffort()[2];
+    else if( t.GetID() == "T6"){
+      config.T6_X = t.GetLinearEffort()[0];
+      config.T6_Y = t.GetLinearEffort()[1];
+      config.T6_Z = t.GetLinearEffort()[2];
+      config.T6_PITCH = t.GetRotationnalEffort()[0];
+      config.T6_ROLL = t.GetRotationnalEffort()[1];
+      config.T6_YAW = t.GetRotationnalEffort()[2];
     }
 
   }
-
-
 }

@@ -14,8 +14,9 @@ AlgorithmManager::AlgorithmManager()
       algorithm_to_use_(AlgorithmTypes::PID_Z_AXIS),
       current_algorithm_(nullptr)
 {
+  algorithms_.push_back(std::make_shared<PID4Axis_Algorithm>());
   algorithms_.push_back(std::make_shared<PIDZAxis_Algorithm>());
-  current_algorithm_ = algorithms_[0];
+  current_algorithm_ = algorithms_[1];
   Init();
 }
 
@@ -28,6 +29,8 @@ void AlgorithmManager::OnDynamicReconfigureChange(const proc_control::AlgorithmC
     case AlgorithmTypes::PID_4_AXIS:
       current_algorithm_ = algorithms_[0];
       break;
+    case AlgorithmTypes::PID_Z_AXIS:
+      current_algorithm_ = algorithms_[1];
     default:
       std::cout << "Not implemented yet" << std::endl;
   }

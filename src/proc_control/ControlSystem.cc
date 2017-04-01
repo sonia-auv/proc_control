@@ -124,7 +124,6 @@ void ControlSystem::Control()
   msg_target_reached.target_is_reached = static_cast<unsigned char> (EvaluateTargetReached(error) ? 1 : 0);
   target_is_reached_publisher_.publish(msg_target_reached);
 
-
   // Calculate required actuation
   std::array<double,6> actuation = algo_manager_.GetActuationForError(error);
   ROS_DEBUG("Actuation :       %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f",
@@ -146,9 +145,7 @@ void ControlSystem::Control()
 
   // Process the actuation
   std::array<double, 6> thrust_force = thruster_manager_.Commit(actuation_lin,actuation_rot);
-  ROS_DEBUG("Thrust :    Port: %10.4f, Startboard: %10.4f, "
-               "FrontHeading: %10.4f, BackHeading: %10.4f, "
-               "FrontDepth: %10.4f, BackDepth:%10.4f",
+  ROS_INFO("Thrust :    T5: %10.4f, T6: %10.4f, T7: %10.4f, T8: %10.4f",
            thrust_force[0], thrust_force[1], thrust_force[2],
            thrust_force[3], thrust_force[4], thrust_force[5]);
 

@@ -33,16 +33,4 @@ class PIDZAxis_Algorithm : public ControlAlgorithm,  public ConfigManager<proc_c
 
 };
 
-inline std::array<double, 6> PIDZAxis_Algorithm::CalculateActuationForError(const std::array<double, 6> &error)
-{
-  std::array<double, 6> actuation = {0.0f};
-  // The 4 axis algorithm control only X Y Z YAW
-  // X Y Z
-//  actuation[0] = x_.GetValueForError(error[0]);
-//  actuation[1] = y_.GetValueForError(error[1]);
-//  actuation[2] = z_.GetValueForError(error[2]) + constant_depth_force_;
-//  actuation[5] = yaw_.GetValueForError(error[5]);
-  return actuation;
-};
-
 #endif //PROC_CONTROL_PIDZAXIS_ALGORITHM_H

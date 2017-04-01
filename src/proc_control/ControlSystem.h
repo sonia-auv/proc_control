@@ -51,7 +51,8 @@ class ControlSystem : public atlas::ServiceServerManager<ControlSystem> {
   ThrusterManager thruster_manager_;
   ros::Subscriber nav_odometry_subs_, target_odometry_subs_;
   ros::Publisher target_publisher_, target_is_reached_publisher_;
-  OdometryInfo world_position_, targeted_position_;
+  OdometryInfo world_position_ = { {0.0, 0.0, 0.0, 0.0, 0.0, 0.0} };
+  OdometryInfo targeted_position_ = { {0.0, 0.0, 0.0, 0.0, 0.0, 0.0} };
   std::array<bool, 6> enable_control_;
 
   int stability_count_;

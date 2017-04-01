@@ -16,7 +16,6 @@ double PID::GetValueForError(double error) {
   // 0.0001 s == 1000 HZ so we good :)
   if(deltaTime_s > (0.0001f) )
   {
-
     // Compute and add the proportional gain term
     actuation = (pid_values_.P * error);
 

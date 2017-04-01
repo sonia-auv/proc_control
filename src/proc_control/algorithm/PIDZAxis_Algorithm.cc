@@ -15,9 +15,19 @@ PIDZAxis_Algorithm::PIDZAxis_Algorithm()
   Init();
 }
 
+std::array<double, 6> PIDZAxis_Algorithm::CalculateActuationForError(const std::array<double, 6> &error)
+{
+  std::array<double, 6> actuation = {0.0f};
+  // The Z axis algorithm control only Z
+
+  actuation[2] = z_.GetValueForError(error[2]) + constant_depth_force_;
+
+  return actuation;
+};
+
 void PIDZAxis_Algorithm::OnDynamicReconfigureChange(const proc_control::PIDZAxisConfig &config )
 {
-  std::cout << "Update on PIX 4 Axis configuration" << std::endl;
+  std::cout << "Update on PIX Z Axis configuration" << std::endl;
 
   z_values_.D = config.Z_D;
   z_values_.P = config.Z_P;

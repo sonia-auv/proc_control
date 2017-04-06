@@ -39,3 +39,4 @@ cfg/cpp/proc_control/PID4AxisConfig.h
 cfg/cpp/proc_control/ThrusterConfig.h
 src/proc_control/cfg/PID4AxisConfig.py
 src/proc_control/cfg/ThrusterConfig.py
+cmake-build-debug/

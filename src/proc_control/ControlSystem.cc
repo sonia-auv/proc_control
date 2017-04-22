@@ -20,6 +20,7 @@ ControlSystem::ControlSystem(const ros::NodeHandlePtr &nh): stability_count_(0)
   set_local_target_server_ = nh->advertiseService("/proc_control/set_local_target", &ControlSystem::LocalTargetServiceCallback, this);
   get_target_server_ = nh->advertiseService("/proc_control/get_target", &ControlSystem::GetPositionTargetServiceCallback, this);
   enable_control_server_ = nh->advertiseService("/proc_control/enable_control", &ControlSystem::EnableControlServiceCallback, this);
+  enable_thrusters_server_ = nh->advertiseService("/proc_control/enable_thrusters", &ControlSystem::EnableThrusterServiceCallback, this);
 }
 
 void ControlSystem::OdomCallback(const nav_msgs::Odometry::ConstPtr &odo_in)
@@ -56,6 +57,17 @@ bool ControlSystem::GetPositionTargetServiceCallback(proc_control::GetPositionTa
   response.YAW = targeted_position_[5];
   PublishTargetedPosition();
   return true;
+}
+
+bool ControlSystem::EnableThrusterServiceCallback(proc_control::EnableThrustersRequest &request,
+                                                  proc_control::EnableThrustersResponse &response)
+{
+
+
+  this->thruster_manager_.SetEnable(request.isEnable);
+
+  return true;
+
 }
 
 bool ControlSystem::LocalTargetServiceCallback(proc_control::SetPositionTargetRequest &request,

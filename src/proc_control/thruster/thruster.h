@@ -26,6 +26,9 @@ class Thruster {
   std::array<double, 3> GetLinearEffort() const ;
   std::array<double, 3> GetRotationnalEffort() const ;
 
+  bool IsEnable();
+  void SetEnable(bool isEnable);
+
   uint16_t GetID() const {return id_;}
 
   uint16_t GetIDFromName(std::string name) const {
@@ -57,6 +60,15 @@ class Thruster {
   uint8_t id_;
   ros::ServiceClient client_;
   ros::Publisher publisher_;
+  bool isEnable;
+};
+
+inline bool Thruster::IsEnable() {
+  return isEnable;
+};
+
+inline void Thruster::SetEnable(bool isEnable) {
+    this->isEnable = isEnable;
 };
 
 inline std::array<double, 3> Thruster::GetLinearEffort() const
@@ -95,7 +107,12 @@ inline void Thruster::Publish(uint8_t ID, int16_t thrust_value) {
   msg.ID = ID;
   msg.effort = thrust_value;
 
-  publisher_.publish(msg);
+    if (this->isEnable)
+    {
+        publisher_.publish(msg);
+    }
+    
+
 //  msg.device_id = msg.DEVICE_ID_actuators;
 //  msg.unique_id = can_id_;
 //  msg.method_number = msg.METHOD_MOTOR_set_speed;

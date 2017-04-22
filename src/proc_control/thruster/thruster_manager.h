@@ -21,6 +21,8 @@ class ThrusterManager  : public ConfigManager<proc_control::ThrusterConfig>{
   void WriteConfigFile(const proc_control::ThrusterConfig &config) override ;
   void ReadConfigFile(proc_control::ThrusterConfig &config) override ;
 
+  void SetEnable(bool isEnable);
+
   template <typename Tp_>
   inline int signum(Tp_ val) {
     return (Tp_(0) < val) - (val < Tp_(0));
@@ -40,6 +42,14 @@ class ThrusterManager  : public ConfigManager<proc_control::ThrusterConfig>{
   const std::string file_path_ = kConfigPath + "thruster" + kConfigExt;
 
 };
+
+inline void ThrusterManager::SetEnable(bool isEnable) {
+
+  for(auto &thruster : thruster_list_){
+    thruster.SetEnable(isEnable);
+  }
+
+}
 
 inline void ThrusterManager::WriteEfforts(size_t thruster_index, YAML::Emitter &out) {
 //  out << YAML::Key << thruster_list_[thruster_index].GetID();

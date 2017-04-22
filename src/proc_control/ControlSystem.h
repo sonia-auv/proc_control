@@ -12,6 +12,7 @@
 #include <eigen3/Eigen/Eigen>
 
 #include "proc_control/EnableControl.h"
+#include "proc_control/EnableThrusters.h"
 #include "proc_control/thruster/thruster_manager.h"
 #include "proc_control/algorithm/AlgorithmManager.h"
 #include "proc_control/SetPositionTarget.h"
@@ -41,7 +42,11 @@ class ControlSystem {
                                    proc_control::SetPositionTargetResponse & response);
   bool LocalTargetServiceCallback(proc_control::SetPositionTargetRequest &request,
                                           proc_control::SetPositionTargetResponse &response);
-  void PublishTargetedPosition();
+
+  bool EnableThrusterServiceCallback(proc_control::EnableThrustersRequest & request,
+                                     proc_control::EnableThrustersResponse & response);
+
+    void PublishTargetedPosition();
 
   bool EvaluateTargetReached(const std::array<double,6> &target_error);
 
@@ -64,7 +69,7 @@ class ControlSystem {
   ThrusterManager thruster_manager_;
   ros::Subscriber nav_odometry_subs_, target_odometry_subs_;
   ros::Publisher target_publisher_, target_is_reached_publisher_;
-  ros::ServiceServer set_global_target_server_, set_local_target_server_, get_target_server_, enable_control_server_;
+  ros::ServiceServer set_global_target_server_, set_local_target_server_, get_target_server_, enable_control_server_, enable_thrusters_server_;
   OdometryInfo world_position_ = { {0.0, 0.0, 0.0, 0.0, 0.0, 0.0} };
   OdometryInfo targeted_position_ = { {0.0, 0.0, 0.0, 0.0, 0.0, 0.0} };
   std::array<bool, 6> enable_control_;

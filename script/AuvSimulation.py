@@ -6,6 +6,7 @@ import rospy
 import random
 from sensor_msgs.msg import Imu
 from tf.transformations import quaternion_about_axis, unit_vector, quaternion_multiply, quaternion_conjugate
+from provider_thruster.msg import ThrusterEffort
 from sonia_msgs.msg import SendCanMsg, BottomTracking, BarometerMsg
 import time
 
@@ -14,17 +15,22 @@ from std_msgs.msg import String
 
 # send_can_msg  = None
 class AUVSimulation:
-    DELTA_ORIENTATION = 5
+    DELTA_ORIENTATION = 15
     DELTA_VITESSE_M_S = 500
     FREQUENCY = 100
     DELTA_DEPLACEMENT_DEPTH_MM_S = 500 / FREQUENCY
 
-    port_effort = 0
-    starboard_effort = 0
-    back_heading_effort = 0
-    front_heading_effort = 0
+    thruster_T1 = 0
+    thruster_T2 = 0
+    thruster_T3 = 0
+    thruster_T4 = 0
+    thruster_T5 = 0
+    thruster_T6 = 0
+    thruster_T7 = 0
+    thruster_T8 = 0
+
     front_vector = (1,0,0)
-    heading_vector = (0,-1,0)
+    heading_vector = (0,1,0)
     back_depth_motor = 0
     front_depth_motor = 0
 
@@ -33,7 +39,7 @@ class AUVSimulation:
     def __init__(self):
         rospy.init_node('AUV_Simulation', anonymous=True)
 
-        rospy.Subscriber("/provider_can/send_can_msg", SendCanMsg, self.sendcanmsg_callback)
+        rospy.Subscriber("/provider_thruster/thruster_effort", ThrusterEffort, self.sendRS485msg_callback)
         self.publisher_imu = rospy.Publisher("/provider_imu/imu", Imu, queue_size=10)
         self.publisher_dvl = rospy.Publisher("/provider_dvl/bottom_tracking", BottomTracking, queue_size=10)
         self.publisher_barometer = rospy.Publisher("/provider_can/barometer_intern_press_msgs",BarometerMsg, queue_size=10)
@@ -44,22 +50,25 @@ class AUVSimulation:
         rate = rospy.Rate(self.FREQUENCY)
         position_z = 0
         while not rospy.is_shutdown():
-            back_heading_effort = self.back_heading_effort
-            front_heading_effort = self.front_heading_effort
-            port_effort = self.port_effort
-            starboard_effort = self.starboard_effort
+            thruster_T1 = self.thruster_T1
+            thruster_T2 = self.thruster_T2
+            thruster_T3 = self.thruster_T3
+            thruster_T4 = self.thruster_T4
+            thruster_T5 = self.thruster_T5
+            thruster_T6 = self.thruster_T6
+            thruster_T7 = self.thruster_T7
+            thruster_T8 = self.thruster_T8
 
-            heading_rotation_effort = back_heading_effort - front_heading_effort
-            front_rotation_effort = port_effort - starboard_effort
-            self.yaw += (heading_rotation_effort / 200.0) * self.DELTA_ORIENTATION
+            heading_rotation_effort = thruster_T1 + thruster_T2 - (thruster_T3 + thruster_T4)
+            self.yaw += (heading_rotation_effort / 400.0) * self.DELTA_ORIENTATION
             self.yaw += random.randrange(-1000,1000) / 100000.0
             self.yaw %= 360.0
 
             freeze_yaw = self.yaw
             quat = quaternion_about_axis(math.radians(freeze_yaw), (0, 0, 1))
             ### Select the value near 0.
-            north_effort = (port_effort + starboard_effort) / 200.0
-            east_effort = (front_heading_effort + back_heading_effort) / 200.0
+            north_effort = ((thruster_T1 + thruster_T2 + thruster_T3 + thruster_T4) * math.sin(math.radians(45))) / 400.0
+            east_effort = ((thruster_T2 + thruster_T4 - (thruster_T1 + thruster_T3)) * math.sin(math.radians(45))) / 400.0
             front_vector = tuple([i * north_effort for i in self.front_vector])
             heading_vector = tuple([i * east_effort for i in self.heading_vector])
             front_vector_rot = numpy.nan_to_num(qv_mult(quat,front_vector))
@@ -68,7 +77,7 @@ class AUVSimulation:
             velocity_north = (front_vector_rot[0] + heading_vector_rot[0]) * self.DELTA_VITESSE_M_S
             velocity_east = (front_vector_rot[1] + heading_vector_rot[1]) * self.DELTA_VITESSE_M_S * -1
 
-            percent_velocity_z = (self.front_depth_motor+self.back_depth_motor)/200.0
+            percent_velocity_z = (thruster_T5 + thruster_T6 + thruster_T7 + thruster_T8)/400.0
 
             position_z += (percent_velocity_z * self.DELTA_DEPLACEMENT_DEPTH_MM_S)
             barometer = BarometerMsg ()
@@ -89,29 +98,31 @@ class AUVSimulation:
             self.publisher_imu.publish(imu)
             rate.sleep()
 
-    def sendcanmsg_callback(self, sendcanmessage):
-        if sendcanmessage.device_id == SendCanMsg.DEVICE_ID_actuators and sendcanmessage.method_number == SendCanMsg.METHOD_MOTOR_set_speed:
-            if sendcanmessage.unique_id == SendCanMsg.UNIQUE_ID_ACT_port_motor:
-                self.port_effort = sendcanmessage.parameter_value
-                pass
-            elif sendcanmessage.unique_id == SendCanMsg.UNIQUE_ID_ACT_starboard_motor:
-                self.starboard_effort = sendcanmessage.parameter_value
-                pass
-            elif sendcanmessage.unique_id == SendCanMsg.UNIQUE_ID_ACT_back_depth_motor:
-                self.back_depth_motor = sendcanmessage.parameter_value
-                pass
-            elif sendcanmessage.unique_id == SendCanMsg.UNIQUE_ID_ACT_front_depth_motor:
-                self.front_depth_motor = sendcanmessage.parameter_value
+    def sendRS485msg_callback(self, sendRSmessage):
+            if sendRSmessage.ID == ThrusterEffort.UNIQUE_ID_T1:
+                self.thruster_T1 = sendRSmessage.effort
 
-                pass
-            elif sendcanmessage.unique_id == SendCanMsg.UNIQUE_ID_ACT_back_heading_motor:
-                self.back_heading_effort = sendcanmessage.parameter_value
-                pass
-            elif sendcanmessage.unique_id == SendCanMsg.UNIQUE_ID_ACT_front_heading_motor:
-                self.front_heading_effort = sendcanmessage.parameter_value
-                pass
+            elif sendRSmessage.ID == ThrusterEffort.UNIQUE_ID_T2:
+                self.thruster_T2 = sendRSmessage.effort
 
-        pass
+            elif sendRSmessage.ID == ThrusterEffort.UNIQUE_ID_T3:
+                self.thruster_T3 = sendRSmessage.effort
+
+            elif sendRSmessage.ID == ThrusterEffort.UNIQUE_ID_T4:
+                self.thruster_T4 = sendRSmessage.effort
+
+            elif sendRSmessage.ID == ThrusterEffort.UNIQUE_ID_T5:
+                self.thruster_T5 = sendRSmessage.effort
+
+            elif sendRSmessage.ID == ThrusterEffort.UNIQUE_ID_T6:
+                self.thruster_T6 = sendRSmessage.effort
+
+            elif sendRSmessage.ID == ThrusterEffort.UNIQUE_ID_T7:
+                self.thruster_T7 = sendRSmessage.effort
+
+            elif sendRSmessage.ID == ThrusterEffort.UNIQUE_ID_T8:
+                self.thruster_T8 = sendRSmessage.effort
+
 
 def qv_mult(q1, v1):
     v1 = unit_vector(v1)

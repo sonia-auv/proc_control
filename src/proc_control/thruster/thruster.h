@@ -8,7 +8,7 @@
 
 #include <array>
 #include <ros/ros.h>
-#include <proc_control/ThrusterEffort.h>
+#include <provider_thruster/ThrusterEffort.h>
 
 class Thruster {
   public:
@@ -17,7 +17,7 @@ class Thruster {
   Thruster(const uint8_t &id) : linear_effort_({0.0}), rotationnal_effort_({0.0}), id_(id)
   {
     ros::NodeHandle n;
-    publisher_ = n.advertise<proc_control::ThrusterEffort>("/proc_control/thruster_effort", 100);
+    publisher_ = n.advertise<provider_thruster::ThrusterEffort>("/provider_thruster/thruster_effort", 100);
   };
 
   void Publish(uint8_t ID, int16_t thrust_value);
@@ -91,7 +91,7 @@ inline void Thruster::SetFrom6AxisArray(const std::array<double, 6> &array_axis)
 
 inline void Thruster::Publish(uint8_t ID, int16_t thrust_value) {
   //TODO: Send thrust_value through RS485
-  proc_control::ThrusterEffort msg;
+  provider_thruster::ThrusterEffort msg;
   msg.ID = ID;
   msg.effort = thrust_value;
 

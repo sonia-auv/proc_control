@@ -50,6 +50,7 @@ find_package(
     geometry_msgs
     sensor_msgs
     dynamic_reconfigure
+    provider_thruster
 )
 
 generate_dynamic_reconfigure_options(
@@ -64,7 +65,6 @@ add_message_files(
     FILES
     PositionTarget.msg
     TargetReached.msg
-    ThrusterEffort.msg
 )
 
 add_service_files(
@@ -84,7 +84,7 @@ generate_messages(
 catkin_package(
     INCLUDE_DIRS ${proc_control_SRC_DIR}
     LIBRARIES
-    CATKIN_DEPENDS roscpp message_runtime std_msgs
+    CATKIN_DEPENDS roscpp message_runtime std_msgs provider_thruster
     dynamic_reconfigure
 )
 

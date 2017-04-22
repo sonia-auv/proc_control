@@ -72,6 +72,7 @@ add_service_files(
      FILES
      SetPositionTarget.srv
      GetPositionTarget.srv
+     EnableThruster.srv
      EnableControl.srv
 )
 

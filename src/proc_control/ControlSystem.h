@@ -69,6 +69,9 @@ class ControlSystem {
   ThrusterManager thruster_manager_;
   ros::Subscriber nav_odometry_subs_, target_odometry_subs_;
   ros::Publisher target_publisher_, target_is_reached_publisher_;
+  ros::Publisher ask_position_publisher_;
+  ros::Publisher target_position_publisher_;
+  ros::Publisher error_publisher_;
   ros::ServiceServer set_global_target_server_, set_local_target_server_, get_target_server_, enable_control_server_, enable_thrusters_server_;
   OdometryInfo world_position_ = { {0.0, 0.0, 0.0, 0.0, 0.0, 0.0} };
   OdometryInfo targeted_position_ = { {0.0, 0.0, 0.0, 0.0, 0.0, 0.0} };

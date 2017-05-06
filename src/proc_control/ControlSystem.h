@@ -7,6 +7,7 @@
 
 #include <ros/ros.h>
 #include <nav_msgs/Odometry.h>
+#include <provider_keypad/Keypad.h>
 
 #include <proc_control/PositionTarget.h>
 #include <eigen3/Eigen/Eigen>
@@ -32,6 +33,7 @@ class ControlSystem {
   private:
 
   void OdomCallback(const nav_msgs::Odometry::ConstPtr &odo_in);
+  void KeypadCallback(const provider_keypad::Keypad::ConstPtr &keypad_in);
   bool EnableControlServiceCallback(proc_control::EnableControlRequest &request,
                                 proc_control::EnableControlResponse &response);
 
@@ -68,6 +70,7 @@ class ControlSystem {
   AlgorithmManager algo_manager_;
   ThrusterManager thruster_manager_;
   ros::Subscriber nav_odometry_subs_, target_odometry_subs_;
+  ros::Subscriber keypad_subscriber_;
   ros::Publisher target_publisher_, target_is_reached_publisher_;
   ros::Publisher ask_position_publisher_;
   ros::Publisher target_position_publisher_;

@@ -9,11 +9,15 @@
 #include <proc_control/TargetReached.h>
 #include <ldap.h>
 
+#define KEYPAD 1
+
 ControlSystem::ControlSystem(const ros::NodeHandlePtr &nh): stability_count_(0)
 {
   std::string base_node_name ("/proc_control/");
   nav_odometry_subs_ = nh->subscribe("/proc_navigation/odom", 100,
                                      &ControlSystem::OdomCallback, this);
+  keypad_subscriber_ = nh->subscribe("/provider_keypad/Keypad", 100,
+                                     &ControlSystem::KeypadCallback, this);
   target_publisher_ = nh->advertise<proc_control::PositionTarget>("/proc_control/current_target", 100);
   ask_position_publisher_ = nh->advertise<proc_control::PositionTarget>("/proc_control/current_ask_position", 100);
   target_position_publisher_ = nh->advertise<proc_control::PositionTarget>("/proc_control/current_target_position", 100);
@@ -21,7 +25,7 @@ ControlSystem::ControlSystem(const ros::NodeHandlePtr &nh): stability_count_(0)
   target_is_reached_publisher_ = nh->advertise<proc_control::TargetReached>("/proc_control/target_reached", 100);
 
   set_global_target_server_ = nh->advertiseService("/proc_control/set_global_target", &ControlSystem::GlobalTargetServiceCallback, this);
-  set_local_target_server_ = nh->advertiseService("/proc_control/set_local_target", &ControlSystem::LocalTargetServiceCallback, this);
+//  set_local_target_server_ = nh->advertiseService("/proc_control/set_local_target", &ControlSystem::LocalTargetServiceCallback, this);
   get_target_server_ = nh->advertiseService("/proc_control/get_target", &ControlSystem::GetPositionTargetServiceCallback, this);
   enable_control_server_ = nh->advertiseService("/proc_control/enable_control", &ControlSystem::EnableControlServiceCallback, this);
   enable_thrusters_server_ = nh->advertiseService("/proc_control/enable_thrusters", &ControlSystem::EnableThrusterServiceCallback, this);
@@ -35,6 +39,21 @@ void ControlSystem::OdomCallback(const nav_msgs::Odometry::ConstPtr &odo_in)
   world_position_[3] = odo_in->twist.twist.angular.x;
   world_position_[4] = odo_in->twist.twist.angular.y;
   world_position_[5] = odo_in->twist.twist.angular.z;
+}
+
+void ControlSystem::KeypadCallback(const provider_keypad::Keypad::ConstPtr &keypad_in)
+{
+  targeted_position_[X] += keypad_in->Up;
+  targeted_position_[X] -= keypad_in->Down;
+  targeted_position_[Y] += keypad_in->Right;
+  targeted_position_[Y] -= keypad_in->Left;
+
+  targeted_position_[Z] += keypad_in->Y;
+  targeted_position_[Z] -= keypad_in->A;
+
+  targeted_position_[YAW] += (keypad_in->RT / 100);
+  targeted_position_[YAW] -= (keypad_in->LT / 100);
+
 }
 
 bool ControlSystem::GlobalTargetServiceCallback(proc_control::SetPositionTargetRequest & request,
@@ -66,12 +85,9 @@ bool ControlSystem::GetPositionTargetServiceCallback(proc_control::GetPositionTa
 bool ControlSystem::EnableThrusterServiceCallback(proc_control::EnableThrustersRequest &request,
                                                   proc_control::EnableThrustersResponse &response)
 {
-
-
   this->thruster_manager_.SetEnable(request.isEnable);
 
   return true;
-
 }
 
 bool ControlSystem::LocalTargetServiceCallback(proc_control::SetPositionTargetRequest &request,
@@ -96,7 +112,6 @@ bool ControlSystem::LocalTargetServiceCallback(proc_control::SetPositionTargetRe
 
 void ControlSystem::Control()
 {
-
   ROS_DEBUG("Current Position: %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f",
             world_position_[0], world_position_[1], world_position_[2],
             world_position_[3], world_position_[4], world_position_[5]);

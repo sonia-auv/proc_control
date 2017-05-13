@@ -5,13 +5,13 @@ import numpy
 import rospy
 import random
 from sensor_msgs.msg import Imu
+from sensor_msgs.msg import FluidPressure
+from geometry_msgs.msg import TwistStamped
 from tf.transformations import quaternion_about_axis, unit_vector, quaternion_multiply, quaternion_conjugate
 from provider_thruster.msg import ThrusterEffort
-from sonia_msgs.msg import SendCanMsg, BottomTracking, BarometerMsg
 import time
 
 from std_msgs.msg import String
-
 
 # send_can_msg  = None
 class AUVSimulation:
@@ -41,8 +41,8 @@ class AUVSimulation:
 
         rospy.Subscriber("/provider_thruster/thruster_effort", ThrusterEffort, self.sendRS485msg_callback)
         self.publisher_imu = rospy.Publisher("/provider_imu/imu", Imu, queue_size=10)
-        self.publisher_dvl = rospy.Publisher("/provider_dvl/bottom_tracking", BottomTracking, queue_size=10)
-        self.publisher_barometer = rospy.Publisher("/provider_can/barometer_intern_press_msgs",BarometerMsg, queue_size=10)
+        self.publisher_dvl = rospy.Publisher("/provider_dvl/dvl_twist", geometry_msgs/TwistStamped, queue_size=10)
+        self.publisher_barometer = rospy.Publisher("/provider_dvl/dvl_pressure", sensor_msgs/FluidPressure, queue_size=10)
 
         print quaternion_about_axis(math.radians(45), (0, 0, 1))
 
@@ -80,12 +80,14 @@ class AUVSimulation:
             percent_velocity_z = (thruster_T5 + thruster_T6 + thruster_T7 + thruster_T8)/400.0
 
             position_z += (percent_velocity_z * self.DELTA_DEPLACEMENT_DEPTH_MM_S)
-            barometer = BarometerMsg ()
-            barometer.depth = position_z
+            barometer = sensor_msgs::FluidPressure
+            barometer.pressure = position_z
             self.publisher_barometer.publish(barometer)
 
-            bottom_tracking = BottomTracking()
-            bottom_tracking.velocity=(velocity_north,velocity_east,0,0)
+            bottom_tracking = geometry_msgs::TwistStamped
+            bottom_tracking.twist.linear.x = velocity_north
+            bottom_tracking.twist.linear.y = velocity_east
+            bottom_tracking.twist.linear.z = 0;
             bottom_tracking.time = time.time() * 1000
 
             self.publisher_dvl.publish(bottom_tracking)

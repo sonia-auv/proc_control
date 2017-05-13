@@ -9,8 +9,6 @@
 #include <proc_control/TargetReached.h>
 #include <ldap.h>
 
-#define KEYPAD 1
-
 ControlSystem::ControlSystem(const ros::NodeHandlePtr &nh): stability_count_(0)
 {
   std::string base_node_name ("/proc_control/");

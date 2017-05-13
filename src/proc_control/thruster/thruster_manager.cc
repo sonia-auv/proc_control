@@ -18,6 +18,8 @@ ThrusterManager::ThrusterManager()
   thruster_list_.push_back(Thruster(7));
   thruster_list_.push_back(Thruster(8));
 
+  ThrusterManager::SetEnable(1);  
+
   Init();
 }
 

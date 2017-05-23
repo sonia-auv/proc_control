@@ -17,8 +17,9 @@ from std_msgs.msg import String
 
 sub_weight = 38
 sub_circumference = 2.3
+sub_thruster_distance = 0.365
 velocity_max = 2
-minimum_acceleration_to_keep_accelerate = 0.2
+minimum_acceleration_to_keep_accelerate = 0.1
 
 class AUVSimulation:
     FREQUENCY = 100
@@ -32,6 +33,9 @@ class AUVSimulation:
     thruster_T7 = 0
     thruster_T8 = 0
 
+    front_vector = (1, 0, 0)
+    heading_vector = (0, 1, 0)
+
     def __init__(self):
         rospy.init_node('AUV_Simulation', anonymous=True)
 
@@ -44,6 +48,7 @@ class AUVSimulation:
         self.yaw_angle = 0
         self.x_velocity = 0
         self.y_velocity = 0
+        self.z_velocity = 0
 
 
     def publish_data(self):
@@ -65,26 +70,30 @@ class AUVSimulation:
             for index in range(len(effort)):
                 thrust.append(effort_to_thrust(effort[index]))
 
-            yaw_thrust = thrust[0] + thrust[1] - (thrust[2] + thrust[3])
+            yaw_thrust = sub_thruster_distance*thrust[0] + sub_thruster_distance*thrust[1] - \
+                         (sub_thruster_distance*thrust[2] + sub_thruster_distance*thrust[3])
             yaw_acceleration = thrust_to_acceleration_yaw(yaw_thrust)
             self.yaw_velocity = acceleration_to_velocity(yaw_acceleration, 1.0/self.FREQUENCY, self.yaw_velocity)
             self.yaw_angle = velocity_to_angle(self.yaw_velocity, 1.0/self.FREQUENCY, self.yaw_angle)
 
-            x_thrust = ((thrust[0] + thrust[1] + thrust[2] + thrust[3]) * math.sin(math.radians(45)))
+            x_thrust = ((sub_thruster_distance*thrust[0] + sub_thruster_distance*thrust[1] +
+                         sub_thruster_distance*thrust[2] + sub_thruster_distance*thrust[3]) *
+                        math.sin(math.radians(45)))
             x_acceleration = thrust_to_acceleration(x_thrust)
             self.x_velocity = acceleration_to_velocity(x_acceleration, 1.0/self.FREQUENCY, self.x_velocity)
 
-            y_thrust = ((thrust[1] + thrust[3] - (thrust[0] + thrust[2])) * math.sin(math.radians(45)))
+            y_thrust = ((sub_thruster_distance*thrust[1] + sub_thruster_distance*thrust[3] -
+                         (sub_thruster_distance*thrust[0] + sub_thruster_distance*thrust[2])) *
+                        math.sin(math.radians(45)))
             y_acceleration = thrust_to_acceleration(y_thrust)
             self.y_velocity = acceleration_to_velocity(y_acceleration, 1.0/self.FREQUENCY, self.y_velocity)
 
-            dvl_twist = TwistStamped()
-            dvl_twist.header.stamp = rospy.get_rostime()
-            dvl_twist.twist.linear.x = self.x_velocity
-            dvl_twist.twist.linear.y = self.y_velocity
-            dvl_twist.twist.linear.z = 0
+            z_thrust = thrust[4] + thrust[5] + thrust[6] + thrust[7]
+            z_acceleration = thrust_to_acceleration(z_thrust)
+            self.z_velocity = acceleration_to_velocity(z_acceleration, 1.0/self.FREQUENCY, self.z_velocity)
 
-            self.publisher_dvl_twist.publish(dvl_twist)
+            front_vector = tuple([i * self.x_velocity for i in self.front_vector])
+            heading_vector = tuple([i * self.y_velocity for i in self.heading_vector])
 
             imu = Imu()
             quat = quaternion_about_axis(math.radians(self.yaw_angle), (0, 0, 1))
@@ -94,6 +103,14 @@ class AUVSimulation:
             imu.orientation.w = quat[3]
             imu.angular_velocity.z = self.yaw_velocity
             self.publisher_imu.publish(imu)
+
+            dvl_twist = TwistStamped()
+            dvl_twist.header.stamp = rospy.get_rostime()
+            dvl_twist.twist.linear.x = self.x_velocity
+            dvl_twist.twist.linear.y = self.y_velocity
+            dvl_twist.twist.linear.z = self.z_velocity
+
+            self.publisher_dvl_twist.publish(dvl_twist)
 
             rate.sleep()
 
@@ -171,7 +188,6 @@ def velocity_to_angle(velocity, dt, angle):
     angle = angle + angle_second*dt
     angle %= 360.0
     return angle
-
 
 
 if __name__ == '__main__':

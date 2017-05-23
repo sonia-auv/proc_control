@@ -19,7 +19,6 @@ sub_weight = 38
 sub_circumference = 2.3
 sub_thruster_distance = 0.365
 velocity_max = 2
-minimum_acceleration_to_keep_accelerate = 0.1
 
 class AUVSimulation:
     FREQUENCY = 100
@@ -32,6 +31,8 @@ class AUVSimulation:
     thruster_T6 = 0
     thruster_T7 = 0
     thruster_T8 = 0
+
+    minimum_acceleration_to_keep_accelerate = 0.0
 
     front_vector = (1, 0, 0)
     heading_vector = (0, 1, 0)
@@ -68,32 +69,32 @@ class AUVSimulation:
             effort.append(self.thruster_T8)
 
             for index in range(len(effort)):
-                thrust.append(effort_to_thrust(effort[index]))
+                thrust.append(self.effort_to_thrust(effort[index]))
 
             yaw_thrust = sub_thruster_distance*thrust[0] + sub_thruster_distance*thrust[1] - \
                          (sub_thruster_distance*thrust[2] + sub_thruster_distance*thrust[3])
-            yaw_acceleration = thrust_to_acceleration_yaw(yaw_thrust)
-            self.yaw_velocity = acceleration_to_velocity(yaw_acceleration, 1.0/self.FREQUENCY, self.yaw_velocity)
-            self.yaw_angle = velocity_to_angle(self.yaw_velocity, 1.0/self.FREQUENCY, self.yaw_angle)
+            yaw_acceleration = self.thrust_to_acceleration_yaw(yaw_thrust)
+            self.yaw_velocity = self.acceleration_to_velocity(yaw_acceleration, 1.0/self.FREQUENCY, self.yaw_velocity)
+            self.yaw_angle = self.velocity_to_angle(self.yaw_velocity, 1.0/self.FREQUENCY, self.yaw_angle)
 
             x_thrust = ((sub_thruster_distance*thrust[0] + sub_thruster_distance*thrust[1] +
                          sub_thruster_distance*thrust[2] + sub_thruster_distance*thrust[3]) *
                         math.sin(math.radians(45)))
-            x_acceleration = thrust_to_acceleration(x_thrust)
-            self.x_velocity = acceleration_to_velocity(x_acceleration, 1.0/self.FREQUENCY, self.x_velocity)
+            x_acceleration = self.thrust_to_acceleration(x_thrust)
+            self.x_velocity = self.acceleration_to_velocity(x_acceleration, 1.0/self.FREQUENCY, self.x_velocity)
 
             y_thrust = ((sub_thruster_distance*thrust[1] + sub_thruster_distance*thrust[3] -
                          (sub_thruster_distance*thrust[0] + sub_thruster_distance*thrust[2])) *
                         math.sin(math.radians(45)))
-            y_acceleration = thrust_to_acceleration(y_thrust)
-            self.y_velocity = acceleration_to_velocity(y_acceleration, 1.0/self.FREQUENCY, self.y_velocity)
+            y_acceleration = self.thrust_to_acceleration(y_thrust)
+            self.y_velocity = self.acceleration_to_velocity(y_acceleration, 1.0/self.FREQUENCY, self.y_velocity)
 
             z_thrust = thrust[4] + thrust[5] + thrust[6] + thrust[7]
-            z_acceleration = thrust_to_acceleration(z_thrust)
-            self.z_velocity = acceleration_to_velocity(z_acceleration, 1.0/self.FREQUENCY, self.z_velocity)
+            z_acceleration = self.thrust_to_acceleration(z_thrust)
+            self.z_velocity = self.acceleration_to_velocity(z_acceleration, 1.0/self.FREQUENCY, self.z_velocity)
 
-            front_vector = tuple([i * self.x_velocity for i in self.front_vector])
-            heading_vector = tuple([i * self.y_velocity for i in self.heading_vector])
+            # front_vector = tuple([i * self.x_velocity for i in self.front_vector])
+            # heading_vector = tuple([i * self.y_velocity for i in self.heading_vector])
 
             imu = Imu()
             quat = quaternion_about_axis(math.radians(self.yaw_angle), (0, 0, 1))
@@ -102,10 +103,12 @@ class AUVSimulation:
             imu.orientation.z = quat[2]
             imu.orientation.w = quat[3]
             imu.angular_velocity.z = self.yaw_velocity
+            imu.header.frame_id = "NED"
             self.publisher_imu.publish(imu)
 
             dvl_twist = TwistStamped()
             dvl_twist.header.stamp = rospy.get_rostime()
+            dvl_twist.header.frame_id = "NED"
             dvl_twist.twist.linear.x = self.x_velocity
             dvl_twist.twist.linear.y = self.y_velocity
             dvl_twist.twist.linear.z = self.z_velocity
@@ -139,6 +142,45 @@ class AUVSimulation:
             elif msg.ID == ThrusterEffort.UNIQUE_ID_T8:
                 self.thruster_T8 = msg.effort
 
+    def effort_to_thrust(self, effort):
+        if effort > 0:
+            thrust = effort * 0.49
+        elif effort < 0:
+            thrust = effort * 0.39
+        else:
+            thrust = 0
+
+        return thrust
+
+    def thrust_to_acceleration_yaw(self, thrust):
+        return thrust / sub_weight
+
+    def thrust_to_acceleration(self, thrust):
+        return thrust / (sub_weight * 1.2)
+
+    def acceleration_to_velocity(self, acceleration, dt, velocity):
+        velocity = velocity + acceleration * dt
+
+        if velocity > 0.0:
+            velocity = velocity - (self.minimum_acceleration_to_keep_accelerate + 0.1) * dt
+        elif velocity < 0.0:
+            velocity = velocity + (self.minimum_acceleration_to_keep_accelerate + 0.1) * dt
+        else:
+            velocity = 0.0
+
+        if velocity > velocity_max:
+            return velocity_max
+        elif velocity < -velocity_max:
+            return -velocity_max
+        else:
+            return velocity
+
+    def velocity_to_angle(self, velocity, dt, angle):
+        angle_second = (velocity * .05 / sub_circumference) * 360
+        angle = angle + angle_second * dt
+        angle %= 360.0
+        return angle
+
 
 def qv_mult(q1, v1):
     v1 = unit_vector(v1)
@@ -148,46 +190,6 @@ def qv_mult(q1, v1):
         quaternion_multiply(q1, q2),
         quaternion_conjugate(q1)
     )[:3]
-
-
-def effort_to_thrust(effort):
-    if effort >= 0:
-        thrust = effort * 0.49
-    else:
-        thrust = effort * 0.39
-
-    return thrust
-
-
-def thrust_to_acceleration_yaw(thrust):
-    return thrust / sub_weight
-
-
-def thrust_to_acceleration(thrust):
-    return thrust / (sub_weight*2)
-
-
-def acceleration_to_velocity(acceleration, dt, velocity):
-    velocity = velocity + acceleration * dt
-
-    if velocity > 0.0:
-        velocity = velocity - minimum_acceleration_to_keep_accelerate * dt
-    elif velocity < 0.0:
-        velocity = velocity + minimum_acceleration_to_keep_accelerate * dt
-
-    if velocity > velocity_max:
-        return velocity_max
-    elif velocity < -velocity_max:
-        return -velocity_max
-    else:
-        return velocity
-
-
-def velocity_to_angle(velocity, dt, angle):
-    angle_second = (velocity*.05/sub_circumference) * 360
-    angle = angle + angle_second*dt
-    angle %= 360.0
-    return angle
 
 
 if __name__ == '__main__':

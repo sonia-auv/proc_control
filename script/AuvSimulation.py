@@ -19,6 +19,8 @@ sub_weight = 38
 sub_circumference = 2.3
 sub_thruster_distance = 0.365
 velocity_max = 2
+acceleration_max = 0.5
+friction_factor = 0.2
 
 class AUVSimulation:
     FREQUENCY = 100
@@ -31,8 +33,6 @@ class AUVSimulation:
     thruster_T6 = 0
     thruster_T7 = 0
     thruster_T8 = 0
-
-    minimum_acceleration_to_keep_accelerate = 0.0
 
     front_vector = (1, 0, 0)
     heading_vector = (0, 1, 0)
@@ -156,17 +156,23 @@ class AUVSimulation:
         return thrust / sub_weight
 
     def thrust_to_acceleration(self, thrust):
-        return thrust / (sub_weight * 1.2)
+        acceleration = thrust / (sub_weight * 1.5)
+
+        if thrust == 0:
+            acceleration = 0.0
+
+        if acceleration > acceleration_max:
+            return acceleration_max
+        elif acceleration < -acceleration_max:
+            return -acceleration_max
+        else:
+            return acceleration
 
     def acceleration_to_velocity(self, acceleration, dt, velocity):
-        velocity = velocity + acceleration * dt
+        velocity = velocity + acceleration*dt
 
-        if velocity > 0.0:
-            velocity = velocity - (self.minimum_acceleration_to_keep_accelerate + 0.1) * dt
-        elif velocity < 0.0:
-            velocity = velocity + (self.minimum_acceleration_to_keep_accelerate + 0.1) * dt
-        else:
-            velocity = 0.0
+        if acceleration == 0:
+            velocity = velocity - friction_factor*velocity
 
         if velocity > velocity_max:
             return velocity_max

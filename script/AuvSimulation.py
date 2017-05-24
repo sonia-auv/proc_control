@@ -21,6 +21,7 @@ sub_thruster_distance = 0.365
 velocity_max = 2
 acceleration_max = 0.5
 friction_factor = 0.2
+meterOfWaterToBar = 0.09807
 
 class AUVSimulation:
     FREQUENCY = 100
@@ -33,9 +34,6 @@ class AUVSimulation:
     thruster_T6 = 0
     thruster_T7 = 0
     thruster_T8 = 0
-
-    front_vector = (1, 0, 0)
-    heading_vector = (0, 1, 0)
 
     def __init__(self):
         rospy.init_node('AUV_Simulation', anonymous=True)
@@ -50,6 +48,8 @@ class AUVSimulation:
         self.x_velocity = 0
         self.y_velocity = 0
         self.z_velocity = 0
+        self.depth = 0
+        self.bar = 0
 
 
     def publish_data(self):
@@ -93,8 +93,12 @@ class AUVSimulation:
             z_acceleration = self.thrust_to_acceleration(z_thrust)
             self.z_velocity = self.acceleration_to_velocity(z_acceleration, 1.0/self.FREQUENCY, self.z_velocity)
 
-            # front_vector = tuple([i * self.x_velocity for i in self.front_vector])
-            # heading_vector = tuple([i * self.y_velocity for i in self.heading_vector])
+            self.depth = self.velocity_to_depth(self.z_velocity, 1.0/self.FREQUENCY, self.depth)
+            self.bar = self.depth_to_bar(self.depth, self.bar)
+
+            dvl_pressure = FluidPressure()
+            dvl_pressure.fluid_pressure = self.bar
+            self.publisher_dvl_pressure.publish(dvl_pressure)
 
             imu = Imu()
             quat = quaternion_about_axis(math.radians(self.yaw_angle), (0, 0, 1))
@@ -180,6 +184,13 @@ class AUVSimulation:
             return -velocity_max
         else:
             return velocity
+
+    def velocity_to_depth(self, velocity, dt, depth):
+        depth = depth + velocity*dt
+        return depth
+
+    def depth_to_bar(self, depth, bar):
+        return depth/meterOfWaterToBar
 
     def velocity_to_angle(self, velocity, dt, angle):
         angle_second = (velocity * .05 / sub_circumference) * 360

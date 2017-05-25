@@ -68,7 +68,7 @@ class ControlSystem {
 
 
   AlgorithmManager algo_manager_;
-  ThrusterManager thruster_manager_;
+  proc_control::ThrusterManager thruster_manager_;
   ros::Subscriber nav_odometry_subs_, target_odometry_subs_;
   ros::Subscriber keypad_subscriber_;
   ros::Publisher target_publisher_, target_is_reached_publisher_;

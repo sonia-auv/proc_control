@@ -90,7 +90,7 @@ class AUVSimulation:
             self.y_velocity = self.acceleration_to_velocity(y_acceleration, 1.0/self.FREQUENCY, self.y_velocity)
 
             z_thrust = thrust[4] + thrust[5] + thrust[6] + thrust[7]
-            z_acceleration = self.thrust_to_acceleration(z_thrust)
+            z_acceleration = self.thrust_to_acceleration_depth(z_thrust)
             self.z_velocity = self.acceleration_to_velocity(z_acceleration, 1.0/self.FREQUENCY, self.z_velocity)
 
             self.depth = self.velocity_to_depth(self.z_velocity, 1.0/self.FREQUENCY, self.depth)
@@ -157,10 +157,28 @@ class AUVSimulation:
         return thrust
 
     def thrust_to_acceleration_yaw(self, thrust):
-        return thrust / sub_weight
+        acceleration = thrust / sub_weight
+
+        if thrust == 0:
+            acceleration = 0.0
+
+        return acceleration
+
+    def thrust_to_acceleration_depth(self, thrust):
+        acceleration = thrust / (sub_weight * 9.8 * 2)
+
+        if thrust == 0:
+            acceleration = 0.0
+
+        if acceleration > acceleration_max:
+            return acceleration_max
+        elif acceleration < -acceleration_max:
+            return -acceleration_max
+        else:
+            return acceleration
 
     def thrust_to_acceleration(self, thrust):
-        acceleration = thrust / (sub_weight * 1.5)
+        acceleration = thrust / (sub_weight * 3)
 
         if thrust == 0:
             acceleration = 0.0

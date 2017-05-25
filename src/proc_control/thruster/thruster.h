@@ -102,36 +102,14 @@ inline void Thruster::SetFrom6AxisArray(const std::array<double, 6> &array_axis)
 }
 
 inline void Thruster::Publish(uint8_t ID, int16_t thrust_value) {
-  //TODO: Send thrust_value through RS485
   provider_thruster::ThrusterEffort msg;
   msg.ID = ID;
   msg.effort = thrust_value;
 
-    if (this->isEnable)
-    {
-        publisher_.publish(msg);
-    }
-    
-
-//  msg.device_id = msg.DEVICE_ID_actuators;
-//  msg.unique_id = can_id_;
-//  msg.method_number = msg.METHOD_MOTOR_set_speed;
-//  msg.parameter_value = POSITIVE_LINEAR_LUT[std::min(abs(thrust_value), 100)];
-//  if( thrust_value < 0)
-//    msg.parameter_value *= -1;
-//  publisher_.publish(msg);
-
-//  sonia_msgs::SendCanMessageRequest rq;
-//  sonia_msgs::SendCanMessageResponse response;
-//  rq.device_id = rq.DEVICE_ID_actuators;
-//  rq.unique_id = can_id_;
-//  rq.method_number = rq.METHOD_MOTOR_set_speed;
-//  rq.parameter_value = POSITIVE_LINEAR_LUT[std::min(abs(thrust_value), 100)];
-//  if( thrust_value < 0)
-//    rq.parameter_value *= -1;
-//  client_.call(rq, response);
-  //std::cout << id_ << " set at : " << rq.parameter_value << std::endl;
-  // Do nothing with response
+  if (this->isEnable)
+  {
+      publisher_.publish(msg);
+  }
 }
 
 #endif //PROC_CONTROL_THRUSTER_H

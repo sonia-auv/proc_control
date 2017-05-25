@@ -34,9 +34,9 @@ void ControlSystem::OdomCallback(const nav_msgs::Odometry::ConstPtr &odo_in)
   world_position_[0] = odo_in->pose.pose.position.x;
   world_position_[1] = odo_in->pose.pose.position.y;
   world_position_[2] = odo_in->pose.pose.position.z;
-  world_position_[3] = odo_in->pose.pose.position.x;
-  world_position_[4] = odo_in->pose.pose.position.y;
-  world_position_[5] = odo_in->pose.pose.position.z;
+  world_position_[3] = odo_in->pose.pose.orientation.x;
+  world_position_[4] = odo_in->pose.pose.orientation.y;
+  world_position_[5] = odo_in->pose.pose.orientation.z;
 }
 
 void ControlSystem::KeypadCallback(const provider_keypad::Keypad::ConstPtr &keypad_in)
@@ -110,10 +110,10 @@ bool ControlSystem::LocalTargetServiceCallback(proc_control::SetPositionTargetRe
 
 void ControlSystem::Control()
 {
-  ROS_DEBUG("Current Position: %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f",
+  printf("Current Position: %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f \n",
             world_position_[0], world_position_[1], world_position_[2],
             world_position_[3], world_position_[4], world_position_[5]);
-  ROS_DEBUG("Target Position:  %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f",
+  printf("Target Position:  %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f \n",
             targeted_position_[0], targeted_position_[1], targeted_position_[2],
             targeted_position_[3], targeted_position_[4], targeted_position_[5]);
 
@@ -165,7 +165,7 @@ void ControlSystem::Control()
 
   error = GetLocalError(error);
 
-  ROS_DEBUG("Local error:  %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f",
+  printf("Local error: %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f \n",
            error[0], error[1], error[2], error[3], error[4], error[5]);
 
   // Handle the is target reached message
@@ -175,7 +175,7 @@ void ControlSystem::Control()
 
   // Calculate required actuation
   std::array<double,6> actuation = algo_manager_.GetActuationForError(error);
-  ROS_DEBUG("Actuation :       %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f",
+  printf("Actuation : %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f \n",
             actuation[X], actuation[Y], actuation[Z],
             actuation[ROLL], actuation[PITCH], actuation[YAW]);
   std::array<double, 3> actuation_lin = {actuation[X], actuation[Y], actuation[Z]};
@@ -194,7 +194,7 @@ void ControlSystem::Control()
 
   // Process the actuation
   std::array<double, 8> thrust_force = thruster_manager_.Commit(actuation_lin, actuation_rot);
-  ROS_DEBUG("Thrust : T1: %10.4f, T2: %10.4f, T3: %10.4f, T4: %10.4f T5: %10.4f, T6: %10.4f, T7: %10.4f, T8: %10.4f",
+  printf("Thrust : T1: %10.4f, T2: %10.4f, T3: %10.4f, T4: %10.4f T5: %10.4f, T6: %10.4f, T7: %10.4f, T8: %10.4f \n",
            thrust_force[0], thrust_force[1], thrust_force[2], thrust_force[3],
            thrust_force[4], thrust_force[5], thrust_force[6], thrust_force[7]);
 

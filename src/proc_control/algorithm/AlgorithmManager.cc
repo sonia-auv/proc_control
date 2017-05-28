@@ -124,7 +124,7 @@ void AlgorithmManager::ReadConfigFile( proc_control::AlgorithmConfig &config )
 
 //-----------------------------------------------------------------------------
 //
-inline int AlgorithmManager::ConversionEnumInt(AlgorithmManager::AlgorithmTypes enum_)
+int AlgorithmManager::ConversionEnumInt(AlgorithmManager::AlgorithmTypes enum_)
 {
   switch (enum_)
   {
@@ -137,7 +137,7 @@ inline int AlgorithmManager::ConversionEnumInt(AlgorithmManager::AlgorithmTypes 
 
 //-----------------------------------------------------------------------------
 //
-inline AlgorithmManager::AlgorithmTypes AlgorithmManager::ConversionEnumInt(int enum_)
+AlgorithmManager::AlgorithmTypes AlgorithmManager::ConversionEnumInt(int enum_)
 {
   switch (enum_)
   {
@@ -151,14 +151,14 @@ inline AlgorithmManager::AlgorithmTypes AlgorithmManager::ConversionEnumInt(int 
 
 //-----------------------------------------------------------------------------
 //
-inline std::array<double, 6> AlgorithmManager::GetActuationForError(const std::array<double, 6> &error)
+std::array<double, 6> AlgorithmManager::GetActuationForError(const std::array<double, 6> &error)
 {
   return current_algorithm_->CalculateActuationForError(error);
 };
 
 //-----------------------------------------------------------------------------
 //
-inline bool AlgorithmManager::IsInBoundingBox(double error_x, double error_y, double error_z, double error_yaw)
+bool AlgorithmManager::IsInBoundingBox(double error_x, double error_y, double error_z, double error_yaw)
 {
   return std::fabs(error_x) < bounding_box_x_ &&
       std::fabs(error_y) < bounding_box_y_ &&

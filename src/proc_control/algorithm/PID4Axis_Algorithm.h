@@ -1,10 +1,31 @@
-//
-// Created by jeremie on 11/16/16.
-//
+/**
+ * \file	PID4Axis_Algorithm.h
+ * \author	Jeremie St-Jules <jeremie.st.jules.prevost@gmail.com>
+ * \coauthor Francis Masse <francis.masse05@gmail.com>
+ * \date	10/17/16
+ *
+ * \copyright Copyright (c) 2017 S.O.N.I.A. AUV All rights reserved.
+ *
+ * \section LICENSE
+ *
+ * This file is part of S.O.N.I.A. software.
+ *
+ * S.O.N.I.A. AUV software is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * S.O.N.I.A. AUV software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with S.O.N.I.A. AUV software. If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #ifndef PROC_CONTROL_PID4AXIS_ALGORITHM_H
 #define PROC_CONTROL_PID4AXIS_ALGORITHM_H
-
 
 #include <proc_control/property.h>
 #include "proc_control/algorithm/ControlAlgorithm.h"
@@ -14,8 +35,15 @@
 
 class PID4Axis_Algorithm : public ControlAlgorithm,  public ConfigManager<proc_control::PID4AxisConfig > {
   public:
+  //==========================================================================
+  // P U B L I C   C / D T O R S
+
   PID4Axis_Algorithm();
 
+  //==========================================================================
+  // P U B L I C   O V E R R I D E D   M E T H O D S
+
+  // ConfigManager override
   void OnDynamicReconfigureChange(const proc_control::PID4AxisConfig &config ) override ;
   void WriteConfigFile( const proc_control::PID4AxisConfig &config ) override ;
   void ReadConfigFile( proc_control::PID4AxisConfig &config ) override ;
@@ -24,26 +52,14 @@ class PID4Axis_Algorithm : public ControlAlgorithm,  public ConfigManager<proc_c
   std::array<double, 6> CalculateActuationForError(const std::array<double, 6> &error);
 
   private:
+  //==========================================================================
+  // P R I V A T E   M E M B E R S
 
-  // X Y Z YAW
   PID x_, y_, z_, yaw_;
   PIDValues &x_values_, &y_values_, &z_values_, &yaw_values_;
   double constant_depth_force_;
   const std::string file_path_ = kConfigPath + "algorithm_config/PID4Axis" + kConfigExt;
   const std::string CONSTANT_DEPTH_FORCE = "CONSTANT_DEPTH_FORCE";
-
-};
-
-inline std::array<double, 6> PID4Axis_Algorithm::CalculateActuationForError(const std::array<double, 6> &error)
-{
-  std::array<double, 6> actuation = {0.0f};
-  // The 4 axis algorithm control only X Y Z YAW
-  // X Y Z
-  actuation[0] = x_.GetValueForError(error[0]);
-  actuation[1] = y_.GetValueForError(error[1]);
-  actuation[2] = z_.GetValueForError(error[2]) + constant_depth_force_;
-  actuation[5] = yaw_.GetValueForError(error[5]);
-  return actuation;
 };
 
 #endif //PROC_CONTROL_PID4AXIS_ALGORITHM_H

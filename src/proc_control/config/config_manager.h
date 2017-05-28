@@ -1,6 +1,28 @@
-//
-// Created by jeremie on 9/28/16.
-//
+/**
+ * \file	config_manager.h
+ * \author	Jeremie St-Jules <jeremie.st.jules.prevost@gmail.com>
+ * \coauthor Francis Masse <francis.masse05@gmail.com>
+ * \date	10/17/16
+ *
+ * \copyright Copyright (c) 2017 S.O.N.I.A. AUV All rights reserved.
+ *
+ * \section LICENSE
+ *
+ * This file is part of S.O.N.I.A. software.
+ *
+ * S.O.N.I.A. AUV software is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * S.O.N.I.A. AUV software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with S.O.N.I.A. AUV software. If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #ifndef PROC_CONTROL_CONFIG_MANAGER_H
 #define PROC_CONTROL_CONFIG_MANAGER_H
@@ -14,14 +36,17 @@
 
 template <class T>
 class ConfigManager {
-
-  protected:
+ protected:
+  //==========================================================================
+  // P R O T E C T E D   C / D T O R S
   ConfigManager(const std::string &manager_name)
       : manager_name_(manager_name),
         server_(ros::NodeHandle(std::string("~/") + manager_name)),
         current_config_()
-  {
-  }
+  { }
+
+  //==========================================================================
+  // P R O T E C T E D   M E T H O D S
 
   void Init();
   // Update the specific variables with the provided configuration
@@ -31,14 +56,16 @@ class ConfigManager {
   // Read the specific variables from the file and fills config.
   virtual void ReadConfigFile(T &config) = 0;
 
-  // Returns manager's name and and configuration path..
   std::string GetManagerName();
 
-  private:
-  // Function called when a configuration is changed.
+ private:
+  //==========================================================================
+  // P R I V A T E   M E T H O D S
+
   void CallBackDynamicReconfigure(T &config, uint32_t level);
 
-  private:
+  //==========================================================================
+  // P R I V A T E   M E M B E R S
 
   std::string manager_name_;
   dynamic_reconfigure::Server<T> server_;

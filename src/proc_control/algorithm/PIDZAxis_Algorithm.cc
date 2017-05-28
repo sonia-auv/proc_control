@@ -1,11 +1,37 @@
-//
-// Created by bullshark on 4/1/17.
-//
+/**
+ * \file	PIDZAxis_Algorithm.cc
+ * \author Francis Masse <francis.masse05@gmail.com>
+ * \date	10/17/16
+ *
+ * \copyright Copyright (c) 2017 S.O.N.I.A. AUV All rights reserved.
+ *
+ * \section LICENSE
+ *
+ * This file is part of S.O.N.I.A. software.
+ *
+ * S.O.N.I.A. AUV software is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * S.O.N.I.A. AUV software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with S.O.N.I.A. AUV software. If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #include "PIDZAxis_Algorithm.h"
 #include <yaml-cpp/yaml.h>
 #include <fstream>
 
+//==============================================================================
+// C / D T O R S   S E C T I O N
+
+//------------------------------------------------------------------------------
+//
 PIDZAxis_Algorithm::PIDZAxis_Algorithm()
     : ConfigManager("PID_ZAxis"),
       z_("Z"),
@@ -15,16 +41,11 @@ PIDZAxis_Algorithm::PIDZAxis_Algorithm()
   Init();
 }
 
-std::array<double, 6> PIDZAxis_Algorithm::CalculateActuationForError(const std::array<double, 6> &error)
-{
-  std::array<double, 6> actuation = {0.0f};
-  // The Z axis algorithm control only Z
+//==============================================================================
+// M E T H O D   S E C T I O N
 
-  actuation[2] = z_.GetValueForError(error[2]) + constant_depth_force_;
-
-  return actuation;
-};
-
+//-----------------------------------------------------------------------------
+//
 void PIDZAxis_Algorithm::OnDynamicReconfigureChange(const proc_control::PIDZAxisConfig &config )
 {
   std::cout << "Update on PIX Z Axis configuration" << std::endl;
@@ -39,6 +60,8 @@ void PIDZAxis_Algorithm::OnDynamicReconfigureChange(const proc_control::PIDZAxis
   constant_depth_force_ = config.CONSTANT_DEPTH_FORCE;
 }
 
+//-----------------------------------------------------------------------------
+//
 void PIDZAxis_Algorithm::WriteConfigFile( const proc_control::PIDZAxisConfig &config )
 {
   YAML::Emitter out;
@@ -61,6 +84,8 @@ void PIDZAxis_Algorithm::WriteConfigFile( const proc_control::PIDZAxisConfig &co
   fout << out.c_str();
 }
 
+//-----------------------------------------------------------------------------
+//
 void PIDZAxis_Algorithm::ReadConfigFile( proc_control::PIDZAxisConfig &config )
 {
   YAML::Node node = YAML::LoadFile(file_path_);
@@ -89,3 +114,15 @@ void PIDZAxis_Algorithm::ReadConfigFile( proc_control::PIDZAxisConfig &config )
   config.Z_MAX_ACTUATION = z_values_.Max_Actuation;
   config.Z_MIN_ACTUATION = z_values_.Min_Actuation;
 }
+
+//-----------------------------------------------------------------------------
+//
+std::array<double, 6> PIDZAxis_Algorithm::CalculateActuationForError(const std::array<double, 6> &error)
+{
+  std::array<double, 6> actuation = {0.0f};
+  // The Z axis algorithm control only Z
+
+  actuation[2] = z_.GetValueForError(error[2]) + constant_depth_force_;
+
+  return actuation;
+};

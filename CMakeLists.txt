@@ -70,6 +70,7 @@ add_message_files(
 add_service_files(
      DIRECTORY srv
      FILES
+     ClearWaypoint.srv
      SetPositionTarget.srv
      GetPositionTarget.srv
      EnableThrusters.srv

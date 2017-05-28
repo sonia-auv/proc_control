@@ -50,7 +50,8 @@ class AUVSimulation:
         self.z_velocity = 0
         self.depth = 0
         self.bar = 0
-
+        self.front_vector = (1, 0, 0)
+        self.heading_vector = (0, 1, 0)
 
     def publish_data(self):
         rate = rospy.Rate(self.FREQUENCY)
@@ -77,6 +78,8 @@ class AUVSimulation:
             self.yaw_velocity = self.acceleration_to_velocity(yaw_acceleration, 1.0/self.FREQUENCY, self.yaw_velocity)
             self.yaw_angle = self.velocity_to_angle(self.yaw_velocity, 1.0/self.FREQUENCY, self.yaw_angle)
 
+            quat = quaternion_about_axis(math.radians(self.yaw_angle), (0, 0, 1))
+
             x_thrust = ((sub_thruster_distance*thrust[0] + sub_thruster_distance*thrust[1] +
                          sub_thruster_distance*thrust[2] + sub_thruster_distance*thrust[3]) *
                         math.sin(math.radians(45)))
@@ -88,6 +91,12 @@ class AUVSimulation:
                         math.sin(math.radians(45)))
             y_acceleration = self.thrust_to_acceleration(y_thrust)
             self.y_velocity = self.acceleration_to_velocity(y_acceleration, 1.0/self.FREQUENCY, self.y_velocity)
+
+            front_vector_rot = numpy.nan_to_num(qv_mult(quat, self.front_vector))
+            heading_vector_rot = numpy.nan_to_num(qv_mult(quat, self.heading_vector))
+
+            x_vel = self.x_velocity * (front_vector_rot[0] + heading_vector_rot[0])
+            y_vel = self.y_velocity * (front_vector_rot[1] + heading_vector_rot[1])
 
             z_thrust = thrust[4] + thrust[5] + thrust[6] + thrust[7]
             z_acceleration = self.thrust_to_acceleration_depth(z_thrust)
@@ -101,7 +110,6 @@ class AUVSimulation:
             self.publisher_dvl_pressure.publish(dvl_pressure)
 
             imu = Imu()
-            quat = quaternion_about_axis(math.radians(self.yaw_angle), (0, 0, 1))
             imu.orientation.x = quat[0]
             imu.orientation.y = quat[1]
             imu.orientation.z = quat[2]
@@ -113,8 +121,8 @@ class AUVSimulation:
             dvl_twist = TwistStamped()
             dvl_twist.header.stamp = rospy.get_rostime()
             dvl_twist.header.frame_id = "NED"
-            dvl_twist.twist.linear.x = self.x_velocity
-            dvl_twist.twist.linear.y = self.y_velocity
+            dvl_twist.twist.linear.x = x_vel
+            dvl_twist.twist.linear.y = y_vel
             dvl_twist.twist.linear.z = self.z_velocity
 
             self.publisher_dvl_twist.publish(dvl_twist)

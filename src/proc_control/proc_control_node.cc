@@ -47,10 +47,8 @@ ProcControlNode::ProcControlNode(const ros::NodeHandlePtr &nh) :
       nh->subscribe("/provider_keypad/Keypad", 100, &ProcControlNode::KeypadCallback, this);
   target_publisher_ =
       nh->advertise<proc_control::PositionTarget>("/proc_control/current_target", 100);
-  ask_position_publisher_ =
-      nh->advertise<proc_control::PositionTarget>("/proc_control/current_ask_position", 100);
-  target_position_publisher_ =
-      nh->advertise<proc_control::PositionTarget>("/proc_control/current_target_position", 100);
+  debug_target_publisher_ =
+      nh->advertise<proc_control::PositionTarget>("/proc_control/debug_current_target", 100);
   error_publisher_ =
       nh->advertise<proc_control::PositionTarget>("/proc_control/current_error", 100);
   target_is_reached_publisher_ =
@@ -65,6 +63,8 @@ ProcControlNode::ProcControlNode(const ros::NodeHandlePtr &nh) :
       nh->advertiseService("/proc_control/enable_control", &ProcControlNode::EnableControlServiceCallback, this);
   enable_thrusters_server_ =
       nh->advertiseService("/proc_control/enable_thrusters", &ProcControlNode::EnableThrusterServiceCallback, this);
+  clear_waypoint_server_ =
+      nh->advertiseService("/proc_control/clear_waypoint", &ProcControlNode::ClearWaypointServiceCallback, this);
 }
 
 //------------------------------------------------------------------------------
@@ -77,21 +77,12 @@ ProcControlNode::~ProcControlNode() { }
 //-----------------------------------------------------------------------------
 //
 void ProcControlNode::Control() {
-  printf("Current Position: %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f \n",
-         world_position_[0], world_position_[1], world_position_[2],
-         world_position_[3], world_position_[4], world_position_[5]);
-  printf("Target Position:  %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f \n",
-         targeted_position_[0], targeted_position_[1], targeted_position_[2],
-         targeted_position_[3], targeted_position_[4], targeted_position_[5]);
-
-  proc_control::PositionTarget msg_ask_position;
-  msg_ask_position.X = world_position_[0];
-  msg_ask_position.Y = world_position_[1];
-  msg_ask_position.Z = world_position_[2];
-  msg_ask_position.ROLL = world_position_[3];
-  msg_ask_position.PITCH = world_position_[4];
-  msg_ask_position.YAW = world_position_[5];
-  ask_position_publisher_.publish(msg_ask_position);
+//  printf("Current Position: %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f \n",
+//         world_position_[0], world_position_[1], world_position_[2],
+//         world_position_[3], world_position_[4], world_position_[5]);
+//  printf("Target Position:  %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f \n",
+//         targeted_position_[0], targeted_position_[1], targeted_position_[2],
+//         targeted_position_[3], targeted_position_[4], targeted_position_[5]);
 
   proc_control::PositionTarget msg_target;
   msg_target.X = targeted_position_[0];
@@ -100,7 +91,7 @@ void ProcControlNode::Control() {
   msg_target.ROLL = targeted_position_[3];
   msg_target.PITCH = targeted_position_[4];
   msg_target.YAW = targeted_position_[5];
-  target_position_publisher_.publish(msg_target);
+  debug_target_publisher_.publish(msg_target);
 
   // Calculate the error
   std::array<double, 6> error;
@@ -118,19 +109,19 @@ void ProcControlNode::Control() {
   }
   error[YAW] = error_yaw;
 
-  proc_control::PositionTarget msg_error;
-  msg_error.X = error[0];
-  msg_error.Y = error[1];
-  msg_error.Z = error[2];
-  msg_error.ROLL = error[3];
-  msg_error.PITCH = error[4];
-  msg_error.YAW = error[5];
-  target_position_publisher_.publish(msg_error);
-
   error = GetLocalError(error);
 
-  printf("Local error: %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f \n",
-         error[0], error[1], error[2], error[3], error[4], error[5]);
+  proc_control::PositionTarget error_;
+  error_.X = error[0];
+  error_.Y = error[1];
+  error_.Z = error[2];
+  error_.PITCH = error[3];
+  error_.ROLL = error[4];
+  error_.YAW = error[5];
+
+  error_publisher_.publish(error_);
+//  printf("Local error: %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f \n",
+//         error[0], error[1], error[2], error[3], error[4], error[5]);
 
   // Handle the is target reached message
   proc_control::TargetReached msg_target_reached;
@@ -139,9 +130,9 @@ void ProcControlNode::Control() {
 
   // Calculate required actuation
   std::array<double, 6> actuation = algorithm_manager_.GetActuationForError(error);
-  printf("Actuation : %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f \n",
-         actuation[X], actuation[Y], actuation[Z],
-         actuation[ROLL], actuation[PITCH], actuation[YAW]);
+//  printf("Actuation : %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f \n",
+//         actuation[X], actuation[Y], actuation[Z],
+//         actuation[ROLL], actuation[PITCH], actuation[YAW]);
   std::array<double, 3> actuation_lin = {actuation[X], actuation[Y], actuation[Z]};
   std::array<double, 3> actuation_rot = {actuation[ROLL], actuation[PITCH], actuation[YAW]};
   for (int i = 0; i < 3; i++) {
@@ -155,9 +146,9 @@ void ProcControlNode::Control() {
 
   // Process the actuation
   std::array<double, 8> thrust_force = thruster_manager_.Commit(actuation_lin, actuation_rot);
-  printf("Thrust : T1: %10.4f, T2: %10.4f, T3: %10.4f, T4: %10.4f T5: %10.4f, T6: %10.4f, T7: %10.4f, T8: %10.4f \n",
-         thrust_force[0], thrust_force[1], thrust_force[2], thrust_force[3],
-         thrust_force[4], thrust_force[5], thrust_force[6], thrust_force[7]);
+//  printf("Thrust : T1: %10.4f, T2: %10.4f, T3: %10.4f, T4: %10.4f T5: %10.4f, T6: %10.4f, T7: %10.4f, T8: %10.4f \n",
+//         thrust_force[0], thrust_force[1], thrust_force[2], thrust_force[3],
+//         thrust_force[4], thrust_force[5], thrust_force[6], thrust_force[7]);
 
   ROS_DEBUG("\n");
 }
@@ -199,6 +190,14 @@ void ProcControlNode::KeypadCallback(const provider_keypad::Keypad::ConstPtr &ke
 
   targeted_position_[YAW] += (keypad_in->RT / 100);
   targeted_position_[YAW] -= (keypad_in->LT / 100);
+
+  if(targeted_position_[YAW] < 0) {
+    targeted_position_[YAW] = 360 + targeted_position_[YAW];
+  }
+
+  if(targeted_position_[YAW] >= 360) {
+    targeted_position_[YAW] = 360 - targeted_position_[YAW];
+  }
 
   PublishTargetedPosition();
 }
@@ -266,6 +265,21 @@ bool ProcControlNode::EnableThrusterServiceCallback(proc_control::EnableThruster
                                                     proc_control::EnableThrustersResponse &response) {
   this->thruster_manager_.SetEnable(request.isEnable);
 
+  return true;
+}
+
+//-----------------------------------------------------------------------------
+//
+bool ProcControlNode::ClearWaypointServiceCallback(proc_control::ClearWaypointRequest &request,
+                                  proc_control::ClearWaypointResponse &response)
+{
+  // We simply use the current yaw to rotate the translation into the good world position and add it to the position
+  for (int i = 0; i < 3; i++) {
+    targeted_position_[i] = world_position_[i];
+    targeted_position_[i + 3] = world_position_[i + 3];
+  }
+
+  PublishTargetedPosition();
   return true;
 }
 

@@ -40,6 +40,7 @@
 #include "proc_control/algorithm/AlgorithmManager.h"
 #include "proc_control/SetPositionTarget.h"
 #include "proc_control/GetPositionTarget.h"
+#include "proc_control/ClearWaypoint.h"
 
 namespace proc_control {
 
@@ -80,6 +81,8 @@ class ProcControlNode {
                                   proc_control::SetPositionTargetResponse &response);
   bool EnableThrusterServiceCallback(proc_control::EnableThrustersRequest &request,
                                      proc_control::EnableThrustersResponse &response);
+  bool ClearWaypointServiceCallback(proc_control::ClearWaypointRequest &request,
+                                     proc_control::ClearWaypointResponse &response);
 
   bool EvaluateTargetReached(const std::array<double, 6> &target_error);
 
@@ -99,9 +102,8 @@ class ProcControlNode {
   ros::Subscriber keypad_subscriber_;
 
   ros::Publisher target_publisher_;
+  ros::Publisher debug_target_publisher_;
   ros::Publisher target_is_reached_publisher_;
-  ros::Publisher ask_position_publisher_;
-  ros::Publisher target_position_publisher_;
   ros::Publisher error_publisher_;
 
   ros::ServiceServer set_global_target_server_;
@@ -109,6 +111,7 @@ class ProcControlNode {
   ros::ServiceServer get_target_server_;
   ros::ServiceServer enable_control_server_;
   ros::ServiceServer enable_thrusters_server_;
+  ros::ServiceServer clear_waypoint_server_;
 
   AlgorithmManager algorithm_manager_;
   proc_control::ThrusterManager thruster_manager_;

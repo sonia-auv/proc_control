@@ -208,7 +208,7 @@ bool ProcControlNode::GlobalTargetServiceCallback(proc_control::SetPositionTarge
                                                   proc_control::SetPositionTargetResponse &response) {
   targeted_position_[0] = request.X;
   targeted_position_[1] = request.Y;
-  targeted_position_[2] = request.Z;
+  targeted_position_[2] = -(request.Z);
   targeted_position_[3] = request.ROLL;
   targeted_position_[4] = request.PITCH;
   targeted_position_[5] = request.YAW;

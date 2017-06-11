@@ -15,13 +15,16 @@ import time
 
 from std_msgs.msg import String
 
-sub_weight = 38
+sub_weight = 44.98
+sub_volume = 0.0353
 sub_circumference = 2.3
 sub_thruster_distance = 0.365
 velocity_max = 2
 acceleration_max = 0.5
 friction_factor = 0.2
-meterOfWaterToBar = 0.09807
+meterOfWaterTodBar = 0.980638
+rho = 998.68
+buoyancy = rho * sub_volume * 9.8
 
 class AUVSimulation:
     FREQUENCY = 100
@@ -120,7 +123,7 @@ class AUVSimulation:
 
             dvl_twist = TwistStamped()
             dvl_twist.header.stamp = rospy.get_rostime()
-            dvl_twist.header.frame_id = "NED"
+            dvl_twist.header.frame_id = "ENU"
             dvl_twist.twist.linear.x = x_vel
             dvl_twist.twist.linear.y = y_vel
             dvl_twist.twist.linear.z = self.z_velocity
@@ -173,7 +176,7 @@ class AUVSimulation:
         return acceleration
 
     def thrust_to_acceleration_depth(self, thrust):
-        acceleration = thrust / (sub_weight * 9.8 * 2)
+        acceleration = thrust / ((sub_weight * 9.8) - buoyancy)
 
         if thrust == 0:
             acceleration = 0.0
@@ -216,7 +219,7 @@ class AUVSimulation:
         return depth
 
     def depth_to_bar(self, depth, bar):
-        return depth/meterOfWaterToBar
+        return depth/meterOfWaterTodBar
 
     def velocity_to_angle(self, velocity, dt, angle):
         angle_second = (velocity * .05 / sub_circumference) * 360

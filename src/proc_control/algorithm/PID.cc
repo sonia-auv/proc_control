@@ -47,6 +47,7 @@ double PID::GetValueForError(double error) {
 
   double deltaTime_s = double(std::chrono::duration_cast<std::chrono::nanoseconds>(diff).count())/(double(1E9));
 
+  double proportional, derivative, integrale;
 
   double actuation = 0; // Actuation (output of PID block)
   // Prevent dividing by 0
@@ -54,11 +55,13 @@ double PID::GetValueForError(double error) {
   if(deltaTime_s > (0.0001f) )
   {
     // Compute and add the proportional gain term
-    actuation = (pid_values_.P * error);
+
+    proportional = (pid_values_.P * error);
+    actuation = proportional;
 
     // Compute and add the derivative gain term
-    actuation += pid_values_.D * ((error - last_error_) / (deltaTime_s));
-
+    derivative = pid_values_.D * ((error - last_error_) / (deltaTime_s));
+    actuation += derivative;
     // Integrate cumulative error
     integration_sum_ += (error * deltaTime_s);
     // Reset I if position crosses target (if error is 0 or changes sign)
@@ -68,7 +71,8 @@ double PID::GetValueForError(double error) {
       // Clip I to prevent Integral WindUp
       integration_sum_ = std::min(std::max(integration_sum_, -(pid_values_.I_Limit)),
                                   pid_values_.I_Limit);
-      actuation += (pid_values_.I * integration_sum_);
+      integrale = (pid_values_.I * integration_sum_);
+      actuation += integrale;
     }
 
     // Clip Actuation

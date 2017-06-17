@@ -35,9 +35,9 @@
 //
 PID4Axis_Algorithm::PID4Axis_Algorithm()
     : ConfigManager("PID_4Axis"),
-      x_("X"), y_("Y"), z_("Z"), yaw_("YAW"),
+      x_("X"), y_("Y"), z_("Z"), pitch_("PITCH"), yaw_("YAW"),
       x_values_(x_.GetPIDValues()),y_values_(y_.GetPIDValues()),
-      z_values_(z_.GetPIDValues()),yaw_values_(yaw_.GetPIDValues()),
+      z_values_(z_.GetPIDValues()),pitch_values_(pitch_.GetPIDValues()), yaw_values_(yaw_.GetPIDValues()),
       constant_depth_force_(0.0)
 {
   Init();
@@ -72,6 +72,13 @@ void PID4Axis_Algorithm::OnDynamicReconfigureChange(const proc_control::PID4Axis
   z_values_.Max_Actuation = config.Z_MAX_ACTUATION;
   z_values_.Min_Actuation = config.Z_MIN_ACTUATION;
 
+  pitch_values_.D = config.PITCH_D;
+  pitch_values_.P = config.PITCH_P;
+  pitch_values_.I = config.PITCH_I;
+  pitch_values_.I_Limit = config.PITCH_I_LIMIT;
+  pitch_values_.Max_Actuation = config.PITCH_MAX_ACTUATION;
+  pitch_values_.Min_Actuation = config.PITCH_MIN_ACTUATION;
+
   yaw_values_.D = config.YAW_D;
   yaw_values_.P = config.YAW_P;
   yaw_values_.I = config.YAW_I;
@@ -93,7 +100,7 @@ void PID4Axis_Algorithm::WriteConfigFile( const proc_control::PID4AxisConfig &co
   out << YAML::Value << constant_depth_force_;
 
   std::vector< std::map<std::string, double&> >
-      all_config {x_values_.ToMap(), y_values_.ToMap(),z_values_.ToMap(), yaw_values_.ToMap()};
+      all_config {x_values_.ToMap(), y_values_.ToMap(),z_values_.ToMap(), pitch_values_.ToMap(), yaw_values_.ToMap()};
   for( auto config : all_config)
   {
     for(auto elem : config)
@@ -112,7 +119,7 @@ void PID4Axis_Algorithm::ReadConfigFile( proc_control::PID4AxisConfig &config )
 {
   YAML::Node node = YAML::LoadFile(file_path_);
   std::vector< std::map<std::string, double&> >
-      all_config {x_values_.ToMap(), y_values_.ToMap(),z_values_.ToMap(), yaw_values_.ToMap()};
+      all_config {x_values_.ToMap(), y_values_.ToMap(),z_values_.ToMap(), pitch_values_.ToMap(), yaw_values_.ToMap()};
   for( auto config : all_config)
   {
     for(auto elem : config)
@@ -149,6 +156,13 @@ void PID4Axis_Algorithm::ReadConfigFile( proc_control::PID4AxisConfig &config )
   config.Z_MAX_ACTUATION = z_values_.Max_Actuation;
   config.Z_MIN_ACTUATION = z_values_.Min_Actuation;
 
+  config.PITCH_D = pitch_values_.D;
+  config.PITCH_P = pitch_values_.P;
+  config.PITCH_I = pitch_values_.I;
+  config.PITCH_I_LIMIT = pitch_values_.I_Limit;
+  config.PITCH_MAX_ACTUATION = pitch_values_.Max_Actuation;
+  config.PITCH_MIN_ACTUATION = pitch_values_.Min_Actuation;
+
   config.YAW_D = yaw_values_.D;
   config.YAW_P = yaw_values_.P;
   config.YAW_I = yaw_values_.I;
@@ -167,6 +181,7 @@ std::array<double, 6> PID4Axis_Algorithm::CalculateActuationForError(const std::
   actuation[0] = x_.GetValueForError(error[0]);
   actuation[1] = y_.GetValueForError(error[1]);
   actuation[2] = z_.GetValueForError(error[2]) + constant_depth_force_;
+  actuation[4] = pitch_.GetValueForError(error[4]);
   actuation[5] = yaw_.GetValueForError(error[5]);
   return actuation;
 };

@@ -80,6 +80,10 @@ double PID::GetValueForError(double error) {
                          pid_values_.Max_Actuation);
   }
 
+  printf("P : %lf \n"
+             "I : %lf \n"
+             "D : %lf \n", proportional, derivative, integrale);
+
   // Persist all the previous values
   last_time_ = now_time;//nowTime;
   last_error_ = error;

@@ -83,74 +83,84 @@ void ProcControlNode::Control() {
 //  printf("Target Position:  %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f \n",
 //         targeted_position_[0], targeted_position_[1], targeted_position_[2],
 //         targeted_position_[3], targeted_position_[4], targeted_position_[5]);
+  std::chrono::steady_clock::time_point now_time = std::chrono::steady_clock::now();
+  auto diff = now_time - last_time_;
 
-  proc_control::PositionTarget msg_target;
-  msg_target.X = targeted_position_[0];
-  msg_target.Y = targeted_position_[1];
-  msg_target.Z = targeted_position_[2];
-  msg_target.ROLL = targeted_position_[3];
-  msg_target.PITCH = targeted_position_[4];
-  msg_target.YAW = targeted_position_[5];
-  debug_target_publisher_.publish(msg_target);
+  double deltaTime_s = double(std::chrono::duration_cast<std::chrono::nanoseconds>(diff).count())/(double(1E9));
 
-  // Calculate the error
-  std::array<double, 6> error;
-  for (int i = 0; i < 6; i++) {
-    error[i] = targeted_position_[i] - world_position_[i];
-    if (!enable_control_[i]) {
-      error[i] = 0.0f;
+  if(deltaTime_s > (0.0001f) ) {
+    proc_control::PositionTarget msg_target;
+    msg_target.X = targeted_position_[0];
+    msg_target.Y = targeted_position_[1];
+    msg_target.Z = targeted_position_[2];
+    msg_target.ROLL = targeted_position_[3];
+    msg_target.PITCH = targeted_position_[4];
+    msg_target.YAW = targeted_position_[5];
+    debug_target_publisher_.publish(msg_target);
+
+    // Calculate the error
+    std::array<double, 6> error;
+    for (int i = 0; i < 6; i++) {
+      error[i] = targeted_position_[i] - world_position_[i];
+      if (!enable_control_[i]) {
+        error[i] = 0.0f;
+      }
     }
+
+    // Yaw is a special case because it can loop around.
+    double error_yaw = targeted_position_[YAW] - world_position_[YAW];
+    if (std::fabs(error_yaw) > 180.0) {
+      error_yaw = std::copysign(360 - std::fabs(error_yaw), -error_yaw);
+    }
+    error[YAW] = error_yaw;
+
+    if (trajectory_yaw.IsSplineCalculated()) {
+      targeted_position_[YAW] = trajectory_yaw.GetPosition(deltaTime_s);
+    }
+
+    error = GetLocalError(error);
+
+    proc_control::PositionTarget error_;
+    error_.X = error[0];
+    error_.Y = error[1];
+    error_.Z = error[2];
+    error_.PITCH = error[3];
+    error_.ROLL = error[4];
+    error_.YAW = error[5];
+
+    error_publisher_.publish(error_);
+  //  printf("Local error: %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f \n",
+  //         error[0], error[1], error[2], error[3], error[4], error[5]);
+
+    // Handle the is target reached message
+    proc_control::TargetReached msg_target_reached;
+    msg_target_reached.target_is_reached = static_cast<unsigned char> (EvaluateTargetReached(error) ? 1 : 0);
+    target_is_reached_publisher_.publish(msg_target_reached);
+
+    // Calculate required actuation
+    std::array<double, 6> actuation = algorithm_manager_.GetActuationForError(error);
+  //  printf("Actuation : %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f \n",
+  //         actuation[X], actuation[Y], actuation[Z],
+  //         actuation[ROLL], actuation[PITCH], actuation[YAW]);
+    std::array<double, 3> actuation_lin = {actuation[X], actuation[Y], actuation[Z]};
+    std::array<double, 3> actuation_rot = {actuation[ROLL], actuation[PITCH], actuation[YAW]};
+    for (int i = 0; i < 3; i++) {
+      if (!enable_control_[i]) {
+        actuation_lin[i] = 0.0f;
+      }
+      if (!enable_control_[i + 3]) {
+        actuation_rot[i] = 0.0f;
+      }
+    }
+
+    // Process the actuation
+    std::array<double, 8> thrust_force = thruster_manager_.Commit(actuation_lin, actuation_rot);
+  //  printf("Thrust : T1: %10.4f, T2: %10.4f, T3: %10.4f, T4: %10.4f T5: %10.4f, T6: %10.4f, T7: %10.4f, T8: %10.4f \n",
+  //         thrust_force[0], thrust_force[1], thrust_force[2], thrust_force[3],
+  //         thrust_force[4], thrust_force[5], thrust_force[6], thrust_force[7]);
   }
 
-  // Yaw is a special case because it can loop around.
-  double error_yaw = targeted_position_[YAW] - world_position_[YAW];
-//  if (std::fabs(error_yaw) > 180.0) {
-//    error_yaw = std::copysign(360 - std::fabs(error_yaw), -error_yaw);
-//  }
-  error[YAW] = error_yaw;
-
-  error = GetLocalError(error);
-
-  proc_control::PositionTarget error_;
-  error_.X = error[0];
-  error_.Y = error[1];
-  error_.Z = error[2];
-  error_.PITCH = error[3];
-  error_.ROLL = error[4];
-  error_.YAW = error[5];
-
-  error_publisher_.publish(error_);
-//  printf("Local error: %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f \n",
-//         error[0], error[1], error[2], error[3], error[4], error[5]);
-
-  // Handle the is target reached message
-  proc_control::TargetReached msg_target_reached;
-  msg_target_reached.target_is_reached = static_cast<unsigned char> (EvaluateTargetReached(error) ? 1 : 0);
-  target_is_reached_publisher_.publish(msg_target_reached);
-
-  // Calculate required actuation
-  std::array<double, 6> actuation = algorithm_manager_.GetActuationForError(error);
-//  printf("Actuation : %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f \n",
-//         actuation[X], actuation[Y], actuation[Z],
-//         actuation[ROLL], actuation[PITCH], actuation[YAW]);
-  std::array<double, 3> actuation_lin = {actuation[X], actuation[Y], actuation[Z]};
-  std::array<double, 3> actuation_rot = {actuation[ROLL], actuation[PITCH], actuation[YAW]};
-  for (int i = 0; i < 3; i++) {
-    if (!enable_control_[i]) {
-      actuation_lin[i] = 0.0f;
-    }
-    if (!enable_control_[i + 3]) {
-      actuation_rot[i] = 0.0f;
-    }
-  }
-
-  // Process the actuation
-  std::array<double, 8> thrust_force = thruster_manager_.Commit(actuation_lin, actuation_rot);
-//  printf("Thrust : T1: %10.4f, T2: %10.4f, T3: %10.4f, T4: %10.4f T5: %10.4f, T6: %10.4f, T7: %10.4f, T8: %10.4f \n",
-//         thrust_force[0], thrust_force[1], thrust_force[2], thrust_force[3],
-//         thrust_force[4], thrust_force[5], thrust_force[6], thrust_force[7]);
-
-  ROS_DEBUG("\n");
+  last_time_ = now_time;//nowTime;
 }
 
 //-----------------------------------------------------------------------------
@@ -221,12 +231,21 @@ bool ProcControlNode::GlobalTargetServiceCallback(proc_control::SetPositionTarge
 //
 bool ProcControlNode::GetPositionTargetServiceCallback(proc_control::GetPositionTargetRequest &request,
                                                        proc_control::GetPositionTargetResponse &response) {
-  response.X = targeted_position_[0];
-  response.Y = targeted_position_[1];
-  response.Z = targeted_position_[2];
-  response.ROLL = targeted_position_[3];
-  response.PITCH = targeted_position_[4];
-  response.YAW = targeted_position_[5];
+  response.X = targeted_position_[X];
+  response.Y = targeted_position_[Y];
+  response.Z = targeted_position_[Z];
+  response.ROLL = targeted_position_[ROLL];
+  response.PITCH = targeted_position_[PITCH];
+  response.YAW = targeted_position_[YAW];
+
+  double error_yaw = targeted_position_[YAW] - world_position_[YAW];
+  if (std::fabs(error_yaw) > 180.0) {
+    error_yaw = fabs(360 - std::fabs(error_yaw));
+  }
+
+  if (error_yaw > 5) {
+    trajectory_yaw.CalculateSpline(world_position_[YAW], targeted_position_[YAW], 0, 0);
+  }
 
   PublishTargetedPosition();
   return true;

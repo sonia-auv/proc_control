@@ -33,6 +33,7 @@
 
 #include <proc_control/PositionTarget.h>
 #include <eigen3/Eigen/Eigen>
+#include <chrono>
 
 #include "proc_control/EnableControl.h"
 #include "proc_control/EnableThrusters.h"
@@ -41,6 +42,8 @@
 #include "proc_control/SetPositionTarget.h"
 #include "proc_control/GetPositionTarget.h"
 #include "proc_control/ClearWaypoint.h"
+
+#include "trajectory/trajectory_yaw.h"
 
 namespace proc_control {
 
@@ -120,8 +123,10 @@ class ProcControlNode {
   OdometryInfo targeted_position_ = {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0}};
   std::array<bool, 6> enable_control_;
 
-  int stability_count_;
+  TrajectoryYaw trajectory_yaw;
 
+  int stability_count_;
+  std::chrono::steady_clock::time_point last_time_;
 };
 
 inline double ProcControlNode::DegreeToRadian(const double &degree) {

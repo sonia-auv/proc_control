@@ -38,11 +38,18 @@ class TrajectoryYaw {
   //==========================================================================
   // P U B L I C   M E T H O D S
 
- private:
+  bool IsSplineCalculated();
+  void CalculateSpline(double current_position, double target_position,
+                  double current_velocity, double target_velocity);
+  double GetPosition(double dt);
 
+ private:
   //==========================================================================
   // P R I V A T E   M E M B E R S
 
+  double hermite_spline_solution[4];
+  bool is_spline_calculated;
+  double spline_time;
 };
 
 #endif //PROC_CONTROL_TRAJECTORY_YAW_H

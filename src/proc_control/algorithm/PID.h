@@ -33,7 +33,6 @@
 #include <cmath>
 #include <proc_control/config/algorithm_config/PID_Values.h>
 
-
 class PID {
  public:
   //==========================================================================

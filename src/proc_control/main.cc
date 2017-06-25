@@ -32,7 +32,7 @@ int main(int argc, char** argv) {
   ros::NodeHandlePtr nh(new ros::NodeHandle("~"));
   proc_control::ProcControlNode proc_control_node{nh};
 
-  ros::Rate r(100); // 100 hz
+  ros::Rate r(10); // 100 hz
   while(ros::ok())
   {
     ros::spinOnce();

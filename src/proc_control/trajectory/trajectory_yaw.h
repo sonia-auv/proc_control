@@ -26,6 +26,7 @@
 #ifndef PROC_CONTROL_TRAJECTORY_YAW_H
 #define PROC_CONTROL_TRAJECTORY_YAW_H
 
+#include <cmath>
 
 class TrajectoryYaw {
  public:
@@ -38,17 +39,22 @@ class TrajectoryYaw {
   //==========================================================================
   // P U B L I C   M E T H O D S
 
+  void SetTargetPosition(double target_position);
   bool IsSplineCalculated();
-  void CalculateSpline(double current_position, double target_position,
-                  double current_velocity, double target_velocity);
-  double GetPosition(double dt);
+  void CalculateSpline(double current_position, double current_velocity,
+                       double target_velocity);
+  double GetPosition(double current_position, double dt);
 
  private:
   //==========================================================================
   // P R I V A T E   M E M B E R S
 
-  double hermite_spline_solution[4];
+  double target_position;
+
   bool is_spline_calculated;
+  bool is_position_reach;
+
+  double hermite_spline_solution[4];
   double spline_time;
 };
 

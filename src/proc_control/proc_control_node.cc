@@ -98,6 +98,10 @@ void ProcControlNode::Control() {
     msg_target.YAW = targeted_position_[5];
     debug_target_publisher_.publish(msg_target);
 
+    if (trajectory_yaw.IsSplineCalculated()) {
+      targeted_position_[YAW] = trajectory_yaw.GetPosition(world_position_[YAW], deltaTime_s);
+    }
+
     // Calculate the error
     std::array<double, 6> error;
     for (int i = 0; i < 6; i++) {
@@ -113,10 +117,6 @@ void ProcControlNode::Control() {
       error_yaw = std::copysign(360 - std::fabs(error_yaw), -error_yaw);
     }
     error[YAW] = error_yaw;
-
-    if (trajectory_yaw.IsSplineCalculated()) {
-      targeted_position_[YAW] = trajectory_yaw.GetPosition(deltaTime_s);
-    }
 
     error = GetLocalError(error);
 
@@ -223,7 +223,19 @@ bool ProcControlNode::GlobalTargetServiceCallback(proc_control::SetPositionTarge
   targeted_position_[4] = request.PITCH;
   targeted_position_[5] = request.YAW;
 
-  PublishTargetedPosition();
+  double error_yaw = targeted_position_[YAW] - world_position_[YAW];
+  if (std::fabs(error_yaw) > 180.0) {
+    error_yaw = fabs(360 - std::fabs(error_yaw));
+  } else {
+    error_yaw = fabs(error_yaw);
+  }
+
+  if (error_yaw > 5) {
+    trajectory_yaw.SetTargetPosition(targeted_position_[YAW]);
+    trajectory_yaw.CalculateSpline(world_position_[YAW], 0, 0);
+  }
+
+//  PublishTargetedPosition();
   return true;
 }
 
@@ -237,15 +249,6 @@ bool ProcControlNode::GetPositionTargetServiceCallback(proc_control::GetPosition
   response.ROLL = targeted_position_[ROLL];
   response.PITCH = targeted_position_[PITCH];
   response.YAW = targeted_position_[YAW];
-
-  double error_yaw = targeted_position_[YAW] - world_position_[YAW];
-  if (std::fabs(error_yaw) > 180.0) {
-    error_yaw = fabs(360 - std::fabs(error_yaw));
-  }
-
-  if (error_yaw > 5) {
-    trajectory_yaw.CalculateSpline(world_position_[YAW], targeted_position_[YAW], 0, 0);
-  }
 
   PublishTargetedPosition();
   return true;

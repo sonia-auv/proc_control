@@ -32,6 +32,7 @@
 //
 TrajectoryYaw::TrajectoryYaw() {
   is_spline_calculated = false;
+  is_position_reach = true;
   spline_time = 0;
 }
 
@@ -48,30 +49,50 @@ bool TrajectoryYaw::IsSplineCalculated() { return is_spline_calculated; }
 
 //-----------------------------------------------------------------------------
 //
-void TrajectoryYaw::CalculateSpline(double current_position, double target_position,
-                               double current_velocity, double target_velocity) {
-  hermite_spline_solution[0] = current_position;
-  hermite_spline_solution[1] = current_velocity;
-  hermite_spline_solution[2] = -current_position * 3.0f - current_velocity * 2.0f +
-                                target_position * 3.0f - target_velocity;
-  hermite_spline_solution[3] = current_position * 2.0f + current_velocity -
-                               target_position * 2.0f + target_velocity;
-
-  is_spline_calculated = true;
+void TrajectoryYaw::SetTargetPosition(double target_position) {
+  this->target_position = target_position;
 }
 
 //-----------------------------------------------------------------------------
 //
-double TrajectoryYaw::GetPosition(double dt) {
+void TrajectoryYaw::CalculateSpline(double current_position, double current_velocity,
+                                    double target_velocity) {
+  hermite_spline_solution[0] = current_position;
+  hermite_spline_solution[1] = current_velocity;
+  hermite_spline_solution[2] = -current_position * 3.0f - current_velocity * 2.0f +
+                                this->target_position * 3.0f - target_velocity;
+  hermite_spline_solution[3] = current_position * 2.0f + current_velocity -
+                               this->target_position * 2.0f + target_velocity;
+
+  spline_time = 0.0;
+  is_spline_calculated = true;
+  is_position_reach = false;
+}
+
+//-----------------------------------------------------------------------------
+//
+double TrajectoryYaw::GetPosition(double current_position, double dt) {
+  double position = 0.0;
   double spline_time_squared = spline_time * spline_time;
   double spline_time_cubed = spline_time_squared * spline_time;
 
-  double position = hermite_spline_solution[0] +
-                    hermite_spline_solution[1] * spline_time +
-                    hermite_spline_solution[2] * spline_time_squared +
-                    hermite_spline_solution[3] * spline_time_cubed;
+  if (!is_position_reach) {
+    position = hermite_spline_solution[0] +
+        hermite_spline_solution[1] * spline_time +
+        hermite_spline_solution[2] * spline_time_squared +
+        hermite_spline_solution[3] * spline_time_cubed;
 
-  spline_time += dt;
+    spline_time += (dt / 10);
+  } else {
+    position = hermite_spline_solution[0] +
+        hermite_spline_solution[1] * spline_time +
+        hermite_spline_solution[2] * spline_time_squared +
+        hermite_spline_solution[3] * spline_time_cubed;
+  }
+
+  if (fabs(position - target_position) < 0.1) {
+    is_position_reach = true;
+  }
 
   return position;
 }

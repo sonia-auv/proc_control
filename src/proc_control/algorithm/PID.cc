@@ -64,7 +64,6 @@ double PID::GetValueForError(double error) {
     actuation += derivative;
     // Integrate cumulative error
     integration_sum_ += (error * deltaTime_s);
-    printf("Integration sum : %f\n", integration_sum_);
     // Reset I if position crosses target (if error is 0 or changes sign)
     if ((copysign(1.0f, error) != copysign(1.0f, last_error_)) || (error == 0.0)) {
       integration_sum_ = 0;

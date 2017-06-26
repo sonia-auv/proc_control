@@ -98,6 +98,14 @@ void ProcControlNode::Control() {
     msg_target.YAW = targeted_position_[5];
     debug_target_publisher_.publish(msg_target);
 
+    if (trajectory_surge.IsSplineCalculated()) {
+      targeted_position_[X] = trajectory_surge.GetPosition(world_position_[X], deltaTime_s);
+    }
+
+    if (trajectory_sway.IsSplineCalculated()) {
+      targeted_position_[Y] = trajectory_sway.GetPosition(world_position_[Y], deltaTime_s);
+    }
+
     if (trajectory_yaw.IsSplineCalculated()) {
       targeted_position_[YAW] = trajectory_yaw.GetPosition(world_position_[YAW], deltaTime_s);
     }
@@ -113,9 +121,6 @@ void ProcControlNode::Control() {
 
     // Yaw is a special case because it can loop around.
     double error_yaw = targeted_position_[YAW] - world_position_[YAW];
-//    if (std::fabs(error_yaw) > 180.0) {
-//      error_yaw = std::copysign(360 - std::fabs(error_yaw), -error_yaw);
-//    }
     error[YAW] = error_yaw;
 
     error = GetLocalError(error);
@@ -223,11 +228,23 @@ bool ProcControlNode::GlobalTargetServiceCallback(proc_control::SetPositionTarge
   targeted_position_[4] = request.PITCH;
   targeted_position_[5] = request.YAW;
 
+  double error_x = targeted_position_[X] - world_position_[X];
+  if (std::fabs(error_x) > 0.1) {
+    trajectory_surge.SetTargetPosition(targeted_position_[X]);
+    trajectory_surge.CalculateSpline(world_position_[X], 0, 0);
+  }
+
+  double error_y = targeted_position_[Y] - world_position_[Y];
+  if (std::fabs(error_y) > 0.1) {
+    trajectory_sway.SetTargetPosition(targeted_position_[Y]);
+    trajectory_sway.CalculateSpline(world_position_[Y], 0, 0);
+  }
+
   double error_yaw = targeted_position_[YAW] - world_position_[YAW];
   if (std::fabs(error_yaw) > 180.0) {
     error_yaw = fabs(360 - std::fabs(error_yaw));
   } else {
-    error_yaw = fabs(error_yaw);
+    error_yaw = std::fabs(error_yaw);
   }
 
   if (error_yaw > 5) {
@@ -235,7 +252,7 @@ bool ProcControlNode::GlobalTargetServiceCallback(proc_control::SetPositionTarge
     trajectory_yaw.CalculateSpline(world_position_[YAW], 0, 0);
   }
 
-//  PublishTargetedPosition();
+  PublishTargetedPosition();
   return true;
 }
 

@@ -121,6 +121,7 @@ class ProcControlNode {
 
   OdometryInfo world_position_ = {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0}};
   OdometryInfo targeted_position_ = {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0}};
+  OdometryInfo asked_position_ = {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0}};
   std::array<bool, 6> enable_control_;
 
   TrajectoryYaw trajectory_yaw;

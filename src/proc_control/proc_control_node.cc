@@ -139,7 +139,7 @@ void ProcControlNode::Control() {
 
     // Handle the is target reached message
     proc_control::TargetReached msg_target_reached;
-    msg_target_reached.target_is_reached = static_cast<unsigned char> (EvaluateTargetReached(error) ? 1 : 0);
+    msg_target_reached.target_is_reached = static_cast<unsigned char> (EvaluateTargetReached(asked_position_) ? 1 : 0);
     target_is_reached_publisher_.publish(msg_target_reached);
 
     // Calculate required actuation
@@ -227,6 +227,8 @@ bool ProcControlNode::GlobalTargetServiceCallback(proc_control::SetPositionTarge
   targeted_position_[3] = request.ROLL;
   targeted_position_[4] = request.PITCH;
   targeted_position_[5] = request.YAW;
+
+  asked_position_ = targeted_position_;
 
   double error_x = targeted_position_[X] - world_position_[X];
   if (std::fabs(error_x) > 0.1) {

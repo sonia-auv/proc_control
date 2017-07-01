@@ -77,12 +77,6 @@ ProcControlNode::~ProcControlNode() { }
 //-----------------------------------------------------------------------------
 //
 void ProcControlNode::Control() {
-//  printf("Current Position: %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f \n",
-//         world_position_[0], world_position_[1], world_position_[2],
-//         world_position_[3], world_position_[4], world_position_[5]);
-//  printf("Target Position:  %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f \n",
-//         targeted_position_[0], targeted_position_[1], targeted_position_[2],
-//         targeted_position_[3], targeted_position_[4], targeted_position_[5]);
   std::chrono::steady_clock::time_point now_time = std::chrono::steady_clock::now();
   auto diff = now_time - last_time_;
 
@@ -104,6 +98,10 @@ void ProcControlNode::Control() {
 
     if (trajectory_sway.IsSplineCalculated()) {
       targeted_position_[Y] = trajectory_sway.GetPosition(world_position_[Y], deltaTime_s);
+    }
+
+    if (trajectory_heave.IsSplineCalculated()) {
+      targeted_position_[Z] = trajectory_heave.GetPosition(world_position_[Z], deltaTime_s);
     }
 
     if (trajectory_yaw.IsSplineCalculated()) {
@@ -134,8 +132,6 @@ void ProcControlNode::Control() {
     error_.YAW = error[5];
 
     error_publisher_.publish(error_);
-  //  printf("Local error: %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f \n",
-  //         error[0], error[1], error[2], error[3], error[4], error[5]);
 
     // Handle the is target reached message
     proc_control::TargetReached msg_target_reached;
@@ -144,9 +140,6 @@ void ProcControlNode::Control() {
 
     // Calculate required actuation
     std::array<double, 6> actuation = algorithm_manager_.GetActuationForError(error);
-  //  printf("Actuation : %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f \n",
-  //         actuation[X], actuation[Y], actuation[Z],
-  //         actuation[ROLL], actuation[PITCH], actuation[YAW]);
     std::array<double, 3> actuation_lin = {actuation[X], actuation[Y], actuation[Z]};
     std::array<double, 3> actuation_rot = {actuation[ROLL], actuation[PITCH], actuation[YAW]};
     for (int i = 0; i < 3; i++) {
@@ -159,37 +152,34 @@ void ProcControlNode::Control() {
     }
 
     // Process the actuation
-    std::array<double, 8> thrust_force = thruster_manager_.Commit(actuation_lin, actuation_rot);
-  //  printf("Thrust : T1: %10.4f, T2: %10.4f, T3: %10.4f, T4: %10.4f T5: %10.4f, T6: %10.4f, T7: %10.4f, T8: %10.4f \n",
-  //         thrust_force[0], thrust_force[1], thrust_force[2], thrust_force[3],
-  //         thrust_force[4], thrust_force[5], thrust_force[6], thrust_force[7]);
+    thruster_manager_.Commit(actuation_lin, actuation_rot);
   }
 
-  last_time_ = now_time;//nowTime;
+  last_time_ = now_time;
 }
 
 //-----------------------------------------------------------------------------
 //
 void ProcControlNode::PublishTargetedPosition() {
   proc_control::PositionTarget msg;
-  msg.X = targeted_position_[0];
-  msg.Y = targeted_position_[1];
-  msg.Z = targeted_position_[2];
-  msg.ROLL = targeted_position_[3];
-  msg.PITCH = targeted_position_[4];
-  msg.YAW = targeted_position_[5];
+  msg.X = targeted_position_[X];
+  msg.Y = targeted_position_[Y];
+  msg.Z = targeted_position_[Z];
+  msg.ROLL = targeted_position_[ROLL];
+  msg.PITCH = targeted_position_[PITCH];
+  msg.YAW = targeted_position_[YAW];
   target_publisher_.publish(msg);
 }
 
 //-----------------------------------------------------------------------------
 //
 void ProcControlNode::OdomCallback(const nav_msgs::Odometry::ConstPtr &odo_in) {
-  world_position_[0] = odo_in->pose.pose.position.x;
-  world_position_[1] = odo_in->pose.pose.position.y;
-  world_position_[2] = odo_in->pose.pose.position.z;
-  world_position_[3] = odo_in->pose.pose.orientation.x;
-  world_position_[4] = odo_in->pose.pose.orientation.y;
-  world_position_[5] = odo_in->pose.pose.orientation.z;
+  world_position_[X] = odo_in->pose.pose.position.x;
+  world_position_[Y] = odo_in->pose.pose.position.y;
+  world_position_[Z] = odo_in->pose.pose.position.z;
+  world_position_[ROLL] = odo_in->pose.pose.orientation.x;
+  world_position_[PITCH] = odo_in->pose.pose.orientation.y;
+  world_position_[YAW] = odo_in->pose.pose.orientation.z;
 }
 
 //-----------------------------------------------------------------------------
@@ -221,12 +211,12 @@ void ProcControlNode::KeypadCallback(const provider_keypad::Keypad::ConstPtr &ke
 //
 bool ProcControlNode::GlobalTargetServiceCallback(proc_control::SetPositionTargetRequest &request,
                                                   proc_control::SetPositionTargetResponse &response) {
-  targeted_position_[0] = request.X;
-  targeted_position_[1] = request.Y;
-  targeted_position_[2] = request.Z;
-  targeted_position_[3] = request.ROLL;
-  targeted_position_[4] = request.PITCH;
-  targeted_position_[5] = request.YAW;
+  targeted_position_[X] = request.X;
+  targeted_position_[Y] = request.Y;
+  targeted_position_[Z] = request.Z;
+  targeted_position_[ROLL] = request.ROLL;
+  targeted_position_[PITCH] = request.PITCH;
+  targeted_position_[YAW] = request.YAW;
 
   asked_position_ = targeted_position_;
 
@@ -240,6 +230,12 @@ bool ProcControlNode::GlobalTargetServiceCallback(proc_control::SetPositionTarge
   if (std::fabs(error_y) > 0.1) {
     trajectory_sway.SetTargetPosition(targeted_position_[Y]);
     trajectory_sway.CalculateSpline(world_position_[Y], 0, 0);
+  }
+
+  double error_z = targeted_position_[Z] - world_position_[Z];
+  if (std::fabs(error_z) > 0.1) {
+    trajectory_heave.SetTargetPosition(targeted_position_[Z]);
+    trajectory_heave.CalculateSpline(world_position_[Z], 0, 0);
   }
 
   double error_yaw = targeted_position_[YAW] - world_position_[YAW];

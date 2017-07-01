@@ -127,6 +127,7 @@ class ProcControlNode {
   TrajectoryYaw trajectory_yaw;
   TrajectoryYaw trajectory_surge;
   TrajectoryYaw trajectory_sway;
+  TrajectoryYaw trajectory_heave;
 
   int stability_count_;
   std::chrono::steady_clock::time_point last_time_;

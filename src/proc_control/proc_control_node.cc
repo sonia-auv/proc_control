@@ -287,10 +287,12 @@ bool ProcControlNode::EnableControlServiceCallback(proc_control::EnableControlRe
       enable_control_[X] = true;
       targeted_position_[X] = world_position_[X];
       asked_position_[X] = world_position_[X];
+      trajectory_surge.Reset();
     } else {
       enable_control_[X] = false;
       targeted_position_[X] = 0.0;
       asked_position_[X] = 0.0;
+      trajectory_surge.Reset();
     }
   }
 
@@ -299,10 +301,12 @@ bool ProcControlNode::EnableControlServiceCallback(proc_control::EnableControlRe
       enable_control_[Y] = true;
       targeted_position_[Y] = world_position_[Y];
       asked_position_[Y] = world_position_[Y];
+      trajectory_sway.Reset();
     } else {
       enable_control_[Y] = false;
       targeted_position_[Y] = 0.0;
       asked_position_[Y] = 0.0;
+      trajectory_sway.Reset();
     }
   }
 
@@ -311,10 +315,12 @@ bool ProcControlNode::EnableControlServiceCallback(proc_control::EnableControlRe
       enable_control_[Z] = true;
       targeted_position_[Z] = world_position_[Z];
       asked_position_[Z] = world_position_[Z];
+      trajectory_heave.Reset();
     } else {
       enable_control_[Z] = false;
       targeted_position_[Z] = 0.0;
       asked_position_[Z] = 0.0;
+      trajectory_heave.Reset();
     }
   }
 
@@ -347,10 +353,12 @@ bool ProcControlNode::EnableControlServiceCallback(proc_control::EnableControlRe
       enable_control_[YAW] = true;
       targeted_position_[YAW] = world_position_[YAW];
       asked_position_[YAW] = world_position_[YAW];
+      trajectory_yaw.Reset();
     } else {
       enable_control_[YAW] = false;
       targeted_position_[YAW] = 0.0;
       asked_position_[YAW] = 0.0;
+      trajectory_yaw.Reset();
     }
   }
 

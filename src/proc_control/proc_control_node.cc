@@ -354,6 +354,8 @@ bool ProcControlNode::EnableControlServiceCallback(proc_control::EnableControlRe
     }
   }
 
+  PublishTargetedPosition();
+
   std::vector<std::string> tmp{"X", "Y", "Z", "ROLL", "PITCH", "YAW"};
   std::cout << "Active control: ";
   for (int i = 0; i < 6; i++) {

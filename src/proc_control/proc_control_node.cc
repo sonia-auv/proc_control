@@ -420,6 +420,11 @@ bool ProcControlNode::LocalTargetServiceCallback(proc_control::SetPositionTarget
     error_yaw = std::fabs(error_yaw);
   }
 
+  if (error_yaw > 5) {
+    trajectory_yaw.SetTargetPosition(targeted_position_[YAW]);
+    trajectory_yaw.CalculateSpline(world_position_[YAW], 0, 0);
+  }
+
   PublishTargetedPosition();
   return true;
 }

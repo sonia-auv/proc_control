@@ -23,18 +23,18 @@
  * along with S.O.N.I.A. AUV software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PROC_CONTROL_TRAJECTORY_YAW_H
-#define PROC_CONTROL_TRAJECTORY_YAW_H
+#ifndef PROC_CONTROL_TRAJECTORY_H
+#define PROC_CONTROL_TRAJECTORY_H
 
 #include <cmath>
 
-class TrajectoryYaw {
+class Trajectory {
  public:
   //==========================================================================
   // P U B L I C   C / D T O R S
 
-  TrajectoryYaw();
-  ~TrajectoryYaw();
+  Trajectory();
+  ~Trajectory();
 
   //==========================================================================
   // P U B L I C   M E T H O D S
@@ -58,4 +58,4 @@ class TrajectoryYaw {
   double spline_time;
 };
 
-#endif //PROC_CONTROL_TRAJECTORY_YAW_H
+#endif //PROC_CONTROL_TRAJECTORY_H

@@ -43,7 +43,7 @@
 #include "proc_control/GetPositionTarget.h"
 #include "proc_control/ClearWaypoint.h"
 
-#include "trajectory/trajectory_yaw.h"
+#include "proc_control/trajectory/trajectory.h"
 
 namespace proc_control {
 
@@ -124,10 +124,10 @@ class ProcControlNode {
   OdometryInfo asked_position_ = {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0}};
   std::array<bool, 6> enable_control_;
 
-  TrajectoryYaw trajectory_yaw;
-  TrajectoryYaw trajectory_surge;
-  TrajectoryYaw trajectory_sway;
-  TrajectoryYaw trajectory_heave;
+  Trajectory trajectory_yaw;
+  Trajectory trajectory_surge;
+  Trajectory trajectory_sway;
+  Trajectory trajectory_heave;
 
   int stability_count_;
   std::chrono::steady_clock::time_point last_time_;

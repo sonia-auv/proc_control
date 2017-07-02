@@ -90,7 +90,7 @@ double Trajectory::GetPosition(double current_position, double dt) {
         hermite_spline_solution[3] * spline_time_cubed;
   }
 
-  if (fabs(position - target_position) < 0.1) {
+  if (fabs(position - target_position) < 0.01) {
     is_position_reach = true;
   }
 

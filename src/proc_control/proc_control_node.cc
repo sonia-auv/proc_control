@@ -153,12 +153,12 @@ void ProcControlNode::Control() {
   }
 
   proc_control::PositionTarget msg_target;
-  msg_target.X = targeted_position_[0];
-  msg_target.Y = targeted_position_[1];
-  msg_target.Z = targeted_position_[2];
-  msg_target.ROLL = targeted_position_[3];
-  msg_target.PITCH = targeted_position_[4];
-  msg_target.YAW = targeted_position_[5];
+  msg_target.X = targeted_position_[X];
+  msg_target.Y = targeted_position_[Y];
+  msg_target.Z = targeted_position_[Z];
+  msg_target.ROLL = targeted_position_[ROLL];
+  msg_target.PITCH = targeted_position_[PITCH];
+  msg_target.YAW = targeted_position_[YAW];
   debug_target_publisher_.publish(msg_target);
 
   last_time_ = now_time;
@@ -168,12 +168,12 @@ void ProcControlNode::Control() {
 //
 void ProcControlNode::PublishTargetedPosition() {
   proc_control::PositionTarget msg;
-  msg.X = targeted_position_[X];
-  msg.Y = targeted_position_[Y];
-  msg.Z = targeted_position_[Z];
-  msg.ROLL = targeted_position_[ROLL];
-  msg.PITCH = targeted_position_[PITCH];
-  msg.YAW = targeted_position_[YAW];
+  msg.X = asked_position_[X];
+  msg.Y = asked_position_[Y];
+  msg.Z = asked_position_[Z];
+  msg.ROLL = asked_position_[ROLL];
+  msg.PITCH = asked_position_[PITCH];
+  msg.YAW = asked_position_[YAW];
   target_publisher_.publish(msg);
 }
 
@@ -251,7 +251,7 @@ bool ProcControlNode::GlobalTargetServiceCallback(proc_control::SetPositionTarge
     error_yaw = std::fabs(error_yaw);
   }
 
-  if (error_yaw > 5) {
+  if (error_yaw > 1) {
     trajectory_yaw.SetTargetPosition(targeted_position_[YAW]);
     trajectory_yaw.CalculateSpline(world_position_[YAW], 0, 0);
   }

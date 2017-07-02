@@ -324,32 +324,32 @@ bool ProcControlNode::ClearWaypointServiceCallback(proc_control::ClearWaypointRe
 //
 bool ProcControlNode::LocalTargetServiceCallback(proc_control::SetPositionTargetRequest &request,
                                                  proc_control::SetPositionTargetResponse &response) {
-    // We simply use the current yaw to rotate the translation into the good world position and add it to the position
-    Eigen::Matrix3d original_rotation = EulerToRot(Eigen::Vector3d(DegreeToRadian(world_position_[YAW]), 0, 0));
-    Eigen::Vector3d translation(request.X, request.Y, request.Z), original_position(world_position_[X],
-                                                                                    world_position_[Y],
-                                                                                    world_position_[Z]);
+  // We simply use the current yaw to rotate the translation into the good world position and add it to the position
+  Eigen::Matrix3d original_rotation = EulerToRot(Eigen::Vector3d(DegreeToRadian(world_position_[YAW]), 0, 0));
+  Eigen::Vector3d translation(request.X, request.Y, request.Z), original_position(world_position_[X],
+                                                                                  world_position_[Y],
+                                                                                  world_position_[Z]);
 
-    double rot = request.YAW;
+  double askedRotation = request.YAW;
 
-    if (rot < 0){
+  if (askedRotation < 0) {
+      askedRotation += 360;
+  }
 
-        rot += 360;
+  askedRotation += world_position_[YAW];
 
-    }
+  Eigen::Vector3d final_pos = original_position + (original_rotation * translation);
+  Eigen::Vector3d final_rot(world_position_[ROLL], world_position_[PITCH], fmod(askedRotation, 360.0));
 
-    rot += world_position_[YAW];
+  for (int i = 0; i < 3; i++) {
+      targeted_position_[i] = final_pos[i];
+      targeted_position_[i + 3] = final_rot[i];
+  }
 
-    Eigen::Vector3d final_pos = original_position + (original_rotation * translation);
-    Eigen::Vector3d final_rot(world_position_[ROLL], world_position_[PITCH], fmod(rot, 360.0));
+  asked_position_ = targeted_position_;
 
-    for (int i = 0; i < 3; i++) {
-        targeted_position_[i] = final_pos[i];
-        targeted_position_[i + 3] = final_rot[i];
-    }
-
-    PublishTargetedPosition();
-    return true;
+  PublishTargetedPosition();
+  return true;
 }
 
 //-----------------------------------------------------------------------------

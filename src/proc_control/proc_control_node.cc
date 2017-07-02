@@ -274,18 +274,65 @@ bool ProcControlNode::GetPositionTargetServiceCallback(proc_control::GetPosition
 bool ProcControlNode::EnableControlServiceCallback(proc_control::EnableControlRequest &request,
                                                    proc_control::EnableControlResponse &response) {
   // If don't care, reuse same value, else check if enable or not.
-  enable_control_[0] = (request.X == request.DONT_CARE) ?
-                       (enable_control_[0]) : (request.X == request.ENABLE);
-  enable_control_[1] = (request.Y == request.DONT_CARE) ?
-                       (enable_control_[1]) : (request.Y == request.ENABLE);
-  enable_control_[2] = (request.Z == request.DONT_CARE) ?
-                       (enable_control_[2]) : (request.Z == request.ENABLE);
-  enable_control_[3] = (request.ROLL == request.DONT_CARE) ?
-                       (enable_control_[3]) : (request.ROLL == request.ENABLE);
-  enable_control_[4] = (request.PITCH == request.DONT_CARE) ?
-                       (enable_control_[4]) : (request.PITCH == request.ENABLE);
-  enable_control_[5] = (request.YAW == request.DONT_CARE) ? (
-      enable_control_[5]) : (request.YAW == request.ENABLE);
+  if (request.X != request.DONT_CARE) {
+    if (request.X == request.ENABLE) {
+      enable_control_[X] = true;
+    } else {
+      enable_control_[X] = false;
+      targeted_position_[X] = 0.0;
+      asked_position_[X] = 0.0;
+    }
+  }
+
+  if (request.Y != request.DONT_CARE) {
+    if (request.Y == request.ENABLE) {
+      enable_control_[Y] = true;
+    } else {
+      enable_control_[Y] = false;
+      targeted_position_[Y] = 0.0;
+      asked_position_[Y] = 0.0;
+    }
+  }
+
+  if (request.Z != request.DONT_CARE) {
+    if (request.Z == request.ENABLE) {
+      enable_control_[Z] = true;
+    } else {
+      enable_control_[Z] = false;
+      targeted_position_[Z] = 0.0;
+      asked_position_[Z] = 0.0;
+    }
+  }
+
+  if (request.ROLL != request.DONT_CARE) {
+    if (request.ROLL == request.ENABLE) {
+      enable_control_[ROLL] = true;
+    } else {
+      enable_control_[ROLL] = false;
+      targeted_position_[ROLL] = 0.0;
+      asked_position_[ROLL] = 0.0;
+    }
+  }
+
+  if (request.PITCH != request.DONT_CARE) {
+    if (request.PITCH == request.ENABLE) {
+      enable_control_[PITCH] = true;
+    } else {
+      enable_control_[PITCH] = false;
+      targeted_position_[PITCH] = 0.0;
+      asked_position_[PITCH] = 0.0;
+    }
+  }
+
+  if (request.YAW != request.DONT_CARE) {
+    if (request.YAW == request.ENABLE) {
+      enable_control_[YAW] = true;
+    } else {
+      enable_control_[YAW] = false;
+      targeted_position_[YAW] = 0.0;
+      asked_position_[YAW] = 0.0;
+    }
+  }
 
   std::vector<std::string> tmp{"X", "Y", "Z", "ROLL", "PITCH", "YAW"};
   std::cout << "Active control: ";

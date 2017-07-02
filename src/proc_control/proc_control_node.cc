@@ -109,8 +109,14 @@ void ProcControlNode::Control() {
     }
 
     // Yaw is a special case because it can loop around.
-    double error_yaw = targeted_position_[YAW] - world_position_[YAW];
-    error[YAW] = error_yaw;
+    if (fabs(targeted_position_[YAW] - world_position_[YAW]) > 180) {
+      error[YAW] = fmod(targeted_position_[YAW] + (360 - world_position_[YAW]), 360.0);
+      if (error[YAW] > 180) {
+        error[YAW] -= 360;
+      }
+    } else {
+      error[YAW] = targeted_position_[YAW] - world_position_[YAW];
+    }
 
     error = GetLocalError(error);
 

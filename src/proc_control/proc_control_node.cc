@@ -83,15 +83,6 @@ void ProcControlNode::Control() {
   double deltaTime_s = double(std::chrono::duration_cast<std::chrono::nanoseconds>(diff).count())/(double(1E9));
 
   if(deltaTime_s > (0.0001f) ) {
-    proc_control::PositionTarget msg_target;
-    msg_target.X = targeted_position_[0];
-    msg_target.Y = targeted_position_[1];
-    msg_target.Z = targeted_position_[2];
-    msg_target.ROLL = targeted_position_[3];
-    msg_target.PITCH = targeted_position_[4];
-    msg_target.YAW = targeted_position_[5];
-    debug_target_publisher_.publish(msg_target);
-
     if (trajectory_surge.IsSplineCalculated()) {
       targeted_position_[X] = trajectory_surge.GetPosition(world_position_[X], deltaTime_s);
     }
@@ -154,6 +145,15 @@ void ProcControlNode::Control() {
     // Process the actuation
     thruster_manager_.Commit(actuation_lin, actuation_rot);
   }
+
+  proc_control::PositionTarget msg_target;
+  msg_target.X = targeted_position_[0];
+  msg_target.Y = targeted_position_[1];
+  msg_target.Z = targeted_position_[2];
+  msg_target.ROLL = targeted_position_[3];
+  msg_target.PITCH = targeted_position_[4];
+  msg_target.YAW = targeted_position_[5];
+  debug_target_publisher_.publish(msg_target);
 
   last_time_ = now_time;
 }
@@ -347,6 +347,31 @@ bool ProcControlNode::LocalTargetServiceCallback(proc_control::SetPositionTarget
   }
 
   asked_position_ = targeted_position_;
+
+  double error_x = targeted_position_[X] - world_position_[X];
+  if (std::fabs(error_x) > 0.1) {
+    trajectory_surge.SetTargetPosition(targeted_position_[X]);
+    trajectory_surge.CalculateSpline(world_position_[X], 0, 0);
+  }
+
+  double error_y = targeted_position_[Y] - world_position_[Y];
+  if (std::fabs(error_y) > 0.1) {
+    trajectory_sway.SetTargetPosition(targeted_position_[Y]);
+    trajectory_sway.CalculateSpline(world_position_[Y], 0, 0);
+  }
+
+  double error_z = targeted_position_[Z] - world_position_[Z];
+  if (std::fabs(error_z) > 0.1) {
+    trajectory_heave.SetTargetPosition(targeted_position_[Z]);
+    trajectory_heave.CalculateSpline(world_position_[Z], 0, 0);
+  }
+
+  double error_yaw = targeted_position_[YAW] - world_position_[YAW];
+  if (std::fabs(error_yaw) > 180.0) {
+    error_yaw = fabs(360 - std::fabs(error_yaw));
+  } else {
+    error_yaw = std::fabs(error_yaw);
+  }
 
   PublishTargetedPosition();
   return true;

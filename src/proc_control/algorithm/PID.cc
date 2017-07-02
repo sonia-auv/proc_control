@@ -85,7 +85,7 @@ double PID::GetValueForError(double error) {
 //             "D : %lf \n", proportional, derivative, integrale);
 
   // Persist all the previous values
-  last_time_ = now_time;//nowTime;
+  last_time_ = now_time;
   last_error_ = error;
 
   return actuation;

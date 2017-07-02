@@ -44,6 +44,7 @@ class Trajectory {
   void CalculateSpline(double current_position, double current_velocity,
                        double target_velocity);
   double GetPosition(double dt);
+  void Reset();
 
  private:
   //==========================================================================

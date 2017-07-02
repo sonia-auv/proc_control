@@ -96,3 +96,16 @@ double Trajectory::GetPosition(double dt) {
 
   return position;
 }
+
+//-----------------------------------------------------------------------------
+//
+void Trajectory::Reset() {
+  spline_time = 0.0;
+  target_position = 0.0;
+  is_position_reach = false;
+  is_spline_calculated = false;
+  hermite_spline_solution[0] = 0.0;
+  hermite_spline_solution[1] = 0.0;
+  hermite_spline_solution[2] = 0.0;
+  hermite_spline_solution[3] = 0.0;
+}

@@ -43,7 +43,7 @@ class Trajectory {
   bool IsSplineCalculated();
   void CalculateSpline(double current_position, double current_velocity,
                        double target_velocity);
-  double GetPosition(double current_position, double dt);
+  double GetPosition(double dt);
 
  private:
   //==========================================================================

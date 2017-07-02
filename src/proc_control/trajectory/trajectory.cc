@@ -71,7 +71,7 @@ void Trajectory::CalculateSpline(double current_position, double current_velocit
 
 //-----------------------------------------------------------------------------
 //
-double Trajectory::GetPosition(double current_position, double dt) {
+double Trajectory::GetPosition(double dt) {
   double position = 0.0;
   double spline_time_squared = spline_time * spline_time;
   double spline_time_cubed = spline_time_squared * spline_time;

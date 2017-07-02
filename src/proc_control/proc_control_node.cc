@@ -84,19 +84,19 @@ void ProcControlNode::Control() {
 
   if(deltaTime_s > (0.0001f) ) {
     if (trajectory_surge.IsSplineCalculated()) {
-      targeted_position_[X] = trajectory_surge.GetPosition(world_position_[X], deltaTime_s);
+      targeted_position_[X] = trajectory_surge.GetPosition(deltaTime_s);
     }
 
     if (trajectory_sway.IsSplineCalculated()) {
-      targeted_position_[Y] = trajectory_sway.GetPosition(world_position_[Y], deltaTime_s);
+      targeted_position_[Y] = trajectory_sway.GetPosition(deltaTime_s);
     }
 
     if (trajectory_heave.IsSplineCalculated()) {
-      targeted_position_[Z] = trajectory_heave.GetPosition(world_position_[Z], deltaTime_s);
+      targeted_position_[Z] = trajectory_heave.GetPosition(deltaTime_s);
     }
 
     if (trajectory_yaw.IsSplineCalculated()) {
-      targeted_position_[YAW] = trajectory_yaw.GetPosition(world_position_[YAW], deltaTime_s);
+      targeted_position_[YAW] = trajectory_yaw.GetPosition(deltaTime_s);
     }
 
     // Calculate the error
@@ -121,12 +121,12 @@ void ProcControlNode::Control() {
     error = GetLocalError(error);
 
     proc_control::PositionTarget error_;
-    error_.X = error[0];
-    error_.Y = error[1];
-    error_.Z = error[2];
-    error_.PITCH = error[3];
-    error_.ROLL = error[4];
-    error_.YAW = error[5];
+    error_.X = error[X];
+    error_.Y = error[Y];
+    error_.Z = error[Z];
+    error_.PITCH = error[ROLL];
+    error_.ROLL = error[PITCH];
+    error_.YAW = error[YAW];
 
     error_publisher_.publish(error_);
 
@@ -224,7 +224,9 @@ bool ProcControlNode::GlobalTargetServiceCallback(proc_control::SetPositionTarge
   targeted_position_[PITCH] = request.PITCH;
   targeted_position_[YAW] = request.YAW;
 
-  asked_position_ = targeted_position_;
+  for (int i = 0; i < 6; i++) {
+    asked_position_[i] = targeted_position_[i];
+  }
 
   double error_x = targeted_position_[X] - world_position_[X];
   if (std::fabs(error_x) > 0.1) {

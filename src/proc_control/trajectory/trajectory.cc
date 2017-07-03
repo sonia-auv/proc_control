@@ -72,29 +72,34 @@ void Trajectory::CalculateSpline(double current_position, double current_velocit
 //-----------------------------------------------------------------------------
 //
 double Trajectory::GetPosition(double dt) {
-  double position = 0.0;
   double spline_time_squared = spline_time * spline_time;
   double spline_time_cubed = spline_time_squared * spline_time;
 
   if (!is_position_reach) {
-    position = hermite_spline_solution[0] +
+    current_position = hermite_spline_solution[0] +
         hermite_spline_solution[1] * spline_time +
         hermite_spline_solution[2] * spline_time_squared +
         hermite_spline_solution[3] * spline_time_cubed;
 
     spline_time += (dt / 10);
   } else {
-    position = hermite_spline_solution[0] +
+    current_position = hermite_spline_solution[0] +
         hermite_spline_solution[1] * spline_time +
         hermite_spline_solution[2] * spline_time_squared +
         hermite_spline_solution[3] * spline_time_cubed;
   }
 
-  if (fabs(position - target_position) < 0.01) {
+  if (fabs(current_position - target_position) < 0.01) {
     is_position_reach = true;
   }
 
-  return position;
+  return current_position;
+}
+
+//-----------------------------------------------------------------------------
+//
+double Trajectory::GetCurrentPosition() {
+  return current_position;
 }
 
 //-----------------------------------------------------------------------------
@@ -102,6 +107,7 @@ double Trajectory::GetPosition(double dt) {
 void Trajectory::Reset() {
   spline_time = 0.0;
   target_position = 0.0;
+  current_position = 0.0;
   is_position_reach = false;
   is_spline_calculated = false;
   hermite_spline_solution[0] = 0.0;

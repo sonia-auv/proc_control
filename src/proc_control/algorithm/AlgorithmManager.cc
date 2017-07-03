@@ -120,6 +120,12 @@ void AlgorithmManager::ReadConfigFile( proc_control::AlgorithmConfig &config )
   config.BBox_Y = bounding_box_y_;
   config.BBox_Z = bounding_box_z_;
   config.BBox_Yaw = bounding_box_yaw_;
+
+  current_bounding_box_x_ = bounding_box_x_;
+  current_bounding_box_y_ = bounding_box_y_;
+  current_bounding_box_z_ = bounding_box_z_;
+  current_bounding_box_yaw_ = bounding_box_yaw_;
+
 }
 
 //-----------------------------------------------------------------------------
@@ -160,9 +166,29 @@ std::array<double, 6> AlgorithmManager::GetActuationForError(const std::array<do
 //
 bool AlgorithmManager::IsInBoundingBox(double error_x, double error_y, double error_z, double error_yaw)
 {
-  return std::fabs(error_x) < bounding_box_x_ &&
-      std::fabs(error_y) < bounding_box_y_ &&
-      std::fabs(error_z) < bounding_box_z_ &&
-      std::fabs(error_yaw) < bounding_box_yaw_;
+  return std::fabs(error_x) < current_bounding_box_x_ &&
+      std::fabs(error_y) < current_bounding_box_y_ &&
+      std::fabs(error_z) < current_bounding_box_z_ &&
+      std::fabs(error_yaw) < current_bounding_box_yaw_;
 }
+
+//-----------------------------------------------------------------------------
+//
+void AlgorithmManager::SetNewBoundingBox(double bounding_box_x, double bounding_box_y,
+                                         double bounding_box_z, double bounding_box_yaw) {
+  current_bounding_box_x_ = bounding_box_x;
+  current_bounding_box_y_ = bounding_box_y;
+  current_bounding_box_z_ = bounding_box_z;
+  current_bounding_box_yaw_ = bounding_box_yaw;
+}
+
+//-----------------------------------------------------------------------------
+//
+void AlgorithmManager::ResetBoundingBox() {
+  current_bounding_box_x_ = bounding_box_x_;
+  current_bounding_box_y_ = bounding_box_y_;
+  current_bounding_box_z_ = bounding_box_z_;
+  current_bounding_box_yaw_ = bounding_box_yaw_;
+}
+
 

@@ -59,6 +59,9 @@ class AlgorithmManager : public ConfigManager<proc_control::AlgorithmConfig>  {
   std::array<double, 6> GetActuationForError(const std::array<double, 6> &error);
 
   bool IsInBoundingBox(double error_x, double error_y, double error_z, double error_yaw);
+  void SetNewBoundingBox(double bounding_box_x, double bounding_box_y,
+                         double bounding_box_z, double bounding_box_yaw);
+  void ResetBoundingBox();
 
   private:
 
@@ -66,6 +69,7 @@ class AlgorithmManager : public ConfigManager<proc_control::AlgorithmConfig>  {
   // P R I V A T E   M E M B E R S
 
   AlgorithmTypes algorithm_to_use_;
+  double current_bounding_box_x_, current_bounding_box_y_, current_bounding_box_z_, current_bounding_box_yaw_;
   double bounding_box_x_, bounding_box_y_, bounding_box_z_, bounding_box_yaw_;
   std::vector<std::shared_ptr<ControlAlgorithm>> algorithms_;
   std::shared_ptr<ControlAlgorithm> current_algorithm_;

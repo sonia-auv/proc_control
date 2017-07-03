@@ -34,7 +34,9 @@ namespace proc_control {
 
 //------------------------------------------------------------------------------
 //
-ThrusterManager::ThrusterManager() : ConfigManager("Thruster") {
+ThrusterManager::ThrusterManager() :
+    ConfigManager("Thruster"),
+    constant_reverse_effort_(0.0) {
   // Add all the thrusters
   thruster_list_.push_back(Thruster(1));
   thruster_list_.push_back(Thruster(2));
@@ -61,6 +63,9 @@ ThrusterManager::~ThrusterManager() {}
 //
 void ThrusterManager::OnDynamicReconfigureChange(const proc_control::ThrusterConfig &config) {
   std::cout << "Update on thruster configuration" << std::endl;
+
+  constant_reverse_effort_ = config.CONSTANT_REVERSE_EFFORT;
+
   for (auto &t : thruster_list_) {
     if (t.GetID() == t.GetIDFromName("T1")) {
       t.SetFrom6AxisArray(
@@ -108,6 +113,9 @@ void ThrusterManager::WriteConfigFile(const proc_control::ThrusterConfig &config
     WriteEfforts(i, out);
   }
 
+  out << YAML::Key << CONSTANT_REVERSE_EFFORT;
+  out << YAML::Value << constant_reverse_effort_;
+
   out << YAML::EndMap;
   std::ofstream fout(file_path_);
   fout << out.c_str();
@@ -117,6 +125,13 @@ void ThrusterManager::WriteConfigFile(const proc_control::ThrusterConfig &config
 //
 void ThrusterManager::ReadConfigFile(proc_control::ThrusterConfig &config) {
   YAML::Node node = YAML::LoadFile(file_path_);
+
+  if( node[CONSTANT_REVERSE_EFFORT] )
+  {
+    constant_reverse_effort_ = node[CONSTANT_REVERSE_EFFORT].as<double>();
+  }
+
+  config.CONSTANT_REVERSE_EFFORT = constant_reverse_effort_;
 
   ReadEfforts("T1", node);
   ReadEfforts("T2", node);
@@ -212,7 +227,9 @@ std::array<double, 8> ThrusterManager::Commit(std::array<double, 3> &linear_targ
     std::array<double, 3> thruster_effort_rot = t.GetRotationnalEffort();
 
     for (int i = 0; i < 3; i++) {
-      target += linear_target[i] * thruster_effort_lin[i];
+      if (thruster_effort_lin[i] < 0) {
+        target += linear_target[i] * thruster_effort_lin[i];
+      }
       target += rotational_target[i] * thruster_effort_rot[i];
     }
     t.Publish(t.GetID(), (int16_t)target);

@@ -231,19 +231,19 @@ bool ProcControlNode::GlobalTargetServiceCallback(proc_control::SetPositionTarge
   double error_x = targeted_position_[X] - world_position_[X];
   if (std::fabs(error_x) > 0.1) {
     trajectory_surge.SetTargetPosition(targeted_position_[X]);
-    trajectory_surge.CalculateSpline(world_position_[X], 0, 0);
+    trajectory_surge.CalculateSpline(last_asked_position_[X], 0, 0);
   }
 
   double error_y = targeted_position_[Y] - world_position_[Y];
   if (std::fabs(error_y) > 0.1) {
     trajectory_sway.SetTargetPosition(targeted_position_[Y]);
-    trajectory_sway.CalculateSpline(world_position_[Y], 0, 0);
+    trajectory_sway.CalculateSpline(last_asked_position_[Y], 0, 0);
   }
 
   double error_z = targeted_position_[Z] - world_position_[Z];
   if (std::fabs(error_z) > 0.1) {
     trajectory_heave.SetTargetPosition(targeted_position_[Z]);
-    trajectory_heave.CalculateSpline(world_position_[Z], 0, 0);
+    trajectory_heave.CalculateSpline(last_asked_position_[Z], 0, 0);
   }
 
   double error_yaw = targeted_position_[YAW] - world_position_[YAW];
@@ -255,7 +255,11 @@ bool ProcControlNode::GlobalTargetServiceCallback(proc_control::SetPositionTarge
 
   if (error_yaw > 1) {
     trajectory_yaw.SetTargetPosition(targeted_position_[YAW]);
-    trajectory_yaw.CalculateSpline(world_position_[YAW], 0, 0);
+    trajectory_yaw.CalculateSpline(last_asked_position_[YAW], 0, 0);
+  }
+
+  for (int i = 0; i < 6; i++) {
+    last_asked_position_[i] = asked_position_[i];
   }
 
   PublishTargetedPosition();
@@ -287,6 +291,7 @@ bool ProcControlNode::EnableControlServiceCallback(proc_control::EnableControlRe
       enable_control_[X] = true;
       targeted_position_[X] = world_position_[X];
       asked_position_[X] = world_position_[X];
+      last_asked_position_[X] = world_position_[X];
       trajectory_surge.Reset();
     } else {
       enable_control_[X] = false;
@@ -301,6 +306,7 @@ bool ProcControlNode::EnableControlServiceCallback(proc_control::EnableControlRe
       enable_control_[Y] = true;
       targeted_position_[Y] = world_position_[Y];
       asked_position_[Y] = world_position_[Y];
+      last_asked_position_[Y] = world_position_[Y];
       trajectory_sway.Reset();
     } else {
       enable_control_[Y] = false;
@@ -315,6 +321,7 @@ bool ProcControlNode::EnableControlServiceCallback(proc_control::EnableControlRe
       enable_control_[Z] = true;
       targeted_position_[Z] = world_position_[Z];
       asked_position_[Z] = world_position_[Z];
+      last_asked_position_[Z] = world_position_[Z];
       trajectory_heave.Reset();
     } else {
       enable_control_[Z] = false;
@@ -353,6 +360,7 @@ bool ProcControlNode::EnableControlServiceCallback(proc_control::EnableControlRe
       enable_control_[YAW] = true;
       targeted_position_[YAW] = world_position_[YAW];
       asked_position_[YAW] = world_position_[YAW];
+      last_asked_position_[YAW] = world_position_[YAW];
       trajectory_yaw.Reset();
     } else {
       enable_control_[YAW] = false;
@@ -391,6 +399,10 @@ bool ProcControlNode::ClearWaypointServiceCallback(proc_control::ClearWaypointRe
   for (int i = 0; i < 3; i++) {
     targeted_position_[i] = world_position_[i];
     targeted_position_[i + 3] = world_position_[i + 3];
+  }
+
+  for (int i = 0; i < 6; i++) {
+    asked_position_[i] = targeted_position_[i];
   }
 
   PublishTargetedPosition();

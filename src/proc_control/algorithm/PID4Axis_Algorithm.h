@@ -58,10 +58,8 @@ class PID4Axis_Algorithm : public ControlAlgorithm,  public ConfigManager<proc_c
   PID x_, y_, z_, pitch_, yaw_;
   PIDValues &x_values_, &y_values_, &z_values_, &pitch_values_, &yaw_values_;
   double constant_depth_force_;
-  double constant_reverse_effort_;
   const std::string file_path_ = kConfigPath + "algorithm_config/PID4Axis" + kConfigExt;
   const std::string CONSTANT_DEPTH_FORCE = "CONSTANT_DEPTH_FORCE";
-  const std::string CONSTANT_REVERSE_EFFORT = "CONSTANT_REVERSE_EFFORT";
 };
 
 #endif //PROC_CONTROL_PID4AXIS_ALGORITHM_H

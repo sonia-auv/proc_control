@@ -38,8 +38,7 @@ PID4Axis_Algorithm::PID4Axis_Algorithm()
       x_("X"), y_("Y"), z_("Z"), pitch_("PITCH"), yaw_("YAW"),
       x_values_(x_.GetPIDValues()),y_values_(y_.GetPIDValues()),
       z_values_(z_.GetPIDValues()),pitch_values_(pitch_.GetPIDValues()), yaw_values_(yaw_.GetPIDValues()),
-      constant_depth_force_(0.0),
-      constant_reverse_effort_(0.0)
+      constant_depth_force_(0.0)
 {
   Init();
 }
@@ -88,7 +87,6 @@ void PID4Axis_Algorithm::OnDynamicReconfigureChange(const proc_control::PID4Axis
   yaw_values_.Min_Actuation = config.YAW_MIN_ACTUATION;
 
   constant_depth_force_ = config.CONSTANT_DEPTH_FORCE;
-  constant_reverse_effort_ = config.CONSTANT_REVERSE_EFFORT;
 }
 
 //-----------------------------------------------------------------------------
@@ -100,9 +98,6 @@ void PID4Axis_Algorithm::WriteConfigFile( const proc_control::PID4AxisConfig &co
 
   out << YAML::Key << CONSTANT_DEPTH_FORCE;
   out << YAML::Value << constant_depth_force_;
-
-  out << YAML::Key << CONSTANT_REVERSE_EFFORT;
-  out << YAML::Value << constant_reverse_effort_;
 
   std::vector< std::map<std::string, double&> >
       all_config {x_values_.ToMap(), y_values_.ToMap(),z_values_.ToMap(), pitch_values_.ToMap(), yaw_values_.ToMap()};
@@ -140,13 +135,7 @@ void PID4Axis_Algorithm::ReadConfigFile( proc_control::PID4AxisConfig &config )
     constant_depth_force_ = node[CONSTANT_DEPTH_FORCE].as<double>();
   }
 
-  if( node[CONSTANT_REVERSE_EFFORT] )
-  {
-    constant_reverse_effort_ = node[CONSTANT_REVERSE_EFFORT].as<double>();
-  }
-
   config.CONSTANT_DEPTH_FORCE = constant_depth_force_;
-  config.CONSTANT_REVERSE_EFFORT = constant_reverse_effort_;
   config.X_D = x_values_.D;
   config.X_P = x_values_.P;
   config.X_I = x_values_.I;

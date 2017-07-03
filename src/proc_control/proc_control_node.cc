@@ -393,6 +393,10 @@ bool ProcControlNode::ClearWaypointServiceCallback(proc_control::ClearWaypointRe
     targeted_position_[i + 3] = world_position_[i + 3];
   }
 
+  for (int i = 0; i < 6; i++) {
+    asked_position_[i] = targeted_position_[i];
+  }
+
   PublishTargetedPosition();
   return true;
 }

@@ -75,7 +75,9 @@ class ThrusterManager : public ConfigManager<proc_control::ThrusterConfig> {
   // P R I V A T E   M E M B E R S
 
   std::vector<proc_control::Thruster> thruster_list_;
+  double constant_reverse_effort_;
   const std::string file_path_ = kConfigPath + "thruster" + kConfigExt;
+  const std::string CONSTANT_REVERSE_EFFORT = "CONSTANT_REVERSE_EFFORT";
 };
 
 } // namespace proc_control

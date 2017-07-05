@@ -41,6 +41,11 @@ namespace proc_control {
 ProcControlNode::ProcControlNode(const ros::NodeHandlePtr &nh) :
     nh_(nh),
     stability_count_(0) {
+
+  for(int i = 0; i < 6; i++) {
+    enable_control_[i] = false;
+  }
+
   navigation_odom_subscriber_ =
       nh->subscribe("/proc_navigation/odom", 100, &ProcControlNode::OdomCallback, this);
   keypad_subscriber_ =

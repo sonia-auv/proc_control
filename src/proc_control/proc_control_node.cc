@@ -41,6 +41,11 @@ namespace proc_control {
 ProcControlNode::ProcControlNode(const ros::NodeHandlePtr &nh) :
     nh_(nh),
     stability_count_(0) {
+
+  for(int i = 0; i < 6; i++) {
+    enable_control_[i] = false;
+  }
+
   navigation_odom_subscriber_ =
       nh->subscribe("/proc_navigation/odom", 100, &ProcControlNode::OdomCallback, this);
   keypad_subscriber_ =
@@ -65,6 +70,10 @@ ProcControlNode::ProcControlNode(const ros::NodeHandlePtr &nh) :
       nh->advertiseService("/proc_control/enable_thrusters", &ProcControlNode::EnableThrusterServiceCallback, this);
   clear_waypoint_server_ =
       nh->advertiseService("/proc_control/clear_waypoint", &ProcControlNode::ClearWaypointServiceCallback, this);
+  set_bounding_box_server_ =
+      nh->advertiseService("/proc_control/set_bounding_box", &ProcControlNode::SetBoundingBoxServiceCallback, this);
+  reset_bounding_box_server_ =
+      nh->advertiseService("/proc_control/reset_bounding_box", &ProcControlNode::ResetBoundingBoxServiceCallback, this);
 }
 
 //------------------------------------------------------------------------------
@@ -398,6 +407,22 @@ bool ProcControlNode::ClearWaypointServiceCallback(proc_control::ClearWaypointRe
   }
 
   PublishTargetedPosition();
+  return true;
+}
+
+//-----------------------------------------------------------------------------
+//
+bool ProcControlNode::SetBoundingBoxServiceCallback(proc_control::SetBoundingBoxRequest &request,
+                                   proc_control::SetBoundingBoxResponse &response) {
+  algorithm_manager_.SetNewBoundingBox(request.X, request.Y, request.Z, request.YAW);
+  return true;
+}
+
+//-----------------------------------------------------------------------------
+//
+bool ProcControlNode::ResetBoundingBoxServiceCallback(proc_control::ResetBoundingBoxRequest &request,
+                                   proc_control::ResetBoundingBoxResponse &response) {
+  algorithm_manager_.ResetBoundingBox();
   return true;
 }
 

@@ -75,6 +75,8 @@ add_service_files(
      GetPositionTarget.srv
      EnableThrusters.srv
      EnableControl.srv
+     SetBoundingBox.srv
+     ResetBoundingBox.srv
 )
 
 # Generate added messages and services with any dependencies listed here

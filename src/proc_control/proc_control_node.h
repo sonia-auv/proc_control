@@ -42,6 +42,8 @@
 #include "proc_control/SetPositionTarget.h"
 #include "proc_control/GetPositionTarget.h"
 #include "proc_control/ClearWaypoint.h"
+#include "proc_control/SetBoundingBox.h"
+#include "proc_control/ResetBoundingBox.h"
 
 #include "proc_control/trajectory/trajectory.h"
 
@@ -86,6 +88,10 @@ class ProcControlNode {
                                      proc_control::EnableThrustersResponse &response);
   bool ClearWaypointServiceCallback(proc_control::ClearWaypointRequest &request,
                                      proc_control::ClearWaypointResponse &response);
+  bool SetBoundingBoxServiceCallback(proc_control::SetBoundingBoxRequest &request,
+                                    proc_control::SetBoundingBoxResponse &response);
+  bool ResetBoundingBoxServiceCallback(proc_control::ResetBoundingBoxRequest &request,
+                                    proc_control::ResetBoundingBoxResponse &response);
 
   bool EvaluateTargetReached(const std::array<double, 6> &target_error);
 
@@ -115,6 +121,8 @@ class ProcControlNode {
   ros::ServiceServer enable_control_server_;
   ros::ServiceServer enable_thrusters_server_;
   ros::ServiceServer clear_waypoint_server_;
+  ros::ServiceServer set_bounding_box_server_;
+  ros::ServiceServer reset_bounding_box_server_;
 
   AlgorithmManager algorithm_manager_;
   proc_control::ThrusterManager thruster_manager_;

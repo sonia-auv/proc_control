@@ -29,6 +29,7 @@
 
 #include <ros/ros.h>
 #include <nav_msgs/Odometry.h>
+#include <geometry_msgs/Pose.h>
 #include <provider_keypad/Keypad.h>
 
 #include <proc_control/PositionTarget.h>
@@ -74,6 +75,7 @@ class ProcControlNode {
 
   void PublishTargetedPosition();
 
+  void SetTargetCallback(const geometry_msgs::Pose::ConstPtr &target_in);
   void OdomCallback(const nav_msgs::Odometry::ConstPtr &odo_in);
   void KeypadCallback(const provider_keypad::Keypad::ConstPtr &keypad_in);
   bool EnableControlServiceCallback(proc_control::EnableControlRequest &request,
@@ -109,6 +111,7 @@ class ProcControlNode {
   ros::Subscriber navigation_odom_subscriber_;
   ros::Subscriber target_odometry_subscriber_;
   ros::Subscriber keypad_subscriber_;
+  ros::Subscriber set_target_subscriber_;
 
   ros::Publisher target_publisher_;
   ros::Publisher debug_target_publisher_;

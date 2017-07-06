@@ -81,7 +81,7 @@ double Trajectory::GetPosition(double dt) {
         hermite_spline_solution[2] * spline_time_squared +
         hermite_spline_solution[3] * spline_time_cubed;
 
-    spline_time += (dt / 10);
+    spline_time += (dt / 5);
   } else {
     current_position = hermite_spline_solution[0] +
         hermite_spline_solution[1] * spline_time +

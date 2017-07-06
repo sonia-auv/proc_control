@@ -523,19 +523,19 @@ bool ProcControlNode::LocalTargetServiceCallback(proc_control::SetPositionTarget
   }
 
   double error_x = targeted_position_[X] - world_position_[X];
-  if (std::fabs(error_x) > 0.1) {
+  if (std::fabs(error_x) > 0.01) {
     trajectory_surge.SetTargetPosition(targeted_position_[X]);
     trajectory_surge.CalculateSpline(trajectory_surge.GetCurrentPosition(), 0, 0);
   }
 
   double error_y = targeted_position_[Y] - world_position_[Y];
-  if (std::fabs(error_y) > 0.1) {
+  if (std::fabs(error_y) > 0.01) {
     trajectory_sway.SetTargetPosition(targeted_position_[Y]);
     trajectory_sway.CalculateSpline(trajectory_sway.GetCurrentPosition(), 0, 0);
   }
 
   double error_z = targeted_position_[Z] - world_position_[Z];
-  if (std::fabs(error_z) > 0.1) {
+  if (std::fabs(error_z) > 0.01) {
     trajectory_heave.SetTargetPosition(targeted_position_[Z]);
     trajectory_heave.CalculateSpline(trajectory_heave.GetCurrentPosition(), 0, 0);
   }
@@ -547,7 +547,7 @@ bool ProcControlNode::LocalTargetServiceCallback(proc_control::SetPositionTarget
     error_yaw = std::fabs(error_yaw);
   }
 
-  if (error_yaw > 5) {
+  if (error_yaw > 0.5) {
     trajectory_yaw.SetTargetPosition(targeted_position_[YAW]);
     trajectory_yaw.CalculateSpline(trajectory_yaw.GetCurrentPosition(), 0, 0);
   }

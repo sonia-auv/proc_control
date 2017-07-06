@@ -94,8 +94,6 @@ double Trajectory::GetPosition(double dt) {
     is_position_reach = true;
   }
 
-  printf("Spline Position: %f", current_position);
-
   return current_position;
 }
 

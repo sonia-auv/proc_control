@@ -113,7 +113,6 @@ class ProcControlNode {
   ros::Subscriber navigation_odom_subscriber_;
   ros::Subscriber target_odometry_subscriber_;
   ros::Subscriber keypad_subscriber_;
-  ros::Subscriber set_target_subscriber_;
 
   ros::Publisher target_publisher_;
   ros::Publisher debug_target_publisher_;

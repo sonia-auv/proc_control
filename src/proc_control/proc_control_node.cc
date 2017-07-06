@@ -46,8 +46,6 @@ ProcControlNode::ProcControlNode(const ros::NodeHandlePtr &nh) :
     enable_control_[i] = false;
   }
 
-  set_target_subscriber_ =
-      nh->subscribe("/proc_control/set_target", 100, &ProcControlNode::SetTargetCallback, this);
   navigation_odom_subscriber_ =
       nh->subscribe("/proc_navigation/odom", 100, &ProcControlNode::OdomCallback, this);
   keypad_subscriber_ =
@@ -190,67 +188,6 @@ void ProcControlNode::PublishTargetedPosition() {
   target_publisher_.publish(msg);
 }
 
-void ProcControlNode::SetTargetCallback(const geometry_msgs::Pose::ConstPtr &target_in) {
-  // We simply use the current yaw to rotate the translation into the good world position and add it to the position
-  Eigen::Matrix3d original_rotation = EulerToRot(Eigen::Vector3d(DegreeToRadian(world_position_[YAW]), 0, 0));
-  Eigen::Vector3d translation(target_in->position.x,
-                              target_in->position.y,
-                              target_in->position.z);
-  Eigen::Vector3d original_position(world_position_[X],
-                        world_position_[Y],
-                        world_position_[Z]);
-
-  double askedRotation = target_in->orientation.z;
-
-  if (askedRotation < 0) {
-    askedRotation += 360;
-  }
-
-  askedRotation += world_position_[YAW];
-
-  Eigen::Vector3d final_pos = original_position + (original_rotation * translation);
-  Eigen::Vector3d final_rot(world_position_[ROLL], world_position_[PITCH], fmod(askedRotation, 360.0));
-
-  for (int i = 0; i < 3; i++) {
-    targeted_position_[i] = final_pos[i];
-    targeted_position_[i + 3] = final_rot[i];
-  }
-
-  asked_position_ = targeted_position_;
-
-  double error_x = targeted_position_[X] - world_position_[X];
-  if (std::fabs(error_x) > 0.1) {
-    trajectory_surge.SetTargetPosition(targeted_position_[X]);
-    trajectory_surge.CalculateSpline(trajectory_surge.GetCurrentPosition(), 0, 0);
-  }
-
-  double error_y = targeted_position_[Y] - world_position_[Y];
-  if (std::fabs(error_y) > 0.1) {
-    trajectory_sway.SetTargetPosition(targeted_position_[Y]);
-    trajectory_sway.CalculateSpline(trajectory_sway.GetCurrentPosition(), 0, 0);
-  }
-
-  double error_z = targeted_position_[Z] - world_position_[Z];
-  if (std::fabs(error_z) > 0.1) {
-    trajectory_heave.SetTargetPosition(targeted_position_[Z]);
-    trajectory_heave.CalculateSpline(trajectory_heave.GetCurrentPosition(), 0, 0);
-  }
-
-  double error_yaw = targeted_position_[YAW] - world_position_[YAW];
-  if (std::fabs(error_yaw) > 180.0) {
-    error_yaw = fabs(360 - std::fabs(error_yaw));
-  } else {
-    error_yaw = std::fabs(error_yaw);
-  }
-
-  if (error_yaw > 5) {
-    trajectory_yaw.SetTargetPosition(targeted_position_[YAW]);
-    trajectory_yaw.CalculateSpline(trajectory_yaw.GetCurrentPosition(), 0, 0);
-  }
-
-  PublishTargetedPosition();
-}
-
 //-----------------------------------------------------------------------------
 //
 void ProcControlNode::OdomCallback(const nav_msgs::Odometry::ConstPtr &odo_in) {
@@ -303,19 +240,19 @@ bool ProcControlNode::GlobalTargetServiceCallback(proc_control::SetPositionTarge
   }
 
   double error_x = targeted_position_[X] - world_position_[X];
-  if (std::fabs(error_x) > 0.1) {
+  if (std::fabs(error_x) > 0.01) {
     trajectory_surge.SetTargetPosition(targeted_position_[X]);
     trajectory_surge.CalculateSpline(trajectory_surge.GetCurrentPosition(), 0, 0);
   }
 
   double error_y = targeted_position_[Y] - world_position_[Y];
-  if (std::fabs(error_y) > 0.1) {
+  if (std::fabs(error_y) > 0.01) {
     trajectory_sway.SetTargetPosition(targeted_position_[Y]);
     trajectory_sway.CalculateSpline(trajectory_sway.GetCurrentPosition(), 0, 0);
   }
 
   double error_z = targeted_position_[Z] - world_position_[Z];
-  if (std::fabs(error_z) > 0.1) {
+  if (std::fabs(error_z) > 0.01) {
     trajectory_heave.SetTargetPosition(targeted_position_[Z]);
     trajectory_heave.CalculateSpline(trajectory_heave.GetCurrentPosition(), 0, 0);
   }
@@ -327,7 +264,7 @@ bool ProcControlNode::GlobalTargetServiceCallback(proc_control::SetPositionTarge
     error_yaw = std::fabs(error_yaw);
   }
 
-  if (error_yaw > 1) {
+  if (error_yaw > 0.5) {
     trajectory_yaw.SetTargetPosition(targeted_position_[YAW]);
     trajectory_yaw.CalculateSpline(trajectory_yaw.GetCurrentPosition(), 0, 0);
   }

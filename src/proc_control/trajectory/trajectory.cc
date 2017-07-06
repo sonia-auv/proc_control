@@ -23,6 +23,7 @@
  * along with S.O.N.I.A. AUV software. If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <cstdio>
 #include "trajectory.h"
 
 //==============================================================================
@@ -92,6 +93,8 @@ double Trajectory::GetPosition(double dt) {
   if (fabs(current_position - target_position) < 0.01) {
     is_position_reach = true;
   }
+
+  printf("Spline Position: %f", current_position);
 
   return current_position;
 }

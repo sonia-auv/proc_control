@@ -191,6 +191,8 @@ void ProcControlNode::PublishTargetedPosition() {
 //-----------------------------------------------------------------------------
 //
 void ProcControlNode::OdomCallback(const nav_msgs::Odometry::ConstPtr &odo_in) {
+  std::lock_guard<std::mutex> lock(local_position_mutex);
+
   world_position_[X] = odo_in->pose.pose.position.x;
   world_position_[Y] = odo_in->pose.pose.position.y;
   world_position_[Z] = odo_in->pose.pose.position.z;

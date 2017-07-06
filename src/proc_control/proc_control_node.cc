@@ -88,6 +88,8 @@ ProcControlNode::~ProcControlNode() { }
 //-----------------------------------------------------------------------------
 //
 void ProcControlNode::Control() {
+  std::lock_guard<std::mutex> lock(local_position_mutex);
+
   std::chrono::steady_clock::time_point now_time = std::chrono::steady_clock::now();
   auto diff = now_time - last_time_;
 
@@ -493,6 +495,7 @@ bool ProcControlNode::ResetBoundingBoxServiceCallback(proc_control::ResetBoundin
 //
 bool ProcControlNode::LocalTargetServiceCallback(proc_control::SetPositionTargetRequest &request,
                                                  proc_control::SetPositionTargetResponse &response) {
+  std::lock_guard<std::mutex> lock(local_position_mutex);
   // We simply use the current yaw to rotate the translation into the good world position and add it to the position
   Eigen::Matrix3d original_rotation = EulerToRot(Eigen::Vector3d(DegreeToRadian(world_position_[YAW]), 0, 0));
   Eigen::Vector3d translation(request.X, request.Y, request.Z), original_position(world_position_[X],
@@ -515,7 +518,9 @@ bool ProcControlNode::LocalTargetServiceCallback(proc_control::SetPositionTarget
       targeted_position_[i + 3] = final_rot[i];
   }
 
-  asked_position_ = targeted_position_;
+  for (int i = 0; i < 6; i++) {
+    asked_position_[i] = targeted_position_[i];
+  }
 
   double error_x = targeted_position_[X] - world_position_[X];
   if (std::fabs(error_x) > 0.1) {

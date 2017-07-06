@@ -48,6 +48,8 @@
 
 #include "proc_control/trajectory/trajectory.h"
 
+#include <mutex>
+
 namespace proc_control {
 
 class ProcControlNode {
@@ -142,6 +144,8 @@ class ProcControlNode {
 
   int stability_count_;
   std::chrono::steady_clock::time_point last_time_;
+
+  mutable std::mutex local_position_mutex;
 };
 
 inline double ProcControlNode::DegreeToRadian(const double &degree) {

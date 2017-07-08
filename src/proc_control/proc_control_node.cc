@@ -431,8 +431,11 @@ bool ProcControlNode::LocalTargetServiceCallback(proc_control::SetPositionTarget
   Eigen::Vector3d translation(request.X, request.Y, request.Z), original_position(world_position_[X],
                                                                                   world_position_[Y],
                                                                                   world_position_[Z]);
+  double askedRotation;
 
-  double askedRotation = request.YAW;
+  if (request.YAW < -999.0) {
+    askedRotation = request.YAW;
+  }
 
   if (askedRotation < 0) {
       askedRotation += 360;
@@ -447,17 +450,17 @@ bool ProcControlNode::LocalTargetServiceCallback(proc_control::SetPositionTarget
       targeted_position_[i] = final_pos[i];
       targeted_position_[i + 3] = final_rot[i];
   }*/
-  if(request.X < -999.0)
+  if(request.X > -999.0)
     targeted_position_[0] = final_pos[0];
-  if(request.Y < -999.0)
+  if(request.Y > -999.0)
     targeted_position_[1] = final_pos[1];
-  if(request.Z < -999.0)
+  if(request.Z > -999.0)
     targeted_position_[2] = final_pos[2];
-  if(request.ROLL < -999.0)
+  if(request.ROLL > -999.0)
     targeted_position_[3] = final_rot[0];
-  if(request.PITCH < -999.0)
+  if(request.PITCH > -999.0)
     targeted_position_[4] = final_rot[1];
-  if(request.YAW < -999.0)
+  if(request.YAW > -999.0)
     targeted_position_[5] = final_rot[2];
 
   for (int i = 0; i < 6; i++) {

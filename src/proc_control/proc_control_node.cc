@@ -94,21 +94,10 @@ void ProcControlNode::Control() {
   double deltaTime_s = double(std::chrono::duration_cast<std::chrono::nanoseconds>(diff).count())/(double(1E9));
 
   if(deltaTime_s > (0.0001f) ) {
-    if (trajectory_surge.IsSplineCalculated()) {
-      targeted_position_[X] = trajectory_surge.GetPosition(deltaTime_s);
-    }
-
-    if (trajectory_sway.IsSplineCalculated()) {
-      targeted_position_[Y] = trajectory_sway.GetPosition(deltaTime_s);
-    }
-
-    if (trajectory_heave.IsSplineCalculated()) {
-      targeted_position_[Z] = trajectory_heave.GetPosition(deltaTime_s);
-    }
-
-    if (trajectory_yaw.IsSplineCalculated()) {
-      targeted_position_[YAW] = trajectory_yaw.GetPosition(deltaTime_s);
-    }
+    targeted_position_[X] = trajectory_surge.GetPosition(deltaTime_s);
+    targeted_position_[Y] = trajectory_sway.GetPosition(deltaTime_s);
+    targeted_position_[Z] = trajectory_heave.GetPosition(deltaTime_s);
+    targeted_position_[YAW] = trajectory_yaw.GetPosition(deltaTime_s);
 
     // Calculate the error
     std::array<double, 6> error;

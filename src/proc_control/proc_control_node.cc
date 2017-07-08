@@ -444,7 +444,7 @@ bool ProcControlNode::LocalTargetServiceCallback(proc_control::SetPositionTarget
                                                                                   world_position_[Z]);
   double askedRotation;
 
-  if (request.YAW < -999.0) {
+  if (request.YAW > -999.0) {
     askedRotation = request.YAW;
   }
 

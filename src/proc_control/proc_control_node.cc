@@ -443,10 +443,22 @@ bool ProcControlNode::LocalTargetServiceCallback(proc_control::SetPositionTarget
   Eigen::Vector3d final_pos = original_position + (original_rotation * translation);
   Eigen::Vector3d final_rot(world_position_[ROLL], world_position_[PITCH], fmod(askedRotation, 360.0));
 
-  for (int i = 0; i < 3; i++) {
+  /*for (int i = 0; i < 3; i++) {
       targeted_position_[i] = final_pos[i];
       targeted_position_[i + 3] = final_rot[i];
-  }
+  }*/
+  if(request.X < -999)
+    targeted_position_[0] = final_pos[0];
+  if(request.Y < -999)
+    targeted_position_[1] = final_pos[1];
+  if(request.Z < -999)
+    targeted_position_[2] = final_pos[2];
+  if(request.ROLL < -999)
+    targeted_position_[3] = final_pos[0];
+  if(request.PITCH < -999)
+    targeted_position_[4] = final_pos[1];
+  if(request.YAW < -999)
+    targeted_position_[5] = final_pos[2];
 
   for (int i = 0; i < 6; i++) {
     asked_position_[i] = targeted_position_[i];

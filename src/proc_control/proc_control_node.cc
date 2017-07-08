@@ -444,7 +444,7 @@ bool ProcControlNode::LocalTargetServiceCallback(proc_control::SetPositionTarget
                                                                                   world_position_[Z]);
   double askedRotation = 0;
 
-  if (request.YAW > -999.0) {
+  if (request.YAW > -990.0) {
     askedRotation = request.YAW;
   }
 
@@ -463,16 +463,28 @@ bool ProcControlNode::LocalTargetServiceCallback(proc_control::SetPositionTarget
   }*/
   if(request.X > -999.0)
     targeted_position_[0] = final_pos[0];
+  else
+    targeted_position_[0] = asked_position_[0];
   if(request.Y > -999.0)
     targeted_position_[1] = final_pos[1];
+  else
+    targeted_position_[1] = asked_position_[1];
   if(request.Z > -999.0)
     targeted_position_[2] = final_pos[2];
+  else
+    targeted_position_[2] = asked_position_[2];
   if(request.ROLL > -999.0)
     targeted_position_[3] = final_rot[0];
+  else
+    targeted_position_[3] = asked_position_[3];
   if(request.PITCH > -999.0)
     targeted_position_[4] = final_rot[1];
+  else
+    targeted_position_[4] = asked_position_[4];
   if(request.YAW > -999.0)
     targeted_position_[5] = final_rot[2];
+  else
+    targeted_position_[5] = asked_position_[5];
 
   for (int i = 0; i < 6; i++) {
     asked_position_[i] = targeted_position_[i];

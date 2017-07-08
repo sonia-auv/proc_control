@@ -442,7 +442,7 @@ bool ProcControlNode::LocalTargetServiceCallback(proc_control::SetPositionTarget
   Eigen::Vector3d translation(request.X, request.Y, request.Z), original_position(world_position_[X],
                                                                                   world_position_[Y],
                                                                                   world_position_[Z]);
-  double askedRotation;
+  double askedRotation = 0;
 
   if (request.YAW > -999.0) {
     askedRotation = request.YAW;

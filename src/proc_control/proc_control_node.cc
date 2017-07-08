@@ -230,6 +230,8 @@ void ProcControlNode::KeypadCallback(const provider_keypad::Keypad::ConstPtr &ke
 //
 bool ProcControlNode::GlobalTargetServiceCallback(proc_control::SetPositionTargetRequest &request,
                                                   proc_control::SetPositionTargetResponse &response) {
+  std::lock_guard<std::mutex> lock(local_position_mutex);
+
   targeted_position_[X] = request.X;
   targeted_position_[Y] = request.Y;
   targeted_position_[Z] = request.Z;
@@ -461,35 +463,17 @@ bool ProcControlNode::LocalTargetServiceCallback(proc_control::SetPositionTarget
     asked_position_[i] = targeted_position_[i];
   }
 
-  double error_x = targeted_position_[X] - world_position_[X];
-  if (std::fabs(error_x) > 0.01) {
-    trajectory_surge.SetTargetPosition(targeted_position_[X]);
-    trajectory_surge.CalculateSpline(trajectory_surge.GetCurrentPosition(), 0, 0);
-  }
+  trajectory_surge.SetTargetPosition(targeted_position_[X]);
+  trajectory_surge.CalculateSpline(trajectory_surge.GetCurrentPosition(), 0, 0);
 
-  double error_y = targeted_position_[Y] - world_position_[Y];
-  if (std::fabs(error_y) > 0.01) {
-    trajectory_sway.SetTargetPosition(targeted_position_[Y]);
-    trajectory_sway.CalculateSpline(trajectory_sway.GetCurrentPosition(), 0, 0);
-  }
+  trajectory_sway.SetTargetPosition(targeted_position_[Y]);
+  trajectory_sway.CalculateSpline(trajectory_sway.GetCurrentPosition(), 0, 0);
 
-  double error_z = targeted_position_[Z] - world_position_[Z];
-  if (std::fabs(error_z) > 0.01) {
-    trajectory_heave.SetTargetPosition(targeted_position_[Z]);
-    trajectory_heave.CalculateSpline(trajectory_heave.GetCurrentPosition(), 0, 0);
-  }
+  trajectory_heave.SetTargetPosition(targeted_position_[Z]);
+  trajectory_heave.CalculateSpline(trajectory_heave.GetCurrentPosition(), 0, 0);
 
-  double error_yaw = targeted_position_[YAW] - world_position_[YAW];
-  if (std::fabs(error_yaw) > 180.0) {
-    error_yaw = fabs(360 - std::fabs(error_yaw));
-  } else {
-    error_yaw = std::fabs(error_yaw);
-  }
-
-  if (error_yaw > 0.5) {
-    trajectory_yaw.SetTargetPosition(targeted_position_[YAW]);
-    trajectory_yaw.CalculateSpline(trajectory_yaw.GetCurrentPosition(), 0, 0);
-  }
+  trajectory_yaw.SetTargetPosition(targeted_position_[YAW]);
+  trajectory_yaw.CalculateSpline(trajectory_yaw.GetCurrentPosition(), 0, 0);
 
   PublishTargetedPosition();
   return true;
@@ -518,7 +502,7 @@ std::array<double, 6> ProcControlNode::GetLocalError(const std::array<double, 6>
 
   Eigen::Matrix3d inverse_rotation = EulerToRot(Eigen::Vector3d(DegreeToRadian(-world_position_[YAW]), 0, 0));
 
-  Eigen::Vector3d go_to_pos(global_error[X], global_error[Y], global_error[Z]);;
+  Eigen::Vector3d go_to_pos(global_error[X], global_error[Y], global_error[Z]);
   Eigen::Vector3d local_conversion = inverse_rotation * go_to_pos;
 
   std::array<double, 6> target;

@@ -24,7 +24,7 @@
  */
 
 #include <gtest/gtest.h>
-#include "proc_control/ControlSystem.h"
+#include "proc_control/proc_control_node.h"
 
 char **argv_g;
 int argc_g ;

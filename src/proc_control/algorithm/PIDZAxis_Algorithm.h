@@ -1,8 +1,7 @@
 /**
- * \file	PID4Axis_Algorithm.h
- * \author	Jeremie St-Jules <jeremie.st.jules.prevost@gmail.com>
- * \coauthor Francis Masse <francis.masse05@gmail.com>
- * \date	10/17/16
+ * \file	PIDZAxis_Algorithm.h
+ * \author Francis Masse <francis.masse05@gmail.com>
+ * \date	4/1/17
  *
  * \copyright Copyright (c) 2017 S.O.N.I.A. AUV All rights reserved.
  *
@@ -24,42 +23,41 @@
  * along with S.O.N.I.A. AUV software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PROC_CONTROL_PID4AXIS_ALGORITHM_H
-#define PROC_CONTROL_PID4AXIS_ALGORITHM_H
+#ifndef PROC_CONTROL_PIDZAXIS_ALGORITHM_H
+#define PROC_CONTROL_PIDZAXIS_ALGORITHM_H
 
 #include <proc_control/property.h>
 #include "proc_control/algorithm/ControlAlgorithm.h"
 #include "proc_control/algorithm/PID.h"
 #include "proc_control/config/config_manager.h"
-#include "proc_control/PID4AxisConfig.h"
+#include "proc_control/PIDZAxisConfig.h"
 
-class PID4Axis_Algorithm : public ControlAlgorithm,  public ConfigManager<proc_control::PID4AxisConfig > {
-  public:
+class PIDZAxis_Algorithm : public ControlAlgorithm,  public ConfigManager<proc_control::PIDZAxisConfig > {
+ public:
   //==========================================================================
   // P U B L I C   C / D T O R S
-
-  PID4Axis_Algorithm();
+  PIDZAxis_Algorithm();
 
   //==========================================================================
   // P U B L I C   O V E R R I D E D   M E T H O D S
 
   // ConfigManager override
-  void OnDynamicReconfigureChange(const proc_control::PID4AxisConfig &config ) override ;
-  void WriteConfigFile( const proc_control::PID4AxisConfig &config ) override ;
-  void ReadConfigFile( proc_control::PID4AxisConfig &config ) override ;
+  void OnDynamicReconfigureChange(const proc_control::PIDZAxisConfig &config ) override ;
+  void WriteConfigFile( const proc_control::PIDZAxisConfig &config ) override ;
+  void ReadConfigFile( proc_control::PIDZAxisConfig &config ) override ;
 
   // ControlAlgorithm override
   std::array<double, 6> CalculateActuationForError(const std::array<double, 6> &error);
 
-  private:
+ private:
   //==========================================================================
   // P R I V A T E   M E M B E R S
 
-  PID x_, y_, z_, pitch_, yaw_;
-  PIDValues &x_values_, &y_values_, &z_values_, &pitch_values_, &yaw_values_;
+  PID z_;
+  PIDValues &z_values_;
   double constant_depth_force_;
-  const std::string file_path_ = kConfigPath + "algorithm_config/PID4Axis" + kConfigExt;
+  const std::string file_path_ = kConfigPath + "algorithm_config/PIDZAxis" + kConfigExt;
   const std::string CONSTANT_DEPTH_FORCE = "CONSTANT_DEPTH_FORCE";
 };
 
-#endif //PROC_CONTROL_PID4AXIS_ALGORITHM_H
+#endif //PROC_CONTROL_PIDZAXIS_ALGORITHM_H

@@ -22,9 +22,10 @@ sub_thruster_distance = 0.365
 velocity_max = 2
 acceleration_max = 0.5
 friction_factor = 0.2
-meterOfWaterTodBar = 0.980638
+meterOfWaterTodBar = 9.80638
 rho = 998.68
 buoyancy = rho * sub_volume * 9.8
+
 
 class AUVSimulation:
     FREQUENCY = 100
@@ -55,6 +56,7 @@ class AUVSimulation:
         self.z_velocity = 0
         self.depth = 0
         self.bar = 0
+        self.current_yaw = 0
         self.front_vector = (1, 0, 0)
         self.heading_vector = (0, 1, 0)
         self.xaxis, self.yaxis, self.zaxis = (1, 0, 0), (0, 1, 0), (0, 0, 1)
@@ -78,60 +80,49 @@ class AUVSimulation:
             for index in range(len(effort)):
                 thrust.append(self.effort_to_thrust(effort[index]))
 
-            yaw_thrust = sub_thruster_distance*thrust[0] + sub_thruster_distance*thrust[1] - \
-                         (sub_thruster_distance*thrust[2] + sub_thruster_distance*thrust[3])
+            yaw_thrust = (thrust[3] + thrust[1] - thrust[0] - thrust[2]) + random.random() * 0.5
 
-            yaw_acceleration = self.thrust_to_acceleration_yaw(yaw_thrust)
-            self.yaw_velocity = self.acceleration_to_velocity(yaw_acceleration, 1.0/self.FREQUENCY, self.yaw_velocity)
-            self.yaw_angle = self.velocity_to_angle(self.yaw_velocity, 1.0/self.FREQUENCY, self.yaw_angle)
-
+            print 'current yaw changes',yaw_thrust, yaw_thrust * (1.0/self.FREQUENCY) * 1.2
+            self.current_yaw += yaw_thrust * (1.0/self.FREQUENCY) * 0.1
+            self.current_yaw %= 360.0
+            print self.current_yaw
             pitch_thrust = sub_thruster_distance*thrust[4] - sub_thruster_distance*thrust[5] - \
-                         sub_thruster_distance*thrust[6] + sub_thruster_distance*thrust[7]
+                           sub_thruster_distance*thrust[6] + sub_thruster_distance*thrust[7]
 
             pitch_acceleration = self.thrust_to_acceleration_yaw(pitch_thrust)
             self.pitch_velocity = self.acceleration_to_velocity(pitch_acceleration, 1.0/self.FREQUENCY, self.pitch_velocity)
             self.pitch_angle = self.velocity_to_angle(self.pitch_velocity, 1.0/self.FREQUENCY, self.pitch_angle)
 
-            qx = quaternion_about_axis(0, self.xaxis)
-            qy = quaternion_about_axis(math.radians(self.pitch_angle), self.yaxis)
-            qz = quaternion_about_axis(math.radians(self.yaw_angle), self.zaxis)
-            q = quaternion_multiply(qx, qy)
-            q = quaternion_multiply(q, qz)
+            qx = quaternion_about_axis(self.current_yaw, self.zaxis)
 
-            x_thrust = ((sub_thruster_distance*thrust[0] + sub_thruster_distance*thrust[1] +
-                         sub_thruster_distance*thrust[2] + sub_thruster_distance*thrust[3]) *
-                        math.sin(math.radians(45)))
-            x_acceleration = self.thrust_to_acceleration(x_thrust)
-            self.x_velocity = self.acceleration_to_velocity(x_acceleration, 1.0/self.FREQUENCY, self.x_velocity)
+            x_thrust = (thrust[0] - thrust[1] - thrust[2] + thrust[3]) * 0.7
+            self.x_velocity = x_thrust * (1.0/self.FREQUENCY) * 1.3
 
-            y_thrust = ((sub_thruster_distance*thrust[1] + sub_thruster_distance*thrust[3] -
-                         (sub_thruster_distance*thrust[0] + sub_thruster_distance*thrust[2])) *
-                        math.sin(math.radians(45)))
-            y_acceleration = self.thrust_to_acceleration(y_thrust)
-            self.y_velocity = self.acceleration_to_velocity(y_acceleration, 1.0/self.FREQUENCY, self.y_velocity)
+            y_thrust = (thrust[2] + thrust[3] - thrust[0] - thrust[1] ) * 0.7
+            self.y_velocity =  y_thrust * (1.0/self.FREQUENCY) * 1.3
 
-            front_vector_rot = numpy.nan_to_num(qv_mult(q, self.front_vector))
-            heading_vector_rot = numpy.nan_to_num(qv_mult(q, self.heading_vector))
+            #front_vector_rot = numpy.nan_to_num(qv_mult(q, self.front_vector))
+            #heading_vector_rot = numpy.nan_to_num(qv_mult(q, self.heading_vector))
 
-            x_vel = self.x_velocity * (front_vector_rot[0] + heading_vector_rot[0])
-            y_vel = self.y_velocity * (front_vector_rot[1] + heading_vector_rot[1])
+            #x_vel = self.x_velocity * (front_vector_rot[0] + heading_vector_rot[0])
+            #y_vel = self.y_velocity * (front_vector_rot[1] + heading_vector_rot[1])
 
             z_thrust = thrust[4] + thrust[5] + thrust[6] + thrust[7]
-            z_acceleration = self.thrust_to_acceleration_depth(z_thrust)
-            self.z_velocity = self.acceleration_to_velocity(z_acceleration, 1.0/self.FREQUENCY, self.z_velocity)
+            self.bar += z_thrust * -0.000055
+            #self.z_velocity = self.acceleration_to_velocity(z_acceleration, 1.0/self.FREQUENCY, self.z_velocity)
 
-            self.depth = self.velocity_to_depth(self.z_velocity, 1.0/self.FREQUENCY, self.depth)
-            self.bar = self.depth_to_bar(self.depth, self.bar)
+            #self.depth = self.velocity_to_depth(self.z_velocity, 1.0/self.FREQUENCY, self.depth)
+            #self.bar = self.depth_to_bar(self.depth, self.bar)
 
             dvl_pressure = FluidPressure()
             dvl_pressure.fluid_pressure = self.bar
             self.publisher_dvl_pressure.publish(dvl_pressure)
 
             imu = Imu()
-            imu.orientation.x = q[0]
-            imu.orientation.y = q[1]
-            imu.orientation.z = q[2]
-            imu.orientation.w = q[3]
+            imu.orientation.x = qx[0]
+            imu.orientation.y = qx[1]
+            imu.orientation.z = qx[2]
+            imu.orientation.w = qx[3]
             imu.angular_velocity.y = self.pitch_velocity
             imu.angular_velocity.z = self.yaw_velocity
             imu.header.frame_id = "NED"
@@ -140,8 +131,8 @@ class AUVSimulation:
             dvl_twist = TwistStamped()
             dvl_twist.header.stamp = rospy.get_rostime()
             dvl_twist.header.frame_id = "BODY"
-            dvl_twist.twist.linear.x = x_vel
-            dvl_twist.twist.linear.y = y_vel
+            dvl_twist.twist.linear.x = self.x_velocity
+            dvl_twist.twist.linear.y = self.y_velocity
             dvl_twist.twist.linear.z = self.z_velocity
 
             self.publisher_dvl_twist.publish(dvl_twist)
@@ -149,29 +140,29 @@ class AUVSimulation:
             rate.sleep()
 
     def thruster_msg_callback(self, msg):
-            if msg.ID == ThrusterEffort.UNIQUE_ID_T1:
-                self.thruster_T1 = msg.effort
+        if msg.ID == ThrusterEffort.UNIQUE_ID_T1:
+            self.thruster_T1 = msg.effort
 
-            elif msg.ID == ThrusterEffort.UNIQUE_ID_T2:
-                self.thruster_T2 = msg.effort
+        elif msg.ID == ThrusterEffort.UNIQUE_ID_T2:
+            self.thruster_T2 = msg.effort
 
-            elif msg.ID == ThrusterEffort.UNIQUE_ID_T3:
-                self.thruster_T3 = msg.effort
+        elif msg.ID == ThrusterEffort.UNIQUE_ID_T3:
+            self.thruster_T3 = msg.effort
 
-            elif msg.ID == ThrusterEffort.UNIQUE_ID_T4:
-                self.thruster_T4 = msg.effort
+        elif msg.ID == ThrusterEffort.UNIQUE_ID_T4:
+            self.thruster_T4 = msg.effort
 
-            elif msg.ID == ThrusterEffort.UNIQUE_ID_T5:
-                self.thruster_T5 = msg.effort
+        elif msg.ID == ThrusterEffort.UNIQUE_ID_T5:
+            self.thruster_T5 = msg.effort
 
-            elif msg.ID == ThrusterEffort.UNIQUE_ID_T6:
-                self.thruster_T6 = msg.effort
+        elif msg.ID == ThrusterEffort.UNIQUE_ID_T6:
+            self.thruster_T6 = msg.effort
 
-            elif msg.ID == ThrusterEffort.UNIQUE_ID_T7:
-                self.thruster_T7 = msg.effort
+        elif msg.ID == ThrusterEffort.UNIQUE_ID_T7:
+            self.thruster_T7 = msg.effort
 
-            elif msg.ID == ThrusterEffort.UNIQUE_ID_T8:
-                self.thruster_T8 = msg.effort
+        elif msg.ID == ThrusterEffort.UNIQUE_ID_T8:
+            self.thruster_T8 = msg.effort
 
     def effort_to_thrust(self, effort):
         if effort > 0:

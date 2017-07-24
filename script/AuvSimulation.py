@@ -12,6 +12,7 @@ from geometry_msgs.msg import TwistStamped
 from tf.transformations import quaternion_about_axis, unit_vector, quaternion_multiply, quaternion_conjugate
 from provider_thruster.msg import ThrusterEffort
 import time
+import dynamic_reconfigure.client
 
 from std_msgs.msg import String
 
@@ -61,6 +62,7 @@ class AUVSimulation:
         self.heading_vector = (0, 1, 0)
         self.xaxis, self.yaxis, self.zaxis = (1, 0, 0), (0, 1, 0), (0, 0, 1)
 
+
     def publish_data(self):
         rate = rospy.Rate(self.FREQUENCY)
 
@@ -80,7 +82,7 @@ class AUVSimulation:
             for index in range(len(effort)):
                 thrust.append(self.effort_to_thrust(effort[index]))
 
-            yaw_thrust = (thrust[3] + thrust[1] - thrust[0] - thrust[2]) + random.random() * 0.5
+            yaw_thrust = (thrust[3] + thrust[1] - thrust[0] - thrust[2]) + 0.05 *random.randrange(-10,10)
 
             print 'current yaw changes',yaw_thrust, yaw_thrust * (1.0/self.FREQUENCY) * 1.2
             self.current_yaw += yaw_thrust * (1.0/self.FREQUENCY) * 0.1
@@ -108,7 +110,7 @@ class AUVSimulation:
             #y_vel = self.y_velocity * (front_vector_rot[1] + heading_vector_rot[1])
 
             z_thrust = thrust[4] + thrust[5] + thrust[6] + thrust[7]
-            self.bar += z_thrust * -0.000055
+            self.bar += z_thrust * -0.000055 * (1+(0.01 * random.randrange(-10,10)))
             #self.z_velocity = self.acceleration_to_velocity(z_acceleration, 1.0/self.FREQUENCY, self.z_velocity)
 
             #self.depth = self.velocity_to_depth(self.z_velocity, 1.0/self.FREQUENCY, self.depth)

@@ -446,16 +446,15 @@ bool ProcControlNode::LocalTargetServiceCallback(proc_control::SetPositionTarget
 
   if (request.YAW > -990.0) {
     askedRotation = request.YAW;
-  }
 
-  if (askedRotation < 0) {
-      askedRotation += 360;
+    if (askedRotation < 0) {
+        askedRotation += 360;
+    }
+    askedRotation += world_position_[YAW];
+  } else {
+    printf("Should not pass here with request at -1000 : %f\n", request.YAW);
+    askedRotation = asked_position_[YAW];
   }
-      if(request.YAW > -800) {
-        askedRotation += world_position_[YAW];
-      } else{
-        askedRotation = asked_position_[5];
-      }
 
   Eigen::Vector3d final_pos = original_position + (original_rotation * translation);
   Eigen::Vector3d final_rot(world_position_[ROLL], world_position_[PITCH], fmod(askedRotation, 360.0));

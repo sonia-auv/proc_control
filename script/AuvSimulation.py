@@ -12,6 +12,7 @@ from geometry_msgs.msg import TwistStamped
 from tf.transformations import quaternion_about_axis, unit_vector, quaternion_multiply, quaternion_conjugate
 from provider_thruster.msg import ThrusterEffort
 import time
+import dynamic_reconfigure.client
 
 from std_msgs.msg import String
 
@@ -61,6 +62,7 @@ class AUVSimulation:
         self.heading_vector = (0, 1, 0)
         self.xaxis, self.yaxis, self.zaxis = (1, 0, 0), (0, 1, 0), (0, 0, 1)
 
+
     def publish_data(self):
         rate = rospy.Rate(self.FREQUENCY)
 
@@ -87,7 +89,7 @@ class AUVSimulation:
             self.current_yaw %= 360.0
             print self.current_yaw
             pitch_thrust = sub_thruster_distance*thrust[4] - sub_thruster_distance*thrust[5] - \
-                         sub_thruster_distance*thrust[6] + sub_thruster_distance*thrust[7]
+                           sub_thruster_distance*thrust[6] + sub_thruster_distance*thrust[7]
 
             pitch_acceleration = self.thrust_to_acceleration_yaw(pitch_thrust)
             self.pitch_velocity = self.acceleration_to_velocity(pitch_acceleration, 1.0/self.FREQUENCY, self.pitch_velocity)
@@ -140,29 +142,29 @@ class AUVSimulation:
             rate.sleep()
 
     def thruster_msg_callback(self, msg):
-            if msg.ID == ThrusterEffort.UNIQUE_ID_T1:
-                self.thruster_T1 = msg.effort
+        if msg.ID == ThrusterEffort.UNIQUE_ID_T1:
+            self.thruster_T1 = msg.effort
 
-            elif msg.ID == ThrusterEffort.UNIQUE_ID_T2:
-                self.thruster_T2 = msg.effort
+        elif msg.ID == ThrusterEffort.UNIQUE_ID_T2:
+            self.thruster_T2 = msg.effort
 
-            elif msg.ID == ThrusterEffort.UNIQUE_ID_T3:
-                self.thruster_T3 = msg.effort
+        elif msg.ID == ThrusterEffort.UNIQUE_ID_T3:
+            self.thruster_T3 = msg.effort
 
-            elif msg.ID == ThrusterEffort.UNIQUE_ID_T4:
-                self.thruster_T4 = msg.effort
+        elif msg.ID == ThrusterEffort.UNIQUE_ID_T4:
+            self.thruster_T4 = msg.effort
 
-            elif msg.ID == ThrusterEffort.UNIQUE_ID_T5:
-                self.thruster_T5 = msg.effort
+        elif msg.ID == ThrusterEffort.UNIQUE_ID_T5:
+            self.thruster_T5 = msg.effort
 
-            elif msg.ID == ThrusterEffort.UNIQUE_ID_T6:
-                self.thruster_T6 = msg.effort
+        elif msg.ID == ThrusterEffort.UNIQUE_ID_T6:
+            self.thruster_T6 = msg.effort
 
-            elif msg.ID == ThrusterEffort.UNIQUE_ID_T7:
-                self.thruster_T7 = msg.effort
+        elif msg.ID == ThrusterEffort.UNIQUE_ID_T7:
+            self.thruster_T7 = msg.effort
 
-            elif msg.ID == ThrusterEffort.UNIQUE_ID_T8:
-                self.thruster_T8 = msg.effort
+        elif msg.ID == ThrusterEffort.UNIQUE_ID_T8:
+            self.thruster_T8 = msg.effort
 
     def effort_to_thrust(self, effort):
         if effort > 0:

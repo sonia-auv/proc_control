@@ -445,6 +445,7 @@ bool ProcControlNode::LocalTargetServiceCallback(proc_control::SetPositionTarget
   double askedRotation = 0;
 
   if (request.YAW > -990.0) {
+    printf("Should not pass here with request at -1000 : %f\n", request.YAW);
     askedRotation = request.YAW;
 
     if (askedRotation < 0) {
@@ -452,7 +453,7 @@ bool ProcControlNode::LocalTargetServiceCallback(proc_control::SetPositionTarget
     }
     askedRotation += world_position_[YAW];
   } else {
-    printf("Should not pass here with request at -1000 : %f\n", request.YAW);
+    printf("Should pass here with request at -1000 : %f\n", request.YAW);
     askedRotation = asked_position_[YAW];
   }
 
@@ -488,10 +489,12 @@ bool ProcControlNode::LocalTargetServiceCallback(proc_control::SetPositionTarget
   else
     targeted_position_[4] = asked_position_[4];
 
-  if(request.YAW > -800.0)
+  if (request.YAW > -800.0) {
     targeted_position_[5] = final_rot[2];
-  else
+    printf("What!!! : %f\n", request.YAW);
+  } else {
     targeted_position_[5] = asked_position_[5];
+  }
 
   for (int i = 0; i < 6; i++) {
     asked_position_[i] = targeted_position_[i];

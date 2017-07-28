@@ -45,6 +45,7 @@
 #include "proc_control/ClearWaypoint.h"
 #include "proc_control/SetBoundingBox.h"
 #include "proc_control/ResetBoundingBox.h"
+#include <provider_kill_mission/KillSwitchMsg.h>
 
 #include "proc_control/trajectory/trajectory.h"
 
@@ -79,7 +80,8 @@ class ProcControlNode {
 
   void SetTargetCallback(const geometry_msgs::Pose::ConstPtr &target_in);
   void OdomCallback(const nav_msgs::Odometry::ConstPtr &odo_in);
-  void KeypadCallback(const provider_keypad::Keypad::ConstPtr &keypad_in);
+    void KeypadCallback(const provider_keypad::Keypad::ConstPtr &keypad_in);
+    void KillSwitchCallback(const provider_kill_mission::KillSwitchMsg::ConstPtr &state);
   bool EnableControlServiceCallback(proc_control::EnableControlRequest &request,
                                     proc_control::EnableControlResponse &response);
   bool GetPositionTargetServiceCallback(proc_control::GetPositionTargetRequest &request,
@@ -113,6 +115,7 @@ class ProcControlNode {
   ros::Subscriber navigation_odom_subscriber_;
   ros::Subscriber target_odometry_subscriber_;
   ros::Subscriber keypad_subscriber_;
+    ros::Subscriber kill_switch_;
 
   ros::Publisher target_publisher_;
   ros::Publisher debug_target_publisher_;

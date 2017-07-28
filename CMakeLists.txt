@@ -51,6 +51,7 @@ find_package(
     sensor_msgs
     dynamic_reconfigure
     provider_thruster
+    provider_kill_mission
 )
 
 generate_dynamic_reconfigure_options(
@@ -88,7 +89,7 @@ generate_messages(
 catkin_package(
     INCLUDE_DIRS ${proc_control_SRC_DIR}
     LIBRARIES
-    CATKIN_DEPENDS roscpp message_runtime std_msgs provider_thruster
+    CATKIN_DEPENDS roscpp message_runtime std_msgs provider_thruster provider_kill_mission
     dynamic_reconfigure
 )
 
@@ -107,6 +108,7 @@ include_directories(
     ${proc_control_SRC_DIR}
     "${proc_control_SRC_DIR}/../cfg/cpp/"
         ${Boost_INCLUDE_DIRS}
+        ${provider_kill_mission_INCLUDE_DIRS}
 )
 
 #==========================================================================

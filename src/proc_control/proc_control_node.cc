@@ -230,34 +230,32 @@ void ProcControlNode::KeypadCallback(const provider_keypad::Keypad::ConstPtr &ke
 
 void ProcControlNode::KillSwitchCallback(const provider_kill_mission::KillSwitchMsg::ConstPtr &state) {
 
-    if (! state->state){
+    if (!state->state) {
+      enable_control_[X] = false;
+      targeted_position_[X] = 0.0;
+      asked_position_[X] = 0.0;
+      trajectory_surge.Reset();
+      enable_control_[Y] = false;
+      targeted_position_[Y] = 0.0;
+      asked_position_[Y] = 0.0;
+      trajectory_sway.Reset();
+      enable_control_[Z] = false;
+      targeted_position_[Z] = 0.0;
+      asked_position_[Z] = 0.0;
+      trajectory_heave.Reset();
+      enable_control_[ROLL] = false;
+      targeted_position_[ROLL] = 0.0;
+      asked_position_[ROLL] = 0.0;
+      enable_control_[PITCH] = false;
+      targeted_position_[PITCH] = 0.0;
+      asked_position_[PITCH] = 0.0;
+      enable_control_[YAW] = false;
+      targeted_position_[YAW] = 0.0;
+      asked_position_[YAW] = 0.0;
+      trajectory_yaw.Reset();
 
-        enable_control_[X] = false;
-        targeted_position_[X] = 0.0;
-        asked_position_[X] = 0.0;
-        enable_control_[Y] = false;
-        targeted_position_[Y] = 0.0;
-        asked_position_[Y] = 0.0;
-        enable_control_[Z] = false;
-        targeted_position_[Z] = 0.0;
-        asked_position_[Z] = 0.0;
-        enable_control_[ROLL] = false;
-        targeted_position_[ROLL] = 0.0;
-        asked_position_[ROLL] = 0.0;
-        enable_control_[PITCH] = false;
-        targeted_position_[PITCH] = 0.0;
-        asked_position_[PITCH] = 0.0;
-        enable_control_[YAW] = false;
-        targeted_position_[YAW] = 0.0;
-        asked_position_[YAW] = 0.0;
-        trajectory_surge.Reset();
-        trajectory_sway.Reset();
-        trajectory_heave.Reset();
-        trajectory_yaw.Reset();
-
-        PublishTargetedPosition();
+      PublishTargetedPosition();
     }
-
 }
 
 //-----------------------------------------------------------------------------

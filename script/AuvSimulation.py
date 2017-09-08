@@ -84,10 +84,8 @@ class AUVSimulation:
 
             yaw_thrust = (thrust[3] + thrust[1] - thrust[0] - thrust[2]) + random.random() * 0.5
 
-            print 'current yaw changes',yaw_thrust, yaw_thrust * (1.0/self.FREQUENCY) * 1.2
             self.current_yaw += yaw_thrust * (1.0/self.FREQUENCY) * 0.1
             self.current_yaw %= 360.0
-            print self.current_yaw
             pitch_thrust = sub_thruster_distance*thrust[4] - sub_thruster_distance*thrust[5] - \
                            sub_thruster_distance*thrust[6] + sub_thruster_distance*thrust[7]
 

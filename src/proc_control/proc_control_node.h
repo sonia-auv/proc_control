@@ -80,8 +80,10 @@ class ProcControlNode {
 
   void SetTargetCallback(const geometry_msgs::Pose::ConstPtr &target_in);
   void OdomCallback(const nav_msgs::Odometry::ConstPtr &odo_in);
-    void KeypadCallback(const provider_keypad::Keypad::ConstPtr &keypad_in);
-    void KillSwitchCallback(const provider_kill_mission::KillSwitchMsg::ConstPtr &state);
+  void KeypadCallback(const provider_keypad::Keypad::ConstPtr &keypad_in);
+  void KeypadSetGlobal(const provider_keypad::Keypad::ConstPtr &keypad_in);
+  void KeypadSetLocal(const provider_keypad::Keypad::ConstPtr &keypad_in);
+  void KillSwitchCallback(const provider_kill_mission::KillSwitchMsg::ConstPtr &state);
   bool EnableControlServiceCallback(proc_control::EnableControlRequest &request,
                                     proc_control::EnableControlResponse &response);
   bool GetPositionTargetServiceCallback(proc_control::GetPositionTargetRequest &request,
@@ -136,6 +138,7 @@ class ProcControlNode {
 
   OdometryInfo world_position_ = {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0}};
   OdometryInfo targeted_position_ = {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0}};
+  OdometryInfo last_targeted_position_ = {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0}};
   OdometryInfo asked_position_ = {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0}};
   std::array<bool, 6> enable_control_;
 

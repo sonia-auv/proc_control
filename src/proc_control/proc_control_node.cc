@@ -206,27 +206,86 @@ void ProcControlNode::OdomCallback(const nav_msgs::Odometry::ConstPtr &odo_in) {
 //-----------------------------------------------------------------------------
 //
 void ProcControlNode::KeypadCallback(const provider_keypad::Keypad::ConstPtr &keypad_in) {
-  targeted_position_[X] += keypad_in->Up;
-  targeted_position_[X] -= keypad_in->Down;
-  targeted_position_[Y] += keypad_in->Right;
-  targeted_position_[Y] -= keypad_in->Left;
 
-  targeted_position_[Z] += keypad_in->Y;
-  targeted_position_[Z] -= keypad_in->A;
+    if (keypad_in->LB == 1)
+        KeypadSetLocal(keypad_in);
+    else
+        KeypadSetGlobal(keypad_in);
 
-  targeted_position_[YAW] += (keypad_in->RT / 100);
-  targeted_position_[YAW] -= (keypad_in->LT / 100);
+    if (keypad_in->Start){
 
-  if(targeted_position_[YAW] < 0) {
-    targeted_position_[YAW] = 360 + targeted_position_[YAW];
-  }
+        for (int i = 0; i < 3; i++) {
+            targeted_position_[i] = world_position_[i];
+            targeted_position_[i + 3] = world_position_[i + 3];
+        }
 
-  if(targeted_position_[YAW] >= 360) {
-    targeted_position_[YAW] = 360 - targeted_position_[YAW];
-  }
+    }
 
-  PublishTargetedPosition();
 }
+
+void ProcControlNode::KeypadSetGlobal(const provider_keypad::Keypad::ConstPtr &keypad_in){
+
+    targeted_position_[X] += keypad_in->Up;
+    targeted_position_[X] -= keypad_in->Down;
+    targeted_position_[Y] += keypad_in->Right;
+    targeted_position_[Y] -= keypad_in->Left;
+
+    targeted_position_[Z] += keypad_in->Y;
+    targeted_position_[Z] -= keypad_in->A;
+
+    targeted_position_[YAW] += (keypad_in->RT / 100);
+    targeted_position_[YAW] -= (keypad_in->LT / 100);
+
+    if(targeted_position_[YAW] < 0) {
+        targeted_position_[YAW] = 360 + targeted_position_[YAW];
+    }
+
+    if(targeted_position_[YAW] >= 360) {
+        targeted_position_[YAW] = 360 - targeted_position_[YAW];
+    }
+
+
+    PublishTargetedPosition();
+
+}
+
+void ProcControlNode::KeypadSetLocal(const provider_keypad::Keypad::ConstPtr &keypad_in) {
+
+    double x = 0,y = 0,z = 0,yaw = 0;
+
+    if (keypad_in->Up == 1) x = 0.5;
+    if (keypad_in->Down == 1) x = -0.5;
+    if (keypad_in->Right == 1) y = 0.5;
+    if (keypad_in->Left == 1) y = -0.5;
+    if (keypad_in->Y == 1) z = 0.5;
+    if (keypad_in->A == 1) z = -0.5;
+    if (keypad_in->RT == 1) yaw = 100;
+    if (keypad_in->LT == 1) yaw = 100;
+
+
+    // We simply use the current yaw to rotate the translation into the good world position and add it to the position
+    Eigen::Matrix3d original_rotation = EulerToRot(Eigen::Vector3d(DegreeToRadian(world_position_[YAW]), 0, 0));
+    Eigen::Vector3d translation(x, y, z), original_position(world_position_[X], world_position_[Y], world_position_[Z]);
+    double askedRotation = 0;
+    askedRotation = yaw;
+
+    if (askedRotation < 0) {
+        askedRotation += 360;
+    }
+    askedRotation += world_position_[YAW];
+
+
+    Eigen::Vector3d final_pos = original_position + (original_rotation * translation);
+    Eigen::Vector3d final_rot(world_position_[ROLL], world_position_[PITCH], fmod(askedRotation, 360.0));
+
+    for (int i = 0; i < 3; i++){
+        targeted_position_[i] = final_pos[i];
+        targeted_position_[i+3] = final_rot[i];
+    }
+
+    PublishTargetedPosition();
+}
+
 
 void ProcControlNode::KillSwitchCallback(const provider_kill_mission::KillSwitchMsg::ConstPtr &state) {
 

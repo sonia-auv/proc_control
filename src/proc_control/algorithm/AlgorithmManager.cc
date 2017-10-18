@@ -25,8 +25,7 @@
  */
 
 #include "AlgorithmManager.h"
-#include "PID4Axis_Algorithm.h"
-#include "PIDZAxis_Algorithm.h"
+#include "PID6Axis_Algorithm.h"
 #include <memory>
 #include <yaml-cpp/yaml.h>
 #include <fstream>
@@ -38,12 +37,11 @@
 //
 AlgorithmManager::AlgorithmManager()
     : ConfigManager("Algorithm"),
-      algorithm_to_use_(AlgorithmTypes::PID_Z_AXIS),
+      algorithm_to_use_(AlgorithmTypes::PID_6_AXIS),
       current_algorithm_(nullptr)
 {
-  algorithms_.push_back(std::make_shared<PID4Axis_Algorithm>());
-  algorithms_.push_back(std::make_shared<PIDZAxis_Algorithm>());
-  current_algorithm_ = algorithms_[1];
+  algorithms_.push_back(std::make_shared<PID6Axis_Algorithm>());
+  current_algorithm_ = algorithms_[0];
   Init();
 }
 
@@ -58,7 +56,7 @@ void AlgorithmManager::OnDynamicReconfigureChange(const proc_control::AlgorithmC
   std::cout << "Update to the algorithm choice" << std::endl;
 
   switch (algorithm_to_use_ ) {
-    case AlgorithmTypes::PID_4_AXIS:
+    case AlgorithmTypes::PID_6_AXIS:
       current_algorithm_ = algorithms_[0];
       break;
     case AlgorithmTypes::PID_Z_AXIS:
@@ -134,7 +132,7 @@ int AlgorithmManager::ConversionEnumInt(AlgorithmManager::AlgorithmTypes enum_)
 {
   switch (enum_)
   {
-    case AlgorithmManager::AlgorithmTypes::PID_4_AXIS: return 0;
+    case AlgorithmManager::AlgorithmTypes::PID_6_AXIS: return 0;
     case AlgorithmManager::AlgorithmTypes::PID_5_AXIS: return 1;
     case AlgorithmManager::AlgorithmTypes::PID_Z_AXIS: return 2;
   }
@@ -148,11 +146,11 @@ AlgorithmManager::AlgorithmTypes AlgorithmManager::ConversionEnumInt(int enum_)
   switch (enum_)
   {
     default:
-    case 0: return AlgorithmTypes::PID_4_AXIS;
+    case 0: return AlgorithmTypes::PID_6_AXIS;
     case 1: return AlgorithmTypes::PID_5_AXIS;
     case 2: return AlgorithmTypes ::PID_Z_AXIS;
   }
-  return AlgorithmTypes::PID_4_AXIS;
+  return AlgorithmTypes::PID_6_AXIS;
 }
 
 //-----------------------------------------------------------------------------

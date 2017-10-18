@@ -39,7 +39,7 @@ class AlgorithmManager : public ConfigManager<proc_control::AlgorithmConfig>  {
   //==========================================================================
   // C O N S T  ,  T Y P E D E F   A N D   E N U M
 
-  enum class AlgorithmTypes{PID_4_AXIS = 0, PID_5_AXIS, PID_Z_AXIS};
+  enum class AlgorithmTypes{PID_6_AXIS = 0, PID_5_AXIS, PID_Z_AXIS};
 
   //==========================================================================
   // P U B L I C   C / D T O R S

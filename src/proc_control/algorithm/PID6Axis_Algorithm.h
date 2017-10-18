@@ -31,22 +31,22 @@
 #include "proc_control/algorithm/ControlAlgorithm.h"
 #include "proc_control/algorithm/PID.h"
 #include "proc_control/config/config_manager.h"
-#include "proc_control/PID4AxisConfig.h"
+#include "proc_control/PID6AxisConfig.h"
 
-class PID4Axis_Algorithm : public ControlAlgorithm,  public ConfigManager<proc_control::PID4AxisConfig > {
+class PID6Axis_Algorithm : public ControlAlgorithm,  public ConfigManager<proc_control::PID6AxisConfig > {
   public:
   //==========================================================================
   // P U B L I C   C / D T O R S
 
-  PID4Axis_Algorithm();
+  PID6Axis_Algorithm();
 
   //==========================================================================
   // P U B L I C   O V E R R I D E D   M E T H O D S
 
   // ConfigManager override
-  void OnDynamicReconfigureChange(const proc_control::PID4AxisConfig &config ) override ;
-  void WriteConfigFile( const proc_control::PID4AxisConfig &config ) override ;
-  void ReadConfigFile( proc_control::PID4AxisConfig &config ) override ;
+  void OnDynamicReconfigureChange(const proc_control::PID6AxisConfig &config ) override ;
+  void WriteConfigFile( const proc_control::PID6AxisConfig &config ) override ;
+  void ReadConfigFile( proc_control::PID6AxisConfig &config ) override ;
 
   // ControlAlgorithm override
   std::array<double, 6> CalculateActuationForError(const std::array<double, 6> &error);
@@ -55,8 +55,8 @@ class PID4Axis_Algorithm : public ControlAlgorithm,  public ConfigManager<proc_c
   //==========================================================================
   // P R I V A T E   M E M B E R S
 
-  PID x_, y_, z_, pitch_, yaw_;
-  PIDValues &x_values_, &y_values_, &z_values_, &pitch_values_, &yaw_values_;
+  PID x_, y_, z_, roll_, pitch_, yaw_;
+  PIDValues &x_values_, &y_values_, &z_values_, &roll_values_, &pitch_values_, &yaw_values_;
   double constant_depth_force_;
   const std::string file_path_ = kConfigPath + "algorithm_config/PID4Axis" + kConfigExt;
   const std::string CONSTANT_DEPTH_FORCE = "CONSTANT_DEPTH_FORCE";

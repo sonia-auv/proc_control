@@ -1,5 +1,5 @@
 /**
- * \file	PID4Axis_Algorithm.cc
+ * \file	PID6Axis_Algorithm.cc
  * \author	Jeremie St-Jules <jeremie.st.jules.prevost@gmail.com>
  * \coauthor Francis Masse <francis.masse05@gmail.com>
  * \date	10/17/16
@@ -24,7 +24,7 @@
  * along with S.O.N.I.A. AUV software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "PID4Axis_Algorithm.h"
+#include "PID6Axis_Algorithm.h"
 #include <yaml-cpp/yaml.h>
 #include <fstream>
 
@@ -33,11 +33,12 @@
 
 //------------------------------------------------------------------------------
 //
-PID4Axis_Algorithm::PID4Axis_Algorithm()
-    : ConfigManager("PID_4Axis"),
-      x_("X"), y_("Y"), z_("Z"), pitch_("PITCH"), yaw_("YAW"),
+PID6Axis_Algorithm::PID6Axis_Algorithm()
+    : ConfigManager("PID_6Axis"),
+      x_("X"), y_("Y"), z_("Z"), roll_("ROLL"), pitch_("PITCH"), yaw_("YAW"),
       x_values_(x_.GetPIDValues()),y_values_(y_.GetPIDValues()),
-      z_values_(z_.GetPIDValues()),pitch_values_(pitch_.GetPIDValues()), yaw_values_(yaw_.GetPIDValues()),
+      z_values_(z_.GetPIDValues()),  roll_values_(roll_.GetPIDValues()),
+      pitch_values_(pitch_.GetPIDValues()), yaw_values_(yaw_.GetPIDValues()),
       constant_depth_force_(0.0)
 {
   Init();
@@ -48,7 +49,7 @@ PID4Axis_Algorithm::PID4Axis_Algorithm()
 
 //-----------------------------------------------------------------------------
 //
-void PID4Axis_Algorithm::OnDynamicReconfigureChange(const proc_control::PID4AxisConfig &config )
+void PID6Axis_Algorithm::OnDynamicReconfigureChange(const proc_control::PID6AxisConfig &config )
 {
   std::cout << "Update on PIX 4 Axis configuration" << std::endl;
   x_values_.D = config.X_D;
@@ -72,6 +73,13 @@ void PID4Axis_Algorithm::OnDynamicReconfigureChange(const proc_control::PID4Axis
   z_values_.Max_Actuation = config.Z_MAX_ACTUATION;
   z_values_.Min_Actuation = config.Z_MIN_ACTUATION;
 
+  roll_values_.D = config.ROLL_D;
+  roll_values_.P = config.ROLL_P;
+  roll_values_.I = config.ROLL_I;
+  roll_values_.I_Limit = config.ROLL_I_LIMIT;
+  roll_values_.Max_Actuation = config.ROLL_MAX_ACTUATION;
+  roll_values_.Min_Actuation = config.ROLL_MIN_ACTUATION;
+
   pitch_values_.D = config.PITCH_D;
   pitch_values_.P = config.PITCH_P;
   pitch_values_.I = config.PITCH_I;
@@ -91,7 +99,7 @@ void PID4Axis_Algorithm::OnDynamicReconfigureChange(const proc_control::PID4Axis
 
 //-----------------------------------------------------------------------------
 //
-void PID4Axis_Algorithm::WriteConfigFile( const proc_control::PID4AxisConfig &config )
+void PID6Axis_Algorithm::WriteConfigFile( const proc_control::PID6AxisConfig &config )
 {
   YAML::Emitter out;
   out << YAML::BeginMap;
@@ -115,7 +123,7 @@ void PID4Axis_Algorithm::WriteConfigFile( const proc_control::PID4AxisConfig &co
 
 //-----------------------------------------------------------------------------
 //
-void PID4Axis_Algorithm::ReadConfigFile( proc_control::PID4AxisConfig &config )
+void PID6Axis_Algorithm::ReadConfigFile( proc_control::PID6AxisConfig &config )
 {
   YAML::Node node = YAML::LoadFile(file_path_);
   std::vector< std::map<std::string, double&> >
@@ -157,6 +165,13 @@ void PID4Axis_Algorithm::ReadConfigFile( proc_control::PID4AxisConfig &config )
   config.Z_MAX_ACTUATION = z_values_.Max_Actuation;
   config.Z_MIN_ACTUATION = z_values_.Min_Actuation;
 
+  config.ROLL_D = roll_values_.D;
+  config.ROLL_P = roll_values_.P;
+  config.ROLL_I = roll_values_.I;
+  config.ROLL_I_LIMIT = roll_values_.I_Limit;
+  config.ROLL_MAX_ACTUATION = roll_values_.Max_Actuation;
+  config.ROLL_MIN_ACTUATION = roll_values_.Min_Actuation;
+
   config.PITCH_D = pitch_values_.D;
   config.PITCH_P = pitch_values_.P;
   config.PITCH_I = pitch_values_.I;
@@ -174,7 +189,7 @@ void PID4Axis_Algorithm::ReadConfigFile( proc_control::PID4AxisConfig &config )
 
 //-----------------------------------------------------------------------------
 //
-std::array<double, 6> PID4Axis_Algorithm::CalculateActuationForError(const std::array<double, 6> &error)
+std::array<double, 6> PID6Axis_Algorithm::CalculateActuationForError(const std::array<double, 6> &error)
 {
   std::array<double, 6> actuation = {0.0f};
   // The 4 axis algorithm control only X Y Z YAW
@@ -182,7 +197,8 @@ std::array<double, 6> PID4Axis_Algorithm::CalculateActuationForError(const std::
   actuation[0] = x_.GetValueForError(error[0]);
   actuation[1] = y_.GetValueForError(error[1]);
   actuation[2] = z_.GetValueForError(error[2]) + constant_depth_force_;
-//  actuation[4] = pitch_.GetValueForError(error[4]);
+  actuation[3] = roll_.GetValueForError(error[2]);
+  actuation[4] = pitch_.GetValueForError(error[4]);
   actuation[5] = yaw_.GetValueForError(error[5]);
   return actuation;
 };

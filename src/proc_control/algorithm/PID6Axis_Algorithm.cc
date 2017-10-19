@@ -51,7 +51,7 @@ PID6Axis_Algorithm::PID6Axis_Algorithm()
 //
 void PID6Axis_Algorithm::OnDynamicReconfigureChange(const proc_control::PID6AxisConfig &config )
 {
-  std::cout << "Update on PIX 4 Axis configuration" << std::endl;
+  std::cout << "Update on PID 6 Axis configuration" << std::endl;
   x_values_.D = config.X_D;
   x_values_.P = config.X_P;
   x_values_.I = config.X_I;
@@ -108,7 +108,7 @@ void PID6Axis_Algorithm::WriteConfigFile( const proc_control::PID6AxisConfig &co
   out << YAML::Value << constant_depth_force_;
 
   std::vector< std::map<std::string, double&> >
-      all_config {x_values_.ToMap(), y_values_.ToMap(),z_values_.ToMap(), pitch_values_.ToMap(), yaw_values_.ToMap()};
+      all_config {x_values_.ToMap(), y_values_.ToMap(),z_values_.ToMap(),roll_values_.ToMap(), pitch_values_.ToMap(), yaw_values_.ToMap()};
   for( auto config : all_config)
   {
     for(auto elem : config)

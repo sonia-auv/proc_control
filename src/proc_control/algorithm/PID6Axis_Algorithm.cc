@@ -197,7 +197,7 @@ std::array<double, 6> PID6Axis_Algorithm::CalculateActuationForError(const std::
   actuation[0] = x_.GetValueForError(error[0]);
   actuation[1] = y_.GetValueForError(error[1]);
   actuation[2] = z_.GetValueForError(error[2]) + constant_depth_force_;
-  actuation[3] = roll_.GetValueForError(error[2]);
+  actuation[3] = roll_.GetValueForError(error[3]);
   actuation[4] = pitch_.GetValueForError(error[4]);
   actuation[5] = yaw_.GetValueForError(error[5]);
   return actuation;

@@ -657,7 +657,7 @@ std::array<double, 6> ProcControlNode::GetLocalError(const std::array<double, 6>
 //
 Eigen::Matrix3d ProcControlNode::EulerToRot(const Eigen::Vector3d &vec) {
   Eigen::Matrix3d m;
-  m = Eigen::AngleAxisd(vec.x(), Eigen::Vector3d::UnitZ())
+  m = Eigen::AngleAxisd(vec.x(), Eigen::Vector3d::UnitZ()) 
       * Eigen::AngleAxisd(vec.y(), Eigen::Vector3d::UnitY())
       * Eigen::AngleAxisd(vec.z(), Eigen::Vector3d::UnitX());
   return m;

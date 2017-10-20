@@ -149,8 +149,7 @@ void ProcControlNode::Control() {
     target_is_reached_publisher_.publish(msg_target_reached);
 
     // Calculate required actuation
-    std::array<double, 6> actuation = algorithm_manager_.GetActuationForError(error);
-    std::array<double, 3> actuation_lin = {actuation[X], actuation[Y], actuation[Z]};
+    /*std::array<double, 3> actuation_lin = {actuation[X], actuation[Y], actuation[Z]};
     std::array<double, 3> actuation_rot = {actuation[ROLL], actuation[PITCH], actuation[YAW]};
     for (int i = 0; i < 3; i++) {
       if (!enable_control_[i]) {
@@ -162,7 +161,7 @@ void ProcControlNode::Control() {
     }
 
     // Process the actuation
-    thruster_manager_.Commit(actuation_lin, actuation_rot);
+    thruster_manager_.Commit(actuation_lin, actuation_rot);*/
   }
 
   proc_control::PositionTarget msg_target;
@@ -523,7 +522,6 @@ bool ProcControlNode::ClearWaypointServiceCallback(proc_control::ClearWaypointRe
 //
 bool ProcControlNode::SetBoundingBoxServiceCallback(proc_control::SetBoundingBoxRequest &request,
                                    proc_control::SetBoundingBoxResponse &response) {
-  algorithm_manager_.SetNewBoundingBox(request.X, request.Y, request.Z, request.YAW);
   return true;
 }
 
@@ -531,7 +529,6 @@ bool ProcControlNode::SetBoundingBoxServiceCallback(proc_control::SetBoundingBox
 //
 bool ProcControlNode::ResetBoundingBoxServiceCallback(proc_control::ResetBoundingBoxRequest &request,
                                    proc_control::ResetBoundingBoxResponse &response) {
-  algorithm_manager_.ResetBoundingBox();
   return true;
 }
 
@@ -622,16 +619,16 @@ bool ProcControlNode::LocalTargetServiceCallback(proc_control::SetPositionTarget
 //-----------------------------------------------------------------------------
 //
 bool ProcControlNode::EvaluateTargetReached(const std::array<double, 6> &target_error) {
-  double error_x = target_error[X] - world_position_[X];
+  /*double error_x = target_error[X] - world_position_[X];
   double error_y = target_error[Y] - world_position_[Y];
   double error_z = target_error[Z] - world_position_[Z];
-  double error_yaw = target_error[YAW] - world_position_[YAW];
+  double error_yaw = target_error[YAW] - world_position_[YAW];*/
 
-  if (algorithm_manager_.IsInBoundingBox(error_x, error_y, error_z, error_yaw)) {
+  /*if (algorithm_manager_.IsInBoundingBox(error_x, error_y, error_z, error_yaw)) {
     stability_count_++;
   } else {
     stability_count_ = 0;
-  }
+  }*/
 
   return stability_count_ > 14;
 }

@@ -39,7 +39,6 @@
 #include "proc_control/EnableControl.h"
 #include "proc_control/EnableThrusters.h"
 #include "proc_control/thruster/thruster_manager.h"
-#include "proc_control/algorithm/AlgorithmManager.h"
 #include "proc_control/SetPositionTarget.h"
 #include "proc_control/GetPositionTarget.h"
 #include "proc_control/ClearWaypoint.h"
@@ -133,7 +132,6 @@ class ProcControlNode {
   ros::ServiceServer set_bounding_box_server_;
   ros::ServiceServer reset_bounding_box_server_;
 
-  AlgorithmManager algorithm_manager_;
   proc_control::ThrusterManager thruster_manager_;
 
   OdometryInfo world_position_ = {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0}};

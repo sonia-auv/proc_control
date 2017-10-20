@@ -55,8 +55,6 @@ find_package(
 )
 
 generate_dynamic_reconfigure_options(
-        cfg/PID6Axis_reconf.cfg
-        cfg/Algorithm_reconf.cfg
         cfg/Thruster_reconf.cfg
 )
 

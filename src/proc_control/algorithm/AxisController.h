@@ -28,8 +28,9 @@
 
 #include "ControlAlgorithm.h"
 #include "proc_control/controller/controller_parameters.h"
+#include "proc_control/PID6AxisConfig.h"
 
-class AxisController : public ControlAlgorithm
+class AxisController
 {
 public:
     //==========================================================================
@@ -37,6 +38,7 @@ public:
     AxisController(const std::list<std::string> &parameters_names, const std::list<double> &parameters_values);
 
     ~AxisController();
+
 
     std::array<double, 6> CalculateActuationForError(const std::array<double, 6> &error);
 

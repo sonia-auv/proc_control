@@ -29,26 +29,14 @@
 
 #include <array>
 #include "proc_control/config/config_manager.h"
-#include "proc_control/PID6AxisConfig.h"
 
 class ControlAlgorithm
 {
- public:
-    //==========================================================================
-    // C O N S T  ,  T Y P E D E F   A N D   E N U M
-    enum ControllerType{PID = 0, PI, PD, P};
-    //==========================================================================
-    // P U B L I C   C / D T O R S
-    ControlAlgorithm(int controller);
+public:
 
     //==========================================================================
     // P U B L I C   M E T H O D S
-    virtual std::array<double, 6> CalculateActuationForError(const std::array<double, 6> &error) = 0;
-
-    ControllerType controller_type;
-
-
-
+    virtual double GetValueForError(const double &error) = 0;
 
 };
 #endif //PROC_CONTROL_CONTROLALGORITHM_H

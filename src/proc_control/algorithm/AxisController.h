@@ -28,19 +28,24 @@
 
 #include "ControlAlgorithm.h"
 #include "proc_control/controller/controller_parameters.h"
-#include "proc_control/PID6AxisConfig.h"
+#include "proc_control/controller/PID.h"
 
 class AxisController
 {
 public:
     //==========================================================================
     // P U B L I C   C / D T O R S
-    AxisController(const std::list<std::string> &parameters_names, const std::list<double> &parameters_values);
-
-    ~AxisController();
+    AxisController(int controller_type, std::string name);
 
 
-    std::array<double, 6> CalculateActuationForError(const std::array<double, 6> &error);
+    double CalculateActuationForError(double &error);
+
+private:
+    enum ControllerType{PID_ = 0, PI_, PD_, P_};
+
+    ControllerType controller_type_;
+
+    std::shared_ptr<ControlAlgorithm> current_controller_;
 
 };
 

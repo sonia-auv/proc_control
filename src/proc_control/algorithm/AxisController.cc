@@ -31,12 +31,29 @@
 //------------------------------------------------------------------------------
 //
 
-AxisController::AxisController(const std::list<std::string> &parameters_names, const std::list<double> &parameters_values) {}
+AxisController::AxisController(int controller_type, std::string name): current_controller_(nullptr) {
 
-AxisController::~AxisController() {}
+    switch(controller_type)
+    {
+        case 0: controller_type_ = PID_;
+                current_controller_ = std::make_shared<PID>(name);
+            break;
+        case 1: controller_type_ = PI_;
+            break;
+        case 2: controller_type_ = PD_;
+            break;
+        case 3: controller_type_ = P_;
+            break;
+        default:
+            std::cout << "Not implemented yet" << std::endl;
+    }
 
-std::array<double, 6> AxisController::CalculateActuationForError(const std::array<double, 6> &error) {
-    std::array<double, 6> actuation;
-    return actuation;
 
 }
+
+double AxisController::CalculateActuationForError(double &error){
+
+    return current_controller_->GetValueForError(error);
+
+}
+

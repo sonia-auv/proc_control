@@ -1,8 +1,7 @@
 /**
- * \file	ControlAlgorithm.h
- * \author	Jeremie St-Jules <jeremie.st.jules.prevost@gmail.com>
- * \coauthor Francis Masse <francis.masse05@gmail.com>
- * \date	10/17/16
+ * \file	AxisController.cc
+ * \author	Olivier Lavoie <olavoie9507@gmail.com>
+ * \date	10/21/17
  *
  * \copyright Copyright (c) 2017 S.O.N.I.A. AUV All rights reserved.
  *
@@ -24,21 +23,20 @@
  * along with S.O.N.I.A. AUV software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PROC_CONTROL_CONTROLALGORITHM_H
-#define PROC_CONTROL_CONTROLALGORITHM_H
+#include "AxisController.h"
 
-#include <array>
-#include "proc_control/config/config_manager.h"
-#include "proc_control/controller/PID.h"
+//==============================================================================
+// C / D T O R S   S E C T I O N
 
-class ControlAlgorithm
-{
- public:
-  //==========================================================================
-  // P U B L I C   M E T H O D S
-    virtual std::array<double, 6> CalculateActuationForError(const std::array<double, 6> &error) = 0;
+//------------------------------------------------------------------------------
+//
 
+AxisController::AxisController(const std::list<std::string> &parameters_names, const std::list<double> &parameters_values) {}
 
+AxisController::~AxisController() {}
 
-};
-#endif //PROC_CONTROL_CONTROLALGORITHM_H
+std::array<double, 6> AxisController::CalculateActuationForError(const std::array<double, 6> &error) {
+    std::array<double, 6> actuation;
+    return actuation;
+
+}

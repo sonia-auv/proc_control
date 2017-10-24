@@ -37,8 +37,13 @@ class ControllerParameters
 public:
     //==========================================================================
     // P U B L I C   C / D T O R S
-    ControllerParameters(const std::list<std::string> &parameters_names, const std::list<double> &parameters_values):
-            Parameters_Names(parameters_names), Parameters_Values(parameters_values){}
+    ControllerParameters(const std::string axe_name,const std::vector<std::string> &parameters_names,
+                         const std::vector<double> &parameters_values):
+                         Axe_Name(axe_name),
+                         Parameters_Names(parameters_names),
+                         Parameters_Values(parameters_values),
+                         Min_Actuation(0),
+                         Max_Actuation(0){}
 
     ~ControllerParameters(){}
 
@@ -49,9 +54,10 @@ public:
 
     //==========================================================================
     // P U B L I C   M E M B E R S
-
-    std::list<std::string> Parameters_Names;
-    std::list<double> Parameters_Values;
+    std::string Axe_Name;
+    std::vector<std::string> Parameters_Names;
+    std::vector<double> Parameters_Values;
+    double Min_Actuation, Max_Actuation;
 
 };
 
@@ -59,14 +65,18 @@ inline std::map<std::string, double&> ControllerParameters::ToMap()
 {
 
     std::map<std::string, double&> map;
-    std::list<double> parameters = Parameters_Values;
+    std::vector<double> parameters = Parameters_Values;
+    u_int8_t i = 0;
 
     for (auto parameter_name : Parameters_Names){
 
-        map.insert(std::pair<std::string, double&>(parameter_name, parameters.front()));
-        parameters.pop_front();
+        map.insert(std::pair<std::string, double&>(Axe_Name + parameter_name, parameters[i]));
+        i++;
 
     }
+
+    map.insert(std::pair<std::string, double&>(Axe_Name + "_MIN_ACTUATION", Min_Actuation));
+    map.insert(std::pair<std::string, double&>(Axe_Name + "_MAX_ACTUATION", Max_Actuation));
 
     return map;
 

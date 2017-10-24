@@ -31,12 +31,16 @@
 //------------------------------------------------------------------------------
 //
 
-AxisController::AxisController(int controller_type, std::string name): current_controller_(nullptr) {
+AxisController::AxisController(int controller_type, std::string axe_name):
+                               Axe_Name_(axe_name),
+                               controller_parameters_(nullptr),
+                               current_controller_(nullptr) {
 
     switch(controller_type)
     {
         case 0: controller_type_ = PID_;
-                current_controller_ = std::make_shared<PID>(name);
+                controller_parameters_ = std::make_shared<ControllerParameters>(Axe_Name_, PID_names_, PID_values_);
+                current_controller_ = std::make_shared<PID>(controller_parameters_);
             break;
         case 1: controller_type_ = PI_;
             break;
@@ -54,6 +58,25 @@ AxisController::AxisController(int controller_type, std::string name): current_c
 double AxisController::CalculateActuationForError(double &error){
 
     return current_controller_->GetValueForError(error);
+
+}
+
+void AxisController::fill_controller_parameters() {
+
+    PID_names_.push_back("_P");
+    PID_names_.push_back("_I");
+    PID_names_.push_back("_D");
+
+    PI_names_ = PID_names_;
+    PI_names_.pop_back();
+
+    PD_names_.push_back("_P");
+    PD_names_.push_back("_D");
+
+    P_names_ = PD_names_;
+    P_names_.pop_back();
+
+    PID_names_.push_back("_I_LIMIT");
 
 }
 

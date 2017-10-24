@@ -6,15 +6,20 @@
 #define PROC_CONTROL_PID_H
 
 #include "proc_control/algorithm/ControlAlgorithm.h"
+#include "controller_parameters.h"
 
 
 class PID : public ControlAlgorithm {
 
 public:
 
-    PID(const std::string &name);
+    PID(std::shared_ptr<ControllerParameters> PID_parameters);
 
     double GetValueForError(const double &error);
+
+private:
+
+    std::shared_ptr<ControllerParameters> PID_parameters_;
 
 };
 

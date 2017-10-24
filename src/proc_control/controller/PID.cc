@@ -4,7 +4,7 @@
 
 #include "PID.h"
 
-PID::PID(const std::string &name) {}
+PID::PID(std::shared_ptr<ControllerParameters> PID_parameters): PID_parameters_(PID_parameters) {}
 
 double PID::GetValueForError(const double &error) {
     double actuation = 0;

@@ -33,7 +33,6 @@
 class ControlAlgorithm
 {
 public:
-
     //==========================================================================
     // P U B L I C   M E T H O D S
     virtual double GetValueForError(const double &error) = 0;

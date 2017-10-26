@@ -14,11 +14,17 @@ class PID : public ControlAlgorithm {
 public:
 
     PID(std::shared_ptr<ControllerParameters> PID_parameters);
+    ~PID() = default;
 
-    double GetValueForError(const double &error);
+    double ComputeCommand(const double &target) override ;
+
+    double GetError();
+
+
 
 private:
-
+    double error_;
+    double command_;
     std::shared_ptr<ControllerParameters> PID_parameters_;
 
 };

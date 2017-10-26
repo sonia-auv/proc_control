@@ -43,7 +43,7 @@ AxisController::AxisController(int controller_type, std::string axe_name):
     switch(controller_type)
     {
         case 0: controller_type_ = PID_;
-                controller_parameters_ = std::make_shared<ControllerParameters>(Axe_Name_, PID_names_, PID_values_);
+                controller_parameters_ = std::make_shared<ControllerParameters>(PID_names_, PID_values_);
                 current_controller_ = std::make_shared<PID>(controller_parameters_);
             break;
         case 1: controller_type_ = PI_;

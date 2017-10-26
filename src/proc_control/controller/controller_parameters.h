@@ -31,54 +31,46 @@
 #include <vector>
 #include <list>
 
-class ControllerParameters
-{
+class ControllerParameters {
 
 public:
     //==========================================================================
     // P U B L I C   C / D T O R S
-    ControllerParameters(const std::string axe_name,const std::vector<std::string> &parameters_names,
-                         const std::vector<double> &parameters_values):
-                         Axe_Name(axe_name),
-                         Parameters_Names(parameters_names),
-                         Parameters_Values(parameters_values),
-                         Min_Actuation(0),
-                         Max_Actuation(0){}
+    ControllerParameters(const std::vector<std::string> &parameters_names,
+                         const std::vector<double> &parameters_values) :
+            Min_Actuation(0),
+            Max_Actuation(0) {
+        ToMap(parameters_names, parameters_values);
+    }
 
-    ~ControllerParameters(){}
+    ~ControllerParameters() = default;
 
     //==========================================================================
     // P U B L I C   M E T H O D S
 
-    std::map<std::string, double&> ToMap();
+    void ToMap(const std::vector<std::string> &parameters_names, const std::vector<double> &parameters_values);
 
     //==========================================================================
     // P U B L I C   M E M B E R S
-    std::string Axe_Name;
-    std::vector<std::string> Parameters_Names;
-    std::vector<double> Parameters_Values;
+    std::map<std::string, double> Parameters_Map;
     double Min_Actuation, Max_Actuation;
 
 };
 
-inline std::map<std::string, double&> ControllerParameters::ToMap()
-{
+inline void ControllerParameters::ToMap(const std::vector<std::string> &parameters_names,
+                                        const std::vector<double> &parameters_values) {
 
-    std::map<std::string, double&> map;
-    std::vector<double> parameters = Parameters_Values;
     u_int8_t i = 0;
+    double value;
 
-    for (auto parameter_name : Parameters_Names){
-
-        map.insert(std::pair<std::string, double&>(Axe_Name + parameter_name, parameters[i]));
+    for(auto const &name: parameters_names){
+        value = parameters_values[i];
+        Parameters_Map.insert(std::pair<std::string,double>(name,value));
         i++;
-
     }
+    Parameters_Map.insert(std::pair<std::string, double>("MIN_ACTUATION", Min_Actuation));
+    Parameters_Map.insert(std::pair<std::string, double>("MAX_ACTUATION", Max_Actuation));
 
-    map.insert(std::pair<std::string, double&>(Axe_Name + "_MIN_ACTUATION", Min_Actuation));
-    map.insert(std::pair<std::string, double&>(Axe_Name + "_MAX_ACTUATION", Max_Actuation));
-
-    return map;
 
 }
 

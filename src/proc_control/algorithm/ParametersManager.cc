@@ -46,12 +46,12 @@ ParametersManager::ParametersManager(std::string axe_name, std::shared_ptr<Contr
 void ParametersManager::OnDynamicReconfigureChange(const ControllerConfig &config )
 {
 
-    controller_parameters_->Parameters_Values[0] = config.P;
-    controller_parameters_->Parameters_Values[1] = config.I;
-    controller_parameters_->Parameters_Values[2] = config.D;
-    controller_parameters_->Parameters_Values[3] = config.I_LIMIT;
-    controller_parameters_->Parameters_Values[4] = config.MIN_ACTUATION;
-    controller_parameters_->Parameters_Values[5] = config.MAX_ACTUATION;
+    controller_parameters_->Parameters_Map["P"] = config.P;
+    controller_parameters_->Parameters_Map["I"] = config.I;
+    controller_parameters_->Parameters_Map["D"] = config.D;
+    controller_parameters_->Parameters_Map["I_LIMIT"] = config.I_LIMIT;
+    controller_parameters_->Parameters_Map["MIN_ACTUATION"] = config.MIN_ACTUATION;
+    controller_parameters_->Parameters_Map["MAX_ACTUATION"] = config.MAX_ACTUATION;
 
 
 }
@@ -65,12 +65,20 @@ void ParametersManager::WriteConfigFile(const ControllerConfig &config )
     YAML::Emitter out;
     uint8_t i = 0;
 
-    for (auto parameter_name : controller_parameters_->Parameters_Names){
-        out << YAML::BeginMap;
-        out << YAML::Key << parameter_name;
-        out << YAML::Value << controller_parameters_->Parameters_Values[i];
-        i++;
-    }
+    out << YAML::BeginMap;
+    out << YAML::Key << "P";
+    out << YAML::Value << controller_parameters_->Parameters_Map["P"];
+    out << YAML::Key << "I";
+    out << YAML::Value << controller_parameters_->Parameters_Map["I"];
+    out << YAML::Key << "D";
+    out << YAML::Value << controller_parameters_->Parameters_Map["D"];
+    out << YAML::Key << "I_LIMIT";
+    out << YAML::Value << controller_parameters_->Parameters_Map["I_LIMIT"];
+    out << YAML::Key << "MIN_ACTUATION";
+    out << YAML::Value << controller_parameters_->Parameters_Map["MIN_ACTUATION"];
+    out << YAML::Key << "MAX_ACTUATION";
+    out << YAML::Value << controller_parameters_->Parameters_Map["MAX_ACTUATION"];
+    i++;
 
     std::ofstream fout(file_path_);
     fout << out.c_str();
@@ -85,29 +93,29 @@ void ParametersManager::ReadConfigFile(ControllerConfig &config )
 
     YAML::Node node = YAML::LoadFile(file_path_);
 
-    if (node[controller_parameters_->Parameters_Names[0]])
-        controller_parameters_->Parameters_Values[0] = node[controller_parameters_->Parameters_Names[0]].as<double>();
+    if (node["P"])
+        controller_parameters_->Parameters_Map["P"] = node["P"].as<double>();
 
-    if (node[controller_parameters_->Parameters_Names[1]])
-        controller_parameters_->Parameters_Values[1] = node[controller_parameters_->Parameters_Names[1]].as<double>();
+    if (node["I"])
+        controller_parameters_->Parameters_Map["I"] = node["I"].as<double>();
 
-    if (node[controller_parameters_->Parameters_Names[2]])
-        controller_parameters_->Parameters_Values[2] = node[controller_parameters_->Parameters_Names[2]].as<double>();
+    if (node["D"])
+        controller_parameters_->Parameters_Map["D"] = node["D"].as<double>();
 
-    if (node[controller_parameters_->Parameters_Names[3]])
-        controller_parameters_->Parameters_Values[3] = node[controller_parameters_->Parameters_Names[3]].as<double>();
+    if (node["I_LIMIT"])
+        controller_parameters_->Parameters_Map["I_LIMIT"] = node["I_LIMIT"].as<double>();
 
-    if (node[controller_parameters_->Parameters_Names[4]])
-        controller_parameters_->Parameters_Values[4] = node[controller_parameters_->Parameters_Names[4]].as<double>();
+    if (node["MIN_ACTUATION"])
+        controller_parameters_->Parameters_Map["MIN_ACTUATION"] = node["MIN_ACTUATION"].as<double>();
 
-    if (node[controller_parameters_->Parameters_Names[5]])
-        controller_parameters_->Parameters_Values[5] = node[controller_parameters_->Parameters_Names[5]].as<double>();
+    if (node["MAX_ACTUATION"])
+        controller_parameters_->Parameters_Map["MAX_ACTUATION"] = node["MAX_ACTUATION"].as<double>();
 
-    config.P = controller_parameters_->Parameters_Values[0];
-    config.I = controller_parameters_->Parameters_Values[1];
-    config.D = controller_parameters_->Parameters_Values[2];
-    config.I_LIMIT = controller_parameters_->Parameters_Values[3];
-    config.MIN_ACTUATION = controller_parameters_->Parameters_Values[4];
-    config.MAX_ACTUATION = controller_parameters_->Parameters_Values[5];
+    config.P = controller_parameters_->Parameters_Map["P"];
+    config.I = controller_parameters_->Parameters_Map["I"];
+    config.D = controller_parameters_->Parameters_Map["D"];
+    config.I_LIMIT = controller_parameters_->Parameters_Map["I_LIMIT"];
+    config.MIN_ACTUATION = controller_parameters_->Parameters_Map["MIN_ACTUATION"];
+    config.MAX_ACTUATION = controller_parameters_->Parameters_Map["MAX_ACTUATION"];
 
 }

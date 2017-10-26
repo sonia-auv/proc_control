@@ -56,6 +56,7 @@ find_package(
 
 generate_dynamic_reconfigure_options(
         cfg/Thruster_reconf.cfg
+        cfg/Controller_reconf.cfg
 )
 
 add_message_files(

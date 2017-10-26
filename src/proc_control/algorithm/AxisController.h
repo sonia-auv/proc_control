@@ -30,7 +30,8 @@
 #include "proc_control/controller/controller_parameters.h"
 #include "proc_control/controller/PID.h"
 #include "proc_control/config/config_manager.h"
-#include "proc_control/ThrusterConfig.h"
+#include "proc_control/ControllerConfig.h"
+#include "ParametersManager.h"
 
 
 class AxisController
@@ -62,6 +63,8 @@ private:
     std::shared_ptr<ControllerParameters> controller_parameters_;
 
     std::shared_ptr<ControlAlgorithm> current_controller_;
+
+    ParametersManager parameters_managers_;
 
     std::string Axe_Name_;
 

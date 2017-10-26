@@ -32,9 +32,13 @@
 //
 
 AxisController::AxisController(int controller_type, std::string axe_name):
-                               Axe_Name_(axe_name),
                                controller_parameters_(nullptr),
-                               current_controller_(nullptr) {
+                               current_controller_(nullptr),
+                               parameters_managers_(axe_name, controller_parameters_) {
+
+    Axe_Name_= axe_name;
+
+    fill_controller_parameters();
 
     switch(controller_type)
     {
@@ -66,16 +70,6 @@ void AxisController::fill_controller_parameters() {
     PID_names_.push_back("_P");
     PID_names_.push_back("_I");
     PID_names_.push_back("_D");
-
-    PI_names_ = PID_names_;
-    PI_names_.pop_back();
-
-    PD_names_.push_back("_P");
-    PD_names_.push_back("_D");
-
-    P_names_ = PD_names_;
-    P_names_.pop_back();
-
     PID_names_.push_back("_I_LIMIT");
 
 }

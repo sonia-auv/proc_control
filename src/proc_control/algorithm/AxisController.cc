@@ -34,7 +34,7 @@
 AxisController::AxisController(int controller_type, std::string axe_name):
                                controller_parameters_(nullptr),
                                current_controller_(nullptr),
-                               parameters_managers_(axe_name, controller_parameters_) {
+                               parameters_managers_(nullptr) {
 
     Axe_Name_= axe_name;
 
@@ -44,6 +44,7 @@ AxisController::AxisController(int controller_type, std::string axe_name):
     {
         case 0: controller_type_ = PID_;
                 controller_parameters_ = std::make_shared<ControllerParameters>(PID_names_, PID_values_);
+                parameters_managers_ = std::make_shared<ParametersManager>(axe_name, controller_parameters_);
                 current_controller_ = std::make_shared<PID>(controller_parameters_);
             break;
         case 1: controller_type_ = PI_;
@@ -61,16 +62,18 @@ AxisController::AxisController(int controller_type, std::string axe_name):
 
 double AxisController::CalculateActuationForError(double &error){
 
-    return current_controller_->GetValueForError(error);
+    return current_controller_->ComputeCommand(error);
 
 }
 
 void AxisController::fill_controller_parameters() {
 
-    PID_names_.push_back("_P");
-    PID_names_.push_back("_I");
-    PID_names_.push_back("_D");
-    PID_names_.push_back("_I_LIMIT");
+    PID_names_.push_back("P");
+    PID_names_.push_back("I");
+    PID_names_.push_back("D");
 
+    PID_values_.push_back(0.0);
+    PID_values_.push_back(0.0);
+    PID_values_.push_back(0.0);
 }
 

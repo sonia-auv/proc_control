@@ -29,11 +29,12 @@
 
 
 ParametersManager::ParametersManager(std::string axe_name, std::shared_ptr<ControllerParameters> controller_parameters):
-        ConfigManager(axe_name + "_controller_parameters"), controller_parameters_(controller_parameters)
+        ConfigManager(axe_name + "_axis_controller"), controller_parameters_(controller_parameters)
 {
 
-    file_path_ = kConfigPath + axe_name + "_controller_parameters" + kConfigExt;
-    this->Init();
+    controller_parameters_ = controller_parameters;
+    file_path_ = kConfigPath + "/Controllers_parameters/" + axe_name + "_controller_parameters" + kConfigExt;
+    Init();
 
 }
 

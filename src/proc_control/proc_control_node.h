@@ -47,6 +47,7 @@
 #include <provider_kill_mission/KillSwitchMsg.h>
 
 #include "proc_control/trajectory/trajectory.h"
+#include "proc_control/algorithm/Control_AUV.h"
 
 #include <mutex>
 
@@ -116,7 +117,7 @@ class ProcControlNode {
   ros::Subscriber navigation_odom_subscriber_;
   ros::Subscriber target_odometry_subscriber_;
   ros::Subscriber keypad_subscriber_;
-    ros::Subscriber kill_switch_;
+  ros::Subscriber kill_switch_;
 
   ros::Publisher target_publisher_;
   ros::Publisher debug_target_publisher_;
@@ -133,6 +134,8 @@ class ProcControlNode {
   ros::ServiceServer reset_bounding_box_server_;
 
   proc_control::ThrusterManager thruster_manager_;
+
+  Control_AUV control_auv_;
 
   OdometryInfo world_position_ = {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0}};
   OdometryInfo targeted_position_ = {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0}};

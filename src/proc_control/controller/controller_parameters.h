@@ -68,9 +68,10 @@ inline void ControllerParameters::ToMap(const std::vector<std::string> &paramete
         Parameters_Map.insert(std::pair<std::string,double>(name,value));
         i++;
     }
+
+    Parameters_Map.insert(std::pair<std::string, double>("I_LIMIT", Min_Actuation));
     Parameters_Map.insert(std::pair<std::string, double>("MIN_ACTUATION", Min_Actuation));
     Parameters_Map.insert(std::pair<std::string, double>("MAX_ACTUATION", Max_Actuation));
-
 
 }
 

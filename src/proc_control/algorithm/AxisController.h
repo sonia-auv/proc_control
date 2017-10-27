@@ -64,7 +64,7 @@ private:
 
     std::shared_ptr<ControlAlgorithm> current_controller_;
 
-    ParametersManager parameters_managers_;
+    std::shared_ptr<ParametersManager> parameters_managers_;
 
     std::string Axe_Name_;
 

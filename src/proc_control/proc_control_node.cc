@@ -149,6 +149,7 @@ void ProcControlNode::Control() {
     target_is_reached_publisher_.publish(msg_target_reached);
 
     // Calculate required actuation
+    control_auv_.GetActuationForError(error);
     /*std::array<double, 3> actuation_lin = {actuation[X], actuation[Y], actuation[Z]};
     std::array<double, 3> actuation_rot = {actuation[ROLL], actuation[PITCH], actuation[YAW]};
     for (int i = 0; i < 3; i++) {

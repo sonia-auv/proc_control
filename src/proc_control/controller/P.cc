@@ -29,7 +29,7 @@ P::P(std::shared_ptr<ControllerParameters> P_parameters): P_parameters_(P_parame
 }
 
 
-double PID::ComputeCommand(const double &target){
+double P::ComputeCommand(const double &target){
 
     error_ = target-command_;
     command_ = P_parameters_->Parameters_Map["P"]*error_;

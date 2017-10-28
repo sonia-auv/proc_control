@@ -50,7 +50,5 @@ private:
     std::shared_ptr<ControllerParameters> P_parameters_;
 };
 
-};
-
 
 #endif //PROC_CONTROL_P_H

@@ -37,7 +37,7 @@ public:
     PI(std::shared_ptr<ControllerParameters> PI_parameters);
     ~PI() = default;
 
-    double ComputeCommand(const double &target) override ;
+    double ComputeCommand(const double &error) override ;
 
     double GetError();
 

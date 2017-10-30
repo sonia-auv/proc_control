@@ -29,10 +29,8 @@ PD::PD(std::shared_ptr<ControllerParameters> PD_parameters): PD_parameters_(PD_p
 }
 
 
-double PD::ComputeCommand(const double &target){
-
-    error_ = target-command_;
-    command_ = PD_parameters_->Parameters_Map["P"]*error_ + PD_parameters_->Parameters_Map["D"]*error_;
+double PD::ComputeCommand(const double &error){
+    command_ = PD_parameters_->Parameters_Map["P"]*error + PD_parameters_->Parameters_Map["D"]*error;
     return command_;
 
 }

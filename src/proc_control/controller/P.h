@@ -38,7 +38,7 @@ public:
     P(std::shared_ptr<ControllerParameters> P_parameters);
     ~P() = default;
 
-    double ComputeCommand(const double &target) override ;
+    double ComputeCommand(const double &error) override ;
 
     double GetError();
 

@@ -30,10 +30,8 @@ PI::PI(std::shared_ptr<ControllerParameters> PI_parameters): PI_parameters_(PI_p
 }
 
 
-double PI::ComputeCommand(const double &target){
-
-    error_ = target-command_;
-    command_ = PI_parameters_->Parameters_Map["P"]*error_ + PI_parameters_->Parameters_Map["I"]*error_;
+double PI::ComputeCommand(const double &error){
+    command_ = PI_parameters_->Parameters_Map["P"]*error + PI_parameters_->Parameters_Map["I"]*error;
     return command_;
 
 }

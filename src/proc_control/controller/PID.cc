@@ -9,10 +9,8 @@ PID::PID(std::shared_ptr<ControllerParameters> PID_parameters): PID_parameters_(
 }
 
 
-double PID::ComputeCommand(const double &target){
-
-    error_ = target-command_;
-    command_ = PID_parameters_->Parameters_Map["P"]*error_ + PID_parameters_->Parameters_Map["I"]*error_ + PID_parameters_->Parameters_Map["D"]*error_;
+double PID::ComputeCommand(const double &error){
+    command_ = PID_parameters_->Parameters_Map["P"]*error + PID_parameters_->Parameters_Map["I"]*error + PID_parameters_->Parameters_Map["D"]*error;
     return command_;
 
 }

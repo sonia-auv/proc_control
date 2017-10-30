@@ -35,7 +35,7 @@ class ControlAlgorithm
 public:
     //==========================================================================
     // P U B L I C   M E T H O D S
-    virtual double ComputeCommand(const double &target) = 0;
+    virtual double ComputeCommand(const double &error) = 0;
 
 };
 #endif //PROC_CONTROL_CONTROLALGORITHM_H

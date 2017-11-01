@@ -628,8 +628,8 @@ bool ProcControlNode::EvaluateTargetReached(const std::array<double, 6> &target_
       error[0] = target_error[X] - world_position_[X];
       error[1] = target_error[Y] - world_position_[Y];
       error[2] = target_error[Z] - world_position_[Z];
-      error[3] = target_error[Z] - world_position_[ROLL];
-      error[4] = target_error[Z] - world_position_[PITCH];
+      error[3] = target_error[ROLL] - world_position_[ROLL];
+      error[4] = target_error[PITCH] - world_position_[PITCH];
       error[5] = target_error[YAW] - world_position_[YAW];
 
       if (control_auv_.IsInBoundingBox(error)){

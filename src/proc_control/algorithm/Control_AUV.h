@@ -17,6 +17,8 @@ public:
 
     std::array<double, 6> GetActuationForError(std::array<double, 6> &error);
 
+    bool IsInBoundingBox(std::array<double, 6> error);
+
 private:
 
     enum ControllerType{PID_ = 0, PI_, PD_, P_};

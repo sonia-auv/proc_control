@@ -45,6 +45,8 @@ public:
     // P U B L I C   M E T H O D S
     double CalculateActuationForError(double &error);
 
+    double get_axis_bbox();
+
 
 private:
 

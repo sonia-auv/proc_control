@@ -23,3 +23,18 @@ std::array<double, 6> Control_AUV::GetActuationForError(std::array<double, 6> &e
     return actuation;
 
 }
+
+
+
+bool Control_AUV::IsInBoundingBox(std::array<double, 6> error) {
+
+    double BBox_x = x_.get_axis_bbox();
+    double BBox_y = y_.get_axis_bbox();
+    double BBox_z = z_.get_axis_bbox();
+    double BBox_roll = roll_.get_axis_bbox();
+    double BBox_pitch = pitch_.get_axis_bbox();
+    double BBox_yaw = yaw_.get_axis_bbox();
+    return std::fabs(error[0]) <= BBox_x && std::fabs(error[1]) <= BBox_y && std::fabs(error[2]) <= BBox_z &&
+            std::fabs(error[3]) <= BBox_roll && std::fabs(error[4]) <= BBox_pitch && std::fabs(error[5]) <= BBox_yaw;
+
+}

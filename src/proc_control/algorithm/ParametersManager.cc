@@ -53,6 +53,7 @@ void ParametersManager::OnDynamicReconfigureChange(const ControllerConfig &confi
     controller_parameters_->Parameters_Map["I_LIMIT"] = config.I_LIMIT;
     controller_parameters_->Parameters_Map["MIN_ACTUATION"] = config.MIN_ACTUATION;
     controller_parameters_->Parameters_Map["MAX_ACTUATION"] = config.MAX_ACTUATION;
+    BBox_ = config.BBox;
 
 
 }
@@ -78,7 +79,8 @@ void ParametersManager::WriteConfigFile(const ControllerConfig &config )
     out << YAML::Key << "MIN_ACTUATION";
     out << YAML::Value << controller_parameters_->Parameters_Map["MIN_ACTUATION"];
     out << YAML::Key << "MAX_ACTUATION";
-    out << YAML::Value << controller_parameters_->Parameters_Map["MAX_ACTUATION"];
+    out << YAML::Value << "BBox";
+    out << YAML::Value << BBox_;
     i++;
 
     std::ofstream fout(file_path_);
@@ -112,11 +114,19 @@ void ParametersManager::ReadConfigFile(ControllerConfig &config )
     if (node["MAX_ACTUATION"])
         controller_parameters_->Parameters_Map["MAX_ACTUATION"] = node["MAX_ACTUATION"].as<double>();
 
+    if (node["BBox"])
+        BBox_ = node["BBox"].as<double>();
+
     config.P = controller_parameters_->Parameters_Map["P"];
     config.I = controller_parameters_->Parameters_Map["I"];
     config.D = controller_parameters_->Parameters_Map["D"];
     config.I_LIMIT = controller_parameters_->Parameters_Map["I_LIMIT"];
     config.MIN_ACTUATION = controller_parameters_->Parameters_Map["MIN_ACTUATION"];
     config.MAX_ACTUATION = controller_parameters_->Parameters_Map["MAX_ACTUATION"];
+    config.BBox = BBox_;
 
+}
+
+double ParametersManager::get_BBox() {
+    return BBox_;
 }

@@ -50,12 +50,15 @@ public:
 
     void ReadConfigFile( ControllerConfig &config ) override;
 
+    double get_BBox();
+
 private:
     //==========================================================================
     // P R I V A T E   M E M B E R S
 
     std::string file_path_;
     std::shared_ptr<ControllerParameters> controller_parameters_;
+    double BBox_;
 
 
 };

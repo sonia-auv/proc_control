@@ -77,3 +77,7 @@ void AxisController::fill_controller_parameters() {
     PID_values_.push_back(0.0);
 }
 
+double AxisController::get_axis_bbox() {
+    return parameters_managers_->get_BBox();
+}
+

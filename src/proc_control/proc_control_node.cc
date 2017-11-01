@@ -621,21 +621,20 @@ bool ProcControlNode::LocalTargetServiceCallback(proc_control::SetPositionTarget
 //
 bool ProcControlNode::EvaluateTargetReached(const std::array<double, 6> &target_error) {
 
-      double error_x = target_error[X] - world_position_[X];
-      double error_y = target_error[Y] - world_position_[Y];
-      double error_z = target_error[Z] - world_position_[Z];
-      double error_yaw = target_error[YAW] - world_position_[YAW];
+      std::array<double, 6> error;
 
-      if (control_auv_.)
+      error[0] = target_error[X] - world_position_[X];
+      error[1] = target_error[Y] - world_position_[Y];
+      error[2] = target_error[Z] - world_position_[Z];
+      error[3] = target_error[Z] - world_position_[ROLL];
+      error[4] = target_error[Z] - world_position_[PITCH];
+      error[5] = target_error[YAW] - world_position_[YAW];
 
-
-
-
-  /*if (algorithm_manager_.IsInBoundingBox(error_x, error_y, error_z, error_yaw)) {
-    stability_count_++;
-  } else {
-    stability_count_ = 0;
-  }*/
+      if (control_auv_.IsInBoundingBox(error)){
+        stability_count_++;
+      } else {
+        stability_count_ = 0;
+      }
 
   return stability_count_ > 14;
 }

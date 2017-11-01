@@ -523,6 +523,8 @@ bool ProcControlNode::ClearWaypointServiceCallback(proc_control::ClearWaypointRe
 //
 bool ProcControlNode::SetBoundingBoxServiceCallback(proc_control::SetBoundingBoxRequest &request,
                                    proc_control::SetBoundingBoxResponse &response) {
+
+
   return true;
 }
 

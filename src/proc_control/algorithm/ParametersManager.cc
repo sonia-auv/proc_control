@@ -55,6 +55,8 @@ void ParametersManager::OnDynamicReconfigureChange(const ControllerConfig &confi
     controller_parameters_->Parameters_Map["MAX_ACTUATION"] = config.MAX_ACTUATION;
     BBox_ = config.BBox;
 
+    current_BBox_ = BBox_;
+
 
 }
 
@@ -79,7 +81,8 @@ void ParametersManager::WriteConfigFile(const ControllerConfig &config )
     out << YAML::Key << "MIN_ACTUATION";
     out << YAML::Value << controller_parameters_->Parameters_Map["MIN_ACTUATION"];
     out << YAML::Key << "MAX_ACTUATION";
-    out << YAML::Value << "BBox";
+    out << YAML::Value << controller_parameters_->Parameters_Map["MAX_ACTUATION"];
+    out << YAML::Key << "BBox";
     out << YAML::Value << BBox_;
     i++;
 
@@ -125,8 +128,18 @@ void ParametersManager::ReadConfigFile(ControllerConfig &config )
     config.MAX_ACTUATION = controller_parameters_->Parameters_Map["MAX_ACTUATION"];
     config.BBox = BBox_;
 
+    current_BBox_ = BBox_;
+
 }
 
 double ParametersManager::get_BBox() {
-    return BBox_;
+    return current_BBox_;
+}
+
+void ParametersManager::set_BBox(double BBox) {
+    current_BBox_ =  BBox;
+}
+
+void ParametersManager::reset_BBox(){
+    current_BBox_ = BBox_;
 }

@@ -52,13 +52,17 @@ public:
 
     double get_BBox();
 
+    void set_BBox(double BBox);
+
+    void reset_BBox();
+
 private:
     //==========================================================================
     // P R I V A T E   M E M B E R S
 
     std::string file_path_;
     std::shared_ptr<ControllerParameters> controller_parameters_;
-    double BBox_;
+    double BBox_, current_BBox_;
 
 
 };

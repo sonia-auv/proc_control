@@ -19,6 +19,9 @@ public:
 
     bool IsInBoundingBox(std::array<double, 6> error);
 
+    void SetNewBoundingBox(std::array<double, 6> BBox);
+    void ResetBoundingBox();
+
 private:
 
     enum ControllerType{PID_ = 0, PI_, PD_, P_};

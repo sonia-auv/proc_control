@@ -47,6 +47,9 @@ public:
 
     double get_axis_bbox();
 
+    void set_axis_bbox(double BBox);
+    void reset_axis_bbox(double BBox);
+
 
 private:
 

@@ -16,7 +16,7 @@ public:
     PID(std::shared_ptr<ControllerParameters> PID_parameters);
     ~PID() = default;
 
-    double ComputeCommand(const double &target) override ;
+    double ComputeCommand(const double &error) override ;
 
     double GetError();
 

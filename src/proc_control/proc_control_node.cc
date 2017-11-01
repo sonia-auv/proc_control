@@ -149,8 +149,8 @@ void ProcControlNode::Control() {
     target_is_reached_publisher_.publish(msg_target_reached);
 
     // Calculate required actuation
-    control_auv_.GetActuationForError(error);
-    /*std::array<double, 3> actuation_lin = {actuation[X], actuation[Y], actuation[Z]};
+    std::array<double, 6> actuation = control_auv_.GetActuationForError(error);
+    std::array<double, 3> actuation_lin = {actuation[X], actuation[Y], actuation[Z]};
     std::array<double, 3> actuation_rot = {actuation[ROLL], actuation[PITCH], actuation[YAW]};
     for (int i = 0; i < 3; i++) {
       if (!enable_control_[i]) {
@@ -162,7 +162,7 @@ void ProcControlNode::Control() {
     }
 
     // Process the actuation
-    thruster_manager_.Commit(actuation_lin, actuation_rot);*/
+    thruster_manager_.Commit(actuation_lin, actuation_rot);
   }
 
   proc_control::PositionTarget msg_target;

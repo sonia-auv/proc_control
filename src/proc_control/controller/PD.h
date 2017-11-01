@@ -1,8 +1,7 @@
 /**
- * \file	ControlAlgorithm.h
- * \author	Jeremie St-Jules <jeremie.st.jules.prevost@gmail.com>
- * \coauthor Francis Masse <francis.masse05@gmail.com>
- * \date	10/17/16
+ * \file	PD.h
+ * \author	Antoine Dozois <dozois.a@gmail.com>
+ * \date	10/28/17
  *
  * \copyright Copyright (c) 2017 S.O.N.I.A. AUV All rights reserved.
  *
@@ -24,18 +23,33 @@
  * along with S.O.N.I.A. AUV software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PROC_CONTROL_CONTROLALGORITHM_H
-#define PROC_CONTROL_CONTROLALGORITHM_H
 
-#include <array>
-#include "proc_control/config/config_manager.h"
+#ifndef PROC_CONTROL_PD_H
+#define PROC_CONTROL_PD_H
 
-class ControlAlgorithm
-{
+#include "proc_control/algorithm/ControlAlgorithm.h"
+#include "controller_parameters.h"
+
+
+class PD : public ControlAlgorithm{
+
 public:
-    //==========================================================================
-    // P U B L I C   M E T H O D S
-    virtual double ComputeCommand(const double &error) = 0;
+
+    PD(std::shared_ptr<ControllerParameters> PD_parameters);
+    ~PD() = default;
+
+    double ComputeCommand(const double &error) override ;
+
+    double GetError();
+
+
+
+private:
+    double error_;
+    double command_;
+    std::shared_ptr<ControllerParameters> PD_parameters_;
 
 };
-#endif //PROC_CONTROL_CONTROLALGORITHM_H
+
+
+#endif //PROC_CONTROL_PD_H

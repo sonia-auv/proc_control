@@ -1,8 +1,7 @@
 /**
- * \file	ControlAlgorithm.h
- * \author	Jeremie St-Jules <jeremie.st.jules.prevost@gmail.com>
- * \coauthor Francis Masse <francis.masse05@gmail.com>
- * \date	10/17/16
+ * \file	P.cc
+ * \author	Antoine Dozois <dozois.a@gmail.com>
+ * \date	10/28/17
  *
  * \copyright Copyright (c) 2017 S.O.N.I.A. AUV All rights reserved.
  *
@@ -23,19 +22,21 @@
  * You should have received a copy of the GNU General Public License
  * along with S.O.N.I.A. AUV software. If not, see <http://www.gnu.org/licenses/>.
  */
+#include "P.h"
 
-#ifndef PROC_CONTROL_CONTROLALGORITHM_H
-#define PROC_CONTROL_CONTROLALGORITHM_H
+P::P(std::shared_ptr<ControllerParameters> P_parameters): P_parameters_(P_parameters) {
+    command_ = 0.0;
+}
 
-#include <array>
-#include "proc_control/config/config_manager.h"
 
-class ControlAlgorithm
-{
-public:
-    //==========================================================================
-    // P U B L I C   M E T H O D S
-    virtual double ComputeCommand(const double &error) = 0;
+double P::ComputeCommand(const double &error){
 
-};
-#endif //PROC_CONTROL_CONTROLALGORITHM_H
+    command_ = P_parameters_->Parameters_Map["P"]*error;
+    return command_;
+
+}
+
+
+double P::GetError() {
+    return error_;
+}

@@ -1,8 +1,7 @@
 /**
- * \file	ControlAlgorithm.h
- * \author	Jeremie St-Jules <jeremie.st.jules.prevost@gmail.com>
- * \coauthor Francis Masse <francis.masse05@gmail.com>
- * \date	10/17/16
+ * \file	PI.cc
+ * \author	Antoine Dozois <dozois.a@gmail.com>
+ * \date	10/28/17
  *
  * \copyright Copyright (c) 2017 S.O.N.I.A. AUV All rights reserved.
  *
@@ -23,19 +22,21 @@
  * You should have received a copy of the GNU General Public License
  * along with S.O.N.I.A. AUV software. If not, see <http://www.gnu.org/licenses/>.
  */
+#include "PI.h"
 
-#ifndef PROC_CONTROL_CONTROLALGORITHM_H
-#define PROC_CONTROL_CONTROLALGORITHM_H
 
-#include <array>
-#include "proc_control/config/config_manager.h"
+PI::PI(std::shared_ptr<ControllerParameters> PI_parameters): PI_parameters_(PI_parameters) {
+    command_ = 0.0;
+}
 
-class ControlAlgorithm
-{
-public:
-    //==========================================================================
-    // P U B L I C   M E T H O D S
-    virtual double ComputeCommand(const double &error) = 0;
 
-};
-#endif //PROC_CONTROL_CONTROLALGORITHM_H
+double PI::ComputeCommand(const double &error){
+    command_ = PI_parameters_->Parameters_Map["P"]*error + PI_parameters_->Parameters_Map["I"]*error;
+    return command_;
+
+}
+
+
+double PI::GetError() {
+    return error_;
+}

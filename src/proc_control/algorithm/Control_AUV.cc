@@ -46,3 +46,12 @@ void Control_AUV::SetNewBoundingBox(std::array<double, 6> BBox) {
     yaw_.set_axis_bbox(BBox[5]);
 
 }
+
+void Control_AUV::ResetBoundingBox() {
+    x_.reset_axis_bbox();
+    y_.reset_axis_bbox();
+    z_.reset_axis_bbox();
+    roll_.reset_axis_bbox();
+    pitch_.reset_axis_bbox();
+    yaw_.reset_axis_bbox();
+}

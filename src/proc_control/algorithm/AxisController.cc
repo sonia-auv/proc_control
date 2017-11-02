@@ -85,3 +85,7 @@ void AxisController::set_axis_bbox(double BBox) {
     parameters_managers_->set_BBox(BBox);
 }
 
+void AxisController::reset_axis_bbox() {
+    parameters_managers_->reset_BBox();
+}
+

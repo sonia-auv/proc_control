@@ -523,8 +523,15 @@ bool ProcControlNode::ClearWaypointServiceCallback(proc_control::ClearWaypointRe
 //
 bool ProcControlNode::SetBoundingBoxServiceCallback(proc_control::SetBoundingBoxRequest &request,
                                    proc_control::SetBoundingBoxResponse &response) {
+  std::array<double, 6> NewBBox;
+  NewBBox[0] = request.X;
+  NewBBox[1] = request.Y;
+  NewBBox[2] = request.Z;
+  NewBBox[3] = request.ROLL;
+  NewBBox[4] = request.PITCH;
+  NewBBox[5] = request.YAW;
 
-
+  control_auv_.SetNewBoundingBox(NewBBox);
   return true;
 }
 
@@ -532,6 +539,7 @@ bool ProcControlNode::SetBoundingBoxServiceCallback(proc_control::SetBoundingBox
 //
 bool ProcControlNode::ResetBoundingBoxServiceCallback(proc_control::ResetBoundingBoxRequest &request,
                                    proc_control::ResetBoundingBoxResponse &response) {
+  control_auv_.ResetBoundingBox();
   return true;
 }
 

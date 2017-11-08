@@ -64,6 +64,7 @@ add_message_files(
     FILES
     PositionTarget.msg
     TargetReached.msg
+    ThrustLogging.msg
 )
 
 add_service_files(

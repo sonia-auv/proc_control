@@ -56,13 +56,15 @@ public:
 
     void reset_BBox();
 
+    double get_constante_depth_force();
+
 private:
     //==========================================================================
     // P R I V A T E   M E M B E R S
 
     std::string file_path_;
     std::shared_ptr<ControllerParameters> controller_parameters_;
-    double BBox_, current_BBox_;
+    double BBox_, current_BBox_, constante_depth_force_;
 
 
 };

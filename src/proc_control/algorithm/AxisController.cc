@@ -89,3 +89,7 @@ void AxisController::reset_axis_bbox() {
     parameters_managers_->reset_BBox();
 }
 
+double AxisController::get_constante_depth_force() {
+    return parameters_managers_->get_constante_depth_force();
+}
+

@@ -50,6 +50,8 @@ public:
     void set_axis_bbox(double BBox);
     void reset_axis_bbox();
 
+    double get_constante_depth_force();
+
 
 private:
 

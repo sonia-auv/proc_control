@@ -54,6 +54,7 @@ void ParametersManager::OnDynamicReconfigureChange(const ControllerConfig &confi
     controller_parameters_->Parameters_Map["MIN_ACTUATION"] = config.MIN_ACTUATION;
     controller_parameters_->Parameters_Map["MAX_ACTUATION"] = config.MAX_ACTUATION;
     BBox_ = config.BBox;
+    constante_depth_force_ = config.CONSTANT_DEPTH_FORCE;
 
     current_BBox_ = BBox_;
 
@@ -84,6 +85,8 @@ void ParametersManager::WriteConfigFile(const ControllerConfig &config )
     out << YAML::Value << controller_parameters_->Parameters_Map["MAX_ACTUATION"];
     out << YAML::Key << "BBox";
     out << YAML::Value << BBox_;
+    out << YAML::Key << "CONSTANT_DEPTH_FORCE";
+    out << YAML::Value << constante_depth_force_;
     i++;
 
     std::ofstream fout(file_path_);
@@ -120,6 +123,9 @@ void ParametersManager::ReadConfigFile(ControllerConfig &config )
     if (node["BBox"])
         BBox_ = node["BBox"].as<double>();
 
+    if (node["CONSTANT_DEPTH_FORCE"])
+        constante_depth_force_ = node["CONSTANT_DEPTH_FORCE"].as<double>();
+
     config.P = controller_parameters_->Parameters_Map["P"];
     config.I = controller_parameters_->Parameters_Map["I"];
     config.D = controller_parameters_->Parameters_Map["D"];
@@ -127,6 +133,7 @@ void ParametersManager::ReadConfigFile(ControllerConfig &config )
     config.MIN_ACTUATION = controller_parameters_->Parameters_Map["MIN_ACTUATION"];
     config.MAX_ACTUATION = controller_parameters_->Parameters_Map["MAX_ACTUATION"];
     config.BBox = BBox_;
+    config.CONSTANT_DEPTH_FORCE= constante_depth_force_;
 
     current_BBox_ = BBox_;
 
@@ -142,4 +149,8 @@ void ParametersManager::set_BBox(double BBox) {
 
 void ParametersManager::reset_BBox(){
     current_BBox_ = BBox_;
+}
+
+double ParametersManager::get_constante_depth_force() {
+    return constante_depth_force_;
 }

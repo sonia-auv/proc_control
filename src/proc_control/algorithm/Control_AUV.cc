@@ -15,7 +15,7 @@ std::array<double, 6> Control_AUV::GetActuationForError(std::array<double, 6> &e
 
     actuation[0] = x_.CalculateActuationForError(error[0]);
     actuation[1] = y_.CalculateActuationForError(error[1]);
-    actuation[2] = z_.CalculateActuationForError(error[2]);
+    actuation[2] = z_.CalculateActuationForError(error[2]) + z_.get_constante_depth_force();
     actuation[3] = roll_.CalculateActuationForError(error[3]);
     actuation[4] = pitch_.CalculateActuationForError(error[4]);
     actuation[5] = yaw_.CalculateActuationForError(error[5]);

@@ -27,38 +27,42 @@
 #define PROC_CONTROL_TRAJECTORY_H
 
 #include <cmath>
+namespace proc_control{
 
-class Trajectory {
- public:
-  //==========================================================================
-  // P U B L I C   C / D T O R S
+    class Trajectory {
+    public:
+        //==========================================================================
+        // P U B L I C   C / D T O R S
 
-  Trajectory();
-  ~Trajectory();
+        Trajectory();
+        ~Trajectory();
 
-  //==========================================================================
-  // P U B L I C   M E T H O D S
+        //==========================================================================
+        // P U B L I C   M E T H O D S
 
-  void SetTargetPosition(double target_position);
-  bool IsSplineCalculated();
-  void CalculateSpline(double current_position, double current_velocity,
-                       double target_velocity);
-  double GetPosition(double dt);
-  double GetCurrentPosition();
-  void Reset();
+        void SetTargetPosition(double target_position);
+        bool IsSplineCalculated();
+        void CalculateSpline(double current_position, double current_velocity,
+                             double target_velocity);
+        double GetPosition(double dt);
+        double GetCurrentPosition();
+        void Reset();
 
- private:
-  //==========================================================================
-  // P R I V A T E   M E M B E R S
+    private:
+        //==========================================================================
+        // P R I V A T E   M E M B E R S
 
-  double target_position;
-  double current_position;
+        double target_position;
+        double current_position;
 
-  bool is_spline_calculated;
-  bool is_position_reach;
+        bool is_spline_calculated;
+        bool is_position_reach;
 
-  double hermite_spline_solution[4];
-  double spline_time;
-};
+        double hermite_spline_solution[4];
+        double spline_time;
+    };
+
+}
+
 
 #endif //PROC_CONTROL_TRAJECTORY_H

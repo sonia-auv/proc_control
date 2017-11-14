@@ -36,7 +36,7 @@ int main(int argc, char** argv) {
   while(ros::ok())
   {
     ros::spinOnce();
-    proc_control_node.Control();
+    proc_control_node.Control_loop();
     r.sleep();
   }
 }

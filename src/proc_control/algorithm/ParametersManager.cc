@@ -58,7 +58,6 @@ void ParametersManager::OnDynamicReconfigureChange(const ControllerConfig &confi
 
     current_BBox_ = BBox_;
 
-
 }
 
 //-----------------------------------------------------------------------------
@@ -68,7 +67,6 @@ void ParametersManager::WriteConfigFile(const ControllerConfig &config )
 {
 
     YAML::Emitter out;
-    uint8_t i = 0;
 
     out << YAML::BeginMap;
     out << YAML::Key << "P";
@@ -87,7 +85,6 @@ void ParametersManager::WriteConfigFile(const ControllerConfig &config )
     out << YAML::Value << BBox_;
     out << YAML::Key << "CONSTANT_DEPTH_FORCE";
     out << YAML::Value << constante_depth_force_;
-    i++;
 
     std::ofstream fout(file_path_);
     fout << out.c_str();

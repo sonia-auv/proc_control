@@ -20,7 +20,7 @@ namespace proc_control{
         homogeneous_matrix_(3,0) = 0, homogeneous_matrix_(3,1) = 0, homogeneous_matrix_(3,2) = 0, homogeneous_matrix_(3,3) = 1;
         homogeneous_matrix_(0,3) = position.x(), homogeneous_matrix_(1,3) = position.y(), homogeneous_matrix_(2,3) = position.z();
 
-
+ 
     }
 
     void Transformation::compute_position_from_homogeneous_matrix(Eigen::Matrix4d homogeneous_matrix) {

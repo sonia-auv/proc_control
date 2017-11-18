@@ -75,6 +75,7 @@ add_service_files(
      GetPositionTarget.srv
      EnableThrusters.srv
      EnableControl.srv
+     ControllerState.srv
      SetBoundingBox.srv
      ResetBoundingBox.srv
 )

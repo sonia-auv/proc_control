@@ -7,6 +7,7 @@
 
 #include "proc_control/algorithm/ControlAlgorithm.h"
 #include "controller_parameters.h"
+#include <chrono>
 
 
 class PID : public ControlAlgorithm {
@@ -18,13 +19,14 @@ public:
 
     double ComputeCommand(const double &error) override ;
 
-    double GetError();
-
-
-
 private:
-    double error_;
-    double command_;
+    //==========================================================================
+    // P R I V A T E   M E M B E R S
+
+    double last_error_;
+    double integration_sum_;
+    std::chrono::steady_clock::time_point last_time_;
+
     std::shared_ptr<ControllerParameters> PID_parameters_;
 
 };

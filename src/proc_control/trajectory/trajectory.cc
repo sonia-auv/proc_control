@@ -23,7 +23,8 @@
  * along with S.O.N.I.A. AUV software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <cstdio>
+
+#include <iostream>
 #include "trajectory.h"
 
 namespace proc_control{
@@ -35,8 +36,7 @@ namespace proc_control{
 //
     Trajectory::Trajectory() {
         is_spline_calculated = false;
-        is_position_reach = true;
-        spline_time = 0;
+        spline_time_ = 0;
     }
 
 //------------------------------------------------------------------------------
@@ -52,66 +52,39 @@ namespace proc_control{
 
 //-----------------------------------------------------------------------------
 //
-    void Trajectory::SetTargetPosition(double target_position) {
-        this->target_position = target_position;
-    }
-
-//-----------------------------------------------------------------------------
-//
-    void Trajectory::CalculateSpline(double current_position, double current_velocity,
-                                     double target_velocity) {
-        hermite_spline_solution[0] = current_position;
-        hermite_spline_solution[1] = current_velocity;
-        hermite_spline_solution[2] = -current_position * 3.0f - current_velocity * 2.0f +
-                                     this->target_position * 3.0f - target_velocity;
-        hermite_spline_solution[3] = current_position * 2.0f + current_velocity -
-                                     this->target_position * 2.0f + target_velocity;
-
-        spline_time = 0.0;
+    void Trajectory::SetInitPoseAndFinalPose(double initial_position, double finale_position) {
+        this->initial_position_ = initial_position;
+        this->final_position_ = finale_position;
         is_spline_calculated = true;
-        is_position_reach = false;
     }
 
 //-----------------------------------------------------------------------------
 //
-    double Trajectory::GetPosition(double dt) {
-        double spline_time_squared = spline_time * spline_time;
-        double spline_time_cubed = spline_time_squared * spline_time;
+    double Trajectory::ComputeSpline(double dt) {
 
-        if (!is_position_reach) {
-            current_position = hermite_spline_solution[0] +
-                               hermite_spline_solution[1] * spline_time +
-                               hermite_spline_solution[2] * spline_time_squared +
-                               hermite_spline_solution[3] * spline_time_cubed;
+        spline_time_ += dt/5;
 
-            spline_time += (dt / 5);
-        } else {
-            current_position = hermite_spline_solution[0] +
-                               hermite_spline_solution[1] * spline_time +
-                               hermite_spline_solution[2] * spline_time_squared +
-                               hermite_spline_solution[3] * spline_time_cubed;
-        }
+        if (spline_time_ >= 1.0) spline_time_ = 1.0;
 
-        if (fabs(current_position - target_position) < 0.01) {
-            is_position_reach = true;
-        }
+        double spline_time_squared = spline_time_ * spline_time_ ;
+        double spline_time_cubed = spline_time_squared * spline_time_;
 
-        return current_position;
+        current_position_ = (2*spline_time_cubed - 3*spline_time_squared + 1) * this->initial_position_
+                            + (-2*spline_time_cubed + 3*spline_time_squared) * this->final_position_;
+
+
+        return current_position_;
     }
+
 
 //-----------------------------------------------------------------------------
 //
-    double Trajectory::GetCurrentPosition() {
-        return current_position;
-    }
+    void Trajectory::ResetSpline() {
 
-//-----------------------------------------------------------------------------
-//
-    void Trajectory::Reset() {
-        spline_time = 0.0;
-        target_position = 0.0;
-        current_position = 0.0;
-        is_position_reach = false;
+        spline_time_ = 0.0;
+        initial_position_ = 0.0;
+        final_position_ = 0.0;
+        current_position_ = 0.0;
         is_spline_calculated = false;
         hermite_spline_solution[0] = 0.0;
         hermite_spline_solution[1] = 0.0;

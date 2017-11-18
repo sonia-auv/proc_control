@@ -36,6 +36,8 @@
 #include <chrono>
 
 #include "proc_control/EnableControl.h"
+#include "proc_control/TargetReached.h"
+#include "proc_control/ControllerState.h"
 #include "proc_control/EnableThrusters.h"
 #include "proc_control/thruster/thruster_manager.h"
 #include "proc_control/SetPositionTarget.h"
@@ -70,21 +72,39 @@ namespace proc_control{
 
         void odometry_callback(const nav_msgs::Odometry::ConstPtr &odom_in);
         void kill_switch_callback(const provider_kill_mission::KillSwitchMsg::ConstPtr &state_in);
+        void compute_spline_from_target(const OdomInfo &initial_pose, const OdomInfo &final_pose);
 
-        void current_target_position_publisher();
+        inline void reset_trajectory();
 
-        bool set_global_target_position_callback(proc_control::SetPositionTargetRequest &request, proc_control::SetPositionTargetResponse &response);
-        bool set_local_target_position_callback(proc_control::SetPositionTargetRequest &request, proc_control::SetPositionTargetResponse &response);
+        bool set_global_target_position_service_callback(proc_control::SetPositionTargetRequest &request,
+                                                         proc_control::SetPositionTargetResponse &response);
+        bool set_local_target_position_service_callback(proc_control::SetPositionTargetRequest &request,
+                                                        proc_control::SetPositionTargetResponse &response);
+        bool set_local_target_velocity_service_callback(proc_control::SetPositionTargetRequest &request,
+                                                        proc_control::SetPositionTargetResponse &response);
+        bool enable_control_service_callback(proc_control::EnableControlRequest &request,
+                                             proc_control::EnableControlResponse &response);
+        bool enable_thrusters_server_callback(proc_control::EnableThrustersRequest &request,
+                                              proc_control::EnableThrustersResponse &response);
 
-        bool set_global_target_velocity_callback(proc_control::SetPositionTargetRequest &request, proc_control::SetPositionTargetResponse &response);
-        bool set_local_target_velocity_callback(proc_control::SetPositionTargetRequest &request, proc_control::SetPositionTargetResponse &response);
+        bool controller_state_service_callback(proc_control::ControllerStateRequest &request,
+                                               proc_control::ControllerStateResponse &response);
 
+        bool clear_saypoint_service_callback(proc_control::ClearWaypointRequest &request,
+                                             proc_control::ClearWaypointResponse &response);
 
+        bool evaluate_target_reached(const std::array<double, 6> &target_error);
 
     private:
         //==========================================================================
         // P R I V A T E   M E T H O D S
 
+        void handle_enable_disable_control(bool state, double target, const size_t axis);
+        void current_target_position_publisher();
+        void current_target_debug_position_publisher();
+        void local_error_publisher(std::array<double, 6> error);
+
+        std::array<double, 6> get_local_error(const std::array<double, 6> &target);
 
 
         //==========================================================================
@@ -99,7 +119,8 @@ namespace proc_control{
         // Publisher
         ros::Publisher target_publisher_;
         ros::Publisher debug_target_publisher_;
-        ros::Publisher target_is_reach_publisher;
+        ros::Publisher error_publisher_;
+        ros::Publisher target_is_reached_publisher_;
 
         // Server
         ros::ServiceServer set_global_position_target_server_;
@@ -107,10 +128,14 @@ namespace proc_control{
         ros::ServiceServer set_local_velocity_target_server_;
         ros::ServiceServer get_target_server_;
         ros::ServiceServer enable_control_server_;
+        ros::ServiceServer controller_state_server_;
         ros::ServiceServer enable_thrusters_server_;
         ros::ServiceServer clear_waypoint_server_;
         ros::ServiceServer set_bounding_box_server_;
         ros::ServiceServer reset_bounding_box_server_;
+
+        // Server Client
+        ros::ServiceClient update_controller_state_;
 
         proc_control::ThrusterManager thruster_manager_;
 
@@ -125,17 +150,30 @@ namespace proc_control{
 
         OdomInfo world_position_ = {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0}};
         OdomInfo local_velocity_ = {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0}};
-        OdomInfo target_position_ = {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0}};
-        OdomInfo target_velocity_ = {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0}};
+        OdomInfo target_ = {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0}};
         OdomInfo last_target_position_ = {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0}};
+        OdomInfo last_target_velocity_ = {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0}};
         OdomInfo asked_position_ = {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0}};
+        OdomInfo asked_velocity_ = {{0.0, 0.0, 0.0, 0.0, 0.0, 0.0}};
+        std::array<bool, 6> enable_control_;
 
+        std::chrono::steady_clock::time_point last_time_;
 
         int stability_count_;
 
         mutable std::mutex local_position_mutex_;
 
     };
+
+    inline void ProcControlNode::reset_trajectory() {
+        trajectory_x_.ResetSpline();
+        trajectory_y_.ResetSpline();
+        trajectory_z_.ResetSpline();
+        trajectory_roll_.ResetSpline();
+        trajectory_pitch_.ResetSpline();
+        trajectory_yaw_.ResetSpline();
+    }
+
 
 }
 

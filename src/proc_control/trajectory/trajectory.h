@@ -40,26 +40,22 @@ namespace proc_control{
         //==========================================================================
         // P U B L I C   M E T H O D S
 
-        void SetTargetPosition(double target_position);
+        void SetInitPoseAndFinalPose(double initial_position, double finale_position);
         bool IsSplineCalculated();
-        void CalculateSpline(double current_position, double current_velocity,
-                             double target_velocity);
-        double GetPosition(double dt);
-        double GetCurrentPosition();
-        void Reset();
+        double ComputeSpline(double dt);
+        void ResetSpline();
 
     private:
         //==========================================================================
         // P R I V A T E   M E M B E R S
 
-        double target_position;
-        double current_position;
+        double initial_position_, final_position_;
+        double current_position_;
 
         bool is_spline_calculated;
-        bool is_position_reach;
 
         double hermite_spline_solution[4];
-        double spline_time;
+        double spline_time_;
     };
 
 }

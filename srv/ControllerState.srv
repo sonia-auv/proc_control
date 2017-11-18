@@ -1,0 +1,13 @@
+bool X
+bool Y
+bool Z
+bool ROLL
+bool PITCH
+bool YAW
+---
+bool X
+bool Y
+bool Z
+bool ROLL
+bool PITCH
+bool YAW

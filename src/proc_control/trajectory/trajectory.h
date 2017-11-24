@@ -42,8 +42,9 @@ namespace proc_control{
 
         void SetInitPoseAndFinalPose(double initial_position, double finale_position);
         bool IsSplineCalculated();
-        double ComputeSpline(double dt);
         void ResetSpline();
+        double ComputeSpline(double dt);
+
 
     private:
         //==========================================================================

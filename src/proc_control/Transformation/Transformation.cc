@@ -28,9 +28,9 @@
 
 namespace proc_control{
 
-    void Transformation::compute_homogeneous_matrix(Eigen::Vector3d euler_angle, Eigen::Vector3d position){
+    void Transformation::ComputeHomogeneousMatrix(Eigen::Vector3d euler_angle, Eigen::Vector3d position){
 
-        Eigen::Matrix3d rotation_matrix = euler_to_rot_matrix(euler_angle);
+        Eigen::Matrix3d rotation_matrix = EulerToRotMatrix(euler_angle);
 
         for (int i=0; i < 3; i++){
             for (int j=0; j < 3; j++) {
@@ -44,7 +44,7 @@ namespace proc_control{
  
     }
 
-    void Transformation::compute_position_from_homogeneous_matrix(Eigen::Matrix4d homogeneous_matrix) {
+    void Transformation::ComputePositionFromHomogeneousMatrix(Eigen::Matrix4d homogeneous_matrix) {
         Eigen::Matrix3d rotation_matrix;
         Eigen::Vector3d position, euler_angles;
 
@@ -57,43 +57,37 @@ namespace proc_control{
 
         euler_angles = rotation_matrix.eulerAngles(0, 1, 2);
 
-        position.x() = homogeneous_matrix(0,3), position.y() = homogeneous_matrix(1,3), position.z() = homogeneous_matrix(2,3);
+        position_[0] = homogeneous_matrix(0,3), position_[1] = homogeneous_matrix(1,3), position_[2] = homogeneous_matrix(2,3);
 
         for (int i = 0; i < 3; i++){
-            position_[i+3] = radian_to_degree(euler_angles[i]);
+            position_[i+3] = RadianToDegree(euler_angles[i]);
         }
-
-        // Inverse x y axis
-        position_[0] = position[1];
-        position_[1] = position[0];
-
-        position_[2] = position[2];
 
     }
 
 
 
-    Eigen::Matrix3d Transformation::euler_to_rot_matrix(Eigen::Vector3d &euler_angle) {
+    Eigen::Matrix3d Transformation::EulerToRotMatrix(Eigen::Vector3d &euler_angle) {
 
         Eigen::Matrix3d Rx, Ry, Rz;
 
-        Rx = fill_rx_matrix(degree_to_radian(euler_angle[0]));
-        Ry = fill_ry_matrix(degree_to_radian(euler_angle[1]));
-        Rz = fill_rz_matrix(degree_to_radian(euler_angle[2]));
+        Rx = FillRxMatrix(DegreeToRadian(euler_angle[0]));
+        Ry = FillRyMatrix(DegreeToRadian(euler_angle[1]));
+        Rz = FillRzMatrix(DegreeToRadian(euler_angle[2]));
 
         return Rx * Ry * Rz;
 
     }
 
-    double Transformation::degree_to_radian(double angle) {
+    double Transformation::DegreeToRadian(double angle) {
         return angle * M_PI / 180.0;
     }
 
-    double Transformation::radian_to_degree(double angle) {
+    double Transformation::RadianToDegree(double angle) {
         return angle * 180.0 / M_PI;
     }
 
-    Eigen::Matrix3d Transformation::fill_rx_matrix(double euler_angle_roll) {
+    Eigen::Matrix3d Transformation::FillRxMatrix(double euler_angle_roll) {
 
         Eigen::Matrix3d Rx;
 
@@ -105,7 +99,7 @@ namespace proc_control{
 
     }
 
-    Eigen::Matrix3d Transformation::fill_ry_matrix(double euler_angle_pitch) {
+    Eigen::Matrix3d Transformation::FillRyMatrix(double euler_angle_pitch) {
 
         Eigen::Matrix3d Ry;
 
@@ -117,7 +111,7 @@ namespace proc_control{
 
     }
 
-    Eigen::Matrix3d Transformation::fill_rz_matrix(double euler_angle_yaw) {
+    Eigen::Matrix3d Transformation::FillRzMatrix(double euler_angle_yaw) {
 
         Eigen::Matrix3d Rz;
 
@@ -129,15 +123,15 @@ namespace proc_control{
 
     }
 
-    void Transformation::set_homogeneous_matrix(Eigen::Matrix4d homogeneous_matrix) {
+    void Transformation::SetHomogeneousMatrix(Eigen::Matrix4d homogeneous_matrix) {
         homogeneous_matrix_ = homogeneous_matrix;
     }
 
-    Eigen::Matrix4d Transformation::get_homogeneous_matrix() {
+    Eigen::Matrix4d Transformation::GetHomogeneousMatrix() {
         return homogeneous_matrix_;
     }
 
-    std::array<double, 6> Transformation::get_position_from_homogeneous_matrix() {
+    std::array<double, 6> Transformation::GetPositionFromHomogeneousMatrix() {
         return this->position_;
     }
 }

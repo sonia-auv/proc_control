@@ -85,56 +85,61 @@ namespace proc_control{
 
         local_position_mutex_.lock();
 
-        std::array<double, 6> global_error, local_error;
+        std::array<double, 6> local_error;
 
         std::chrono::steady_clock::time_point now_time = std::chrono::steady_clock::now();
 
         auto diff = now_time - last_time_;
 
         double deltaTime_s = double(std::chrono::duration_cast<std::chrono::nanoseconds>(diff).count())/(double(1E9));
-        if (trajectory_x_.IsSplineCalculated())
-            target_[X] = trajectory_x_.ComputeSpline(deltaTime_s);
-        if (trajectory_y_.IsSplineCalculated())
-            target_[Y] = trajectory_y_.ComputeSpline(deltaTime_s);
-        if (trajectory_z_.IsSplineCalculated())
-            target_[Z] = trajectory_z_.ComputeSpline(deltaTime_s);
-        if (trajectory_roll_.IsSplineCalculated())
-            target_[ROLL] = trajectory_roll_.ComputeSpline(deltaTime_s);
-        if (trajectory_pitch_.IsSplineCalculated())
-            target_[PITCH] = trajectory_pitch_.ComputeSpline(deltaTime_s);
-        if (trajectory_yaw_.IsSplineCalculated())
-            target_[YAW] = trajectory_yaw_.ComputeSpline(deltaTime_s);
 
-        current_target_debug_position_publisher();
+        if (deltaTime_s > (0.0001f) ){
 
-        local_error = get_local_error(target_);
-        local_error_publisher(local_error);
+            if (trajectory_x_.IsSplineCalculated())
+                target_[X] = trajectory_x_.ComputeSpline(deltaTime_s);
+            if (trajectory_y_.IsSplineCalculated())
+                target_[Y] = trajectory_y_.ComputeSpline(deltaTime_s);
+            if (trajectory_z_.IsSplineCalculated())
+                target_[Z] = trajectory_z_.ComputeSpline(deltaTime_s);
+            if (trajectory_roll_.IsSplineCalculated())
+                target_[ROLL] = trajectory_roll_.ComputeSpline(deltaTime_s);
+            if (trajectory_pitch_.IsSplineCalculated())
+                target_[PITCH] = trajectory_pitch_.ComputeSpline(deltaTime_s);
+            if (trajectory_yaw_.IsSplineCalculated())
+                target_[YAW] = trajectory_yaw_.ComputeSpline(deltaTime_s);
 
-        // Handle the is target reached message
-        proc_control::TargetReached msg_target_reached;
-        msg_target_reached.target_is_reached = static_cast<unsigned char> (evaluate_target_reached(asked_position_) ? 1 : 0);
-        target_is_reached_publisher_.publish(msg_target_reached);
+            current_target_debug_position_publisher();
 
-        std::cout << "X : " << local_error[X] << std::endl;
-        std::cout << "Y : " << local_error[Y] << std::endl;
-        std::cout << "Z : " << local_error[Z] << std::endl;
-        std::cout << "YAW : " << local_error[YAW] << std::endl;
+            local_error = get_local_error(target_);
+            local_error_publisher(local_error);
 
-        // Calculate required actuation
-        std::array<double, 6> actuation = control_auv_.GetActuationForError(local_error);
-        std::array<double, 3> actuation_lin = {actuation[X], actuation[Y], actuation[Z]};
-        std::array<double, 3> actuation_rot = {actuation[ROLL], actuation[PITCH], actuation[YAW]};
+            // Handle the is target reached message
+            proc_control::TargetReached msg_target_reached;
+            msg_target_reached.target_is_reached = static_cast<unsigned char> (evaluate_target_reached(asked_position_) ? 1 : 0);
+            target_is_reached_publisher_.publish(msg_target_reached);
 
-        for (int i = 0; i < 3; i++) {
-            if (!enable_control_[i]) {
-                actuation_lin[i] = 0.0f;
+            std::cout << "X : " << local_error[X] << std::endl;
+            std::cout << "Y : " << local_error[Y] << std::endl;
+            std::cout << "Z : " << local_error[Z] << std::endl;
+            std::cout << "YAW : " << local_error[YAW] << std::endl;
+
+            // Calculate required actuation
+            std::array<double, 6> actuation = control_auv_.GetActuationForError(local_error);
+            std::array<double, 3> actuation_lin = {actuation[X], actuation[Y], actuation[Z]};
+            std::array<double, 3> actuation_rot = {actuation[ROLL], actuation[PITCH], actuation[YAW]};
+
+            for (int i = 0; i < 3; i++) {
+                if (!enable_control_[i]) {
+                    actuation_lin[i] = 0.0f;
+                }
+                if (!enable_control_[i + 3]) {
+                    actuation_rot[i] = 0.0f;
+                }
             }
-            if (!enable_control_[i + 3]) {
-                actuation_rot[i] = 0.0f;
-            }
+
+            thruster_manager_.Commit(actuation_lin, actuation_rot);
+
         }
-
-        thruster_manager_.Commit(actuation_lin, actuation_rot);
 
         last_time_ = now_time;
 
@@ -261,19 +266,20 @@ namespace proc_control{
         proc_control::SetPositionTargetRequest local_target = request;
         proc_control::Transformation Transform;
 
-        Transform.compute_homogeneous_matrix(Eigen::Vector3d(world_position_[ROLL], world_position_[PITCH], world_position_[YAW]),
-                                             Eigen::Vector3d(world_position_[X], world_position_[Y], world_position_[Z]));
-        Eigen::Matrix4d world_position_h = Transform.get_homogeneous_matrix();
+        Transform.ComputeHomogeneousMatrix(
+                Eigen::Vector3d(world_position_[ROLL], world_position_[PITCH], world_position_[YAW]),
+                Eigen::Vector3d(world_position_[X], world_position_[Y], world_position_[Z]));
+        Eigen::Matrix4d world_position_h = Transform.GetHomogeneousMatrix();
 
-        Transform.compute_homogeneous_matrix(Eigen::Vector3d(local_target.ROLL, local_target.PITCH, local_target.YAW),
-                                             Eigen::Vector3d(local_target.X, local_target.Y, local_target.Z));
-        Eigen::Matrix4d target_position_h = Transform.get_homogeneous_matrix();
+        Transform.ComputeHomogeneousMatrix(Eigen::Vector3d(local_target.ROLL, local_target.PITCH, local_target.YAW),
+                                           Eigen::Vector3d(local_target.X, local_target.Y, local_target.Z));
+        Eigen::Matrix4d target_position_h = Transform.GetHomogeneousMatrix();
 
         Eigen::Matrix4d global_target_h = world_position_h * target_position_h;
 
-        Transform.compute_position_from_homogeneous_matrix(global_target_h);
+        Transform.ComputePositionFromHomogeneousMatrix(global_target_h);
 
-        asked_position_ = Transform.get_position_from_homogeneous_matrix();
+        asked_position_ = Transform.GetPositionFromHomogeneousMatrix();
 
         current_target_position_publisher();
 
@@ -291,35 +297,28 @@ namespace proc_control{
 
         proc_control::Transformation Transform;
 
-        Transform.compute_homogeneous_matrix(Eigen::Vector3d(world_position_[ROLL], world_position_[PITCH], world_position_[YAW]),
-                                             Eigen::Vector3d(world_position_[X], world_position_[Y], world_position_[Z]));
-        Eigen::Matrix4d world_position_h = Transform.get_homogeneous_matrix();
+        Transform.ComputeHomogeneousMatrix(
+                Eigen::Vector3d(world_position_[ROLL], world_position_[PITCH], world_position_[YAW]),
+                Eigen::Vector3d(world_position_[X], world_position_[Y], world_position_[Z]));
+        Eigen::Matrix4d world_position_h = Transform.GetHomogeneousMatrix();
 
-        std::cout << "world_pose : \n" << world_position_h << std::endl;
-
-        Transform.compute_homogeneous_matrix(Eigen::Vector3d(target[ROLL], target[PITCH], target[YAW]),
-                                             Eigen::Vector3d(target[X], target[Y], target[Z]));
-        Eigen::Matrix4d target_position_h = Transform.get_homogeneous_matrix();
-
-        std::cout << "error_pose : \n" << target_position_h << std::endl;
+        Transform.ComputeHomogeneousMatrix(Eigen::Vector3d(target[ROLL], target[PITCH], target[YAW]),
+                                           Eigen::Vector3d(target[X], target[Y], target[Z]));
+        Eigen::Matrix4d target_position_h = Transform.GetHomogeneousMatrix();
 
         Eigen::Matrix4d local_error_h;
 
         local_error_h.setZero();
 
         if (target_position_h.determinant() != 0){
-            local_error_h = world_position_h * target_position_h.inverse();
+            Eigen::Matrix4d world_position_h_inverse = world_position_h.inverse();
+            local_error_h = world_position_h_inverse * target_position_h;
         }else{
             local_error_h.setZero();
         }
 
-        std::cout << "local_error : \n" << local_error_h << std::endl;
-
-        Transform.compute_position_from_homogeneous_matrix(local_error_h);
-        local_error = Transform.get_position_from_homogeneous_matrix();
-        // Reverse error to fit motor config
-        local_error[Z] *= -1;
-        local_error[YAW] *= -1;
+        Transform.ComputePositionFromHomogeneousMatrix(local_error_h);
+        local_error = Transform.GetPositionFromHomogeneousMatrix();
 
         return local_error;
 

@@ -35,24 +35,24 @@ namespace proc_control{
 
 
 
-        void compute_homogeneous_matrix(Eigen::Vector3d euler_angle, Eigen::Vector3d position);
+        void ComputeHomogeneousMatrix(Eigen::Vector3d euler_angle, Eigen::Vector3d position);
 
-        std::array<double, 6> get_position_from_homogeneous_matrix();
-        void compute_position_from_homogeneous_matrix(Eigen::Matrix4d homogeneous_matrix);
+        std::array<double, 6> GetPositionFromHomogeneousMatrix();
+        void ComputePositionFromHomogeneousMatrix(Eigen::Matrix4d homogeneous_matrix);
 
-        void set_homogeneous_matrix(Eigen::Matrix4d homogeneous_matrix);
-        Eigen::Matrix4d get_homogeneous_matrix();
+        void SetHomogeneousMatrix(Eigen::Matrix4d homogeneous_matrix);
 
+        Eigen::Matrix4d GetHomogeneousMatrix();
 
     private:
 
-        Eigen::Matrix3d euler_to_rot_matrix(Eigen::Vector3d &euler_angle);
-        double degree_to_radian(double angle);
-        double radian_to_degree(double angle);
+        Eigen::Matrix3d EulerToRotMatrix(Eigen::Vector3d &euler_angle);
+        double DegreeToRadian(double angle);
+        double RadianToDegree(double angle);
 
-        Eigen::Matrix3d fill_rx_matrix(double euler_angle_roll);
-        Eigen::Matrix3d fill_ry_matrix(double euler_angle_pitch);
-        Eigen::Matrix3d fill_rz_matrix(double euler_angle_yaw);
+        Eigen::Matrix3d FillRxMatrix(double euler_angle_roll);
+        Eigen::Matrix3d FillRyMatrix(double euler_angle_pitch);
+        Eigen::Matrix3d FillRzMatrix(double euler_angle_yaw);
 
         std::array<double, 6> position_;
 

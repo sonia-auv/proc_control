@@ -320,6 +320,8 @@ namespace proc_control{
         Transform.ComputePositionFromHomogeneousMatrix(local_error_h);
         local_error = Transform.GetPositionFromHomogeneousMatrix();
 
+        if (local_error[YAW] > 180) local_error[YAW] -= 360;
+
         return local_error;
 
 

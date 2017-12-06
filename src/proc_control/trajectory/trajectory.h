@@ -30,33 +30,44 @@
 namespace proc_control{
 
     class Trajectory {
-    public:
-        //==========================================================================
-        // P U B L I C   C / D T O R S
+        public:
+            //==========================================================================
+            // P U B L I C   C / D T O R S
 
-        Trajectory();
-        ~Trajectory();
+            Trajectory();
+            ~Trajectory();
 
-        //==========================================================================
-        // P U B L I C   M E T H O D S
+            //==========================================================================
+            // P U B L I C   M E T H O D S
 
-        void SetInitPoseAndFinalPose(double initial_position, double finale_position);
-        bool IsSplineCalculated();
-        void ResetSpline();
-        double ComputeSpline(double dt);
+            void SetLinearSplineParameters(double initial_position, double finale_position);
+            void SetOrientationSplineParameters(double initial_position, double finale_position,
+                                                bool best_trajectory, bool best_rotation);
+            bool IsSplineCalculated();
+            void ResetSpline();
+            double ComputeLinearSpline(double dt);
+            double ComputeOrientationSpline(double dt);
 
 
-    private:
-        //==========================================================================
-        // P R I V A T E   M E M B E R S
+        private:
+            //==========================================================================
+            // P R I V A T E   M E T H O D S
+            double ComputeHermiteCubicSpline(double pO, double p1);
+            void SetRotation();
 
-        double initial_position_, final_position_;
-        double current_position_;
+            //==========================================================================
+            // P R I V A T E   M E M B E R S
 
-        bool is_spline_calculated;
+            double initial_position_, final_position_;
+            double current_position_;
 
-        double hermite_spline_solution[4];
-        double spline_time_;
+            bool is_spline_calculated_;
+
+            bool best_trajectory_, best_rotation_;
+            double first_rotation_, second_rotation_;
+
+            double hermite_spline_solution_[4];
+            double spline_time_;
     };
 
 }

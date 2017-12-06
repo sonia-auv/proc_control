@@ -96,17 +96,17 @@ namespace proc_control{
         if (deltaTime_s > (0.0001f) ){
 
             if (trajectory_x_.IsSplineCalculated())
-                target_[X] = trajectory_x_.ComputeSpline(deltaTime_s);
+                target_[X] = trajectory_x_.ComputeLinearSpline(deltaTime_s);
             if (trajectory_y_.IsSplineCalculated())
-                target_[Y] = trajectory_y_.ComputeSpline(deltaTime_s);
+                target_[Y] = trajectory_y_.ComputeLinearSpline(deltaTime_s);
             if (trajectory_z_.IsSplineCalculated())
-                target_[Z] = trajectory_z_.ComputeSpline(deltaTime_s);
+                target_[Z] = trajectory_z_.ComputeLinearSpline(deltaTime_s);
             if (trajectory_roll_.IsSplineCalculated())
-                target_[ROLL] = trajectory_roll_.ComputeSpline(deltaTime_s);
+                target_[ROLL] = trajectory_roll_.ComputeOrientationSpline(deltaTime_s);
             if (trajectory_pitch_.IsSplineCalculated())
-                target_[PITCH] = trajectory_pitch_.ComputeSpline(deltaTime_s);
+                target_[PITCH] = trajectory_pitch_.ComputeOrientationSpline(deltaTime_s);
             if (trajectory_yaw_.IsSplineCalculated())
-                target_[YAW] = trajectory_yaw_.ComputeSpline(deltaTime_s);
+                target_[YAW] = trajectory_yaw_.ComputeOrientationSpline(deltaTime_s);
 
             current_target_debug_position_publisher();
 
@@ -117,11 +117,6 @@ namespace proc_control{
             proc_control::TargetReached msg_target_reached;
             msg_target_reached.target_is_reached = static_cast<unsigned char> (evaluate_target_reached(asked_position_) ? 1 : 0);
             target_is_reached_publisher_.publish(msg_target_reached);
-
-            std::cout << "X : " << local_error[X] << std::endl;
-            std::cout << "Y : " << local_error[Y] << std::endl;
-            std::cout << "Z : " << local_error[Z] << std::endl;
-            std::cout << "YAW : " << local_error[YAW] << std::endl;
 
             // Calculate required actuation
             std::array<double, 6> actuation = control_auv_.GetActuationForError(local_error);
@@ -320,8 +315,6 @@ namespace proc_control{
         Transform.ComputePositionFromHomogeneousMatrix(local_error_h);
         local_error = Transform.GetPositionFromHomogeneousMatrix();
 
-        if (local_error[YAW] > 180) local_error[YAW] -= 360;
-
         return local_error;
 
 
@@ -372,14 +365,35 @@ namespace proc_control{
 
     void ProcControlNode::compute_spline_from_target(const OdomInfo &initial_pose, const OdomInfo &final_pose) {
         local_position_mutex_.lock();
-        trajectory_x_.SetInitPoseAndFinalPose(last_target_position_[X], final_pose[X]);
-        trajectory_y_.SetInitPoseAndFinalPose(last_target_position_[Y], final_pose[Y]);
-        trajectory_z_.SetInitPoseAndFinalPose(last_target_position_[Z], final_pose[Z]);
-        trajectory_roll_.SetInitPoseAndFinalPose(last_target_position_[ROLL], final_pose[ROLL]);
-        trajectory_pitch_.SetInitPoseAndFinalPose(last_target_position_[PITCH], final_pose[PITCH]);
-        trajectory_yaw_.SetInitPoseAndFinalPose(last_target_position_[YAW], final_pose[YAW]);
+        std::array<bool, 2> parameters;
+        trajectory_x_.SetLinearSplineParameters(last_target_position_[X], final_pose[X]);
+        trajectory_y_.SetLinearSplineParameters(last_target_position_[Y], final_pose[Y]);
+        trajectory_z_.SetLinearSplineParameters(last_target_position_[Z], final_pose[Z]);
+        parameters = set_best_rotation_trajectory_parameters(last_target_position_[ROLL] - final_pose[ROLL]);
+        trajectory_roll_.SetOrientationSplineParameters(last_target_position_[ROLL], final_pose[ROLL], parameters[0], parameters[1]);
+        parameters = set_best_rotation_trajectory_parameters(last_target_position_[PITCH] - final_pose[PITCH]);
+        trajectory_pitch_.SetOrientationSplineParameters(last_target_position_[PITCH], final_pose[PITCH], parameters[0], parameters[1]);
+        parameters = set_best_rotation_trajectory_parameters(last_target_position_[YAW] - final_pose[YAW]);
+        trajectory_yaw_.SetOrientationSplineParameters(last_target_position_[YAW], final_pose[YAW], parameters[0], parameters[1]);
         local_position_mutex_.unlock();
 
+    }
+
+    std::array<bool, 2> ProcControlNode::set_best_rotation_trajectory_parameters(double delta_angle) {
+
+        std::array<bool, 2> parameters;
+
+        parameters[0] = false;
+
+        if (fabs(delta_angle) > 180.0) parameters[0] = true;
+
+        if (delta_angle < 0.0){
+            parameters[1] = true;
+        } else{
+            parameters[1] = false;
+        }
+
+        return parameters;
     }
 
     bool ProcControlNode::enable_control_service_callback(proc_control::EnableControlRequest &request,

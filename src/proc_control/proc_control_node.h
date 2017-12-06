@@ -106,6 +106,8 @@ namespace proc_control{
 
         std::array<double, 6> get_local_error(const std::array<double, 6> &target);
 
+        std::array<bool, 2> set_best_rotation_trajectory_parameters(double delta_angle);
+
 
         //==========================================================================
         // P R I V A T E   M E M B E R S

@@ -120,19 +120,14 @@ namespace proc_control{
 
             // Calculate required actuation
             std::array<double, 6> actuation = control_auv_.GetActuationForError(local_error);
-            std::array<double, 3> actuation_lin = {actuation[X], actuation[Y], actuation[Z]};
-            std::array<double, 3> actuation_rot = {actuation[ROLL], actuation[PITCH], actuation[YAW]};
 
-            for (int i = 0; i < 3; i++) {
+            for (int i = 0; i < 6; i++) {
                 if (!enable_control_[i]) {
-                    actuation_lin[i] = 0.0f;
-                }
-                if (!enable_control_[i + 3]) {
-                    actuation_rot[i] = 0.0f;
+                    actuation[i] = 0.0f;
                 }
             }
 
-            thruster_manager_.Commit(actuation_lin, actuation_rot);
+            thruster_manager_.Commit(actuation);
 
         }
 
@@ -275,6 +270,10 @@ namespace proc_control{
         Transform.ComputePositionFromHomogeneousMatrix(global_target_h);
 
         asked_position_ = Transform.GetPositionFromHomogeneousMatrix();
+
+        if (asked_position_[YAW] < 0.0f){
+            asked_position_[YAW] = asked_position_[YAW] + 360;
+        }
 
         current_target_position_publisher();
 

@@ -35,8 +35,10 @@ namespace proc_control {
 //------------------------------------------------------------------------------
 //
 ThrusterManager::ThrusterManager() :
-    ConfigManager("Thruster"),
-    constant_reverse_effort_(0.0) {
+  ConfigManager("Thruster"),
+  constant_reverse_effort_(0.0)
+  {
+
   // Add all the thrusters
   thruster_list_.push_back(Thruster(1));
   thruster_list_.push_back(Thruster(2));
@@ -50,6 +52,7 @@ ThrusterManager::ThrusterManager() :
   ThrusterManager::SetEnable(1);
 
   Init();
+  SetEfforts();
 }
 
 //------------------------------------------------------------------------------
@@ -107,18 +110,6 @@ void ThrusterManager::OnDynamicReconfigureChange(const proc_control::ThrusterCon
 //
 void ThrusterManager::WriteConfigFile(const proc_control::ThrusterConfig &config) {
   return;
-  YAML::Emitter out;
-  out << YAML::BeginMap;
-  for (size_t i = 0; i < thruster_list_.size(); i++) {
-    WriteEfforts(i, out);
-  }
-
-  out << YAML::Key << CONSTANT_REVERSE_EFFORT;
-  out << YAML::Value << constant_reverse_effort_;
-
-  out << YAML::EndMap;
-  std::ofstream fout(file_path_);
-  fout << out.c_str();
 }
 
 //-----------------------------------------------------------------------------
@@ -208,6 +199,25 @@ void ThrusterManager::ReadConfigFile(proc_control::ThrusterConfig &config) {
 
 //-----------------------------------------------------------------------------
 //
+void ThrusterManager::SetEfforts() {
+
+    std::array<double, 3> effort_lin;
+    std::array<double, 3> effort_rot;
+    int i = 0;
+    for (auto &t : thruster_list_) {
+        effort_lin = t.GetLinearEffort();
+        effort_rot = t.GetRotationnalEffort();
+
+        for (int j = 0; j < 3; j++) {
+            effort_(j, i) = effort_lin[j];
+            effort_(j + 3, i) = effort_rot[j];
+        }
+        i++;
+    }
+}
+
+//-----------------------------------------------------------------------------
+//
 void ThrusterManager::SetEnable(bool isEnable) {
 
   for (auto &thruster : thruster_list_) {
@@ -217,26 +227,18 @@ void ThrusterManager::SetEnable(bool isEnable) {
 
 //-----------------------------------------------------------------------------
 //
-std::array<double, 8> ThrusterManager::Commit(std::array<double, 3> &linear_target,
-                                              std::array<double, 3> &rotational_target) {
-  std::array<double, 8> thrust_vec = {0};
-  int i = 0;
-  for (auto &t : thruster_list_) {
-    double target = 0;
-    std::array<double, 3> thruster_effort_lin = t.GetLinearEffort();
-    std::array<double, 3> thruster_effort_rot = t.GetRotationnalEffort();
-
-    for (int i = 0; i < 3; i++) {
-      if (thruster_effort_lin[i] < 0) {
-        target += linear_target[i] * thruster_effort_lin[i];
-      }
-      target += rotational_target[i] * thruster_effort_rot[i];
+void ThrusterManager::Commit(std::array<double, 6> &actuation){
+    for (int i=0; i < 6; i++){
+        actuation_(i, 0) = actuation[i];
     }
-    t.Publish(t.GetID(), (int16_t)target);
-    thrust_vec[i] = target;
-    i++;
-  }
-  return thrust_vec;
+
+    actuation_thruster_ = effort_.transpose() * actuation_;
+    int i = 0;
+    for (auto &t : thruster_list_){
+        t.Publish(t.GetID(), (int16_t)actuation_thruster_(i,0));
+        i++;
+    }
+
 }
 
 //-----------------------------------------------------------------------------

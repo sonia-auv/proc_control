@@ -36,7 +36,7 @@ namespace proc_control{
 
         Control_AUV();
 
-        ~Control_AUV();
+        ~Control_AUV() = default;
 
         std::array<double, 6> GetActuationForError(std::array<double, 6> &error);
 

@@ -30,8 +30,6 @@ namespace proc_control{
     Control_AUV::Control_AUV(): x_(ControllerType::PID_, "x"), y_(ControllerType::PID_, "y"), z_(ControllerType::PID_, "z"), roll_(ControllerType::PID_, "roll"),
                                 pitch_(ControllerType::PID_, "pitch"), yaw_(ControllerType::PID_, "yaw") {}
 
-    Control_AUV::~Control_AUV() { }
-
     std::array<double, 6> Control_AUV::GetActuationForError(std::array<double, 6> &error){
 
         std::array<double, 6> actuation;

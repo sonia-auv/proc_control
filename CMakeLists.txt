@@ -113,7 +113,7 @@ include_directories(
 
 #==========================================================================
 # C R E A T E   E X E C U T A B L E
-add_executable(${PROJECT_NAME}_node ${proc_control_SRC_DIR}/${PROJECT_NAME}/main.cc ${proc_control_FILES} src/proc_control/Transformation/Transformation.cc src/proc_control/Transformation/Transformation.h)
+add_executable(${PROJECT_NAME}_node ${proc_control_SRC_DIR}/${PROJECT_NAME}/main.cc ${proc_control_FILES})
 target_link_libraries(${PROJECT_NAME}_node ${catkin_LIBRARIES} ${Eigen_LIBRARIES} yaml-cpp ${Boost_LIBRARIES})
 add_dependencies(${PROJECT_NAME}_node
         ${PROJECT_NAME}_generate_messages_cpp

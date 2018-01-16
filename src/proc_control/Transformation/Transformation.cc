@@ -30,7 +30,7 @@ namespace proc_control{
 
     void Transformation::ComputeHomogeneousMatrix(Eigen::Vector3d euler_angle, Eigen::Vector3d position){
 
-        Eigen::Matrix3d rotation_matrix = EulerToRotMatrix(euler_angle);
+        Eigen::Matrix3d rotation_matrix;
 
         for (int i=0; i < 3; i++){
             for (int j=0; j < 3; j++) {
@@ -65,20 +65,6 @@ namespace proc_control{
 
     }
 
-
-
-    Eigen::Matrix3d Transformation::EulerToRotMatrix(Eigen::Vector3d &euler_angle) {
-
-        Eigen::Matrix3d Rx, Ry, Rz;
-
-        Rx = FillRxMatrix(DegreeToRadian(euler_angle[0]));
-        Ry = FillRyMatrix(DegreeToRadian(euler_angle[1]));
-        Rz = FillRzMatrix(DegreeToRadian(euler_angle[2]));
-
-        return Rx * Ry * Rz;
-
-    }
-
     double Transformation::DegreeToRadian(double angle) {
         return angle * M_PI / 180.0;
     }
@@ -87,40 +73,16 @@ namespace proc_control{
         return angle * 180.0 / M_PI;
     }
 
-    Eigen::Matrix3d Transformation::FillRxMatrix(double euler_angle_roll) {
 
-        Eigen::Matrix3d Rx;
+    Eigen::Affine3d Transformation::HomogeneousMatrix(Eigen::Vector3d eulerAngle, Eigen::Vector3d translation) {
 
-        Rx(0,0) = 1, Rx(0,1) = 0, Rx(0,2) = 0;
-        Rx(1,0) = 0, Rx(1,1) = cos(euler_angle_roll), Rx(1,2) = -sin(euler_angle_roll);
-        Rx(2,0) = 0, Rx(2,1) = sin(euler_angle_roll), Rx(2,2) = cos(euler_angle_roll);
+        Eigen::Affine3d mat;
+        mat.linear() = (Eigen::AngleAxisd(eulerAngle[0], Eigen::Vector3d::UnitX())
+                        * Eigen::AngleAxisd(eulerAngle[1], Eigen::Vector3d::UnitY())
+                        * Eigen::AngleAxisd(eulerAngle[2], Eigen::Vector3d::UnitZ()) ).toRotationMatrix();
+        mat.translation() = translation;
 
-        return Rx;
-
-    }
-
-    Eigen::Matrix3d Transformation::FillRyMatrix(double euler_angle_pitch) {
-
-        Eigen::Matrix3d Ry;
-
-        Ry(0,0) = cos(euler_angle_pitch), Ry(0,1) = 0, Ry(0,2) = sin(euler_angle_pitch);
-        Ry(1,0) = 0, Ry(1,1) = 1, Ry(1,2) = 0;
-        Ry(2,0) = -sin(euler_angle_pitch), Ry(2,1) = 0 , Ry(2,2) = cos(euler_angle_pitch);
-
-        return Ry;
-
-    }
-
-    Eigen::Matrix3d Transformation::FillRzMatrix(double euler_angle_yaw) {
-
-        Eigen::Matrix3d Rz;
-
-        Rz(0,0) = cos(euler_angle_yaw), Rz(0,1) = -sin(euler_angle_yaw), Rz(0,2) = 0;
-        Rz(1,0) = sin(euler_angle_yaw), Rz(1,1) = cos(euler_angle_yaw), Rz(1,2) = 0;
-        Rz(2,0) = 0, Rz(2,1) = 0 , Rz(2,2) = 1;
-
-        return Rz;
-
+        return mat;
     }
 
     void Transformation::SetHomogeneousMatrix(Eigen::Matrix4d homogeneous_matrix) {

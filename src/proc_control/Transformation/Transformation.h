@@ -40,19 +40,17 @@ namespace proc_control{
         std::array<double, 6> GetPositionFromHomogeneousMatrix();
         void ComputePositionFromHomogeneousMatrix(Eigen::Matrix4d homogeneous_matrix);
 
+        Eigen::Affine3d HomogeneousMatrix(Eigen::Vector3d eulerAngle, Eigen::Vector3d translation);
+        Eigen::Vector3d HomogeneousMatrixToEulerAngle(Eigen::Affine3d h_matrix);
+
         void SetHomogeneousMatrix(Eigen::Matrix4d homogeneous_matrix);
 
         Eigen::Matrix4d GetHomogeneousMatrix();
 
     private:
 
-        Eigen::Matrix3d EulerToRotMatrix(Eigen::Vector3d &euler_angle);
         double DegreeToRadian(double angle);
         double RadianToDegree(double angle);
-
-        Eigen::Matrix3d FillRxMatrix(double euler_angle_roll);
-        Eigen::Matrix3d FillRyMatrix(double euler_angle_pitch);
-        Eigen::Matrix3d FillRzMatrix(double euler_angle_yaw);
 
         std::array<double, 6> position_;
 

@@ -375,7 +375,6 @@ namespace proc_control{
         parameters = set_best_rotation_trajectory_parameters(last_target_position_[YAW] - final_pose[YAW]);
         trajectory_yaw_.SetOrientationSplineParameters(last_target_position_[YAW], final_pose[YAW], parameters[0], parameters[1]);
         local_position_mutex_.unlock();
-
     }
 
     std::array<bool, 2> ProcControlNode::set_best_rotation_trajectory_parameters(double delta_angle) {

@@ -27,6 +27,7 @@
 #define PROC_CONTROL_TRAJECTORY_H
 
 #include <cmath>
+
 namespace proc_control{
 
     class Trajectory {

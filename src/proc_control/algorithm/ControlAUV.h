@@ -26,21 +26,26 @@
 #ifndef PROC_CONTROL_CONTROL_AUV_H
 #define PROC_CONTROL_CONTROL_AUV_H
 
+#include <eigen3/Eigen/Eigen>
+#include <iostream>
+
 #include "AxisController.h"
 
 namespace proc_control{
 
-    class Control_AUV {
+    class ControlAUV {
 
     public:
 
-        Control_AUV();
+        typedef Eigen::Matrix<double, 6, 1> EigenVector6d;
 
-        ~Control_AUV() = default;
+        ControlAUV(std::string mode);
 
-        std::array<double, 6> GetActuationForError(std::array<double, 6> &error);
+        ~ControlAUV() = default;
 
-        bool IsInBoundingBox(std::array<double, 6> &error);
+        EigenVector6d GetActuationForError(EigenVector6d &error);
+
+        bool IsInBoundingBox(EigenVector6d &error);
 
         void SetNewBoundingBox(std::array<double, 6> BBox);
         void ResetBoundingBox();

@@ -28,72 +28,16 @@
 
 namespace proc_control{
 
-    void Transformation::ComputeHomogeneousMatrix(Eigen::Vector3d euler_angle, Eigen::Vector3d position){
 
-        Eigen::Matrix3d rotation_matrix;
-
-        for (int i=0; i < 3; i++){
-            for (int j=0; j < 3; j++) {
-                homogeneous_matrix_(i, j) = rotation_matrix(i, j);
-            }
-        }
-
-        homogeneous_matrix_(3,0) = 0, homogeneous_matrix_(3,1) = 0, homogeneous_matrix_(3,2) = 0, homogeneous_matrix_(3,3) = 1;
-        homogeneous_matrix_(0,3) = position.x(), homogeneous_matrix_(1,3) = position.y(), homogeneous_matrix_(2,3) = position.z();
-
- 
-    }
-
-    void Transformation::ComputePositionFromHomogeneousMatrix(Eigen::Matrix4d homogeneous_matrix) {
-        Eigen::Matrix3d rotation_matrix;
-        Eigen::Vector3d position, euler_angles;
-
-        for (int i=0; i < 3; i++){
-            for (int j=0; j < 3; j++) {
-                rotation_matrix(i, j) = homogeneous_matrix(i, j);
-            }
-        }
-
-
-        euler_angles = rotation_matrix.eulerAngles(0, 1, 2);
-
-        position_[0] = homogeneous_matrix(0,3), position_[1] = homogeneous_matrix(1,3), position_[2] = homogeneous_matrix(2,3);
-
-        for (int i = 0; i < 3; i++){
-            position_[i+3] = RadianToDegree(euler_angles[i]);
-        }
-
-    }
-
-    double Transformation::DegreeToRadian(double angle) {
-        return angle * M_PI / 180.0;
-    }
-
-    double Transformation::RadianToDegree(double angle) {
-        return angle * 180.0 / M_PI;
-    }
-
-
-    Eigen::Affine3d Transformation::HomogeneousMatrix(Eigen::Vector3d eulerAngle, Eigen::Vector3d translation) {
+    Eigen::Affine3d Transformation::HomogeneousMatrix(Eigen::Vector3d &eulerAngle, Eigen::Vector3d &translation) {
 
         Eigen::Affine3d mat;
         mat.linear() = (Eigen::AngleAxisd(eulerAngle[0], Eigen::Vector3d::UnitX())
                         * Eigen::AngleAxisd(eulerAngle[1], Eigen::Vector3d::UnitY())
-                        * Eigen::AngleAxisd(eulerAngle[2], Eigen::Vector3d::UnitZ()) ).toRotationMatrix();
+                        * Eigen::AngleAxisd(eulerAngle[2], Eigen::Vector3d::UnitZ())).toRotationMatrix();
         mat.translation() = translation;
 
         return mat;
     }
 
-    void Transformation::SetHomogeneousMatrix(Eigen::Matrix4d homogeneous_matrix) {
-        homogeneous_matrix_ = homogeneous_matrix;
-    }
-
-    Eigen::Matrix4d Transformation::GetHomogeneousMatrix() {
-        return homogeneous_matrix_;
-    }
-
-    std::array<double, 6> Transformation::GetPositionFromHomogeneousMatrix() {
-        return this->position_;
-    }
 }

@@ -70,12 +70,12 @@ add_message_files(
 add_service_files(
      DIRECTORY srv
      FILES
+     SetControlMode.srv
      ClearWaypoint.srv
      SetPositionTarget.srv
      GetPositionTarget.srv
      EnableThrusters.srv
      EnableControl.srv
-     ControllerState.srv
      SetBoundingBox.srv
      ResetBoundingBox.srv
 )

@@ -39,7 +39,7 @@ public:
     //==========================================================================
     // P U B L I C   C / D T O R S
 
-    ParametersManager(std::string axe_name, std::shared_ptr<ControllerParameters> controller_parameters);
+    ParametersManager(std::string &axe_name, std::string &mode ,std::shared_ptr<ControllerParameters> &controller_parameters);
 
     //==========================================================================
     // P U B L I C   O V E R R I D E D   M E T H O D S

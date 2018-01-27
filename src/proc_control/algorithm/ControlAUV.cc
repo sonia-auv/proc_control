@@ -23,16 +23,17 @@
  * along with S.O.N.I.A. AUV software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "Control_AUV.h"
+#include "ControlAUV.h"
 
 namespace proc_control{
 
-    Control_AUV::Control_AUV(): x_(ControllerType::PID_, "x"), y_(ControllerType::PID_, "y"), z_(ControllerType::PID_, "z"), roll_(ControllerType::PID_, "roll"),
-                                pitch_(ControllerType::PID_, "pitch"), yaw_(ControllerType::PID_, "yaw") {}
+    ControlAUV::ControlAUV(std::string mode): x_(ControllerType::PID_, "x", mode), y_(ControllerType::PID_, "y", mode),
+                                                    z_(ControllerType::PID_, "z", mode), roll_(ControllerType::PID_, "roll", mode),
+                                                    pitch_(ControllerType::PID_, "pitch", mode), yaw_(ControllerType::PID_, "yaw", mode) {}
 
-    std::array<double, 6> Control_AUV::GetActuationForError(std::array<double, 6> &error){
+    ControlAUV::EigenVector6d ControlAUV::GetActuationForError(EigenVector6d &error){
 
-        std::array<double, 6> actuation;
+        EigenVector6d actuation;
 
         actuation[0] = x_.CalculateActuationForError(error[0]);
         actuation[1] = y_.CalculateActuationForError(error[1]);
@@ -45,7 +46,7 @@ namespace proc_control{
 
     }
 
-    bool Control_AUV::IsInBoundingBox(std::array<double, 6> &error) {
+    bool ControlAUV::IsInBoundingBox(EigenVector6d &error) {
 
         double BBox_x = x_.get_axis_bbox();
         double BBox_y = y_.get_axis_bbox();
@@ -59,7 +60,7 @@ namespace proc_control{
 
     }
 
-    void Control_AUV::SetNewBoundingBox(std::array<double, 6> BBox) {
+    void ControlAUV::SetNewBoundingBox(std::array<double, 6> BBox) {
         x_.set_axis_bbox(BBox[0]);
         y_.set_axis_bbox(BBox[1]);
         z_.set_axis_bbox(BBox[2]);
@@ -69,7 +70,7 @@ namespace proc_control{
 
     }
 
-    void Control_AUV::ResetBoundingBox() {
+    void ControlAUV::ResetBoundingBox() {
         x_.reset_axis_bbox();
         y_.reset_axis_bbox();
         z_.reset_axis_bbox();

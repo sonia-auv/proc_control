@@ -214,6 +214,8 @@ void ThrusterManager::SetEfforts() {
         }
         i++;
     }
+
+        std::cout << effort_ << std::endl;
 }
 
 //-----------------------------------------------------------------------------
@@ -227,12 +229,10 @@ void ThrusterManager::SetEnable(bool isEnable) {
 
 //-----------------------------------------------------------------------------
 //
-void ThrusterManager::Commit(std::array<double, 6> &actuation){
-    for (int i=0; i < 6; i++){
-        actuation_(i, 0) = actuation[i];
-    }
+void ThrusterManager::Commit(EigenVector6d &actuation){
 
-    actuation_thruster_ = effort_.transpose() * actuation_;
+    actuation_thruster_ = effort_.transpose() * actuation;
+
     int i = 0;
     for (auto &t : thruster_list_){
         t.Publish(t.GetID(), (int16_t)actuation_thruster_(i,0));

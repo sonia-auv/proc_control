@@ -39,7 +39,7 @@ class AxisController
 public:
     //==========================================================================
     // P U B L I C   C / D T O R S
-    AxisController(int controller_type, std::string axe_name);
+    AxisController(int controller_type, std::string axe_name, std::string &mode);
 
     //============================================================================
     // P U B L I C   M E T H O D S

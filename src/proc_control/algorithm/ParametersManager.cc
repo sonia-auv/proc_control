@@ -28,12 +28,12 @@
 #include "proc_control/property.h"
 
 
-ParametersManager::ParametersManager(std::string axe_name, std::shared_ptr<ControllerParameters> controller_parameters):
-        ConfigManager(axe_name + "_axis_controller"), controller_parameters_(controller_parameters)
+ParametersManager::ParametersManager(std::string &axe_name, std::string &mode , std::shared_ptr<ControllerParameters> &controller_parameters):
+        ConfigManager(axe_name + "_axis" + mode + "_controller"), controller_parameters_(controller_parameters)
 {
 
     controller_parameters_ = controller_parameters;
-    file_path_ = kConfigPath + "/Controllers_parameters/" + axe_name + "_controller_parameters" + kConfigExt;
+    file_path_ = kConfigPath + "/Controllers_parameters/" + axe_name + "_" + mode + "_controller_parameters" + kConfigExt;
     Init();
 
 }

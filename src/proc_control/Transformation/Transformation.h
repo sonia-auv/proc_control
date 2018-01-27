@@ -33,28 +33,8 @@ namespace proc_control{
     class Transformation {
     public:
 
+        Eigen::Affine3d HomogeneousMatrix(Eigen::Vector3d &eulerAngle, Eigen::Vector3d &translation);
 
-
-        void ComputeHomogeneousMatrix(Eigen::Vector3d euler_angle, Eigen::Vector3d position);
-
-        std::array<double, 6> GetPositionFromHomogeneousMatrix();
-        void ComputePositionFromHomogeneousMatrix(Eigen::Matrix4d homogeneous_matrix);
-
-        Eigen::Affine3d HomogeneousMatrix(Eigen::Vector3d eulerAngle, Eigen::Vector3d translation);
-        Eigen::Vector3d HomogeneousMatrixToEulerAngle(Eigen::Affine3d h_matrix);
-
-        void SetHomogeneousMatrix(Eigen::Matrix4d homogeneous_matrix);
-
-        Eigen::Matrix4d GetHomogeneousMatrix();
-
-    private:
-
-        double DegreeToRadian(double angle);
-        double RadianToDegree(double angle);
-
-        std::array<double, 6> position_;
-
-        Eigen::Matrix4d homogeneous_matrix_;
 
     };
 

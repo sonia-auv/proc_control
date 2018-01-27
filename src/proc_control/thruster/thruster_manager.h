@@ -39,51 +39,53 @@ namespace proc_control {
 
 class ThrusterManager : public ConfigManager<proc_control::ThrusterConfig> {
  public:
-  //==========================================================================
-  // P U B L I C   C / D T O R S
 
-  ThrusterManager();
-  ~ThrusterManager();
+    typedef Eigen::Matrix<double, 6, 1> EigenVector6d;
+    //==========================================================================
+    // P U B L I C   C / D T O R S
 
-  //==========================================================================
-  // P U B L I C   O V E R R I D E D   M E T H O D S
+    ThrusterManager();
+    ~ThrusterManager();
 
-  // ConfigManager override
-  void OnDynamicReconfigureChange(const proc_control::ThrusterConfig &config) override;
-  void WriteConfigFile(const proc_control::ThrusterConfig &config) override;
-  void ReadConfigFile(proc_control::ThrusterConfig &config) override;
+    //==========================================================================
+    // P U B L I C   O V E R R I D E D   M E T H O D S
 
-  //==========================================================================
-  // P U B L I C   M E T H O D S
+    // ConfigManager override
+    void OnDynamicReconfigureChange(const proc_control::ThrusterConfig &config) override;
+    void WriteConfigFile(const proc_control::ThrusterConfig &config) override;
+    void ReadConfigFile(proc_control::ThrusterConfig &config) override;
 
-  void SetEnable(bool isEnable);
-  void Commit(std::array<double, 6> &actuation);
+    //==========================================================================
+    // P U B L I C   M E T H O D S
 
-  template<typename Tp_>
-  inline int signum(Tp_ val) {
-    return (Tp_(0) < val) - (val < Tp_(0));
-  }
+    void SetEnable(bool isEnable);
+    void Commit(EigenVector6d &actuation);
+
+    template<typename Tp_>
+    inline int signum(Tp_ val) {
+      return (Tp_(0) < val) - (val < Tp_(0));
+    }
 
  private:
-  //==========================================================================
-  // P R I V A T E   M E T H O D S
+    //==========================================================================
+    // P R I V A T E   M E T H O D S
 
-  void WriteEfforts(size_t thruster_index, YAML::Emitter &out);
-  void ReadEfforts(const std::string &thruster_name, YAML::Node &node);
-  void SetEfforts();
+    void WriteEfforts(size_t thruster_index, YAML::Emitter &out);
+    void ReadEfforts(const std::string &thruster_name, YAML::Node &node);
+    void SetEfforts();
 
-  //==========================================================================
-  // P R I V A T E   M E M B E R S
+    //==========================================================================
+    // P R I V A T E   M E M B E R S
 
-  std::vector<proc_control::Thruster> thruster_list_;
+    std::vector<proc_control::Thruster> thruster_list_;
 
-  Eigen::Matrix<float, 6, 1> actuation_;
-  Eigen::Matrix<float, 8, 1> actuation_thruster_;
-  Eigen::Matrix<float, 6, 8> effort_;
+    EigenVector6d actuation_;
+    Eigen::Matrix<double, 8, 1> actuation_thruster_;
+    Eigen::Matrix<double, 6, 8> effort_;
 
-  double constant_reverse_effort_;
-  const std::string file_path_ = kConfigPath + "thruster" + kConfigExt;
-  const std::string CONSTANT_REVERSE_EFFORT = "CONSTANT_REVERSE_EFFORT";
+    double constant_reverse_effort_;
+    const std::string file_path_ = kConfigPath + "thruster" + kConfigExt;
+    const std::string CONSTANT_REVERSE_EFFORT = "CONSTANT_REVERSE_EFFORT";
 };
 
 } // namespace proc_control

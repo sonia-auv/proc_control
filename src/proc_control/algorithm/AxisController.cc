@@ -31,7 +31,7 @@
 //------------------------------------------------------------------------------
 //
 
-AxisController::AxisController(int controller_type, std::string axe_name):
+AxisController::AxisController(int controller_type, std::string axe_name, std::string &mode):
                                controller_parameters_(nullptr),
                                current_controller_(nullptr),
                                parameters_managers_(nullptr) {
@@ -44,7 +44,7 @@ AxisController::AxisController(int controller_type, std::string axe_name):
     {
         case 0: controller_type_ = PID_;
                 controller_parameters_ = std::make_shared<ControllerParameters>(PID_names_, PID_values_);
-                parameters_managers_ = std::make_shared<ParametersManager>(axe_name, controller_parameters_);
+                parameters_managers_ = std::make_shared<ParametersManager>(axe_name, mode, controller_parameters_);
                 current_controller_ = std::make_shared<PID>(controller_parameters_);
             break;
         case 1: controller_type_ = PI_;

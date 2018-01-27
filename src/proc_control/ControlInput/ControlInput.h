@@ -6,14 +6,23 @@
 #define PROC_CONTROL_CONTROLINPUT_H
 
 #include <ros/ros.h>
-#include <nav_msgs/Odometry.h>
 #include <eigen3/Eigen/Eigen>
+#include <nav_msgs/Odometry.h>
+
+#include "proc_control/EnableControl.h"
+#include "provider_kill_mission/KillSwitchMsg.h"
+#include "proc_control/property.h"
+
 
 
 namespace proc_control {
 
     class ControlInput {
     public:
+
+        typedef Eigen::Matrix<double, 6, 1> EigenVector6d;
+        const double DEGREE_TO_RAD = M_PI/180.0;
+
         //==============================================================================
         // C / D T O R S   S E C T I O N
         //------------------------------------------------------------------------------
@@ -42,12 +51,13 @@ namespace proc_control {
         // Subscriber
         ros::Subscriber navigationOdomSubscriber_;
 
-
         Eigen::Vector3d positionTranslation_ = Eigen::Vector3d(0.0, 0.0, 0.0);
         Eigen::Vector3d positionOrientation_ = Eigen::Vector3d(0.0, 0.0, 0.0);
 
         Eigen::Vector3d velocityTranslation_ = Eigen::Vector3d(0.0, 0.0, 0.0);
         Eigen::Vector3d velocityOrientation_ = Eigen::Vector3d(0.0, 0.0, 0.0);
+
+        EigenVector6d enable_control_;
 
 
 

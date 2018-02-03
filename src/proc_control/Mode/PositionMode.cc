@@ -26,6 +26,7 @@ namespace proc_control {
         targetPublisher_ = nh_->advertise<proc_control::PositionTarget>("/proc_control/current_target", 100);
         debugTargetPublisher_ = nh_->advertise<proc_control::PositionTarget>("/proc_control/debug_current_target", 100);
         targetIsReachedPublisher_ = nh_->advertise<proc_control::TargetReached>("/proc_control/target_reached", 100);
+        commandDebugPublisher_ = nh_->advertise<proc_control::PositionTarget>("/proc_control/command_debug", 100);
 
         stability_count_ = 0;
         last_time_ = std::chrono::steady_clock::now();
@@ -81,6 +82,20 @@ namespace proc_control {
 
     }
 
+    void PositionMode::CurrentCommandDebugPublisher(EigenVector6d &command) {
+
+        proc_control::PositionTarget current_command;
+
+        current_command.X = command[X];
+        current_command.Y = command[Y];
+        current_command.Z = command[Z];
+        current_command.ROLL = command[X];
+        current_command.PITCH = command[Y];
+        current_command.YAW = command[Z];
+        commandDebugPublisher_.publish(current_command);
+
+    }
+
     void PositionMode::CurrentTargetDebugPositionPublisher() {
 
         proc_control::PositionTarget msg_target;
@@ -130,6 +145,8 @@ namespace proc_control {
             for (int i = 0; i < 6; i++) {
                 if (!enable_axis_controller_[i]) actuation[i] = 0.0f;
             }
+
+            CurrentCommandDebugPublisher(actuation);
 
             thruster_manager_.Commit(actuation);
 

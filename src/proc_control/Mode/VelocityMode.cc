@@ -7,9 +7,21 @@
 namespace proc_control{
 
     VelocityMode::VelocityMode(const ros::NodeHandlePtr &nh): nh_(nh), inputData_(nh), control_auv_("velocity") {
+
+        for (int i = 0; i < 6; i++){
+            enable_axis_controller_[i] = true;
+        }
+
         enableControllerServer_ = nh_->advertiseService("/proc_control/enable_control",
                                                         &VelocityMode::enableControlServiceCallback, this);
         targetPublisher_ = nh_->advertise<proc_control::PositionTarget>("/proc_control/current_target", 100);
+
+        twist_target_.setZero();
+
+        UpdateInput();
+
+        twist_target_[Z] = world_twist_[Z];
+        twist_target_[YAW] = world_twist_[YAW];
 
         std::cout << "Velocity mode" << std::endl;
     }
@@ -35,12 +47,16 @@ namespace proc_control{
 
             local_error = twist_target_ - world_twist_;
 
+            std::cout << local_error << "\n" << std::endl;
+
             EigenVector6d actuation = EigenVector6d::Zero();
             actuation = control_auv_.GetActuationForError(local_error);
 
             for (int i = 0; i < 6; i++) {
                 if (!enable_axis_controller_[i]) actuation[i] = 0.0;
             }
+
+            std::cout << "axis enabled :" << enable_axis_controller_ << std::endl;
 
             thruster_manager_.Commit(actuation);
 

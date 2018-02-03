@@ -24,10 +24,8 @@ namespace proc_control {
     public:
 
         typedef Eigen::Matrix<double, 6, 1> EigenVector6d;
-        typedef std::array<bool, 2> BestParam;
 
-
-        PositionMode(const ros::NodeHandlePtr &nh);
+        explicit PositionMode(const ros::NodeHandlePtr &nh);
 
         ~PositionMode();
 
@@ -47,17 +45,15 @@ namespace proc_control {
 
         void SetTarget(bool isGlobal, Eigen::Vector3d &translation, Eigen::Vector3d &orientation) override;
 
-        void ComputeTrajectoryFromTarget(const EigenVector6d &initial_pose, const EigenVector6d &final_pose);
-
-        BestParam SetBestRotationTrajectoryParameters(double delta_angle);
+        void ComputeTrajectoryFromTarget(Eigen::Vector3d &linear_pose, Eigen::Vector3d &angular_pose);
 
     private:
 
         void SetLocalTarget(Eigen::Vector3d &translation, Eigen::Vector3d &orientation);
 
-        void SetGlobalTarget(Eigen::Vector3d translation, Eigen::Vector3d orientation);
+        void SetGlobalTarget(Eigen::Vector3d &translation, Eigen::Vector3d &orientation);
 
-        bool EvaluateTargetReached(EigenVector6d ask_position);
+        bool EvaluateTargetReached(EigenVector6d &ask_position);
 
         void HandleEnableDisableControl(bool state, double target, const size_t axis);
 
@@ -67,7 +63,7 @@ namespace proc_control {
 
         void UpdateInput();
 
-        EigenVector6d GetLocalError(Eigen::Vector3d &translation, Eigen::Vector3d &orientation);
+        EigenVector6d GetLocalError(Eigen::Vector3d &translation, Eigen::Vector3d &orientation, double dt);
 
         ros::NodeHandlePtr nh_;
 
@@ -87,8 +83,10 @@ namespace proc_control {
 
         proc_control::ControlInput inputData_;
 
-        EigenVector6d ask_position_;
-        EigenVector6d last_ask_position_;
+        Eigen::Vector3d linear_ask_position_;
+        Eigen::Vector3d angular_ask_position_;
+        Eigen::Vector3d linear_last_ask_position_;
+        Eigen::Vector3d angular_last_ask_position_;
 
         Eigen::Matrix<bool, 6, 1> enable_axis_controller_;
 
@@ -100,12 +98,8 @@ namespace proc_control {
 
         proc_control::Transformation ComputeTransformation_;
 
-        proc_control::Trajectory trajectory_x_;
-        proc_control::Trajectory trajectory_y_;
-        proc_control::Trajectory trajectory_z_;
-        proc_control::Trajectory trajectory_roll_;
-        proc_control::Trajectory trajectory_pitch_;
-        proc_control::Trajectory trajectory_yaw_;
+        proc_control::Trajectory linear_trajectory_;
+        proc_control::Trajectory angular_trajectory_;
 
         std::chrono::steady_clock::time_point last_time_;
 
@@ -114,12 +108,8 @@ namespace proc_control {
     };
 
     inline void PositionMode::ResetTrajectory() {
-        trajectory_x_.ResetSpline();
-        trajectory_y_.ResetSpline();
-        trajectory_z_.ResetSpline();
-        trajectory_roll_.ResetSpline();
-        trajectory_pitch_.ResetSpline();
-        trajectory_yaw_.ResetSpline();
+        linear_trajectory_.ResetSpline();
+        angular_trajectory_.ResetSpline();
     }
 
 }

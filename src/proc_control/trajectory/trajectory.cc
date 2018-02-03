@@ -37,6 +37,7 @@ namespace proc_control{
     Trajectory::Trajectory() {
         is_spline_calculated_ = false;
         spline_time_ = 0;
+        zero_ << 0.0, 0.0, 0.0;
     }
 
 //------------------------------------------------------------------------------
@@ -52,37 +53,16 @@ namespace proc_control{
 
 //-----------------------------------------------------------------------------
 //
-    void Trajectory::SetLinearSplineParameters(double initial_position, double finale_position) {
+    void Trajectory::SetSplineParameters(Eigen::Vector3d &initial_position, Eigen::Vector3d &finale_position) {
         this->initial_position_ = initial_position;
         this->final_position_ = finale_position;
+        this->spline_time_ = 0.0;
         this->is_spline_calculated_ = true;
-    }
-//-----------------------------------------------------------------------------
-//
-    void Trajectory::SetOrientationSplineParameters(double initial_position, double finale_position,
-                                                    bool best_trajectory, bool best_rotation) {
-        this->initial_position_ = initial_position;
-        this->final_position_ = finale_position;
-        this->best_trajectory_ = best_trajectory;
-        this->best_rotation_ = best_rotation;
-        this->is_spline_calculated_ = true;
-        SetRotation();
-    }
-
-    void Trajectory::SetRotation(){
-        if (best_rotation_){
-            first_rotation_ = 0;
-            second_rotation_ = 360;
-        } else{
-            first_rotation_ = 360;
-            second_rotation_ = 0;
-        }
-
     }
 
 //-----------------------------------------------------------------------------
 //
-    double Trajectory::ComputeLinearSpline(double dt) {
+    Eigen::Vector3d Trajectory::ComputeLinearSpline(double dt) {
 
         spline_time_ += dt/5;
 
@@ -90,38 +70,49 @@ namespace proc_control{
 
         ComputeHermiteCubicSpline(this->initial_position_, this->final_position_);
 
-
         return current_position_;
     }
 //-----------------------------------------------------------------------------
 //
-    double Trajectory::ComputeOrientationSpline(double dt){
+    Eigen::Vector3d Trajectory::ComputeAngularSpline(Eigen::Vector3d &angular_pose, double dt){
 
-        spline_time_ += dt/10;
+        spline_time_ += dt;
 
         if (spline_time_ >= 1.0) spline_time_ = 1.0;
 
-        if (best_trajectory_ and spline_time_ < 0.5){
-            ComputeHermiteCubicSpline(this->initial_position_, first_rotation_);
-        }else if (best_trajectory_){
-            ComputeHermiteCubicSpline(second_rotation_, this->final_position_);
-        }else{
-            ComputeHermiteCubicSpline(this->initial_position_, this->final_position_);
-        }
+        current_position_ = ComputeSlerpInterpolation(angular_pose, this->final_position_);
 
         return current_position_;
     }
 //-----------------------------------------------------------------------------
 //
-    double Trajectory::ComputeHermiteCubicSpline(double pO, double p1) {
+    Eigen::Vector3d Trajectory::ComputeHermiteCubicSpline(Eigen::Vector3d &pO, Eigen::Vector3d &p1) {
 
         double spline_time_squared = spline_time_ * spline_time_ ;
         double spline_time_cubed = spline_time_squared * spline_time_;
 
-        current_position_ = (2*spline_time_cubed - 3*spline_time_squared + 1) * pO
-                            + (-2*spline_time_cubed + 3*spline_time_squared) * p1;
+        current_position_ = (2 * spline_time_cubed - 3 * spline_time_squared + 1) * pO
+                            + (-2 * spline_time_cubed + 3 * spline_time_squared) * p1;
 
         return current_position_;
+
+    }
+
+    //-----------------------------------------------------------------------------
+//
+    Eigen::Vector3d Trajectory::ComputeSlerpInterpolation(Eigen::Vector3d &pO, Eigen::Vector3d &p1) {
+
+        Eigen::Affine3d pO_h = ComputeTransformation_.HomogeneousMatrix(pO, zero_);
+        Eigen::Affine3d p1_h = ComputeTransformation_.HomogeneousMatrix(p1, zero_);
+
+        Eigen::Quaterniond pO_q(pO_h.linear());
+        Eigen::Quaterniond p1_q(p1_h.linear());
+
+        p1_q.slerp(spline_time_, pO_q);
+
+        current_orientation_ = p1_q.toRotationMatrix().eulerAngles(0, 1, 2);
+
+        return current_orientation_;
 
     }
 
@@ -131,14 +122,10 @@ namespace proc_control{
     void Trajectory::ResetSpline() {
 
         spline_time_ = 0.0;
-        initial_position_ = 0.0;
-        final_position_ = 0.0;
-        current_position_ = 0.0;
+        initial_position_ = zero_;
+        final_position_ = zero_;
+        current_position_ = zero_;
         is_spline_calculated_ = false;
-        hermite_spline_solution_[0] = 0.0;
-        hermite_spline_solution_[1] = 0.0;
-        hermite_spline_solution_[2] = 0.0;
-        hermite_spline_solution_[3] = 0.0;
     }
 
 }

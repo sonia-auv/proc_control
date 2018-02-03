@@ -27,6 +27,7 @@
 #define PROC_CONTROL_TRAJECTORY_H
 
 #include <cmath>
+#include "proc_control/Transformation/Transformation.h"
 
 namespace proc_control{
 
@@ -41,34 +42,33 @@ namespace proc_control{
             //==========================================================================
             // P U B L I C   M E T H O D S
 
-            void SetLinearSplineParameters(double initial_position, double finale_position);
-            void SetOrientationSplineParameters(double initial_position, double finale_position,
-                                                bool best_trajectory, bool best_rotation);
+            void SetSplineParameters(Eigen::Vector3d &initial_position, Eigen::Vector3d &finale_position);
             bool IsSplineCalculated();
             void ResetSpline();
-            double ComputeLinearSpline(double dt);
-            double ComputeOrientationSpline(double dt);
+            Eigen::Vector3d ComputeLinearSpline(double dt);
+            Eigen::Vector3d ComputeAngularSpline(Eigen::Vector3d &angular_pose, double dt);
 
 
         private:
             //==========================================================================
             // P R I V A T E   M E T H O D S
-            double ComputeHermiteCubicSpline(double pO, double p1);
-            void SetRotation();
+            Eigen::Vector3d ComputeHermiteCubicSpline(Eigen::Vector3d &pO, Eigen::Vector3d &p1);
+            Eigen::Vector3d ComputeSlerpInterpolation(Eigen::Vector3d &pO, Eigen::Vector3d &p1);
 
             //==========================================================================
             // P R I V A T E   M E M B E R S
 
-            double initial_position_, final_position_;
-            double current_position_;
+            Eigen::Vector3d initial_position_, final_position_;
+            Eigen::Vector3d current_position_;
+            Eigen::Vector3d current_orientation_;
+
+            proc_control::Transformation ComputeTransformation_;
 
             bool is_spline_calculated_;
 
-            bool best_trajectory_, best_rotation_;
-            double first_rotation_, second_rotation_;
-
             double hermite_spline_solution_[4];
             double spline_time_;
+            Eigen::Vector3d zero_;
     };
 
 }

@@ -110,11 +110,9 @@ namespace proc_control {
             if (linear_trajectory_.IsSplineCalculated())
                 position_target_ = linear_trajectory_.ComputeLinearSpline(deltaTime_s);
             if (angular_trajectory_.IsSplineCalculated())
-                orientation_target_ = angular_trajectory_.ComputeAngularSpline(world_orientation_, deltaTime_s);
+                orientation_target_ = angular_trajectory_.ComputeAngularSpline(deltaTime_s);
 
             CurrentTargetDebugPositionPublisher();
-
-            std::cout << orientation_target_ << "\n" << std::endl;
 
             local_error = GetLocalError(position_target_, orientation_target_, deltaTime_s);
             LocalErrorPublisher(local_error);
@@ -183,8 +181,16 @@ namespace proc_control {
 
         ComputeTrajectoryFromTarget(linear_ask_position_, angular_ask_position_);
 
+        for (int i = 0; i < 3; i++){
+            if (translation[i] <= -1000.0)
+                linear_ask_position_[i] = linear_last_ask_position_[i];
+            if (orientation[i] <= -1000.0)
+                angular_ask_position_[i] = angular_last_ask_position_[i];
+        }
+
         linear_last_ask_position_ = linear_ask_position_;
         angular_last_ask_position_ = angular_ask_position_;
+
 
         CurrentTargetPositionPublisher();
 
@@ -205,6 +211,9 @@ namespace proc_control {
         local_error_h = actual_pose_h.inverse() * target_h;
 
         local_error << local_error_h.translation(), local_error_h.linear().eulerAngles(0, 1, 2) * RAD_TO_DEGREE;
+
+        local_error[ROLL] = 0.0;
+        local_error[PITCH] = 0.0;
 
         return local_error;
 

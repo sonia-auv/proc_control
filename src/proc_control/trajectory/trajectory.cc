@@ -74,13 +74,13 @@ namespace proc_control{
     }
 //-----------------------------------------------------------------------------
 //
-    Eigen::Vector3d Trajectory::ComputeAngularSpline(Eigen::Vector3d &angular_pose, double dt){
+    Eigen::Vector3d Trajectory::ComputeAngularSpline(double dt){
 
         spline_time_ += dt;
 
         if (spline_time_ >= 1.0) spline_time_ = 1.0;
 
-        current_position_ = ComputeSlerpInterpolation(angular_pose, this->final_position_);
+        current_position_ = ComputeSlerpInterpolation(this->initial_position_, this->final_position_);
 
         return current_position_;
     }

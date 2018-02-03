@@ -46,7 +46,7 @@ namespace proc_control{
             bool IsSplineCalculated();
             void ResetSpline();
             Eigen::Vector3d ComputeLinearSpline(double dt);
-            Eigen::Vector3d ComputeAngularSpline(Eigen::Vector3d &angular_pose, double dt);
+            Eigen::Vector3d ComputeAngularSpline(double dt);
 
 
         private:

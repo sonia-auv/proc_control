@@ -29,6 +29,8 @@ namespace proc_control{
         bool enableControlServiceCallback(proc_control::EnableControlRequest &request,
                                           proc_control::EnableControlResponse &response);
 
+        void KillMissionCallback(const provider_kill_mission::KillSwitchMsg::ConstPtr &state_in);
+
     private:
 
         void UpdateInput();
@@ -37,6 +39,8 @@ namespace proc_control{
         void CurrentTargetVelocityPublisher();
 
         ros::NodeHandlePtr nh_;
+
+        ros::Subscriber killSwitchSubscriber_;
 
         ros::Publisher targetPublisher_;
 

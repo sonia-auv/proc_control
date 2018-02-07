@@ -41,8 +41,6 @@ namespace proc_control {
 
         linear_trajectory_.ResetSpline();
         angular_trajectory_.ResetSpline();
-
-        std::cout << "Position mode" << std::endl;
     }
 
     PositionMode::~PositionMode() {
@@ -229,9 +227,6 @@ namespace proc_control {
 
         local_error << local_error_h.translation(), local_error_h.linear().eulerAngles(0, 1, 2) * RAD_TO_DEGREE;
 
-        local_error[ROLL] = 0.0;
-        local_error[PITCH] = 0.0;
-
         return local_error;
 
     }
@@ -314,11 +309,10 @@ namespace proc_control {
 
 
         std::vector<std::string> tmp{"X", "Y", "Z", "ROLL", "PITCH", "YAW"};
-        std::cout << "Active control : Position \n";
+        ROS_INFO_STREAM("Active control : Position");
         for (int i = 0; i < 6; i++) {
-            std::cout << tmp[i] + " : " + (enable_axis_controller_[i] ? "true" : "false") + "\t";
+            ROS_INFO_STREAM(tmp[i] + " : " + (enable_axis_controller_[i] ? "true" : "false"));
         }
-        std::cout << std::endl;
 
         return true;
     }
@@ -339,15 +333,18 @@ namespace proc_control {
 
     void PositionMode::KillMissionCallback(const provider_kill_mission::KillSwitchMsg::ConstPtr &state_in) {
 
-        for (int i = 0; i < 6; i++) {
-            enable_axis_controller_[i] = false;
+        if(!state_in->state){
+            for (int i = 0; i < 6; i++) {
+                enable_axis_controller_[i] = false;
+            }
+
+            position_target_ = Eigen::Vector3d::Zero();
+            orientation_target_ = Eigen::Vector3d::Zero();
+
+            linear_trajectory_.ResetSpline();
+            angular_trajectory_.ResetSpline();
         }
 
-        position_target_ = Eigen::Vector3d::Zero();
-        orientation_target_ = Eigen::Vector3d::Zero();
-
-        linear_trajectory_.ResetSpline();
-        angular_trajectory_.ResetSpline();
     }
 
     bool PositionMode::enableThrustersServerCallback(proc_control::EnableThrustersRequest &request,

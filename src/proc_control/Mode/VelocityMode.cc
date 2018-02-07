@@ -12,6 +12,8 @@ namespace proc_control{
             enable_axis_controller_[i] = true;
         }
 
+        killSwitchSubscriber_ = nh_->subscribe("/provider_kill_mission/kill_switch_msg", 100,
+                                               &VelocityMode::KillMissionCallback, this);
         enableControllerServer_ = nh_->advertiseService("/proc_control/enable_control",
                                                         &VelocityMode::enableControlServiceCallback, this);
         targetPublisher_ = nh_->advertise<proc_control::PositionTarget>("/proc_control/current_target", 100);
@@ -22,16 +24,14 @@ namespace proc_control{
 
         twist_target_[Z] = world_twist_[Z];
         twist_target_[YAW] = world_twist_[YAW];
-
-        std::cout << "Velocity mode" << std::endl;
     }
 
     VelocityMode::~VelocityMode(){
         enableControllerServer_.shutdown();
+        killSwitchSubscriber_.shutdown();
     }
 
     void VelocityMode::Process(){
-
 
         EigenVector6d local_error = EigenVector6d::Zero();
 
@@ -47,16 +47,12 @@ namespace proc_control{
 
             local_error = twist_target_ - world_twist_;
 
-            std::cout << local_error << "\n" << std::endl;
-
             EigenVector6d actuation = EigenVector6d::Zero();
             actuation = control_auv_.GetActuationForError(local_error);
 
             for (int i = 0; i < 6; i++) {
                 if (!enable_axis_controller_[i]) actuation[i] = 0.0;
             }
-
-            std::cout << "axis enabled :" << enable_axis_controller_ << std::endl;
 
             thruster_manager_.Commit(actuation);
 
@@ -120,11 +116,10 @@ namespace proc_control{
         }
 
         std::vector<std::string> tmp{"X", "Y", "Z", "ROLL", "PITCH", "YAW"};
-        std::cout << "Active control : Velocity \n";
+        ROS_INFO_STREAM("Active control : Velocity");
         for (int i = 0; i < 6; i++) {
-            std::cout << tmp[i] + " : " + (enable_axis_controller_[i] ? "true" : "false") + "\t";
+            ROS_INFO_STREAM(tmp[i] + " : " + (enable_axis_controller_[i] ? "true" : "false"));
         }
-        std::cout << std::endl;
 
         return true;
     }
@@ -133,6 +128,18 @@ namespace proc_control{
 
         enable_axis_controller_[axis] = state;
         if (!enable_axis_controller_[axis]) world_twist_[axis] = 0.0;
+
+    }
+
+    void VelocityMode::KillMissionCallback(const provider_kill_mission::KillSwitchMsg::ConstPtr &state_in) {
+
+        if (!state_in->state){
+            for (int i = 0; i < 6; i++) {
+                enable_axis_controller_[i] = false;
+            }
+
+            twist_target_ = EigenVector6d::Zero();
+        }
 
     }
 

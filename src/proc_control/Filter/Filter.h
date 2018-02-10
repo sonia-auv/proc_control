@@ -2,22 +2,22 @@
 // Created by olavoie on 2/10/18.
 //
 
-#ifndef PROC_CONTROL_LOWPASSFILTER_H
-#define PROC_CONTROL_LOWPASSFILTER_H
+#ifndef PROC_CONTROL_FILTER_H
+#define PROC_CONTROL_FILTER_H
 
 namespace proc_control{
 
-    class LowPassFilter {
+    class Filter {
     public:
-        LowPassFilter();
-        ~LowPassFilter();
+        Filter();
+        ~Filter();
 
         void SetLPFBeta(double lpf_beta){LPF_Beta_ = lpf_beta;}
         double ComputeLPF(double raw_data);
 
     private:
-        double SmoothData_;
 
+        double SmoothData_;
         double LPF_Beta_;
 
     };
@@ -25,6 +25,4 @@ namespace proc_control{
 }
 
 
-
-
-#endif //PROC_CONTROL_LOWPASSFILTER_H
+#endif //PROC_CONTROL_FILTER_H

@@ -2,17 +2,17 @@
 // Created by olavoie on 2/10/18.
 //
 
-#include "LowPassFilter.h"
+#include "Filter.h"
 
 namespace proc_control{
 
-    LowPassFilter::LowPassFilter() {SmoothData_ = 0.0}
+    Filter::Filter() {SmoothData_ = 0.0;}
 
-    LowPassFilter::~LowPassFilter() {}
+    Filter::~Filter() {}
 
-    double LowPassFilter::ComputeLPF(double raw_data) {
+    double Filter::ComputeLPF(double raw_data) {
 
-        
+        return SmoothData_ - (LPF_Beta_ * (SmoothData_ - raw_data));
     }
 
 }

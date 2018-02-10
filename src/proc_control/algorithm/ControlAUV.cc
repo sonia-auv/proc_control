@@ -37,7 +37,7 @@ namespace proc_control{
 
         actuation[0] = x_.CalculateActuationForError(error[0]);
         actuation[1] = y_.CalculateActuationForError(error[1]);
-        actuation[2] = z_.CalculateActuationForError(error[2]) + z_.get_constante_depth_force();
+        actuation[2] = z_.CalculateActuationForError(error[2]) + z_.GetConstanteDepthForce();
         actuation[3] = roll_.CalculateActuationForError(error[3]);
         actuation[4] = pitch_.CalculateActuationForError(error[4]);
         actuation[5] = yaw_.CalculateActuationForError(error[5]);
@@ -48,35 +48,35 @@ namespace proc_control{
 
     bool ControlAUV::IsInBoundingBox(EigenVector6d &error) {
 
-        double BBox_x = x_.get_axis_bbox();
-        double BBox_y = y_.get_axis_bbox();
-        double BBox_z = z_.get_axis_bbox();
-        double BBox_roll = roll_.get_axis_bbox();
-        double BBox_pitch = pitch_.get_axis_bbox();
-        double BBox_yaw = yaw_.get_axis_bbox();
+        double BBox_x = x_.GetAxisBbox();
+        double BBox_y = y_.GetAxisBbox();
+        double BBox_z = z_.GetAxisBbox();
+        double BBox_roll = roll_.GetAxisBbox();
+        double BBox_pitch = pitch_.GetAxisBbox();
+        double BBox_yaw = yaw_.GetAxisBbox();
 
         return std::fabs(error[0]) <= BBox_x && std::fabs(error[1]) <= BBox_y && std::fabs(error[2]) <= BBox_z &&
                std::fabs(error[3]) <= BBox_roll && std::fabs(error[4]) <= BBox_pitch && std::fabs(error[5]) <= BBox_yaw;
 
     }
 
-    void ControlAUV::SetNewBoundingBox(std::array<double, 6> BBox) {
-        x_.set_axis_bbox(BBox[0]);
-        y_.set_axis_bbox(BBox[1]);
-        z_.set_axis_bbox(BBox[2]);
-        roll_.set_axis_bbox(BBox[3]);
-        pitch_.set_axis_bbox(BBox[4]);
-        yaw_.set_axis_bbox(BBox[5]);
+    void ControlAUV::SetNewBoundingBox(EigenVector6d BBox) {
+        x_.SetAxisBbox(BBox[0]);
+        y_.SetAxisBbox(BBox[1]);
+        z_.SetAxisBbox(BBox[2]);
+        roll_.SetAxisBbox(BBox[3]);
+        pitch_.SetAxisBbox(BBox[4]);
+        yaw_.SetAxisBbox(BBox[5]);
 
     }
 
     void ControlAUV::ResetBoundingBox() {
-        x_.reset_axis_bbox();
-        y_.reset_axis_bbox();
-        z_.reset_axis_bbox();
-        roll_.reset_axis_bbox();
-        pitch_.reset_axis_bbox();
-        yaw_.reset_axis_bbox();
+        x_.ResetAxisBbox();
+        y_.ResetAxisBbox();
+        z_.ResetAxisBbox();
+        roll_.ResetAxisBbox();
+        pitch_.ResetAxisBbox();
+        yaw_.ResetAxisBbox();
     }
 
 }

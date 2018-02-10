@@ -50,13 +50,15 @@ public:
 
     void ReadConfigFile( ControllerConfig &config ) override;
 
-    double get_BBox();
+    double GetBBox();
 
-    void set_BBox(double BBox);
+    void GetBBox(double BBox);
 
-    void reset_BBox();
+    void ResetBBox();
 
-    double get_constante_depth_force();
+    double GetConstanteDepthForce();
+
+    double GetLPFBeta();
 
 private:
     //==========================================================================
@@ -64,7 +66,7 @@ private:
 
     std::string file_path_;
     std::shared_ptr<ControllerParameters> controller_parameters_;
-    double BBox_, current_BBox_, constante_depth_force_;
+    double BBox_, current_BBox_, constante_depth_force_, lpf_beta_;
 
 
 };

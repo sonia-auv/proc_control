@@ -55,6 +55,7 @@ void ParametersManager::OnDynamicReconfigureChange(const ControllerConfig &confi
     controller_parameters_->Parameters_Map["MAX_ACTUATION"] = config.MAX_ACTUATION;
     BBox_ = config.BBox;
     constante_depth_force_ = config.CONSTANT_DEPTH_FORCE;
+    lpf_beta_ = config.LPF_BETA;
 
     current_BBox_ = BBox_;
 
@@ -85,6 +86,8 @@ void ParametersManager::WriteConfigFile(const ControllerConfig &config )
     out << YAML::Value << BBox_;
     out << YAML::Key << "CONSTANT_DEPTH_FORCE";
     out << YAML::Value << constante_depth_force_;
+    out << YAML::Key << "LPF_BETA";
+    out << YAML::Value << lpf_beta_;
 
     std::ofstream fout(file_path_);
     fout << out.c_str();
@@ -123,6 +126,9 @@ void ParametersManager::ReadConfigFile(ControllerConfig &config )
     if (node["CONSTANT_DEPTH_FORCE"])
         constante_depth_force_ = node["CONSTANT_DEPTH_FORCE"].as<double>();
 
+    if (node["LPF_BETA"])
+        lpf_beta_ = node["LPF_BETA"].as<double>();
+
     config.P = controller_parameters_->Parameters_Map["P"];
     config.I = controller_parameters_->Parameters_Map["I"];
     config.D = controller_parameters_->Parameters_Map["D"];
@@ -131,23 +137,28 @@ void ParametersManager::ReadConfigFile(ControllerConfig &config )
     config.MAX_ACTUATION = controller_parameters_->Parameters_Map["MAX_ACTUATION"];
     config.BBox = BBox_;
     config.CONSTANT_DEPTH_FORCE= constante_depth_force_;
+    config.LPF_BETA= lpf_beta_;
 
     current_BBox_ = BBox_;
 
 }
 
-double ParametersManager::get_BBox() {
+double ParametersManager::GetBBox() {
     return current_BBox_;
 }
 
-void ParametersManager::set_BBox(double BBox) {
+void ParametersManager::GetBBox(double BBox) {
     current_BBox_ =  BBox;
 }
 
-void ParametersManager::reset_BBox(){
+void ParametersManager::ResetBBox(){
     current_BBox_ = BBox_;
 }
 
-double ParametersManager::get_constante_depth_force() {
+double ParametersManager::GetConstanteDepthForce() {
     return constante_depth_force_;
+}
+
+double ParametersManager::GetLPFBeta() {
+    return lpf_beta_;
 }

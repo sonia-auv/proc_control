@@ -17,6 +17,8 @@
 #include "proc_control/EnableThrusters.h"
 #include "proc_control/TargetReached.h"
 #include "proc_control/ClearWaypoint.h"
+#include "proc_control/SetBoundingBox.h"
+#include "proc_control/ResetBoundingBox.h"
 
 namespace proc_control {
 
@@ -38,6 +40,10 @@ namespace proc_control {
                                            proc_control::EnableThrustersResponse &response);
         bool clearWayPointServiceCallback(proc_control::ClearWaypointRequest &request,
                                           proc_control::ClearWaypointResponse &response);
+        bool SetBoundingBoxServiceCallback(proc_control::SetBoundingBoxRequest &request,
+                                           proc_control::SetBoundingBoxResponse &response);
+        bool ResetBoundingBoxServiceCallback(proc_control::ResetBoundingBoxRequest &request,
+                                             proc_control::ResetBoundingBoxResponse &response);
 
         inline void ResetTrajectory();
 
@@ -80,6 +86,8 @@ namespace proc_control {
         ros::ServiceServer enableControllerServer_;
         ros::ServiceServer enableThrustersServer_;
         ros::ServiceServer clearWayPointServer_;
+        ros::ServiceServer resetBoundingBoxServer_;
+        ros::ServiceServer setBoundingBoxServer_;
 
         proc_control::ControlAUV control_auv_;
 

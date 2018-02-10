@@ -38,7 +38,7 @@ AxisController::AxisController(int controller_type, std::string axe_name, std::s
 
     Axe_Name_= axe_name;
 
-    fill_controller_parameters();
+    FillControllerParameters();
 
     switch(controller_type)
     {
@@ -62,11 +62,13 @@ AxisController::AxisController(int controller_type, std::string axe_name, std::s
 
 double AxisController::CalculateActuationForError(double &error){
 
-    return current_controller_->ComputeCommand(error);
+    double cmd = current_controller_->ComputeCommand(error);
+    low_pass_filter_.SetLPFBeta(parameters_managers_->GetLPFBeta());
+    return low_pass_filter_.ComputeLPF(cmd);
 
 }
 
-void AxisController::fill_controller_parameters() {
+void AxisController::FillControllerParameters() {
 
     PID_names_.push_back("P");
     PID_names_.push_back("I");
@@ -77,19 +79,19 @@ void AxisController::fill_controller_parameters() {
     PID_values_.push_back(0.0);
 }
 
-double AxisController::get_axis_bbox() {
-    return parameters_managers_->get_BBox();
+double AxisController::GetAxisBbox() {
+    return parameters_managers_->GetBBox();
 }
 
-void AxisController::set_axis_bbox(double BBox) {
-    parameters_managers_->set_BBox(BBox);
+void AxisController::SetAxisBbox(double BBox) {
+    parameters_managers_->GetBBox(BBox);
 }
 
-void AxisController::reset_axis_bbox() {
-    parameters_managers_->reset_BBox();
+void AxisController::ResetAxisBbox() {
+    parameters_managers_->ResetBBox();
 }
 
-double AxisController::get_constante_depth_force() {
-    return parameters_managers_->get_constante_depth_force();
+double AxisController::GetConstanteDepthForce() {
+    return parameters_managers_->GetConstanteDepthForce();
 }
 

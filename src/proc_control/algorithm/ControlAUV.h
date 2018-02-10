@@ -47,7 +47,7 @@ namespace proc_control{
 
         bool IsInBoundingBox(EigenVector6d &error);
 
-        void SetNewBoundingBox(std::array<double, 6> BBox);
+        void SetNewBoundingBox(EigenVector6d BBox);
         void ResetBoundingBox();
 
     private:

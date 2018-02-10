@@ -19,8 +19,12 @@ namespace proc_control {
                                                         &PositionMode::enableControlServiceCallback, this);
         enableThrustersServer_ = nh_->advertiseService("/proc_control/enable_thrusters",
                                                          &PositionMode::enableThrustersServerCallback, this);
-        clearWayPointServer_ = nh->advertiseService("/proc_control/clear_waypoint",
+        clearWayPointServer_ = nh_->advertiseService("/proc_control/clear_waypoint",
                                                     &PositionMode::clearWayPointServiceCallback, this);
+        setBoundingBoxServer_ = nh_->advertiseService("/proc_control/set_bounding_box",
+                                                     &PositionMode::SetBoundingBoxServiceCallback, this);
+        resetBoundingBoxServer_ = nh->advertiseService("/proc_control/reset_bounding_box",
+                                                          &PositionMode::ResetBoundingBoxServiceCallback, this);
 
         errorPublisher_ = nh_->advertise<proc_control::PositionTarget>("/proc_control/current_error", 100);
         targetPublisher_ = nh_->advertise<proc_control::PositionTarget>("/proc_control/current_target", 100);
@@ -49,6 +53,9 @@ namespace proc_control {
         enableControllerServer_.shutdown();
         enableThrustersServer_.shutdown();
         clearWayPointServer_.shutdown();
+        resetBoundingBoxServer_.shutdown();
+        setBoundingBoxServer_.shutdown();
+        resetBoundingBoxServer_.shutdown();
 
     }
 
@@ -363,6 +370,21 @@ namespace proc_control {
         angular_ask_position_ = world_orientation_;
 
         CurrentTargetPositionPublisher();
+        return true;
+    }
+
+    bool PositionMode::SetBoundingBoxServiceCallback(proc_control::SetBoundingBoxRequest &request,
+                                                        proc_control::SetBoundingBoxResponse &response){
+        EigenVector6d bbox;
+        bbox << request.X, request.Y, request.Z, request.ROLL, request.PITCH, request.YAW;
+        control_auv_.SetNewBoundingBox(bbox);
+        return true;
+
+    }
+
+    bool PositionMode::ResetBoundingBoxServiceCallback(proc_control::ResetBoundingBoxRequest &request,
+                                                          proc_control::ResetBoundingBoxResponse &response) {
+        control_auv_.ResetBoundingBox();
         return true;
     }
 }

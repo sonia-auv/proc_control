@@ -32,6 +32,7 @@
 #include "proc_control/config/config_manager.h"
 #include "proc_control/ControllerConfig.h"
 #include "ParametersManager.h"
+#include "proc_control/Filter/Filter.h"
 
 
 class AxisController
@@ -45,12 +46,12 @@ public:
     // P U B L I C   M E T H O D S
     double CalculateActuationForError(double &error);
 
-    double get_axis_bbox();
+    double GetAxisBbox();
 
-    void set_axis_bbox(double BBox);
-    void reset_axis_bbox();
+    void SetAxisBbox(double BBox);
+    void ResetAxisBbox();
 
-    double get_constante_depth_force();
+    double GetConstanteDepthForce();
 
 
 private:
@@ -60,7 +61,7 @@ private:
     //============================================================================
     // P R I V A T E   M E T H O D S
 
-    void fill_controller_parameters();
+    void FillControllerParameters();
 
     //============================================================================
     // P R I V A T E   M E M B E R S
@@ -72,6 +73,8 @@ private:
     std::shared_ptr<ControlAlgorithm> current_controller_;
 
     std::shared_ptr<ParametersManager> parameters_managers_;
+
+    proc_control::Filter low_pass_filter_;
 
     std::string Axe_Name_;
 

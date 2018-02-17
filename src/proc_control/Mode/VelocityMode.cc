@@ -45,7 +45,8 @@ namespace proc_control{
 
         if (deltaTime_s > (0.0001f)) {
 
-            local_error = twist_target_ - world_twist_;
+            local_error = twist_target_;
+            local_error[Z] = twist_target_[Z] - world_twist_[Z];
 
             EigenVector6d actuation = EigenVector6d::Zero();
             actuation = control_auv_.GetActuationForError(local_error);

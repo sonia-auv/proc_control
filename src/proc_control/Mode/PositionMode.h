@@ -59,7 +59,7 @@ namespace proc_control {
 
         void SetGlobalTarget(Eigen::Vector3d &translation, Eigen::Vector3d &orientation);
 
-        bool EvaluateTargetReached(EigenVector6d &ask_position);
+        bool EvaluateTargetReached(EigenVector6d &error);
 
         void HandleEnableDisableControl(bool state, double target, const size_t axis);
 

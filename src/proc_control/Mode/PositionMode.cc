@@ -201,18 +201,17 @@ namespace proc_control {
         linear_ask_position_  = local_ask_pose_h.translation();
         angular_ask_position_ = local_ask_pose_h.linear().eulerAngles(0, 1, 2);
 
-        ComputeTrajectoryFromTarget(linear_ask_position_, angular_ask_position_);
-
         for (int i = 0; i < 3; i++){
-            if (translation[i] <= -1000.0)
+            if (translation[i] <= -15.0)
                 linear_ask_position_[i] = linear_last_ask_position_[i];
-            if (orientation[i] <= -1000.0)
+            if (orientation[i] <= -15.0)
                 angular_ask_position_[i] = angular_last_ask_position_[i];
         }
 
+        ComputeTrajectoryFromTarget(linear_ask_position_, angular_ask_position_);
+
         linear_last_ask_position_ = linear_ask_position_;
         angular_last_ask_position_ = angular_ask_position_;
-
 
         CurrentTargetPositionPublisher();
 
@@ -238,14 +237,9 @@ namespace proc_control {
 
     }
 
-    bool PositionMode::EvaluateTargetReached(EigenVector6d &ask_position) {
+    bool PositionMode::EvaluateTargetReached(EigenVector6d &error) {
 
-        EigenVector6d actual_pose = EigenVector6d::Zero();
-        EigenVector6d error;
-
-        UpdateInput();
-        actual_pose << world_position_, world_orientation_;
-        error = ask_position - actual_pose;
+        bool targetIsReached = false;
 
         if (control_auv_.IsInBoundingBox(error)) {
             stability_count_++;
@@ -253,7 +247,12 @@ namespace proc_control {
             stability_count_ = 0;
         }
 
-        return stability_count_ > 14;
+        if (stability_count_ > 14){
+            targetIsReached = true;
+            stability_count_ = 0;
+        }
+
+        return targetIsReached;
 
     }
 

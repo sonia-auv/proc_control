@@ -112,6 +112,7 @@ namespace proc_control {
         proc_control::Trajectory angular_trajectory_;
 
         std::chrono::steady_clock::time_point last_time_;
+        std::chrono::steady_clock::time_point target_reached_time_;
 
         int stability_count_;
 

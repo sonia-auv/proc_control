@@ -34,6 +34,7 @@ namespace proc_control {
 
         stability_count_ = 0;
         last_time_ = std::chrono::steady_clock::now();
+        target_reached_time_ = std::chrono::steady_clock::now();
         linear_ask_position_ = Eigen::Vector3d::Zero();
         angular_ask_position_ = Eigen::Vector3d::Zero();
         linear_last_ask_position_ = Eigen::Vector3d::Zero();
@@ -121,9 +122,7 @@ namespace proc_control {
 
         UpdateInput();
 
-        auto diff = now_time - last_time_;
-
-        double deltaTime_s = double(std::chrono::duration_cast<std::chrono::nanoseconds>(diff).count()) / (double(1E9));
+        double deltaTime_s = double(std::chrono::duration_cast<std::chrono::nanoseconds>(now_time - last_time_).count()) / (double(1E9));
 
         if (deltaTime_s > (0.0001f)) {
 
@@ -176,6 +175,8 @@ namespace proc_control {
 
         ResetTrajectory();
 
+        target_reached_time_ = std::chrono::steady_clock::now();
+
         linear_ask_position_ = translation;
         angular_ask_position_ = orientation;
 
@@ -190,6 +191,8 @@ namespace proc_control {
     void PositionMode::SetLocalTarget(Eigen::Vector3d &translation, Eigen::Vector3d &orientation) {
 
         ResetTrajectory();
+
+        target_reached_time_ = std::chrono::steady_clock::now();
 
         Eigen::Affine3d local_ask_pose_h;
 
@@ -241,13 +244,17 @@ namespace proc_control {
 
         bool targetIsReached = false;
 
+        std::chrono::steady_clock::time_point now_time = std::chrono::steady_clock::now();
+
+        double deltaTime_s = double(std::chrono::duration_cast<std::chrono::nanoseconds>(now_time - target_reached_time_).count()) / (double(1E9));
+
         if (control_auv_.IsInBoundingBox(error)) {
             stability_count_++;
         } else {
             stability_count_ = 0;
         }
 
-        if (stability_count_ > 14){
+        if (stability_count_ > 14 || deltaTime_s > 30.0){
             targetIsReached = true;
             stability_count_ = 0;
         }

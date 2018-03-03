@@ -371,9 +371,12 @@ namespace proc_control {
     bool PositionMode::clearWayPointServiceCallback(proc_control::ClearWaypointRequest &request,
                                                     proc_control::ClearWaypointResponse &response)
     {
-
+        UpdateInput();
         linear_ask_position_ = world_position_;
         angular_ask_position_ = world_orientation_;
+        linear_last_ask_position_ = world_position_;
+        angular_last_ask_position_ = world_orientation_;
+        ComputeTrajectoryFromTarget(linear_ask_position_, angular_ask_position_);
 
         CurrentTargetPositionPublisher();
         return true;

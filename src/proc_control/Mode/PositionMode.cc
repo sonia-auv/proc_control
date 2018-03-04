@@ -236,6 +236,9 @@ namespace proc_control {
 
         local_error << local_error_h.translation(), local_error_h.linear().eulerAngles(0, 1, 2) * RAD_TO_DEGREE;
 
+        local_error[ROLL] = 0.0;
+        local_error[PITCH] = 0.0;
+
         return local_error;
 
     }

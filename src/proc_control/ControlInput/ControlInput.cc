@@ -24,8 +24,8 @@ namespace proc_control{
         positionTranslation_[0] = odomIn->pose.pose.position.x;
         positionTranslation_[1] = odomIn->pose.pose.position.y;
         positionTranslation_[2] = odomIn->pose.pose.position.z;
-        positionOrientation_[0] = odomIn->pose.pose.orientation.x * DEGREE_TO_RAD;
-        positionOrientation_[1] = odomIn->pose.pose.orientation.y * DEGREE_TO_RAD;
+        positionOrientation_[0] = 0.0;
+        positionOrientation_[1] = 0.0;
         positionOrientation_[2] = odomIn->pose.pose.orientation.z * DEGREE_TO_RAD;
 
         velocityTranslation_[0] = odomIn->twist.twist.linear.x;

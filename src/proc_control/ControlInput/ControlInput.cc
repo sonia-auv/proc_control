@@ -34,8 +34,6 @@ namespace proc_control{
         velocityOrientation_[0] = odomIn->twist.twist.angular.x;
         velocityOrientation_[1] = odomIn->twist.twist.angular.y;
         velocityOrientation_[2] = odomIn->twist.twist.angular.z;
-
-
     }
 
 

@@ -45,7 +45,7 @@ namespace proc_control{
 
         EigenVector6d GetActuationForError(EigenVector6d &error);
 
-        bool IsInBoundingBox(EigenVector6d &error);
+        std::vector<bool> IsInBoundingBox(EigenVector6d &error);
 
         void SetNewBoundingBox(EigenVector6d BBox);
         void ResetBoundingBox();

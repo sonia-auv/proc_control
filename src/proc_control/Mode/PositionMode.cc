@@ -12,37 +12,38 @@ namespace proc_control {
             enable_axis_controller_[i] = false;
         }
 
-        killSwitchSubscriber_ = nh_->subscribe("/provider_kill_mission/kill_switch_msg", 100,
+        killSwitchSubscriber_   = nh_->subscribe("/provider_kill_mission/kill_switch_msg", 100,
                                                &PositionMode::KillMissionCallback, this);
 
         enableControllerServer_ = nh_->advertiseService("/proc_control/enable_control",
                                                         &PositionMode::enableControlServiceCallback, this);
-        enableThrustersServer_ = nh_->advertiseService("/proc_control/enable_thrusters",
+        enableThrustersServer_  = nh_->advertiseService("/proc_control/enable_thrusters",
                                                          &PositionMode::enableThrustersServerCallback, this);
-        clearWayPointServer_ = nh_->advertiseService("/proc_control/clear_waypoint",
+        clearWayPointServer_    = nh_->advertiseService("/proc_control/clear_waypoint",
                                                     &PositionMode::clearWayPointServiceCallback, this);
-        setBoundingBoxServer_ = nh_->advertiseService("/proc_control/set_bounding_box",
+        setBoundingBoxServer_   = nh_->advertiseService("/proc_control/set_bounding_box",
                                                      &PositionMode::SetBoundingBoxServiceCallback, this);
         resetBoundingBoxServer_ = nh->advertiseService("/proc_control/reset_bounding_box",
                                                           &PositionMode::ResetBoundingBoxServiceCallback, this);
 
-        errorPublisher_ = nh_->advertise<proc_control::PositionTarget>("/proc_control/current_error", 100);
-        targetPublisher_ = nh_->advertise<proc_control::PositionTarget>("/proc_control/current_target", 100);
-        debugTargetPublisher_ = nh_->advertise<proc_control::PositionTarget>("/proc_control/debug_current_target", 100);
+        errorPublisher_           = nh_->advertise<proc_control::PositionTarget>("/proc_control/current_error", 100);
+        targetPublisher_          = nh_->advertise<proc_control::PositionTarget>("/proc_control/current_target", 100);
+        debugTargetPublisher_     = nh_->advertise<proc_control::PositionTarget>("/proc_control/debug_current_target", 100);
         targetIsReachedPublisher_ = nh_->advertise<proc_control::TargetReached>("/proc_control/target_reached", 100);
-        commandDebugPublisher_ = nh_->advertise<proc_control::PositionTarget>("/proc_control/command_debug", 100);
+        commandDebugPublisher_    = nh_->advertise<proc_control::PositionTarget>("/proc_control/command_debug", 100);
 
         stability_count_ = 0;
-        last_time_ = std::chrono::steady_clock::now();
-        target_reached_time_ = std::chrono::steady_clock::now();
-        linear_ask_position_ = Eigen::Vector3d::Zero();
-        angular_ask_position_ = Eigen::Vector3d::Zero();
-        linear_last_ask_position_ = Eigen::Vector3d::Zero();
+        last_time_                 = std::chrono::steady_clock::now();
+        target_reached_time_       = std::chrono::steady_clock::now();
+        linear_ask_position_       = Eigen::Vector3d::Zero();
+        angular_ask_position_      = Eigen::Vector3d::Zero();
+        linear_last_ask_position_  = Eigen::Vector3d::Zero();
         angular_last_ask_position_ = Eigen::Vector3d::Zero();
-        position_target_ = Eigen::Vector3d::Zero();
-        orientation_target_ = Eigen::Vector3d::Zero();
-        world_position_ = Eigen::Vector3d::Zero();
-        world_orientation_ = Eigen::Vector3d::Zero();
+        position_target_           = Eigen::Vector3d::Zero();
+        orientation_target_        = Eigen::Vector3d::Zero();
+        world_position_            = Eigen::Vector3d::Zero();
+        world_orientation_         = Eigen::Vector3d::Zero();
+        isTargetReached_           = {false, false, false, false, false, false};
 
         linear_trajectory_.ResetSpline();
         angular_trajectory_.ResetSpline();
@@ -126,7 +127,7 @@ namespace proc_control {
 
         if (deltaTime_s > (0.0001f)) {
 
-            if (linear_trajectory_.IsSplineCalculated())
+            if (linear_trajectory_.IsSplineCalculated() && isTargetReached_[5])
                 position_target_ = linear_trajectory_.ComputeLinearSpline(deltaTime_s);
             if (angular_trajectory_.IsSplineCalculated())
                 orientation_target_ = angular_trajectory_.ComputeAngularSpline(deltaTime_s);
@@ -196,7 +197,7 @@ namespace proc_control {
 
         Eigen::Affine3d local_ask_pose_h;
 
-        Eigen::Affine3d ask_target_h = ComputeTransformation_.HomogeneousMatrix(orientation, translation);
+        Eigen::Affine3d ask_target_h  = ComputeTransformation_.HomogeneousMatrix(orientation, translation);
         Eigen::Affine3d actual_pose_h = ComputeTransformation_.HomogeneousMatrix(world_orientation_, world_position_);
 
         local_ask_pose_h = actual_pose_h * ask_target_h;
@@ -250,10 +251,14 @@ namespace proc_control {
         std::chrono::steady_clock::time_point now_time = std::chrono::steady_clock::now();
 
         double deltaTime_s = double(std::chrono::duration_cast<std::chrono::nanoseconds>(now_time - target_reached_time_).count()) / (double(1E9));
+        isTargetReached_ = control_auv_.IsInBoundingBox(error);
 
-        if (control_auv_.IsInBoundingBox(error)) {
+        if (isTargetReached_[0] && isTargetReached_[1] && isTargetReached_[2] && isTargetReached_[3] && isTargetReached_[4] && isTargetReached_[5])
+        {
             stability_count_++;
-        } else {
+        }
+        else
+        {
             stability_count_ = 0;
         }
 
@@ -354,7 +359,7 @@ namespace proc_control {
                 enable_axis_controller_[i] = false;
             }
 
-            position_target_ = Eigen::Vector3d::Zero();
+            position_target_    = Eigen::Vector3d::Zero();
             orientation_target_ = Eigen::Vector3d::Zero();
 
             linear_trajectory_.ResetSpline();

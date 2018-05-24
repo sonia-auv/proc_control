@@ -46,17 +46,19 @@ namespace proc_control{
 
     }
 
-    bool ControlAUV::IsInBoundingBox(EigenVector6d &error) {
+    std::vector<bool> ControlAUV::IsInBoundingBox(EigenVector6d &error) {
 
-        double BBox_x = x_.GetAxisBbox();
-        double BBox_y = y_.GetAxisBbox();
-        double BBox_z = z_.GetAxisBbox();
-        double BBox_roll = roll_.GetAxisBbox();
+        double BBox_x     = x_.GetAxisBbox();
+        double BBox_y     = y_.GetAxisBbox();
+        double BBox_z     = z_.GetAxisBbox();
+        double BBox_roll  = roll_.GetAxisBbox();
         double BBox_pitch = pitch_.GetAxisBbox();
-        double BBox_yaw = yaw_.GetAxisBbox();
+        double BBox_yaw   = yaw_.GetAxisBbox();
 
-        return std::fabs(error[0]) <= BBox_x && std::fabs(error[1]) <= BBox_y && std::fabs(error[2]) <= BBox_z &&
-               std::fabs(error[3]) <= BBox_roll && std::fabs(error[4]) <= BBox_pitch && std::fabs(error[5]) <= BBox_yaw;
+        std::vector<bool> isInBoundingBox = {std::fabs(error[0]) <= BBox_x, std::fabs(error[1]) <= BBox_y, std::fabs(error[2]) <= BBox_z,
+                                             std::fabs(error[3]) <= BBox_roll, std::fabs(error[4]) <= BBox_pitch, std::fabs(error[5]) <= BBox_yaw};
+
+        return isInBoundingBox;
 
     }
 

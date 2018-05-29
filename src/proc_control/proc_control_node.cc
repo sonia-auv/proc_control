@@ -31,13 +31,18 @@ namespace proc_control{
     ProcControlNode::ProcControlNode(const ros::NodeHandlePtr &nh): nh_(nh), controlMode_(nullptr){
 
         setControlModeServer_ = nh->advertiseService("/proc_control/set_control_mode",
-                                                    &ProcControlNode::setControlModeCallback, this);
+                                                     &ProcControlNode::SetControlModeCallback, this);
         setGlobalTargetServer_ =
                 nh_->advertiseService("/proc_control/set_global_target",
-                                      &ProcControlNode::setGlobalTargetPositionCallback, this);
+                                      &ProcControlNode::SetGlobalTargetPositionCallback, this);
         setLocalTargetServer_ =
                 nh_->advertiseService("/proc_control/set_local_target",
-                                      &ProcControlNode::setLocalTargetPositionCallback, this);
+                                      &ProcControlNode::SetLocalTargetPositionCallback, this);
+
+        setGlobalDecoupledTargetServer_ = nh_->advertiseService("/proc_control/set_global_decoupled_target",
+                                                                &ProcControlNode::SetGlobalDecoupledTargetPositionCallback, this);
+        setLocalDecoupledTargetServer_ = nh_->advertiseService("/proc_control/set_local_decoupled_target",
+                                                                &ProcControlNode::SetLocalDecoupledTargetPositionCallback, this);
 
         controlMode_ = std::make_shared<proc_control::PositionMode>(nh_);
 
@@ -46,17 +51,21 @@ namespace proc_control{
     ProcControlNode::~ProcControlNode() {
 
         setControlModeServer_.shutdown();
+        setGlobalDecoupledTargetServer_.shutdown();
+        setLocalDecoupledTargetServer_.shutdown();
+        setGlobalTargetServer_.shutdown();
+        setLocalTargetServer_.shutdown();
     }
 
     //==============================================================================
     // M E T H O D   S E C T I O N
-    void ProcControlNode::Control_loop() {
+    void ProcControlNode::ControlLoop() {
 
         controlMode_->Process();
 
     }
 
-    bool ProcControlNode::setControlModeCallback(proc_control::SetControlModeRequest &request,
+    bool ProcControlNode::SetControlModeCallback(proc_control::SetControlModeRequest &request,
                                                  proc_control::SetControlModeResponse &response) {
 
         auto mode = static_cast<int>(request.mode);
@@ -79,43 +88,62 @@ namespace proc_control{
 
     }
 
-    bool ProcControlNode::setGlobalTargetPositionCallback(proc_control::SetPositionTargetRequest &request,
+    bool ProcControlNode::SetGlobalTargetPositionCallback(proc_control::SetPositionTargetRequest &request,
                                                           proc_control::SetPositionTargetResponse &response) {
 
-        Eigen::Vector3d target_position;
-        Eigen::Vector3d target_orientation;
+        Eigen::Vector3d targetPosition;
+        Eigen::Vector3d targetOrientation;
 
-        target_position[0] = request.X;
-        target_position[1] = request.Y;
-        target_position[2] = request.Z;
+        targetPosition    << request.X, request.Y, request.Z;
+        targetOrientation << request.ROLL * DEGREE_TO_RAD, request.PITCH * DEGREE_TO_RAD, request.YAW * DEGREE_TO_RAD;
 
-        target_orientation[0] = request.ROLL * DEGREE_TO_RAD;
-        target_orientation[1] = request.PITCH * DEGREE_TO_RAD;
-        target_orientation[2] = request.YAW * DEGREE_TO_RAD;
-
-        controlMode_->SetTarget(GlobalTarget, target_position, target_orientation);
+        controlMode_->SetTarget(GlobalTarget, targetPosition, targetOrientation);
 
         return true;
     }
 
-    bool ProcControlNode::setLocalTargetPositionCallback(proc_control::SetPositionTargetRequest &request,
+    bool ProcControlNode::SetLocalTargetPositionCallback(proc_control::SetPositionTargetRequest &request,
                                                          proc_control::SetPositionTargetResponse &response) {
 
-        Eigen::Vector3d target_position;
-        Eigen::Vector3d target_orientation;
+        Eigen::Vector3d targetPosition ;
+        Eigen::Vector3d targetOrientation;
 
-        target_position[0] = request.X;
-        target_position[1] = request.Y;
-        target_position[2] = request.Z;
+        targetPosition    << request.X, request.Y, request.Z;
+        targetOrientation << request.ROLL * DEGREE_TO_RAD, request.PITCH * DEGREE_TO_RAD, request.YAW * DEGREE_TO_RAD;
 
-        target_orientation[0] = request.ROLL * DEGREE_TO_RAD;
-        target_orientation[1] = request.PITCH * DEGREE_TO_RAD;
-        target_orientation[2] = request.YAW * DEGREE_TO_RAD;
-
-        controlMode_->SetTarget(LocalTarget, target_position, target_orientation);
+        controlMode_->SetTarget(LocalTarget, targetPosition, targetOrientation);
 
         return true;
 
     }
 
+    bool ProcControlNode::SetLocalDecoupledTargetPositionCallback(proc_control::SetDecoupledTargetRequest &request,
+                                                                  proc_control::SetDecoupledTargetResponse &response)
+    {
+        Eigen::Vector3d targetPosition;
+        Eigen::Vector3d targetOrientation;
+
+        std::vector<bool> keepTarget = {(bool)request.keepX, (bool)request.keepY, (bool)request.keepZ, (bool)request.keepROLL,
+                                        (bool)request.keepPITCH, (bool)request.keepYAW};
+
+        targetPosition    << request.X, request.Y, request.Z;
+        targetOrientation << request.ROLL * DEGREE_TO_RAD, request.PITCH * DEGREE_TO_RAD, request.YAW * DEGREE_TO_RAD;
+
+        return true;
+    }
+
+    bool ProcControlNode::SetGlobalDecoupledTargetPositionCallback(proc_control::SetDecoupledTargetRequest &request,
+                                                                   proc_control::SetDecoupledTargetResponse &response)
+    {
+        Eigen::Vector3d targetPosition;
+        Eigen::Vector3d targetOrientation;
+
+        std::vector<bool> keepTarget = {(bool)request.keepX, (bool)request.keepY, (bool)request.keepZ, (bool)request.keepROLL,
+                                        (bool)request.keepPITCH, (bool)request.keepYAW};
+
+        targetPosition    << request.X, request.Y, request.Z;
+        targetOrientation << request.ROLL * DEGREE_TO_RAD, request.PITCH * DEGREE_TO_RAD, request.YAW * DEGREE_TO_RAD;
+
+        return true;
+    }
 }

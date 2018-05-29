@@ -78,6 +78,7 @@ add_service_files(
      EnableControl.srv
      SetBoundingBox.srv
      ResetBoundingBox.srv
+     SetDecoupledTarget.srv
 )
 
 # Generate added messages and services with any dependencies listed here

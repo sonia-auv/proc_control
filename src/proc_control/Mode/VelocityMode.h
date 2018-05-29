@@ -25,6 +25,7 @@ namespace proc_control{
 
         void Process() override;
         void SetTarget(bool isGlobal, Eigen::Vector3d &translation, Eigen::Vector3d &orientation) override;
+        void SetDecoupledTarget(bool isGlobal, std::vector<bool> keepTarget, Eigen::Vector3d &translation, Eigen::Vector3d &orientation) override;
 
         bool enableControlServiceCallback(proc_control::EnableControlRequest &request,
                                           proc_control::EnableControlResponse &response);

@@ -34,6 +34,7 @@
 
 #include "proc_control/SetPositionTarget.h"
 #include "proc_control/SetControlMode.h"
+#include "proc_control/SetDecoupledTarget.h"
 
 namespace proc_control{
 
@@ -53,14 +54,18 @@ namespace proc_control{
         //==========================================================================
         // P U B L I C   M E T H O D S
 
-        void Control_loop();
+        void ControlLoop();
 
-        bool setControlModeCallback(proc_control::SetControlModeRequest &request,
+        bool SetControlModeCallback(proc_control::SetControlModeRequest &request,
                                     proc_control::SetControlModeResponse &response);
-        bool setGlobalTargetPositionCallback(proc_control::SetPositionTargetRequest &request,
+        bool SetGlobalTargetPositionCallback(proc_control::SetPositionTargetRequest &request,
                                              proc_control::SetPositionTargetResponse &response);
-        bool setLocalTargetPositionCallback(proc_control::SetPositionTargetRequest &request,
+        bool SetLocalTargetPositionCallback(proc_control::SetPositionTargetRequest &request,
                                             proc_control::SetPositionTargetResponse &response);
+        bool SetGlobalDecoupledTargetPositionCallback(proc_control::SetDecoupledTargetRequest &request,
+                                                     proc_control::SetDecoupledTargetResponse &response);
+        bool SetLocalDecoupledTargetPositionCallback(proc_control::SetDecoupledTargetRequest &request,
+                                            proc_control::SetDecoupledTargetResponse &response);
 
 
     private:
@@ -75,6 +80,8 @@ namespace proc_control{
         ros::ServiceServer setControlModeServer_;
         ros::ServiceServer setLocalTargetServer_;
         ros::ServiceServer setGlobalTargetServer_;
+        ros::ServiceServer setGlobalDecoupledTargetServer_;
+        ros::ServiceServer setLocalDecoupledTargetServer_;
 
         std::shared_ptr<ControlModeIf> controlMode_;
 

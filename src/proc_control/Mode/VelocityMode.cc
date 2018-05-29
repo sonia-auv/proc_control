@@ -55,26 +55,32 @@ namespace proc_control{
                 if (!enable_axis_controller_[i]) actuation[i] = 0.0;
             }
 
-            thruster_manager_.Commit(actuation);
+            thrusterManager_.Commit(actuation);
 
         }
 
     }
 
-    void VelocityMode::SetTarget(bool isGlobal, Eigen::Vector3d &translation, Eigen::Vector3d &orientation) {
+    void VelocityMode::SetTarget(bool isGlobal, Eigen::Vector3d &translation, Eigen::Vector3d &orientation)
+    {
 
         twist_target_ << translation, orientation;
 
         CurrentTargetVelocityPublisher();
-
     }
 
-    void VelocityMode::UpdateInput() {
+    void VelocityMode::SetDecoupledTarget(bool isGlobal, std::vector<bool> keepTarget, Eigen::Vector3d &translation, Eigen::Vector3d &orientation)
+    {
+        ROS_INFO("Not Implemented in this Mode");
+    }
+
+    void VelocityMode::UpdateInput()
+    {
         world_twist_ << inputData_.GetVelocityTranslation(), inputData_.GetVelocityOrientation();
     }
 
-    void VelocityMode::CurrentTargetVelocityPublisher() {
-
+    void VelocityMode::CurrentTargetVelocityPublisher()
+    {
         proc_control::PositionTarget current_target;
 
         current_target.X = twist_target_[X];
@@ -84,12 +90,11 @@ namespace proc_control{
         current_target.PITCH = twist_target_[PITCH] * RAD_TO_DEGREE;
         current_target.YAW = twist_target_[YAW] * RAD_TO_DEGREE;
         targetPublisher_.publish(current_target);
-
     }
 
     bool VelocityMode::enableControlServiceCallback(proc_control::EnableControlRequest &request,
-                                                    proc_control::EnableControlResponse &response) {
-
+                                                    proc_control::EnableControlResponse &response)
+    {
         UpdateInput();
 
         if (request.X != request.DONT_CARE) {

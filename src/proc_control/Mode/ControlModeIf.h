@@ -21,10 +21,11 @@ namespace proc_control{
 
         virtual void Process() = 0;
         virtual void SetTarget(bool isGlobal, Eigen::Vector3d &translation, Eigen::Vector3d &orientation) = 0;
+        virtual void SetDecoupledTarget(bool isGlobal, std::vector<bool> keepTarget, Eigen::Vector3d &translation, Eigen::Vector3d &orientation) = 0;
 
     protected:
         std::vector<bool>             isTargetReached_;
-        proc_control::ThrusterManager thruster_manager_;
+        proc_control::ThrusterManager thrusterManager_;
 
     };
 

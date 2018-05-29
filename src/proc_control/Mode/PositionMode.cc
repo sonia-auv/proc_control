@@ -153,7 +153,7 @@ namespace proc_control {
 
             CurrentCommandDebugPublisher(actuation);
 
-            thruster_manager_.Commit(actuation);
+            thrusterManager_.Commit(actuation);
 
         }
 
@@ -164,15 +164,33 @@ namespace proc_control {
     void PositionMode::SetTarget(bool isGlobal, Eigen::Vector3d &translation, Eigen::Vector3d &orientation) {
 
         UpdateInput();
-
-        if (isGlobal) {
-            SetGlobalTarget(translation, orientation);
-        } else {
-            SetLocalTarget(translation, orientation);
+        std::vector<bool> keepTarget = {false, false, false, false, false, false};
+        if (isGlobal)
+        {
+            SetGlobalTarget(translation, orientation, keepTarget);
+        }
+        else
+        {
+            SetLocalTarget(translation, orientation, keepTarget);
         }
     }
 
-    void PositionMode::SetGlobalTarget(Eigen::Vector3d &translation, Eigen::Vector3d &orientation) {
+    void PositionMode::SetDecoupledTarget(bool isGlobal, std::vector<bool> keepTarget, Eigen::Vector3d &translation, Eigen::Vector3d &orientation)
+    {
+        UpdateInput();
+        if (isGlobal)
+        {
+            SetGlobalTarget(translation, orientation, keepTarget);
+        }
+        else
+        {
+            SetLocalTarget(translation, orientation, keepTarget);
+        }
+
+    }
+
+    void PositionMode::SetGlobalTarget(Eigen::Vector3d &translation, Eigen::Vector3d &orientation, std::vector<bool> keepTarget)
+    {
 
         ResetTrajectory();
 
@@ -180,6 +198,14 @@ namespace proc_control {
 
         linear_ask_position_ = translation;
         angular_ask_position_ = orientation;
+
+        for (int i = 0; i < 3; i++)
+        {
+            if (keepTarget[i])
+                linear_ask_position_[i] = linear_last_ask_position_[i];
+            if (keepTarget[i + 3])
+                angular_ask_position_[i] = angular_last_ask_position_[i];
+        }
 
         ComputeTrajectoryFromTarget(linear_ask_position_, angular_ask_position_);
 
@@ -189,7 +215,7 @@ namespace proc_control {
         CurrentTargetPositionPublisher();
     }
 
-    void PositionMode::SetLocalTarget(Eigen::Vector3d &translation, Eigen::Vector3d &orientation) {
+    void PositionMode::SetLocalTarget(Eigen::Vector3d &translation, Eigen::Vector3d &orientation, std::vector<bool> keepTarget) {
 
         ResetTrajectory();
 
@@ -198,6 +224,7 @@ namespace proc_control {
         Eigen::Affine3d local_ask_pose_h;
 
         Eigen::Affine3d ask_target_h  = ComputeTransformation_.HomogeneousMatrix(orientation, translation);
+        std::cout << orientation << std::endl;
         Eigen::Affine3d actual_pose_h = ComputeTransformation_.HomogeneousMatrix(world_orientation_, world_position_);
 
         local_ask_pose_h = actual_pose_h * ask_target_h;
@@ -206,9 +233,9 @@ namespace proc_control {
         angular_ask_position_ = local_ask_pose_h.linear().eulerAngles(0, 1, 2);
 
         for (int i = 0; i < 3; i++){
-            if (translation[i] <= -15.0)
+            if (keepTarget[i])
                 linear_ask_position_[i] = linear_last_ask_position_[i];
-            if (orientation[i] <= -15.0)
+            if (keepTarget[i + 3])
                 angular_ask_position_[i] = angular_last_ask_position_[i];
         }
 
@@ -371,7 +398,7 @@ namespace proc_control {
     bool PositionMode::enableThrustersServerCallback(proc_control::EnableThrustersRequest &request,
                                                      proc_control::EnableThrustersResponse &response) {
 
-        this->thruster_manager_.SetEnable(request.isEnable);
+        this->thrusterManager_.SetEnable(request.isEnable);
 
         return true;
     }

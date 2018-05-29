@@ -50,14 +50,15 @@ namespace proc_control {
         void Process() override;
 
         void SetTarget(bool isGlobal, Eigen::Vector3d &translation, Eigen::Vector3d &orientation) override;
+        void SetDecoupledTarget(bool isGlobal, std::vector<bool> keepTarget, Eigen::Vector3d &translation, Eigen::Vector3d &orientation) override;
 
         void ComputeTrajectoryFromTarget(Eigen::Vector3d &linear_pose, Eigen::Vector3d &angular_pose);
 
     private:
 
-        void SetLocalTarget(Eigen::Vector3d &translation, Eigen::Vector3d &orientation);
+        void SetLocalTarget(Eigen::Vector3d &translation, Eigen::Vector3d &orientation, std::vector<bool> keepTarget);
 
-        void SetGlobalTarget(Eigen::Vector3d &translation, Eigen::Vector3d &orientation);
+        void SetGlobalTarget(Eigen::Vector3d &translation, Eigen::Vector3d &orientation, std::vector<bool> keepTarget);
 
         bool EvaluateTargetReached(EigenVector6d &error);
 

@@ -117,6 +117,23 @@ namespace proc_control{
 
     }
 
+    bool ProcControlNode::SetGlobalDecoupledTargetPositionCallback(proc_control::SetDecoupledTargetRequest &request,
+                                                                   proc_control::SetDecoupledTargetResponse &response)
+    {
+        Eigen::Vector3d targetPosition;
+        Eigen::Vector3d targetOrientation;
+
+        std::vector<bool> keepTarget = {(bool)request.keepX, (bool)request.keepY, (bool)request.keepZ, (bool)request.keepROLL,
+                                        (bool)request.keepPITCH, (bool)request.keepYAW};
+
+        targetPosition    << request.X, request.Y, request.Z;
+        targetOrientation << request.ROLL * DEGREE_TO_RAD, request.PITCH * DEGREE_TO_RAD, request.YAW * DEGREE_TO_RAD;
+
+        controlMode_->SetDecoupledTarget(GlobalTarget, keepTarget, targetPosition, targetOrientation);
+
+        return true;
+    }
+
     bool ProcControlNode::SetLocalDecoupledTargetPositionCallback(proc_control::SetDecoupledTargetRequest &request,
                                                                   proc_control::SetDecoupledTargetResponse &response)
     {
@@ -129,20 +146,7 @@ namespace proc_control{
         targetPosition    << request.X, request.Y, request.Z;
         targetOrientation << request.ROLL * DEGREE_TO_RAD, request.PITCH * DEGREE_TO_RAD, request.YAW * DEGREE_TO_RAD;
 
-        return true;
-    }
-
-    bool ProcControlNode::SetGlobalDecoupledTargetPositionCallback(proc_control::SetDecoupledTargetRequest &request,
-                                                                   proc_control::SetDecoupledTargetResponse &response)
-    {
-        Eigen::Vector3d targetPosition;
-        Eigen::Vector3d targetOrientation;
-
-        std::vector<bool> keepTarget = {(bool)request.keepX, (bool)request.keepY, (bool)request.keepZ, (bool)request.keepROLL,
-                                        (bool)request.keepPITCH, (bool)request.keepYAW};
-
-        targetPosition    << request.X, request.Y, request.Z;
-        targetOrientation << request.ROLL * DEGREE_TO_RAD, request.PITCH * DEGREE_TO_RAD, request.YAW * DEGREE_TO_RAD;
+        controlMode_->SetDecoupledTarget(LocalTarget, keepTarget, targetPosition, targetOrientation);
 
         return true;
     }

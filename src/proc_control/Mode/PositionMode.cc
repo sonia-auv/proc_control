@@ -26,7 +26,8 @@ namespace proc_control {
         resetBoundingBoxServer_ = nh->advertiseService("/proc_control/reset_bounding_box",
                                                           &PositionMode::ResetBoundingBoxServiceCallback, this);
 
-        errorPublisher_           = nh_->advertise<proc_control::PositionTarget>("/proc_control/current_error", 100);
+        controllerErrorPublisher_ = nh_->advertise<proc_control::PositionTarget>("/proc_control/current_controller_error", 100);
+        targetErrorPublisher_     = nh_->advertise<proc_control::PositionTarget>("/proc_control/current_target_error", 100);
         targetPublisher_          = nh_->advertise<proc_control::PositionTarget>("/proc_control/current_target", 100);
         debugTargetPublisher_     = nh_->advertise<proc_control::PositionTarget>("/proc_control/debug_current_target", 100);
         targetIsReachedPublisher_ = nh_->advertise<proc_control::TargetReached>("/proc_control/target_reached", 100);
@@ -71,7 +72,21 @@ namespace proc_control {
         error_.ROLL = error[PITCH];
         error_.YAW = error[YAW];
 
-        errorPublisher_.publish(error_);
+        controllerErrorPublisher_.publish(error_);
+
+    }
+
+    void PositionMode::TargetErrorPublisher(EigenVector6d &error) {
+
+        proc_control::PositionTarget error_;
+        error_.X = error[X];
+        error_.Y = error[Y];
+        error_.Z = error[Z];
+        error_.PITCH = error[ROLL];
+        error_.ROLL = error[PITCH];
+        error_.YAW = error[YAW];
+
+        targetErrorPublisher_.publish(error_);
 
     }
 
@@ -118,6 +133,7 @@ namespace proc_control {
     void PositionMode::Process() {
 
         EigenVector6d local_error = EigenVector6d::Zero();
+        EigenVector6d targetError = EigenVector6d::Zero();
 
         std::chrono::steady_clock::time_point now_time = std::chrono::steady_clock::now();
 
@@ -137,15 +153,17 @@ namespace proc_control {
             local_error = GetLocalError(position_target_, orientation_target_, deltaTime_s);
             LocalErrorPublisher(local_error);
 
+            targetError = GetLocalError(linear_ask_position_, angular_ask_position_, 1);
+            TargetErrorPublisher(targetError);
+
             proc_control::TargetReached msg_target_reached;
-            msg_target_reached.target_is_reached = static_cast<unsigned char>(EvaluateTargetReached(local_error) ? 1 : 0);
+            msg_target_reached.target_is_reached = static_cast<unsigned char>(EvaluateTargetReached(targetError) ? 1 : 0);
             targetIsReachedPublisher_.publish(msg_target_reached);
+
 
             // Calculate required actuation
             EigenVector6d actuation = EigenVector6d::Zero();
             actuation = control_auv_.GetActuationForError(local_error);
-
-            LocalErrorPublisher(local_error);
 
             for (int i = 0; i < 6; i++) {
                 if (!enable_axis_controller_[i]) actuation[i] = 0.0f;
@@ -278,6 +296,7 @@ namespace proc_control {
         std::chrono::steady_clock::time_point now_time = std::chrono::steady_clock::now();
 
         double deltaTime_s = double(std::chrono::duration_cast<std::chrono::nanoseconds>(now_time - target_reached_time_).count()) / (double(1E9));
+
         isTargetReached_ = control_auv_.IsInBoundingBox(error);
 
         if (isTargetReached_[0] && isTargetReached_[1] && isTargetReached_[2] && isTargetReached_[3] && isTargetReached_[4] && isTargetReached_[5])

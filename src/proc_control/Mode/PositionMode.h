@@ -65,6 +65,7 @@ namespace proc_control {
         void HandleEnableDisableControl(bool state, double target, const size_t axis);
 
         void LocalErrorPublisher(EigenVector6d &error);
+        void TargetErrorPublisher(EigenVector6d &error);
         void CurrentCommandDebugPublisher(EigenVector6d &command);
         void CurrentTargetPositionPublisher();
         void CurrentTargetDebugPositionPublisher();
@@ -80,7 +81,8 @@ namespace proc_control {
         // Publisher
         ros::Publisher targetPublisher_;
         ros::Publisher debugTargetPublisher_;
-        ros::Publisher errorPublisher_;
+        ros::Publisher controllerErrorPublisher_;
+        ros::Publisher targetErrorPublisher_;
         ros::Publisher targetIsReachedPublisher_;
         ros::Publisher commandDebugPublisher_;
 

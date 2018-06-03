@@ -252,7 +252,7 @@ namespace proc_control {
         }
 
         Eigen::Affine3d ask_target_h  = ComputeTransformation_.HomogeneousMatrix(orientation, translation);
-        std::cout << orientation << std::endl;
+        //std::cout << orientation << std::endl;
         Eigen::Affine3d actual_pose_h = ComputeTransformation_.HomogeneousMatrix(world_orientation, world_position);
 
         local_ask_pose_h = actual_pose_h * ask_target_h;

@@ -241,21 +241,31 @@ namespace proc_control {
 
         Eigen::Affine3d local_ask_pose_h;
 
+        Eigen::Vector3d world_orientation = world_orientation_;
+        Eigen::Vector3d world_position = world_position_;
+
+        for (int j = 0; j < 3; j++) {
+            if (keepTarget[j])
+                world_position[j] = linear_ask_position_[j];
+            if (keepTarget[j+3])
+                world_orientation[j] = angular_ask_position_[j];
+        }
+
         Eigen::Affine3d ask_target_h  = ComputeTransformation_.HomogeneousMatrix(orientation, translation);
         std::cout << orientation << std::endl;
-        Eigen::Affine3d actual_pose_h = ComputeTransformation_.HomogeneousMatrix(world_orientation_, world_position_);
+        Eigen::Affine3d actual_pose_h = ComputeTransformation_.HomogeneousMatrix(world_orientation, world_position);
 
         local_ask_pose_h = actual_pose_h * ask_target_h;
 
         linear_ask_position_  = local_ask_pose_h.translation();
         angular_ask_position_ = local_ask_pose_h.linear().eulerAngles(0, 1, 2);
 
-        for (int i = 0; i < 3; i++){
-            if (keepTarget[i])
-                linear_ask_position_[i] = linear_last_ask_position_[i];
-            if (keepTarget[i + 3])
-                angular_ask_position_[i] = angular_last_ask_position_[i];
-        }
+//        for (int i = 0; i < 3; i++){
+//            if (keepTarget[i])
+//                linear_ask_position_[i] = linear_last_ask_position_[i];
+//            if (keepTarget[i + 3])
+//                angular_ask_position_[i] = angular_last_ask_position_[i];
+//        }
 
         ComputeTrajectoryFromTarget(linear_ask_position_, angular_ask_position_);
 

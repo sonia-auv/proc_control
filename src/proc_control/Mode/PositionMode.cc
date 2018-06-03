@@ -242,7 +242,6 @@ namespace proc_control {
         Eigen::Affine3d local_ask_pose_h;
 
         Eigen::Affine3d ask_target_h  = ComputeTransformation_.HomogeneousMatrix(orientation, translation);
-        std::cout << orientation << std::endl;
         Eigen::Affine3d actual_pose_h = ComputeTransformation_.HomogeneousMatrix(world_orientation_, world_position_);
 
         local_ask_pose_h = actual_pose_h * ask_target_h;
@@ -251,9 +250,9 @@ namespace proc_control {
         angular_ask_position_ = local_ask_pose_h.linear().eulerAngles(0, 1, 2);
 
         for (int i = 0; i < 3; i++){
-            if (keepTarget[i])
+            if (keepTarget[i] || translation[i] <= -15.0)
                 linear_ask_position_[i] = linear_last_ask_position_[i];
-            if (keepTarget[i + 3])
+            if (keepTarget[i + 3] || orientation[i] <= -15.0)
                 angular_ask_position_[i] = angular_last_ask_position_[i];
         }
 

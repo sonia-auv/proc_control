@@ -384,6 +384,11 @@ namespace proc_control {
         angular_ask_position_ << actual_pose[ROLL], actual_pose[PITCH], actual_pose[YAW];
         CurrentTargetPositionPublisher();
 
+        position_target_    = Eigen::Vector3d::Zero();
+        orientation_target_ = Eigen::Vector3d::Zero();
+
+        linear_trajectory_.ResetSpline();
+        angular_trajectory_.ResetSpline();
 
         std::vector<std::string> tmp{"X", "Y", "Z", "ROLL", "PITCH", "YAW"};
         ROS_INFO_STREAM("Active control : Position");

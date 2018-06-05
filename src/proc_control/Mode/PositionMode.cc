@@ -6,10 +6,10 @@
 
 namespace proc_control {
 
-    PositionMode::PositionMode(const ros::NodeHandlePtr &nh) : nh_(nh), control_auv_("position"), inputData_(nh)  {
+    PositionMode::PositionMode(const ros::NodeHandlePtr &nh) : nh_(nh), controlAuv_("position"), inputData_(nh)  {
 
         for (int i = 0; i < 6; i++){
-            enable_axis_controller_[i] = false;
+            enableAxisController_[i] = false;
         }
 
         killSwitchSubscriber_   = nh_->subscribe("/provider_kill_mission/kill_switch_msg", 100,
@@ -33,21 +33,21 @@ namespace proc_control {
         targetIsReachedPublisher_ = nh_->advertise<proc_control::TargetReached>("/proc_control/target_reached", 100);
         commandDebugPublisher_    = nh_->advertise<proc_control::PositionTarget>("/proc_control/command_debug", 100);
 
-        stability_count_ = 0;
-        last_time_                 = std::chrono::steady_clock::now();
-        target_reached_time_       = std::chrono::steady_clock::now();
-        linear_ask_position_       = Eigen::Vector3d::Zero();
-        angular_ask_position_      = Eigen::Vector3d::Zero();
-        linear_last_ask_position_  = Eigen::Vector3d::Zero();
-        angular_last_ask_position_ = Eigen::Vector3d::Zero();
-        position_target_           = Eigen::Vector3d::Zero();
-        orientation_target_        = Eigen::Vector3d::Zero();
-        world_position_            = Eigen::Vector3d::Zero();
-        world_orientation_         = Eigen::Vector3d::Zero();
-        isTargetReached_           = {false, false, false, false, false, false};
+        stabilityCount_ = 0;
+        lastTime_               = std::chrono::steady_clock::now();
+        targetReachedTime_      = std::chrono::steady_clock::now();
+        linearAskPosition_      = Eigen::Vector3d::Zero();
+        angularAskPosition_     = Eigen::Vector3d::Zero();
+        linearLastAskPosition_  = Eigen::Vector3d::Zero();
+        angularLastAskPosition_ = Eigen::Vector3d::Zero();
+        positionTarget_         = Eigen::Vector3d::Zero();
+        orientationTarget_      = Eigen::Vector3d::Zero();
+        worldPosition_          = Eigen::Vector3d::Zero();
+        worldOrientation_       = Eigen::Vector3d::Zero();
+        isTargetReached_        = {false, false, false, false, false, false};
 
-        linear_trajectory_.ResetSpline();
-        angular_trajectory_.ResetSpline();
+        linearTrajectory_.ResetSpline();
+        angularTrajectory_.ResetSpline();
     }
 
     PositionMode::~PositionMode() {
@@ -65,12 +65,12 @@ namespace proc_control {
     void PositionMode::LocalErrorPublisher(EigenVector6d &error) {
 
         proc_control::PositionTarget error_;
-        error_.X = error[X];
-        error_.Y = error[Y];
-        error_.Z = error[Z];
+        error_.X     = error[X];
+        error_.Y     = error[Y];
+        error_.Z     = error[Z];
         error_.PITCH = error[ROLL];
-        error_.ROLL = error[PITCH];
-        error_.YAW = error[YAW];
+        error_.ROLL  = error[PITCH];
+        error_.YAW   = error[YAW];
 
         controllerErrorPublisher_.publish(error_);
 
@@ -78,82 +78,84 @@ namespace proc_control {
 
     void PositionMode::TargetErrorPublisher(EigenVector6d &error) {
 
-        proc_control::PositionTarget error_;
-        error_.X = error[X];
-        error_.Y = error[Y];
-        error_.Z = error[Z];
-        error_.PITCH = error[ROLL];
-        error_.ROLL = error[PITCH];
-        error_.YAW = error[YAW];
+        proc_control::PositionTarget errorMsg;
+        errorMsg.X     = error[X];
+        errorMsg.Y     = error[Y];
+        errorMsg.Z     = error[Z];
+        errorMsg.PITCH = error[ROLL];
+        errorMsg.ROLL  = error[PITCH];
+        errorMsg.YAW   = error[YAW];
 
-        targetErrorPublisher_.publish(error_);
+        targetErrorPublisher_.publish(errorMsg);
 
     }
 
     void PositionMode::CurrentTargetPositionPublisher() {
 
-        proc_control::PositionTarget current_target;
+        proc_control::PositionTarget currentTargetMsg;
 
-        current_target.X = linear_ask_position_[X];
-        current_target.Y = linear_ask_position_[Y];
-        current_target.Z = linear_ask_position_[Z];
-        current_target.ROLL = angular_ask_position_[X] * RAD_TO_DEGREE;
-        current_target.PITCH = angular_ask_position_[Y] * RAD_TO_DEGREE;
-        current_target.YAW = angular_ask_position_[Z] * RAD_TO_DEGREE;
-        targetPublisher_.publish(current_target);
+        currentTargetMsg.X     = linearAskPosition_[X];
+        currentTargetMsg.Y     = linearAskPosition_[Y];
+        currentTargetMsg.Z     = linearAskPosition_[Z];
+        currentTargetMsg.ROLL  = angularAskPosition_[X] * RAD_TO_DEGREE;
+        currentTargetMsg.PITCH = angularAskPosition_[Y] * RAD_TO_DEGREE;
+        currentTargetMsg.YAW   = angularAskPosition_[Z] * RAD_TO_DEGREE;
+
+        targetPublisher_.publish(currentTargetMsg);
 
     }
 
     void PositionMode::CurrentCommandDebugPublisher(EigenVector6d &command) {
 
-        proc_control::PositionTarget current_command;
+        proc_control::PositionTarget currentCommandMsg;
 
-        current_command.X = command[X];
-        current_command.Y = command[Y];
-        current_command.Z = command[Z];
-        current_command.ROLL = command[X];
-        current_command.PITCH = command[Y];
-        current_command.YAW = command[Z];
-        commandDebugPublisher_.publish(current_command);
+        currentCommandMsg.X     = command[X];
+        currentCommandMsg.Y     = command[Y];
+        currentCommandMsg.Z     = command[Z];
+        currentCommandMsg.ROLL  = command[X];
+        currentCommandMsg.PITCH = command[Y];
+        currentCommandMsg.YAW   = command[Z];
+
+        commandDebugPublisher_.publish(currentCommandMsg);
 
     }
 
     void PositionMode::CurrentTargetDebugPositionPublisher() {
 
-        proc_control::PositionTarget msg_target;
-        msg_target.X = position_target_[0];
-        msg_target.Y = position_target_[1];
-        msg_target.Z = position_target_[2];
-        msg_target.ROLL = orientation_target_[0] * RAD_TO_DEGREE;
-        msg_target.PITCH = orientation_target_[1] * RAD_TO_DEGREE;
-        msg_target.YAW = orientation_target_[2] * RAD_TO_DEGREE;
-        debugTargetPublisher_.publish(msg_target);
+        proc_control::PositionTarget targetMsg;
+        targetMsg.X     = positionTarget_[0];
+        targetMsg.Y     = positionTarget_[1];
+        targetMsg.Z     = positionTarget_[2];
+        targetMsg.ROLL  = orientationTarget_[0] * RAD_TO_DEGREE;
+        targetMsg.PITCH = orientationTarget_[1] * RAD_TO_DEGREE;
+        targetMsg.YAW   = orientationTarget_[2] * RAD_TO_DEGREE;
+        debugTargetPublisher_.publish(targetMsg);
     }
 
     void PositionMode::Process() {
 
-        EigenVector6d local_error = EigenVector6d::Zero();
+        EigenVector6d localError = EigenVector6d::Zero();
         EigenVector6d targetError = EigenVector6d::Zero();
 
-        std::chrono::steady_clock::time_point now_time = std::chrono::steady_clock::now();
+        std::chrono::steady_clock::time_point timeNow = std::chrono::steady_clock::now();
 
         UpdateInput();
 
-        double deltaTime_s = double(std::chrono::duration_cast<std::chrono::nanoseconds>(now_time - last_time_).count()) / (double(1E9));
+        double deltaTime_s = double(std::chrono::duration_cast<std::chrono::nanoseconds>(timeNow - lastTime_).count()) / (double(1E9));
 
         if (deltaTime_s > (0.0001f)) {
 
-            if (linear_trajectory_.IsSplineCalculated() && isTargetReached_[5])
-                position_target_ = linear_trajectory_.ComputeLinearSpline(deltaTime_s);
-            if (angular_trajectory_.IsSplineCalculated())
-                orientation_target_ = angular_trajectory_.ComputeAngularSpline(deltaTime_s);
+            if (linearTrajectory_.IsSplineCalculated() && isTargetReached_[5])
+                positionTarget_ = linearTrajectory_.ComputeLinearSpline(deltaTime_s);
+            if (angularTrajectory_.IsSplineCalculated())
+                orientationTarget_ = angularTrajectory_.ComputeAngularSpline(deltaTime_s);
 
             CurrentTargetDebugPositionPublisher();
 
-            local_error = GetLocalError(position_target_, orientation_target_, deltaTime_s);
-            LocalErrorPublisher(local_error);
+            localError = GetLocalError(positionTarget_, orientationTarget_);
+            LocalErrorPublisher(localError);
 
-            targetError = GetLocalError(linear_ask_position_, angular_ask_position_, 1);
+            targetError = GetLocalError(linearAskPosition_, angularAskPosition_);
             TargetErrorPublisher(targetError);
 
             proc_control::TargetReached msg_target_reached;
@@ -163,10 +165,10 @@ namespace proc_control {
 
             // Calculate required actuation
             EigenVector6d actuation = EigenVector6d::Zero();
-            actuation = control_auv_.GetActuationForError(local_error);
+            actuation = controlAuv_.GetActuationForError(localError);
 
             for (int i = 0; i < 6; i++) {
-                if (!enable_axis_controller_[i]) actuation[i] = 0.0f;
+                if (!enableAxisController_[i]) actuation[i] = 0.0f;
             }
 
             CurrentCommandDebugPublisher(actuation);
@@ -175,7 +177,7 @@ namespace proc_control {
 
         }
 
-        last_time_ = now_time;
+        lastTime_ = timeNow;
 
     }
 
@@ -212,90 +214,83 @@ namespace proc_control {
 
         ResetTrajectory();
 
-        target_reached_time_ = std::chrono::steady_clock::now();
+        targetReachedTime_ = std::chrono::steady_clock::now();
 
-        linear_ask_position_ = translation;
-        angular_ask_position_ = orientation;
+        linearAskPosition_ = translation;
+        angularAskPosition_ = orientation;
 
         for (int i = 0; i < 3; i++)
         {
             if (keepTarget[i])
-                linear_ask_position_[i] = linear_last_ask_position_[i];
+                linearAskPosition_[i] = linearLastAskPosition_[i];
             if (keepTarget[i + 3])
-                angular_ask_position_[i] = angular_last_ask_position_[i];
+                angularAskPosition_[i] = angularLastAskPosition_[i];
         }
 
-        ComputeTrajectoryFromTarget(linear_ask_position_, angular_ask_position_);
+        ComputeTrajectoryFromTarget(linearAskPosition_, angularAskPosition_);
 
-        linear_last_ask_position_ = linear_ask_position_;
-        angular_last_ask_position_ = angular_ask_position_;
+        linearLastAskPosition_  = linearAskPosition_;
+        angularLastAskPosition_ = angularAskPosition_;
 
         CurrentTargetPositionPublisher();
     }
 
-    void PositionMode::SetLocalTarget(Eigen::Vector3d &translation, Eigen::Vector3d &orientation, std::vector<bool> keepTarget) {
+    void PositionMode::SetLocalTarget(Eigen::Vector3d &translation, Eigen::Vector3d &orientation, std::vector<bool> keepTarget)
+    {
 
         ResetTrajectory();
 
-        target_reached_time_ = std::chrono::steady_clock::now();
+        targetReachedTime_ = std::chrono::steady_clock::now();
 
-        Eigen::Affine3d local_ask_pose_h;
+        Eigen::Affine3d localAskPoseH;
 
-        Eigen::Vector3d world_orientation = world_orientation_;
-        Eigen::Vector3d world_position = world_position_;
+        Eigen::Vector3d actualOrientation = worldOrientation_;
+        Eigen::Vector3d actualPosition    = worldPosition_;
 
-        for (int j = 0; j < 3; j++) {
-            if (keepTarget[j])
-                world_position[j] = linear_ask_position_[j];
-            if (keepTarget[j+3])
-                world_orientation[j] = angular_ask_position_[j];
+        for (int i = 0; i < 3; i++)
+        {
+            if (keepTarget[i])
+                actualPosition[i]    = linearAskPosition_[i];
+            if (keepTarget[i + 3])
+                actualOrientation[i] = angularAskPosition_[i];
         }
 
-        Eigen::Affine3d ask_target_h  = ComputeTransformation_.HomogeneousMatrix(orientation, translation);
-        //std::cout << orientation << std::endl;
-        Eigen::Affine3d actual_pose_h = ComputeTransformation_.HomogeneousMatrix(world_orientation, world_position);
+        Eigen::Affine3d askTargetH  = ComputeTransformation_.HomogeneousMatrix(orientation, translation);
+        Eigen::Affine3d actualPoseH = ComputeTransformation_.HomogeneousMatrix(actualOrientation, actualPosition);
 
-        local_ask_pose_h = actual_pose_h * ask_target_h;
+        localAskPoseH = actualPoseH * askTargetH;
 
-        linear_ask_position_  = local_ask_pose_h.translation();
-        angular_ask_position_ = local_ask_pose_h.linear().eulerAngles(0, 1, 2);
+        linearAskPosition_  = localAskPoseH.translation();
+        angularAskPosition_ = localAskPoseH.linear().eulerAngles(0, 1, 2);
 
-//        for (int i = 0; i < 3; i++){
-//            if (keepTarget[i])
-//                linear_ask_position_[i] = linear_last_ask_position_[i];
-//            if (keepTarget[i + 3])
-//                angular_ask_position_[i] = angular_last_ask_position_[i];
-//        }
+        ComputeTrajectoryFromTarget(linearAskPosition_, angularAskPosition_);
 
-        ComputeTrajectoryFromTarget(linear_ask_position_, angular_ask_position_);
-
-        linear_last_ask_position_ = linear_ask_position_;
-        angular_last_ask_position_ = angular_ask_position_;
+        linearLastAskPosition_  = linearAskPosition_;
+        angularLastAskPosition_ = angularAskPosition_;
 
         CurrentTargetPositionPublisher();
 
     }
 
-    PositionMode::EigenVector6d PositionMode::GetLocalError(Eigen::Vector3d &translation, Eigen::Vector3d &orientation, double dt) {
+    PositionMode::EigenVector6d PositionMode::GetLocalError(Eigen::Vector3d &translation, Eigen::Vector3d &orientation) {
 
-        Eigen::Affine3d local_error_h;
+        Eigen::Affine3d localErrorH;
 
-        EigenVector6d local_error = EigenVector6d::Zero();
+        EigenVector6d localError = EigenVector6d::Zero();
 
         UpdateInput();
 
-        Eigen::Affine3d target_h = ComputeTransformation_.HomogeneousMatrix(orientation, translation);
-        Eigen::Affine3d actual_pose_h = ComputeTransformation_.HomogeneousMatrix(world_orientation_, world_position_);
+        Eigen::Affine3d targetH = ComputeTransformation_.HomogeneousMatrix(orientation, translation);
+        Eigen::Affine3d actualPoseH = ComputeTransformation_.HomogeneousMatrix(worldOrientation_, worldPosition_);
 
+        localErrorH = actualPoseH.inverse() * targetH;
 
-        local_error_h = actual_pose_h.inverse() * target_h;
+        localError << localErrorH.translation(), localErrorH.linear().eulerAngles(0, 1, 2) * RAD_TO_DEGREE;
 
-        local_error << local_error_h.translation(), local_error_h.linear().eulerAngles(0, 1, 2) * RAD_TO_DEGREE;
+        localError[ROLL] = 0.0;
+        localError[PITCH] = 0.0;
 
-        local_error[ROLL] = 0.0;
-        local_error[PITCH] = 0.0;
-
-        return local_error;
+        return localError;
 
     }
 
@@ -303,24 +298,23 @@ namespace proc_control {
 
         bool targetIsReached = false;
 
-        std::chrono::steady_clock::time_point now_time = std::chrono::steady_clock::now();
+        std::chrono::steady_clock::time_point timeNow = std::chrono::steady_clock::now();
 
-        double deltaTime_s = double(std::chrono::duration_cast<std::chrono::nanoseconds>(now_time - target_reached_time_).count()) / (double(1E9));
+        double deltaTime_s = double(std::chrono::duration_cast<std::chrono::nanoseconds>(timeNow - targetReachedTime_).count()) / (double(1E9));
 
-        isTargetReached_ = control_auv_.IsInBoundingBox(error);
+        isTargetReached_ = controlAuv_.IsInBoundingBox(error);
 
         if (isTargetReached_[0] && isTargetReached_[1] && isTargetReached_[2] && isTargetReached_[3] && isTargetReached_[4] && isTargetReached_[5])
         {
-            stability_count_++;
+            stabilityCount_++;
         }
         else
         {
-            stability_count_ = 0;
+            stabilityCount_ = 0;
         }
 
-        if (stability_count_ > 14 || deltaTime_s > 30.0){
+        if (stabilityCount_ > 14 || deltaTime_s > 30.0){
             targetIsReached = true;
-            stability_count_ = 0;
         }
 
         return targetIsReached;
@@ -329,15 +323,15 @@ namespace proc_control {
 
 
     void PositionMode::UpdateInput() {
-        world_position_ = inputData_.GetPositionTranslation();
-        world_orientation_ = inputData_.GetPositionOrientation();
+        worldPosition_ = inputData_.GetPositionTranslation();
+        worldOrientation_ = inputData_.GetPositionOrientation();
     }
 
 
     void PositionMode::ComputeTrajectoryFromTarget(Eigen::Vector3d &linear_pose, Eigen::Vector3d &angular_pose) {
 
-        linear_trajectory_.SetSplineParameters(linear_last_ask_position_, linear_pose);
-        angular_trajectory_.SetSplineParameters(angular_last_ask_position_, angular_pose);
+        linearTrajectory_.SetSplineParameters(linearLastAskPosition_, linear_pose);
+        angularTrajectory_.SetSplineParameters(angularLastAskPosition_, angular_pose);
 
     }
 
@@ -345,52 +339,56 @@ namespace proc_control {
     bool PositionMode::enableControlServiceCallback(proc_control::EnableControlRequest &request,
                                                     proc_control::EnableControlResponse &response) {
 
-        EigenVector6d actual_pose = EigenVector6d::Zero();
+        EigenVector6d actualPose = EigenVector6d::Zero();
 
         UpdateInput();
-        actual_pose << world_position_, world_orientation_;
+        actualPose << worldPosition_, worldOrientation_;
 
         if (request.X != request.DONT_CARE) {
-            linear_trajectory_.ResetSpline();
-            HandleEnableDisableControl(bool(request.X), actual_pose[X], X);
+            linearTrajectory_.ResetSpline();
+            HandleEnableDisableControl(bool(request.X), actualPose[X], X);
         }
 
         if (request.Y != request.DONT_CARE) {
-            linear_trajectory_.ResetSpline();
-            HandleEnableDisableControl(bool(request.Y), actual_pose[Y], Y);
+            linearTrajectory_.ResetSpline();
+            HandleEnableDisableControl(bool(request.Y), actualPose[Y], Y);
         }
 
         if (request.Z != request.DONT_CARE) {
-            linear_trajectory_.ResetSpline();
-            HandleEnableDisableControl(bool(request.Z), actual_pose[Z], Z);
+            linearTrajectory_.ResetSpline();
+            HandleEnableDisableControl(bool(request.Z), actualPose[Z], Z);
         }
 
         if (request.ROLL != request.DONT_CARE) {
-            angular_trajectory_.ResetSpline();
-            HandleEnableDisableControl(bool(request.ROLL), actual_pose[ROLL], ROLL);
+            angularTrajectory_.ResetSpline();
+            HandleEnableDisableControl(bool(request.ROLL), actualPose[ROLL], ROLL);
         }
 
         if (request.PITCH != request.DONT_CARE) {
-            angular_trajectory_.ResetSpline();
-            HandleEnableDisableControl(bool(request.PITCH), actual_pose[PITCH], PITCH);
+            angularTrajectory_.ResetSpline();
+            HandleEnableDisableControl(bool(request.PITCH), actualPose[PITCH], PITCH);
         }
 
         if (request.YAW != request.DONT_CARE) {
-            angular_trajectory_.ResetSpline();
-            HandleEnableDisableControl(bool(request.YAW), actual_pose[YAW], YAW);
+            angularTrajectory_.ResetSpline();
+            HandleEnableDisableControl(bool(request.YAW), actualPose[YAW], YAW);
         }
 
-        linear_ask_position_ << actual_pose[X], actual_pose[Y], actual_pose[Z];
-        angular_ask_position_ << actual_pose[ROLL], actual_pose[PITCH], actual_pose[YAW];
+        linearAskPosition_  << actualPose[X], actualPose[Y], actualPose[Z];
+        angularAskPosition_ << actualPose[ROLL], actualPose[PITCH], actualPose[YAW];
+
+        linearLastAskPosition_  = linearAskPosition_;
+        angularLastAskPosition_ = angularAskPosition_;
+
         CurrentTargetPositionPublisher();
 
-        linear_trajectory_.ResetSpline();
-        angular_trajectory_.ResetSpline();
+        linearTrajectory_.ResetSpline();
+        angularTrajectory_.ResetSpline();
 
         std::vector<std::string> tmp{"X", "Y", "Z", "ROLL", "PITCH", "YAW"};
         ROS_INFO_STREAM("Active control : Position");
         for (int i = 0; i < 6; i++) {
-            ROS_INFO_STREAM(tmp[i] + " : " + (enable_axis_controller_[i] ? "true" : "false"));
+            ROS_INFO_STREAM(tmp[i] + " : " + (enableAxisController_[i] ? "true" : "false"));
         }
 
         return true;
@@ -399,11 +397,11 @@ namespace proc_control {
 
     void PositionMode::HandleEnableDisableControl(bool state, double target, const size_t axis) {
 
-        enable_axis_controller_[axis] = state;
+        enableAxisController_[axis] = state;
         if (axis < 3) {
-            position_target_[axis] = target;
+            positionTarget_[axis] = target;
         } else {
-            orientation_target_[axis - 3] = target;
+            orientationTarget_[axis - 3] = target;
         }
 
         CurrentTargetPositionPublisher();
@@ -414,14 +412,14 @@ namespace proc_control {
 
         if(!state_in->state){
             for (int i = 0; i < 6; i++) {
-                enable_axis_controller_[i] = false;
+                enableAxisController_[i] = false;
             }
 
-            position_target_    = Eigen::Vector3d::Zero();
-            orientation_target_ = Eigen::Vector3d::Zero();
+            positionTarget_    = Eigen::Vector3d::Zero();
+            orientationTarget_ = Eigen::Vector3d::Zero();
 
-            linear_trajectory_.ResetSpline();
-            angular_trajectory_.ResetSpline();
+            linearTrajectory_.ResetSpline();
+            angularTrajectory_.ResetSpline();
         }
 
     }
@@ -438,11 +436,11 @@ namespace proc_control {
                                                     proc_control::ClearWaypointResponse &response)
     {
         UpdateInput();
-        linear_ask_position_ = world_position_;
-        angular_ask_position_ = world_orientation_;
-        linear_last_ask_position_ = world_position_;
-        angular_last_ask_position_ = world_orientation_;
-        ComputeTrajectoryFromTarget(linear_ask_position_, angular_ask_position_);
+        linearAskPosition_ = worldPosition_;
+        angularAskPosition_ = worldOrientation_;
+        linearLastAskPosition_ = worldPosition_;
+        angularLastAskPosition_ = worldOrientation_;
+        ComputeTrajectoryFromTarget(linearAskPosition_, angularAskPosition_);
 
         CurrentTargetPositionPublisher();
         return true;
@@ -452,14 +450,14 @@ namespace proc_control {
                                                         proc_control::SetBoundingBoxResponse &response){
         EigenVector6d bbox;
         bbox << request.X, request.Y, request.Z, request.ROLL, request.PITCH, request.YAW;
-        control_auv_.SetNewBoundingBox(bbox);
+        controlAuv_.SetNewBoundingBox(bbox);
         return true;
 
     }
 
     bool PositionMode::ResetBoundingBoxServiceCallback(proc_control::ResetBoundingBoxRequest &request,
                                                           proc_control::ResetBoundingBoxResponse &response) {
-        control_auv_.ResetBoundingBox();
+        controlAuv_.ResetBoundingBox();
         return true;
     }
 }

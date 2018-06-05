@@ -72,7 +72,7 @@ namespace proc_control {
 
         void UpdateInput();
 
-        EigenVector6d GetLocalError(Eigen::Vector3d &translation, Eigen::Vector3d &orientation, double dt);
+        EigenVector6d GetLocalError(Eigen::Vector3d &translation, Eigen::Vector3d &orientation);
 
         ros::NodeHandlePtr nh_;
 
@@ -92,38 +92,38 @@ namespace proc_control {
         ros::ServiceServer resetBoundingBoxServer_;
         ros::ServiceServer setBoundingBoxServer_;
 
-        proc_control::ControlAUV control_auv_;
+        proc_control::ControlAUV controlAuv_;
 
         proc_control::ControlInput inputData_;
 
-        Eigen::Vector3d linear_ask_position_;
-        Eigen::Vector3d angular_ask_position_;
-        Eigen::Vector3d linear_last_ask_position_;
-        Eigen::Vector3d angular_last_ask_position_;
+        Eigen::Vector3d linearAskPosition_;
+        Eigen::Vector3d angularAskPosition_;
+        Eigen::Vector3d linearLastAskPosition_;
+        Eigen::Vector3d angularLastAskPosition_;
 
-        Eigen::Matrix<bool, 6, 1> enable_axis_controller_;
+        Eigen::Matrix<bool, 6, 1> enableAxisController_;
 
-        Eigen::Vector3d position_target_;
-        Eigen::Vector3d orientation_target_;
+        Eigen::Vector3d positionTarget_;
+        Eigen::Vector3d orientationTarget_;
 
-        Eigen::Vector3d world_position_;
-        Eigen::Vector3d world_orientation_;
+        Eigen::Vector3d worldPosition_;
+        Eigen::Vector3d worldOrientation_;
 
         proc_control::Transformation ComputeTransformation_;
 
-        proc_control::Trajectory linear_trajectory_;
-        proc_control::Trajectory angular_trajectory_;
+        proc_control::Trajectory linearTrajectory_;
+        proc_control::Trajectory angularTrajectory_;
 
-        std::chrono::steady_clock::time_point last_time_;
-        std::chrono::steady_clock::time_point target_reached_time_;
+        std::chrono::steady_clock::time_point lastTime_;
+        std::chrono::steady_clock::time_point targetReachedTime_;
 
-        int stability_count_;
+        int stabilityCount_;
 
     };
 
     inline void PositionMode::ResetTrajectory() {
-        linear_trajectory_.ResetSpline();
-        angular_trajectory_.ResetSpline();
+        linearTrajectory_.ResetSpline();
+        angularTrajectory_.ResetSpline();
     }
 
 }

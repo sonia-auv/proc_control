@@ -95,7 +95,7 @@ namespace proc_control{
         Eigen::Vector3d targetOrientation;
 
         targetPosition    << request.X, request.Y, request.Z;
-        targetOrientation << request.ROLL * DEGREE_TO_RAD, request.PITCH * DEGREE_TO_RAD, request.YAW * DEGREE_TO_RAD;
+        targetOrientation << 0.0, 0.0, request.YAW * DEGREE_TO_RAD;
 
         controlMode_->SetTarget(GlobalTarget, targetPosition, targetOrientation);
 
@@ -109,7 +109,7 @@ namespace proc_control{
         Eigen::Vector3d targetOrientation;
 
         targetPosition    << request.X, request.Y, request.Z;
-        targetOrientation << request.ROLL * DEGREE_TO_RAD, request.PITCH * DEGREE_TO_RAD, request.YAW * DEGREE_TO_RAD;
+        targetOrientation << 0.0, 0.0, request.YAW * DEGREE_TO_RAD;
 
         controlMode_->SetTarget(LocalTarget, targetPosition, targetOrientation);
 
@@ -127,7 +127,7 @@ namespace proc_control{
                                         (bool)request.keepPITCH, (bool)request.keepYAW};
 
         targetPosition    << request.X, request.Y, request.Z;
-        targetOrientation << request.ROLL * DEGREE_TO_RAD, request.PITCH * DEGREE_TO_RAD, request.YAW * DEGREE_TO_RAD;
+        targetOrientation << 0.0, 0.0, request.YAW * DEGREE_TO_RAD;
 
         controlMode_->SetDecoupledTarget(GlobalTarget, keepTarget, targetPosition, targetOrientation);
 
@@ -144,7 +144,7 @@ namespace proc_control{
                                         (bool)request.keepPITCH, (bool)request.keepYAW};
 
         targetPosition    << request.X, request.Y, request.Z;
-        targetOrientation << request.ROLL * DEGREE_TO_RAD, request.PITCH * DEGREE_TO_RAD, request.YAW * DEGREE_TO_RAD;
+        targetOrientation << 0.0, 0.0, request.YAW * DEGREE_TO_RAD;
 
         controlMode_->SetDecoupledTarget(LocalTarget, keepTarget, targetPosition, targetOrientation);
 

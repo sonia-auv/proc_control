@@ -221,9 +221,9 @@ namespace proc_control {
 
         for (int i = 0; i < 3; i++)
         {
-            if (keepTarget[i])
+            if (keepTarget[i] || translation[i] < -15.0)
                 linearAskPosition_[i] = linearLastAskPosition_[i];
-            if (keepTarget[i + 3])
+            if (keepTarget[i + 3] || orientation[i] < -15.0)
                 angularAskPosition_[i] = angularLastAskPosition_[i];
         }
 
@@ -262,6 +262,13 @@ namespace proc_control {
 
         linearAskPosition_  = localAskPoseH.translation();
         angularAskPosition_ = localAskPoseH.linear().eulerAngles(0, 1, 2);
+
+        for (int i = 0; i < 3; i++){
+            if (translation[i] <= -15.0)
+                linearAskPosition_[i] = linearLastAskPosition_[i];
+            if (orientation[i] <= -15.0)
+                angularAskPosition_[i] = angularLastAskPosition_[i];
+        }
 
         ComputeTrajectoryFromTarget(linearAskPosition_, angularAskPosition_);
 
@@ -344,6 +351,17 @@ namespace proc_control {
         UpdateInput();
         actualPose << worldPosition_, worldOrientation_;
 
+        linearAskPosition_  << actualPose[X], actualPose[Y], actualPose[Z];
+        angularAskPosition_ << actualPose[ROLL], actualPose[PITCH], actualPose[YAW];
+
+        linearLastAskPosition_  = linearAskPosition_;
+        angularLastAskPosition_ = angularAskPosition_;
+
+        CurrentTargetPositionPublisher();
+
+        linearTrajectory_.ResetSpline();
+        angularTrajectory_.ResetSpline();
+
         if (request.X != request.DONT_CARE) {
             linearTrajectory_.ResetSpline();
             HandleEnableDisableControl(bool(request.X), actualPose[X], X);
@@ -373,17 +391,6 @@ namespace proc_control {
             angularTrajectory_.ResetSpline();
             HandleEnableDisableControl(bool(request.YAW), actualPose[YAW], YAW);
         }
-
-        linearAskPosition_  << actualPose[X], actualPose[Y], actualPose[Z];
-        angularAskPosition_ << actualPose[ROLL], actualPose[PITCH], actualPose[YAW];
-
-        linearLastAskPosition_  = linearAskPosition_;
-        angularLastAskPosition_ = angularAskPosition_;
-
-        CurrentTargetPositionPublisher();
-
-        linearTrajectory_.ResetSpline();
-        angularTrajectory_.ResetSpline();
 
         std::vector<std::string> tmp{"X", "Y", "Z", "ROLL", "PITCH", "YAW"};
         ROS_INFO_STREAM("Active control : Position");

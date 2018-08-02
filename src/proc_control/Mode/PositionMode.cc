@@ -101,6 +101,8 @@ namespace proc_control {
         currentTargetMsg.PITCH = angularAskPosition_[Y] * RAD_TO_DEGREE;
         currentTargetMsg.YAW   = angularAskPosition_[Z] * RAD_TO_DEGREE;
 
+        std::cout << linearAskPosition_ << std::endl << std::endl;
+
         targetPublisher_.publish(currentTargetMsg);
 
     }
@@ -221,7 +223,7 @@ namespace proc_control {
 
         for (int i = 0; i < 3; i++)
         {
-            if (keepTarget[i] || translation[i] < -15.0)
+            if (keepTarget[i] || translation[i] < -200000.0)
                 linearAskPosition_[i] = linearLastAskPosition_[i];
             if (keepTarget[i + 3] || orientation[i] < -15.0)
                 angularAskPosition_[i] = angularLastAskPosition_[i];
@@ -264,7 +266,7 @@ namespace proc_control {
         angularAskPosition_ = localAskPoseH.linear().eulerAngles(0, 1, 2);
 
         for (int i = 0; i < 3; i++){
-            if (translation[i] <= -15.0)
+            if (translation[i] <= -20000.0)
                 linearAskPosition_[i] = linearLastAskPosition_[i];
             if (orientation[i] <= -15.0)
                 angularAskPosition_[i] = angularLastAskPosition_[i];
@@ -298,7 +300,6 @@ namespace proc_control {
         localError[PITCH] = 0.0;
 
         return localError;
-
     }
 
     bool PositionMode::EvaluateTargetReached(EigenVector6d &error) {

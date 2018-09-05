@@ -101,8 +101,6 @@ namespace proc_control {
         currentTargetMsg.PITCH = angularAskPosition_[Y] * RAD_TO_DEGREE;
         currentTargetMsg.YAW   = angularAskPosition_[Z] * RAD_TO_DEGREE;
 
-        std::cout << linearAskPosition_ << std::endl << std::endl;
-
         targetPublisher_.publish(currentTargetMsg);
 
     }

@@ -1,13 +1,13 @@
 /**
- * \file	main.cc
- * \author	Jeremie St-Jules-Prevost <jeremie.st.jules.prevost@gmail.com>
- * \date	24/01/2016
+ * \file	PD.h
+ * \author	Antoine Dozois <dozois.a@gmail.com>
+ * \date	10/28/17
  *
- * \copyright Copyright (c) 2017 S.O.N.I.A. All rights reserved.
+ * \copyright Copyright (c) 2017 S.O.N.I.A. AUV All rights reserved.
  *
  * \section LICENSE
  *
- * This file is part of S.O.N.I.A. AUV software.
+ * This file is part of S.O.N.I.A. software.
  *
  * S.O.N.I.A. AUV software is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,20 +23,33 @@
  * along with S.O.N.I.A. AUV software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <ros/ros.h>
-#include "proc_control_node.h"
 
-int main(int argc, char** argv) {
-  ros::init(argc, argv, "proc_control");
+#ifndef PROC_CONTROL_PD_H
+#define PROC_CONTROL_PD_H
 
-  ros::NodeHandlePtr nh(new ros::NodeHandle("~"));
-  proc_control::ProcControlNode proc_control_node{nh};
+#include "proc_control/algorithm/ControlAlgorithm.h"
+#include "controller_parameters.h"
 
-  ros::Rate r(10); // 20 hz
-  while(ros::ok())
-  {
-    ros::spinOnce();
-    proc_control_node.ControlLoop();
-    r.sleep();
-  }
-}
+
+class PD : public ControlAlgorithm{
+
+public:
+
+    PD(std::shared_ptr<ControllerParameters> PD_parameters);
+    ~PD() = default;
+
+    double ComputeCommand(const double &error) override ;
+
+    double GetError();
+
+
+
+private:
+    double error_;
+    double command_;
+    std::shared_ptr<ControllerParameters> PD_parameters_;
+
+};
+
+
+#endif //PROC_CONTROL_PD_H

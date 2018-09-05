@@ -1,13 +1,13 @@
 /**
- * \file	main.cc
- * \author	Jeremie St-Jules-Prevost <jeremie.st.jules.prevost@gmail.com>
- * \date	24/01/2016
+ * \file	P.cc
+ * \author	Antoine Dozois <dozois.a@gmail.com>
+ * \date	10/28/17
  *
- * \copyright Copyright (c) 2017 S.O.N.I.A. All rights reserved.
+ * \copyright Copyright (c) 2017 S.O.N.I.A. AUV All rights reserved.
  *
  * \section LICENSE
  *
- * This file is part of S.O.N.I.A. AUV software.
+ * This file is part of S.O.N.I.A. software.
  *
  * S.O.N.I.A. AUV software is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,21 +22,21 @@
  * You should have received a copy of the GNU General Public License
  * along with S.O.N.I.A. AUV software. If not, see <http://www.gnu.org/licenses/>.
  */
+#include "P.h"
 
-#include <ros/ros.h>
-#include "proc_control_node.h"
+P::P(std::shared_ptr<ControllerParameters> P_parameters): P_parameters_(P_parameters) {
+    command_ = 0.0;
+}
 
-int main(int argc, char** argv) {
-  ros::init(argc, argv, "proc_control");
 
-  ros::NodeHandlePtr nh(new ros::NodeHandle("~"));
-  proc_control::ProcControlNode proc_control_node{nh};
+double P::ComputeCommand(const double &error){
 
-  ros::Rate r(10); // 20 hz
-  while(ros::ok())
-  {
-    ros::spinOnce();
-    proc_control_node.ControlLoop();
-    r.sleep();
-  }
+    command_ = P_parameters_->Parameters_Map["P"]*error;
+    return command_;
+
+}
+
+
+double P::GetError() {
+    return error_;
 }

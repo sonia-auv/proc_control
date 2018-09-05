@@ -1,4 +1,4 @@
-/**
+/*
  * \file	thruster.cc
  * \author	Jeremie St-Jules <jeremie.st.jules.prevost@gmail.com>
  * \coauthor Francis Masse <francis.masse05@gmail.com>

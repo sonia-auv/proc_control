@@ -27,38 +27,51 @@
 #define PROC_CONTROL_TRAJECTORY_H
 
 #include <cmath>
+#include "proc_control/Transformation/Transformation.h"
 
-class Trajectory {
- public:
-  //==========================================================================
-  // P U B L I C   C / D T O R S
+namespace proc_control{
 
-  Trajectory();
-  ~Trajectory();
+    class Trajectory {
+        public:
+            //==========================================================================
+            // P U B L I C   C / D T O R S
 
-  //==========================================================================
-  // P U B L I C   M E T H O D S
+            Trajectory();
+            ~Trajectory();
 
-  void SetTargetPosition(double target_position);
-  bool IsSplineCalculated();
-  void CalculateSpline(double current_position, double current_velocity,
-                       double target_velocity);
-  double GetPosition(double dt);
-  double GetCurrentPosition();
-  void Reset();
+            //==========================================================================
+            // P U B L I C   M E T H O D S
 
- private:
-  //==========================================================================
-  // P R I V A T E   M E M B E R S
+            void SetSplineParameters(Eigen::Vector3d &initial_position, Eigen::Vector3d &finale_position);
+            bool IsSplineCalculated();
+            void ResetSpline();
+            Eigen::Vector3d ComputeLinearSpline(double dt);
+            Eigen::Vector3d ComputeAngularSpline(double dt);
 
-  double target_position;
-  double current_position;
 
-  bool is_spline_calculated;
-  bool is_position_reach;
+        private:
+            //==========================================================================
+            // P R I V A T E   M E T H O D S
+            Eigen::Vector3d ComputeHermiteCubicSpline(Eigen::Vector3d &pO, Eigen::Vector3d &p1);
+            Eigen::Vector3d ComputeSlerpInterpolation(Eigen::Vector3d &pO, Eigen::Vector3d &p1);
 
-  double hermite_spline_solution[4];
-  double spline_time;
-};
+            //==========================================================================
+            // P R I V A T E   M E M B E R S
+
+            Eigen::Vector3d initial_position_, final_position_;
+            Eigen::Vector3d current_position_;
+            Eigen::Vector3d current_orientation_;
+
+            proc_control::Transformation ComputeTransformation_;
+
+            bool is_spline_calculated_;
+
+            double hermite_spline_solution_[4];
+            double spline_time_;
+            Eigen::Vector3d zero_;
+    };
+
+}
+
 
 #endif //PROC_CONTROL_TRAJECTORY_H

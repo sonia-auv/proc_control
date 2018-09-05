@@ -82,7 +82,7 @@ class AUVSimulation:
             for index in range(len(effort)):
                 thrust.append(self.effort_to_thrust(effort[index]))
 
-            yaw_thrust = (thrust[3] + thrust[1] - thrust[0] - thrust[2]) + random.random() * 0.5
+            yaw_thrust = (thrust[3] + thrust[1] - thrust[0] - thrust[2])
 
             self.current_yaw += yaw_thrust * (1.0/self.FREQUENCY) * 0.1
             self.current_yaw %= 360.0

@@ -23,96 +23,109 @@
  * along with S.O.N.I.A. AUV software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <cstdio>
+
+#include <iostream>
 #include "trajectory.h"
+
+namespace proc_control{
 
 //==============================================================================
 // C / D T O R S   S E C T I O N
 
 //------------------------------------------------------------------------------
 //
-Trajectory::Trajectory() {
-  is_spline_calculated = false;
-  is_position_reach = true;
-  spline_time = 0;
-}
+    Trajectory::Trajectory() {
+        is_spline_calculated_ = false;
+        spline_time_ = 0;
+        zero_ << 0.0, 0.0, 0.0;
+    }
 
 //------------------------------------------------------------------------------
 //
-Trajectory::~Trajectory() {}
+    Trajectory::~Trajectory() {}
 
 //==============================================================================
 // M E T H O D   S E C T I O N
 
 //-----------------------------------------------------------------------------
 //
-bool Trajectory::IsSplineCalculated() { return is_spline_calculated; }
+    bool Trajectory::IsSplineCalculated() { return is_spline_calculated_; }
 
 //-----------------------------------------------------------------------------
 //
-void Trajectory::SetTargetPosition(double target_position) {
-  this->target_position = target_position;
-}
+    void Trajectory::SetSplineParameters(Eigen::Vector3d &initial_position, Eigen::Vector3d &finale_position) {
+        this->initial_position_ = initial_position;
+        this->final_position_ = finale_position;
+        this->spline_time_ = 0.0;
+        this->is_spline_calculated_ = true;
+    }
 
 //-----------------------------------------------------------------------------
 //
-void Trajectory::CalculateSpline(double current_position, double current_velocity,
-                                    double target_velocity) {
-  hermite_spline_solution[0] = current_position;
-  hermite_spline_solution[1] = current_velocity;
-  hermite_spline_solution[2] = -current_position * 3.0f - current_velocity * 2.0f +
-                                this->target_position * 3.0f - target_velocity;
-  hermite_spline_solution[3] = current_position * 2.0f + current_velocity -
-                               this->target_position * 2.0f + target_velocity;
+    Eigen::Vector3d Trajectory::ComputeLinearSpline(double dt) {
 
-  spline_time = 0.0;
-  is_spline_calculated = true;
-  is_position_reach = false;
-}
+        spline_time_ += dt/5;
+
+        if (spline_time_ >= 1.0) spline_time_ = 1.0;
+
+        ComputeHermiteCubicSpline(this->initial_position_, this->final_position_);
+
+        return current_position_;
+    }
+//-----------------------------------------------------------------------------
+//
+    Eigen::Vector3d Trajectory::ComputeAngularSpline(double dt){
+
+        spline_time_ += dt;
+
+        if (spline_time_ >= 1.0) spline_time_ = 1.0;
+
+        current_position_ = ComputeSlerpInterpolation(this->initial_position_, this->final_position_);
+
+        return current_position_;
+    }
+//-----------------------------------------------------------------------------
+//
+    Eigen::Vector3d Trajectory::ComputeHermiteCubicSpline(Eigen::Vector3d &pO, Eigen::Vector3d &p1) {
+
+        double spline_time_squared = spline_time_ * spline_time_ ;
+        double spline_time_cubed = spline_time_squared * spline_time_;
+
+        current_position_ = (2 * spline_time_cubed - 3 * spline_time_squared + 1) * pO
+                            + (-2 * spline_time_cubed + 3 * spline_time_squared) * p1;
+
+        return current_position_;
+
+    }
+
+    //-----------------------------------------------------------------------------
+//
+    Eigen::Vector3d Trajectory::ComputeSlerpInterpolation(Eigen::Vector3d &pO, Eigen::Vector3d &p1) {
+
+        Eigen::Affine3d pO_h = ComputeTransformation_.HomogeneousMatrix(pO, zero_);
+        Eigen::Affine3d p1_h = ComputeTransformation_.HomogeneousMatrix(p1, zero_);
+
+        Eigen::Quaterniond pO_q(pO_h.linear());
+        Eigen::Quaterniond p1_q(p1_h.linear());
+
+        p1_q.slerp(spline_time_, pO_q);
+
+        current_orientation_ = p1_q.toRotationMatrix().eulerAngles(0, 1, 2);
+
+        return current_orientation_;
+
+    }
+
 
 //-----------------------------------------------------------------------------
 //
-double Trajectory::GetPosition(double dt) {
-  double spline_time_squared = spline_time * spline_time;
-  double spline_time_cubed = spline_time_squared * spline_time;
+    void Trajectory::ResetSpline() {
 
-  if (!is_position_reach) {
-    current_position = hermite_spline_solution[0] +
-        hermite_spline_solution[1] * spline_time +
-        hermite_spline_solution[2] * spline_time_squared +
-        hermite_spline_solution[3] * spline_time_cubed;
+        spline_time_ = 0.0;
+        initial_position_ = zero_;
+        final_position_ = zero_;
+        current_position_ = zero_;
+        is_spline_calculated_ = false;
+    }
 
-    spline_time += (dt / 5);
-  } else {
-    current_position = hermite_spline_solution[0] +
-        hermite_spline_solution[1] * spline_time +
-        hermite_spline_solution[2] * spline_time_squared +
-        hermite_spline_solution[3] * spline_time_cubed;
-  }
-
-  if (fabs(current_position - target_position) < 0.01) {
-    is_position_reach = true;
-  }
-
-  return current_position;
-}
-
-//-----------------------------------------------------------------------------
-//
-double Trajectory::GetCurrentPosition() {
-  return current_position;
-}
-
-//-----------------------------------------------------------------------------
-//
-void Trajectory::Reset() {
-  spline_time = 0.0;
-  target_position = 0.0;
-  current_position = 0.0;
-  is_position_reach = false;
-  is_spline_calculated = false;
-  hermite_spline_solution[0] = 0.0;
-  hermite_spline_solution[1] = 0.0;
-  hermite_spline_solution[2] = 0.0;
-  hermite_spline_solution[3] = 0.0;
 }

@@ -1,8 +1,7 @@
 /**
- * \file	ControlAlgorithm.h
- * \author	Jeremie St-Jules <jeremie.st.jules.prevost@gmail.com>
- * \coauthor Francis Masse <francis.masse05@gmail.com>
- * \date	10/17/16
+ * \file	Transformation.cc
+ * \author	Olivier Lavoie <olavoie9507@gmail.com>
+ * \date	10/21/17
  *
  * \copyright Copyright (c) 2017 S.O.N.I.A. AUV All rights reserved.
  *
@@ -24,18 +23,21 @@
  * along with S.O.N.I.A. AUV software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PROC_CONTROL_CONTROLALGORITHM_H
-#define PROC_CONTROL_CONTROLALGORITHM_H
+#include "Transformation.h"
+#include <iostream>
 
-#include <array>
-#include "proc_control/config/config_manager.h"
+namespace proc_control{
 
-class ControlAlgorithm
-{
-public:
-    //==========================================================================
-    // P U B L I C   M E T H O D S
-    virtual double ComputeCommand(const double &error) = 0;
 
-};
-#endif //PROC_CONTROL_CONTROLALGORITHM_H
+    Eigen::Affine3d Transformation::HomogeneousMatrix(Eigen::Vector3d &eulerAngle, Eigen::Vector3d &translation) {
+
+        Eigen::Affine3d mat;
+        mat.linear() = (Eigen::AngleAxisd(eulerAngle[0], Eigen::Vector3d::UnitX())
+                        * Eigen::AngleAxisd(eulerAngle[1], Eigen::Vector3d::UnitY())
+                        * Eigen::AngleAxisd(eulerAngle[2], Eigen::Vector3d::UnitZ())).toRotationMatrix();
+        mat.translation() = translation;
+
+        return mat;
+    }
+
+}

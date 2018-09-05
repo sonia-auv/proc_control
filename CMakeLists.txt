@@ -1,4 +1,4 @@
-# \file     CMakeLists.txt
+ # \file     CMakeLists.txt
 # \author   Jeremie St-Jules-Prevost <jeremie.st.jules.prevost@gmail.com>
 # \date     23/09/2016
 #
@@ -55,10 +55,8 @@ find_package(
 )
 
 generate_dynamic_reconfigure_options(
-        cfg/PIDZAxis_reconf.cfg
-        cfg/PID4Axis_reconf.cfg
-        cfg/Algorithm_reconf.cfg
         cfg/Thruster_reconf.cfg
+        cfg/Controller_reconf.cfg
 )
 
 add_message_files(
@@ -66,11 +64,13 @@ add_message_files(
     FILES
     PositionTarget.msg
     TargetReached.msg
+    ThrustLogging.msg
 )
 
 add_service_files(
      DIRECTORY srv
      FILES
+     SetControlMode.srv
      ClearWaypoint.srv
      SetPositionTarget.srv
      GetPositionTarget.srv
@@ -78,6 +78,7 @@ add_service_files(
      EnableControl.srv
      SetBoundingBox.srv
      ResetBoundingBox.srv
+     SetDecoupledTarget.srv
 )
 
 # Generate added messages and services with any dependencies listed here

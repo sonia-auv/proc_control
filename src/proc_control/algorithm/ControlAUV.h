@@ -1,8 +1,7 @@
 /**
- * \file	ControlAlgorithm.h
- * \author	Jeremie St-Jules <jeremie.st.jules.prevost@gmail.com>
- * \coauthor Francis Masse <francis.masse05@gmail.com>
- * \date	10/17/16
+ * \file	Control_AUV.h
+ * \author	Olivier Lavoie <olavoie9507@gmail.com>
+ * \date	10/21/17
  *
  * \copyright Copyright (c) 2017 S.O.N.I.A. AUV All rights reserved.
  *
@@ -24,18 +23,45 @@
  * along with S.O.N.I.A. AUV software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PROC_CONTROL_CONTROLALGORITHM_H
-#define PROC_CONTROL_CONTROLALGORITHM_H
+#ifndef PROC_CONTROL_CONTROL_AUV_H
+#define PROC_CONTROL_CONTROL_AUV_H
 
-#include <array>
-#include "proc_control/config/config_manager.h"
+#include <eigen3/Eigen/Eigen>
+#include <iostream>
 
-class ControlAlgorithm
-{
-public:
-    //==========================================================================
-    // P U B L I C   M E T H O D S
-    virtual double ComputeCommand(const double &error) = 0;
+#include "AxisController.h"
 
-};
-#endif //PROC_CONTROL_CONTROLALGORITHM_H
+namespace proc_control{
+
+    class ControlAUV {
+
+    public:
+
+        typedef Eigen::Matrix<double, 6, 1> EigenVector6d;
+
+        ControlAUV(std::string mode);
+
+        ~ControlAUV() = default;
+
+        EigenVector6d GetActuationForError(EigenVector6d &error);
+
+        std::vector<bool> IsInBoundingBox(EigenVector6d &error);
+
+        void SetNewBoundingBox(EigenVector6d BBox);
+        void ResetBoundingBox();
+
+    private:
+
+        enum ControllerType{PID_ = 0, PI_, PD_, P_};
+
+        AxisController x_, y_, z_, roll_, pitch_, yaw_;
+
+
+
+    };
+}
+
+
+
+
+#endif //PROC_CONTROL_CONTROL_AUV_H

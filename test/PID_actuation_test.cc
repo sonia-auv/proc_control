@@ -24,7 +24,7 @@
  */
 
 #include <gtest/gtest.h>
-#include "proc_control/algorithm/PID4Axis_Algorithm.h"
+#include "proc_control/algorithm/PID6Axis_Algorithm.h"
 #include <chrono>
 
 char **argv_g;
@@ -35,7 +35,7 @@ TEST(PIDTest, first) {
   ros::init(argc_g , argv_g , "proc_control");
   ros::NodeHandle node = ros::NodeHandle(std::string("~/proc_control"));
   ros::NodeHandlePtr ptr(&node);
-  PID4Axis_Algorithm algo;
+  PID6Axis_Algorithm algo;
   std::array<double, 6>
       out1 = {12.4988,0,13.024,0,0,0}, in1 = {0.5,0,0,0,0,0},
       out2 = {100,0,13,0,0,0}, in2 = {100,0,0,0,0,0},

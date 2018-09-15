@@ -1,227 +1,273 @@
-//
-// Created by jeremie on 10/17/16.
-//
+/**
+ * \file	thruster_manager.cc
+ * \author	Jeremie St-Jules <jeremie.st.jules.prevost@gmail.com>
+ * \coauthor Francis Masse <francis.masse05@gmail.com>
+ * \date	10/17/16
+ *
+ * \copyright Copyright (c) 2017 S.O.N.I.A. AUV All rights reserved.
+ *
+ * \section LICENSE
+ *
+ * This file is part of S.O.N.I.A. software.
+ *
+ * S.O.N.I.A. AUV software is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * S.O.N.I.A. AUV software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with S.O.N.I.A. AUV software. If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #include <fstream>
 #include "thruster_manager.h"
 
-ThrusterManager::ThrusterManager()
-    : ConfigManager("Thruster")
-{
+namespace proc_control {
+
+//==============================================================================
+// C / D T O R S   S E C T I O N
+
+//------------------------------------------------------------------------------
+//
+ThrusterManager::ThrusterManager() :
+  ConfigManager("Thruster"),
+  constant_reverse_effort_(0.0)
+  {
+
   // Add all the thrusters
-  thruster_list_.push_back(Thruster("port"));
-  thruster_list_.push_back(Thruster("starboard"));
-  thruster_list_.push_back(Thruster("front_heading"));
-  thruster_list_.push_back(Thruster("back_heading"));
-  thruster_list_.push_back(Thruster("front_depth"));
-  thruster_list_.push_back(Thruster("back_depth"));
+  thruster_list_.push_back(Thruster(1));
+  thruster_list_.push_back(Thruster(2));
+  thruster_list_.push_back(Thruster(3));
+  thruster_list_.push_back(Thruster(4));
+  thruster_list_.push_back(Thruster(5));
+  thruster_list_.push_back(Thruster(6));
+  thruster_list_.push_back(Thruster(7));
+  thruster_list_.push_back(Thruster(8));
+
+  ThrusterManager::SetEnable(1);
 
   Init();
+  SetEfforts();
 }
 
-std::array<double, 6>
-ThrusterManager::Commit(std::array<double, 3> &linear_target, std::array<double, 3> &rotational_target)
-{
-  // legacy code...
-  const double POWER_LIMIT_BEFORE_LUT = 43.0f;
-  for (const auto &t  : thruster_list_) {
-    std::array<double,3> thruster_effort_lin = t.GetLinearEffort();
-    std::array<double,3> thruster_effort_rot = t.GetRotationnalEffort();
-    // 2014-10-31 KC Change to limit Thruster effort earlier in the
-    // process to 24 (55% from lookup table)
-    double pretendedLinearEffortYTarget = linear_target[1] * thruster_effort_lin[1];
-    double pretendedLinearEffortXTarget = linear_target[0] * thruster_effort_lin[0];
-    double pretendedLinearEffortZTarget = linear_target[2]* thruster_effort_lin[2];
-    // -
-    double pretendedRotationEffortZTargetY = rotational_target[2] * thruster_effort_rot[1];
-    double pretendedRotationEffortZTargetX = rotational_target[2] * thruster_effort_rot[0];
-    double pretendedRotationEffortYTarget = rotational_target[1] * thruster_effort_rot[2];
-    if(pretendedLinearEffortYTarget < pretendedLinearEffortXTarget * 1.2){
-      // -
-      // We put a higher priority on rotation, since we should attain
-      // this
-      // goal faster.
-      if ((std::abs(pretendedLinearEffortYTarget)
-           + std::abs(pretendedRotationEffortZTargetY)) > POWER_LIMIT_BEFORE_LUT) {
-        // Setting the Y linear effort to what is left after rotational effort
-        if ((POWER_LIMIT_BEFORE_LUT - std::abs(pretendedRotationEffortZTargetY)) <= 0){
-          linear_target[1] = 0;
-          //-
-        }
-        else{
-          linear_target[1] = atlas::signum(linear_target[1])
-                             * ((POWER_LIMIT_BEFORE_LUT - std::abs(pretendedRotationEffortZTargetY)) / std::abs(thruster_effort_lin[1]));
-        }
-      }
-    }
-    else{
-      // -
-      // We put a higher priority on rotation, since we should attain
-      // this
-      // goal faster.
-      if ((std::abs(pretendedLinearEffortXTarget)
-           + std::abs(pretendedRotationEffortZTargetX)) > POWER_LIMIT_BEFORE_LUT) {
-        // Setting the Y linear effort to what is left after rotational effort
-        if ((POWER_LIMIT_BEFORE_LUT - std::abs(pretendedRotationEffortZTargetX)) <= 0){
-          linear_target[0] = (0);
-          //-
-        }
-        else{
-          linear_target[0] = (atlas::signum(linear_target[0])
-                              * ((POWER_LIMIT_BEFORE_LUT - std::abs(pretendedRotationEffortZTargetX)) / std::abs(thruster_effort_lin[0])));
-        }
-      }
+//------------------------------------------------------------------------------
+//
+ThrusterManager::~ThrusterManager() {}
 
-    }
-    // We put a higher priority on rotation, since we should attain
-    // this
-    // goal faster.
-    if ((std::abs(pretendedLinearEffortZTarget)
-         + std::abs(pretendedRotationEffortYTarget)) > POWER_LIMIT_BEFORE_LUT) {
-      // Setting the Z linear effort to what is left after rotational effort
-      if ((POWER_LIMIT_BEFORE_LUT - std::abs(pretendedRotationEffortYTarget)) <= 0){
-        linear_target[3] = (0);
+//==============================================================================
+// C O N F I G M A N A G E R   M E T H O D   S E C T I O N
 
-      }
-      else{
-        linear_target[3] = (atlas::signum(linear_target[2])
-                            * ((POWER_LIMIT_BEFORE_LUT - std::abs(pretendedRotationEffortYTarget)) / std::abs(thruster_effort_lin[2])));
-
-      }
-    }
-
-  }
-  //-
-  std::array<double, 6> thrust_vec = {0};
-  int i = 0;
-  for (auto &t : thruster_list_) {
-    double target = 0;
-    std::array<double,3> thruster_effort_lin = t.GetLinearEffort();
-    std::array<double,3> thruster_effort_rot = t.GetRotationnalEffort();
-    //-
-    for( int i = 0; i < 3; i ++)
-    {
-      target += linear_target[i] * thruster_effort_lin[i];
-      target += rotational_target[i] * thruster_effort_rot[i];
-    }
-    t.Publish((int)target);
-    thrust_vec[i] = target;
-    i++;
-  }
-  return thrust_vec;
-}
-
-
-void ThrusterManager::OnDynamicReconfigureChange(const proc_control::ThrusterConfig &config ) {
+//-----------------------------------------------------------------------------
+//
+void ThrusterManager::OnDynamicReconfigureChange(const proc_control::ThrusterConfig &config) {
   std::cout << "Update on thruster configuration" << std::endl;
+
+  constant_reverse_effort_ = config.CONSTANT_REVERSE_EFFORT;
+
   for (auto &t : thruster_list_) {
-    if (t.GetID() == "port") {
+    if (t.GetID() == t.GetIDFromName("T1")) {
       t.SetFrom6AxisArray(
-          {config.Port_X, config.Port_Y, config.Port_Z,
-           config.Port_PITCH, config.Port_ROLL, config.Port_YAW});
-    } else if (t.GetID() == "starboard") {
+          {config.T1_X, config.T1_Y, config.T1_Z,
+           config.T1_PITCH, config.T1_ROLL, config.T1_YAW});
+    } else if (t.GetID() == t.GetIDFromName("T2")) {
       t.SetFrom6AxisArray(
-          {config.Starboard_X, config.Starboard_Y, config.Starboard_Z,
-           config.Starboard_PITCH, config.Starboard_ROLL, config.Starboard_YAW});
-    } else if (t.GetID() == "back_heading") {
+          {config.T2_X, config.T2_Y, config.T2_Z,
+           config.T2_PITCH, config.T2_ROLL, config.T2_YAW});
+    } else if (t.GetID() == t.GetIDFromName("T3")) {
       t.SetFrom6AxisArray(
-          {config.Back_Heading_X, config.Back_Heading_Y, config.Back_Heading_Z,
-           config.Back_Heading_PITCH,config.Back_Heading_ROLL, config.Back_Heading_YAW});
-    } else if (t.GetID() == "front_heading") {
+          {config.T3_X, config.T3_Y, config.T3_Z,
+           config.T3_PITCH, config.T3_ROLL, config.T3_YAW});
+    } else if (t.GetID() == t.GetIDFromName("T4")) {
       t.SetFrom6AxisArray(
-          {config.Front_Heading_X, config.Front_Heading_Y, config.Front_Heading_Z,
-           config.Front_Heading_PITCH, config.Front_Heading_ROLL, config.Front_Heading_YAW});
-    } else if (t.GetID() == "front_depth") {
+          {config.T4_X, config.T4_Y, config.T4_Z,
+           config.T4_PITCH, config.T4_ROLL, config.T4_YAW});
+    } else if (t.GetID() == t.GetIDFromName("T5")) {
       t.SetFrom6AxisArray(
-          {config.Front_Depth_X, config.Front_Depth_Y, config.Front_Depth_Z,
-           config.Front_Depth_PITCH, config.Front_Depth_ROLL, config.Front_Depth_YAW});
-    } else if (t.GetID() == "back_depth") {
+          {config.T5_X, config.T5_Y, config.T5_Z,
+           config.T5_PITCH, config.T5_ROLL, config.T5_YAW});
+    } else if (t.GetID() == t.GetIDFromName("T6")) {
       t.SetFrom6AxisArray(
-          {config.Back_Depth_X, config.Back_Depth_Y, config.Back_Depth_Z,
-           config.Back_Depth_PITCH, config.Back_Depth_ROLL, config.Back_Depth_YAW});
+          {config.T6_X, config.T6_Y, config.T6_Z,
+           config.T6_PITCH, config.T6_ROLL, config.T6_YAW});
+    } else if (t.GetID() == t.GetIDFromName("T7")) {
+      t.SetFrom6AxisArray(
+          {config.T7_X, config.T7_Y, config.T7_Z,
+           config.T7_PITCH, config.T7_ROLL, config.T7_YAW});
+    } else if (t.GetID() == t.GetIDFromName("T8")) {
+      t.SetFrom6AxisArray(
+          {config.T8_X, config.T8_Y, config.T8_Z,
+           config.T8_PITCH, config.T8_ROLL, config.T8_YAW});
     }
   }
 }
 
-void ThrusterManager::WriteConfigFile(const proc_control::ThrusterConfig &config)
-{
+//-----------------------------------------------------------------------------
+//
+void ThrusterManager::WriteConfigFile(const proc_control::ThrusterConfig &config) {
   return;
-  YAML::Emitter out;
-  out << YAML::BeginMap;
-  for(size_t i = 0; i < thruster_list_.size(); i++)
-  {
-    WriteEfforts(i, out);
-  }
-
-  out << YAML::EndMap;
-  std::ofstream fout(file_path_);
-  fout << out.c_str();
 }
 
-void ThrusterManager::ReadConfigFile(proc_control::ThrusterConfig &config)
-{
+//-----------------------------------------------------------------------------
+//
+void ThrusterManager::ReadConfigFile(proc_control::ThrusterConfig &config) {
   YAML::Node node = YAML::LoadFile(file_path_);
 
-  ReadEfforts("port", node);
-  ReadEfforts("starboard", node);
-  ReadEfforts("front_depth", node);
-  ReadEfforts("back_depth", node);
-  ReadEfforts("front_heading", node);
-  ReadEfforts("back_heading", node);
-
-  for(const auto &t : thruster_list_)
+  if( node[CONSTANT_REVERSE_EFFORT] )
   {
-    if( t.GetID() == "port"){
-      config.Port_X = t.GetLinearEffort()[0];
-      config.Port_Y = t.GetLinearEffort()[1];
-      config.Port_Z = t.GetLinearEffort()[2];
-      config.Port_PITCH = t.GetRotationnalEffort()[0];
-      config.Port_ROLL = t.GetRotationnalEffort()[1];
-      config.Port_YAW = t.GetRotationnalEffort()[2];
-    }
-    else if( t.GetID() == "starboard"){
-      config.Starboard_X = t.GetLinearEffort()[0];
-      config.Starboard_Y = t.GetLinearEffort()[1];
-      config.Starboard_Z = t.GetLinearEffort()[2];
-      config.Starboard_PITCH = t.GetRotationnalEffort()[0];
-      config.Starboard_ROLL = t.GetRotationnalEffort()[1];
-      config.Starboard_YAW = t.GetRotationnalEffort()[2];
-    }
-    else if( t.GetID() == "front_heading"){
-      config.Front_Heading_X = t.GetLinearEffort()[0];
-      config.Front_Heading_Y = t.GetLinearEffort()[1];
-      config.Front_Heading_Z = t.GetLinearEffort()[2];
-      config.Front_Heading_PITCH = t.GetRotationnalEffort()[0];
-      config.Front_Heading_ROLL = t.GetRotationnalEffort()[1];
-      config.Front_Heading_YAW = t.GetRotationnalEffort()[2];
+    constant_reverse_effort_ = node[CONSTANT_REVERSE_EFFORT].as<double>();
+  }
 
+  config.CONSTANT_REVERSE_EFFORT = constant_reverse_effort_;
+
+  ReadEfforts("T1", node);
+  ReadEfforts("T2", node);
+  ReadEfforts("T3", node);
+  ReadEfforts("T4", node);
+  ReadEfforts("T5", node);
+  ReadEfforts("T6", node);
+  ReadEfforts("T7", node);
+  ReadEfforts("T8", node);
+
+  for (const auto &t : thruster_list_) {
+    if (t.GetID() == t.GetIDFromName("T1")) {
+      config.T1_X = t.GetLinearEffort()[0];
+      config.T1_Y = t.GetLinearEffort()[1];
+      config.T1_Z = t.GetLinearEffort()[2];
+      config.T1_PITCH = t.GetRotationnalEffort()[0];
+      config.T1_ROLL = t.GetRotationnalEffort()[1];
+      config.T1_YAW = t.GetRotationnalEffort()[2];
+    } else if (t.GetID() == t.GetIDFromName("T2")) {
+      config.T2_X = t.GetLinearEffort()[0];
+      config.T2_Y = t.GetLinearEffort()[1];
+      config.T2_Z = t.GetLinearEffort()[2];
+      config.T2_PITCH = t.GetRotationnalEffort()[0];
+      config.T2_ROLL = t.GetRotationnalEffort()[1];
+      config.T2_YAW = t.GetRotationnalEffort()[2];
+    } else if (t.GetID() == t.GetIDFromName("T3")) {
+      config.T3_X = t.GetLinearEffort()[0];
+      config.T3_Y = t.GetLinearEffort()[1];
+      config.T3_Z = t.GetLinearEffort()[2];
+      config.T3_PITCH = t.GetRotationnalEffort()[0];
+      config.T3_ROLL = t.GetRotationnalEffort()[1];
+      config.T3_YAW = t.GetRotationnalEffort()[2];
+    } else if (t.GetID() == t.GetIDFromName("T4")) {
+      config.T4_X = t.GetLinearEffort()[0];
+      config.T4_Y = t.GetLinearEffort()[1];
+      config.T4_Z = t.GetLinearEffort()[2];
+      config.T4_PITCH = t.GetRotationnalEffort()[0];
+      config.T4_ROLL = t.GetRotationnalEffort()[1];
+      config.T4_YAW = t.GetRotationnalEffort()[2];
+    } else if (t.GetID() == t.GetIDFromName("T5")) {
+      config.T5_X = t.GetLinearEffort()[0];
+      config.T5_Y = t.GetLinearEffort()[1];
+      config.T5_Z = t.GetLinearEffort()[2];
+      config.T5_PITCH = t.GetRotationnalEffort()[0];
+      config.T5_ROLL = t.GetRotationnalEffort()[1];
+      config.T5_YAW = t.GetRotationnalEffort()[2];
+    } else if (t.GetID() == t.GetIDFromName("T6")) {
+      config.T6_X = t.GetLinearEffort()[0];
+      config.T6_Y = t.GetLinearEffort()[1];
+      config.T6_Z = t.GetLinearEffort()[2];
+      config.T6_PITCH = t.GetRotationnalEffort()[0];
+      config.T6_ROLL = t.GetRotationnalEffort()[1];
+      config.T6_YAW = t.GetRotationnalEffort()[2];
+    } else if (t.GetID() == t.GetIDFromName("T7")) {
+      config.T7_X = t.GetLinearEffort()[0];
+      config.T7_Y = t.GetLinearEffort()[1];
+      config.T7_Z = t.GetLinearEffort()[2];
+      config.T7_PITCH = t.GetRotationnalEffort()[0];
+      config.T7_ROLL = t.GetRotationnalEffort()[1];
+      config.T7_YAW = t.GetRotationnalEffort()[2];
+    } else if (t.GetID() == t.GetIDFromName("T8")) {
+      config.T8_X = t.GetLinearEffort()[0];
+      config.T8_Y = t.GetLinearEffort()[1];
+      config.T8_Z = t.GetLinearEffort()[2];
+      config.T8_PITCH = t.GetRotationnalEffort()[0];
+      config.T8_ROLL = t.GetRotationnalEffort()[1];
+      config.T8_YAW = t.GetRotationnalEffort()[2];
     }
-    else if( t.GetID() == "back_heading"){
-      config.Back_Heading_X = t.GetLinearEffort()[0];
-      config.Back_Heading_Y = t.GetLinearEffort()[1];
-      config.Back_Heading_Z = t.GetLinearEffort()[2];
-      config.Back_Heading_PITCH = t.GetRotationnalEffort()[0];
-      config.Back_Heading_ROLL = t.GetRotationnalEffort()[1];
-      config.Back_Heading_YAW = t.GetRotationnalEffort()[2];
+  }
+}
+
+//==============================================================================
+// M E T H O D   S E C T I O N
+
+//-----------------------------------------------------------------------------
+//
+void ThrusterManager::SetEfforts() {
+
+    std::array<double, 3> effort_lin;
+    std::array<double, 3> effort_rot;
+    int i = 0;
+    for (auto &t : thruster_list_) {
+        effort_lin = t.GetLinearEffort();
+        effort_rot = t.GetRotationnalEffort();
+
+        for (int j = 0; j < 3; j++) {
+            effort_(j, i) = effort_lin[j];
+            effort_(j + 3, i) = effort_rot[j];
+        }
+        i++;
     }
-    else if( t.GetID() == "front_depth"){
-      config.Front_Depth_X = t.GetLinearEffort()[0];
-      config.Front_Depth_Y = t.GetLinearEffort()[1];
-      config.Front_Depth_Z = t.GetLinearEffort()[2];
-      config.Front_Depth_PITCH = t.GetRotationnalEffort()[0];
-      config.Front_Depth_ROLL = t.GetRotationnalEffort()[1];
-      config.Front_Depth_YAW = t.GetRotationnalEffort()[2];
+
+}
+
+//-----------------------------------------------------------------------------
+//
+void ThrusterManager::SetEnable(bool isEnable) {
+
+  for (auto &thruster : thruster_list_) {
+    thruster.SetEnable(isEnable);
+  }
+}
+
+//-----------------------------------------------------------------------------
+//
+void ThrusterManager::Commit(EigenVector6d &actuation){
+
+    actuation_thruster_ = effort_.transpose() * actuation;
+
+    int i = 0;
+    for (auto &t : thruster_list_){
+        t.Publish(t.GetID(), (int16_t)actuation_thruster_(i,0));
+        i++;
     }
-    else if( t.GetID() == "back_depth"){
-      config.Back_Depth_X = t.GetLinearEffort()[0];
-      config.Back_Depth_Y = t.GetLinearEffort()[1];
-      config.Back_Depth_Z = t.GetLinearEffort()[2];
-      config.Back_Depth_PITCH = t.GetRotationnalEffort()[0];
-      config.Back_Depth_ROLL = t.GetRotationnalEffort()[1];
-      config.Back_Depth_YAW = t.GetRotationnalEffort()[2];
+
+}
+
+//-----------------------------------------------------------------------------
+//
+void ThrusterManager::WriteEfforts(size_t thruster_index, YAML::Emitter &out) {
+//  out << YAML::Key << thruster_list_[thruster_index].GetID();
+//  out << YAML::Value;
+//  out << YAML::Flow;
+//  std::array<double, 3> lin_array  = thruster_list_[thruster_index].GetLinearEffort();
+//  std::array<double, 3> rot_array  = thruster_list_[thruster_index].GetRotationnalEffort();
+//  std::vector<double> tot_vec = {lin_array[0], lin_array[1],lin_array[2],rot_array[3],rot_array[4],rot_array[5]};
+//  out << tot_vec;
+}
+
+//-----------------------------------------------------------------------------
+//
+void ThrusterManager::ReadEfforts(const std::string &thruster_name, YAML::Node &node) {
+  if (node[thruster_name]) {
+    auto thruster = node[thruster_name];
+    assert(thruster.Type() == YAML::NodeType::Sequence);
+    std::array<double, 6> force_array = {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f};
+    for (size_t i = 0, size = force_array.size(); i < size; i++) {
+      force_array[i] = thruster[i].as<double>();
+    }
+    for (auto &t : thruster_list_) {
+      if (t.GetID() == t.GetIDFromName(thruster_name))
+        t.SetFrom6AxisArray(force_array);
     }
 
   }
-
-
 }
+
+} // namespace proc_control

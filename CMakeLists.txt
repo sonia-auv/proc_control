@@ -1,4 +1,4 @@
-# \file     CMakeLists.txt
+ # \file     CMakeLists.txt
 # \author   Jeremie St-Jules-Prevost <jeremie.st.jules.prevost@gmail.com>
 # \date     23/09/2016
 #
@@ -36,6 +36,8 @@ endif (NOT CMAKE_BUILD_TYPE)
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -std=c++11 -Wall")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -std=c++11 -O3 -s")
 
+set(CMAKE_MODULE_PATH "/usr/share/cmake-3.0/Modules")
+
 set(proc_control_SRC_DIR "src")
 
 #===============================================================================
@@ -45,17 +47,16 @@ find_package(
     roscpp
     std_msgs
     message_generation
-    sonia_msgs
     geometry_msgs
     sensor_msgs
-    lib_atlas
     dynamic_reconfigure
+    provider_thruster
+    provider_kill_mission
 )
 
 generate_dynamic_reconfigure_options(
-        cfg/PID4Axis_reconf.cfg
-        cfg/Algorithm_reconf.cfg
         cfg/Thruster_reconf.cfg
+        cfg/Controller_reconf.cfg
 )
 
 add_message_files(
@@ -63,14 +64,21 @@ add_message_files(
     FILES
     PositionTarget.msg
     TargetReached.msg
+    ThrustLogging.msg
 )
 
 add_service_files(
      DIRECTORY srv
      FILES
+     SetControlMode.srv
+     ClearWaypoint.srv
      SetPositionTarget.srv
      GetPositionTarget.srv
+     EnableThrusters.srv
      EnableControl.srv
+     SetBoundingBox.srv
+     ResetBoundingBox.srv
+     SetDecoupledTarget.srv
 )
 
 # Generate added messages and services with any dependencies listed here
@@ -82,7 +90,7 @@ generate_messages(
 catkin_package(
     INCLUDE_DIRS ${proc_control_SRC_DIR}
     LIBRARIES
-    CATKIN_DEPENDS roscpp message_runtime std_msgs lib_atlas sonia_msgs
+    CATKIN_DEPENDS roscpp message_runtime std_msgs provider_thruster provider_kill_mission
     dynamic_reconfigure
 )
 
@@ -100,16 +108,15 @@ include_directories(
     ${catkin_INCLUDE_DIRS}
     ${proc_control_SRC_DIR}
     "${proc_control_SRC_DIR}/../cfg/cpp/"
-    ${lib_atlas_INCLUDE_DIRS}
         ${Boost_INCLUDE_DIRS}
+        ${provider_kill_mission_INCLUDE_DIRS}
 )
 
 #==========================================================================
 # C R E A T E   E X E C U T A B L E
 add_executable(${PROJECT_NAME}_node ${proc_control_SRC_DIR}/${PROJECT_NAME}/main.cc ${proc_control_FILES})
-target_link_libraries(${PROJECT_NAME}_node ${catkin_LIBRARIES} ${lib_atlas_LIBRARIES} yaml-cpp ${Boost_LIBRARIES})
+target_link_libraries(${PROJECT_NAME}_node ${catkin_LIBRARIES} ${Eigen_LIBRARIES} yaml-cpp ${Boost_LIBRARIES})
 add_dependencies(${PROJECT_NAME}_node
-        sonia_msgs_generate_messages_cpp
         ${PROJECT_NAME}_generate_messages_cpp
         ${PROJECT_NAME}_gencfg)
 

@@ -1,30 +1,116 @@
-//
-// Created by jeremie on 10/17/16.
-//
+/*
+ * \file	thruster.cc
+ * \author	Jeremie St-Jules <jeremie.st.jules.prevost@gmail.com>
+ * \coauthor Francis Masse <francis.masse05@gmail.com>
+ * \date	10/17/16
+ *
+ * \copyright Copyright (c) 2017 S.O.N.I.A. AUV All rights reserved.
+ *
+ * \section LICENSE
+ *
+ * This file is part of S.O.N.I.A. software.
+ *
+ * S.O.N.I.A. AUV software is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * S.O.N.I.A. AUV software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with S.O.N.I.A. AUV software. If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #include "thruster.h"
 
-std::array<double,101> Thruster::POSITIVE_LINEAR_LUT = {
-    //0 to 9
-    0, 17, 21, 25, 27, 30, 32, 34, 35, 37,
-    //10 to 19
-    39,	40,	42, 43, 44, 45, 47, 48, 49, 50,
-    //20 to 29
-    51, 52, 53,	54, 55, 56, 57, 58, 58, 59,
-    //30 to 39
-    60,	61, 62, 63,	63, 64, 65, 66, 67, 67,
-    //40 to 49
-    68, 69, 69, 70, 71,	71, 72, 73, 73, 74,
-    //50 to 59
-    74, 75, 76, 76, 77, 78,	78, 79, 79, 80,
-    //60 to 69
-    80, 81, 82, 82, 83, 83, 84,	84, 85, 85,
-    //70 to 79
-    86,	86, 87, 87, 88, 88, 89, 89,	90, 90,
-    //80 to 89
-    91, 91,	92, 92,	93, 93, 94, 94, 95,	95,
-    //90 to 99
-    96, 96, 96,	97, 97, 98, 98, 99, 99, 100,
-    //100
-    100
+namespace proc_control {
+
+//==============================================================================
+// C / D T O R S   S E C T I O N
+
+//------------------------------------------------------------------------------
+//
+Thruster::Thruster(const uint8_t &id) :
+    linear_effort_({0.0}),
+    rotationnal_effort_({0.0}),
+    id_(id) {
+  thruster_effort_publisher_ = nh_.advertise<provider_thruster::ThrusterEffort>
+      ("/provider_thruster/thruster_effort", 100);
 };
+
+//------------------------------------------------------------------------------
+//
+Thruster::~Thruster() { }
+
+//==============================================================================
+// M E T H O D   S E C T I O N
+
+//-----------------------------------------------------------------------------
+//
+void Thruster::Publish(uint8_t ID, int16_t thrust_value) {
+  provider_thruster::ThrusterEffort msg;
+  msg.ID = ID;
+  msg.effort = thrust_value;
+
+  if (IsEnable()) {
+    thruster_effort_publisher_.publish(msg);
+  }
+}
+
+//-----------------------------------------------------------------------------
+//
+uint16_t Thruster::GetIDFromName(std::string name) const {
+  if (name == "T1") {
+    return 1;
+  } else if (name == "T2") {
+    return 2;
+  } else if (name == "T3") {
+    return 3;
+  } else if (name == "T4") {
+    return 4;
+  } else if (name == "T5") {
+    return 5;
+  } else if (name == "T6") {
+    return 6;
+  } else if (name == "T7") {
+    return 7;
+  } else if (name == "T8") {
+    return 8;
+  }
+  return 10;
+}
+
+//-----------------------------------------------------------------------------
+//
+std::array<double, 3> Thruster::GetLinearEffort() const {
+  return linear_effort_;
+};
+
+//-----------------------------------------------------------------------------
+//
+std::array<double, 3> Thruster::GetRotationnalEffort() const {
+  return rotationnal_effort_;
+};
+
+//-----------------------------------------------------------------------------
+//
+double Thruster::LinearizeForce(double force) const {
+  return 11.9 * std::pow(force, 0.45106) + 5;
+}
+
+//-----------------------------------------------------------------------------
+//
+void Thruster::SetFrom6AxisArray(const std::array<double, 6> &array_axis) {
+  std::copy(array_axis.begin(), array_axis.begin() + 3, linear_effort_.begin());
+  std::copy(array_axis.begin() + 3, array_axis.end(), rotationnal_effort_.begin());
+
+  for (int i = 0; i < 3; i++) {
+    linear_effort_[i];
+    rotationnal_effort_[i];
+  }
+}
+
+} // namespace proc_control

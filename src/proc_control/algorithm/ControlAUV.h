@@ -33,21 +33,19 @@
 
 namespace proc_control{
 
-    class ControlAUV {
-
+    class ControlAUV
+    {
     public:
-
-        typedef Eigen::Matrix<double, 6, 1> EigenVector6d;
 
         ControlAUV(std::string mode);
 
         ~ControlAUV() = default;
 
-        EigenVector6d GetActuationForError(EigenVector6d &error);
+        Eigen::VectorXd GetActuationForError(Eigen::VectorXd &error);
 
-        std::vector<bool> IsInBoundingBox(EigenVector6d &error);
+        std::vector<bool> IsInBoundingBox(Eigen::VectorXd &error);
 
-        void SetNewBoundingBox(EigenVector6d BBox);
+        void SetNewBoundingBox(Eigen::VectorXd BBox);
         void ResetBoundingBox();
 
     private:

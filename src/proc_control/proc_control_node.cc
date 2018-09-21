@@ -75,10 +75,6 @@ namespace proc_control{
                 controlMode_ = nullptr;
                 controlMode_ = std::make_shared<proc_control::PositionMode>(nh_);
                 break;
-            case VelocityMode_:
-                controlMode_ = nullptr;
-                controlMode_ = std::make_shared<proc_control::VelocityMode>(nh_);
-                break;
             default :
                 controlMode_ = nullptr;
                 controlMode_ = std::make_shared<proc_control::PositionMode>(nh_);

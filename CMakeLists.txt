@@ -1,4 +1,4 @@
- # \file     CMakeLists.txt
+# \file     CMakeLists.txt
 # \author   Jeremie St-Jules-Prevost <jeremie.st.jules.prevost@gmail.com>
 # \date     23/09/2016
 #
@@ -52,6 +52,7 @@ find_package(
     dynamic_reconfigure
     provider_thruster
     provider_kill_mission
+    control_library
 )
 
 generate_dynamic_reconfigure_options(
@@ -90,8 +91,14 @@ generate_messages(
 catkin_package(
     INCLUDE_DIRS ${proc_control_SRC_DIR}
     LIBRARIES
-    CATKIN_DEPENDS roscpp message_runtime std_msgs provider_thruster provider_kill_mission
+    CATKIN_DEPENDS
+    roscpp
+    message_runtime
+    std_msgs
+    provider_thruster
+    provider_kill_mission
     dynamic_reconfigure
+    control_library
 )
 
 #===============================================================================
@@ -108,14 +115,15 @@ include_directories(
     ${catkin_INCLUDE_DIRS}
     ${proc_control_SRC_DIR}
     "${proc_control_SRC_DIR}/../cfg/cpp/"
-        ${Boost_INCLUDE_DIRS}
-        ${provider_kill_mission_INCLUDE_DIRS}
+    ${Boost_INCLUDE_DIRS}
+    ${provider_kill_mission_INCLUDE_DIRS}
+    ${control_library_INCLUDE_DIRS}
 )
 
 #==========================================================================
 # C R E A T E   E X E C U T A B L E
 add_executable(${PROJECT_NAME}_node ${proc_control_SRC_DIR}/${PROJECT_NAME}/main.cc ${proc_control_FILES})
-target_link_libraries(${PROJECT_NAME}_node ${catkin_LIBRARIES} ${Eigen_LIBRARIES} yaml-cpp ${Boost_LIBRARIES})
+target_link_libraries(${PROJECT_NAME}_node ${catkin_LIBRARIES} ${Eigen_LIBRARIES} yaml-cpp ${Boost_LIBRARIES} ${control_library_LIBRARIES})
 add_dependencies(${PROJECT_NAME}_node
         ${PROJECT_NAME}_generate_messages_cpp
         ${PROJECT_NAME}_gencfg)

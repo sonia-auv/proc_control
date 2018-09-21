@@ -41,7 +41,6 @@ namespace proc_control {
     class ControlInput {
     public:
 
-        typedef Eigen::Matrix<double, 6, 1> EigenVector6d;
         const double DEGREE_TO_RAD = M_PI / 180.0;
 
         //==============================================================================
@@ -55,11 +54,10 @@ namespace proc_control {
 
         void OdometryCallback(const nav_msgs::Odometry::ConstPtr &odomIn);
 
-        Eigen::Vector3d GetPositionTranslation() const { return positionTranslation_; };
-        Eigen::Vector3d GetVelocityTranslation() const { return velocityTranslation_; };
-
-        Eigen::Vector3d GetPositionOrientation() const { return positionOrientation_; };
-        Eigen::Vector3d GetVelocityOrientation() const { return velocityOrientation_; };
+        Eigen::Vector3d GetPosePosition()    const { return controlInput_.pose.position; };
+        Eigen::Vector3d GetTwistLinear()     const { return controlInput_.twist.angular; };
+        Eigen::Vector3d GetPoseOrientation() const { return controlInput_.pose.orientation; };
+        Eigen::Vector3d GetTwistAngular()    const { return controlInput_.twist.angular; };
 
 
     private:
@@ -72,13 +70,25 @@ namespace proc_control {
         // Subscriber
         ros::Subscriber navigationOdomSubscriber_;
 
-        Eigen::Vector3d positionTranslation_ = Eigen::Vector3d(0.0, 0.0, 0.0);
-        Eigen::Vector3d positionOrientation_ = Eigen::Vector3d(0.0, 0.0, 0.0);
+        struct tPose
+        {
+            Eigen::Vector3d position;
+            Eigen::Vector3d orientation;
+        };
 
-        Eigen::Vector3d velocityTranslation_ = Eigen::Vector3d(0.0, 0.0, 0.0);
-        Eigen::Vector3d velocityOrientation_ = Eigen::Vector3d(0.0, 0.0, 0.0);
+        struct tTwist
+        {
+            Eigen::Vector3d linear;
+            Eigen::Vector3d angular;
+        };
 
-        EigenVector6d enable_control_;
+        struct tControlInput
+        {
+            tPose  pose;
+            tTwist twist;
+        };
+
+        tControlInput controlInput_;
     };
 }
 

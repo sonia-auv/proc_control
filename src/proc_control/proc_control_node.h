@@ -28,9 +28,8 @@
 
 #include <ros/ros.h>
 
-#include "proc_control/Mode/ControlModeIf.h"
+#include "proc_control/Mode/ControlModeIF.h"
 #include "proc_control/Mode/PositionMode.h"
-#include "proc_control/Mode/VelocityMode.h"
 
 #include "proc_control/SetPositionTarget.h"
 #include "proc_control/SetControlMode.h"
@@ -83,7 +82,7 @@ namespace proc_control{
         ros::ServiceServer setGlobalDecoupledTargetServer_;
         ros::ServiceServer setLocalDecoupledTargetServer_;
 
-        std::shared_ptr<ControlModeIf> controlMode_;
+        std::shared_ptr<ControlModeIF> controlMode_;
 
         enum controlMode{PositionMode_ = 0, VelocityMode_};
 

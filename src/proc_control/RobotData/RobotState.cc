@@ -23,24 +23,26 @@
  * along with S.O.N.I.A. AUV software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "ControlModeIF.h"
+#include "RobotState.h"
 
 namespace proc_control
- {
-     ControlModeIF::ControlModeIF(const ros::NodeHandlePtr &nh):
+{
+     RobotState::RobotState(const ros::NodeHandlePtr &nh):
         nh_(nh),
         inputData_(nh),
-        trajectoryManager_()
+        trajectoryManager_(nullptr)
      {
          killSwitchSubscriber_   = nh_->subscribe("/provider_kill_mission/kill_switch_msg", 100,
-                                                  &ControlModeIF::KillMissionCallback, this);
+                                                  &RobotState::KillMissionCallback, this);
 
          enableControllerServer_ = nh_->advertiseService("/proc_control/enable_control",
-                                                         &ControlModeIF::EnableControlServiceCallback, this);
+                                                         &RobotState::EnableControlServiceCallback, this);
          enableThrustersServer_  = nh_->advertiseService("/proc_control/enable_thrusters",
-                                                         &ControlModeIF::EnableThrustersServerCallback, this);
+                                                         &RobotState::EnableThrustersServerCallback, this);
          clearWayPointServer_    = nh_->advertiseService("/proc_control/clear_waypoint",
-                                                         &ControlModeIF::ClearWayPointServiceCallback, this);
+                                                         &RobotState::ClearWayPointServiceCallback, this);
+
+         trajectoryManager_ = std::make_shared<control::ControlInterface>();
 
          controllerPoseErrorPublisher_  = nh_->advertise<geometry_msgs::Pose>("/proc_control/current_controller_pose_error", 100);
          controllerTwistErrorPublisher_ = nh_->advertise<geometry_msgs::Twist>("/proc_control/current_controller_twist_error", 100);
@@ -61,10 +63,10 @@ namespace proc_control
          actualTwist_          = Eigen::VectorXd::Zero(control::CARTESIAN_SPACE);
          actualAcceleration_   = Eigen::VectorXd::Zero(control::CARTESIAN_SPACE);
 
-         trajectoryManager_.ResetTrajectory();
+         trajectoryManager_->ResetTrajectory();
      }
 
-     ControlModeIF::~ControlModeIF()
+     RobotState::~RobotState()
      {
          killSwitchSubscriber_.shutdown();
          enableControllerServer_.shutdown();
@@ -75,14 +77,14 @@ namespace proc_control
          resetBoundingBoxServer_.shutdown();
      }
 
-     void ControlModeIF::UpdateInput()
+     void RobotState::UpdateInput()
      {
          actualPose_  << inputData_.GetPosePosition(), inputData_.GetPoseOrientation();
          actualTwist_ << inputData_.GetTwistLinear(), inputData_.GetTwistAngular();
      }
 
-    void ControlModeIF::KillMissionCallback(const provider_kill_mission::KillSwitchMsg::ConstPtr &state_in) {
-
+    void RobotState::KillMissionCallback(const provider_kill_mission::KillSwitchMsg::ConstPtr &state_in)
+    {
         if(!state_in->state)
         {
             enableAxisController_ = {{false, false, false, false, false, false}};
@@ -91,18 +93,20 @@ namespace proc_control
             desiredTwist_        = actualTwist_;
             desiredAcceleration_ = actualAcceleration_;
 
-            trajectoryManager_.ResetTrajectory();
+            trajectoryManager_->ResetTrajectory();
         }
 
     }
 
-    bool ControlModeIF::EnableControlServiceCallback(proc_control::EnableControlRequest &request, proc_control::EnableControlResponse &response)
+    bool RobotState::EnableControlServiceCallback(proc_control::EnableControlRequest &request, proc_control::EnableControlResponse &response)
     {
         desiredPose_         = actualPose_;
         desiredTwist_        = actualTwist_;
         desiredAcceleration_ = actualAcceleration_;
 
-        trajectoryManager_.ResetTrajectory();
+        PosePublisher(desiredPose_, debugTargetPublisher_);
+
+        trajectoryManager_->ResetTrajectory();
 
         HandleEnableDisableControl(request.X, 0);
         HandleEnableDisableControl(request.Y, 1);
@@ -114,7 +118,7 @@ namespace proc_control
         return true;
     }
 
-    void ControlModeIF::HandleEnableDisableControl(int8_t &request, int axis)
+    void RobotState::HandleEnableDisableControl(int8_t &request, int axis)
     {
          if (request != -1)
          {
@@ -122,7 +126,7 @@ namespace proc_control
          }
     }
 
-    bool ControlModeIF::EnableThrustersServerCallback(proc_control::EnableThrustersRequest &request, proc_control::EnableThrustersResponse &response)
+    bool RobotState::EnableThrustersServerCallback(proc_control::EnableThrustersRequest &request, proc_control::EnableThrustersResponse &response)
     {
         enableThruster_ = bool(request.isEnable);
 
@@ -130,36 +134,60 @@ namespace proc_control
     }
 
 
-    bool ControlModeIF::ClearWayPointServiceCallback(proc_control::ClearWaypointRequest &request, proc_control::ClearWaypointResponse &response)
+    bool RobotState::ClearWayPointServiceCallback(proc_control::ClearWaypointRequest &request, proc_control::ClearWaypointResponse &response)
     {
         desiredPose_         = actualPose_;
         desiredTwist_        = actualTwist_;
         desiredAcceleration_ = actualAcceleration_;
 
+        PosePublisher(desiredPose_, debugTargetPublisher_);
+
         return true;
     }
 
-    void ControlModeIF::PoseTwistPublisher(const Eigen::VectorXd &pose, const Eigen::VectorXd &twist, ros::Publisher &posePublisher, ros::Publisher &twistPublisher)
+    void RobotState::PosePublisher(const Eigen::VectorXd &pose, ros::Publisher &posePublisher)
     {
         geometry_msgs::Pose poseMsg;
         EigenVectorToPoseMsg(pose, poseMsg);
 
+        posePublisher.publish(poseMsg);
+    }
+
+    void RobotState::TargetReachedPublisher(const bool isTargetReached)
+    {
+        proc_control::TargetReached msg_target_reached;
+        msg_target_reached.target_is_reached = static_cast<unsigned char>(isTargetReached ? 1 : 0);
+        targetIsReachedPublisher_.publish(msg_target_reached);
+    }
+
+
+    void RobotState::TwistPublisher(const Eigen::VectorXd &twist, ros::Publisher &twistPublisher)
+    {
         geometry_msgs::Twist twistMsg;
         EigenVectorToTwistMsg(twist, twistMsg);
 
-        posePublisher.publish(poseMsg);
         twistPublisher.publish(twistMsg);
     }
 
-    void ControlModeIF::WrenchPublisher(Eigen::VectorXd &wrench, ros::Publisher &wrenchPublisher)
+    void RobotState:: WrenchPublisher(Eigen::VectorXd &wrench, ros::Publisher &wrenchPublisher)
     {
-         geometry_msgs::Wrench wrenchMsg;
-         EigenVectorToWrenchMsg(wrench, wrenchMsg);
+        for (int i = 0; i < 6; i++)
+        {
+            if (!enableAxisController_[i]) wrench[i] = 0.0f;
+        }
 
-         wrenchPublisher.publish(wrenchMsg);
+         if (enableThruster_)
+         {
+             geometry_msgs::Wrench wrenchMsg;
+             EigenVectorToWrenchMsg(wrench, wrenchMsg);
+
+             wrenchPublisher.publish(wrenchMsg);
+
+             thrusterManager_.Commit(wrench);
+         }
     }
 
-    control::TrajectoryGeneratorType ControlModeIF::CreateTrajectoryParameters(const double time, const Eigen::VectorXd &startPose, const Eigen::VectorXd &endPose)
+    control::TrajectoryGeneratorType RobotState::CreateTrajectoryParameters(const double time, const Eigen::VectorXd &startPose, const Eigen::VectorXd &endPose)
     {
         control::TrajectoryGeneratorType trajectoryParams;
 

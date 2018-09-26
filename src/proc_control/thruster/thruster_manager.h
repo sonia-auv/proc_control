@@ -39,8 +39,6 @@ namespace proc_control {
 
 class ThrusterManager : public ConfigManager<proc_control::ThrusterConfig> {
  public:
-
-    typedef Eigen::Matrix<double, 6, 1> EigenVector6d;
     //==========================================================================
     // P U B L I C   C / D T O R S
 
@@ -59,7 +57,7 @@ class ThrusterManager : public ConfigManager<proc_control::ThrusterConfig> {
     // P U B L I C   M E T H O D S
 
     void SetEnable(bool isEnable);
-    void Commit(EigenVector6d &actuation);
+    void Commit(Eigen::VectorXd &actuation);
 
     template<typename Tp_>
     inline int signum(Tp_ val) {
@@ -79,7 +77,7 @@ class ThrusterManager : public ConfigManager<proc_control::ThrusterConfig> {
 
     std::vector<proc_control::Thruster> thruster_list_;
 
-    EigenVector6d actuation_;
+    Eigen::VectorXd actuation_;
     Eigen::Matrix<double, 8, 1> actuation_thruster_;
     Eigen::Matrix<double, 6, 8> effort_;
 

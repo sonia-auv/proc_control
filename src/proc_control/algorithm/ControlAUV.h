@@ -53,9 +53,6 @@ namespace proc_control{
         enum ControllerType{PID_ = 0, PI_, PD_, P_};
 
         AxisController x_, y_, z_, roll_, pitch_, yaw_;
-
-
-
     };
 }
 

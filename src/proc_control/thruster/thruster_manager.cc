@@ -228,7 +228,7 @@ void ThrusterManager::SetEnable(bool isEnable) {
 
 //-----------------------------------------------------------------------------
 //
-void ThrusterManager::Commit(EigenVector6d &actuation){
+void ThrusterManager::Commit(Eigen::VectorXd &actuation){
 
     actuation_thruster_ = effort_.transpose() * actuation;
 

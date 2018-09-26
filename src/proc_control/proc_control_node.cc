@@ -28,7 +28,11 @@
 
 namespace proc_control{
 
-    ProcControlNode::ProcControlNode(const ros::NodeHandlePtr &nh): nh_(nh), controlMode_(nullptr){
+    ProcControlNode::ProcControlNode(const ros::NodeHandlePtr &nh) :
+        nh_(nh),
+        robotState_(nullptr),
+        controlMode_(nullptr)
+    {
 
         setControlModeServer_ = nh->advertiseService("/proc_control/set_control_mode",
                                                      &ProcControlNode::SetControlModeCallback, this);
@@ -44,12 +48,13 @@ namespace proc_control{
         setLocalDecoupledTargetServer_ = nh_->advertiseService("/proc_control/set_local_decoupled_target",
                                                                 &ProcControlNode::SetLocalDecoupledTargetPositionCallback, this);
 
-        controlMode_ = std::make_shared<proc_control::PositionMode>(nh_);
+        robotState_  = std::make_shared<proc_control::RobotState>(nh_);
+        controlMode_ = std::make_shared<proc_control::PositionMode>(robotState_);
 
     }
 
-    ProcControlNode::~ProcControlNode() {
-
+    ProcControlNode::~ProcControlNode()
+    {
         setControlModeServer_.shutdown();
         setGlobalDecoupledTargetServer_.shutdown();
         setLocalDecoupledTargetServer_.shutdown();
@@ -59,8 +64,9 @@ namespace proc_control{
 
     //==============================================================================
     // M E T H O D   S E C T I O N
-    void ProcControlNode::ControlLoop() {
-
+    void ProcControlNode::ControlLoop()
+    {
+        robotState_->UpdateInput();
         controlMode_->Process();
 
     }
@@ -73,11 +79,11 @@ namespace proc_control{
         switch (mode){
             case PositionMode_:
                 controlMode_ = nullptr;
-                controlMode_ = std::make_shared<proc_control::PositionMode>(nh_);
+                controlMode_ = std::make_shared<proc_control::PositionMode>(robotState_);
                 break;
             default :
                 controlMode_ = nullptr;
-                controlMode_ = std::make_shared<proc_control::PositionMode>(nh_);
+                controlMode_ = std::make_shared<proc_control::PositionMode>(robotState_);
         }
 
         return true;

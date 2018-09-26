@@ -27,28 +27,26 @@
 #define PROC_CONTROL_POSITIONMODE_H
 
 #include <chrono>
+#include <memory>
 
-#include "proc_control/ControlInput/ControlInput.h"
 #include "proc_control/trajectory/trajectory.h"
-#include "proc_control/Mode/ControlModeIF.h"
+#include "proc_control/RobotData/RobotState.h"
 #include "proc_control/Transformation/Transformation.h"
 #include "proc_control/algorithm/ControlAUV.h"
-
-#include "proc_control/PositionTarget.h"
-#include "proc_control/EnableThrusters.h"
-#include "proc_control/TargetReached.h"
-#include "proc_control/ClearWaypoint.h"
 #include "proc_control/SetBoundingBox.h"
 #include "proc_control/ResetBoundingBox.h"
+#include "proc_control/Mode/ControlModeIF.h"
 
-namespace proc_control {
+namespace proc_control
+{
 
-    class PositionMode : public ControlModeIF {
+    class PositionMode : public ControlModeIF
+    {
     public:
 
-        explicit PositionMode(const ros::NodeHandlePtr &nh);
+        PositionMode(std::shared_ptr<RobotState> &robotState);
 
-        ~PositionMode();
+        ~PositionMode() = default;
 
         bool SetBoundingBoxServiceCallback(proc_control::SetBoundingBoxRequest &request,
                                            proc_control::SetBoundingBoxResponse &response);
@@ -68,12 +66,17 @@ namespace proc_control {
 
         bool EvaluateTargetReached(Eigen::VectorXd &error);
 
+        void CreateTrajectory(Eigen::VectorXd &actualPose, Eigen::VectorXd &desiredPose);
+
         Eigen::VectorXd GetLocalError(Eigen::VectorXd &pose);
 
-        ros::NodeHandlePtr nh_;
+        std::shared_ptr<RobotState> robotState_;
 
         ros::ServiceServer resetBoundingBoxServer_;
         ros::ServiceServer setBoundingBoxServer_;
+
+        Eigen::VectorXd actualPose_;
+        Eigen::VectorXd desiredPose_;
 
         proc_control::ControlAUV controlAuv_;
 
@@ -81,6 +84,8 @@ namespace proc_control {
 
         std::chrono::steady_clock::time_point lastTime_;
         std::chrono::steady_clock::time_point targetReachedTime_;
+
+        std::shared_ptr<control::ControlInterface> trajectoryManager_;
 
         int stabilityCount_;
 

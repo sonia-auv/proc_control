@@ -16,7 +16,7 @@ namespace proc_control
     {
         msg.position.x    = vector[0];
         msg.position.y    = vector[1];
-        msg.position.y    = vector[2];
+        msg.position.z    = vector[2];
         msg.orientation.x = vector[3];  // ROLL
         msg.orientation.y = vector[4];  // PITCH
         msg.orientation.z = vector[5];  // YAW
@@ -26,7 +26,7 @@ namespace proc_control
     {
         msg.linear.x  = vector[0];
         msg.linear.y  = vector[1];
-        msg.linear.y  = vector[2];
+        msg.linear.z  = vector[2];
         msg.angular.x = vector[3];  // ROLL
         msg.angular.y = vector[4];  // PITCH
         msg.angular.z = vector[5];  // YAW
@@ -36,7 +36,7 @@ namespace proc_control
     {
         msg.force.x  = vector[0];
         msg.force.y  = vector[1];
-        msg.force.y  = vector[2];
+        msg.force.z  = vector[2];
         msg.torque.x = vector[3];  // ROLL
         msg.torque.y = vector[4];  // PITCH
         msg.torque.z = vector[5];  // YAW

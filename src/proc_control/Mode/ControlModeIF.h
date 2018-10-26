@@ -39,8 +39,8 @@ namespace proc_control{
         virtual ~ControlModeIF() = default;
 
         virtual void Process() = 0;
-        virtual void SetTarget(bool isGlobal, Eigen::Vector3d &translation, Eigen::Vector3d &orientation) = 0;
-        virtual void SetDecoupledTarget(bool isGlobal, std::vector<bool> keepTarget, Eigen::Vector3d &translation, Eigen::Vector3d &orientation) = 0;
+        virtual void SetTarget(bool isGlobal, Eigen::VectorXd & targetPose) = 0;
+        virtual void SetDecoupledTarget(bool isGlobal, const std::vector<bool>  & keepTarget, Eigen::VectorXd & targetPose) = 0;
 
     };
 

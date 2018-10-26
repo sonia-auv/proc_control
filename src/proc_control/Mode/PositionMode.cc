@@ -23,6 +23,8 @@
  * along with S.O.N.I.A. AUV software. If not, see <http://www.gnu.org/licenses/>.
  */
 
+
+#include <control_library/toolbox/Transformation.h>
 #include "PositionMode.h"
 
 namespace proc_control {
@@ -31,9 +33,14 @@ namespace proc_control {
         ControlModeIF(),
         robotState_(robotState),
         controlAuv_("position"),
-        trajectoryManager_(nullptr)
+        trajectoryManager_(nullptr),
+        localError_{Eigen::VectorXd::Zero(control::CARTESIAN_SPACE)},
+        localDesiredError_{Eigen::VectorXd::Zero(control::CARTESIAN_SPACE)},
+        targetPose_{Eigen::VectorXd::Zero(control::CARTESIAN_SPACE)},
+        timeNow_{std::chrono::steady_clock::now()},
+        deltaTimeS_{0.0},
+        stabilityCount_{0}
     {
-        stabilityCount_ = 0;
         lastTime_               = std::chrono::steady_clock::now();
         targetReachedTime_      = std::chrono::steady_clock::now();
         actualPose_             = Eigen::VectorXd::Zero(control::CARTESIAN_SPACE);
@@ -41,99 +48,87 @@ namespace proc_control {
         trajectoryManager_      = robotState_->GetTrajectoryManager();
     }
 
-    void PositionMode::Process() {
-
-        Eigen::VectorXd localError  = Eigen::VectorXd::Zero(control::CARTESIAN_SPACE);
-        Eigen::VectorXd targetError = Eigen::VectorXd::Zero(control::CARTESIAN_SPACE);
-        Eigen::VectorXd targetPose  = Eigen::VectorXd::Zero(control::CARTESIAN_SPACE);
-
+    void PositionMode::Process()
+    {
         actualPose_ = robotState_->GetActualPose();
 
-        control::TrajectoryResult trajectory;
-        trajectory.pose = Eigen::VectorXd::Zero(control::CARTESIAN_SPACE);
+        targetPose_ = actualPose_;
 
-        std::chrono::steady_clock::time_point timeNow = std::chrono::steady_clock::now();
+        timeNow_ = std::chrono::steady_clock::now();
 
-        double deltaTime_s = double(std::chrono::duration_cast<std::chrono::nanoseconds>(timeNow - lastTime_).count()) / (double(1E9));
+        deltaTimeS_ = double(std::chrono::duration_cast<std::chrono::nanoseconds>(timeNow_ - lastTime_).count()) / (double(1E9));
 
-        if (deltaTime_s > (0.0001f)) {
-
+        if (deltaTimeS_ > (0.0001f))
+        {
             if (trajectoryManager_->IsTrajectoryComputed())
             {
-                trajectory = trajectoryManager_->GetTrajetory();
-                targetPose     = trajectory.pose;
-            }
-            else
-            {
-                targetPose = actualPose_;
+                trajectory_ = trajectoryManager_->GetTrajetory();
+                targetPose_ = trajectory_.pose;
             }
 
-            //desiredPose_ << positionTarget_, orientationTarget_;
-            robotState_->PosePublisher(targetPose, robotState_->GetDebugTargetPublisher());
+            robotState_->PosePublisher(targetPose_, robotState_->GetDebugTargetPublisher());
 
-            localError = GetLocalError(targetPose);
-            robotState_->PosePublisher(localError * DEGREE_TO_RAD, robotState_->GetControllerPoseErrorPublisher());
-
-            robotState_->TargetReachedPublisher(EvaluateTargetReached(targetError));
+            GetLocalError(targetPose_, localError_);
+            robotState_->PosePublisher(localError_ * DEGREE_TO_RAD, robotState_->GetControllerPoseErrorPublisher());
+            GetLocalError(desiredPose_, localDesiredError_);
+            robotState_->TargetReachedPublisher(EvaluateTargetReached(localDesiredError_));
 
 
             // Calculate required actuation
             Eigen::VectorXd actuation = Eigen::VectorXd::Zero(control::CARTESIAN_SPACE);
-            actuation = controlAuv_.GetActuationForError(localError);
+            actuation = controlAuv_.GetActuationForError(localError_);
 
             robotState_->WrenchPublisher(actuation, robotState_->GetCommandDebugPublisher());
 
         }
 
-        lastTime_ = timeNow;
+        lastTime_ = timeNow_;
 
     }
 
-    void PositionMode::SetTarget(bool isGlobal, Eigen::Vector3d &translation, Eigen::Vector3d &orientation)
+    void PositionMode::SetTarget(bool isGlobal, Eigen::VectorXd & targetPose)
     {
         actualPose_ = robotState_->GetActualPose();
 
         std::vector<bool> keepTarget = {false, false, false, false, false, false};
         if (isGlobal)
         {
-            SetGlobalTarget(translation, orientation, keepTarget);
+            SetGlobalTarget(targetPose, keepTarget);
         }
         else
         {
-            SetLocalTarget(translation, orientation, keepTarget);
+            SetLocalTarget(targetPose, keepTarget);
         }
         robotState_->SetDesiredPose(desiredPose_);
     }
 
-    void PositionMode::SetDecoupledTarget(bool isGlobal, std::vector<bool> keepTarget, Eigen::Vector3d &translation, Eigen::Vector3d &orientation)
+    void PositionMode::SetDecoupledTarget(bool isGlobal, const std::vector<bool>  & keepTarget, Eigen::VectorXd & targetPose)
     {
         actualPose_ = robotState_->GetActualPose();
 
         if (isGlobal)
         {
-            SetGlobalTarget(translation, orientation, keepTarget);
+            SetGlobalTarget(targetPose, keepTarget);
         }
         else
         {
-            SetLocalTarget(translation, orientation, keepTarget);
+            SetLocalTarget(targetPose, keepTarget);
         }
 
         robotState_->SetDesiredPose(desiredPose_);
     }
 
-    void PositionMode::SetGlobalTarget(Eigen::Vector3d &translation, Eigen::Vector3d &orientation, std::vector<bool> keepTarget)
+    void PositionMode::SetGlobalTarget(Eigen::VectorXd & targetPose, const std::vector<bool> & keepTarget)
     {
 
         trajectoryManager_->ResetTrajectory();
 
         targetReachedTime_ = std::chrono::steady_clock::now();
 
-        for (size_t i = 0; i < 3; i++)
+        for (size_t i = 0; i < control::CARTESIAN_SPACE; i++)
         {
             if (!keepTarget[i])
-                desiredPose_[i] = translation[i];
-            if (!keepTarget[i + 3])
-                desiredPose_[i + 3] = orientation[i];
+                desiredPose_[i] = targetPose[i];
         }
 
         CreateTrajectory(actualPose_, desiredPose_);
@@ -141,7 +136,7 @@ namespace proc_control {
         robotState_->PosePublisher(desiredPose_, robotState_->GetTargetPublisher());
     }
 
-    void PositionMode::SetLocalTarget(Eigen::Vector3d &translation, Eigen::Vector3d &orientation, std::vector<bool> keepTarget)
+    void PositionMode::SetLocalTarget(Eigen::VectorXd & targetPose, const std::vector<bool> & keepTarget)
     {
 
         trajectoryManager_->ResetTrajectory();
@@ -150,23 +145,16 @@ namespace proc_control {
 
         Eigen::Affine3d localAskPoseH;
 
-        Eigen::Vector3d actualPosition    = Eigen::Vector3d::Zero();
-        Eigen::Vector3d actualOrientation = Eigen::Vector3d::Zero();
-        actualPosition    << actualPose_[0], actualPose_[1], actualPose_[2];
-        actualOrientation << actualPose_[3], actualPose_[4], actualPose_[5];
-
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < control::CARTESIAN_SPACE; i++)
         {
             if (keepTarget[i])
-                actualPosition[i]    = desiredPose_[i];
-            if (keepTarget[i + 3])
-                actualOrientation[i] = desiredPose_[i + 3];
+                actualPose_[i]    = desiredPose_[i];
         }
 
-        Eigen::Affine3d askTargetH  = ComputeTransformation_.HomogeneousMatrix(orientation, translation);
-        Eigen::Affine3d actualPoseH = ComputeTransformation_.HomogeneousMatrix(actualOrientation, actualPosition);
+        targetPoseH_ = control::HomogeneousMatrix(targetPose);
+        actualPoseH_ = control::HomogeneousMatrix(actualPose_);
 
-        localAskPoseH = actualPoseH * askTargetH;
+        localAskPoseH = actualPoseH_ * targetPoseH_;
 
         desiredPose_ << localAskPoseH.translation(), localAskPoseH.linear().eulerAngles(0, 1, 2);
 
@@ -181,43 +169,20 @@ namespace proc_control {
         trajectoryManager_->GenerateTrajectory(trajectoryParams);
     }
 
-    Eigen::VectorXd PositionMode::GetLocalError(Eigen::VectorXd &pose)
+    void PositionMode::GetLocalError(Eigen::VectorXd & targetPose, Eigen::VectorXd & localError)
     {
-        Eigen::Affine3d localErrorH;
+        actualPoseH_ = control::HomogeneousMatrix(actualPose_);
+        targetPoseH_ = control::HomogeneousMatrix(targetPose);
+        localErrorH_  = actualPoseH_.inverse() * targetPoseH_;
 
-        Eigen::Vector3d translation       = Eigen::Vector3d::Zero();
-        Eigen::Vector3d orientation       = Eigen::Vector3d::Zero();
-        Eigen::Vector3d actualPosition    = Eigen::Vector3d::Zero();
-        Eigen::Vector3d actualOrientation = Eigen::Vector3d::Zero();
-
-        translation << pose[0], pose[1], pose[2];
-        orientation << pose[3], pose[4], pose[5];
-
-        actualPosition << actualPose_[0], actualPose_[1], actualPose_[2];
-        actualOrientation << 0, 0, actualPose_[5];
-
-        Eigen::VectorXd localError = Eigen::VectorXd::Zero(control::CARTESIAN_SPACE);
-
-        Eigen::Affine3d targetH = ComputeTransformation_.HomogeneousMatrix(orientation, translation);
-        Eigen::Affine3d actualPoseH = ComputeTransformation_.HomogeneousMatrix(actualOrientation, actualPosition);
-
-        localErrorH = actualPoseH.inverse() * targetH;
-
-        localError << localErrorH.translation(), localErrorH.linear().eulerAngles(0, 1, 2) * RAD_TO_DEGREE;
-
-        localError[ROLL] = 0.0;
-        localError[PITCH] = 0.0;
-
-        return localError;
+        localError << localErrorH_.translation(), localErrorH_.linear().eulerAngles(0, 1, 2) * RAD_TO_DEGREE;
     }
 
     bool PositionMode::EvaluateTargetReached(Eigen::VectorXd &error)
     {
         bool targetIsReached = false;
 
-        std::chrono::steady_clock::time_point timeNow = std::chrono::steady_clock::now();
-
-        double deltaTime_s = double(std::chrono::duration_cast<std::chrono::nanoseconds>(timeNow - targetReachedTime_).count()) / (double(1E9));
+        double deltaTime_s = double(std::chrono::duration_cast<std::chrono::nanoseconds>(timeNow_ - targetReachedTime_).count()) / (double(1E9));
 
         std::vector<bool>  isTargetReached = controlAuv_.IsInBoundingBox(error);
 

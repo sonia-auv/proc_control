@@ -87,6 +87,7 @@ namespace proc_control
     {
         if(!state_in->state)
         {
+            UpdateInput();
             enableAxisController_ = {{false, false, false, false, false, false}};
 
             desiredPose_         = actualPose_;
@@ -100,6 +101,7 @@ namespace proc_control
 
     bool RobotState::EnableControlServiceCallback(proc_control::EnableControlRequest &request, proc_control::EnableControlResponse &response)
     {
+        UpdateInput();
         desiredPose_         = actualPose_;
         desiredTwist_        = actualTwist_;
         desiredAcceleration_ = actualAcceleration_;
@@ -136,11 +138,14 @@ namespace proc_control
 
     bool RobotState::ClearWayPointServiceCallback(proc_control::ClearWaypointRequest &request, proc_control::ClearWaypointResponse &response)
     {
+        UpdateInput();
         desiredPose_         = actualPose_;
         desiredTwist_        = actualTwist_;
         desiredAcceleration_ = actualAcceleration_;
 
-        PosePublisher(desiredPose_, debugTargetPublisher_);
+        trajectoryManager_->ResetTrajectory();
+
+        PosePublisher(desiredPose_, targetPublisher_);
 
         return true;
     }

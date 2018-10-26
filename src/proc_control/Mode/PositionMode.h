@@ -44,36 +44,28 @@ namespace proc_control
     {
     public:
 
-        PositionMode(std::shared_ptr<RobotState> &robotState);
+        explicit PositionMode(std::shared_ptr<RobotState> &robotState);
 
-        ~PositionMode() = default;
-
-        bool SetBoundingBoxServiceCallback(proc_control::SetBoundingBoxRequest &request,
-                                           proc_control::SetBoundingBoxResponse &response);
-        bool ResetBoundingBoxServiceCallback(proc_control::ResetBoundingBoxRequest &request,
-                                             proc_control::ResetBoundingBoxResponse &response);
+        virtual ~PositionMode() = default;
 
         void Process() override;
 
-        void SetTarget(bool isGlobal, Eigen::Vector3d &translation, Eigen::Vector3d &orientation) override;
-        void SetDecoupledTarget(bool isGlobal, std::vector<bool> keepTarget, Eigen::Vector3d &translation, Eigen::Vector3d &orientation) override;
+        void SetTarget(bool isGlobal, Eigen::VectorXd & targetPose) override;
+        void SetDecoupledTarget(bool isGlobal, const std::vector<bool>  & keepTarget, Eigen::VectorXd & targetPose) override;
 
     private:
 
-        void SetLocalTarget(Eigen::Vector3d &translation, Eigen::Vector3d &orientation, std::vector<bool> keepTarget);
+        void SetLocalTarget(Eigen::VectorXd & targetPose, const std::vector<bool> & keepTarget);
 
-        void SetGlobalTarget(Eigen::Vector3d &translation, Eigen::Vector3d &orientation, std::vector<bool> keepTarget);
+        void SetGlobalTarget(Eigen::VectorXd & targetPose, const std::vector<bool> & keepTarget);
 
         bool EvaluateTargetReached(Eigen::VectorXd &error);
 
         void CreateTrajectory(Eigen::VectorXd &actualPose, Eigen::VectorXd &desiredPose);
 
-        Eigen::VectorXd GetLocalError(Eigen::VectorXd &pose);
+        void GetLocalError(Eigen::VectorXd & targetPose, Eigen::VectorXd & localError);
 
         std::shared_ptr<RobotState> robotState_;
-
-        ros::ServiceServer resetBoundingBoxServer_;
-        ros::ServiceServer setBoundingBoxServer_;
 
         Eigen::VectorXd actualPose_;
         Eigen::VectorXd desiredPose_;
@@ -86,6 +78,19 @@ namespace proc_control
         std::chrono::steady_clock::time_point targetReachedTime_;
 
         std::shared_ptr<control::ControlInterface> trajectoryManager_;
+
+        Eigen::VectorXd localError_;
+        Eigen::VectorXd localDesiredError_;
+        Eigen::VectorXd targetPose_;
+
+        Eigen::Affine3d actualPoseH_;
+        Eigen::Affine3d targetPoseH_;
+        Eigen::Affine3d localErrorH_;
+
+        control::TrajectoryResult trajectory_;
+
+        std::chrono::steady_clock::time_point timeNow_;
+        double deltaTimeS_;
 
         int stabilityCount_;
 

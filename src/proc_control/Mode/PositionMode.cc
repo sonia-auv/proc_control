@@ -45,6 +45,7 @@ namespace proc_control {
 
         Eigen::VectorXd localError  = Eigen::VectorXd::Zero(control::CARTESIAN_SPACE);
         Eigen::VectorXd targetError = Eigen::VectorXd::Zero(control::CARTESIAN_SPACE);
+        Eigen::VectorXd targetPose  = Eigen::VectorXd::Zero(control::CARTESIAN_SPACE);
 
         actualPose_ = robotState_->GetActualPose();
 
@@ -60,13 +61,18 @@ namespace proc_control {
             if (trajectoryManager_->IsTrajectoryComputed())
             {
                 trajectory = trajectoryManager_->GetTrajetory();
+                targetPose     = trajectory.pose;
+            }
+            else
+            {
+                targetPose = actualPose_;
             }
 
             //desiredPose_ << positionTarget_, orientationTarget_;
-            robotState_->PosePublisher(trajectory.pose, robotState_->GetDebugTargetPublisher());
+            robotState_->PosePublisher(targetPose, robotState_->GetDebugTargetPublisher());
 
-            localError = GetLocalError(trajectory.pose);
-            robotState_->PosePublisher(localError, robotState_->GetControllerPoseErrorPublisher());
+            localError = GetLocalError(targetPose);
+            robotState_->PosePublisher(localError * DEGREE_TO_RAD, robotState_->GetControllerPoseErrorPublisher());
 
             robotState_->TargetReachedPublisher(EvaluateTargetReached(targetError));
 
@@ -188,7 +194,7 @@ namespace proc_control {
         orientation << pose[3], pose[4], pose[5];
 
         actualPosition << actualPose_[0], actualPose_[1], actualPose_[2];
-        actualOrientation << actualPose_[3], actualPose_[4], actualPose_[5];
+        actualOrientation << 0, 0, actualPose_[5];
 
         Eigen::VectorXd localError = Eigen::VectorXd::Zero(control::CARTESIAN_SPACE);
 

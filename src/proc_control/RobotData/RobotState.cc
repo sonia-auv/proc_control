@@ -104,7 +104,7 @@ namespace proc_control
         desiredTwist_        = actualTwist_;
         desiredAcceleration_ = actualAcceleration_;
 
-        PosePublisher(desiredPose_, debugTargetPublisher_);
+        PosePublisher(desiredPose_, targetPublisher_);
 
         trajectoryManager_->ResetTrajectory();
 

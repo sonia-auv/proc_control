@@ -9,6 +9,7 @@
 #include <geometry_msgs/Pose.h>
 #include <geometry_msgs/Twist.h>
 #include <geometry_msgs/Wrench.h>
+#include <control_library/ControlType.h>
 
 namespace proc_control
 {
@@ -17,9 +18,9 @@ namespace proc_control
         msg.position.x    = vector[0];
         msg.position.y    = vector[1];
         msg.position.z    = vector[2];
-        msg.orientation.x = vector[3];  // ROLL
-        msg.orientation.y = vector[4];  // PITCH
-        msg.orientation.z = vector[5];  // YAW
+        msg.orientation.x = vector[3] * control::RAD_TO_DEGREE;  // ROLL
+        msg.orientation.y = vector[4] * control::RAD_TO_DEGREE;  // PITCH
+        msg.orientation.z = vector[5] * control::RAD_TO_DEGREE;  // YAW
     }
 
     inline void EigenVectorToTwistMsg(const Eigen::VectorXd &vector, geometry_msgs::Twist &msg)

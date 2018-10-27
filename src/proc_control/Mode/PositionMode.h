@@ -28,13 +28,10 @@
 
 #include <chrono>
 #include <memory>
+#include <control_library/Trajectory/Trajectory.h>
 
-#include "proc_control/trajectory/trajectory.h"
 #include "proc_control/RobotData/RobotState.h"
-#include "proc_control/Transformation/Transformation.h"
 #include "proc_control/algorithm/ControlAUV.h"
-#include "proc_control/SetBoundingBox.h"
-#include "proc_control/ResetBoundingBox.h"
 #include "proc_control/Mode/ControlModeIF.h"
 
 namespace proc_control
@@ -68,7 +65,7 @@ namespace proc_control
         std::shared_ptr<RobotState> robotState_;
         proc_control::ControlAUV    controlAuv_;
 
-        std::shared_ptr<control::ControlInterface> trajectoryManager_;
+        std::shared_ptr<control::Trajectory> trajectoryManager_;
 
         Eigen::VectorXd localError_;
         Eigen::VectorXd localDesiredError_;

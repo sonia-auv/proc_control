@@ -61,7 +61,7 @@ namespace proc_control {
         {
             if (trajectoryManager_->IsTrajectoryComputed())
             {
-                trajectory_ = trajectoryManager_->GetTrajetory();
+                trajectory_ = trajectoryManager_->GetTrajectory();
                 targetPose_ = trajectory_.pose;
             }
 

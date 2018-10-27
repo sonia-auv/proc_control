@@ -42,7 +42,7 @@ namespace proc_control
          clearWayPointServer_    = nh_->advertiseService("/proc_control/clear_waypoint",
                                                          &RobotState::ClearWayPointServiceCallback, this);
 
-         trajectoryManager_ = std::make_shared<control::ControlInterface>();
+         trajectoryManager_      = std::make_shared<control::Trajectory>();
 
          controllerPoseErrorPublisher_  = nh_->advertise<geometry_msgs::Pose>("/proc_control/current_controller_pose_error", 100);
          controllerTwistErrorPublisher_ = nh_->advertise<geometry_msgs::Twist>("/proc_control/current_controller_twist_error", 100);

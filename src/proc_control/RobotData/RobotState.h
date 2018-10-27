@@ -31,7 +31,7 @@
 #include <geometry_msgs/Twist.h>
 #include <geometry_msgs/Wrench.h>
 #include <eigen3/Eigen/Eigen>
-#include <control_library/ControlInterface.h>
+#include <control_library/Trajectory/Trajectory.h>
 #include <control_library/ControlType.h>
 
 #include "provider_kill_mission/KillSwitchMsg.h"
@@ -85,7 +85,7 @@ namespace proc_control
         Eigen::VectorXd GetActualTwist() { return actualTwist_;}
         Eigen::VectorXd GetActualAccel() { return actualAcceleration_;}
 
-        std::shared_ptr<control::ControlInterface> GetTrajectoryManager() { return trajectoryManager_;}
+        std::shared_ptr<control::Trajectory> GetTrajectoryManager() { return trajectoryManager_;}
 
     private:
 
@@ -133,7 +133,7 @@ namespace proc_control
         Eigen::VectorXd actualTwist_;
         Eigen::VectorXd actualAcceleration_;
 
-        std::shared_ptr<control::ControlInterface> trajectoryManager_;
+        std::shared_ptr<control::Trajectory> trajectoryManager_;
         control::TrajectoryResult trajectoryResult_;
     };
 

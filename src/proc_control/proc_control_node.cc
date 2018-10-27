@@ -49,7 +49,8 @@ namespace proc_control{
                                                                 &ProcControlNode::SetLocalDecoupledTargetPositionCallback, this);
 
         robotState_  = std::make_shared<proc_control::RobotState>(nh_);
-        controlMode_ = std::make_shared<proc_control::PositionMode>(robotState_);
+        controlAUV_  = std::make_shared<proc_control::ControlAUV>("position");
+        controlMode_ = std::make_shared<proc_control::PositionMode>(robotState_, controlAUV_);
 
     }
 
@@ -68,7 +69,6 @@ namespace proc_control{
     {
         robotState_->UpdateInput();
         controlMode_->Process();
-
     }
 
     bool ProcControlNode::SetControlModeCallback(proc_control::SetControlModeRequest &request,
@@ -79,11 +79,11 @@ namespace proc_control{
         switch (mode){
             case PositionMode_:
                 controlMode_ = nullptr;
-                controlMode_ = std::make_shared<proc_control::PositionMode>(robotState_);
+                controlMode_ = std::make_shared<proc_control::PositionMode>(robotState_, controlAUV_);
                 break;
             default :
                 controlMode_ = nullptr;
-                controlMode_ = std::make_shared<proc_control::PositionMode>(robotState_);
+                controlMode_ = std::make_shared<proc_control::PositionMode>(robotState_, controlAUV_);
         }
 
         return true;

@@ -29,10 +29,10 @@
 
 namespace proc_control {
 
-    PositionMode::PositionMode(std::shared_ptr<RobotState> &robotState) :
+    PositionMode::PositionMode(std::shared_ptr<RobotState> & robotState, std::shared_ptr<ControllerIF> & controlAUV) :
         ControlModeIF(),
         robotState_(robotState),
-        controlAuv_("position"),
+        controlAuv_(controlAUV),
         trajectoryManager_{robotState_->GetTrajectoryManager()},
         localError_{Eigen::VectorXd::Zero(control::CARTESIAN_SPACE)},
         localDesiredError_{Eigen::VectorXd::Zero(control::CARTESIAN_SPACE)},
@@ -75,14 +75,12 @@ namespace proc_control {
 
             // Calculate required actuation
             Eigen::VectorXd actuation = Eigen::VectorXd::Zero(control::CARTESIAN_SPACE);
-            actuation = controlAuv_.GetActuationForError(localError_);
+            actuation = controlAuv_->ComputedWrenchFromError(localError_);
 
             robotState_->WrenchPublisher(actuation, robotState_->GetCommandDebugPublisher());
 
         }
-
         lastTime_ = timeNow_;
-
     }
 
     void PositionMode::SetTarget(bool isGlobal, Eigen::VectorXd & targetPose)
@@ -183,7 +181,7 @@ namespace proc_control {
 
         double deltaTime_s = double(std::chrono::duration_cast<std::chrono::nanoseconds>(timeNow_ - targetReachedTime_).count()) / (double(1E9));
 
-        std::vector<bool>  isTargetReached = controlAuv_.IsInBoundingBox(error);
+        std::vector<bool>  isTargetReached = controlAuv_->IsInBoundingBox(error);
 
         if (isTargetReached[0] && isTargetReached[1] && isTargetReached[2] && isTargetReached[3] && isTargetReached[4] && isTargetReached[5])
         {

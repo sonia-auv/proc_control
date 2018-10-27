@@ -29,6 +29,8 @@
 #include <ros/ros.h>
 
 #include "proc_control/RobotData/RobotState.h"
+#include "proc_control/algorithm/ControllerIF.h"
+#include "proc_control/algorithm/ControlAUV.h"
 #include "proc_control/Mode/PositionMode.h"
 
 #include "proc_control/SetPositionTarget.h"
@@ -82,8 +84,9 @@ namespace proc_control{
         ros::ServiceServer setGlobalDecoupledTargetServer_;
         ros::ServiceServer setLocalDecoupledTargetServer_;
 
-        std::shared_ptr<RobotState> robotState_;
+        std::shared_ptr<RobotState>    robotState_;
         std::shared_ptr<ControlModeIF> controlMode_;
+        std::shared_ptr<ControllerIF>  controlAUV_;
 
         enum controlMode{PositionMode_ = 0, VelocityMode_};
 

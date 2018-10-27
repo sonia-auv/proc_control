@@ -31,7 +31,7 @@
 #include <control_library/Trajectory/Trajectory.h>
 
 #include "proc_control/RobotData/RobotState.h"
-#include "proc_control/algorithm/ControlAUV.h"
+#include "proc_control/algorithm/ControllerIF.h"
 #include "proc_control/Mode/ControlModeIF.h"
 
 namespace proc_control
@@ -41,7 +41,7 @@ namespace proc_control
     {
     public:
 
-        explicit PositionMode(std::shared_ptr<RobotState> &robotState);
+        explicit PositionMode(std::shared_ptr<RobotState> & robotState, std::shared_ptr<ControllerIF> & controlAUV);
 
         virtual ~PositionMode() = default;
 
@@ -63,7 +63,7 @@ namespace proc_control
         void GetLocalError(Eigen::VectorXd & targetPose, Eigen::VectorXd & localError);
 
         std::shared_ptr<RobotState> robotState_;
-        proc_control::ControlAUV    controlAuv_;
+        std::shared_ptr<ControllerIF> controlAuv_;
 
         std::shared_ptr<control::Trajectory> trajectoryManager_;
 

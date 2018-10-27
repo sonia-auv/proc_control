@@ -31,7 +31,7 @@ namespace proc_control{
                                                     z_(ControllerType::PID_, "z", mode), roll_(ControllerType::PID_, "roll", mode),
                                                     pitch_(ControllerType::PID_, "pitch", mode), yaw_(ControllerType::PID_, "yaw", mode) {}
 
-    Eigen::VectorXd ControlAUV::GetActuationForError(Eigen::VectorXd &error){
+    Eigen::VectorXd ControlAUV::ComputedWrenchFromError(Eigen::VectorXd &error){
 
         Eigen::VectorXd actuation = Eigen::VectorXd::Zero(6);
 

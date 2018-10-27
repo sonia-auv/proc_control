@@ -66,22 +66,19 @@ namespace proc_control
         void GetLocalError(Eigen::VectorXd & targetPose, Eigen::VectorXd & localError);
 
         std::shared_ptr<RobotState> robotState_;
-
-        Eigen::VectorXd actualPose_;
-        Eigen::VectorXd desiredPose_;
-
-        proc_control::ControlAUV controlAuv_;
-
-        proc_control::Transformation ComputeTransformation_;
-
-        std::chrono::steady_clock::time_point lastTime_;
-        std::chrono::steady_clock::time_point targetReachedTime_;
+        proc_control::ControlAUV    controlAuv_;
 
         std::shared_ptr<control::ControlInterface> trajectoryManager_;
 
         Eigen::VectorXd localError_;
         Eigen::VectorXd localDesiredError_;
         Eigen::VectorXd targetPose_;
+
+        Eigen::VectorXd actualPose_;
+        Eigen::VectorXd desiredPose_;
+
+        std::chrono::steady_clock::time_point lastTime_;
+        std::chrono::steady_clock::time_point targetReachedTime_;
 
         Eigen::Affine3d actualPoseH_;
         Eigen::Affine3d targetPoseH_;
@@ -93,7 +90,6 @@ namespace proc_control
         double deltaTimeS_;
 
         int stabilityCount_;
-
     };
 }
 

@@ -33,19 +33,18 @@ namespace proc_control {
         ControlModeIF(),
         robotState_(robotState),
         controlAuv_("position"),
-        trajectoryManager_(nullptr),
+        trajectoryManager_{robotState_->GetTrajectoryManager()},
         localError_{Eigen::VectorXd::Zero(control::CARTESIAN_SPACE)},
         localDesiredError_{Eigen::VectorXd::Zero(control::CARTESIAN_SPACE)},
         targetPose_{Eigen::VectorXd::Zero(control::CARTESIAN_SPACE)},
+        actualPose_{Eigen::VectorXd::Zero(control::CARTESIAN_SPACE)},
+        desiredPose_{Eigen::VectorXd::Zero(control::CARTESIAN_SPACE)},
+        lastTime_{std::chrono::steady_clock::now()},
+        targetReachedTime_{std::chrono::steady_clock::now()},
         timeNow_{std::chrono::steady_clock::now()},
         deltaTimeS_{0.0},
         stabilityCount_{0}
     {
-        lastTime_               = std::chrono::steady_clock::now();
-        targetReachedTime_      = std::chrono::steady_clock::now();
-        actualPose_             = Eigen::VectorXd::Zero(control::CARTESIAN_SPACE);
-        desiredPose_            = Eigen::VectorXd::Zero(control::CARTESIAN_SPACE);
-        trajectoryManager_      = robotState_->GetTrajectoryManager();
     }
 
     void PositionMode::Process()

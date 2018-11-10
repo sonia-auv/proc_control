@@ -42,7 +42,7 @@ namespace proc_control{
 
         virtual ~ControlAUV() = default;
 
-        Eigen::VectorXd ComputedWrenchFromError(Eigen::VectorXd & error) override;
+        Eigen::VectorXd ComputedWrenchFromError(control::ControllerCMD & command) override;
 
         std::vector<bool> IsInBoundingBox(Eigen::VectorXd &error) override;
 

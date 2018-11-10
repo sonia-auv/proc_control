@@ -38,6 +38,7 @@ namespace proc_control {
         localDesiredError_{Eigen::VectorXd::Zero(control::CARTESIAN_SPACE)},
         targetPose_{Eigen::VectorXd::Zero(control::CARTESIAN_SPACE)},
         actualPose_{Eigen::VectorXd::Zero(control::CARTESIAN_SPACE)},
+        actualTwist_{Eigen::VectorXd::Zero(control::CARTESIAN_SPACE)},
         desiredPose_{Eigen::VectorXd::Zero(control::CARTESIAN_SPACE)},
         lastTime_{std::chrono::steady_clock::now()},
         targetReachedTime_{std::chrono::steady_clock::now()},
@@ -45,11 +46,17 @@ namespace proc_control {
         deltaTimeS_{0.0},
         stabilityCount_{0}
     {
+        controllerCommand_.errorPose     = Eigen::VectorXd::Zero(control::CARTESIAN_SPACE);
+        controllerCommand_.errorVelocity = Eigen::VectorXd::Zero(control::CARTESIAN_SPACE);
+        controllerCommand_.velocity      = Eigen::VectorXd::Zero(control::CARTESIAN_SPACE);
+        controllerCommand_.acceleration  = Eigen::VectorXd::Zero(control::CARTESIAN_SPACE);
+        controllerCommand_.orientation   = Eigen::Vector3d::Zero();
     }
 
     void PositionMode::Process()
     {
-        actualPose_ = robotState_->GetActualPose();
+        actualPose_  = robotState_->GetActualPose();
+        actualTwist_ = robotState_->GetActualTwist();
 
         targetPose_ = actualPose_;
 
@@ -67,15 +74,15 @@ namespace proc_control {
 
             robotState_->PosePublisher(targetPose_, robotState_->GetDebugTargetPublisher());
 
-            GetLocalError(targetPose_, localError_);
-            robotState_->PosePublisher(localError_ * DEGREE_TO_RAD, robotState_->GetControllerPoseErrorPublisher());
+            GetLocalError(targetPose_, controllerCommand_.errorPose);
+            robotState_->PosePublisher(controllerCommand_.errorPose * DEGREE_TO_RAD, robotState_->GetControllerPoseErrorPublisher());
             GetLocalError(desiredPose_, localDesiredError_);
             robotState_->TargetReachedPublisher(EvaluateTargetReached(localDesiredError_));
 
-
+            controllerCommand_.velocity = actualTwist_;
             // Calculate required actuation
             Eigen::VectorXd actuation = Eigen::VectorXd::Zero(control::CARTESIAN_SPACE);
-            actuation = controlAuv_->ComputedWrenchFromError(localError_);
+            actuation = controlAuv_->ComputedWrenchFromError(controllerCommand_);
 
             robotState_->WrenchPublisher(actuation, robotState_->GetCommandDebugPublisher());
 

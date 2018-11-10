@@ -27,6 +27,7 @@
 #define PROC_CONTROL_CONTROLLERIF_H
 
 #include <eigen3/Eigen/Eigen>
+#include <control_library/ControlType.h>
 
 namespace proc_control
 {
@@ -36,7 +37,7 @@ namespace proc_control
         ControllerIF() = default;
         virtual ~ControllerIF() = default;
 
-        virtual Eigen::VectorXd ComputedWrenchFromError(Eigen::VectorXd & error) = 0;
+        virtual Eigen::VectorXd ComputedWrenchFromError(control::ControllerCMD & command) = 0;
         virtual std::vector<bool> IsInBoundingBox(Eigen::VectorXd &error) = 0;
 
     };

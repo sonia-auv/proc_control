@@ -31,7 +31,11 @@ namespace proc_control{
     ProcControlNode::ProcControlNode(const ros::NodeHandlePtr &nh) :
         nh_(nh),
         robotState_(nullptr),
-        controlMode_(nullptr)
+        controlMode_(nullptr),
+        positionModePID_(nullptr),
+        positionModePPI_(nullptr),
+        controlAUV_(nullptr),
+        ppiControlAUV_(nullptr)
     {
 
         setControlModeServer_ = nh->advertiseService("/proc_control/set_control_mode",
@@ -48,9 +52,14 @@ namespace proc_control{
         setLocalDecoupledTargetServer_ = nh_->advertiseService("/proc_control/set_local_decoupled_target",
                                                                 &ProcControlNode::SetLocalDecoupledTargetPositionCallback, this);
 
-        robotState_  = std::make_shared<proc_control::RobotState>(nh_);
-        controlAUV_  = std::make_shared<proc_control::ControlAUV>("position");
-        controlMode_ = std::make_shared<proc_control::PositionMode>(robotState_, controlAUV_);
+        robotState_    = std::make_shared<proc_control::RobotState>(nh_);
+        controlAUV_    = std::make_shared<proc_control::ControlAUV>("position");
+        ppiControlAUV_ = std::make_shared<proc_control::PPIController>();
+
+        positionModePID_ = std::make_shared<proc_control::PositionMode>(robotState_, controlAUV_);
+        positionModePPI_ = std::make_shared<proc_control::PositionMode>(robotState_, ppiControlAUV_);
+
+        controlMode_   = positionModePID_;
 
     }
 
@@ -79,11 +88,15 @@ namespace proc_control{
         switch (mode){
             case PositionMode_:
                 controlMode_ = nullptr;
-                controlMode_ = std::make_shared<proc_control::PositionMode>(robotState_, controlAUV_);
+                controlMode_ = positionModePID_;
+                break;
+            case PPIMode_:
+                controlMode_ = nullptr;
+                controlMode_ = positionModePPI_;
                 break;
             default :
                 controlMode_ = nullptr;
-                controlMode_ = std::make_shared<proc_control::PositionMode>(robotState_, controlAUV_);
+                controlMode_ = positionModePID_;
         }
 
         return true;

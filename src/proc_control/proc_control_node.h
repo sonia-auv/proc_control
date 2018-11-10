@@ -31,6 +31,7 @@
 #include "proc_control/RobotData/RobotState.h"
 #include "proc_control/algorithm/ControllerIF.h"
 #include "proc_control/algorithm/ControlAUV.h"
+#include "proc_control/Controller/PPIController.h"
 #include "proc_control/Mode/PositionMode.h"
 
 #include "proc_control/SetPositionTarget.h"
@@ -86,11 +87,12 @@ namespace proc_control{
 
         std::shared_ptr<RobotState>    robotState_;
         std::shared_ptr<ControlModeIF> controlMode_;
-        std::shared_ptr<ControllerIF>  controlAUV_;
+        std::shared_ptr<ControlModeIF>  positionModePID_;
+        std::shared_ptr<ControlModeIF>  positionModePPI_;
+        std::shared_ptr<ControllerIF>    controlAUV_;
+        std::shared_ptr<ControllerIF> ppiControlAUV_;
 
-        enum controlMode{PositionMode_ = 0, VelocityMode_};
-
-
+        enum controlMode{PositionMode_ = 0, PPIMode_};
     };
 
 

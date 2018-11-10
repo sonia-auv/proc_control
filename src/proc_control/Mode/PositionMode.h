@@ -29,6 +29,7 @@
 #include <chrono>
 #include <memory>
 #include <control_library/Trajectory/Trajectory.h>
+#include <control_library/ControlType.h>
 
 #include "proc_control/RobotData/RobotState.h"
 #include "proc_control/algorithm/ControllerIF.h"
@@ -62,7 +63,7 @@ namespace proc_control
 
         void GetLocalError(Eigen::VectorXd & targetPose, Eigen::VectorXd & localError);
 
-        std::shared_ptr<RobotState> robotState_;
+        std::shared_ptr<RobotState>   robotState_;
         std::shared_ptr<ControllerIF> controlAuv_;
 
         std::shared_ptr<control::Trajectory> trajectoryManager_;
@@ -72,6 +73,7 @@ namespace proc_control
         Eigen::VectorXd targetPose_;
 
         Eigen::VectorXd actualPose_;
+        Eigen::VectorXd actualTwist_;
         Eigen::VectorXd desiredPose_;
 
         std::chrono::steady_clock::time_point lastTime_;
@@ -82,6 +84,7 @@ namespace proc_control
         Eigen::Affine3d localErrorH_;
 
         control::TrajectoryResult trajectory_;
+        control::ControllerCMD    controllerCommand_;
 
         std::chrono::steady_clock::time_point timeNow_;
         double deltaTimeS_;

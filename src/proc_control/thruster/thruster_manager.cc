@@ -26,6 +26,7 @@
 
 #include <fstream>
 #include "thruster_manager.h"
+#include <algorithm>
 
 namespace proc_control {
 
@@ -233,8 +234,24 @@ void ThrusterManager::Commit(Eigen::VectorXd &actuation){
     actuation_thruster_ = effort_.transpose() * actuation;
 
     int i = 0;
-    for (auto &t : thruster_list_){
-        t.Publish(t.GetID(), (int16_t)actuation_thruster_(i,0));
+    for (auto &t : thruster_list_)
+    {
+        double f = actuation_thruster_(i,0);
+//        double a = 0;
+//        if (f > 0)
+//        {
+//          a = (f + 47.9077) / 0.0309;
+//          a = 100 * (a - 1530) / (1900 - 1530);
+//        }
+//        if (f < 0)
+//        {
+//          a = (abs(f) + 37.6267) / 0.0260;
+//          a = 100 * (a - 1470) / (1100 - 1470);
+//        }
+
+        f = std::min(std::max(f, -70.0), 70.0);
+
+        t.Publish(t.GetID(), (int16_t)f);
         i++;
     }
 

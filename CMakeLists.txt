@@ -1,4 +1,4 @@
-# \file     CMakeLists.txt
+ # \file     CMakeLists.txt
 # \author   Jeremie St-Jules-Prevost <jeremie.st.jules.prevost@gmail.com>
 # \date     23/09/2016
 #
@@ -58,6 +58,7 @@ find_package(
 generate_dynamic_reconfigure_options(
         cfg/Thruster_reconf.cfg
         cfg/Controller_reconf.cfg
+        cfg/PPIController_reconf.cfg
 )
 
 add_message_files(

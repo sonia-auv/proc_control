@@ -31,16 +31,16 @@ namespace proc_control{
                                                     z_(ControllerType::PID_, "z", mode), roll_(ControllerType::PID_, "roll", mode),
                                                     pitch_(ControllerType::PID_, "pitch", mode), yaw_(ControllerType::PID_, "yaw", mode) {}
 
-    Eigen::VectorXd ControlAUV::ComputedWrenchFromError(Eigen::VectorXd &error){
+    Eigen::VectorXd ControlAUV::ComputedWrenchFromError(control::ControllerCMD & command){
 
         Eigen::VectorXd actuation = Eigen::VectorXd::Zero(6);
 
-        actuation[0] = x_.CalculateActuationForError(error[0]);
-        actuation[1] = y_.CalculateActuationForError(error[1]);
-        actuation[2] = z_.CalculateActuationForError(error[2]) + z_.GetConstanteDepthForce();
-        actuation[3] = roll_.CalculateActuationForError(error[3]);
-        actuation[4] = pitch_.CalculateActuationForError(error[4]);
-        actuation[5] = yaw_.CalculateActuationForError(error[5]);
+        actuation[0] = x_.CalculateActuationForError(command.errorPose[0]);
+        actuation[1] = y_.CalculateActuationForError(command.errorPose[1]);
+        actuation[2] = z_.CalculateActuationForError(command.errorPose[2]) + z_.GetConstanteDepthForce();
+        actuation[3] = roll_.CalculateActuationForError(command.errorPose[3]);
+        actuation[4] = pitch_.CalculateActuationForError(command.errorPose[4]);
+        actuation[5] = yaw_.CalculateActuationForError(command.errorPose[5]);
 
         return actuation;
 

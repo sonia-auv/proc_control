@@ -9,7 +9,7 @@ namespace proc_control
     PPIController::PPIController() :
         ControllerIF(),
         transferFunctionCoefficient_{ std::make_shared<control::TransferFunctionCoefficient>() },
-        ppiController_(transferFunctionCoefficient_, 1, 0.790365564859250),
+        ppiController_(transferFunctionCoefficient_, 1, 0.237175750019500),
         paramManagers_("PPIParameters", transferFunctionCoefficient_)
     {
     }

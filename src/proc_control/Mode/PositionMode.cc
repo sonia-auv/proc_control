@@ -58,7 +58,7 @@ namespace proc_control {
         actualPose_  = robotState_->GetActualPose();
         actualTwist_ = robotState_->GetActualTwist();
 
-        targetPose_ = actualPose_;
+        targetPose_ = robotState_->GetDesiredPose();
 
         timeNow_ = std::chrono::steady_clock::now();
 

@@ -29,7 +29,7 @@
 #include "ControlAlgorithm.h"
 #include "proc_control/controller/controller_parameters.h"
 #include "proc_control/controller/PID.h"
-#include "proc_control/config/config_manager.h"
+#include "proc_control/Config/ConfigManager.h"
 #include "proc_control/ControllerConfig.h"
 #include "ParametersManager.h"
 #include "proc_control/Filter/Filter.h"

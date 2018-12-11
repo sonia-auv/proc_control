@@ -31,7 +31,7 @@
 #include <yaml-cpp/yaml.h>
 #include <proc_control/property.h>
 #include "proc_control/thruster/thruster.h"
-#include "proc_control/config/config_manager.h"
+#include "proc_control/Config/ConfigManager.h"
 #include "proc_control/ThrusterConfig.h"
 #include <eigen3/Eigen/Eigen>
 

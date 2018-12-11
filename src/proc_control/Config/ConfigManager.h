@@ -1,5 +1,5 @@
 /**
- * \file	config_manager.h
+ * \file	ConfigManager.h
  * \author	Jeremie St-Jules <jeremie.st.jules.prevost@gmail.com>
  * \coauthor Francis Masse <francis.masse05@gmail.com>
  * \date	10/17/16

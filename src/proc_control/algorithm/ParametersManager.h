@@ -26,7 +26,7 @@
 #ifndef PROC_CONTROL_PARAMETERSMANAGER_H
 #define PROC_CONTROL_PARAMETERSMANAGER_H
 
-#include "proc_control/config/config_manager.h"
+#include "proc_control/Config/ConfigManager.h"
 #include "proc_control/controller/controller_parameters.h"
 #include "proc_control/ControllerConfig.h"
 

@@ -7,7 +7,7 @@
 
 #include <string>
 
-#include "proc_control/config/config_manager.h"
+#include "proc_control/Config/ConfigManager.h"
 
 namespace proc_control
 {

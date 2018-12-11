@@ -28,7 +28,7 @@
 #define PROC_CONTROL_CONTROLALGORITHM_H
 
 #include <array>
-#include "proc_control/config/config_manager.h"
+#include "proc_control/Config/ConfigManager.h"
 
 class ControlAlgorithm
 {

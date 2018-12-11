@@ -34,7 +34,7 @@ namespace proc_control{
         controlMode_(nullptr),
         positionModePID_(nullptr),
         positionModePPI_(nullptr),
-        controlAUV_(nullptr),
+        pidControlAUV_(nullptr),
         ppiControlAUV_(nullptr)
     {
 
@@ -53,10 +53,10 @@ namespace proc_control{
                                                                 &ProcControlNode::SetLocalDecoupledTargetPositionCallback, this);
 
         robotState_    = std::make_shared<proc_control::RobotState>(nh_);
-        controlAUV_    = std::make_shared<proc_control::ControlAUV>("position");
+        pidControlAUV_ = std::make_shared<proc_control::PIDController>();
         ppiControlAUV_ = std::make_shared<proc_control::PPIController>();
 
-        positionModePID_ = std::make_shared<proc_control::PositionMode>(robotState_, controlAUV_);
+        positionModePID_ = std::make_shared<proc_control::PositionMode>(robotState_, pidControlAUV_);
         positionModePPI_ = std::make_shared<proc_control::PositionMode>(robotState_, ppiControlAUV_);
 
         controlMode_   = positionModePID_;

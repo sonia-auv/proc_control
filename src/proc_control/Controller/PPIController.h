@@ -9,7 +9,7 @@
 #include <control_library/ControlType.h>
 #include <control_library/Controller/ControllerPPI.h>
 
-#include "proc_control/algorithm/ControllerIF.h"
+#include "ControllerIF.h"
 #include "proc_control/ParametersManager/PPIParameters.h"
 #include "proc_control/PPIControllerConfig.h"
 

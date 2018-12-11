@@ -32,7 +32,7 @@
 #include <control_library/ControlType.h>
 
 #include "proc_control/RobotData/RobotState.h"
-#include "proc_control/algorithm/ControllerIF.h"
+#include "proc_control/Controller/ControllerIF.h"
 #include "proc_control/Mode/ControlModeIF.h"
 
 namespace proc_control

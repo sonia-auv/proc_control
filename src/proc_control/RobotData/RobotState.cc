@@ -178,7 +178,14 @@ namespace proc_control
     {
         for (int i = 0; i < 6; i++)
         {
-            if (!enableAxisController_[i]) wrench[i] = 0.0f;
+            if (!enableAxisController_[i])
+            {
+                wrench[i] = 0.0f;
+            } else
+            {
+                wrench[i] = std::min(std::max(wrench[i], -30.0), 30.0);
+            }
+
         }
 
          if (enableThruster_)

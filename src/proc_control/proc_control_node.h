@@ -29,8 +29,8 @@
 #include <ros/ros.h>
 
 #include "proc_control/RobotData/RobotState.h"
-#include "proc_control/algorithm/ControllerIF.h"
-#include "proc_control/algorithm/ControlAUV.h"
+#include "proc_control/Controller/ControllerIF.h"
+#include "proc_control/Controller/PIDController.h"
 #include "proc_control/Controller/PPIController.h"
 #include "proc_control/Mode/PositionMode.h"
 
@@ -87,10 +87,10 @@ namespace proc_control{
 
         std::shared_ptr<RobotState>    robotState_;
         std::shared_ptr<ControlModeIF> controlMode_;
-        std::shared_ptr<ControlModeIF>  positionModePID_;
-        std::shared_ptr<ControlModeIF>  positionModePPI_;
-        std::shared_ptr<ControllerIF>    controlAUV_;
-        std::shared_ptr<ControllerIF> ppiControlAUV_;
+        std::shared_ptr<ControlModeIF> positionModePID_;
+        std::shared_ptr<ControlModeIF> positionModePPI_;
+        std::shared_ptr<ControllerIF>  pidControlAUV_;
+        std::shared_ptr<ControllerIF>  ppiControlAUV_;
 
         enum controlMode{PositionMode_ = 0, PPIMode_};
     };

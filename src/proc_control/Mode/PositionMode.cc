@@ -188,7 +188,7 @@ namespace proc_control {
 
         double deltaTime_s = double(std::chrono::duration_cast<std::chrono::nanoseconds>(timeNow_ - targetReachedTime_).count()) / (double(1E9));
 
-        std::vector<bool>  isTargetReached = controlAuv_->IsInBoundingBox(error);
+        std::vector<bool>  isTargetReached = robotState_->IsInBoundingBox(error);
 
         if (isTargetReached[0] && isTargetReached[1] && isTargetReached[2] && isTargetReached[3] && isTargetReached[4] && isTargetReached[5])
         {

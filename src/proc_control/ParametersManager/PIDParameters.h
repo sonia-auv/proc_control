@@ -28,11 +28,11 @@
 
 #include <control_library/ControlType.h>
 #include "proc_control/ParametersManager/ParamManagerIF.h"
-#include "proc_control/ControllerConfig.h"
+#include "proc_control/PIDControllerConfig.h"
 
 namespace proc_control
 {
-    class PIDParameters : public ParamManagerIF<ControllerConfig>
+    class PIDParameters : public ParamManagerIF<PIDControllerConfig>
     {
     public:
         //==========================================================================
@@ -43,11 +43,11 @@ namespace proc_control
         //==========================================================================
         // P U B L I C   O V E R R I D E D   M E T H O D S
 
-        void OnDynamicReconfigureChange(const ControllerConfig &config ) override;
+        void OnDynamicReconfigureChange(const PIDControllerConfig &config ) override;
 
-        void WriteConfigFile( const ControllerConfig &config ) override;
+        void WriteConfigFile( const PIDControllerConfig &config ) override;
 
-        void ReadConfigFile( ControllerConfig &config ) override;
+        void ReadConfigFile( PIDControllerConfig &config ) override;
 
         double GetConstanteDepthForce();
 

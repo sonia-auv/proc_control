@@ -6,7 +6,6 @@
 #define PROC_CONTROL_PARAMMANAGERIF_H
 
 #include <string>
-
 #include "proc_control/Config/ConfigManager.h"
 
 namespace proc_control

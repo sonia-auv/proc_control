@@ -42,8 +42,11 @@
 #include "proc_control/ClearWaypoint.h"
 #include "proc_control/PositionTarget.h"
 #include "proc_control/TargetReached.h"
+#include "proc_control/SetBoundingBox.h"
+#include "proc_control/ResetBoundingBox.h"
 #include "proc_control/ControlInput/ControlInput.h"
 #include "proc_control/thruster/thruster_manager.h"
+#include "proc_control/ParametersManager/BboxParameters.h"
 
 
 const double DEGREE_TO_RAD = M_PI / 180.0;
@@ -64,6 +67,7 @@ namespace proc_control
         void WrenchPublisher(Eigen::VectorXd &wrench, ros::Publisher &wrenchPublisher);
         void TargetReachedPublisher(const bool isTargetReached);
         control::TrajectoryGeneratorType CreateTrajectoryParameters(const double time, const Eigen::VectorXd &startPose, const Eigen::VectorXd &endPose);
+        std::vector<bool> IsInBoundingBox(Eigen::VectorXd const & error);
         void UpdateInput();
 
         ros::Publisher &GetTargetPublisher()               { return targetPublisher_;}
@@ -94,6 +98,8 @@ namespace proc_control
         void HandleEnableDisableControl(int8_t &request, int axis);
         bool EnableThrustersServerCallback(proc_control::EnableThrustersRequest &request, proc_control::EnableThrustersResponse &response);
         bool ClearWayPointServiceCallback(proc_control::ClearWaypointRequest &request, proc_control::ClearWaypointResponse &response);
+        bool SetBoundingBoxServiceCallback(proc_control::SetBoundingBoxRequest &request, proc_control::SetBoundingBoxResponse &response);
+        bool ResetBoundingBoxServiceCallback(proc_control::ResetBoundingBoxRequest &request, proc_control::ResetBoundingBoxResponse &response);
 
         ros::NodeHandlePtr nh_;
 
@@ -105,6 +111,11 @@ namespace proc_control
 
         std::vector<bool>  isTargetReached_;
         std::vector<bool>  enableAxisController_;
+
+        std::shared_ptr<std::vector<double>> pBbox_;
+        BboxParameters bboxParameters_;
+        std::vector<double> bbox_;
+
 
         // Subscriber
         ros::Subscriber killSwitchSubscriber_;

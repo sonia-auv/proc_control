@@ -31,9 +31,9 @@ namespace proc_control
 {
 
     PIDParameters::PIDParameters(std::string &axe_name, std::string mode , std::shared_ptr<control::PIDParameters> &pidParameters):
-            ParamManagerIF(axe_name + "_axis" + mode + "_controller"), pidParameters_(pidParameters)
+            ParamManagerIF(axe_name + "_axis_" + mode + "_controller"), pidParameters_(pidParameters)
     {
-        file_path_ = kConfigPath + "/Controllers_parameters/" + axe_name + "_" + mode + "_controller_parameters" + kConfigExt;
+        file_path_ = kConfigPath + "/ControllersParameters/" + axe_name + "_" + mode + "_controller_parameters" + kConfigExt;
         Init();
     }
 
@@ -43,7 +43,7 @@ namespace proc_control
 //-----------------------------------------------------------------------------
 //
 
-    void PIDParameters::OnDynamicReconfigureChange(const ControllerConfig &config )
+    void PIDParameters::OnDynamicReconfigureChange(const PIDControllerConfig &config )
     {
         pidParameters_->Kp = config.P;
         pidParameters_->Ki = config.I;
@@ -55,7 +55,7 @@ namespace proc_control
 //-----------------------------------------------------------------------------
 //
 
-    void PIDParameters::WriteConfigFile(const ControllerConfig &config )
+    void PIDParameters::WriteConfigFile(const PIDControllerConfig &config )
     {
 
         YAML::Emitter out;
@@ -80,7 +80,7 @@ namespace proc_control
 //-----------------------------------------------------------------------------
 //
 
-    void PIDParameters::ReadConfigFile(ControllerConfig &config )
+    void PIDParameters::ReadConfigFile(PIDControllerConfig &config )
     {
         YAML::Node node = YAML::LoadFile(file_path_);
 

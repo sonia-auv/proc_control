@@ -56,8 +56,9 @@ find_package(
 
 generate_dynamic_reconfigure_options(
         cfg/Thruster_reconf.cfg
-        cfg/Controller_reconf.cfg
+        cfg/PIDController_reconf.cfg
         cfg/PPIController_reconf.cfg
+        cfg/Bbox_reconf.cfg
 )
 
 add_message_files(

@@ -30,7 +30,10 @@ namespace proc_control
      RobotState::RobotState(const ros::NodeHandlePtr &nh):
         nh_(nh),
         inputData_(nh),
-        trajectoryManager_(nullptr)
+        pBbox_{std::make_shared<std::vector<double>>(control::CARTESIAN_SPACE)},
+        bboxParameters_("Bbox", pBbox_),
+        bbox_{*pBbox_},
+        trajectoryManager_{std::make_shared<control::Trajectory>()}
      {
          killSwitchSubscriber_   = nh_->subscribe("/provider_kill_mission/kill_switch_msg", 100,
                                                   &RobotState::KillMissionCallback, this);
@@ -42,7 +45,10 @@ namespace proc_control
          clearWayPointServer_    = nh_->advertiseService("/proc_control/clear_waypoint",
                                                          &RobotState::ClearWayPointServiceCallback, this);
 
-         trajectoryManager_      = std::make_shared<control::Trajectory>();
+         setBoundingBoxServer_   = nh_->advertiseService("/proc_control/set_bounding_box",
+                                                         &RobotState::SetBoundingBoxServiceCallback, this);
+         resetBoundingBoxServer_ = nh->advertiseService("/proc_control/reset_bounding_box",
+                                                        &RobotState::ResetBoundingBoxServiceCallback, this);
 
          controllerPoseErrorPublisher_  = nh_->advertise<geometry_msgs::Pose>("/proc_control/current_controller_pose_error", 100);
          controllerTwistErrorPublisher_ = nh_->advertise<geometry_msgs::Twist>("/proc_control/current_controller_twist_error", 100);
@@ -208,6 +214,31 @@ namespace proc_control
         trajectoryParams.endPose   = endPose;
 
         return trajectoryParams;
+    }
+
+    std::vector<bool> RobotState::IsInBoundingBox(Eigen::VectorXd const &error)
+    {
+        std::vector<bool> isInBoundingBox = {std::fabs(error[0]) <= (*pBbox_)[0], std::fabs(error[1]) <= (*pBbox_)[1], std::fabs(error[2]) <= (*pBbox_)[2],
+                                             std::fabs(error[3]) <= (*pBbox_)[3], std::fabs(error[4]) <= (*pBbox_)[4], std::fabs(error[5]) <= (*pBbox_)[5]};
+
+        return isInBoundingBox;
+    }
+
+    bool RobotState::SetBoundingBoxServiceCallback(proc_control::SetBoundingBoxRequest &request, proc_control::SetBoundingBoxResponse &response)
+    {
+        (*pBbox_)[0] = request.X;
+        (*pBbox_)[1] = request.Y;
+        (*pBbox_)[2] = request.Z;
+        (*pBbox_)[3] = request.ROLL;
+        (*pBbox_)[4] = request.PITCH;
+        (*pBbox_)[5] = request.YAW;
+         return true;
+    }
+
+    bool RobotState::ResetBoundingBoxServiceCallback(proc_control::ResetBoundingBoxRequest &request, proc_control::ResetBoundingBoxResponse &response)
+    {
+        *pBbox_ = bbox_;
+        return true;
     }
 
  }

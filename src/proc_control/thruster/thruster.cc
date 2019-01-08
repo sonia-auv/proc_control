@@ -37,7 +37,7 @@ Thruster::Thruster(const uint8_t &id) :
     linear_effort_({0.0}),
     rotationnal_effort_({0.0}),
     id_(id) {
-  thruster_effort_publisher_ = nh_.advertise<provider_thruster::ThrusterEffort>
+    thruster_effort_publisher_ = nh_.advertise<provider_thruster::ThrusterEffort>
       ("/provider_thruster/thruster_effort", 100);
 };
 

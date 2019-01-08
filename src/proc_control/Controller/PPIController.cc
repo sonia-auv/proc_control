@@ -17,7 +17,6 @@ namespace proc_control
     Eigen::VectorXd PPIController::ComputedWrenchFromError(control::ControllerCMD & command)
     {
         return ppiController_.Update(command);
-
     }
 
     std::vector<bool> PPIController::IsInBoundingBox(Eigen::VectorXd &error)

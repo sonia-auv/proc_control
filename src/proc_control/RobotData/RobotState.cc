@@ -55,7 +55,7 @@ namespace proc_control
          targetErrorPublisher_          = nh_->advertise<geometry_msgs::Pose>("/proc_control/current_target_error", 100);
          targetPublisher_               = nh_->advertise<geometry_msgs::Pose>("/proc_control/current_target", 100);
          debugTargetPublisher_          = nh_->advertise<geometry_msgs::Pose>("/proc_control/debug_current_target", 100);
-         commandDebugPublisher_         = nh_->advertise<geometry_msgs::Wrench>("/proc_control/command_debug", 100);
+         commandDebugPublisher_         = nh_->advertise<geometry_msgs::Wrench>("/provider_thruster/thruster_effort_vector", 100);
          targetIsReachedPublisher_      = nh_->advertise<proc_control::TargetReached>("/proc_control/target_reached", 100);
 
          enableThruster_       = true;
@@ -102,7 +102,6 @@ namespace proc_control
 
             trajectoryManager_->ResetTrajectory();
         }
-
     }
 
     bool RobotState::EnableControlServiceCallback(proc_control::EnableControlRequest &request, proc_control::EnableControlResponse &response)
@@ -180,7 +179,7 @@ namespace proc_control
         twistPublisher.publish(twistMsg);
     }
 
-    void RobotState:: WrenchPublisher(Eigen::VectorXd &wrench, ros::Publisher &wrenchPublisher)
+    void RobotState::WrenchPublisher(Eigen::VectorXd &wrench, ros::Publisher &wrenchPublisher)
     {
         for (int i = 0; i < 6; i++)
         {
@@ -200,8 +199,6 @@ namespace proc_control
              EigenVectorToWrenchMsg(wrench, wrenchMsg);
 
              wrenchPublisher.publish(wrenchMsg);
-
-             thrusterManager_.Commit(wrench);
          }
     }
 

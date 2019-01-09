@@ -39,7 +39,6 @@ namespace proc_control
 
         virtual Eigen::VectorXd ComputedWrenchFromError(control::ControllerCMD & command) = 0;
         virtual std::vector<bool> IsInBoundingBox(Eigen::VectorXd &error) = 0;
-
     };
 }
 

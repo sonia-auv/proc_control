@@ -42,7 +42,7 @@ namespace proc_control
     {
     public:
 
-        explicit PositionMode(std::shared_ptr<RobotState> & robotState, std::shared_ptr<ControllerIF> & controlAUV);
+        explicit PositionMode(std::shared_ptr<RobotState> & robotState, std::unique_ptr<ControllerIF> & controlAUV);
 
         virtual ~PositionMode() = default;
 
@@ -64,7 +64,7 @@ namespace proc_control
         void GetLocalError(Eigen::VectorXd & targetPose, Eigen::VectorXd & localError);
 
         std::shared_ptr<RobotState>   robotState_;
-        std::shared_ptr<ControllerIF> controlAuv_;
+        std::unique_ptr<ControllerIF> controlAuv_;
 
         std::shared_ptr<control::Trajectory> trajectoryManager_;
 

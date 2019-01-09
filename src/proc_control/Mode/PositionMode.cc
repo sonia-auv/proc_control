@@ -29,10 +29,10 @@
 
 namespace proc_control {
 
-    PositionMode::PositionMode(std::shared_ptr<RobotState> & robotState, std::shared_ptr<ControllerIF> & controlAUV) :
+    PositionMode::PositionMode(std::shared_ptr<RobotState> & robotState, std::unique_ptr<ControllerIF> & controlAUV) :
         ControlModeIF(),
         robotState_(robotState),
-        controlAuv_(controlAUV),
+        controlAuv_{std::move(controlAUV)},
         trajectoryManager_{robotState_->GetTrajectoryManager()},
         localError_{Eigen::VectorXd::Zero(control::CARTESIAN_SPACE)},
         localDesiredError_{Eigen::VectorXd::Zero(control::CARTESIAN_SPACE)},

@@ -38,7 +38,7 @@ namespace proc_control
         //==========================================================================
         // P U B L I C   C / D T O R S
 
-        PIDParameters(std::string &axe_name, std::string mode ,std::shared_ptr<control::PIDParameters> &pidParameters);
+        PIDParameters(std::string axe_name, std::string mode ,std::shared_ptr<control::PIDParameters> &pidParameters);
 
         //==========================================================================
         // P U B L I C   O V E R R I D E D   M E T H O D S

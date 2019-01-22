@@ -30,7 +30,7 @@
 namespace proc_control
 {
 
-    PIDParameters::PIDParameters(std::string &axe_name, std::string mode , std::shared_ptr<control::PIDParameters> &pidParameters):
+    PIDParameters::PIDParameters(std::string axe_name, std::string mode , std::shared_ptr<control::PIDParameters> &pidParameters):
             ParamManagerIF(axe_name + "_axis_" + mode + "_controller"), pidParameters_(pidParameters)
     {
         file_path_ = kConfigPath + "/ControllersParameters/" + axe_name + "_" + mode + "_controller_parameters" + kConfigExt;

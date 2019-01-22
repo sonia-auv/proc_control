@@ -26,10 +26,14 @@ namespace proc_control
 
     private:
         std::shared_ptr<control::TransferFunctionCoefficient>  transferFunctionCoefficient_;
-        std::unique_ptr<CommandBParameters> commandBParameters_;
+        std::unique_ptr<CommandBParameters>                    commandBParameters_;
 
 
-        control::TransferFunction transferFunction_;
+        control::TransferFunction               transferFunction_;
+        std::shared_ptr<control::PIDParameters> controlPIDParameters_;
+        PIDParameters                           pidParameters_;
+        control::ContinuousTimePid              pidController_;
+
     };
 }
 

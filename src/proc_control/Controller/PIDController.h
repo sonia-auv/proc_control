@@ -2,6 +2,7 @@
 #define PROC_CONTROL_PIDCONTROLLER_H
 
 #include <memory>
+#include <string>
 #include <control_library/ControlType.h>
 #include <control_library/toolbox/ContinuousTimePid.h>
 #include "ControllerIF.h"
@@ -13,7 +14,7 @@ namespace proc_control
     class PIDController : public ControllerIF
     {
     public:
-        PIDController();
+        PIDController(const std::string & controllerType);
         virtual ~PIDController() = default;
 
         Eigen::VectorXd ComputedWrenchFromError(control::ControllerCMD & command) override;
@@ -26,6 +27,7 @@ namespace proc_control
         std::vector<std::unique_ptr<PIDParameters>>            pidParameters_;
 
         std::list<std::string> CommandedAxis{"x", "y", "z", "roll", "pitch","yaw"};
+
     };
 }
 

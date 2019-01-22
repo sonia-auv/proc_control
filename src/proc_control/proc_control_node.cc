@@ -24,6 +24,10 @@
  */
 
 #include "proc_control_node.h"
+#include "proc_control/Mode/VelocityMode.h"
+#include "proc_control/Controller/PIDController.h"
+#include "proc_control/Controller/PPIController.h"
+#include "proc_control/Controller/BController.h"
 
 
 namespace proc_control{
@@ -33,7 +37,8 @@ namespace proc_control{
         robotState_(nullptr),
         controlMode_(nullptr),
         positionModePID_(nullptr),
-        positionModePPI_(nullptr)
+        positionModePPI_(nullptr),
+        velocityMode_(nullptr)
     {
 
         setControlModeServer_ = nh->advertiseService("/proc_control/set_control_mode",
@@ -51,14 +56,15 @@ namespace proc_control{
                                                                 &ProcControlNode::SetLocalDecoupledTargetPositionCallback, this);
 
         robotState_    = std::make_shared<proc_control::RobotState>(nh_);
-        std::unique_ptr<ControllerIF> pidControlAUV = std::make_unique<PIDController>();
-        std::unique_ptr<ControllerIF> ppiControlAUV = std::make_unique<PPIController>();
+        std::unique_ptr<ControllerIF> pidControlAUV         = std::make_unique<PIDController>("position");
+        std::unique_ptr<ControllerIF> ppiControlAUV         = std::make_unique<PPIController>();
+        std::unique_ptr<ControllerIF> pidVelocityControlAUV = std::make_unique<PIDController>("velocity");
 
         positionModePID_ = std::make_shared<proc_control::PositionMode>(robotState_, pidControlAUV);
         positionModePPI_ = std::make_shared<proc_control::PositionMode>(robotState_, ppiControlAUV);
+        velocityMode_    = std::make_shared<proc_control::VelocityMode>(robotState_, pidVelocityControlAUV);
 
         controlMode_   = positionModePID_;
-
     }
 
     ProcControlNode::~ProcControlNode()
@@ -81,7 +87,9 @@ namespace proc_control{
     bool ProcControlNode::SetControlModeCallback(proc_control::SetControlModeRequest &request,
                                                  proc_control::SetControlModeResponse &response) {
 
-        auto mode = static_cast<int>(request.mode);
+        controlMode mode = static_cast<controlMode>(request.mode);
+
+        robotState_->ControlModeChange();
 
         switch (mode){
             case PositionMode_:
@@ -91,6 +99,10 @@ namespace proc_control{
             case PPIMode_:
                 controlMode_ = nullptr;
                 controlMode_ = positionModePPI_;
+                break;
+            case VelocityModeB_:
+                controlMode_ = nullptr;
+                controlMode_ = velocityMode_;
                 break;
             default :
                 controlMode_ = nullptr;

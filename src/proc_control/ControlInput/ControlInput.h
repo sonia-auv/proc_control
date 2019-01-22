@@ -55,7 +55,7 @@ namespace proc_control {
         void OdometryCallback(const nav_msgs::Odometry::ConstPtr &odomIn);
 
         Eigen::Vector3d GetPosePosition()    const { return controlInput_.pose.position; };
-        Eigen::Vector3d GetTwistLinear()     const { return controlInput_.twist.angular; };
+        Eigen::Vector3d GetTwistLinear()     const { return controlInput_.twist.linear; };
         Eigen::Vector3d GetPoseOrientation() const { return controlInput_.pose.orientation; };
         Eigen::Vector3d GetTwistAngular()    const { return controlInput_.twist.angular; };
 

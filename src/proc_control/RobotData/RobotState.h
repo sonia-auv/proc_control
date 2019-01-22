@@ -89,6 +89,8 @@ namespace proc_control
         Eigen::VectorXd GetActualTwist() { return actualTwist_;}
         Eigen::VectorXd GetActualAccel() { return actualAcceleration_;}
 
+        void ControlModeChange();
+
         std::shared_ptr<control::Trajectory> GetTrajectoryManager() { return trajectoryManager_;}
 
     private:

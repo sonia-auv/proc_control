@@ -7,12 +7,12 @@
 
 namespace proc_control
 {
-    PIDController::PIDController()
+    PIDController::PIDController(const std::string & controllerType)
     {
         for (std::string & axe : CommandedAxis)
         {
             std::shared_ptr<control::PIDParameters> pidParam = std::make_shared<control::PIDParameters>();
-            pidParameters_.emplace_back(new PIDParameters(axe, "position", pidParam));
+            pidParameters_.emplace_back(new PIDParameters(axe, controllerType, pidParam));
         }
 
 

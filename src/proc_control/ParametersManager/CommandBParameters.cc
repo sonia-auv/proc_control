@@ -9,6 +9,9 @@ namespace proc_control
     CommandBParameters::CommandBParameters( std::shared_ptr<control::TransferFunctionCoefficient> &transferFunctionCoefficientB):
         transferFunctionCoefficientB_{transferFunctionCoefficientB}
     {
+        transferFunctionCoefficientB_->denominatorFactor = Eigen::ArrayXXd::Zero(control::CARTESIAN_SPACE, 4);
+        transferFunctionCoefficientB_->numeratorFactor   = Eigen::ArrayXXd::Zero(control::CARTESIAN_SPACE, 4 + 1);
+
         transferFunctionCoefficientB_->denominatorFactor.row(0) << -3.639591435619611, 4.951840184694524, -2.984799708005306, 0.672550978879680;
         transferFunctionCoefficientB_->numeratorFactor.row(0)   <<  3.663521493460744, 0.062852137377651, -7.264065541170898, -0.062601520631772, 3.600794664456033;
         transferFunctionCoefficientB_->denominatorFactor.row(1) << -3.721140132164017,   5.182918636148546,  -3.202408853963115,   0.740630350805249;

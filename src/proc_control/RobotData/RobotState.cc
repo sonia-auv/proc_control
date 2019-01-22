@@ -108,7 +108,8 @@ namespace proc_control
     {
         UpdateInput();
         desiredPose_         = actualPose_;
-        desiredTwist_        = actualTwist_;
+        desiredTwist_        = Eigen::VectorXd::Zero(control::CARTESIAN_SPACE);
+        desiredTwist_[2]     = actualPose_[2];
         desiredAcceleration_ = actualAcceleration_;
 
         PosePublisher(desiredPose_, targetPublisher_);
@@ -188,7 +189,7 @@ namespace proc_control
                 wrench[i] = 0.0f;
             } else
             {
-                wrench[i] = std::min(std::max(wrench[i], -30.0), 30.0);
+                wrench[i] = std::min(std::max(wrench[i], -100.0), 100.0);
             }
 
         }
@@ -238,4 +239,16 @@ namespace proc_control
         return true;
     }
 
- }
+    void RobotState::ControlModeChange()
+    {
+        UpdateInput();
+        desiredPose_         = actualPose_;
+        desiredTwist_        = Eigen::VectorXd::Zero(control::CARTESIAN_SPACE);
+        desiredAcceleration_ = Eigen::VectorXd::Zero(control::CARTESIAN_SPACE);
+
+        trajectoryManager_->ResetTrajectory();
+
+        PosePublisher(desiredPose_, targetPublisher_);
+    }
+
+}

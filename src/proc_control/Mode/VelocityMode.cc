@@ -25,6 +25,7 @@ namespace proc_control
         desiredTwist_ = robotState_->GetDesiredTwist();
 
         GetLocalError(desiredTwist_, controllerCommand_.errorPose);
+        controllerCommand_.errorVelocity = controllerCommand_.errorPose;
         robotState_->PosePublisher(desiredTwist_, robotState_->GetDebugTargetPublisher());
 
         robotState_->TwistPublisher(controllerCommand_.errorVelocity, robotState_->GetControllerTwistErrorPublisher());

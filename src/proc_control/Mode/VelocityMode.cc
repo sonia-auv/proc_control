@@ -23,7 +23,6 @@ namespace proc_control
         actualTwist_  = robotState_->GetActualTwist();
 
         desiredTwist_ = robotState_->GetDesiredTwist();
-        desiredTwist_[5] = actualPose_[5];
 
         GetLocalError(desiredTwist_, controllerCommand_.errorPose);
         controllerCommand_.errorVelocity = controllerCommand_.errorPose;
@@ -39,7 +38,7 @@ namespace proc_control
 
     void VelocityMode::SetTarget(bool isGlobal, Eigen::VectorXd &targetPose)
     {
-
+        targetPose[5] = actualPose_[5];
         robotState_->SetDesiredTwist(targetPose);
     }
 

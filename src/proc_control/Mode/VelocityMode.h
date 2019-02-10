@@ -33,6 +33,10 @@ namespace proc_control
         Eigen::VectorXd actualPose_;
         Eigen::VectorXd desiredTwist_;
 
+        Eigen::Affine3d actualPoseH_;
+        Eigen::Affine3d targetPoseH_;
+        Eigen::Affine3d localErrorH_;
+
         control::ControllerCMD    controllerCommand_;
     };
 }

@@ -23,6 +23,7 @@ namespace proc_control
         actualTwist_  = robotState_->GetActualTwist();
 
         desiredTwist_ = robotState_->GetDesiredTwist();
+        desiredTwist_[5] = actualPose_[5];
 
         GetLocalError(desiredTwist_, controllerCommand_.errorPose);
         controllerCommand_.errorVelocity = controllerCommand_.errorPose;
@@ -38,6 +39,7 @@ namespace proc_control
 
     void VelocityMode::SetTarget(bool isGlobal, Eigen::VectorXd &targetPose)
     {
+
         robotState_->SetDesiredTwist(targetPose);
     }
 
@@ -47,7 +49,14 @@ namespace proc_control
 
     void VelocityMode::GetLocalError(Eigen::VectorXd &targetPose, Eigen::VectorXd &localError)
     {
-        localError    = targetPose - actualTwist_;
+        actualPoseH_ = control::HomogeneousMatrix(actualPose_);
+        targetPoseH_ = control::HomogeneousMatrix(targetPose);
+        localErrorH_  = actualPoseH_.inverse() * targetPoseH_;
+
+        localError[0]    = targetPose[0] - actualTwist_[0];
+        localError[1]    = targetPose[1] - actualTwist_[1];
         localError[2] = targetPose[2] - actualPose_[2];
+
+        localError << localError[0], localError[1], localError[2], localErrorH_.linear().eulerAngles(0, 1, 2) * RAD_TO_DEGREE;
     }
 }

@@ -22,7 +22,6 @@ namespace proc_control
         virtual ~PPIController() = default;
 
         Eigen::VectorXd   ComputedWrenchFromError(control::ControllerCMD & command) override;
-        std::vector<bool> IsInBoundingBox(Eigen::VectorXd &error) override;
 
     private:
         std::shared_ptr<control::TransferFunctionCoefficient> transferFunctionCoefficient_;

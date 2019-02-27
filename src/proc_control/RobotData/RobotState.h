@@ -45,7 +45,6 @@
 #include "proc_control/SetBoundingBox.h"
 #include "proc_control/ResetBoundingBox.h"
 #include "proc_control/ControlInput/ControlInput.h"
-#include "proc_control/thruster/thruster_manager.h"
 #include "proc_control/ParametersManager/BboxParameters.h"
 
 
@@ -71,6 +70,7 @@ namespace proc_control
         void UpdateInput();
 
         ros::Publisher &GetTargetPublisher()               { return targetPublisher_;}
+        ros::Publisher &GetVelocityTargetPublisher()       { return velocityTargetPublisher_;}
         ros::Publisher &GetDebugTargetPublisher()          { return debugTargetPublisher_;}
         ros::Publisher &GetControllerPoseErrorPublisher()  { return controllerPoseErrorPublisher_;}
         ros::Publisher &GetControllerTwistErrorPublisher() { return controllerTwistErrorPublisher_;}
@@ -109,8 +109,6 @@ namespace proc_control
 
         bool enableThruster_;
 
-        ThrusterManager thrusterManager_;
-
         std::vector<bool>  isTargetReached_;
         std::vector<bool>  enableAxisController_;
 
@@ -124,6 +122,7 @@ namespace proc_control
         
         // Publisher
         ros::Publisher targetPublisher_;
+        ros::Publisher velocityTargetPublisher_;
         ros::Publisher debugTargetPublisher_;
         ros::Publisher controllerPoseErrorPublisher_;
         ros::Publisher controllerTwistErrorPublisher_;

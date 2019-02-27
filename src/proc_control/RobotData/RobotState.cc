@@ -54,6 +54,7 @@ namespace proc_control
          controllerTwistErrorPublisher_ = nh_->advertise<geometry_msgs::Twist>("/proc_control/current_controller_twist_error", 100);
          targetErrorPublisher_          = nh_->advertise<geometry_msgs::Pose>("/proc_control/current_target_error", 100);
          targetPublisher_               = nh_->advertise<geometry_msgs::Pose>("/proc_control/current_target", 100);
+         velocityTargetPublisher_        = nh_->advertise<geometry_msgs::Twist>("/proc_control/current_target_velocity", 100);
          debugTargetPublisher_          = nh_->advertise<geometry_msgs::Pose>("/proc_control/debug_current_target", 100);
          commandDebugPublisher_         = nh_->advertise<geometry_msgs::Wrench>("/provider_thruster/thruster_effort_vector", 100);
          targetIsReachedPublisher_      = nh_->advertise<proc_control::TargetReached>("/proc_control/target_reached", 100);
@@ -244,6 +245,8 @@ namespace proc_control
         UpdateInput();
         desiredPose_         = actualPose_;
         desiredTwist_        = Eigen::VectorXd::Zero(control::CARTESIAN_SPACE);
+        desiredTwist_[2]     = actualPose_[2];
+        desiredTwist_[5]     = actualPose_[5];
         desiredAcceleration_ = Eigen::VectorXd::Zero(control::CARTESIAN_SPACE);
 
         trajectoryManager_->ResetTrajectory();

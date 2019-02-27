@@ -19,8 +19,6 @@ namespace proc_control
 
         Eigen::VectorXd ComputedWrenchFromError(control::ControllerCMD & command) override;
 
-        std::vector<bool> IsInBoundingBox(Eigen::VectorXd &error) override;
-
     private:
 
         std::list<std::unique_ptr<control::ContinuousTimePid>> pidController_;

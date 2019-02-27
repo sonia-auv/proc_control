@@ -36,11 +36,5 @@ namespace proc_control
         actuation[2] += pidParameters_[2]->GetConstanteDepthForce();
         return actuation;
     }
-
-    std::vector<bool> PIDController::IsInBoundingBox(Eigen::VectorXd &error) {
-        std::vector<bool> b {false, false, false, false, false, false};
-
-        return b;
-    }
 }
 

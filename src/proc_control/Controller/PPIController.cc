@@ -18,13 +18,6 @@ namespace proc_control
     {
         return ppiController_.Update(command);
     }
-
-    std::vector<bool> PPIController::IsInBoundingBox(Eigen::VectorXd &error)
-    {
-        std::vector<bool> b {false, false, false, false, false, false};
-
-        return b;
-    }
 }
 
 

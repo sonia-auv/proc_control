@@ -25,12 +25,4 @@ namespace proc_control
 
         return wrench;
     }
-
-    std::vector<bool> BController::IsInBoundingBox(Eigen::VectorXd &error)
-    {
-        std::vector<bool> b {false, false, false, false, false, false};
-
-        return b;
-    }
-
 }

@@ -252,6 +252,7 @@ namespace proc_control
         trajectoryManager_->ResetTrajectory();
 
         PosePublisher(desiredPose_, targetPublisher_);
+        TwistPublisher(desiredTwist_, velocityTargetPublisher_);
     }
 
 }

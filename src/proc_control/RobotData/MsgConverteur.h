@@ -28,9 +28,9 @@ namespace proc_control
         msg.linear.x  = vector[0];
         msg.linear.y  = vector[1];
         msg.linear.z  = vector[2];
-        msg.angular.x = vector[3];  // ROLL
-        msg.angular.y = vector[4];  // PITCH
-        msg.angular.z = vector[5];  // YAW
+        msg.angular.x = vector[3] * control::RAD_TO_DEGREE;  // ROLL
+        msg.angular.y = vector[4] * control::RAD_TO_DEGREE;  // PITCH
+        msg.angular.z = vector[5] * control::RAD_TO_DEGREE;  // YAW
     }
 
     inline void EigenVectorToWrenchMsg(const Eigen::VectorXd &vector, geometry_msgs::Wrench &msg)

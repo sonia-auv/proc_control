@@ -111,9 +111,11 @@ namespace proc_control
         desiredPose_         = actualPose_;
         desiredTwist_        = Eigen::VectorXd::Zero(control::CARTESIAN_SPACE);
         desiredTwist_[2]     = actualPose_[2];
+        desiredTwist_[5]     = actualPose_[5];
         desiredAcceleration_ = actualAcceleration_;
 
         PosePublisher(desiredPose_, targetPublisher_);
+        TwistPublisher(desiredTwist_, velocityTargetPublisher_);
 
         trajectoryManager_->ResetTrajectory();
 

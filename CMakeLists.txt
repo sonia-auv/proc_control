@@ -23,7 +23,6 @@
 
 #===============================================================================
 # G L O B A L   P R O J E C T   C O N F I G U R A T I O N
-
 cmake_minimum_required(VERSION 2.8)
 project(proc_control)
 
@@ -33,8 +32,8 @@ if (NOT CMAKE_BUILD_TYPE)
       FORCE)
 endif (NOT CMAKE_BUILD_TYPE)
 
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -std=c++11 -Wall")
-set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -std=c++11 -O3 -s")
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -std=c++14 -Wall")
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -std=c++14 -O3 -s")
 
 set(CMAKE_MODULE_PATH "/usr/share/cmake-3.0/Modules")
 
@@ -52,11 +51,14 @@ find_package(
     dynamic_reconfigure
     provider_thruster
     provider_kill_mission
+    control_library
 )
 
 generate_dynamic_reconfigure_options(
         cfg/Thruster_reconf.cfg
-        cfg/Controller_reconf.cfg
+        cfg/PIDController_reconf.cfg
+        cfg/PPIController_reconf.cfg
+        cfg/Bbox_reconf.cfg
 )
 
 add_message_files(
@@ -90,8 +92,14 @@ generate_messages(
 catkin_package(
     INCLUDE_DIRS ${proc_control_SRC_DIR}
     LIBRARIES
-    CATKIN_DEPENDS roscpp message_runtime std_msgs provider_thruster provider_kill_mission
+    CATKIN_DEPENDS
+    roscpp
+    message_runtime
+    std_msgs
+    provider_thruster
+    provider_kill_mission
     dynamic_reconfigure
+    control_library
 )
 
 #===============================================================================
@@ -108,14 +116,15 @@ include_directories(
     ${catkin_INCLUDE_DIRS}
     ${proc_control_SRC_DIR}
     "${proc_control_SRC_DIR}/../cfg/cpp/"
-        ${Boost_INCLUDE_DIRS}
-        ${provider_kill_mission_INCLUDE_DIRS}
+    ${Boost_INCLUDE_DIRS}
+    ${provider_kill_mission_INCLUDE_DIRS}
+    ${control_library_INCLUDE_DIRS}
 )
 
 #==========================================================================
 # C R E A T E   E X E C U T A B L E
 add_executable(${PROJECT_NAME}_node ${proc_control_SRC_DIR}/${PROJECT_NAME}/main.cc ${proc_control_FILES})
-target_link_libraries(${PROJECT_NAME}_node ${catkin_LIBRARIES} ${Eigen_LIBRARIES} yaml-cpp ${Boost_LIBRARIES})
+target_link_libraries(${PROJECT_NAME}_node ${catkin_LIBRARIES} ${Eigen_LIBRARIES} yaml-cpp ${Boost_LIBRARIES} ${control_library_LIBRARIES})
 add_dependencies(${PROJECT_NAME}_node
         ${PROJECT_NAME}_generate_messages_cpp
         ${PROJECT_NAME}_gencfg)

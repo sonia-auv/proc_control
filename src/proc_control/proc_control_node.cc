@@ -24,11 +24,22 @@
  */
 
 #include "proc_control_node.h"
+#include "proc_control/Mode/VelocityMode.h"
+#include "proc_control/Controller/PIDController.h"
+#include "proc_control/Controller/PPIController.h"
+#include "proc_control/Controller/BController.h"
 
 
 namespace proc_control{
 
-    ProcControlNode::ProcControlNode(const ros::NodeHandlePtr &nh): nh_(nh), controlMode_(nullptr){
+    ProcControlNode::ProcControlNode(const ros::NodeHandlePtr &nh) :
+        nh_(nh),
+        robotState_(nullptr),
+        controlMode_(nullptr),
+        positionModePID_(nullptr),
+        positionModePPI_(nullptr),
+        velocityMode_(nullptr)
+    {
 
         setControlModeServer_ = nh->advertiseService("/proc_control/set_control_mode",
                                                      &ProcControlNode::SetControlModeCallback, this);
@@ -44,12 +55,20 @@ namespace proc_control{
         setLocalDecoupledTargetServer_ = nh_->advertiseService("/proc_control/set_local_decoupled_target",
                                                                 &ProcControlNode::SetLocalDecoupledTargetPositionCallback, this);
 
-        controlMode_ = std::make_shared<proc_control::PositionMode>(nh_);
+        robotState_    = std::make_shared<proc_control::RobotState>(nh_);
+        std::unique_ptr<ControllerIF> pidControlAUV         = std::make_unique<PIDController>("position");
+        std::unique_ptr<ControllerIF> ppiControlAUV         = std::make_unique<PPIController>();
+        std::unique_ptr<ControllerIF> pidVelocityControlAUV = std::make_unique<PIDController>("velocity");
 
+        positionModePID_ = std::make_shared<proc_control::PositionMode>(robotState_, pidControlAUV);
+        positionModePPI_ = std::make_shared<proc_control::PositionMode>(robotState_, ppiControlAUV);
+        velocityMode_    = std::make_shared<proc_control::VelocityMode>(robotState_, pidVelocityControlAUV);
+
+        controlMode_   = positionModePID_;
     }
 
-    ProcControlNode::~ProcControlNode() {
-
+    ProcControlNode::~ProcControlNode()
+    {
         setControlModeServer_.shutdown();
         setGlobalDecoupledTargetServer_.shutdown();
         setLocalDecoupledTargetServer_.shutdown();
@@ -59,29 +78,35 @@ namespace proc_control{
 
     //==============================================================================
     // M E T H O D   S E C T I O N
-    void ProcControlNode::ControlLoop() {
-
+    void ProcControlNode::ControlLoop()
+    {
+        robotState_->UpdateInput();
         controlMode_->Process();
-
     }
 
     bool ProcControlNode::SetControlModeCallback(proc_control::SetControlModeRequest &request,
                                                  proc_control::SetControlModeResponse &response) {
 
-        auto mode = static_cast<int>(request.mode);
+        controlMode mode = static_cast<controlMode>(request.mode);
+
+        robotState_->ControlModeChange();
 
         switch (mode){
             case PositionMode_:
                 controlMode_ = nullptr;
-                controlMode_ = std::make_shared<proc_control::PositionMode>(nh_);
+                controlMode_ = positionModePID_;
                 break;
-            case VelocityMode_:
+            case PPIMode_:
                 controlMode_ = nullptr;
-                controlMode_ = std::make_shared<proc_control::VelocityMode>(nh_);
+                controlMode_ = positionModePPI_;
+                break;
+            case VelocityModeB_:
+                controlMode_ = nullptr;
+                controlMode_ = velocityMode_;
                 break;
             default :
                 controlMode_ = nullptr;
-                controlMode_ = std::make_shared<proc_control::PositionMode>(nh_);
+                controlMode_ = positionModePID_;
         }
 
         return true;
@@ -91,13 +116,11 @@ namespace proc_control{
     bool ProcControlNode::SetGlobalTargetPositionCallback(proc_control::SetPositionTargetRequest &request,
                                                           proc_control::SetPositionTargetResponse &response) {
 
-        Eigen::Vector3d targetPosition;
-        Eigen::Vector3d targetOrientation;
+        Eigen::VectorXd targetPose = Eigen::VectorXd::Zero(control::CARTESIAN_SPACE);
 
-        targetPosition    << request.X, request.Y, request.Z;
-        targetOrientation << 0.0, 0.0, request.YAW * DEGREE_TO_RAD;
+        targetPose    << request.X, request.Y, request.Z, 0.0, 0.0, request.YAW * DEGREE_TO_RAD;
 
-        controlMode_->SetTarget(GlobalTarget, targetPosition, targetOrientation);
+        controlMode_->SetTarget(GlobalTarget, targetPose);
 
         return true;
     }
@@ -105,13 +128,11 @@ namespace proc_control{
     bool ProcControlNode::SetLocalTargetPositionCallback(proc_control::SetPositionTargetRequest &request,
                                                          proc_control::SetPositionTargetResponse &response) {
 
-        Eigen::Vector3d targetPosition ;
-        Eigen::Vector3d targetOrientation;
+        Eigen::VectorXd targetPose = Eigen::VectorXd::Zero(control::CARTESIAN_SPACE);
 
-        targetPosition    << request.X, request.Y, request.Z;
-        targetOrientation << 0.0, 0.0, request.YAW * DEGREE_TO_RAD;
+        targetPose    << request.X, request.Y, request.Z,  0.0, 0.0, request.YAW * DEGREE_TO_RAD;
 
-        controlMode_->SetTarget(LocalTarget, targetPosition, targetOrientation);
+        controlMode_->SetTarget(LocalTarget, targetPose);
 
         return true;
 
@@ -120,16 +141,14 @@ namespace proc_control{
     bool ProcControlNode::SetGlobalDecoupledTargetPositionCallback(proc_control::SetDecoupledTargetRequest &request,
                                                                    proc_control::SetDecoupledTargetResponse &response)
     {
-        Eigen::Vector3d targetPosition;
-        Eigen::Vector3d targetOrientation;
+        Eigen::VectorXd targetPose = Eigen::VectorXd::Zero(control::CARTESIAN_SPACE);
 
         std::vector<bool> keepTarget = {(bool)request.keepX, (bool)request.keepY, (bool)request.keepZ, (bool)request.keepROLL,
                                         (bool)request.keepPITCH, (bool)request.keepYAW};
 
-        targetPosition    << request.X, request.Y, request.Z;
-        targetOrientation << 0.0, 0.0, request.YAW * DEGREE_TO_RAD;
+        targetPose    << request.X, request.Y, request.Z,  0.0, 0.0, request.YAW * DEGREE_TO_RAD;
 
-        controlMode_->SetDecoupledTarget(GlobalTarget, keepTarget, targetPosition, targetOrientation);
+        controlMode_->SetDecoupledTarget(GlobalTarget, keepTarget, targetPose);
 
         return true;
     }
@@ -137,16 +156,14 @@ namespace proc_control{
     bool ProcControlNode::SetLocalDecoupledTargetPositionCallback(proc_control::SetDecoupledTargetRequest &request,
                                                                   proc_control::SetDecoupledTargetResponse &response)
     {
-        Eigen::Vector3d targetPosition;
-        Eigen::Vector3d targetOrientation;
+        Eigen::VectorXd targetPose = Eigen::VectorXd::Zero(control::CARTESIAN_SPACE);
 
         std::vector<bool> keepTarget = {(bool)request.keepX, (bool)request.keepY, (bool)request.keepZ, (bool)request.keepROLL,
                                         (bool)request.keepPITCH, (bool)request.keepYAW};
 
-        targetPosition    << request.X, request.Y, request.Z;
-        targetOrientation << 0.0, 0.0, request.YAW * DEGREE_TO_RAD;
+        targetPose    << request.X, request.Y, request.Z, 0.0, 0.0, request.YAW * DEGREE_TO_RAD;
 
-        controlMode_->SetDecoupledTarget(LocalTarget, keepTarget, targetPosition, targetOrientation);
+        controlMode_->SetDecoupledTarget(LocalTarget, keepTarget, targetPose);
 
         return true;
     }

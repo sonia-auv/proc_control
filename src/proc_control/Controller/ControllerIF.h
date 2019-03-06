@@ -1,13 +1,13 @@
 /**
- * \file	main.cc
- * \author	Jeremie St-Jules-Prevost <jeremie.st.jules.prevost@gmail.com>
- * \date	24/01/2016
+ * \file	Control_AUV.cc
+ * \author	Olivier Lavoie <olavoie9507@gmail.com>
+ * \date	10/21/17
  *
- * \copyright Copyright (c) 2017 S.O.N.I.A. All rights reserved.
+ * \copyright Copyright (c) 2017 S.O.N.I.A. AUV All rights reserved.
  *
  * \section LICENSE
  *
- * This file is part of S.O.N.I.A. AUV software.
+ * This file is part of S.O.N.I.A. software.
  *
  * S.O.N.I.A. AUV software is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,20 +23,22 @@
  * along with S.O.N.I.A. AUV software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <ros/ros.h>
-#include "proc_control_node.h"
+#ifndef PROC_CONTROL_CONTROLLERIF_H
+#define PROC_CONTROL_CONTROLLERIF_H
 
-int main(int argc, char** argv) {
-  ros::init(argc, argv, "proc_control");
+#include <eigen3/Eigen/Eigen>
+#include <control_library/ControlType.h>
 
-  ros::NodeHandlePtr nh(new ros::NodeHandle("~"));
-  proc_control::ProcControlNode proc_control_node{nh};
+namespace proc_control
+{
+    class ControllerIF
+    {
+    public:
+        ControllerIF() = default;
+        virtual ~ControllerIF() = default;
 
-  ros::Rate r(50); // 50 hz
-  while(ros::ok())
-  {
-    ros::spinOnce();
-    proc_control_node.ControlLoop();
-    r.sleep();
-  }
+        virtual Eigen::VectorXd ComputedWrenchFromError(control::ControllerCMD & command) = 0;
+    };
 }
+
+#endif //PROC_CONTROL_CONTROLLERIF_H

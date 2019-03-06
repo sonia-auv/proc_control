@@ -27,126 +27,70 @@
 #define PROC_CONTROL_POSITIONMODE_H
 
 #include <chrono>
+#include <memory>
+#include <control_library/Trajectory/Trajectory.h>
+#include <control_library/ControlType.h>
 
-#include "proc_control/ControlInput/ControlInput.h"
-#include "proc_control/trajectory/trajectory.h"
-#include "proc_control/Mode/ControlModeIf.h"
-#include "proc_control/Transformation/Transformation.h"
-#include "proc_control/algorithm/ControlAUV.h"
+#include "proc_control/RobotData/RobotState.h"
+#include "proc_control/Controller/ControllerIF.h"
+#include "proc_control/Mode/ControlModeIF.h"
 
-#include "proc_control/PositionTarget.h"
-#include "proc_control/EnableThrusters.h"
-#include "proc_control/TargetReached.h"
-#include "proc_control/ClearWaypoint.h"
-#include "proc_control/SetBoundingBox.h"
-#include "proc_control/ResetBoundingBox.h"
+namespace proc_control
+{
 
-namespace proc_control {
-
-    class PositionMode : public ControlModeIf {
+    class PositionMode : public ControlModeIF
+    {
     public:
 
-        typedef Eigen::Matrix<double, 6, 1> EigenVector6d;
+        explicit PositionMode(std::shared_ptr<RobotState> & robotState, std::unique_ptr<ControllerIF> & controlAUV);
 
-        explicit PositionMode(const ros::NodeHandlePtr &nh);
-
-        ~PositionMode();
-
-
-        void KillMissionCallback(const provider_kill_mission::KillSwitchMsg::ConstPtr &state_in);
-
-        bool enableControlServiceCallback(proc_control::EnableControlRequest &request,
-                                          proc_control::EnableControlResponse &response);
-        bool enableThrustersServerCallback(proc_control::EnableThrustersRequest &request,
-                                           proc_control::EnableThrustersResponse &response);
-        bool clearWayPointServiceCallback(proc_control::ClearWaypointRequest &request,
-                                          proc_control::ClearWaypointResponse &response);
-        bool SetBoundingBoxServiceCallback(proc_control::SetBoundingBoxRequest &request,
-                                           proc_control::SetBoundingBoxResponse &response);
-        bool ResetBoundingBoxServiceCallback(proc_control::ResetBoundingBoxRequest &request,
-                                             proc_control::ResetBoundingBoxResponse &response);
-
-        inline void ResetTrajectory();
+        virtual ~PositionMode() = default;
 
         void Process() override;
 
-        void SetTarget(bool isGlobal, Eigen::Vector3d &translation, Eigen::Vector3d &orientation) override;
-        void SetDecoupledTarget(bool isGlobal, std::vector<bool> keepTarget, Eigen::Vector3d &translation, Eigen::Vector3d &orientation) override;
-
-        void ComputeTrajectoryFromTarget(Eigen::Vector3d &linear_pose, Eigen::Vector3d &angular_pose);
+        void SetTarget(bool isGlobal, Eigen::VectorXd & targetPose) override;
+        void SetDecoupledTarget(bool isGlobal, const std::vector<bool>  & keepTarget, Eigen::VectorXd & targetPose) override;
 
     private:
 
-        void SetLocalTarget(Eigen::Vector3d &translation, Eigen::Vector3d &orientation, std::vector<bool> keepTarget);
+        void SetLocalTarget(Eigen::VectorXd & targetPose, const std::vector<bool> & keepTarget);
 
-        void SetGlobalTarget(Eigen::Vector3d &translation, Eigen::Vector3d &orientation, std::vector<bool> keepTarget);
+        void SetGlobalTarget(Eigen::VectorXd & targetPose, const std::vector<bool> & keepTarget);
 
-        bool EvaluateTargetReached(EigenVector6d &error);
+        bool EvaluateTargetReached(Eigen::VectorXd &error);
 
-        void HandleEnableDisableControl(bool state, double target, const size_t axis);
+        void CreateTrajectory(Eigen::VectorXd &actualPose, Eigen::VectorXd &desiredPose);
 
-        void LocalErrorPublisher(EigenVector6d &error);
-        void TargetErrorPublisher(EigenVector6d &error);
-        void CurrentCommandDebugPublisher(EigenVector6d &command);
-        void CurrentTargetPositionPublisher();
-        void CurrentTargetDebugPositionPublisher();
+        void GetLocalError(Eigen::VectorXd & targetPose, Eigen::VectorXd & localError);
 
-        void UpdateInput();
+        std::shared_ptr<RobotState>   robotState_;
+        std::unique_ptr<ControllerIF> controlAuv_;
 
-        EigenVector6d GetLocalError(Eigen::Vector3d &translation, Eigen::Vector3d &orientation);
+        std::shared_ptr<control::Trajectory> trajectoryManager_;
 
-        ros::NodeHandlePtr nh_;
+        Eigen::VectorXd localError_;
+        Eigen::VectorXd localDesiredError_;
+        Eigen::VectorXd targetPose_;
 
-        ros::Subscriber killSwitchSubscriber_;
-
-        // Publisher
-        ros::Publisher targetPublisher_;
-        ros::Publisher debugTargetPublisher_;
-        ros::Publisher controllerErrorPublisher_;
-        ros::Publisher targetErrorPublisher_;
-        ros::Publisher targetIsReachedPublisher_;
-        ros::Publisher commandDebugPublisher_;
-
-        ros::ServiceServer enableControllerServer_;
-        ros::ServiceServer enableThrustersServer_;
-        ros::ServiceServer clearWayPointServer_;
-        ros::ServiceServer resetBoundingBoxServer_;
-        ros::ServiceServer setBoundingBoxServer_;
-
-        proc_control::ControlAUV controlAuv_;
-
-        proc_control::ControlInput inputData_;
-
-        Eigen::Vector3d linearAskPosition_;
-        Eigen::Vector3d angularAskPosition_;
-        Eigen::Vector3d linearLastAskPosition_;
-        Eigen::Vector3d angularLastAskPosition_;
-
-        Eigen::Matrix<bool, 6, 1> enableAxisController_;
-
-        Eigen::Vector3d positionTarget_;
-        Eigen::Vector3d orientationTarget_;
-
-        Eigen::Vector3d worldPosition_;
-        Eigen::Vector3d worldOrientation_;
-
-        proc_control::Transformation ComputeTransformation_;
-
-        proc_control::Trajectory linearTrajectory_;
-        proc_control::Trajectory angularTrajectory_;
+        Eigen::VectorXd actualPose_;
+        Eigen::VectorXd actualTwist_;
+        Eigen::VectorXd desiredPose_;
 
         std::chrono::steady_clock::time_point lastTime_;
         std::chrono::steady_clock::time_point targetReachedTime_;
 
+        Eigen::Affine3d actualPoseH_;
+        Eigen::Affine3d targetPoseH_;
+        Eigen::Affine3d localErrorH_;
+
+        control::TrajectoryResult trajectory_;
+        control::ControllerCMD    controllerCommand_;
+
+        std::chrono::steady_clock::time_point timeNow_;
+        double deltaTimeS_;
+
         int stabilityCount_;
-
     };
-
-    inline void PositionMode::ResetTrajectory() {
-        linearTrajectory_.ResetSpline();
-        angularTrajectory_.ResetSpline();
-    }
-
 }
 
 

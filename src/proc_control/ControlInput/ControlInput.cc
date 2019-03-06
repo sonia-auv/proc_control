@@ -42,19 +42,19 @@ namespace proc_control{
 
     void ControlInput::OdometryCallback(const nav_msgs::Odometry::ConstPtr &odomIn) {
 
-        positionTranslation_[0] = odomIn->pose.pose.position.x;
-        positionTranslation_[1] = odomIn->pose.pose.position.y;
-        positionTranslation_[2] = odomIn->pose.pose.position.z;
-        positionOrientation_[0] = 0.0;
-        positionOrientation_[1] = 0.0;
-        positionOrientation_[2] = odomIn->pose.pose.orientation.z * DEGREE_TO_RAD;
+       controlInput_.pose.position[0]    = odomIn->pose.pose.position.x;
+       controlInput_.pose.position[1]    = odomIn->pose.pose.position.y;
+       controlInput_.pose.position[2]    = odomIn->pose.pose.position.z;
+       controlInput_.pose.orientation[0] = 0.0;
+       controlInput_.pose.orientation[1] = 0.0;
+       controlInput_.pose.orientation[2] = odomIn->pose.pose.orientation.z * DEGREE_TO_RAD;
 
-        velocityTranslation_[0] = odomIn->twist.twist.linear.x;
-        velocityTranslation_[1] = odomIn->twist.twist.linear.y;
-        velocityTranslation_[2] = odomIn->pose.pose.position.z;
-        velocityOrientation_[0] = odomIn->twist.twist.angular.x;
-        velocityOrientation_[1] = odomIn->twist.twist.angular.y;
-        velocityOrientation_[2] = odomIn->twist.twist.angular.z;
+       controlInput_.twist.linear[0] = odomIn->twist.twist.linear.x;
+       controlInput_.twist.linear[1] = odomIn->twist.twist.linear.y;
+       controlInput_.twist.linear[2] = odomIn->pose.pose.position.z;
+       controlInput_.twist.angular[0] = odomIn->twist.twist.angular.x;
+       controlInput_.twist.angular[1] = odomIn->twist.twist.angular.y;
+       controlInput_.twist.angular[2] = odomIn->twist.twist.angular.z;
     }
 
 

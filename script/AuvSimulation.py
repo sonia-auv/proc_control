@@ -8,7 +8,7 @@ import random
 import tf
 from sensor_msgs.msg import Imu
 from sensor_msgs.msg import FluidPressure
-from geometry_msgs.msg import TwistStamped
+from geometry_msgs.msg import TwistStamped, Wrench
 from tf.transformations import quaternion_about_axis, unit_vector, quaternion_multiply, quaternion_conjugate
 from provider_thruster.msg import ThrusterEffort
 import time
@@ -43,7 +43,7 @@ class AUVSimulation:
     def __init__(self):
         rospy.init_node('AUV_Simulation', anonymous=True)
 
-        rospy.Subscriber("/provider_thruster/thruster_effort", ThrusterEffort, self.thruster_msg_callback)
+        rospy.Subscriber("/provider_thruster/effort", ThrusterEffort, self.thruster_msg_callback)
         self.publisher_imu = rospy.Publisher("/provider_imu/imu", Imu, queue_size=1000)
         self.publisher_dvl_twist = rospy.Publisher("/provider_dvl/dvl_twist", TwistStamped, queue_size=1000)
         self.publisher_dvl_pressure = rospy.Publisher("/provider_dvl/dvl_pressure", FluidPressure, queue_size=1000)

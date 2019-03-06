@@ -27,10 +27,11 @@
 #define PROC_CONTROL_CONTROL_NODE_H
 
 #include <ros/ros.h>
+#include <memory>
 
-#include "proc_control/Mode/ControlModeIf.h"
+#include "proc_control/RobotData/RobotState.h"
+#include "proc_control/Controller/ControllerIF.h"
 #include "proc_control/Mode/PositionMode.h"
-#include "proc_control/Mode/VelocityMode.h"
 
 #include "proc_control/SetPositionTarget.h"
 #include "proc_control/SetControlMode.h"
@@ -83,11 +84,13 @@ namespace proc_control{
         ros::ServiceServer setGlobalDecoupledTargetServer_;
         ros::ServiceServer setLocalDecoupledTargetServer_;
 
-        std::shared_ptr<ControlModeIf> controlMode_;
+        std::shared_ptr<RobotState>    robotState_;
+        std::shared_ptr<ControlModeIF> controlMode_;
+        std::shared_ptr<ControlModeIF> positionModePID_;
+        std::shared_ptr<ControlModeIF> positionModePPI_;
+        std::shared_ptr<ControlModeIF> velocityMode_;
 
-        enum controlMode{PositionMode_ = 0, VelocityMode_};
-
-
+        enum controlMode{PositionMode_ = 0, PPIMode_, VelocityModeB_};
     };
 
 

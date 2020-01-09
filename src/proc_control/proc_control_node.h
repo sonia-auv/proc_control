@@ -47,7 +47,10 @@ namespace proc_control{
         //==============================================================================
         // C / D T O R S   S E C T I O N
         //------------------------------------------------------------------------------
-
+        /**
+         * Constructor of the ProcControlNode object.
+         * @param nh Node handle pointer.
+         */
         ProcControlNode(const ros::NodeHandlePtr &nh);
 
         ~ProcControlNode();
@@ -55,16 +58,43 @@ namespace proc_control{
         //==========================================================================
         // P U B L I C   M E T H O D S
 
+        /**
+         * A simple function that set RobotState from input and process position mode.
+         */
         void ControlLoop();
 
+        /**
+         * Callback used to change the control mode : position or PPI or speed.
+         * @param request The new control mode requested (request.mode).
+         * @param response This parameter isn't use.
+         * @return true
+         */
         bool SetControlModeCallback(proc_control::SetControlModeRequest &request,
                                     proc_control::SetControlModeResponse &response);
+
+        /**
+         * Callback used to set global target position.
+         * @param request The new global target position requested (request.X, request.Y, request.Z, request.YAW).
+         * @param response This parameter isn't use.
+         * @return true
+         */
         bool SetGlobalTargetPositionCallback(proc_control::SetPositionTargetRequest &request,
                                              proc_control::SetPositionTargetResponse &response);
+
+        /**
+         * Callback used to set local target position.
+         * @param request The new local target position requested (request.X, request.Y, request.Z, request.YAW).
+         * @param response This parameter isn't use.
+         * @return
+         */
         bool SetLocalTargetPositionCallback(proc_control::SetPositionTargetRequest &request,
                                             proc_control::SetPositionTargetResponse &response);
+
+
         bool SetGlobalDecoupledTargetPositionCallback(proc_control::SetDecoupledTargetRequest &request,
                                                      proc_control::SetDecoupledTargetResponse &response);
+
+
         bool SetLocalDecoupledTargetPositionCallback(proc_control::SetDecoupledTargetRequest &request,
                                             proc_control::SetDecoupledTargetResponse &response);
 

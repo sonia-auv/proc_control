@@ -5,6 +5,8 @@
  *
  * \copyright Copyright (c) 2017 S.O.N.I.A. All rights reserved.
  *
+ * \details This file contains the main function of proc control.
+ *
  * \section LICENSE
  *
  * This file is part of S.O.N.I.A. AUV software.

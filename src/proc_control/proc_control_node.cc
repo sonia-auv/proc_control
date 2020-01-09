@@ -5,6 +5,8 @@
  *
  * \copyright Copyright (c) 2017 S.O.N.I.A. AUV All rights reserved.
  *
+ * \details This file contains the proc control node code.
+ *
  * \section LICENSE
  *
  * This file is part of S.O.N.I.A. software.
@@ -40,20 +42,13 @@ namespace proc_control{
         positionModePPI_(nullptr),
         velocityMode_(nullptr)
     {
+        // Get and connect to all needed services.
+        setControlModeServer_ = nh_->advertiseService("/proc_control/set_control_mode", &ProcControlNode::SetControlModeCallback, this);
+        setGlobalTargetServer_ = nh_->advertiseService("/proc_control/set_global_target", &ProcControlNode::SetGlobalTargetPositionCallback, this);
+        setLocalTargetServer_ = nh_->advertiseService("/proc_control/set_local_target", &ProcControlNode::SetLocalTargetPositionCallback, this);
 
-        setControlModeServer_ = nh->advertiseService("/proc_control/set_control_mode",
-                                                     &ProcControlNode::SetControlModeCallback, this);
-        setGlobalTargetServer_ =
-                nh_->advertiseService("/proc_control/set_global_target",
-                                      &ProcControlNode::SetGlobalTargetPositionCallback, this);
-        setLocalTargetServer_ =
-                nh_->advertiseService("/proc_control/set_local_target",
-                                      &ProcControlNode::SetLocalTargetPositionCallback, this);
-
-        setGlobalDecoupledTargetServer_ = nh_->advertiseService("/proc_control/set_global_decoupled_target",
-                                                                &ProcControlNode::SetGlobalDecoupledTargetPositionCallback, this);
-        setLocalDecoupledTargetServer_ = nh_->advertiseService("/proc_control/set_local_decoupled_target",
-                                                                &ProcControlNode::SetLocalDecoupledTargetPositionCallback, this);
+        setGlobalDecoupledTargetServer_ = nh_->advertiseService("/proc_control/set_global_decoupled_target", &ProcControlNode::SetGlobalDecoupledTargetPositionCallback, this);
+        setLocalDecoupledTargetServer_ = nh_->advertiseService("/proc_control/set_local_decoupled_target", &ProcControlNode::SetLocalDecoupledTargetPositionCallback, this);
 
         robotState_    = std::make_shared<proc_control::RobotState>(nh_);
         std::unique_ptr<ControllerIF> pidControlAUV         = std::make_unique<PIDController>("position");
@@ -78,6 +73,7 @@ namespace proc_control{
 
     //==============================================================================
     // M E T H O D   S E C T I O N
+
     void ProcControlNode::ControlLoop()
     {
         robotState_->UpdateInput();
@@ -110,7 +106,6 @@ namespace proc_control{
         }
 
         return true;
-
     }
 
     bool ProcControlNode::SetGlobalTargetPositionCallback(proc_control::SetPositionTargetRequest &request,

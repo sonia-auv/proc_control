@@ -27,6 +27,10 @@
 
 namespace proc_control
 {
+    /**
+     * Constructor of the RobotState object.
+     * @param nh Node handler pointer.
+     */
      RobotState::RobotState(const ros::NodeHandlePtr &nh):
         nh_(nh),
         inputData_(nh),
@@ -35,9 +39,11 @@ namespace proc_control
         bbox_{*pBbox_},
         trajectoryManager_{std::make_shared<control::Trajectory>()}
      {
+         // Subscribe to the kill switch messages.
          killSwitchSubscriber_   = nh_->subscribe("/provider_kill_mission/kill_switch_msg", 100,
                                                   &RobotState::KillMissionCallback, this);
 
+         // Get and connect all services needed.
          enableControllerServer_ = nh_->advertiseService("/proc_control/enable_control",
                                                          &RobotState::EnableControlServiceCallback, this);
          enableThrustersServer_  = nh_->advertiseService("/proc_control/enable_thrusters",
@@ -73,6 +79,10 @@ namespace proc_control
          trajectoryManager_->ResetTrajectory();
      }
 
+    /**
+     * Destructor of the RobotState object.
+     * Disconnect and unsubscribe all services and messages.
+     */
      RobotState::~RobotState()
      {
          killSwitchSubscriber_.shutdown();
@@ -84,12 +94,19 @@ namespace proc_control
          resetBoundingBoxServer_.shutdown();
      }
 
+    /**
+    * Update actual pose and actual twist from control input data.
+    */
      void RobotState::UpdateInput()
      {
          actualPose_  << inputData_.GetPosePosition(), inputData_.GetPoseOrientation();
          actualTwist_ << inputData_.GetTwistLinear(), inputData_.GetTwistAngular();
      }
 
+     /**
+      * Callback when receive a new message from kill switch. Stop all the axis movements. Reset trajectory.
+      * @param state_in Boolean that represent the state of the kill switch.
+      */
     void RobotState::KillMissionCallback(const provider_kill_mission::KillSwitchMsg::ConstPtr &state_in)
     {
         if(!state_in->state)
@@ -105,6 +122,12 @@ namespace proc_control
         }
     }
 
+    /**
+     * Callback used to enable [or disable] control of the axis. Stop at current pose and current twist.
+     * @param request 
+     * @param response
+     * @return true
+     */
     bool RobotState::EnableControlServiceCallback(proc_control::EnableControlRequest &request, proc_control::EnableControlResponse &response)
     {
         UpdateInput();
@@ -119,6 +142,7 @@ namespace proc_control
 
         trajectoryManager_->ResetTrajectory();
 
+        // Enable and disable control for each axis.
         HandleEnableDisableControl(request.X, 0);
         HandleEnableDisableControl(request.Y, 1);
         HandleEnableDisableControl(request.Z, 2);
@@ -129,6 +153,11 @@ namespace proc_control
         return true;
     }
 
+    /**
+     * Function to handle if an axis is enable or disable.
+     * @param request
+     * @param axis
+     */
     void RobotState::HandleEnableDisableControl(int8_t &request, int axis)
     {
          if (request != -1)
@@ -159,6 +188,11 @@ namespace proc_control
         return true;
     }
 
+    /**
+     *
+     * @param pose
+     * @param posePublisher
+     */
     void RobotState::PosePublisher(const Eigen::VectorXd &pose, ros::Publisher &posePublisher)
     {
         geometry_msgs::Pose poseMsg;

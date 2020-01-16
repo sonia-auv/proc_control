@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['proccontrolnode',['ProcControlNode',['../classproc__control_1_1_proc_control_node.html',1,'proc_control']]]
+  ['bboxparameters',['BboxParameters',['../classproc__control_1_1_bbox_parameters.html',1,'proc_control']]],
+  ['bcontroller',['BController',['../classproc__control_1_1_b_controller.html',1,'proc_control']]]
 ];

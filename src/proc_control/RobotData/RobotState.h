@@ -1,11 +1,13 @@
 /**
- * \file	ControlModeIF.h
+ * \file	RobotState.h
  * \author	Olivier Lavoie <olavoie9507@gmail.com>
  * \date	10/21/17
  *
  * \copyright Copyright (c) 2017 S.O.N.I.A. AUV All rights reserved.
  *
  * \section LICENSE
+ *
+ * \details
  *
  * This file is part of S.O.N.I.A. software.
  *
@@ -56,17 +58,15 @@ namespace proc_control
     class RobotState
     {
     public:
-        
         RobotState(const ros::NodeHandlePtr &nh);
-        
         ~RobotState();
-
         void PosePublisher(const Eigen::VectorXd &pose, ros::Publisher &posePublisher);
         void TwistPublisher(const Eigen::VectorXd &twist, ros::Publisher &twistPublisher);
         void WrenchPublisher(Eigen::VectorXd &wrench, ros::Publisher &wrenchPublisher);
         void TargetReachedPublisher(const bool isTargetReached);
         control::TrajectoryGeneratorType CreateTrajectoryParameters(const double time, const Eigen::VectorXd &startPose, const Eigen::VectorXd &endPose);
         std::vector<bool> IsInBoundingBox(Eigen::VectorXd const & error);
+
         void UpdateInput();
 
         ros::Publisher &GetTargetPublisher()               { return targetPublisher_;}
@@ -94,7 +94,6 @@ namespace proc_control
         std::shared_ptr<control::Trajectory> GetTrajectoryManager() { return trajectoryManager_;}
 
     private:
-
         void KillMissionCallback(const provider_kill_mission::KillSwitchMsg::ConstPtr &state_in);
         bool EnableControlServiceCallback(proc_control::EnableControlRequest &request, proc_control::EnableControlResponse &response);
         void HandleEnableDisableControl(int8_t &request, int axis);

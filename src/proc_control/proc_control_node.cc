@@ -34,6 +34,10 @@
 
 namespace proc_control{
 
+    /**
+     * Constructor of the ProcControlNode object.
+     * @param nh Node handler pointer.
+     */
     ProcControlNode::ProcControlNode(const ros::NodeHandlePtr &nh) :
         nh_(nh),
         robotState_(nullptr),
@@ -62,8 +66,13 @@ namespace proc_control{
         controlMode_   = positionModePID_;
     }
 
+    /**
+     * Destructor of the ProcControlNode object.
+     * Shutdown all the connections to the services needed.
+     */
     ProcControlNode::~ProcControlNode()
     {
+        //Shutdown all the connections to the services needed.
         setControlModeServer_.shutdown();
         setGlobalDecoupledTargetServer_.shutdown();
         setLocalDecoupledTargetServer_.shutdown();
@@ -74,12 +83,21 @@ namespace proc_control{
     //==============================================================================
     // M E T H O D   S E C T I O N
 
+    /**
+     * A simple function that set RobotState from input and process position mode.
+     */
     void ProcControlNode::ControlLoop()
     {
         robotState_->UpdateInput();
         controlMode_->Process();
     }
 
+    /**
+     * Callback used to change the control mode : position or PPI or speed.
+     * @param request The new control mode requested (request.mode).
+     * @param response This parameter isn't use.
+     * @return true
+     */
     bool ProcControlNode::SetControlModeCallback(proc_control::SetControlModeRequest &request,
                                                  proc_control::SetControlModeResponse &response) {
 
@@ -108,6 +126,12 @@ namespace proc_control{
         return true;
     }
 
+    /**
+     * Callback used to set global target position.
+     * @param request The new global target position requested (request.X, request.Y, request.Z, request.YAW, request.ROLL, request.PITCH).
+     * @param response This parameter isn't use.
+     * @return true
+     */
     bool ProcControlNode::SetGlobalTargetPositionCallback(proc_control::SetPositionTargetRequest &request,
                                                           proc_control::SetPositionTargetResponse &response) {
 
@@ -120,6 +144,12 @@ namespace proc_control{
         return true;
     }
 
+    /**
+     * Callback used to set local target position.
+     * @param request The new local target position requested (request.X, request.Y, request.Z, request.YAW, request.ROLL, request.PITCH).
+     * @param response This parameter isn't use.
+     * @return true
+     */
     bool ProcControlNode::SetLocalTargetPositionCallback(proc_control::SetPositionTargetRequest &request,
                                                          proc_control::SetPositionTargetResponse &response) {
 
@@ -133,6 +163,13 @@ namespace proc_control{
 
     }
 
+    /**
+     * Callback used to set global decoupled target position.
+     * @param request The new global decoupled target position requested (request.X, request.Y, request.Z, request.YAW, request.ROLL, request.PITCH,
+                       request.keepX, request.keepY, request.keepZ, request.keepROLL, request.keepPITCH, request.keepYAW)
+     * @param response This parameter isn't use.
+     * @return true
+     */
     bool ProcControlNode::SetGlobalDecoupledTargetPositionCallback(proc_control::SetDecoupledTargetRequest &request,
                                                                    proc_control::SetDecoupledTargetResponse &response)
     {
@@ -148,6 +185,13 @@ namespace proc_control{
         return true;
     }
 
+    /**
+     * Callback used to set local decoupled target position.
+     * @param request The new global decoupled target position requested (request.X, request.Y, request.Z, request.YAW, request.ROLL, request.PITCH,
+                       request.keepX, request.keepY, request.keepZ, request.keepROLL, request.keepPITCH, request.keepYAW)
+     * @param response This parameter isn't use.
+     * @return true
+     */
     bool ProcControlNode::SetLocalDecoupledTargetPositionCallback(proc_control::SetDecoupledTargetRequest &request,
                                                                   proc_control::SetDecoupledTargetResponse &response)
     {

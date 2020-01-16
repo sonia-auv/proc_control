@@ -41,7 +41,7 @@ namespace proc_control{
 
 
     void ControlInput::OdometryCallback(const nav_msgs::Odometry::ConstPtr &odomIn) {
-
+  
        controlInput_.pose.position[0]    = odomIn->pose.pose.position.x;
        controlInput_.pose.position[1]    = odomIn->pose.pose.position.y;
        controlInput_.pose.position[2]    = odomIn->pose.pose.position.z;

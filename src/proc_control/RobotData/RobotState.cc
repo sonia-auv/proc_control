@@ -124,8 +124,8 @@ namespace proc_control
 
     /**
      * Callback used to enable [or disable] control of the axis. Stop at current pose and current twist.
-     * @param request 
-     * @param response
+     * @param request This parameter contain the requested information to enable an axis or not.
+     * @param response This parameter isn't use.
      * @return true
      */
     bool RobotState::EnableControlServiceCallback(proc_control::EnableControlRequest &request, proc_control::EnableControlResponse &response)
@@ -155,7 +155,7 @@ namespace proc_control
 
     /**
      * Function to handle if an axis is enable or disable.
-     * @param request
+     * @param request 
      * @param axis
      */
     void RobotState::HandleEnableDisableControl(int8_t &request, int axis)
@@ -166,6 +166,12 @@ namespace proc_control
          }
     }
 
+    /**
+     *
+     * @param request
+     * @param response
+     * @return
+     */
     bool RobotState::EnableThrustersServerCallback(proc_control::EnableThrustersRequest &request, proc_control::EnableThrustersResponse &response)
     {
         enableThruster_ = bool(request.isEnable);

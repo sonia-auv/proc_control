@@ -155,7 +155,7 @@ namespace proc_control
 
     /**
      * Function to handle if an axis is enable or disable.
-     * @param request 
+     * @param request This parameter contain the request information to enable the control of an axis.
      * @param axis
      */
     void RobotState::HandleEnableDisableControl(int8_t &request, int axis)
@@ -167,9 +167,9 @@ namespace proc_control
     }
 
     /**
-     *
-     * @param request
-     * @param response
+     * Callback to enable thruster.
+     * @param request This parameter contain the request information to enable thrusters.
+     * @param response This parameter isn't use.
      * @return
      */
     bool RobotState::EnableThrustersServerCallback(proc_control::EnableThrustersRequest &request, proc_control::EnableThrustersResponse &response)
@@ -180,6 +180,12 @@ namespace proc_control
     }
 
 
+    /**
+     * Callback to clear pose, twist, acceleration and trajectory.
+     * @param request This parameter isn't use.
+     * @param response This parameter isn't use.
+     * @return
+     */
     bool RobotState::ClearWayPointServiceCallback(proc_control::ClearWaypointRequest &request, proc_control::ClearWaypointResponse &response)
     {
         UpdateInput();
@@ -195,9 +201,9 @@ namespace proc_control
     }
 
     /**
-     *
-     * @param pose
-     * @param posePublisher
+     * This function is used to publish a new pose.
+     * @param pose VectorXd as a new pose to publish.
+     * @param posePublisher Reference to the publisher.
      */
     void RobotState::PosePublisher(const Eigen::VectorXd &pose, ros::Publisher &posePublisher)
     {
@@ -207,6 +213,10 @@ namespace proc_control
         posePublisher.publish(poseMsg);
     }
 
+    /**
+     * This function is used to publish target reached information.
+     * @param isTargetReached Parameter that contain if the target is reached or not.
+     */
     void RobotState::TargetReachedPublisher(const bool isTargetReached)
     {
         proc_control::TargetReached msg_target_reached;
@@ -215,6 +225,11 @@ namespace proc_control
     }
 
 
+    /**
+     * This function is used to publish a new twist.
+     * @param twist VectorXd as a new pose to publish.
+     * @param twistPublisher Reference to the publisher.
+     */
     void RobotState::TwistPublisher(const Eigen::VectorXd &twist, ros::Publisher &twistPublisher)
     {
         geometry_msgs::Twist twistMsg;
@@ -223,6 +238,11 @@ namespace proc_control
         twistPublisher.publish(twistMsg);
     }
 
+    /**
+     * This function is used to publish a new wrench.
+     * @param wrench VectorXd as a new wrench to publish.
+     * @param wrenchPublisher Reference to the publisher.
+     */
     void RobotState::WrenchPublisher(Eigen::VectorXd &wrench, ros::Publisher &wrenchPublisher)
     {
         for (int i = 0; i < 6; i++)
@@ -246,6 +266,13 @@ namespace proc_control
          }
     }
 
+    /**
+     *
+     * @param time
+     * @param startPose
+     * @param endPose
+     * @return
+     */
     control::TrajectoryGeneratorType RobotState::CreateTrajectoryParameters(const double time, const Eigen::VectorXd &startPose, const Eigen::VectorXd &endPose)
     {
         control::TrajectoryGeneratorType trajectoryParams;

@@ -22,11 +22,26 @@ class ThrusterController:
 
         for i in range(self.thruster_count):
             self.thruster_control.append(self.default_value)
+        
+        self.ids = [ThrusterEffort.UNIQUE_ID_T1, 
+                    ThrusterEffort.UNIQUE_ID_T2,
+                    ThrusterEffort.UNIQUE_ID_T3,
+                    ThrusterEffort.UNIQUE_ID_T4,
+                    ThrusterEffort.UNIQUE_ID_T5,
+                    ThrusterEffort.UNIQUE_ID_T6,
+                    ThrusterEffort.UNIQUE_ID_T7,
+                    ThrusterEffort.UNIQUE_ID_T8]
 
     def start(self):
         timer = 1
 
-        while True:
+        try:
+            self.enable_thrusters_service(isEnable=False)
+        except rospy.ServiceException as err:
+            rospy.logerr(err)
+
+        while not rospy.is_shutdown():
+            rospy.loginfo("Publish")
             print "\n\nEnter thruster id and effort for each thruster."
             # Request values
             for i in range(self.thruster_count):
@@ -51,18 +66,24 @@ class ThrusterController:
             raw_input("Press any key to affect these values...")
 
             # Set values to wanted
-            print "Efforts: \n"
-            for i in range(self.thruster_count):
-                print "\tThruster -> {0} | Effort -> {1}".format(i+1, self.thruster_control[i]) 
-                self.publisher.publish(ID=i, effort=self.thruster_control[i])
+            self.set_efforts()
             print "Wait {} seconds...".format(timer)
             time.sleep(timer)
             # Set values back to 0
-            for i in range(self.thruster_count):
-                pass
-                self.publisher.publish(ID=i, effort=0)
+            self.set_zeros()
+
+    def set_efforts(self):
+        print "Efforts: \n"
+        for i in range(self.thruster_count):
+            print "\tThruster -> {0} | Effort -> {1}".format(i+1, self.thruster_control[i]) 
+            self.publisher.publish(ID=self.ids[i], effort=self.thruster_control[i])
+    
+    def set_zeros(self):
+        for i in range(self.thruster_count):
+            self.publisher.publish(ID=self.ids[i], effort=0)
+
 
 if __name__ == "__main__":
-    init_node("ThrusterControl")
+    rospy.init_node("ThrusterControl", anonymous=True)
     controller = ThrusterController()
     controller.start()

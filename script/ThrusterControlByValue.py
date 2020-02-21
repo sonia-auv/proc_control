@@ -1,10 +1,39 @@
 #!/usr/bin/env python
 
+'''
+ * file	ThrusterControlByValue.py
+ * \author	Alexandre Desgagne <alexandre1998@live.ca>
+ * \date	19/02/20
+ *
+ * \copyright Copyright (c) 2020 S.O.N.I.A. AUV All rights reserved.
+ *
+ * \section LICENSE
+ *
+ * This file is part of S.O.N.I.A. software.
+ *
+ * S.O.N.I.A. AUV software is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * S.O.N.I.A. AUV software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with S.O.N.I.A. AUV software. If not, see <http://www.gnu.org/licenses/>.
+'''
+
 import rospy
 import time
+import subprocess
+import shlex
 
 from provider_thruster.msg import ThrusterEffort
 from proc_control.srv import EnableThrusters
+from Tkinter import *
+import tkFileDialog as filedialog
 
 class ThrusterController:
     def __init__(self, default_value=0, thruster_count = 8):
@@ -42,28 +71,27 @@ class ThrusterController:
 
         while not rospy.is_shutdown():
             rospy.loginfo("Publish")
-            print "\n\nEnter thruster id and effort for each thruster."
-            # Request values
-            for i in range(self.thruster_count):
-                thruster_effort = -1
-                entry_ok = False
-                while not entry_ok:
-                    try:
-                        thruster_effort = int(raw_input('\tEffort for thruster {} (0 to 100): '.format(i+1)))
-                    except:
-                        entry_ok = False
-                        continue
-                    if 0 <= thruster_effort <= 100:
-                        entry_ok = True
-                    else:
-                        entry_ok = False
-                self.thruster_control[i] = thruster_effort
+
+            ans = str(raw_input("\nDo you want to use a file ? [y/n] : "))
+
+            if ans == "y":
+                self.file_enter()
+            else:
+                self.manual_enter()
+                    
             try:
                 timer = float(raw_input("Enter time of affectation: "))
             except:
-                print "The value must be a number. Default value used."
+                print "The value must be a number. Default value (1s) used."
             
-            raw_input("Press any key to affect these values...")
+            nameFile = str(raw_input('Bag name : '))
+
+            raw_input("Press any key to affect these values and start recording...")
+
+            command = "rosbag record -O " + nameFile + " /proc_control/control_mode /proc_control/current_controller_pose_error /proc_control/current_target /proc_navigation/odom /provider_thruster/effort /provider_thruster/thruster_effort_vector"
+
+            command = shlex.split(command)
+            rosbag_proc = subprocess.Popen(command)
 
             # Set values to wanted
             self.set_efforts()
@@ -71,6 +99,23 @@ class ThrusterController:
             time.sleep(timer)
             # Set values back to 0
             self.set_zeros()
+
+            rosbag_proc.send_signal(subprocess.signal.SIGINT)
+
+            bagName = nameFile + ".bag.active"
+
+            command = "rosbag reindex " + bagName
+
+            command = shlex.split(command)
+            rosbag_proc = subprocess.Popen(command)
+
+            time.sleep(10)
+
+            command = "rm " + nameFile + ".bag.orig.active"
+            command = shlex.split(command)
+            rosbag_proc = subprocess.Popen(command)
+
+            time.sleep(1)
 
     def set_efforts(self):
         print "Efforts: \n"
@@ -82,6 +127,41 @@ class ThrusterController:
         for i in range(self.thruster_count):
             self.publisher.publish(ID=self.ids[i], effort=0)
 
+    def manual_enter(self):
+        print "\n\nEnter thruster id and effort for each thruster."
+        # Request values
+        for i in range(self.thruster_count):
+            thruster_effort = -1
+            entry_ok = False
+            while not entry_ok:
+                try:
+                    thruster_effort = int(raw_input('\tEffort for thruster {} (-30 to 30, 99 to exit): '.format(i+1)))
+                except:
+                    print "Not a number"
+                    entry_ok = False
+                    continue
+                if -30 <= thruster_effort <= 30:
+                    entry_ok = True
+                else:
+                    if thruster_effort == 99:
+                        exit()
+                    print "Value is not in the range !"
+                    entry_ok = False
+            self.thruster_control[i] = thruster_effort
+
+    def file_enter(self):
+        root = Tk()
+        root.filename = filedialog.askopenfilename(initialdir = ".",title = "Select file",filetypes = (("text files","*.txt"),("all files",".*")))
+        f = open(root.filename,"r")
+        lines = f.readlines()
+        i = 0
+        for line in lines:
+            if -30 <= int(line) <= 30:
+                self.thruster_control[i] = int(line)
+                i+=1
+            else:
+                print("Error in file")
+                exit()
 
 if __name__ == "__main__":
     rospy.init_node("ThrusterControl", anonymous=True)

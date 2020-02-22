@@ -2,8 +2,9 @@
 
 '''
  * file	ThrusterControlByValue.py
- * \author	Alexandre Desgagne <alexandre1998@live.ca>
- * \date	19/02/20
+ * \author	 Alexandre Desgagne <alexandre1998@live.ca>
+ * \coauthor Camille Sauvain <camille.sauvain.1@etsmtl.net>
+ * \date	 19/02/20
  *
  * \copyright Copyright (c) 2020 S.O.N.I.A. AUV All rights reserved.
  *
@@ -148,19 +149,17 @@ class ThrusterController:
                 exit()
 
     def launchBag(self, timer):
-        self.nameFile = str(raw_input('Bag name : '))
+        nameFile = str(raw_input('Bag name : '))
 
-        # self.nameFile = '~/Bags/Control/' + self.nameFile
         raw_input("Press any key to start...")
 
-        command = "rosbag record --duration=" + str(timer) + " /proc_navigation/odom /provider_thruster/effort /provider_thruster/thruster_effort /provider_thruster/thruster_effort_vector"
+        command = "./Record_open_loop.sh " + nameFile + " " + str(timer)
         command = shlex.split(command)
-        self.rosbag_proc = subprocess.Popen(command, )
 
     def onCloseHandler(self, signum, frame):
         self.set_zeros()
         exit()
-    
+
 
 if __name__ == "__main__":
     rospy.init_node("ThrusterControl", anonymous=True)

@@ -1,7 +1,0 @@
-#!/bin/bash
-
-echo Préfixe fichier :
-
-read nameFile
-
-rosbag record -O nameFile /proc_control/control_mode /proc_control/current_controller_pose_error /proc_control/current_target /proc_navigation/odom /provider_thruster/effort /provider_thruster/thruster_effort_vector

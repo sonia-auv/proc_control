@@ -142,14 +142,13 @@ class ThrusterController:
                 exit()
 
     def launchBag(self, timer):
-        self.nameFile = str(raw_input('Bag name : '))
+        nameFile = str(raw_input('Bag name : '))
 
-        # self.nameFile = '~/Bags/Control/' + self.nameFile
         raw_input("Press any key to start...")
 
-        command = "rosbag record --duration=" + str(timer) + " /proc_navigation/odom /provider_thruster/effort /provider_thruster/thruster_effort /provider_thruster/thruster_effort_vector"
+        command = "./Record_open_loop.sh " + nameFile + " " + str(timer)
         command = shlex.split(command)
-        self.rosbag_proc = subprocess.Popen(command)
+        self.rosbag_proc = subprocess.Popen(command,cwd='~/Bags/Control')
 
 if __name__ == "__main__":
     rospy.init_node("ThrusterControl", anonymous=True)

@@ -62,7 +62,7 @@ class ThrusterController:
                     ThrusterEffort.UNIQUE_ID_T8]
 
     def start(self):
-        timer = 1
+        self.timer = 1
 
         try:
             self.enable_thrusters_service(isEnable=False)
@@ -80,19 +80,13 @@ class ThrusterController:
                 self.manual_enter()
                     
             try:
-                timer = float(raw_input("Enter time of affectation: "))
+                self.timer = float(raw_input("Enter time of affectation: "))
             except:
-                print "The value must be a number. Default value (1s) used."
+                print "The value must be a number. Default value (10s) used"
+                self.timer = 10
+
+            self.launchBag()
             
-            nameFile = str(raw_input('Bag name : '))
-
-            raw_input("Press any key to affect these values and start recording...")
-
-            command = "rosbag record -O " + nameFile + " /proc_control/control_mode /proc_control/current_controller_pose_error /proc_control/current_target /proc_navigation/odom /provider_thruster/effort /provider_thruster/thruster_effort_vector"
-
-            command = shlex.split(command)
-            rosbag_proc = subprocess.Popen(command)
-
             # Set values to wanted
             self.set_efforts()
             print "Wait {} seconds...".format(timer)
@@ -100,21 +94,7 @@ class ThrusterController:
             # Set values back to 0
             self.set_zeros()
 
-            rosbag_proc.send_signal(subprocess.signal.SIGINT)
-
-            bagName = nameFile + ".bag.active"
-
-            command = "rosbag reindex " + bagName
-
-            command = shlex.split(command)
-            rosbag_proc = subprocess.Popen(command)
-
-            time.sleep(10)
-
-            command = "rm " + nameFile + ".bag.orig.active"
-            command = shlex.split(command)
-            rosbag_proc = subprocess.Popen(command)
-
+            self.stopBag()
             time.sleep(1)
 
     def set_efforts(self):
@@ -151,7 +131,7 @@ class ThrusterController:
 
     def file_enter(self):
         root = Tk()
-        root.filename = filedialog.askopenfilename(initialdir = ".",title = "Select file",filetypes = (("text files","*.txt"),("all files",".*")))
+        root.filename = filedialog.askopenfilename(initialdir = "~/Workspaces/ros_sonia_ws/src/proc_control/config/OpenLoopMotors",title = "Select file",filetypes = (("text files","*.txt"),("all files",".*")))
         f = open(root.filename,"r")
         lines = f.readlines()
         i = 0
@@ -162,6 +142,30 @@ class ThrusterController:
             else:
                 print("Error in file")
                 exit()
+
+    def launchBag(self):
+        self.nameFile = str(raw_input('Bag name : '))
+
+        # self.nameFile = '~/Bags/Control/' + self.nameFile
+        raw_input("Press any key to start...")
+
+        command = "rosbag record -O " + self.nameFile + " /proc_navigation/odom /provider_thruster/effort /provider_thruster/thruster_effort /provider_thruster/thruster_effort_vector"
+        #command = shlex.split(command)
+        self.rosbag_proc = subprocess.Popen(command,cwd='/home/babe/data/control')
+
+    def stopBag(self):
+        self.rosbag_proc.send_signal(subprocess.signal.SIGINT)
+
+        bagName = self.nameFile + ".bag.active"
+        command = "rosbag reindex " + bagName
+        command = shlex.split(command)
+        self.rosbag_proc = subprocess.Popen(command)
+        
+        time.sleep((self.timer/10)+1)
+        
+        command = "rm " + self.nameFile + ".bag.orig.active"
+        command = shlex.split(command)
+        self.rosbag_proc = subprocess.Popen(command)
 
 if __name__ == "__main__":
     rospy.init_node("ThrusterControl", anonymous=True)

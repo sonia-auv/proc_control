@@ -62,7 +62,7 @@ class ThrusterController:
                     ThrusterEffort.UNIQUE_ID_T8]
 
     def start(self):
-        self.timer = 1
+        timer = 10
 
         try:
             self.enable_thrusters_service(isEnable=False)
@@ -70,7 +70,6 @@ class ThrusterController:
             rospy.logerr(err)
 
         while not rospy.is_shutdown():
-            rospy.loginfo("Publish")
 
             ans = str(raw_input("\nDo you want to use a file ? [y/n] : "))
 
@@ -80,12 +79,12 @@ class ThrusterController:
                 self.manual_enter()
                     
             try:
-                self.timer = float(raw_input("Enter time of affectation: "))
+                timer = float(raw_input("Enter time of affectation: "))
             except:
                 print "The value must be a number. Default value (10s) used"
-                self.timer = 10
+                timer = 10
 
-            self.launchBag()
+            self.launchBag(timer)
             
             # Set values to wanted
             self.set_efforts()
@@ -94,8 +93,7 @@ class ThrusterController:
             # Set values back to 0
             self.set_zeros()
 
-            self.stopBag()
-            time.sleep(1)
+            rospy.loginfo("Done")
 
     def set_efforts(self):
         print "Efforts: \n"
@@ -143,27 +141,13 @@ class ThrusterController:
                 print("Error in file")
                 exit()
 
-    def launchBag(self):
+    def launchBag(self, timer):
         self.nameFile = str(raw_input('Bag name : '))
 
         # self.nameFile = '~/Bags/Control/' + self.nameFile
         raw_input("Press any key to start...")
 
-        command = "rosbag record -O " + self.nameFile + " /proc_navigation/odom /provider_thruster/effort /provider_thruster/thruster_effort /provider_thruster/thruster_effort_vector"
-        #command = shlex.split(command)
-        self.rosbag_proc = subprocess.Popen(command,cwd='/home/babe/data/control')
-
-    def stopBag(self):
-        self.rosbag_proc.send_signal(subprocess.signal.SIGINT)
-
-        bagName = self.nameFile + ".bag.active"
-        command = "rosbag reindex " + bagName
-        command = shlex.split(command)
-        self.rosbag_proc = subprocess.Popen(command)
-        
-        time.sleep((self.timer/10)+1)
-        
-        command = "rm " + self.nameFile + ".bag.orig.active"
+        command = "rosbag record --duration=" + str(timer) + " /proc_navigation/odom /provider_thruster/effort /provider_thruster/thruster_effort /provider_thruster/thruster_effort_vector"
         command = shlex.split(command)
         self.rosbag_proc = subprocess.Popen(command)
 

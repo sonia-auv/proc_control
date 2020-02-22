@@ -2,8 +2,9 @@
 
 '''
  * file	ThrusterControlByValue.py
- * \author	Alexandre Desgagne <alexandre1998@live.ca>
- * \date	19/02/20
+ * \author	 Alexandre Desgagne <alexandre1998@live.ca>
+ * \coauthor Camille Sauvain <camille.sauvain.1@etsmtl.net>
+ * \date	 19/02/20
  *
  * \copyright Copyright (c) 2020 S.O.N.I.A. AUV All rights reserved.
  *

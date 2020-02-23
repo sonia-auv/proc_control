@@ -30,6 +30,7 @@ import rospy
 import time
 import subprocess
 import shlex
+import signal
 
 from provider_thruster.msg import ThrusterEffort
 from proc_control.srv import EnableThrusters
@@ -61,6 +62,7 @@ class ThrusterController:
                     ThrusterEffort.UNIQUE_ID_T6,
                     ThrusterEffort.UNIQUE_ID_T7,
                     ThrusterEffort.UNIQUE_ID_T8]
+        signal.signal(signal.SIGTSTP, self.onCloseHandler)
 
     def start(self):
         timer = 10
@@ -129,10 +131,14 @@ class ThrusterController:
             self.thruster_control[i] = thruster_effort
 
     def file_enter(self):
-        root = Tk()
-        root.filename = filedialog.askopenfilename(initialdir = "~/Workspaces/ros_sonia_ws/src/proc_control/config/OpenLoopMotors",title = "Select file",filetypes = (("text files","*.txt"),("all files",".*")))
-        f = open(root.filename,"r")
-        lines = f.readlines()
+        try:
+            root = Tk()
+            root.filename = filedialog.askopenfilename(initialdir = "~/Workspaces/ros_sonia_ws/src/proc_control/config/OpenLoopMotors",title = "Select file",filetypes = (("text files","*.txt"),("all files",".*")))
+            f = open(root.filename,"r")
+            lines = f.readlines()
+        except:
+            print("Error while openning file")
+            exit()
         i = 0
         for line in lines:
             if -30 <= int(line) <= 30:
@@ -149,7 +155,11 @@ class ThrusterController:
 
         command = "./Record_open_loop.sh " + nameFile + " " + str(timer)
         command = shlex.split(command)
-        self.rosbag_proc = subprocess.Popen(command,cwd='~/Bags/Control')
+
+    def onCloseHandler(self, signum, frame):
+        self.set_zeros()
+        exit()
+
 
 if __name__ == "__main__":
     rospy.init_node("ThrusterControl", anonymous=True)

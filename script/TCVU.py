@@ -78,7 +78,6 @@ class ThrusterController:
 
             if ans == "y":
                 self.file_mode()
-                print("Salut")
                 self.start_phases()
             else:
                 self.manual_mode()

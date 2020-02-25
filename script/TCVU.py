@@ -78,6 +78,7 @@ class ThrusterController:
 
             if ans == "y":
                 self.file_mode()
+                print("Salut")
                 self.start_phases()
             else:
                 self.manual_mode()
@@ -124,16 +125,15 @@ class ThrusterController:
     def file_mode(self):
         self.phases = []
         try:
-            root = Tk()
-            root.filename = filedialog.askopenfilename(initialdir = "~/Workspaces/ros_sonia_ws/src/proc_control/config/OpenLoopMotors",title = "Select file",filetypes = (("text files","*.json"),("all files",".*")))
-            f = open(root.filename,"r")
+            #root = Tk()
+            filename = filedialog.askopenfilename(initialdir = "~/Workspaces/ros_sonia_ws/src/proc_control/config/OpenLoopMotors",title = "Select file",filetypes = (("text files","*.json"),("all files",".*")))
+            f = open(filename,"r")
             phases_file = json.load(f)
         except:
             print("Error while openning file")
             exit()
 
         for phase in phases_file['phases']:
-            print phase
             self.phases.append(Phase(phase['phase_name'], phase['time'], phase['thrusters']))
 
     def start_phases(self):

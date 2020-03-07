@@ -1,40 +1,15 @@
 #!/usr/bin/env python
 
-'''
- * file	ThrusterControlByValue.py
- * \author	 Alexandre Desgagne <alexandre1998@live.ca>
- * \coauthor Camille Sauvain <camille.sauvain.1@etsmtl.net>
- * \date	 19/02/20
- *
- * \copyright Copyright (c) 2020 S.O.N.I.A. AUV All rights reserved.
- *
- * \section LICENSE
- *
- * This file is part of S.O.N.I.A. software.
- *
- * S.O.N.I.A. AUV software is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * S.O.N.I.A. AUV software is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with S.O.N.I.A. AUV software. If not, see <http://www.gnu.org/licenses/>.
-'''
-
 import rospy
 import time
 import subprocess
 import shlex
 import signal
+import os
 
 from provider_thruster.msg import ThrusterEffort
 from proc_control.srv import EnableThrusters
-from Tkinter import *
+from Tkinter import Tk
 import tkFileDialog as filedialog
 
 class ThrusterController:
@@ -153,8 +128,11 @@ class ThrusterController:
 
         raw_input("Press any key to start...")
 
+        os.chdir(os.path.expanduser('~/Workspaces/ros_sonia_ws/src/proc_control/script'))
+
         command = "./Record_open_loop.sh " + nameFile + " " + str(timer)
         command = shlex.split(command)
+        subprocess.Popen(command)
 
     def onCloseHandler(self, signum, frame):
         self.set_zeros()
@@ -164,4 +142,4 @@ class ThrusterController:
 if __name__ == "__main__":
     rospy.init_node("ThrusterControl", anonymous=True)
     controller = ThrusterController()
-    controller.start()
+controller.start()

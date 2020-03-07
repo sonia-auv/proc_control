@@ -8,7 +8,7 @@ import signal
 import os
 
 from provider_thruster.msg import ThrusterEffort
-from proc_control.srv import EnableThrusters
+from proc_control.srv import EnableControl, EnableThrusters
 from Tkinter import Tk
 import tkFileDialog as filedialog
 
@@ -21,9 +21,12 @@ class ThrusterController:
         # Service
         try:
             rospy.wait_for_service('/proc_control/enable_thrusters',timeout=2)
+            rospy.wait_for_service('/proc_control/enable_control',timeout=2)
         except rospy.ROSException:
             pass
         self.publisher = rospy.Publisher("/provider_thruster/thruster_effort", ThrusterEffort, queue_size=10)
+        #self.publisher = rospy.Publisher("/provider_thruster/effort", ThrusterEffort, queue_size=10)
+        #self.enable_control_service = rospy.ServiceProxy('/proc_control/enable_control', EnableControl)
         self.enable_thrusters_service = rospy.ServiceProxy('/proc_control/enable_thrusters', EnableThrusters)
 
         for i in range(self.thruster_count):
@@ -43,6 +46,7 @@ class ThrusterController:
         timer = 10
 
         try:
+            #self._enable_axis(X=1, Y=1, Z=1, PITCH=1, ROLL=1, YAW=1)
             self.enable_thrusters_service(isEnable=False)
         except rospy.ServiceException as err:
             rospy.logerr(err)
@@ -136,7 +140,15 @@ class ThrusterController:
 
     def onCloseHandler(self, signum, frame):
         self.set_zeros()
+        self.enable_thrusters_service(isEnable=True)
+        #self._enable_axis(X=0, Y=0, Z=0, PITCH=0, ROLL=0, YAW=0)
         exit()
+
+    #def _enable_axis(self, X, Y, Z, PITCH, ROLL, YAW):
+    #    try:
+    #        self.enable_control_service(X=X, Y=Y, Z=Z, PITCH=PITCH, ROLL=ROLL, YAW=YAW)
+    #    except rospy.ServiceException as err:
+    #        rospy.logerr(err)
 
 
 if __name__ == "__main__":

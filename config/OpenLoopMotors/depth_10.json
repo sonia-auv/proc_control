@@ -1,0 +1,20 @@
+{
+    "bag_name" : "depth-10.bag",
+    "phases" : [
+        {
+            "phase_name" : "Down",
+            "time" : 10,
+            "thrusters" : [
+                { "id" : 1, "effort" : 0 },
+                { "id" : 2, "effort" : 0 },
+                { "id" : 3, "effort" : 0 },
+                { "id" : 4, "effort" : 0 },
+                { "id" : 5, "effort" : -10 },
+                { "id" : 6, "effort" : 10 },
+                { "id" : 7, "effort" : -10 },
+                { "id" : 8, "effort" : 10 }
+            ]
+            
+        }
+    ]
+}

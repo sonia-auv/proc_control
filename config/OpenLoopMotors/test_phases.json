@@ -1,4 +1,5 @@
 {
+    "bag_name" : "Test_Bag.bag",
     "phases" : [
         {
             "phase_name" : "Phase 1",

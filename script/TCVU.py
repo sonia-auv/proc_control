@@ -45,7 +45,6 @@ class ThrusterController:
         self.thruster_control = []
         self.phases = []
 
-        # Service
         try:
             rospy.wait_for_service('/proc_control/enable_thrusters',timeout=2)
         except rospy.ROSException:
@@ -67,7 +66,6 @@ class ThrusterController:
         signal.signal(signal.SIGTSTP, self.onCloseHandler)
 
     def start(self):
-        print "Test"
         try:
             self.enable_thrusters_service(isEnable=False)
         except rospy.ServiceException as err:
@@ -78,7 +76,6 @@ class ThrusterController:
 
             if ans == "y":
                 self.file_mode()
-                self.start_phases()
             else:
                 self.manual_mode()
 
@@ -86,7 +83,6 @@ class ThrusterController:
             self.set_zeros()
 
             rospy.loginfo("Done")
-
 
     def manual_mode(self):
         timer = 10
@@ -134,6 +130,7 @@ class ThrusterController:
 
         for phase in phases_file['phases']:
             self.phases.append(Phase(phase['phase_name'], phase['time'], phase['thrusters']))
+        self.start_phases() 
 
     def start_phases(self):
         truster_efforts = []
@@ -143,8 +140,7 @@ class ThrusterController:
             #self.launchBag(phase["time"])
             self.set_efforts(phase.thruster_control)
             print "Wait {} seconds...".format(phase.time)
-            time.sleep(float(phase.time))
-        
+            time.sleep(float(phase.time))     
 
     def set_efforts(self, thrusters_efforts):
         print "Efforts: \n"

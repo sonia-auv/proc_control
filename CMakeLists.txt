@@ -55,10 +55,10 @@ find_package(
 )
 
 generate_dynamic_reconfigure_options(
-        cfg/Thruster_reconf.cfg
-        cfg/PIDController_reconf.cfg
-        cfg/PPIController_reconf.cfg
-        cfg/Bbox_reconf.cfg
+        cfg/Thruster.cfg
+        cfg/PIDController.cfg
+        cfg/PPIController.cfg
+        cfg/Bbox.cfg
 )
 
 add_message_files(

@@ -31,7 +31,7 @@
 #include <nav_msgs/Odometry.h>
 
 #include "proc_control/EnableControl.h"
-#include "provider_kill_mission/KillSwitchMsg.h"
+#include "sonia_msgs/KillSwitchMsg.h"
 #include "proc_control/property.h"
 
 

@@ -34,7 +34,7 @@
 #include <control_library/Trajectory/Trajectory.h>
 #include <control_library/ControlType.h>
 
-#include "provider_kill_mission/KillSwitchMsg.h"
+#include "sonia_msgs/KillSwitchMsg.h"
 #include "MsgConverteur.h"
 #include "proc_control/ControlInput/ControlInput.h"
 #include "proc_control/EnableControl.h"
@@ -95,7 +95,7 @@ namespace proc_control
 
     private:
 
-        void KillMissionCallback(const provider_kill_mission::KillSwitchMsg::ConstPtr &state_in);
+        void KillMissionCallback(const sonia_msgs::KillSwitchMsg::ConstPtr &state_in);
         bool EnableControlServiceCallback(proc_control::EnableControlRequest &request, proc_control::EnableControlResponse &response);
         void HandleEnableDisableControl(int8_t &request, int axis);
         bool EnableThrustersServerCallback(proc_control::EnableThrustersRequest &request, proc_control::EnableThrustersResponse &response);

@@ -90,7 +90,7 @@ namespace proc_control
          actualTwist_ << inputData_.GetTwistLinear(), inputData_.GetTwistAngular();
      }
 
-    void RobotState::KillMissionCallback(const provider_kill_mission::KillSwitchMsg::ConstPtr &state_in)
+    void RobotState::KillMissionCallback(const sonia_msgs::KillSwitchMsg::ConstPtr &state_in)
     {
         if(!state_in->state)
         {

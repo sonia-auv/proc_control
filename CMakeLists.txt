@@ -50,7 +50,7 @@ find_package(
     sensor_msgs
     dynamic_reconfigure
     provider_thruster
-    provider_kill_mission
+    sonia_msgs
     control_library
 )
 
@@ -97,7 +97,7 @@ catkin_package(
     message_runtime
     std_msgs
     provider_thruster
-    provider_kill_mission
+    sonia_msgs
     dynamic_reconfigure
     control_library
 )
@@ -117,7 +117,6 @@ include_directories(
     ${proc_control_SRC_DIR}
     "${proc_control_SRC_DIR}/../cfg/cpp/"
     ${Boost_INCLUDE_DIRS}
-    ${provider_kill_mission_INCLUDE_DIRS}
     ${control_library_INCLUDE_DIRS}
 )
 
@@ -127,7 +126,8 @@ add_executable(${PROJECT_NAME}_node ${proc_control_SRC_DIR}/${PROJECT_NAME}/main
 target_link_libraries(${PROJECT_NAME}_node ${catkin_LIBRARIES} ${Eigen_LIBRARIES} yaml-cpp ${Boost_LIBRARIES} ${control_library_LIBRARIES})
 add_dependencies(${PROJECT_NAME}_node
         ${PROJECT_NAME}_generate_messages_cpp
-        ${PROJECT_NAME}_gencfg)
+        ${PROJECT_NAME}_gencfg
+        ${catkin_EXPORTED_TARGETS})
 
 #==========================================================================
 # U N I T   T E S T S

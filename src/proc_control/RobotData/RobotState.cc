@@ -57,7 +57,7 @@ namespace proc_control
          velocityTargetPublisher_        = nh_->advertise<geometry_msgs::Twist>("/proc_control/current_target_velocity", 100);
          debugTargetPublisher_          = nh_->advertise<geometry_msgs::Pose>("/proc_control/debug_current_target", 100);
          commandDebugPublisher_         = nh_->advertise<geometry_msgs::Wrench>("/provider_thruster/thruster_effort_vector", 100);
-         targetIsReachedPublisher_      = nh_->advertise<proc_control::TargetReached>("/proc_control/target_reached", 100);
+         targetIsReachedPublisher_      = nh_->advertise<sonia_msgs::TargetReached>("/proc_control/target_reached", 100);
 
          enableThruster_       = true;
          enableAxisController_ = {{false, false, false, false, false, false}};
@@ -105,7 +105,7 @@ namespace proc_control
         }
     }
 
-    bool RobotState::EnableControlServiceCallback(proc_control::EnableControlRequest &request, proc_control::EnableControlResponse &response)
+    bool RobotState::EnableControlServiceCallback(sonia_msgs::EnableControlRequest &request, sonia_msgs::EnableControlResponse &response)
     {
         UpdateInput();
         desiredPose_         = actualPose_;
@@ -137,7 +137,7 @@ namespace proc_control
          }
     }
 
-    bool RobotState::EnableThrustersServerCallback(proc_control::EnableThrustersRequest &request, proc_control::EnableThrustersResponse &response)
+    bool RobotState::EnableThrustersServerCallback(sonia_msgs::EnableThrustersRequest &request, sonia_msgs::EnableThrustersResponse &response)
     {
         enableThruster_ = bool(request.isEnable);
 
@@ -145,7 +145,7 @@ namespace proc_control
     }
 
 
-    bool RobotState::ClearWayPointServiceCallback(proc_control::ClearWaypointRequest &request, proc_control::ClearWaypointResponse &response)
+    bool RobotState::ClearWayPointServiceCallback(sonia_msgs::ClearWaypointRequest &request, sonia_msgs::ClearWaypointResponse &response)
     {
         UpdateInput();
         desiredPose_         = actualPose_;
@@ -169,7 +169,7 @@ namespace proc_control
 
     void RobotState::TargetReachedPublisher(const bool isTargetReached)
     {
-        proc_control::TargetReached msg_target_reached;
+        sonia_msgs::TargetReached msg_target_reached;
         msg_target_reached.target_is_reached = static_cast<unsigned char>(isTargetReached ? 1 : 0);
         targetIsReachedPublisher_.publish(msg_target_reached);
     }
@@ -225,7 +225,7 @@ namespace proc_control
         return isInBoundingBox;
     }
 
-    bool RobotState::SetBoundingBoxServiceCallback(proc_control::SetBoundingBoxRequest &request, proc_control::SetBoundingBoxResponse &response)
+    bool RobotState::SetBoundingBoxServiceCallback(sonia_msgs::SetBoundingBoxRequest &request, sonia_msgs::SetBoundingBoxResponse &response)
     {
         (*pBbox_)[0] = request.X;
         (*pBbox_)[1] = request.Y;
@@ -236,7 +236,7 @@ namespace proc_control
          return true;
     }
 
-    bool RobotState::ResetBoundingBoxServiceCallback(proc_control::ResetBoundingBoxRequest &request, proc_control::ResetBoundingBoxResponse &response)
+    bool RobotState::ResetBoundingBoxServiceCallback(sonia_msgs::ResetBoundingBoxRequest &request, sonia_msgs::ResetBoundingBoxResponse &response)
     {
         *pBbox_ = bbox_;
         return true;

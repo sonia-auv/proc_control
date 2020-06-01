@@ -84,8 +84,8 @@ namespace proc_control{
         controlMode_->Process();
     }
 
-    bool ProcControlNode::SetControlModeCallback(proc_control::SetControlModeRequest &request,
-                                                 proc_control::SetControlModeResponse &response) {
+    bool ProcControlNode::SetControlModeCallback(sonia_msgs::SetControlModeRequest &request,
+                                                 sonia_msgs::SetControlModeResponse &response) {
 
         controlMode mode = static_cast<controlMode>(request.mode);
 
@@ -113,8 +113,8 @@ namespace proc_control{
 
     }
 
-    bool ProcControlNode::SetGlobalTargetPositionCallback(proc_control::SetPositionTargetRequest &request,
-                                                          proc_control::SetPositionTargetResponse &response) {
+    bool ProcControlNode::SetGlobalTargetPositionCallback(sonia_msgs::SetPositionTargetRequest &request,
+                                                          sonia_msgs::SetPositionTargetResponse &response) {
 
         Eigen::VectorXd targetPose = Eigen::VectorXd::Zero(control::CARTESIAN_SPACE);
 
@@ -125,8 +125,8 @@ namespace proc_control{
         return true;
     }
 
-    bool ProcControlNode::SetLocalTargetPositionCallback(proc_control::SetPositionTargetRequest &request,
-                                                         proc_control::SetPositionTargetResponse &response) {
+    bool ProcControlNode::SetLocalTargetPositionCallback(sonia_msgs::SetPositionTargetRequest &request,
+                                                         sonia_msgs::SetPositionTargetResponse &response) {
 
         Eigen::VectorXd targetPose = Eigen::VectorXd::Zero(control::CARTESIAN_SPACE);
 
@@ -138,8 +138,8 @@ namespace proc_control{
 
     }
 
-    bool ProcControlNode::SetGlobalDecoupledTargetPositionCallback(proc_control::SetDecoupledTargetRequest &request,
-                                                                   proc_control::SetDecoupledTargetResponse &response)
+    bool ProcControlNode::SetGlobalDecoupledTargetPositionCallback(sonia_msgs::SetDecoupledTargetRequest &request,
+                                                                   sonia_msgs::SetDecoupledTargetResponse &response)
     {
         Eigen::VectorXd targetPose = Eigen::VectorXd::Zero(control::CARTESIAN_SPACE);
 
@@ -153,8 +153,8 @@ namespace proc_control{
         return true;
     }
 
-    bool ProcControlNode::SetLocalDecoupledTargetPositionCallback(proc_control::SetDecoupledTargetRequest &request,
-                                                                  proc_control::SetDecoupledTargetResponse &response)
+    bool ProcControlNode::SetLocalDecoupledTargetPositionCallback(sonia_msgs::SetDecoupledTargetRequest &request,
+                                                                  sonia_msgs::SetDecoupledTargetResponse &response)
     {
         Eigen::VectorXd targetPose = Eigen::VectorXd::Zero(control::CARTESIAN_SPACE);
 

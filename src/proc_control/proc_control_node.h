@@ -33,9 +33,9 @@
 #include "proc_control/Controller/ControllerIF.h"
 #include "proc_control/Mode/PositionMode.h"
 
-#include "proc_control/SetPositionTarget.h"
-#include "proc_control/SetControlMode.h"
-#include "proc_control/SetDecoupledTarget.h"
+#include <sonia_msgs/SetPositionTarget.h>
+#include <sonia_msgs/SetControlMode.h>
+#include <sonia_msgs/SetDecoupledTarget.h>
 
 namespace proc_control{
 
@@ -57,16 +57,16 @@ namespace proc_control{
 
         void ControlLoop();
 
-        bool SetControlModeCallback(proc_control::SetControlModeRequest &request,
-                                    proc_control::SetControlModeResponse &response);
-        bool SetGlobalTargetPositionCallback(proc_control::SetPositionTargetRequest &request,
-                                             proc_control::SetPositionTargetResponse &response);
-        bool SetLocalTargetPositionCallback(proc_control::SetPositionTargetRequest &request,
-                                            proc_control::SetPositionTargetResponse &response);
-        bool SetGlobalDecoupledTargetPositionCallback(proc_control::SetDecoupledTargetRequest &request,
-                                                     proc_control::SetDecoupledTargetResponse &response);
-        bool SetLocalDecoupledTargetPositionCallback(proc_control::SetDecoupledTargetRequest &request,
-                                            proc_control::SetDecoupledTargetResponse &response);
+        bool SetControlModeCallback(sonia_msgs::SetControlModeRequest &request,
+                                    sonia_msgs::SetControlModeResponse &response);
+        bool SetGlobalTargetPositionCallback(sonia_msgs::SetPositionTargetRequest &request,
+                                             sonia_msgs::SetPositionTargetResponse &response);
+        bool SetLocalTargetPositionCallback(sonia_msgs::SetPositionTargetRequest &request,
+                                            sonia_msgs::SetPositionTargetResponse &response);
+        bool SetGlobalDecoupledTargetPositionCallback(sonia_msgs::SetDecoupledTargetRequest &request,
+                                                     sonia_msgs::SetDecoupledTargetResponse &response);
+        bool SetLocalDecoupledTargetPositionCallback(sonia_msgs::SetDecoupledTargetRequest &request,
+                                            sonia_msgs::SetDecoupledTargetResponse &response);
 
 
     private:

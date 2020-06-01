@@ -49,7 +49,6 @@ find_package(
     geometry_msgs
     sensor_msgs
     dynamic_reconfigure
-    provider_thruster
     sonia_msgs
     control_library
 )
@@ -61,42 +60,13 @@ generate_dynamic_reconfigure_options(
         cfg/Bbox.cfg
 )
 
-add_message_files(
-    DIRECTORY msg
-    FILES
-    PositionTarget.msg
-    TargetReached.msg
-    ThrustLogging.msg
-)
-
-add_service_files(
-     DIRECTORY srv
-     FILES
-     SetControlMode.srv
-     ClearWaypoint.srv
-     SetPositionTarget.srv
-     GetPositionTarget.srv
-     EnableThrusters.srv
-     EnableControl.srv
-     SetBoundingBox.srv
-     ResetBoundingBox.srv
-     SetDecoupledTarget.srv
-)
-
-# Generate added messages and services with any dependencies listed here
-generate_messages(
-  DEPENDENCIES
-  std_msgs  # Or other packages containing msgs
-)
 
 catkin_package(
     INCLUDE_DIRS ${proc_control_SRC_DIR}
     LIBRARIES
     CATKIN_DEPENDS
     roscpp
-    message_runtime
     std_msgs
-    provider_thruster
     sonia_msgs
     dynamic_reconfigure
     control_library
@@ -125,7 +95,6 @@ include_directories(
 add_executable(${PROJECT_NAME}_node ${proc_control_SRC_DIR}/${PROJECT_NAME}/main.cc ${proc_control_FILES})
 target_link_libraries(${PROJECT_NAME}_node ${catkin_LIBRARIES} ${Eigen_LIBRARIES} yaml-cpp ${Boost_LIBRARIES} ${control_library_LIBRARIES})
 add_dependencies(${PROJECT_NAME}_node
-        ${PROJECT_NAME}_generate_messages_cpp
         ${PROJECT_NAME}_gencfg
         ${catkin_EXPORTED_TARGETS})
 

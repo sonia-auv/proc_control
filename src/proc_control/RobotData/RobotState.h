@@ -37,13 +37,13 @@
 #include "sonia_msgs/KillSwitchMsg.h"
 #include "MsgConverteur.h"
 #include "proc_control/ControlInput/ControlInput.h"
-#include "proc_control/EnableControl.h"
-#include "proc_control/EnableThrusters.h"
-#include "proc_control/ClearWaypoint.h"
-#include "proc_control/PositionTarget.h"
-#include "proc_control/TargetReached.h"
-#include "proc_control/SetBoundingBox.h"
-#include "proc_control/ResetBoundingBox.h"
+#include <sonia_msgs/EnableControl.h>
+#include <sonia_msgs/EnableThrusters.h>
+#include <sonia_msgs/ClearWaypoint.h>
+#include <sonia_msgs/PositionTarget.h>
+#include <sonia_msgs/TargetReached.h>
+#include <sonia_msgs/SetBoundingBox.h>
+#include <sonia_msgs/ResetBoundingBox.h>
 #include "proc_control/ControlInput/ControlInput.h"
 #include "proc_control/ParametersManager/BboxParameters.h"
 
@@ -96,12 +96,12 @@ namespace proc_control
     private:
 
         void KillMissionCallback(const sonia_msgs::KillSwitchMsg::ConstPtr &state_in);
-        bool EnableControlServiceCallback(proc_control::EnableControlRequest &request, proc_control::EnableControlResponse &response);
+        bool EnableControlServiceCallback(sonia_msgs::EnableControlRequest &request, sonia_msgs::EnableControlResponse &response);
         void HandleEnableDisableControl(int8_t &request, int axis);
-        bool EnableThrustersServerCallback(proc_control::EnableThrustersRequest &request, proc_control::EnableThrustersResponse &response);
-        bool ClearWayPointServiceCallback(proc_control::ClearWaypointRequest &request, proc_control::ClearWaypointResponse &response);
-        bool SetBoundingBoxServiceCallback(proc_control::SetBoundingBoxRequest &request, proc_control::SetBoundingBoxResponse &response);
-        bool ResetBoundingBoxServiceCallback(proc_control::ResetBoundingBoxRequest &request, proc_control::ResetBoundingBoxResponse &response);
+        bool EnableThrustersServerCallback(sonia_msgs::EnableThrustersRequest &request, sonia_msgs::EnableThrustersResponse &response);
+        bool ClearWayPointServiceCallback(sonia_msgs::ClearWaypointRequest &request, sonia_msgs::ClearWaypointResponse &response);
+        bool SetBoundingBoxServiceCallback(sonia_msgs::SetBoundingBoxRequest &request, sonia_msgs::SetBoundingBoxResponse &response);
+        bool ResetBoundingBoxServiceCallback(sonia_msgs::ResetBoundingBoxRequest &request, sonia_msgs::ResetBoundingBoxResponse &response);
 
         ros::NodeHandlePtr nh_;
 

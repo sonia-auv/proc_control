@@ -25,7 +25,7 @@
 
 #include <gtest/gtest.h>
 #include "proc_control/proc_control_node.h"
-#include "lib_atlas/maths/matrix.h"
+#include "sonia_common/maths/matrix.h"
 #include <eigen3/Eigen/Eigen>
 
 TEST(LocalGlobalTest, first) {

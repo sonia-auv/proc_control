@@ -30,8 +30,8 @@
 #include <eigen3/Eigen/Eigen>
 #include <nav_msgs/Odometry.h>
 
-#include <sonia_msgs/EnableControl.h>
-#include <sonia_msgs/KillSwitchMsg.h>
+#include <sonia_common/EnableControl.h>
+#include <sonia_common/KillSwitchMsg.h>
 #include "proc_control/property.h"
 
 

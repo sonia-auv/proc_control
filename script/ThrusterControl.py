@@ -3,7 +3,7 @@ __author__ = 'jeremie'
 
 import rospy
 from provider_keypad.msg import Keypad
-from sonia_msgs.msg import SendCanMsg
+from sonia_common.msg import SendCanMsg
 import time
 
 from std_msgs.msg import String

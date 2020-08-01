@@ -49,7 +49,7 @@ find_package(
     geometry_msgs
     sensor_msgs
     dynamic_reconfigure
-    sonia_msgs
+    sonia_common
     control_library
 )
 
@@ -67,7 +67,7 @@ catkin_package(
     CATKIN_DEPENDS
     roscpp
     std_msgs
-    sonia_msgs
+    sonia_common
     dynamic_reconfigure
     control_library
 )

@@ -39,7 +39,7 @@ It means you have it installed. If not follow instructions on how to install it 
 
 ### Installing
 
-To install the proc_control with the generated .tar file, you need to put all files with the extension *.cpp, *.c and *.h in the source folder and the CmakeLists and package.xml in the project folder.
+To install the proc_control with the generated .tgz file, you need to put all files with the extension *.cpp, *.c and *.h in the source folder and the CmakeLists and package.xml in the project folder.
 
 In the CMakeLists file add the following line :
 ```

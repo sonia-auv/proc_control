@@ -1,105 +1,80 @@
- # \file     CMakeLists.txt
-# \author   Jeremie St-Jules-Prevost <jeremie.st.jules.prevost@gmail.com>
-# \date     23/09/2016
-#
-# \copyright Copyright (c) 2016 S.O.N.I.A. All rights reserved.
-#
-# \section LICENSE
-#
-# This file is part of S.O.N.I.A. software.
-#
-# S.O.N.I.A. software is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# S.O.N.I.A. software is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with S.O.N.I.A. software. If not, see <http://www.gnu.org/licenses/>.
+cmake_minimum_required(VERSION 2.8.3)
+project(full_loop)
+set(CMAKE_VERBOSE_MAKEFILE ON)
 
-#===============================================================================
-# G L O B A L   P R O J E C T   C O N F I G U R A T I O N
-cmake_minimum_required(VERSION 2.8)
-project(proc_control)
+## Make top-level project name available in all nested projects.
+set(MW_TOP_LEVEL_PROJECT_NAME ${PROJECT_NAME})
 
-if (NOT CMAKE_BUILD_TYPE)
-  set(CMAKE_BUILD_TYPE Debug CACHE STRING
-      "Choose the type of build, options are: None Debug Release RelWithDebInfo MinSizeRel."
-      FORCE)
-endif (NOT CMAKE_BUILD_TYPE)
 
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -std=c++14 -Wall")
-set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -std=c++14 -O3 -s")
-
-set(CMAKE_MODULE_PATH "/usr/share/cmake-3.0/Modules")
-
-set(proc_control_SRC_DIR "src")
-
-#===============================================================================
-# C A T K I N   C O N F I G U R A T I O N
-find_package(
-    catkin REQUIRED COMPONENTS
-    roscpp
-    std_msgs
-    message_generation
-    geometry_msgs
-    sensor_msgs
-    dynamic_reconfigure
-    sonia_common
-    control_library
+## Find catkin macros and libraries
+## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
+## is used, also find other catkin packages
+find_package(catkin REQUIRED COMPONENTS
+roscpp
+sonia_common
+std_msgs
 )
 
-generate_dynamic_reconfigure_options(
-        cfg/Thruster.cfg
-        cfg/PIDController.cfg
-        cfg/PPIController.cfg
-        cfg/Bbox.cfg
-)
+add_definitions(
+-DMODEL=full_loop -DNUMST=5 -DNCSTATES=21 -DHAVESTDIO -DMODEL_HAS_DYNAMICALLY_LOADED_SFCNS=0 -DCLASSIC_INTERFACE=0 -DALLOCATIONFCN=0 -DTID01EQ=1 -DTERMFCN=1 -DONESTEPFCN=1 -DMAT_FILE=0 -DMULTI_INSTANCE_CODE=1 -DINTEGER_CODE=0 -DMT=0 -DROS_PROJECT -DMW_SCHED_OTHER -DSTACK_SIZE=64 -D__MW_TARGET_USE_HARDWARE_RESOURCES_H__ -DRT=RT )
 
-
+## The catkin_package macro generates cmake config files for your package
+## Declare things to be passed to dependent projects
+## INCLUDE_DIRS: uncomment this if you package contains header files
+## LIBRARIES: libraries you create in this project that dependent projects also need
+## CATKIN_DEPENDS: catkin_packages dependent projects also need
+## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-    INCLUDE_DIRS ${proc_control_SRC_DIR}
-    LIBRARIES
-    CATKIN_DEPENDS
-    roscpp
-    std_msgs
-    sonia_common
-    dynamic_reconfigure
-    control_library
+   CATKIN_DEPENDS roscpp sonia_common std_msgs 
 )
 
-#===============================================================================
-# I N C L U D E   F I L E S
+###########
+## Build ##
+###########
 
-file(GLOB_RECURSE proc_control_FILES
-    "${proc_control_SRC_DIR}/*.cc"
-    "${proc_control_SRC_DIR}/*.h")
-
-list(REMOVE_ITEM proc_control_FILES
-    ${CMAKE_CURRENT_SOURCE_DIR}/${proc_control_SRC_DIR}/${PROJECT_NAME}/main.cc)
-
+## Specify additional locations of header files
+## Your package locations should be listed before other locations
+# include_directories(include)
 include_directories(
-    ${catkin_INCLUDE_DIRS}
-    ${proc_control_SRC_DIR}
-    "${proc_control_SRC_DIR}/../cfg/cpp/"
-    ${Boost_INCLUDE_DIRS}
-    ${control_library_INCLUDE_DIRS}
+  include
+  ${PROJECT_SOURCE_DIR}
+  ${Boost_INCLUDE_DIRS}
+  ${catkin_INCLUDE_DIRS}
 )
 
-#==========================================================================
-# C R E A T E   E X E C U T A B L E
-add_executable(${PROJECT_NAME}_node ${proc_control_SRC_DIR}/${PROJECT_NAME}/main.cc ${proc_control_FILES})
-target_link_libraries(${PROJECT_NAME}_node ${catkin_LIBRARIES} ${Eigen_LIBRARIES} yaml-cpp ${Boost_LIBRARIES} ${control_library_LIBRARIES})
-add_dependencies(${PROJECT_NAME}_node
-        ${PROJECT_NAME}_gencfg
-        ${catkin_EXPORTED_TARGETS})
+## Get list of .c files in project source directory
+file(GLOB ${PROJECT_NAME}_C_SOURCES RELATIVE ${PROJECT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/*.c)
+## Get list of .cpp files in project source directory
+file(GLOB ${PROJECT_NAME}_CPP_SOURCES RELATIVE ${PROJECT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/*.cpp)
 
-#==========================================================================
-# U N I T   T E S T S
-if (${CATKIN_ENABLE_TESTING})
-    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/test)
-endif ()
+## Declare executable
+add_executable(${PROJECT_NAME}_node
+   ert_main.cpp
+   full_loop.cpp
+   full_loop_data.cpp
+   rtGetInf.cpp
+   rtGetNaN.cpp
+   rt_nonfinite.cpp
+   rt_zcfcn.cpp
+   linuxinitialize.cpp
+   slros_busmsg_conversion.cpp
+   slros_initialize.cpp
+   slros_generic_param.cpp
+   ${${PROJECT_NAME}_C_SOURCES}
+   ${${PROJECT_NAME}_CPP_SOURCES}
+)
+
+## Add cmake target dependencies of the executable/library
+## as an example, message headers may need to be generated before nodes
+add_dependencies(${PROJECT_NAME}_node ${catkin_EXPORTED_TARGETS})
+
+## Specify libraries to link a library or executable target against
+target_link_libraries(${PROJECT_NAME}_node
+   ${catkin_LIBRARIES}
+   ${Boost_LIBRARIES}
+   rt
+)
+
+set_target_properties(${PROJECT_NAME}_node PROPERTIES COMPILE_FLAGS " ")
+SET( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fpermissive" )
+SET( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -include stdbool.h" )

@@ -1,0 +1,6 @@
+<launch>
+<node name="full_loop"
+pkg="full_loop"
+type="full_loop_node"
+output="screen" />
+</launch> 

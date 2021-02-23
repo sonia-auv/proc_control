@@ -4,6 +4,7 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 
 ## Make top-level project name available in all nested projects.
 set(MW_TOP_LEVEL_PROJECT_NAME ${PROJECT_NAME})
+set(proc_control/src/proc_control ${PROJECT_SRC_FILES})
 
 
 ## Find catkin macros and libraries
@@ -43,23 +44,13 @@ include_directories(
 )
 
 ## Get list of .c files in project source directory
-file(GLOB ${PROJECT_NAME}_C_SOURCES RELATIVE ${PROJECT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/src/proc_control/*.c)
+file(GLOB ${PROJECT_NAME}_C_SOURCES RELATIVE ${PROJECT_SOURCE_DIR} ${PROJECT_SRC_FILES}/*.c)
 ## Get list of .cpp files in project source directory
-file(GLOB ${PROJECT_NAME}_CPP_SOURCES RELATIVE ${PROJECT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/src/proc_control/*.cpp)
+file(GLOB ${PROJECT_NAME}_CPP_SOURCES RELATIVE ${PROJECT_SOURCE_DIR} ${PROJECT_SRC_FILES}/*.cpp)
 
 ## Declare executable
 add_executable(${PROJECT_NAME}_node
-##   ert_main.cpp
-   ${PROJECT_SOURCE_DIR}/src/proc_control/full_loop.cpp
-##   full_loop_data.cpp
-##   rtGetInf.cpp
-##   rtGetNaN.cpp
- #  rt_nonfinite.cpp
-  # rt_zcfcn.cpp
-   #linuxinitialize.cpp
-   #slros_busmsg_conversion.cpp
-   #slros_initialize.cpp
-   #slros_generic_param.cpp
+   ${PROJECT_SRC_FILES}/full_loop.cpp
    ${${PROJECT_NAME}_C_SOURCES}
    ${${PROJECT_NAME}_CPP_SOURCES}
 )

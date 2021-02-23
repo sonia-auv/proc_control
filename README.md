@@ -41,21 +41,25 @@ It means you have it installed. If not follow instructions on how to install it 
 
 ### Installing
 
-A step by step series of examples that tell you how to get a development env running
+To install the proc_control with the generated .tar file, you need to put all files with the extension *.cpp, *.c and *.h in the source folder and the CmakeLists and package.xml in the project folder.
 
-Say what the step will be
-
+In the CMakeLists file add the following line :
 ```
-Give the example
+set(PROJECT_SRC_FILES "src/proc_control")
 ```
-
-And repeat
-
+Then modify the list for the source files with this :
 ```
-until finished
+file(GLOB ${PROJECT_NAME}_C_SOURCES RELATIVE ${PROJECT_SOURCE_DIR} ${PROJECT_SRC_FILES}/*.c)
+file(GLOB ${PROJECT_NAME}_CPP_SOURCES RELATIVE ${PROJECT_SOURCE_DIR} ${PROJECT_SRC_FILES}/*.cpp)
 ```
-
-End with an example of getting some data out of the system or using it for a little demo
+Finaly, remove all the files from the command add_executables except these :
+```
+add_executable(${PROJECT_NAME}_node
+   ${PROJECT_SRC_FILES}/<LAUNCH_FILES_NAME>.cpp
+   ${${PROJECT_NAME}_C_SOURCES}
+   ${${PROJECT_NAME}_CPP_SOURCES}
+)
+```
 
 ## Running the tests
 

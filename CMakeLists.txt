@@ -50,7 +50,7 @@ file(GLOB ${PROJECT_NAME}_CPP_SOURCES RELATIVE ${PROJECT_SOURCE_DIR} ${PROJECT_S
 
 ## Declare executable
 add_executable(${PROJECT_NAME}_node
-   ${PROJECT_SRC_FILES}/full_loop.cpp
+   ${${PROJECT_SRC_FILES}}/full_loop.cpp
    ${${PROJECT_NAME}_C_SOURCES}
    ${${PROJECT_NAME}_CPP_SOURCES}
 )

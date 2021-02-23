@@ -8,11 +8,8 @@
             "name": "ROS: Launch",
             "type": "ros",
             "request": "launch",
-            "preLaunchTask": {
-                "task": "build",
-                "type": "catkin_make"
-            },
-            "target": "/home/sonia/ros_sonia_ws/src/proc_control/launch/proc_control.launch",
+            "preLaunchTask": "build",
+            "target": "/home/sonia/ros_sonia_ws/src/proc_control/launch/full_loop.launch",
         }
     ]
 }

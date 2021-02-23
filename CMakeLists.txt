@@ -43,23 +43,23 @@ include_directories(
 )
 
 ## Get list of .c files in project source directory
-file(GLOB ${PROJECT_NAME}_C_SOURCES RELATIVE ${PROJECT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/*.c)
+file(GLOB ${PROJECT_NAME}_C_SOURCES RELATIVE ${PROJECT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/src/proc_control/*.c)
 ## Get list of .cpp files in project source directory
-file(GLOB ${PROJECT_NAME}_CPP_SOURCES RELATIVE ${PROJECT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/*.cpp)
+file(GLOB ${PROJECT_NAME}_CPP_SOURCES RELATIVE ${PROJECT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/src/proc_control/*.cpp)
 
 ## Declare executable
 add_executable(${PROJECT_NAME}_node
-   ert_main.cpp
-   full_loop.cpp
-   full_loop_data.cpp
-   rtGetInf.cpp
-   rtGetNaN.cpp
-   rt_nonfinite.cpp
-   rt_zcfcn.cpp
-   linuxinitialize.cpp
-   slros_busmsg_conversion.cpp
-   slros_initialize.cpp
-   slros_generic_param.cpp
+##   ert_main.cpp
+   ${PROJECT_SOURCE_DIR}/src/proc_control/full_loop.cpp
+##   full_loop_data.cpp
+##   rtGetInf.cpp
+##   rtGetNaN.cpp
+ #  rt_nonfinite.cpp
+  # rt_zcfcn.cpp
+   #linuxinitialize.cpp
+   #slros_busmsg_conversion.cpp
+   #slros_initialize.cpp
+   #slros_generic_param.cpp
    ${${PROJECT_NAME}_C_SOURCES}
    ${${PROJECT_NAME}_CPP_SOURCES}
 )

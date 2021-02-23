@@ -4,7 +4,7 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 
 ## Make top-level project name available in all nested projects.
 set(MW_TOP_LEVEL_PROJECT_NAME ${PROJECT_NAME})
-set(proc_control/src/proc_control ${PROJECT_SRC_FILES})
+set(${PROJECT_SOURCE_DIR}/src/proc_control ${PROJECT_SRC_FILES})
 
 
 ## Find catkin macros and libraries

@@ -18,7 +18,7 @@ ENV SONIA_WS=${SONIA_HOME}/ros_sonia_ws
 
 ENV NODE_NAME=${NODE_NAME}
 ENV NODE_PATH=${SONIA_WS}/src/${NODE_NAME}
-ENV LAUNCH_FILE=full_loop.launch
+ENV LAUNCH_FILE=proc_control.launch
 ENV SCRIPT_DIR=${SONIA_WS}/scripts
 ENV ENTRYPOINT_FILE=sonia_entrypoint.sh
 ENV LAUNCH_ABSPATH=${NODE_PATH}/launch/${LAUNCH_FILE}

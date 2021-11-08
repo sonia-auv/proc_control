@@ -1,9 +1,10 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(proc_control)
+project(proc_control_node)
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
 ## Make top-level project name available in all nested projects.
 set(MW_TOP_LEVEL_PROJECT_NAME ${PROJECT_NAME})
+set(PROJECT_SRC_FILES "src")
 
 
 ## Find catkin macros and libraries
@@ -47,25 +48,25 @@ include_directories(
 )
 
 ## Get list of .c files in project source directory
-file(GLOB ${PROJECT_NAME}_C_SOURCES RELATIVE ${PROJECT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/*.c)
+file(GLOB ${PROJECT_NAME}_C_SOURCES RELATIVE ${PROJECT_SOURCE_DIR} ${PROJECT_SRC_FILES}/*.c)
 ## Get list of .cpp files in project source directory
-file(GLOB ${PROJECT_NAME}_CPP_SOURCES RELATIVE ${PROJECT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/*.cpp)
+file(GLOB ${PROJECT_NAME}_CPP_SOURCES RELATIVE ${PROJECT_SOURCE_DIR} ${PROJECT_SRC_FILES}/*.cpp)
 
 ## Declare executable
 add_executable(${PROJECT_NAME}_node
-   proc_control_node.cpp
-   proc_control_node_data.cpp
-   rtGetInf.cpp
-   rtGetNaN.cpp
-   rt_nonfinite.cpp
-   rt_zcfcn.cpp
-   rtiostream_interface.c
-   rtiostream_tcpip.c
-   rosnodeinterface.cpp
-   main.cpp
-   slros_busmsg_conversion.cpp
-   slros_initialize.cpp
-   slros_generic_param.cpp
+   ${PROJECT_SRC_FILES}/proc_control_node.cpp
+   ##proc_control_node_data.cpp
+   ##rtGetInf.cpp
+   ##rtGetNaN.cpp
+   ##rt_nonfinite.cpp
+   ##rt_zcfcn.cpp
+   ##rtiostream_interface.c
+   ##rtiostream_tcpip.c
+   ##rosnodeinterface.cpp
+   ##main.cpp
+   ##slros_busmsg_conversion.cpp
+   ##slros_initialize.cpp
+   ##slros_generic_param.cpp
    ${${PROJECT_NAME}_C_SOURCES}
    ${${PROJECT_NAME}_CPP_SOURCES}
 )

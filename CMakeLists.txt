@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(proc_control_node)
+project(proc_control)
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
 ## Make top-level project name available in all nested projects.

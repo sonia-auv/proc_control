@@ -117,7 +117,9 @@ typedef struct _ssSolverInfo_tag {
     int_T       ignoredZcDiagnostic;
     int_T       maskedZcDiagnostic;
     boolean_T   isOutputMethodComputed;
-    int_T       reservedInt;
+    int_T       maxZcBracketingIterations;
+    boolean_T   isMinorOutputWithModeChange;
+    int_T       maxZcPerIntegrationInterval;
 } ssSolverInfo;
 
 /* Support old name RTWSolverInfo */
@@ -254,6 +256,11 @@ typedef ssSolverInfo RTWSolverInfo;
 
 #define rtsiSetSolverOutputComputed(S,val) ((S)->isOutputMethodComputed = (val))
 #define rtsiIsSolverOutputComputed(S) (S)->isOutputMethodComputed
+
+#define rtsiSetIsMinorOutputWithModeChange(S,sn) ((S)->isMinorOutputWithModeChange  = (sn))
+#define rtsiGetIsMinorOutputWithModeChange(S)    (S)->isMinorOutputWithModeChange
+
+#define rtsiGetIsOkayToUpdateMode(S) (rtsiGetSimTimeStep(S) == MAJOR_TIME_STEP || rtsiGetIsMinorOutputWithModeChange(S)) 
 
 #endif /* !NO_FLOATS */
 

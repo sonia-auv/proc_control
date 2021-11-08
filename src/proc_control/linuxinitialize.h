@@ -37,6 +37,20 @@ extern timerTaskSem;
 extern void mw_init_timerTaskSem(int idx);
 #endif
 
+#ifdef MW_SCHEDULE_TASK_WITH_ALSA_AUDIO
+void *schedulerTaskALSA(void* arg);
+void triggerBaseRate();
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+void mw_alsa_registerCallback();
+#ifdef __cplusplus
+}
+#endif
+
+#endif
+
 #define UNUSED(x) x = x
 
 #endif

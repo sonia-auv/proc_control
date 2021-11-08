@@ -5,14 +5,14 @@
 //
 // File: rtGetNaN.cpp
 //
-// Code generated for Simulink model 'full_loop'.
+// Code generated for Simulink model 'proc_control_node'.
 //
-// Model version                  : 1.476
-// Simulink Coder version         : 9.3 (R2020a) 18-Nov-2019
-// C/C++ source code generated on : Tue Feb 23 10:23:29 2021
+// Model version                  : 1.163
+// Simulink Coder version         : 9.5 (R2021a) 14-Nov-2020
+// C/C++ source code generated on : Sun Nov  7 21:54:48 2021
 //
 // Target selection: ert.tlc
-// Embedded hardware selection: ARM Compatible->ARM 8
+// Embedded hardware selection: ARM Compatible->ARM 64-bit (LLP64)
 // Code generation objectives: Unspecified
 // Validation result: Not run
 //
@@ -54,7 +54,7 @@ extern "C" {
   //
   real32_T rtGetNaNF(void)
   {
-    IEEESingle nanF = { { 0 } };
+    IEEESingle nanF = { { 0.0F } };
 
     nanF.wordL.wordLuint = 0xFFC00000U;
     return nanF.wordL.wordLreal;

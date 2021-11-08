@@ -5,29 +5,29 @@
 //
 // File: rtmodel.h
 //
-// Code generated for Simulink model 'full_loop'.
+// Code generated for Simulink model 'proc_control_node'.
 //
-// Model version                  : 1.476
-// Simulink Coder version         : 9.3 (R2020a) 18-Nov-2019
-// C/C++ source code generated on : Tue Feb 23 10:23:29 2021
+// Model version                  : 1.163
+// Simulink Coder version         : 9.5 (R2021a) 14-Nov-2020
+// C/C++ source code generated on : Sun Nov  7 21:54:48 2021
 //
 // Target selection: ert.tlc
-// Embedded hardware selection: ARM Compatible->ARM 8
+// Embedded hardware selection: ARM Compatible->ARM 64-bit (LLP64)
 // Code generation objectives: Unspecified
 // Validation result: Not run
 //
 #ifndef RTW_HEADER_rtmodel_h_
 #define RTW_HEADER_rtmodel_h_
-#include "full_loop.h"
+#include "proc_control_node.h"
+#define MODEL_CLASSNAME                proc_control_nodeModelClass
+#define MODEL_STEPNAME                 step
 
 //
 //  ROOT_IO_FORMAT: 0 (Individual arguments)
 //  ROOT_IO_FORMAT: 1 (Structure reference)
 //  ROOT_IO_FORMAT: 2 (Part of model data structure)
 
-# define ROOT_IO_FORMAT                1
-#define MODEL_CLASSNAME                full_loopModelClass
-#define MODEL_STEPNAME                 step
+#define ROOT_IO_FORMAT                 1
 #endif                                 // RTW_HEADER_rtmodel_h_
 
 //

@@ -1,4 +1,4 @@
-/* Copyright 2014-2018 The MathWorks, Inc. */
+/* Copyright 2014-2021 The MathWorks, Inc. */
 
 #ifndef _SLROS_GENERIC_PUBSUB_H_
 #define _SLROS_GENERIC_PUBSUB_H_
@@ -29,6 +29,7 @@ class SimulinkSubscriber {
     ros::Subscriber _subscriber;
     bool _newMessageReceived;
     boost::shared_ptr<MsgType const> _lastMsgPtr;
+    boost::mutex _mtx;
 };
 
 /**
@@ -40,6 +41,7 @@ class SimulinkSubscriber {
 template <class MsgType, class BusType>
 void SimulinkSubscriber<MsgType, BusType>::subscriberCallback(
     const boost::shared_ptr<MsgType const>& msgPtr) {
+    boost::lock_guard<boost::mutex> lockMsg(_mtx);
     _lastMsgPtr = msgPtr; // copy the shared_ptr
     _newMessageReceived = true;
 }
@@ -76,6 +78,7 @@ bool SimulinkSubscriber<MsgType, BusType>::getLatestMessage(BusType* busPtr) {
     _customCallbackQueuePtr->callOne();
 
     if (_newMessageReceived) {
+        boost::lock_guard<boost::mutex> lockMsg(_mtx);
         convertToBus(busPtr, _lastMsgPtr.get());
         _newMessageReceived = false;
         return true; // message is new

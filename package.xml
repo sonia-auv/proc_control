@@ -1,5 +1,5 @@
 <package>
-  <name>proc_control</name>
+  <name>proc_control_node</name>
   <version>1.0.2</version>
   <description>
   This package is generated from full_loop Simulink model.

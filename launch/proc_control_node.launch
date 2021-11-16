@@ -1,6 +1,6 @@
 <launch>
-<node name="proc_control"
-pkg="proc_control"
+<node name="proc_control_node"
+pkg="proc_control_node"
 type="proc_control_node_node"
 output="screen" />
 </launch> 

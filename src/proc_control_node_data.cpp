@@ -7,9 +7,9 @@
 //
 // Code generated for Simulink model 'proc_control_node'.
 //
-// Model version                  : 1.187
+// Model version                  : 1.194
 // Simulink Coder version         : 9.5 (R2021a) 14-Nov-2020
-// C/C++ source code generated on : Thu Nov 18 23:37:19 2021
+// C/C++ source code generated on : Fri Nov 19 14:23:11 2021
 //
 // Target selection: ert.tlc
 // Embedded hardware selection: ARM Compatible->ARM 64-bit (LLP64)
@@ -30,9 +30,9 @@ proc_control_nodeModelClass::P_proc_control_node_T proc_control_nodeModelClass::
   //    '<S133>/Constant1'
   //    '<S133>/Constant3'
   //    '<S136>/MPC manager'
-  //    '<S278>/Constant3'
-  //    '<S280>/Constant3'
-  //    '<S281>/Constant3'
+  //    '<S286>/Constant3'
+  //    '<S288>/Constant3'
+  //    '<S289>/Constant3'
 
   {
     13.0,
@@ -40,7 +40,7 @@ proc_control_nodeModelClass::P_proc_control_node_T proc_control_nodeModelClass::
     8.0,
     0.1,
     10.0,
-    3.0,
+    2.0,
     10.0,
     40.0,
     -30.0,
@@ -56,12 +56,12 @@ proc_control_nodeModelClass::P_proc_control_node_T proc_control_nodeModelClass::
       },
 
       {
-        { 30.0, 30.0, 30.0, 30.0, 30.0, 30.0, 30.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
+        { 30.0, 30.0, 30.0, 45.0, 45.0, 45.0, 45.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
         },
 
         { 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2 },
 
-        { 0.4, 0.4, 0.4, 0.4, 0.6, 0.6, 0.6, 0.6 }
+        { 0.4, 0.4, 0.4, 0.4, 0.5, 0.5, 0.5, 0.5 }
       },
 
       {
@@ -94,9 +94,10 @@ proc_control_nodeModelClass::P_proc_control_node_T proc_control_nodeModelClass::
 
     { 0.001, 0.002, 0.018 },
 
-    { 0.002, 0.001, -0.006 },
+    { 0.0, 0.0, -0.006 },
 
-    { 45.0, 60.0, 70.0, 10.0, 7.0, 15.0 },
+    { 15.0, 20.0, 23.333333333333332, 3.3333333333333335, 2.3333333333333335,
+      5.0 },
 
     { 1.17, 0.82, 0.756, 0.167, 0.1, 0.102 },
 
@@ -121,8 +122,8 @@ proc_control_nodeModelClass::P_proc_control_node_T proc_control_nodeModelClass::
   // Variable: Config10
   //  Referenced by: '<S136>/MPC manager'
 
-  { 30.0, 30.0, 30.0, 30.0, 30.0, 30.0, 30.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.2,
-    0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.4, 0.4, 0.4, 0.4, 0.6, 0.6, 0.6, 0.6 },
+  { 30.0, 30.0, 30.0, 45.0, 45.0, 45.0, 45.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.2,
+    0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.4, 0.4, 0.4, 0.4, 0.5, 0.5, 0.5, 0.5 },
 
   // Variable: Config19
   //  Referenced by: '<S136>/MPC manager'
@@ -214,39 +215,40 @@ proc_control_nodeModelClass::P_proc_control_node_T proc_control_nodeModelClass::
   //  Referenced by: '<S136>/MPC manager'
 
   { 31.0, 0.0315, 0.3, 0.12, 0.22, 0.292, 0.4756, 0.008, 0.004, 0.008, 1.3735,
-    -0.001, 0.004, -0.001, 1.5371, 0.001, 0.002, 0.018, 0.002, 0.001, -0.006,
-    45.0, 60.0, 70.0, 10.0, 7.0, 15.0, 1.17, 0.82, 0.756, 0.167, 0.1, 0.102,
-    -1.4648, -12.6156, -15.7695, -0.1164, -0.3493, -0.3493, 998.0, 9.81 },
+    -0.001, 0.004, -0.001, 1.5371, 0.001, 0.002, 0.018, 0.0, 0.0, -0.006, 15.0,
+    20.0, 23.333333333333332, 3.3333333333333335, 2.3333333333333335, 5.0, 1.17,
+    0.82, 0.756, 0.167, 0.1, 0.102, -1.4648, -12.6156, -15.7695, -0.1164,
+    -0.3493, -0.3493, 998.0, 9.81 },
 
   // Variable: dMaxX
   //  Referenced by: '<S14>/X Drift'
 
-  0.3395186547679343,
+  0.37676536768193336,
 
   // Variable: dMaxY
   //  Referenced by: '<S14>/Y Drift'
 
-  0.38901098674490664,
+  1.1228454253476925,
 
   // Variable: dMinX
   //  Referenced by: '<S14>/X Drift'
 
-  -0.20182626085475697,
+  -0.37374752959113022,
 
   // Variable: dMinY
   //  Referenced by: '<S14>/Y Drift'
 
-  -0.030166149180693214,
+  -1.0585983003553603,
 
   // Variable: dSeedX
   //  Referenced by: '<S14>/X Drift'
 
-  1.0,
+  2.0,
 
   // Variable: dSeedY
   //  Referenced by: '<S14>/Y Drift'
 
-  5.0,
+  9.0,
 
   // Variable: dampA
   //  Referenced by: '<S14>/Constant'
@@ -329,7 +331,7 @@ proc_control_nodeModelClass::P_proc_control_node_T proc_control_nodeModelClass::
   1.5707963267948966,
 
   // Variable: wn_l
-  //  Referenced by: '<S284>/Gain'
+  //  Referenced by: '<S292>/Gain'
 
   1.5557249463348581,
 
@@ -364,7 +366,7 @@ proc_control_nodeModelClass::P_proc_control_node_T proc_control_nodeModelClass::
   3.1415926535897931,
 
   // Variable: zeta_l
-  //  Referenced by: '<S284>/Gain'
+  //  Referenced by: '<S292>/Gain'
 
   0.99,
 
@@ -409,7 +411,7 @@ proc_control_nodeModelClass::P_proc_control_node_T proc_control_nodeModelClass::
   4.0E-10,
 
   // Mask Parameter: SecondOrderFilter_FilterType
-  //  Referenced by: '<S284>/Constant4'
+  //  Referenced by: '<S292>/Constant4'
 
   1.0,
 
@@ -417,6 +419,21 @@ proc_control_nodeModelClass::P_proc_control_node_T proc_control_nodeModelClass::
   //  Referenced by: '<S213>/UD'
 
   0.0,
+
+  // Mask Parameter: DiscreteDerivative_ICPrevScal_m
+  //  Referenced by: '<S244>/UD'
+
+  0.0,
+
+  // Mask Parameter: LowPassFilterDiscreteorContinuo
+  //  Referenced by: '<S245>/K'
+
+  1.0,
+
+  // Mask Parameter: LowPassFilterDiscreteorContin_b
+  //  Referenced by: '<S249>/Time constant'
+
+  0.1,
 
   // Mask Parameter: BandLimitedWhiteNoise_seed
   //  Referenced by: '<S25>/White Noise'
@@ -1511,7 +1528,7 @@ proc_control_nodeModelClass::P_proc_control_node_T proc_control_nodeModelClass::
   },
 
   // Computed Parameter: Out1_Y0_d
-  //  Referenced by: '<S297>/Out1'
+  //  Referenced by: '<S305>/Out1'
 
   {
     {
@@ -1532,7 +1549,7 @@ proc_control_nodeModelClass::P_proc_control_node_T proc_control_nodeModelClass::
   },
 
   // Computed Parameter: Constant_Value_lq
-  //  Referenced by: '<S294>/Constant'
+  //  Referenced by: '<S302>/Constant'
 
   {
     {
@@ -1571,7 +1588,7 @@ proc_control_nodeModelClass::P_proc_control_node_T proc_control_nodeModelClass::
   },
 
   // Computed Parameter: Out1_Y0_g
-  //  Referenced by: '<S305>/Out1'
+  //  Referenced by: '<S313>/Out1'
 
   {
     {
@@ -1589,7 +1606,7 @@ proc_control_nodeModelClass::P_proc_control_node_T proc_control_nodeModelClass::
   },
 
   // Computed Parameter: Constant_Value_b
-  //  Referenced by: '<S299>/Constant'
+  //  Referenced by: '<S307>/Constant'
 
   {
     {
@@ -1607,7 +1624,7 @@ proc_control_nodeModelClass::P_proc_control_node_T proc_control_nodeModelClass::
   },
 
   // Computed Parameter: Out1_Y0_pb
-  //  Referenced by: '<S290>/Out1'
+  //  Referenced by: '<S298>/Out1'
 
   {
     {
@@ -1624,7 +1641,7 @@ proc_control_nodeModelClass::P_proc_control_node_T proc_control_nodeModelClass::
   },
 
   // Computed Parameter: Constant_Value_hg
-  //  Referenced by: '<S285>/Constant'
+  //  Referenced by: '<S293>/Constant'
 
   {
     {
@@ -1641,14 +1658,14 @@ proc_control_nodeModelClass::P_proc_control_node_T proc_control_nodeModelClass::
   },
 
   // Computed Parameter: Out1_Y0_h
-  //  Referenced by: '<S306>/Out1'
+  //  Referenced by: '<S314>/Out1'
 
   {
     false                              // State
   },
 
   // Computed Parameter: Constant_Value_ok
-  //  Referenced by: '<S300>/Constant'
+  //  Referenced by: '<S308>/Constant'
 
   {
     false                              // State
@@ -1676,42 +1693,42 @@ proc_control_nodeModelClass::P_proc_control_node_T proc_control_nodeModelClass::
   },
 
   // Computed Parameter: Out1_Y0_e
-  //  Referenced by: '<S308>/Out1'
+  //  Referenced by: '<S316>/Out1'
 
   {
     false                              // Data
   },
 
   // Computed Parameter: Constant_Value_kd
-  //  Referenced by: '<S302>/Constant'
+  //  Referenced by: '<S310>/Constant'
 
   {
     false                              // Data
   },
 
   // Computed Parameter: Out1_Y0_o
-  //  Referenced by: '<S309>/Out1'
+  //  Referenced by: '<S317>/Out1'
 
   {
     false                              // Data
   },
 
   // Computed Parameter: Constant_Value_n
-  //  Referenced by: '<S303>/Constant'
+  //  Referenced by: '<S311>/Constant'
 
   {
     false                              // Data
   },
 
   // Computed Parameter: Out1_Y0_a
-  //  Referenced by: '<S310>/Out1'
+  //  Referenced by: '<S318>/Out1'
 
   {
     false                              // Data
   },
 
   // Computed Parameter: Constant_Value_p
-  //  Referenced by: '<S304>/Constant'
+  //  Referenced by: '<S312>/Constant'
 
   {
     false                              // Data
@@ -1760,14 +1777,14 @@ proc_control_nodeModelClass::P_proc_control_node_T proc_control_nodeModelClass::
   },
 
   // Computed Parameter: Out1_Y0_k
-  //  Referenced by: '<S307>/Out1'
+  //  Referenced by: '<S315>/Out1'
 
   {
     0U                                 // Data
   },
 
   // Computed Parameter: Constant_Value_a
-  //  Referenced by: '<S301>/Constant'
+  //  Referenced by: '<S309>/Constant'
 
   {
     0U                                 // Data
@@ -2261,140 +2278,33 @@ proc_control_nodeModelClass::P_proc_control_node_T proc_control_nodeModelClass::
   // Expression: lastPcov
   //  Referenced by: '<S141>/LastPcov'
 
-  { 0.0032588230377660677, -4.1275350839094379E-8, 1.1748281098086128E-6,
-    8.05127114568007E-9, 3.1513477136128155E-5, 2.3970686153696472E-5,
-    5.3096391594278218E-5, 2.1218123840040222E-10, 5.5430861389662169E-9,
-    6.4667763663882048E-9, -2.499168230190829E-5, 7.0245990604459193E-7,
-    -4.5138459352980595E-9, -4.6145023324909495E-5, -8.2540332953721349E-5,
-    -3.0635371107114478E-10, -3.7662987924193285E-8, -2.0296046332545188E-9,
-    1.3284048777445004E-5, -1.3359405614940576E-6, -4.1275350839094379E-8,
-    0.0024439090753805518, 2.0233296857857033E-6, -2.4075576721129816E-5,
-    -5.2145098119032704E-9, 9.4763268181772763E-6, -3.2294943632715166E-10,
-    2.9869671323421069E-5, 7.5096775232575847E-9, 1.5097622123689812E-5,
-    -9.4916538051833043E-9, 5.051330864531298E-7, 3.2340366000564354E-5,
-    2.887889905741404E-9, 2.66793864680632E-10, -4.65438512165173E-5,
-    -5.0803739335742766E-8, -7.32896156098396E-6, 1.0168499504145662E-9,
-    -5.0539005864200322E-7, 1.1748281098086128E-6, 2.0233296857857033E-6,
-    0.0028343357953646044, -9.210410013285046E-7, 4.5356989598119825E-7,
-    6.4201929708740307E-7, 6.60050098493026E-8, 9.880956446690247E-8,
-    4.0187442760804664E-5, 8.4532272843157308E-7, -4.6137467895422315E-7,
-    3.0884065457233419E-8, 1.2546193024564188E-6, -6.2083478141713568E-7,
-    -6.4374935578056042E-8, -9.7335260222213172E-8, -6.3975120616676637E-5,
-    -2.7682653562502535E-7, 1.4173044565180949E-7, -3.82047503495363E-8,
-    8.05127114568007E-9, -2.4075576721129816E-5, -9.210410013285046E-7,
-    7.3160598247651055E-5, 4.06778919248893E-9, -1.6878391332583937E-6,
-    -6.2491897471116345E-9, -1.572647297120449E-5, -9.3460879480792326E-7,
-    1.004214854805186E-5, -2.256536348817251E-7, -1.5590078348073008E-6,
-    -4.2269428028122194E-5, -3.5595713511963384E-8, -7.4612860421181723E-9,
-    9.8583802168260373E-6, 4.7510356093419974E-7, -3.0323549109795266E-5,
-    1.9273731964039936E-8, 7.5357746684509427E-7, 3.1513477136128155E-5,
-    -5.2145098119032704E-9, 4.5356989598119825E-7, 4.06778919248893E-9,
-    0.00013319209026218967, 2.5243896103558687E-6, 2.6043330500900276E-5,
-    9.2923500128958223E-9, 4.8355982849832609E-7, 8.8019276023569007E-8,
-    1.9245025866658719E-6, 2.6036233485542708E-6, 1.362544435407186E-9,
-    -6.9852456758457955E-5, -1.5986264122826982E-5, 4.6141360914994929E-9,
-    -2.9628688421728136E-7, 2.5736347934467865E-11, -6.3149021303908508E-5,
-    -1.3877402313499191E-6, 2.3970686153696472E-5, 9.4763268181772763E-6,
-    6.4201929708740307E-7, -1.6878391332583937E-6, 2.5243896103558687E-6,
-    0.0043831407339474764, 1.1528894945531415E-6, 1.2949717280341419E-7,
-    1.6011728867276135E-8, 1.3950584115578322E-6, -2.4834087569840064E-6,
-    0.00010060785861503634, 2.6074649052277969E-6, -3.9577737191634288E-6,
-    -1.5267233258995843E-6, -2.9275177086533917E-7, -3.1946253943990696E-8,
-    -8.2836344506234262E-7, 1.2984783102778275E-6, -0.00017752360967168907,
-    5.3096391594278218E-5, -3.2294943632715166E-10, 6.60050098493026E-8,
-    -6.2491897471116345E-9, 2.6043330500900276E-5, 1.1528894945531415E-6,
-    7.0665021612798128E-5, -1.9778543766783976E-11, 1.5280157333645638E-8,
-    5.2912823943955591E-8, 8.8821877202538454E-6, 2.6600996703820297E-6,
-    3.6100074760723384E-9, -1.4846142161802305E-5, -2.8646710544051622E-5,
-    -1.3206293982597156E-10, -3.3122357224753947E-8, 5.7211921875475937E-9,
-    -1.07214883882284E-5, -5.9641166585584885E-7, 2.1218123840040222E-10,
-    2.9869671323421069E-5, 9.880956446690247E-8, -1.572647297120449E-5,
-    9.2923500128958223E-9, 1.2949717280341419E-7, -1.9778543766783976E-11,
-    3.92191400078037E-5, 1.9855255457164368E-8, -5.0802274901665805E-6,
-    -3.4542796118284824E-8, -4.9238193888900984E-7, 8.2748186009213072E-6,
-    -2.0987118906698422E-9, -1.4425354277581371E-10, -1.5870463741894754E-5,
-    -4.4097278593489116E-8, 7.1666160154723245E-6, -8.92966967870368E-9,
-    -5.0034990845535904E-8, 5.5430861389662169E-9, 7.5096775232575847E-9,
-    4.0187442760804664E-5, -9.3460879480792326E-7, 4.8355982849832609E-7,
-    1.6011728867276135E-8, 1.5280157333645638E-8, 1.9855255457164368E-8,
-    6.097127100360642E-5, -2.2708000497114111E-6, 1.0827842729870661E-6,
-    2.6110616949967208E-8, 3.2552280483556785E-7, -1.6232016113581013E-7,
-    -6.17753528681213E-10, -1.6801490063368248E-9, -2.2593254201728344E-5,
-    4.5924110717588519E-7, -2.6180505377122057E-7, -8.405634835233919E-9,
-    6.4667763663882048E-9, 1.5097622123689812E-5, 8.4532272843157308E-7,
-    1.004214854805186E-5, 8.8019276023569007E-8, 1.3950584115578322E-6,
-    5.2912823943955591E-8, -5.0802274901665805E-6, -2.2708000497114111E-6,
-    0.00072789785459649082, -3.7715983737000138E-6, -1.0514275556494021E-6,
-    3.049251295159482E-5, -2.20209469259877E-8, -1.0282419396741547E-8,
-    -5.9188783910628315E-6, -5.24080702746357E-7, 6.2729256179697178E-6,
-    -3.1619707213811847E-7, -7.8888320608859312E-7, -2.499168230190829E-5,
-    -9.4916538051833043E-9, -4.6137467895422315E-7, -2.256536348817251E-7,
-    1.9245025866658719E-6, -2.4834087569840064E-6, 8.8821877202538454E-6,
-    -3.4542796118284824E-8, 1.0827842729870661E-6, -3.7715983737000138E-6,
-    0.00055567651659500284, 6.6288769737428645E-8, -1.0539291760023519E-9,
-    6.2875402508658128E-5, 1.0372601808721656E-5, 1.1332204032628047E-8,
-    2.3446275137750874E-7, -4.2372267141720649E-8, -3.4975933058341592E-5,
-    1.2041178436415494E-6, 7.0245990604459193E-7, 5.051330864531298E-7,
-    3.0884065457233419E-8, -1.5590078348073008E-6, 2.6036233485542708E-6,
-    0.00010060785861503634, 2.6600996703820297E-6, -4.9238193888900984E-7,
-    2.6110616949967208E-8, -1.0514275556494021E-6, 6.6288769737428645E-8,
-    0.00072635376621133071, 9.60925850007821E-7, -1.4878671326895195E-6,
-    -3.4434963611502695E-7, -1.9946140028939771E-7, -1.6514073550230774E-8,
-    4.9958601066032107E-7, -1.1114191672936E-6, -5.2751144415964461E-5,
-    -4.5138459352980595E-9, 3.2340366000564354E-5, 1.2546193024564188E-6,
-    -4.2269428028122194E-5, 1.362544435407186E-9, 2.6074649052277969E-6,
-    3.6100074760723384E-9, 8.2748186009213072E-6, 3.2552280483556785E-7,
-    3.049251295159482E-5, -1.0539291760023519E-9, 9.60925850007821E-7,
-    0.10516872403048545, 1.6522440675202535E-8, 1.5379483164354959E-9,
-    -9.3904135264394873E-6, -4.2651429438785473E-7, 4.2788265801401691E-7,
-    -1.9945866814822408E-8, -8.8974030895501136E-7, -4.6145023324909495E-5,
-    2.887889905741404E-9, -6.2083478141713568E-7, -3.5595713511963384E-8,
-    -6.9852456758457955E-5, -3.9577737191634288E-6, -1.4846142161802305E-5,
-    -2.0987118906698422E-9, -1.6232016113581013E-7, -2.20209469259877E-8,
-    6.2875402508658128E-5, -1.4878671326895195E-6, 1.6522440675202535E-8,
-    0.10519790654139506, 1.5924039102191678E-5, -7.4038611606026473E-10,
-    2.4172394425529524E-7, 1.4713832881609403E-8, 2.3682673327489408E-7,
-    1.4917534619206197E-6, -8.2540332953721349E-5, 2.66793864680632E-10,
-    -6.4374935578056042E-8, -7.4612860421181723E-9, -1.5986264122826982E-5,
-    -1.5267233258995843E-6, -2.8646710544051622E-5, -1.4425354277581371E-10,
-    -6.17753528681213E-10, -1.0282419396741547E-8, 1.0372601808721656E-5,
-    -3.4434963611502695E-7, 1.5379483164354959E-9, 1.5924039102191678E-5,
-    0.10515563144896527, 1.2702641528297081E-10, 1.6743031148886617E-8,
-    4.7810689410316842E-9, 6.1645803772644984E-7, 5.7771925652596189E-7,
-    -3.0635371107114478E-10, -4.65438512165173E-5, -9.7335260222213172E-8,
-    9.8583802168260373E-6, 4.6141360914994929E-9, -2.9275177086533917E-7,
-    -1.3206293982597156E-10, -1.5870463741894754E-5, -1.6801490063368248E-9,
-    -5.9188783910628315E-6, 1.1332204032628047E-8, -1.9946140028939771E-7,
-    -9.3904135264394873E-6, -7.4038611606026473E-10, 1.2702641528297081E-10,
-    0.10514194707295861, 2.2680162994038441E-8, -8.4934957562833858E-7,
-    -2.8596173023535986E-9, 9.3521206036334709E-8, -3.7662987924193285E-8,
-    -5.0803739335742766E-8, -6.3975120616676637E-5, 4.7510356093419974E-7,
-    -2.9628688421728136E-7, -3.1946253943990696E-8, -3.3122357224753947E-8,
-    -4.4097278593489116E-8, -2.2593254201728344E-5, -5.24080702746357E-7,
-    2.3446275137750874E-7, -1.6514073550230774E-8, -4.2651429438785473E-7,
-    2.4172394425529524E-7, 1.6743031148886617E-8, 2.2680162994038441E-8,
-    0.10514941075547606, -8.2759052213267726E-8, 6.7117929513348592E-8,
-    1.3097034858204439E-8, -2.0296046332545188E-9, -7.32896156098396E-6,
-    -2.7682653562502535E-7, -3.0323549109795266E-5, 2.5736347934467865E-11,
-    -8.2836344506234262E-7, 5.7211921875475937E-9, 7.1666160154723245E-6,
-    4.5924110717588519E-7, 6.2729256179697178E-6, -4.2372267141720649E-8,
-    4.9958601066032107E-7, 4.2788265801401691E-7, 1.4713832881609403E-8,
-    4.7810689410316842E-9, -8.4934957562833858E-7, -8.2759052213267726E-8,
-    0.10515529970775339, -1.794008883760317E-8, 8.4067636860351335E-8,
-    1.3284048777445004E-5, 1.0168499504145662E-9, 1.4173044565180949E-7,
-    1.9273731964039936E-8, -6.3149021303908508E-5, 1.2984783102778275E-6,
-    -1.07214883882284E-5, -8.92966967870368E-9, -2.6180505377122057E-7,
-    -3.1619707213811847E-7, -3.4975933058341592E-5, -1.1114191672936E-6,
-    -1.9945866814822408E-8, 2.3682673327489408E-7, 6.1645803772644984E-7,
-    -2.8596173023535986E-9, 6.7117929513348592E-8, -1.794008883760317E-8,
-    0.10518587543459129, -3.9366809669315237E-8, -1.3359405614940576E-6,
-    -5.0539005864200322E-7, -3.82047503495363E-8, 7.5357746684509427E-7,
-    -1.3877402313499191E-6, -0.00017752360967168907, -5.9641166585584885E-7,
-    -5.0034990845535904E-8, -8.405634835233919E-9, -7.8888320608859312E-7,
-    1.2041178436415494E-6, -5.2751144415964461E-5, -8.8974030895501136E-7,
-    1.4917534619206197E-6, 5.7771925652596189E-7, 9.3521206036334709E-8,
-    1.3097034858204439E-8, 8.4067636860351335E-8, -3.9366809669315237E-8,
-    0.10521114632382016 },
+  { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 },
 
   // Expression: zeros(12,1)
   //  Referenced by: '<S137>/y.wt_zero'
@@ -2426,11 +2336,15 @@ proc_control_nodeModelClass::P_proc_control_node_T proc_control_nodeModelClass::
 
   { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 },
 
-  // Expression: lastx+xoff
-  //  Referenced by: '<S141>/last_x'
+  // Expression: zeros(1,8)
+  //  Referenced by: '<S132>/Constant'
 
-  { 0.0, 0.0, 0.3, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-    0.0, 0.0, 0.0, 0.0, 0.0 },
+  { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 },
+
+  // Expression: zeros(nym,1)
+  //  Referenced by: '<S141>/ym_zero'
+
+  { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 },
 
   // Expression: zeros(1,1)
   //  Referenced by: '<S137>/md_zero'
@@ -2726,18 +2640,73 @@ proc_control_nodeModelClass::P_proc_control_node_T proc_control_nodeModelClass::
 
   0.0,
 
+  // Expression: 2
+  //  Referenced by: '<S260>/Gain'
+
+  2.0,
+
+  // Expression: 2
+  //  Referenced by: '<S260>/Gain1'
+
+  2.0,
+
+  // Expression: 0.5
+  //  Referenced by: '<S260>/Constant'
+
+  0.5,
+
+  // Expression: 2
+  //  Referenced by: '<S260>/Gain2'
+
+  2.0,
+
+  // Computed Parameter: TSamp_WtEt_d
+  //  Referenced by: '<S244>/TSamp'
+
+  20.0,
+
+  // Expression: 0
+  //  Referenced by: '<S252>/Constant'
+
+  0.0,
+
+  // Computed Parameter: Integrator_gainval
+  //  Referenced by: '<S254>/Integrator'
+
+  0.05,
+
+  // Expression: antiwindupUpperLimit
+  //  Referenced by: '<S254>/Integrator'
+
+  0.0,
+
+  // Expression: antiwindupLowerLimit
+  //  Referenced by: '<S254>/Integrator'
+
+  0.0,
+
+  // Expression: windupUpperLimit
+  //  Referenced by: '<S254>/Saturation'
+
+  0.0,
+
+  // Expression: windupLowerLimit
+  //  Referenced by: '<S254>/Saturation'
+
+  0.0,
+
   // Computed Parameter: Quat_Y0
-  //  Referenced by: '<S258>/Quat'
+  //  Referenced by: '<S266>/Quat'
 
   0.0,
 
   // Expression: [0,pi,pi/2]
-  //  Referenced by: '<S258>/si y devant'
+  //  Referenced by: '<S266>/si y devant'
 
   { 0.0, 3.1415926535897931, 1.5707963267948966 },
 
   // Expression: 0.5
-  //  Referenced by: '<S259>/1//2'
+  //  Referenced by: '<S267>/1//2'
 
   0.5,
 
@@ -2762,72 +2731,72 @@ proc_control_nodeModelClass::P_proc_control_node_T proc_control_nodeModelClass::
   10.0,
 
   // Expression: 0
-  //  Referenced by: '<S255>/Constant6'
+  //  Referenced by: '<S263>/Constant6'
 
   0.0,
 
   // Expression: 1
-  //  Referenced by: '<S255>/Delay'
+  //  Referenced by: '<S263>/Delay'
 
   1.0,
 
   // Expression: 0.5
-  //  Referenced by: '<S261>/Constant'
+  //  Referenced by: '<S269>/Constant'
 
   0.5,
 
   // Expression: 2
-  //  Referenced by: '<S261>/Gain'
+  //  Referenced by: '<S269>/Gain'
 
   2.0,
 
   // Expression: 2
-  //  Referenced by: '<S261>/Gain1'
+  //  Referenced by: '<S269>/Gain1'
 
   2.0,
 
   // Expression: 2
-  //  Referenced by: '<S261>/Gain2'
+  //  Referenced by: '<S269>/Gain2'
 
   2.0,
 
   // Expression: 0.5
-  //  Referenced by: '<S262>/Constant'
+  //  Referenced by: '<S270>/Constant'
 
   0.5,
 
   // Expression: 2
-  //  Referenced by: '<S262>/Gain'
+  //  Referenced by: '<S270>/Gain'
 
   2.0,
 
   // Expression: 2
-  //  Referenced by: '<S262>/Gain1'
+  //  Referenced by: '<S270>/Gain1'
 
   2.0,
 
   // Expression: 2
-  //  Referenced by: '<S262>/Gain2'
+  //  Referenced by: '<S270>/Gain2'
 
   2.0,
 
   // Expression: 0.5
-  //  Referenced by: '<S263>/Constant'
+  //  Referenced by: '<S271>/Constant'
 
   0.5,
 
   // Expression: 2
-  //  Referenced by: '<S263>/Gain'
+  //  Referenced by: '<S271>/Gain'
 
   2.0,
 
   // Expression: 2
-  //  Referenced by: '<S263>/Gain1'
+  //  Referenced by: '<S271>/Gain1'
 
   2.0,
 
   // Expression: 2
-  //  Referenced by: '<S263>/Gain2'
+  //  Referenced by: '<S271>/Gain2'
 
   2.0,
 
@@ -2836,8 +2805,13 @@ proc_control_nodeModelClass::P_proc_control_node_T proc_control_nodeModelClass::
 
   0.0,
 
+  // Expression: 1
+  //  Referenced by: '<S242>/Constant'
+
+  1.0,
+
   // Expression: p.Q
-  //  Referenced by: '<S269>/Q'
+  //  Referenced by: '<S277>/Q'
 
   { 10.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 10.0,
     0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 10.0, 0.0,
@@ -2853,35 +2827,36 @@ proc_control_nodeModelClass::P_proc_control_node_T proc_control_nodeModelClass::
     0.0, 0.0, 0.0, 10.0 },
 
   // Expression: p.R{2}
-  //  Referenced by: '<S269>/R2'
+  //  Referenced by: '<S277>/R2'
 
   { 0.31622776601683794, 0.0, 0.0, 0.0, 0.31622776601683794, 0.0, 0.0, 0.0,
     0.31622776601683794 },
 
   // Expression: 1
-  //  Referenced by: '<S269>/MeasurementFcn2Inputs'
+  //  Referenced by: '<S277>/MeasurementFcn2Inputs'
 
   1.0,
 
   // Expression: p.R{1}
-  //  Referenced by: '<S269>/R1'
+  //  Referenced by: '<S277>/R1'
 
-  { 0.31622776601683794, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-    0.31622776601683794, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-    0.31622776601683794, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-    0.31622776601683794, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-    0.31622776601683794, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-    0.31622776601683794, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-    0.31622776601683794, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+  { 0.31622776601683794, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+    0.31622776601683794, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+    0.31622776601683794, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+    0.31622776601683794, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+    0.31622776601683794, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+    0.31622776601683794, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+    0.31622776601683794, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+    0.31622776601683794, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
     0.31622776601683794 },
 
   // Expression: 0
-  //  Referenced by: '<S269>/MeasurementFcn1Inputs'
+  //  Referenced by: '<S277>/MeasurementFcn1Inputs'
 
   0.0,
 
   // Expression: p.InitialCovariance
-  //  Referenced by: '<S269>/DataStoreMemory - P'
+  //  Referenced by: '<S277>/DataStoreMemory - P'
 
   { 3.1622776601683795, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
     0.0, 0.0, 3.1622776601683795, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
@@ -2900,29 +2875,9 @@ proc_control_nodeModelClass::P_proc_control_node_T proc_control_nodeModelClass::
     3.1622776601683795 },
 
   // Expression: p.InitialState
-  //  Referenced by: '<S269>/DataStoreMemory - x'
+  //  Referenced by: '<S277>/DataStoreMemory - x'
 
   { 0.0, 0.0, 0.3, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 },
-
-  // Expression: 0.5
-  //  Referenced by: '<S252>/Constant'
-
-  0.5,
-
-  // Expression: 2
-  //  Referenced by: '<S252>/Gain'
-
-  2.0,
-
-  // Expression: 2
-  //  Referenced by: '<S252>/Gain1'
-
-  2.0,
-
-  // Expression: 2
-  //  Referenced by: '<S252>/Gain2'
-
-  2.0,
 
   // Expression: [0,0,0,0,0,0,0,0]
   //  Referenced by: '<S243>/ '
@@ -2930,92 +2885,92 @@ proc_control_nodeModelClass::P_proc_control_node_T proc_control_nodeModelClass::
   { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 },
 
   // Expression: [0 0 0 1 0 0 0]
-  //  Referenced by: '<S281>/Constant7'
+  //  Referenced by: '<S289>/Constant7'
 
   { 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0 },
 
   // Expression: [0,0,0,1,0,0,0,0,0,0,0,0,0]
-  //  Referenced by: '<S280>/Constant'
+  //  Referenced by: '<S288>/Constant'
 
   { 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 },
 
   // Expression: .2
-  //  Referenced by: '<S282>/MATLAB System'
+  //  Referenced by: '<S290>/MATLAB System'
 
   0.2,
 
-  // Expression: .1
-  //  Referenced by: '<S282>/MATLAB System'
+  // Expression: .20
+  //  Referenced by: '<S290>/MATLAB System'
 
-  0.1,
+  0.2,
 
-  // Expression: 3
-  //  Referenced by: '<S282>/MATLAB System'
+  // Expression: 2
+  //  Referenced by: '<S290>/MATLAB System'
 
-  3.0,
+  2.0,
 
   // Computed Parameter: linWpts_Y0
-  //  Referenced by: '<S293>/linWpts'
+  //  Referenced by: '<S301>/linWpts'
 
   0.0,
 
   // Computed Parameter: RotWpts_Y0
-  //  Referenced by: '<S293>/RotWpts'
+  //  Referenced by: '<S301>/RotWpts'
 
   0.0,
 
   // Computed Parameter: time_Y0
-  //  Referenced by: '<S293>/time'
+  //  Referenced by: '<S301>/time'
 
   0.0,
 
   // Computed Parameter: Input_Y0
-  //  Referenced by: '<S293>/Input'
+  //  Referenced by: '<S301>/Input'
 
   0.0,
 
   // Computed Parameter: target_Y0
-  //  Referenced by: '<S293>/target'
+  //  Referenced by: '<S301>/target'
 
   0.0,
 
   // Expression: 0
-  //  Referenced by: '<S293>/Constant1'
+  //  Referenced by: '<S301>/Constant1'
 
   0.0,
 
   // Computed Parameter: Out1_Y0_i
-  //  Referenced by: '<S295>/Out1'
+  //  Referenced by: '<S303>/Out1'
 
   0.0,
 
   // Expression: zeros( 3, 2 )
-  //  Referenced by: '<S298>/Polynomial Trajectory1'
+  //  Referenced by: '<S306>/Polynomial Trajectory1'
 
   { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 },
 
   // Expression: 1
-  //  Referenced by: '<S296>/Constant'
+  //  Referenced by: '<S304>/Constant'
 
   1.0,
 
   // Computed Parameter: DiscreteTimeIntegrator_gainval
-  //  Referenced by: '<S296>/Discrete-Time Integrator'
+  //  Referenced by: '<S304>/Discrete-Time Integrator'
 
   0.05,
 
   // Expression: 0
-  //  Referenced by: '<S296>/Discrete-Time Integrator'
+  //  Referenced by: '<S304>/Discrete-Time Integrator'
 
   0.0,
 
   // Expression: 0
-  //  Referenced by: '<S282>/Constant'
+  //  Referenced by: '<S290>/Constant'
 
   0.0,
 
   // Expression: [0,0,0,1,0,0,0,0,0,0,0,0,0]
-  //  Referenced by: '<S278>/Constant'
+  //  Referenced by: '<S286>/Constant'
 
   { 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 },
 
@@ -3030,82 +2985,82 @@ proc_control_nodeModelClass::P_proc_control_node_T proc_control_nodeModelClass::
   0.0,
 
   // Expression: 0
-  //  Referenced by: '<S284>/Constant'
+  //  Referenced by: '<S292>/Constant'
 
   0.0,
 
   // Expression: x0
-  //  Referenced by: '<S284>/Constant3'
+  //  Referenced by: '<S292>/Constant3'
 
   0.0,
 
-  // Computed Parameter: Integrator_gainval
-  //  Referenced by: '<S288>/Integrator'
+  // Computed Parameter: Integrator_gainval_o
+  //  Referenced by: '<S296>/Integrator'
 
   0.05,
 
   // Expression: antiwindupUpperLimit
-  //  Referenced by: '<S288>/Integrator'
+  //  Referenced by: '<S296>/Integrator'
 
   0.0,
 
   // Expression: antiwindupLowerLimit
-  //  Referenced by: '<S288>/Integrator'
+  //  Referenced by: '<S296>/Integrator'
 
   0.0,
 
   // Expression: windupUpperLimit
-  //  Referenced by: '<S288>/Saturation'
+  //  Referenced by: '<S296>/Saturation'
 
   0.0,
 
   // Expression: windupLowerLimit
-  //  Referenced by: '<S288>/Saturation'
+  //  Referenced by: '<S296>/Saturation'
 
   0.0,
 
   // Expression: (2*pi*fn).^2
-  //  Referenced by: '<S284>/Gain3'
+  //  Referenced by: '<S292>/Gain3'
 
   95.5488288487489,
 
   // Expression: -1
-  //  Referenced by: '<S279>/Gain'
+  //  Referenced by: '<S287>/Gain'
 
   -1.0,
 
   // Expression: 0
-  //  Referenced by: '<S284>/Constant1'
+  //  Referenced by: '<S292>/Constant1'
 
   0.0,
 
   // Expression: xdot0
-  //  Referenced by: '<S284>/Constant2'
+  //  Referenced by: '<S292>/Constant2'
 
   0.0,
 
   // Computed Parameter: Integrator_gainval_e
-  //  Referenced by: '<S289>/Integrator'
+  //  Referenced by: '<S297>/Integrator'
 
   0.05,
 
   // Expression: antiwindupUpperLimit
-  //  Referenced by: '<S289>/Integrator'
+  //  Referenced by: '<S297>/Integrator'
 
   0.0,
 
   // Expression: antiwindupLowerLimit
-  //  Referenced by: '<S289>/Integrator'
+  //  Referenced by: '<S297>/Integrator'
 
   0.0,
 
   // Expression: windupUpperLimit
-  //  Referenced by: '<S289>/Saturation'
+  //  Referenced by: '<S297>/Saturation'
 
   0.0,
 
   // Expression: windupLowerLimit
-  //  Referenced by: '<S289>/Saturation'
+  //  Referenced by: '<S297>/Saturation'
 
   0.0,
 
@@ -3139,41 +3094,37 @@ proc_control_nodeModelClass::P_proc_control_node_T proc_control_nodeModelClass::
 
   { false, false, false, false, false, false, false, false, false, false, false,
     false, false, false, false, false, false, false, false, false, false, false,
-    false, false, false, false, false, false, false, false, false, false, false,
-    false, false, false, false, false, false, false, false, false, false, false,
-    false, false, false, false },
+    false, false, false, false, false, false, false, false, false, false },
 
   // Expression: iA
   //  Referenced by: '<S183>/Memory'
 
   { false, false, false, false, false, false, false, false, false, false, false,
     false, false, false, false, false, false, false, false, false, false, false,
-    false, false, false, false, false, false, false, false, false, false, false,
-    false, false, false, false, false, false, false, false, false, false, false,
-    false, false, false, false },
+    false, false, false, false, false, false, false, false, false, false },
 
   // Computed Parameter: yBlockOrdering_Y0
-  //  Referenced by: '<S270>/yBlockOrdering'
+  //  Referenced by: '<S278>/yBlockOrdering'
 
   false,
 
   // Computed Parameter: yBlockOrdering_Y0_o
-  //  Referenced by: '<S271>/yBlockOrdering'
+  //  Referenced by: '<S279>/yBlockOrdering'
 
   false,
 
   // Expression: true()
-  //  Referenced by: '<S269>/BlockOrdering'
+  //  Referenced by: '<S277>/BlockOrdering'
 
   true,
 
   // Expression: true()
-  //  Referenced by: '<S269>/Enable1'
+  //  Referenced by: '<S277>/Enable1'
 
   true,
 
   // Computed Parameter: Delay1_InitialCondition_k
-  //  Referenced by: '<S282>/Delay1'
+  //  Referenced by: '<S290>/Delay1'
 
   false,
 

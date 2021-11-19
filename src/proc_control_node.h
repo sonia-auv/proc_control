@@ -7,9 +7,9 @@
 //
 // Code generated for Simulink model 'proc_control_node'.
 //
-// Model version                  : 1.170
+// Model version                  : 1.187
 // Simulink Coder version         : 9.5 (R2021a) 14-Nov-2020
-// C/C++ source code generated on : Mon Nov 15 17:56:57 2021
+// C/C++ source code generated on : Thu Nov 18 23:37:19 2021
 //
 // Target selection: ert.tlc
 // Embedded hardware selection: ARM Compatible->ARM 64-bit (LLP64)
@@ -166,7 +166,7 @@ struct ODE3_IntgData {
 class proc_control_nodeModelClass {
   // public data and function members
  public:
-  // Block signals for system '<S278>/MATLAB Function1'
+  // Block signals for system '<S280>/MATLAB Function1'
   struct B_MATLABFunction1_proc_contro_T {
     real_T matrix[13];
   };
@@ -216,6 +216,7 @@ class proc_control_nodeModelClass {
     real_T b_SuJm_m[2880];
     real_T b_Kr_n[2880];
     real_T b_Sx[2730];
+    real_T Cm[2640];
     real_T b_Sx_p[2400];
     s_syceGAKWionoNWyVws9jI_proc__T QPObjective;
     real_T b_Kut[1920];
@@ -248,7 +249,7 @@ class proc_control_nodeModelClass {
     real_T s[1200];
     real_T CovMat[1156];
     real_T b_Su1[1040];
-    real_T Sum_da[1040];
+    real_T Sum_d[1040];
     real_T CovMat_e[1024];
     real_T dv2[1008];
     real_T b_B[986];
@@ -261,7 +262,7 @@ class proc_control_nodeModelClass {
     int8_T a_jz[6400];
     int8_T a_o[6400];
     real_T f[630];
-    real_T r[625];
+    real_T q[625];
     real_T b_Linv[625];
     real_T c_Linv[625];
     real_T c_A[625];
@@ -282,269 +283,278 @@ class proc_control_nodeModelClass {
     real_T TL_m[625];
     real_T QQ_j[625];
     real_T RR_h[625];
-    real_T f_c[580];
+    real_T d[580];
     real_T b[576];
     real_T b_SuJm_c[576];
     real_T b_Jm[576];
-    real_T b_p[576];
+    real_T b_c[576];
     real_T b_SuJm_p[576];
-    real_T b_Jm_a[576];
+    real_T b_Jm_p[576];
     real_T dv4[528];
     real_T b_Kx[504];
-    real_T b_Kx_e[480];
+    real_T b_Kx_a[480];
     real_T b_A[441];
     real_T Qk[441];
-    real_T b_A_a[400];
+    real_T b_A_e[400];
     real_T Qk_a[400];
-    real_T q[384];
+    real_T L_tmp[400];
+    real_T L_tmp_a[400];
+    real_T L_tmp_i[400];
+    real_T q_l[384];
     real_T a__1[338];
-    real_T y_i[338];
-    real_T b_A_l[338];
+    real_T y_o[338];
+    real_T b_A_o[338];
     SL_Bus_proc_control_node_std_msgs_UInt16MultiArray msg;// '<S5>/MATLAB Function3' 
-    real_T B_data_o[320];
+    real_T B_data_i[320];
     real_T b_Bu[320];
     real_T b_C[273];
-    real_T d[273];
+    real_T d_f[273];
     real_T Nk[273];
     real_T CA[273];
-    real_T CA_o[273];
-    real_T a__1_i[273];
-    real_T y_f[273];
-    real_T b_A_i[273];
+    real_T CA_i[273];
+    real_T a__1_f[273];
+    real_T y_gx[273];
+    real_T b_A_c[273];
     real_T b_Kv[264];
-    real_T b_Kv_f[264];
+    real_T b_Kv_o[264];
     real_T varargout_1_data[260];
-    real_T varargout_1_data_g[260];
-    real_T c_data_c[260];
-    real_T b_c[260];
+    real_T varargout_1_data_l[260];
+    real_T c_data_m[260];
+    real_T b_c_m[260];
     real_T b_c_data[260];
     real_T Je_data[260];
-    real_T varargout_1_data_o[260];
-    real_T c_data_l[260];
-    real_T b_c_m[260];
-    real_T b_c_data_m[260];
+    real_T varargout_1_data_c[260];
+    real_T c_data_f[260];
+    real_T b_c_p[260];
+    real_T b_c_data_e[260];
     szeIbzRjxClbCFpzxneSihD_proc__T userdata;
-    real_T b_C_c[240];
-    real_T d_f[240];
-    real_T Nk_p[240];
-    real_T CA_e[240];
-    real_T CA_o4[240];
+    real_T L[240];
+    real_T b_C_o[240];
+    real_T Nk_h[240];
+    real_T L_tmp_l[240];
+    real_T dv5[240];
+    real_T CA_h[240];
+    real_T CA_m[240];
     real_T Bv[231];
-    real_T Bv_h[220];
-    real_T a__1_l[208];
-    real_T y_h[208];
-    real_T b_A_m[208];
+    real_T Bv_m[220];
+    real_T a__1_h[208];
+    real_T y_c[208];
+    real_T b_A_k[208];
     real_T b_Ku1[192];
-    real_T b_Ku1_m[192];
-    real_T b_Su1_h[192];
+    real_T b_Ku1_p[192];
+    real_T b_Su1_p[192];
     real_T b_I1[192];
-    real_T b_Su1_c[192];
-    real_T b_I1_k[192];
+    real_T b_Su1_p4[192];
+    real_T b_I1_a[192];
     real_T Ac[169];
     real_T Jacobian[169];
-    real_T Ac_p[169];
+    real_T Ac_j[169];
     real_T A[169];
-    real_T y_p[169];
+    real_T y_e[169];
     real_T F[169];
     real_T A2[169];
-    real_T U_p[169];
+    real_T U_o[169];
     real_T V[169];
     real_T A3[169];
     real_T A4[169];
-    real_T A4_a[169];
-    real_T b_A_j[169];
-    real_T y_e[169];
-    real_T A_o[169];
-    real_T y_b[169];
+    real_T A4_b[169];
+    real_T b_A_a[169];
+    real_T y_g2[169];
+    real_T A_e[169];
+    real_T y_f[169];
     real_T S[169];
     real_T Ak[169];
     real_T Ak1[169];
-    real_T a__1_a[168];
-    real_T y_g2[168];
-    real_T b_A_e[168];
+    real_T a__1_h2[168];
+    real_T y_ei[168];
+    real_T b_A_ch[168];
     real_T z0[155];
     real_T zLB[155];
     real_T zUB[155];
-    real_T TrialState_f[155];
+    real_T TrialState_a[155];
     real_T varargout_2[155];
-    real_T Ac_h[144];
-    real_T y_ei[144];
-    real_T C_j[144];                   // '<S130>/MATLAB Function2'
-    real_T A_l[144];                   // '<S130>/MATLAB Function2'
-    real_T y_c[144];
-    real_T A2_a[144];
-    real_T U_d[144];
-    real_T V_a[144];
-    real_T A3_p[144];
-    real_T A4_m[144];
-    real_T A4_o[144];
-    real_T b_A_n[144];
+    real_T y_d[144];
+    real_T Kinv[144];
+    real_T C_j[144];                   // '<S132>/MATLAB Function2'
+    real_T A_l[144];                   // '<S132>/MATLAB Function2'
+    real_T y_a[144];
+    real_T A2_p[144];
+    real_T U_m[144];
+    real_T V_o[144];
+    real_T A3_n[144];
+    real_T A4_l[144];
+    real_T A4_p[144];
+    real_T b_A_p[144];
+    real_T c_A_f[144];
     real_T Dv[143];
     real_T X[143];
-    real_T CA_l[143];
-    real_T X_p[143];
-    real_T X_pt[143];
+    real_T CA_ie[143];
+    real_T X_o[143];
+    real_T X_k[143];
     real_T b_X[143];
-    real_T X_f[143];
-    real_T b_X_i[143];
+    real_T X_i[143];
     real_T b_X_o[143];
-    real_T b_X_k[143];
-    real_T Dv_i[132];
-    real_T CA_oc[132];
+    real_T b_X_m[143];
+    real_T b_X_c[143];
+    real_T Dv_f[132];
+    real_T Dvm[132];
+    real_T CA_hc[132];
     real_T rseq[130];
-    real_T y_n[130];                   // '<S279>/MATLAB Function1'
+    real_T y_n[130];                   // '<S281>/MATLAB Function1'
     real_T varargout_2_m[130];
-    real_T varargout_2_c[130];
+    real_T varargout_2_a[130];
     real_T X0[130];
-    real_T dv5[130];
     real_T dv6[130];
     real_T dv7[130];
     real_T dv8[130];
-    real_T X_fb[130];
+    real_T dv9[130];
+    real_T X_kb[130];
     real_T gfX[130];
-    real_T b_h[130];
+    real_T b_p[130];
     real_T z[130];
-    real_T runtimedata_m[130];
-    SL_Bus_proc_control_node_nav_msgs_Odometry msg_f;// '<S112>/MATLAB Function1' 
-    real_T rseq_a[120];
-    real_T y_h_k[120];                 // '<S130>/MATLAB Function'
+    real_T runtimedata_b[130];
+    SL_Bus_proc_control_node_nav_msgs_Odometry msg_f;// '<S114>/MATLAB Function1' 
+    real_T rseq_c[120];
+    real_T y_h_n[120];                 // '<S132>/MATLAB Function'
     real_T Pxy[104];
     real_T dHdx[104];
-    real_T Sum_p[104];
+    real_T Sum_i[104];
     real_T K[104];
-    real_T b_C_b[104];
-    real_T y_ch[104];
-    real_T dv9[96];
-    real_T Sum_n[96];
-    real_T useq_f[88];                 // '<S167>/FixedHorizonOptimizer'
-    real_T U_i[88];
-    real_T U_m[88];
+    real_T b_C_m[104];
+    real_T y_j[104];
+    real_T dv10[96];
+    real_T Sum_e[96];
+    real_T useq_f[88];                 // '<S169>/FixedHorizonOptimizer'
+    real_T U_mv[88];
+    real_T U_m0[88];
     real_T U_j[88];
     real_T Umv[88];
     real_T b_U[88];
-    real_T U_e[88];
-    real_T b_U_m[88];
-    real_T b_U_m0[88];
-    real_T b_U_j[88];
+    real_T U_f[88];
+    real_T b_U_a[88];
+    real_T b_U_g[88];
+    real_T b_U_n[88];
     int16_T ii_data[320];
     real_T b_utarget[80];
     real_T MV0[80];
     real_T MVRateWeights0[80];
     real_T MVMin0[80];
     real_T MVMax0[80];
-    real_T dv10[80];
     real_T dv11[80];
     real_T dv12[80];
-    real_T Umv_f[80];
+    real_T dv13[80];
+    real_T Umv_d[80];
     real_T gfU[80];
     real_T c[80];
-    real_T a_a[80];
+    real_T a_n[80];
     int8_T c_I[625];
-    int8_T c_I_g[625];
-    int8_T b_n[625];
-    int8_T b_d[625];
-    int16_T b_data_n[260];
+    int8_T c_I_c[625];
+    int8_T b_f[625];
+    int8_T b_pm[625];
+    int16_T b_data_p[260];
     int16_T d_data[260];
-    int16_T b_data_cg[260];
+    int16_T b_data_n[260];
     real_T Sy[64];
-    real_T Sy_f[64];
+    real_T Sy_k[64];
     real_T R[64];
-    SL_Bus_proc_control_node_sensor_msgs_Imu In1;// '<S53>/In1'
-    SL_Bus_proc_control_node_sensor_msgs_Imu In1_p;// '<S59>/In1'
-    SL_Bus_proc_control_node_sensor_msgs_Imu msg_m;// '<S69>/MATLAB Function'
+    SL_Bus_proc_control_node_sensor_msgs_Imu In1;// '<S55>/In1'
+    SL_Bus_proc_control_node_sensor_msgs_Imu In1_p;// '<S61>/In1'
+    SL_Bus_proc_control_node_sensor_msgs_Imu msg_m;// '<S71>/MATLAB Function'
     real_T Opt[50];
     real_T Rhs[50];
-    real_T Opt_p[50];
-    real_T Rhs_p[50];
-    real_T a__1_n[48];
-    real_T y_k[48];
+    real_T Opt_n[50];
+    real_T Rhs_o[50];
+    real_T a__1_g[48];
+    real_T y_cq[48];
     real_T b_Mlim[48];
     real_T b_Mu1[48];
-    real_T b_Mlim_n[48];
-    real_T b_Mlim_o[48];
-    real_T b_Mu1_g[48];
     real_T b_Mlim_c[48];
-    real_T a__1_c[48];
+    real_T b_Mlim_m[48];
+    real_T b_Mu1_j[48];
+    real_T b_Mlim_k[48];
+    real_T a__1_m[48];
     real_T cTol[48];
-    real_T dv13[48];
-    real_T cTol_m[48];
     real_T dv14[48];
-    real_T a__1_j[48];
-    real_T b_A_k[48];
-    SL_Bus_proc_control_node_gazebo_msgs_ModelState msg_c;// '<S70>/MATLAB Function' 
+    real_T cTol_p[48];
+    real_T dv15[48];
+    real_T a__1_d[48];
+    real_T b_A_g[48];
+    SL_Bus_proc_control_node_gazebo_msgs_ModelState msg_c;// '<S72>/MATLAB Function' 
     real_T constValues[41];
     boolean_T icf[320];
-    real_T dHdx_m[39];
-    real_T y_pr[39];
-    real_T K_d[39];
-    real_T b_C_g[39];
+    real_T dHdx_c[39];
+    real_T y_cx[39];
+    real_T K_i[39];
+    real_T b_C_d[39];
     real_T pp_coefs[36];
     real_T dCoefs[36];
-    real_T constValues_c[36];
-    real_T dv15[36];
+    real_T constValues_g[36];
+    real_T dv16[36];
     real_T dCoeffs[36];
     real_T ddCoeffs[36];
-    real_T b_A_c[36];
-    real_T b_A_if[36];
+    real_T b_A_l[36];
+    real_T b_A_f[36];
     boolean_T icf_d[260];
     int8_T Je[260];
-    boolean_T icf_g[260];
-    SL_Bus_proc_control_node_sonia_common_BodyVelocityDVL In1_i;// '<S54>/In1'
-    SL_Bus_proc_control_node_sonia_common_BodyVelocityDVL In1_c;// '<S60>/In1'
-    SL_Bus_proc_control_node_sonia_common_BodyVelocityDVL msg_fi;// '<S67>/MATLAB Function' 
+    boolean_T icf_j[260];
+    SL_Bus_proc_control_node_sonia_common_BodyVelocityDVL In1_i;// '<S56>/In1'
+    SL_Bus_proc_control_node_sonia_common_BodyVelocityDVL In1_c;// '<S62>/In1'
+    SL_Bus_proc_control_node_sonia_common_BodyVelocityDVL msg_fi;// '<S69>/MATLAB Function' 
     real_T zopt[25];
-    real_T f_l[25];
-    real_T zopt_f[25];
-    real_T f_d[25];
-    real_T r_j[25];
-    real_T z_i[25];
+    real_T f_i[25];
+    real_T zopt_h[25];
+    real_T f_n[25];
+    real_T r[25];
+    real_T z_o[25];
     real_T b_Ac[25];
     real_T tau[25];
     real_T work[25];
-    real_T r_h[25];
-    real_T z_n[25];
-    real_T b_Ac_o[25];
-    real_T work_c[25];
+    real_T r_c[25];
+    real_T z_b[25];
+    real_T b_Ac_e[25];
+    real_T work_d[25];
     real_T varargin_1[25];
-    real_T varargin_1_b[25];
-    real_T work_e[25];
-    real_T tau_d[25];
-    real_T work_i[25];
-    real_T a_g[24];
-    real_T b_nn[24];
+    real_T varargin_1_i[25];
+    real_T work_g[25];
+    real_T tau_n[25];
+    real_T work_l[25];
+    real_T a_c[24];
+    real_T b_n[24];
     real_T coefsWithFlatStart[24];
     int8_T Ck[169];
     int8_T val[169];
-    real_T xk1[21];                    // '<S209>/FixedHorizonOptimizer'
-    real_T dv16[21];
-    real_T xk1_a[20];                  // '<S167>/FixedHorizonOptimizer'
-    real_T dv17[20];
-    real_T Transpose_i[18];            // '<S292>/Transpose'
+    real_T xk1[21];                    // '<S211>/FixedHorizonOptimizer'
+    real_T dv17[21];
+    real_T xk[20];
+    real_T b_xoff[20];
+    real_T xk_p[20];
+    real_T Bu_d[20];
+    real_T Transpose_i[18];            // '<S293>/Transpose'
     boolean_T bv[130];
     boolean_T bv1[130];
     sG8JZ69axY52WWR6RKyApQC_proc__T MeritFunction;
     int32_T ic[26];
-    int32_T ic_l[26];
+    int32_T ic_o[26];
     real_T imvec[13];
-    real_T z_c[13];
+    real_T z_j[13];
     real_T imz[13];
     real_T TmpSignalConversionAtTransp[13];
     real_T dv18[13];
     real_T dv19[13];
-    real_T imvec_n[13];
-    real_T ic_p[13];
+    real_T imvec_c[13];
+    real_T ic_h[13];
     real_T runtimedata_OutputMin[13];
-    real_T b_C_d[13];
-    real_T ic_o[13];
-    real_T runtimedata_OutputMin_j[13];
-    real_T tau_c[13];
-    real_T work_h[13];
-    real_T tau_da[13];
-    real_T work_c5[13];
+    real_T b_C_da[13];
+    real_T ic_c[13];
+    real_T runtimedata_OutputMin_p[13];
     real_T tau_p[13];
-    real_T work_p[13];
-    real_T imvec_a[13];
-    real_T ic_ow[13];
+    real_T work_a[13];
+    real_T tau_o[13];
+    real_T work_j[13];
+    real_T tau_pi[13];
+    real_T work_o[13];
+    real_T imvec_l[13];
+    real_T ic_k[13];
     real_T dv20[13];
     real_T dv21[13];
     real_T ix[13];
@@ -553,138 +563,138 @@ class proc_control_nodeModelClass {
     real_T ic_j[13];
     real_T dv22[13];
     real_T dv23[13];
-    real_T work_pi[13];
-    real_T work_o[13];
-    real_T work_l[13];
+    real_T work_f[13];
+    real_T work_c[13];
+    real_T work_fq[13];
     real_T currPose[13];
-    real_T b_myoff[12];
-    real_T TmpSignalConversionAtSFun_p[12];// '<S112>/MATLAB Function1'
-    real_T DX_l[12];                   // '<S130>/MATLAB Function2'
+    real_T TmpSignalConversionAtSFun_p[12];// '<S114>/MATLAB Function1'
+    real_T DX_l[12];                   // '<S132>/MATLAB Function2'
     real_T dv24[12];
     real_T dv25[12];
-    real_T rtb_C_j_f[12];
+    real_T rtb_C_j_l[12];
+    real_T rtb_C_j_i[12];
     real_T dv26[12];
-    real_T rtb_DX_l_c[12];
+    real_T rtb_DX_l_k[12];
     real_T b_C_f[12];
     real_T coefMat[12];
     real_T coeffMat[12];
     int16_T iAnew[48];
     int16_T iC[48];
-    int16_T iC_k[48];
-    int16_T iAnew_j[48];
+    int16_T iC_n[48];
+    int16_T iAnew_i[48];
     real_T vseq[11];
     real_T twpt[9];
-    real_T TmpSignalConversionAtMATL_a[9];// '<S280>/Subsystem1'
-    real_T Sy_n[9];
-    s1TgE9KstXgkd2qJxO1bF4F_proc__T expl_temp_i;
-    s1TgE9KstXgkd2qJxO1bF4F_proc__T expl_temp_l;
+    real_T TmpSignalConversionAtMATL_a[9];// '<S282>/Subsystem1'
+    real_T Sy_a[9];
+    s1TgE9KstXgkd2qJxO1bF4F_proc__T expl_temp_d;
+    s1TgE9KstXgkd2qJxO1bF4F_proc__T expl_temp_e;
     s1TgE9KstXgkd2qJxO1bF4F_proc__T qpoptions;
-    s1TgE9KstXgkd2qJxO1bF4F_proc__T qpoptions_i;
-    s1TgE9KstXgkd2qJxO1bF4F_proc__T qpoptions_k;
-    s1TgE9KstXgkd2qJxO1bF4F_proc__T qpoptions_f;
+    s1TgE9KstXgkd2qJxO1bF4F_proc__T qpoptions_e;
+    s1TgE9KstXgkd2qJxO1bF4F_proc__T qpoptions_b;
     s1TgE9KstXgkd2qJxO1bF4F_proc__T qpoptions_a;
-    s1TgE9KstXgkd2qJxO1bF4F_proc__T qpoptions_d;
+    s1TgE9KstXgkd2qJxO1bF4F_proc__T qpoptions_i;
+    s1TgE9KstXgkd2qJxO1bF4F_proc__T qpoptions_f;
     int8_T b_I[64];
-    int8_T b_I_e[64];
+    int8_T b_I_j[64];
     int8_T As[64];
     int8_T Au_tmp[64];
-    int8_T Au_tmp_e[64];
-    real_T u[8];                       // '<S241>/ '
-    real_T u_p[8];                     // '<S167>/FixedHorizonOptimizer'
-    real_T dv27[8];
-    real_T rtb_PressureDepth_Data[8];
-    real_T z_b[8];
-    real_T tau_a[8];
-    real_T work_il[8];
+    int8_T Au_tmp_o[64];
+    real_T Selector1[8];               // '<S293>/Selector1'
+    real_T u[8];                       // '<S243>/ '
+    real_T u_p[8];                     // '<S169>/FixedHorizonOptimizer'
+    real_T u_scale_e[8];               // '<S141>/u_scale'
+    real_T rtb_u_p_f[8];
+    real_T z_oy[8];
+    real_T tau_l[8];
+    real_T work_lu[8];
     real_T umvk[8];
     real_T duk[8];
-    real_T ic_f[8];
-    real_T runtimedata_j[8];
+    real_T ic_g[8];
+    real_T runtimedata_d[8];
     real_T iu[8];
-    real_T umvk_o[8];
-    real_T duk_f[8];
+    real_T umvk_d[8];
+    real_T duk_j[8];
     real_T gfu[8];
-    real_T work_oy[8];
-    real_T U_l[8];
-    real_T U_lu[8];
+    real_T work_f1[8];
+    real_T U_js[8];
+    real_T U_h[8];
     SL_Bus_proc_control_node_sonia_common_AddPose b_varargout_2;
-    SL_Bus_proc_control_node_geometry_msgs_Pose In1_n;// '<S303>/In1'
-    SL_Bus_proc_control_node_geometry_msgs_Pose b_varargout_2_g;
-    SL_Bus_proc_control_node_geometry_msgs_Pose msg_n;// '<S71>/MATLAB Function' 
+    SL_Bus_proc_control_node_geometry_msgs_Pose In1_n;// '<S305>/In1'
+    SL_Bus_proc_control_node_geometry_msgs_Pose b_varargout_2_c;
+    SL_Bus_proc_control_node_geometry_msgs_Pose msg_n;// '<S73>/MATLAB Function' 
+    real_T Selector4[7];               // '<S293>/Selector4'
+    real_T DataStoreRead[13];          // '<S272>/Data Store Read'
     real_T TmpSignalConversionAtMATLAB[7];
-    SL_Bus_proc_control_node_geometry_msgs_Twist In1_o;// '<S288>/In1'
-    SL_Bus_proc_control_node_geometry_msgs_Twist b_varargout_2_d;
-    real_T MultiportSwitch[6];         // '<S282>/Multiport Switch'
+    SL_Bus_proc_control_node_geometry_msgs_Twist In1_o;// '<S290>/In1'
+    SL_Bus_proc_control_node_geometry_msgs_Twist b_varargout_2_n;
+    real_T MultiportSwitch[6];         // '<S284>/Multiport Switch'
     real_T a__4[6];
-    real_T Gain3[6];                   // '<S282>/Gain3'
-    real_T Saturation_d[6];            // '<S287>/Saturation'
-    real_T Gain_jo[6];                 // '<S282>/Gain'
-    real_T Sum_f1[6];                  // '<S282>/Sum'
+    real_T Gain3[6];                   // '<S284>/Gain3'
+    real_T Saturation_k[6];            // '<S289>/Saturation'
+    real_T Sum_a[6];                   // '<S284>/Sum'
+    real_T Gain_fn[6];                 // '<S284>/Gain'
     real_T rtb_Gain3_j[6];
-    real_T constValues_h[6];
+    real_T constValues_k[6];
     boolean_T bv2[48];
+    int32_T ipiv[12];
     char_T b_zeroDelimTopic[39];
     int32_T gfu_tmp[8];
-    char_T b_zeroDelimTopic_c[32];
+    char_T b_zeroDelimTopic_b[32];
+    real_T MATLABSystem_o1[4];         // '<S10>/MATLAB System'
     real_T n[4];
     real_T rq[4];
     real_T qRel[4];
-    real_T TmpSignalConversionAtSFun_f[4];// '<S237>/MATLAB Function1'
+    real_T TmpSignalConversionAtSFun_f[4];// '<S239>/MATLAB Function1'
     real_T b_coeffVec[4];
-    char_T b_zeroDelimTopic_n[31];
-    char_T b_zeroDelimTopic_k[30];
+    char_T b_zeroDelimTopic_h[31];
+    char_T b_zeroDelimTopic_e[30];
     char_T b_zeroDelimTopic_tmp[30];
     int8_T UnknownIn[29];
-    char_T b_zeroDelimTopic_a[28];
-    int8_T UnknownIn_f[28];
+    char_T b_zeroDelimTopic_hn[28];
+    int8_T UnknownIn_k[28];
     char_T b_zeroDelimTopic_j[27];
-    char_T b_zeroDelimTopic_h[26];
-    char_T b_zeroDelimTopic_tmp_e[26];
-    boolean_T icf_k[26];
-    boolean_T icf_b[26];
-    char_T b_zeroDelimTopic_hn[24];
-    real_T VectorConcatenate_p[3];     // '<S122>/Vector Concatenate'
-    real_T u2[3];                      // '<S257>/1//2'
-    real_T dv28[3];
-    real_T work_k[3];
+    char_T b_zeroDelimTopic_hw[26];
+    char_T b_zeroDelimTopic_tmp_i[26];
+    boolean_T icf_o[26];
+    boolean_T icf_c[26];
+    char_T b_zeroDelimTopic_p[24];
+    real_T MATLABSystem_o2[3];         // '<S10>/MATLAB System'
+    real_T VectorConcatenate_p[3];     // '<S124>/Vector Concatenate'
+    real_T u2[3];                      // '<S259>/1//2'
+    real_T dv27[3];
+    real_T work_f0[3];
     int32_T x_tmp[6];
-    char_T b_zeroDelimTopic_jw[23];
-    char_T b_zeroDelimTopic_tmp_o[23];
-    char_T b_zeroDelimTopic_cs[22];
-    char_T b_zeroDelimTopic_hw[20];
-    char_T b_zeroDelimTopic_i[19];
-    char_T b_zeroDelimTopic_p[16];
+    char_T b_zeroDelimTopic_ew[23];
+    char_T b_zeroDelimTopic_tmp_n[23];
+    char_T b_zeroDelimTopic_ho[22];
+    char_T b_zeroDelimTopic_hp[20];
+    char_T b_zeroDelimTopic_f[19];
+    char_T b_zeroDelimTopic_i[16];
     uint16_T NtoPWM[8];                // '<S7>/N to PWM'
-    uint16_T y_f_f[8];                 // '<S1>/MATLAB Function'
     uint8_T rows[13];
-    int8_T ipiv[13];
+    int8_T ipiv_c[13];
     boolean_T x[13];
-    boolean_T x_e[13];
+    boolean_T x_f[13];
     boolean_T x_n[13];
     int8_T rows_h[12];
-    int8_T ipiv_h[12];
+    int8_T ipiv_k[12];
     int32_T Jx_size[3];
     s7RdrPWkr8UPAUyTdDJkLaG_proc__T Flags;
-    real_T ZeroOrderHold;              // '<S5>/Zero-Order Hold'
-    real_T MATLABSystem_o1[4];         // '<S10>/MATLAB System'
-    real_T MATLABSystem_o2[3];         // '<S10>/MATLAB System'
     real_T MATLABSystem_o3;            // '<S10>/MATLAB System'
     real_T MATLABSystem_o4;            // '<S10>/MATLAB System'
-    real_T DataTypeConversion[6];      // '<S294>/Data Type Conversion'
-    real_T DataTypeConversion1[2];     // '<S294>/Data Type Conversion1'
-    real_T DataTypeConversion2;        // '<S294>/Data Type Conversion2'
-    real_T MatrixConcatenate[2];       // '<S292>/Matrix Concatenate'
-    real_T Selector[6];                // '<S292>/Selector'
-    real_T Selector1[8];               // '<S292>/Selector1'
-    real_T Selector4[7];               // '<S292>/Selector4'
-    real_T DataStoreRead[13];          // '<S270>/Data Store Read'
-    real_T Sum;                        // '<S259>/Sum'
-    real_T Sum_o;                      // '<S260>/Sum'
-    real_T Sum_c;                      // '<S261>/Sum'
-    real_T q0;                         // '<S257>/q0'
-    real_T q1;                         // '<S257>/q1'
-    real_T q2;                         // '<S257>/q2'
-    real_T q3;                         // '<S257>/q3'
+    real_T DataTypeConversion[6];      // '<S295>/Data Type Conversion'
+    real_T DataTypeConversion1[2];     // '<S295>/Data Type Conversion1'
+    real_T DataTypeConversion2;        // '<S295>/Data Type Conversion2'
+    real_T MatrixConcatenate[2];       // '<S293>/Matrix Concatenate'
+    real_T Selector[6];                // '<S293>/Selector'
+    real_T Sum;                        // '<S261>/Sum'
+    real_T Sum_o;                      // '<S262>/Sum'
+    real_T Sum_c;                      // '<S263>/Sum'
+    real_T enable;                     // '<S239>/MATLAB Function1'
+    real_T q0;                         // '<S259>/q0'
+    real_T q1;                         // '<S259>/q1'
+    real_T q2;                         // '<S259>/q2'
+    real_T q3;                         // '<S259>/q3'
     real_T Merge[10];                  // '<S7>/Merge'
     real_T Saturation[8];              // '<S7>/Saturation'
     real_T WorldPosition[3];
@@ -694,20 +704,21 @@ class proc_control_nodeModelClass {
                          // '<S6>/BusConversion_InsertedFor_Output_at_inport_0'
     real_T AngularRate[3];
                          // '<S6>/BusConversion_InsertedFor_Output_at_inport_0'
-    real_T q2_l;                       // '<S86>/q2'
-    real_T q0_j;                       // '<S86>/q0'
-    real_T q1_g;                       // '<S86>/q1'
-    real_T q3_h;                       // '<S86>/q3'
-    real_T Gain2;                      // '<S94>/Gain2'
-    real_T Gain;                       // '<S94>/Gain'
-    real_T Gain1;                      // '<S94>/Gain1'
-    real_T Gain_j;                     // '<S95>/Gain'
-    real_T Gain2_d;                    // '<S95>/Gain2'
-    real_T Gain1_d;                    // '<S95>/Gain1'
-    real_T Gain_f;                     // '<S96>/Gain'
-    real_T Gain1_c;                    // '<S96>/Gain1'
-    real_T Gain2_k;                    // '<S96>/Gain2'
-    real_T y;                          // '<S49>/MATLAB Function'
+    real_T ZeroOrderHold;              // '<S5>/Zero-Order Hold'
+    real_T q2_l;                       // '<S88>/q2'
+    real_T q0_j;                       // '<S88>/q0'
+    real_T q1_g;                       // '<S88>/q1'
+    real_T q3_h;                       // '<S88>/q3'
+    real_T Gain2;                      // '<S96>/Gain2'
+    real_T Gain;                       // '<S96>/Gain'
+    real_T Gain1;                      // '<S96>/Gain1'
+    real_T Gain_j;                     // '<S97>/Gain'
+    real_T Gain2_d;                    // '<S97>/Gain2'
+    real_T Gain1_d;                    // '<S97>/Gain1'
+    real_T Gain_f;                     // '<S98>/Gain'
+    real_T Gain1_c;                    // '<S98>/Gain1'
+    real_T Gain2_k;                    // '<S98>/Gain2'
+    real_T y;                          // '<S51>/MATLAB Function'
     real_T XDrift;                     // '<S14>/X Drift'
     real_T YDrift;                     // '<S14>/Y Drift'
     real_T WorldPosition_d[3];         // '<S1>/Integrator'
@@ -716,27 +727,26 @@ class proc_control_nodeModelClass {
     real_T PWMtoN[8];                  // '<S13>/ PWM to N'
     real_T Output;                     // '<S25>/Output'
     real_T Output_i;                   // '<S26>/Output'
-    real_T Gain_c;                     // '<S41>/Gain'
-    real_T Gain1_cn;                   // '<S41>/Gain1'
-    real_T Gain2_k0;                   // '<S41>/Gain2'
-    real_T Sum_d;                      // '<S41>/Sum'
-    real_T Gain_cr;                    // '<S42>/Gain'
-    real_T Gain1_d2;                   // '<S42>/Gain1'
-    real_T Gain2_n;                    // '<S42>/Gain2'
-    real_T Sum_il;                     // '<S42>/Sum'
-    real_T Gain_l;                     // '<S43>/Gain'
-    real_T Gain1_o;                    // '<S43>/Gain1'
-    real_T Gain2_i;                    // '<S43>/Gain2'
-    real_T Sum_pr;                     // '<S43>/Sum'
+    real_T Output_l;                   // '<S27>/Output'
+    real_T Gain2_k0;                   // '<S43>/Gain2'
+    real_T Gain_c;                     // '<S43>/Gain'
+    real_T Gain1_cn;                   // '<S43>/Gain1'
+    real_T Gain_cr;                    // '<S44>/Gain'
+    real_T Gain2_n;                    // '<S44>/Gain2'
+    real_T Gain1_d2;                   // '<S44>/Gain1'
+    real_T Gain_l;                     // '<S45>/Gain'
+    real_T Gain1_o;                    // '<S45>/Gain1'
+    real_T Gain2_i;                    // '<S45>/Gain2'
     real_T PressureDepth;              // '<S16>/Sum'
     real_T Quaternion[4];              // '<S16>/Sum1'
     real_T AngularRate_d[3];           // '<S16>/Sum3'
+    real_T y_h[3];                     // '<S16>/MATLAB Function'
     real_T y_g[4];                     // '<S1>/Quaternion Normalise'
     real_T Position_dot[3];            // '<S1>/AUV State Equation'
     real_T Quaternion_dot[4];          // '<S1>/AUV State Equation'
     real_T BodyVelocity_dot[3];        // '<S1>/AUV State Equation'
     real_T AngularRates_dot[3];        // '<S1>/AUV State Equation'
-    real_T d_fn;
+    real_T d_h;
     real_T scale;
     real_T absxk;
     real_T t;
@@ -751,73 +761,70 @@ class proc_control_nodeModelClass {
     real_T t57;
     real_T t58;
     real_T t62;
-    real_T Divide_p;                   // '<S264>/Divide'
-    real_T Divide1_n;                  // '<S264>/Divide1'
-    real_T Divide2_h;                  // '<S264>/Divide2'
-    real_T WhiteNoise;                 // '<S26>/White Noise'
+    real_T Divide_p;                   // '<S266>/Divide'
+    real_T Divide1_n;                  // '<S266>/Divide1'
+    real_T Divide2_h;                  // '<S266>/Divide2'
+    real_T WhiteNoise;                 // '<S27>/White Noise'
     real_T MATLABSystem_o5;            // '<S10>/MATLAB System'
-    real_T Product1_j5;                // '<S123>/Product1'
-    real_T fcn1_k;                     // '<S119>/fcn1'
-    real_T fcn2;                       // '<S119>/fcn2'
-    real_T Product1_lr;                // '<S93>/Product1'
+    real_T Product1_j5;                // '<S125>/Product1'
+    real_T fcn1_k;                     // '<S121>/fcn1'
+    real_T fcn2;                       // '<S121>/fcn2'
+    real_T MATLABSystem_o7;            // '<S10>/MATLAB System'
     real_T MATLABSystem_o6;            // '<S10>/MATLAB System'
     real_T SensorOn;                   // '<S8>/SensorOn'
-    real_T Product8_a;                 // '<S260>/Product8'
-    real_T Divide3;                    // '<S243>/Divide3'
-    real_T Product1_j5_i;              // '<S123>/Product1'
-    real_T Product2_g;                 // '<S123>/Product2'
+    real_T Product8;                   // '<S262>/Product8'
+    real_T Divide3;                    // '<S245>/Divide3'
+    real_T Product1_j5_b;              // '<S125>/Product1'
+    real_T Product2_gc;                // '<S125>/Product2'
     real_T rtb_Gain_f_idx_1;
-    real_T rtb_sincos_o2_idx_2;
-    real_T rtb_sincos_o1_idx_1;
-    real_T rtb_sincos_o2_idx_0;
-    real_T d_f4;
+    real_T d_o;
     real_T q0_tmp;
     real_T d1;
     real_T d2;
     real_T t25_tmp;
-    real_T scale_c;
-    real_T absxk_n;
-    real_T t_h;
+    real_T scale_n;
+    real_T absxk_m;
+    real_T t_k;
     real_T lb;
     real_T optimRelativeFactor;
     real_T p;
     real_T e;
-    real_T ic_k;
+    real_T ic_jk;
     real_T BadH;
     real_T Sum_h;
-    real_T BadH_b;
-    real_T Sum_os;
+    real_T BadH_f;
+    real_T Sum_dy;
     real_T phi_alpha;
-    real_T e_n;
-    real_T ic_m;
-    real_T x_k;
+    real_T e_l;
+    real_T ic_kg;
+    real_T x_i;
     real_T d3;
-    real_T s_j;
+    real_T s_h;
     real_T b_atmp;
     real_T beta1;
     real_T temp;
     real_T normA;
     real_T b_s;
-    real_T d_h;
+    real_T d_m;
     real_T smax;
-    real_T y_f2;
-    real_T s_d;
-    real_T b_atmp_l;
-    real_T beta1_k;
-    real_T temp_i;
-    real_T e_h;
+    real_T y_gm;
+    real_T s_l;
+    real_T b_atmp_m;
+    real_T beta1_n;
+    real_T temp_g;
+    real_T e_d;
     real_T gfE;
     real_T s_m;
-    real_T b_atmp_g;
-    real_T beta1_l;
-    real_T temp_m;
-    real_T d_n;
-    real_T smax_g;
-    real_T y_d;
-    real_T epsilon_m;
     real_T b_atmp_f;
     real_T beta1_g;
     real_T temp_j;
+    real_T d_c;
+    real_T smax_e;
+    real_T y_m;
+    real_T epsilon_o;
+    real_T b_atmp_a;
+    real_T beta1_j;
+    real_T temp_ga;
     real_T t2;
     real_T t3;
     real_T t4;
@@ -827,14 +834,14 @@ class proc_control_nodeModelClass {
     real_T t8;
     real_T t9;
     real_T t10;
-    real_T t11_c;
+    real_T t11_j;
     real_T t12_e;
-    real_T t13_m;
-    real_T t17_o;
+    real_T t13_j;
+    real_T t17_j;
     real_T t18;
     real_T t19;
     real_T t20;
-    real_T t21_a;
+    real_T t21_g;
     real_T t22;
     real_T t23;
     real_T t24;
@@ -856,12 +863,12 @@ class proc_control_nodeModelClass {
     real_T t44;
     real_T t45;
     real_T t55;
-    real_T t56_j;
-    real_T t57_g;
-    real_T t58_j;
+    real_T t56_o;
+    real_T t57_h;
+    real_T t58_c;
     real_T t59;
     real_T t61;
-    real_T t62_e;
+    real_T t62_a;
     real_T t65;
     real_T t68;
     real_T t35;
@@ -871,62 +878,62 @@ class proc_control_nodeModelClass {
     real_T t31_tmp;
     real_T t24_tmp;
     real_T t32_tmp;
-    real_T t25_tmp_j;
+    real_T t25_tmp_l;
     real_T t29_tmp;
     real_T e_j;
     real_T fs;
     real_T wtYerr;
-    real_T wtYerr_g;
-    real_T umvk_om;
-    real_T duk_h;
-    real_T b_Kx_c;
-    real_T b_Kr_a;
-    real_T b_Ku1_l;
+    real_T wtYerr_i;
+    real_T umvk_m;
+    real_T duk_f;
+    real_T b_Kx_o;
+    real_T b_Kr_i;
+    real_T b_Ku1_e;
     real_T b_Kv_j;
-    real_T b_Kut_i;
+    real_T b_Kut_o;
     real_T rMin;
     real_T Xnorm0;
     real_T cMin;
     real_T cVal;
-    real_T t_m;
-    real_T b_Ac_f;
-    real_T b_Linv_o;
-    real_T b_atmp_i;
-    real_T beta1_e;
-    real_T temp_j0;
+    real_T t_f;
+    real_T b_Ac_m;
+    real_T b_Linv_a;
+    real_T b_atmp_h;
+    real_T beta1_o;
+    real_T temp_h;
     real_T b_Wy;
     real_T W;
-    real_T b_Wy_o;
-    real_T rMin_f;
-    real_T Xnorm0_m;
-    real_T cMin_a;
-    real_T cVal_h;
-    real_T t_o;
-    real_T b_Ac_h;
+    real_T b_Wy_j;
+    real_T rMin_g;
+    real_T Xnorm0_j;
+    real_T cMin_l;
+    real_T cVal_k;
+    real_T t_d;
+    real_T b_Ac_n;
     real_T c_j;
-    real_T wtYerr_g3;
-    real_T runtimedata_OutputWeights_j;
-    real_T t8_l;
-    real_T t9_k;
-    real_T t11_d;
-    real_T t12_n;
-    real_T t13_j;
-    real_T t14_a;
+    real_T wtYerr_a;
+    real_T runtimedata_OutputWeights_h;
+    real_T t8_i;
+    real_T t9_d;
+    real_T t11_b;
+    real_T t12_h;
+    real_T t13_p;
+    real_T t14_n;
     real_T t15;
     real_T t16;
-    real_T t25_h;
-    real_T t29_i;
-    real_T t31_d;
+    real_T t25_j;
+    real_T t29_o;
+    real_T t31_b;
     real_T t50;
     real_T t53;
     real_T t54;
-    real_T t17_b;
-    real_T t18_h;
-    real_T t19_p;
-    real_T t57_n;
+    real_T t17_jk;
+    real_T t18_e;
+    real_T t19_i;
+    real_T t59_n;
     real_T t64;
-    real_T t65_j;
-    real_T t68_o;
+    real_T t65_i;
+    real_T t68_p;
     real_T t69;
     real_T t70;
     real_T t12_tmp;
@@ -934,22 +941,25 @@ class proc_control_nodeModelClass {
     real_T t14_tmp;
     real_T t15_tmp;
     real_T out1_tmp;
-    real_T out1_tmp_b;
-    real_T out1_tmp_j;
+    real_T out1_tmp_o;
+    real_T out1_tmp_m;
+    real_T out1_tmp_ot;
+    real_T out1_tmp_g;
     real_T out1_tmp_e;
     real_T out1_tmp_i;
-    real_T out1_tmp_n;
-    real_T out1_tmp_ie;
-    real_T out1_tmp_p;
+    real_T out1_tmp_gb;
+    real_T b_temp;
+    real_T smax_g;
+    real_T y_gb;
     real_T finalTime;
     real_T wayPoints_idx_0;
     real_T wayPoints_idx_1;
     real_T coefMat_tmp;
     real_T xloc;
     real_T normH;
-    real_T s_o;
+    real_T s_g;
     real_T ssq;
-    real_T c_m;
+    real_T c_c;
     real_T nrmGradInf;
     real_T nrmDirInf;
     real_T u1;
@@ -957,139 +967,184 @@ class proc_control_nodeModelClass {
     real_T rho;
     real_T qpfvalLinearExcess;
     real_T qpfvalQuadExcess;
-    real_T y_o;
-    real_T b_g;
+    real_T y_k;
+    real_T b_d;
     real_T normDelta;
     real_T i;
-    real_T s_e;
-    real_T temp_iz;
+    real_T s_k;
+    real_T temp_p;
     real_T tempMaxConstr;
-    real_T b_gb;
+    real_T b_p5;
     real_T constrViolation_basicX;
-    real_T c_g;
-    real_T b_atmp_gb;
-    real_T xnorm;
-    real_T scale_g;
-    real_T absxk_c;
-    real_T t_k;
-    real_T b_Kx_d;
-    real_T b_Kr_k;
-    real_T b_Ku1_p;
-    real_T b_Kv_p;
-    real_T b_Kut_m;
+    real_T c_m;
     real_T b_atmp_k;
-    real_T beta1_a;
+    real_T xnorm;
+    real_T scale_a;
+    real_T absxk_f;
+    real_T t_c;
+    real_T b_Kx_j;
+    real_T b_Kr_k;
+    real_T b_Ku1_h;
+    real_T b_Kv_d;
+    real_T b_Kut_j;
+    real_T b_atmp_n;
+    real_T beta1_j0;
     real_T tau_idx_2;
     real_T tau_idx_1;
     real_T tau_idx_0;
-    real_T temp_f;
+    real_T temp_l;
     real_T oldDirIdx;
     real_T constrViolation;
     real_T tol;
     real_T qtb;
     real_T temp2;
-    real_T smax_c;
-    real_T temp_jk;
-    real_T t2_k;
-    real_T t3_h;
-    real_T t4_d;
-    real_T t5_j;
-    real_T t6_n;
-    real_T t7_j;
-    real_T t8_lc;
-    real_T t9_p;
-    real_T t10_p;
-    real_T t11_l;
-    real_T t12_l;
-    real_T t13_h;
-    real_T t17_c;
-    real_T t18_g;
-    real_T t19_e;
-    real_T t20_n;
-    real_T t21_f;
-    real_T t22_n;
-    real_T t23_e;
-    real_T t24_b;
-    real_T t25_a;
-    real_T t26_i;
-    real_T t27_n;
-    real_T t28_f;
-    real_T t29_i4;
-    real_T t30_k;
-    real_T t31_b;
+    real_T smax_p;
+    real_T temp_po;
+    real_T t2_l;
+    real_T t3_l;
+    real_T t4_h;
+    real_T t5_c;
+    real_T t6_g;
+    real_T t7_e;
+    real_T t8_n;
+    real_T t9_f;
+    real_T t10_n;
+    real_T t11_e;
+    real_T t12_b;
+    real_T t13_a;
+    real_T t17_i;
+    real_T t18_n;
+    real_T t19_f;
+    real_T t20_i;
+    real_T t21_k;
+    real_T t22_b;
+    real_T t23_d;
+    real_T t24_h;
+    real_T t25_n;
+    real_T t26_f;
+    real_T t27_a;
+    real_T t28_m;
+    real_T t29_g;
+    real_T t30_n;
+    real_T t31_c;
     real_T t32_d;
-    real_T t33_h;
-    real_T t34_n;
-    real_T t39_f;
-    real_T t40_a;
-    real_T t41_m;
-    real_T t42_g;
-    real_T t43_n;
-    real_T t44_c;
-    real_T t45_d;
-    real_T t55_k;
-    real_T t56_c;
-    real_T t57_j;
+    real_T t33_k;
+    real_T t34_c;
+    real_T t39_j;
+    real_T t40_m;
+    real_T t41_i;
+    real_T t42_b;
+    real_T t43_o;
+    real_T t44_g;
+    real_T t45_e;
+    real_T t55_i;
+    real_T t56_e;
+    real_T t57_i;
     real_T t58_m;
-    real_T t59_i;
-    real_T t61_b;
-    real_T t62_o;
-    real_T t65_g;
-    real_T t68_e;
-    real_T t35_i;
-    real_T t8_e;
-    real_T t9_i;
-    real_T t10_m;
-    real_T t11_dl;
-    real_T t12_j;
-    real_T t13_p;
+    real_T t59_d;
+    real_T t61_j;
+    real_T t62_p;
+    real_T t65_b;
+    real_T t68_pn;
+    real_T t35_n;
+    real_T t8_c;
+    real_T t9_n;
+    real_T t10_d;
+    real_T t11_i;
+    real_T t12_n;
+    real_T t13_b;
     real_T t15_b;
-    real_T t20_p;
+    real_T t20_j;
     real_T t33_n;
-    real_T t37_c;
-    real_T t39_n;
+    real_T t37_f;
+    real_T t39_e;
     real_T t63;
     real_T t67;
-    real_T t68_d;
-    real_T t16_i;
-    real_T t17_n;
-    real_T t18_b;
-    real_T t19_b;
+    real_T t68_i;
+    real_T t16_a;
+    real_T t17_f;
+    real_T t18_k;
+    real_T t19_c;
     real_T t21_j;
-    real_T t22_n0;
-    real_T t23_f;
-    real_T t71;
+    real_T t22_l;
+    real_T t23_a;
+    real_T t73;
     real_T t80;
     real_T t81;
     real_T t84;
-    real_T t45_e;
-    real_T t55_i;
-    real_T t65_a;
+    real_T t46;
+    real_T t56_i;
+    real_T t65_o;
     real_T t86;
     real_T t87;
-    real_T t56_f;
+    real_T t57_b;
     real_T t85;
-    real_T out1_tmp_k;
-    real_T out1_tmp_c;
-    real_T out1_tmp_j1;
-    real_T out1_tmp_l;
     real_T out1_tmp_a;
-    real_T out1_tmp_iy;
-    real_T out1_tmp_o;
-    real_T out1_tmp_b4;
-    real_T out1_tmp_an;
+    real_T out1_tmp_aq;
+    real_T out1_tmp_i0;
+    real_T out1_tmp_iz;
+    real_T out1_tmp_l;
+    real_T out1_tmp_o5;
+    real_T out1_tmp_p;
+    real_T out1_tmp_om;
+    real_T out1_tmp_c;
+    real_T out1_tmp_oc;
     real_T absx;
-    real_T z_a;
-    real_T s_i;
+    real_T z_ol;
+    real_T s_he;
     real_T R_i;
+    real_T t2_g;
+    real_T t3_c;
+    real_T t4_o;
+    real_T t5_g;
+    real_T t6_o;
+    real_T t7_g;
+    real_T t8_a;
+    real_T t9_g;
+    real_T t10_b;
+    real_T t11_k;
+    real_T t12_c;
+    real_T t13_ji;
+    real_T t14_a;
+    real_T t15_d;
+    real_T t16_c;
+    real_T t17_d;
+    real_T t18_a;
+    real_T t19_b;
+    real_T t46_g;
+    real_T t47;
+    real_T t48;
+    real_T t49;
+    real_T t50_f;
+    real_T t52;
+    real_T t53_c;
+    real_T t54_p;
+    real_T t55_a;
+    real_T t20_n;
+    real_T t21_h;
+    real_T t22_m;
+    real_T t23_f;
+    real_T t24_b;
+    real_T t25_e;
+    real_T t26_n;
+    real_T t27_p;
+    real_T t28_i;
+    real_T t31_j;
+    real_T t32_l;
+    real_T t35_c;
+    real_T t36_g;
+    real_T t37_c;
+    real_T t38;
+    real_T Ane_tmp;
+    real_T Ane_tmp_l;
     real_T penaltyParamTrial;
     real_T constrViolationEq;
     real_T constrViolationIneq;
-    real_T b_c_l;
+    real_T b_c_e;
     real_T u0;
-    real_T y_o5;
-    real_T smax_p;
-    real_T y_om;
+    real_T y_dt;
+    real_T smax_m;
+    real_T y_fi;
     real_T pn_a;
     real_T pn_b;
     real_T pn_c;
@@ -1102,7 +1157,7 @@ class proc_control_nodeModelClass {
     real_T pnCorrected_c;
     real_T pnCorrected_d;
     real_T linearScaling;
-    real_T n_c;
+    real_T n_n;
     real_T q2n_b;
     real_T q2n_c;
     real_T q2n_d;
@@ -1111,7 +1166,7 @@ class proc_control_nodeModelClass {
     real_T sinv_tmp;
     real_T n_tmp;
     real_T n_tmp_o;
-    real_T n_tmp_ol;
+    real_T n_tmp_e;
     real_T q1n_b_tmp;
     real_T q1n_c_tmp;
     real_T q1n_d_tmp;
@@ -1125,268 +1180,240 @@ class proc_control_nodeModelClass {
     real_T q1n_c;
     real_T q1n_d;
     real_T q2n_a;
-    real_T q2n_b_h;
-    real_T q2n_c_i;
+    real_T q2n_b_m;
+    real_T q2n_c_c;
     real_T dp_g;
-    real_T theta0_c;
-    real_T t8_o;
-    real_T t9_g;
-    real_T t10_o;
-    real_T t11_g;
-    real_T t12_a;
-    real_T t13_g;
-    real_T t15_bp;
-    real_T t20_k;
-    real_T t33_c;
-    real_T t37_j;
-    real_T t39_a;
-    real_T t63_d;
-    real_T t67_c;
-    real_T t68_d0;
-    real_T t16_a;
-    real_T t17_bo;
-    real_T t18_gu;
-    real_T t19_f;
-    real_T t21_c;
-    real_T t22_p;
-    real_T t23_a;
-    real_T t71_n;
-    real_T t80_h;
-    real_T t81_m;
-    real_T t84_f;
-    real_T t45_b;
-    real_T t55_e;
-    real_T t65_n;
-    real_T t86_p;
-    real_T t87_i;
-    real_T t56_js;
-    real_T t85_l;
-    real_T out1_tmp_ce;
-    real_T out1_tmp_g;
-    real_T out1_tmp_c5;
-    real_T out1_tmp_ly;
-    real_T t5_e;
-    real_T t6_d;
-    real_T t9_m;
+    real_T theta0_b;
+    real_T t8_p;
+    real_T t9_p;
+    real_T t10_a;
     real_T t11_f;
-    real_T t12_nl;
-    real_T t13_o;
-    real_T t20_e;
-    real_T t24_m;
-    real_T t26_c;
-    real_T t46;
-    real_T t49;
-    real_T t50_g;
-    real_T t14_b;
-    real_T t53_p;
-    real_T t62_p;
-    real_T t63_a;
-    real_T t66;
-    real_T t68_f;
-    real_T t69_g;
-    real_T out1_tmp_b0;
-    real_T out1_tmp_kw;
-    real_T out1_tmp_k1;
-    real_T out1_tmp_bw;
-    real_T out1_tmp_ix;
-    real_T out1_tmp_nj;
-    real_T out1_tmp_h;
-    real_T out1_tmp_ni;
-    real_T out1_tmp_m;
+    real_T t12_g;
+    real_T t13_b0;
+    real_T t15_k;
+    real_T t20_k;
+    real_T t33_b;
+    real_T t37_i;
+    real_T t39_n;
+    real_T t63_h;
+    real_T t67_n;
+    real_T t68_m;
+    real_T t16_g;
+    real_T t17_jb;
+    real_T t18_f;
+    real_T t19_n;
+    real_T t21_gt;
+    real_T t22_d;
+    real_T t23_c;
+    real_T t73_m;
+    real_T t80_d;
+    real_T t81_n;
+    real_T t84_b;
+    real_T t46_p;
+    real_T t56_k;
+    real_T t65_c;
+    real_T t86_n;
+    real_T t87_n;
+    real_T t57_c;
+    real_T t85_d;
+    real_T out1_tmp_n;
     real_T out1_tmp_gu;
-    real_T out1_tmp_jb;
-    real_T out1_tmp_f;
-    real_T out1_tmp_ng;
-    real_T t2_g;
-    real_T t3_d;
-    real_T t4_c;
-    real_T t5_m;
-    real_T t6_dk;
-    real_T t7_n;
-    real_T t8_b;
-    real_T t9_p2;
-    real_T t10_k;
-    real_T t11_cl;
-    real_T t12_n2;
-    real_T t13_n;
-    real_T t14_c;
-    real_T t15_d;
+    real_T out1_tmp_lx;
+    real_T out1_tmp_ge;
+    real_T out1_tmp_pv;
+    real_T t5_k;
+    real_T t6_l;
+    real_T t9_b;
+    real_T t11_c;
+    real_T t12_f;
+    real_T t13_o;
+    real_T t20_d;
+    real_T t24_l;
+    real_T t26_l;
+    real_T t45_d;
+    real_T t48_k;
+    real_T t49_f;
+    real_T t14_p;
+    real_T t54_k;
+    real_T t62_k;
+    real_T t63_i;
+    real_T t66;
+    real_T t67_e;
+    real_T t68_f;
+    real_T out1_tmp_k;
+    real_T out1_tmp_ne;
+    real_T out1_tmp_it;
+    real_T out1_tmp_im;
+    real_T out1_tmp_o2;
+    real_T out1_tmp_d;
+    real_T out1_tmp_iu;
+    real_T out1_tmp_gy;
+    real_T out1_tmp_cv;
+    real_T out1_tmp_ee;
+    real_T out1_tmp_a5;
+    real_T out1_tmp_h;
+    real_T out1_tmp_ef;
+    real_T t8_d;
+    real_T t9_g5;
+    real_T t11_ev;
+    real_T t12_eq;
+    real_T t13_g;
+    real_T t14_g;
+    real_T t15_dz;
     real_T t16_n;
-    real_T t17_g;
-    real_T t18_l;
-    real_T t19_g;
-    real_T t28_p;
-    real_T t29_k;
-    real_T t30_l;
-    real_T t31_bf;
-    real_T t32_c;
-    real_T t34_f;
-    real_T t35_o;
-    real_T t36_d;
-    real_T t37_l;
-    real_T t20_l;
-    real_T Ane_tmp;
-    real_T Ane_tmp_d;
-    real_T Ane_tmp_k;
-    real_T t8_f;
-    real_T t9_p3;
-    real_T t11_k;
-    real_T t12_k;
-    real_T t13_i;
-    real_T t14_e;
-    real_T t15_f;
-    real_T t16_k;
-    real_T t25_n;
-    real_T t29_it;
+    real_T t25_p;
+    real_T t29_b;
     real_T t31_i;
-    real_T t50_o;
-    real_T t53_d;
-    real_T t54_i;
-    real_T t17_gy;
-    real_T t18_c;
-    real_T t19_ee;
-    real_T t57_a;
-    real_T t64_h;
-    real_T t65_e;
-    real_T t68_dw;
-    real_T t69_g5;
+    real_T t50_b;
+    real_T t53_j;
+    real_T t54_g;
+    real_T t17_n;
+    real_T t18_p;
+    real_T t19_fb;
+    real_T t59_f;
+    real_T t64_a;
+    real_T t65_g;
+    real_T t68_ma;
+    real_T t69_d;
     real_T t70_e;
     real_T t12_tmp_e;
-    real_T t13_tmp_g;
-    real_T t14_tmp_g;
-    real_T t15_tmp_d;
-    real_T out1_tmp_n1;
+    real_T t13_tmp_d;
+    real_T t14_tmp_j;
+    real_T t15_tmp_n;
+    real_T out1_tmp_j;
     real_T b_atmp_p;
-    real_T optimRelativeFactor_b;
+    real_T optimRelativeFactor_a;
     real_T nlpComplErrorTmp;
     real_T nlpComplErrorLSQ;
-    real_T tol_i;
+    real_T tol_d;
     real_T d4;
-    real_T c_b;
-    real_T c_jv;
-    real_T c_gz;
-    real_T c_n;
     real_T c_p;
+    real_T c_d;
+    real_T c_pq;
+    real_T c_f;
+    real_T c_g;
     real_T denomTol;
     real_T phaseOneCorrectionP;
     real_T pk_corrected;
     real_T ratio;
-    real_T c_f;
-    real_T u0_f;
-    real_T c_a;
-    real_T e_g;
-    real_T c_c;
-    real_T b_s_m;
-    real_T b_temp;
+    real_T c_dp;
+    real_T u0_h;
+    real_T c_i;
+    real_T e_m;
+    real_T c_c_c;
+    real_T b_s_l;
+    real_T b_temp_p;
     real_T roe;
     real_T absa;
     real_T absb;
-    real_T scale_d;
+    real_T scale_i;
     real_T ads;
     real_T bds;
     real_T k;
-    real_T k_e;
-    real_T ssq_e;
-    real_T c_d;
-    real_T u1_j;
-    real_T c_nx;
-    real_T u1_ju;
-    real_T c_pm;
-    real_T u1_a;
-    real_T c_df;
+    real_T k_b;
+    real_T ssq_g;
+    real_T c_o;
+    real_T u1_b;
+    real_T c_e;
+    real_T u1_e;
+    real_T c_l;
+    real_T u1_c;
+    real_T c_e5;
     real_T neg_D;
-    real_T y_pz;
-    real_T temp_d;
-    real_T tol_p;
-    real_T temp_fp;
-    real_T tol_g;
-    real_T scale_dp;
-    real_T absxk_h;
-    real_T t_i;
+    real_T y_dw;
+    real_T temp_o;
+    real_T tol_l;
+    real_T temp_hg;
+    real_T tol_ln;
+    real_T scale_c;
+    real_T absxk_c;
+    real_T t_a;
     real_T dotSY;
     real_T curvatureS;
-    real_T temp_mz;
+    real_T temp_i;
     real_T vnorm;
     real_T qnorm;
     real_T vscale_data;
     real_T x_data;
-    real_T scale_cy;
-    real_T absxk_l;
-    real_T t_p;
-    real_T temp_i1;
-    real_T c_b3;
+    real_T scale_l;
+    real_T absxk_i;
+    real_T t_az;
+    real_T temp_ix;
+    real_T c_c3;
     real_T lbLambda;
     real_T ubLambda;
-    real_T u0_g;
-    real_T c_o;
-    real_T temp_b;
+    real_T u0_m;
+    real_T c_n;
+    real_T temp_c;
     real_T d5;
-    real_T c_e;
-    real_T c_e1;
+    real_T c_na;
+    real_T c_h;
     real_T d6;
     real_T d7;
-    real_T c_l;
-    real_T scale_cf;
-    real_T absxk_e;
+    real_T c_iu;
+    real_T scale_e;
+    real_T absxk_p;
     real_T b_Hinv;
-    real_T scale_dw;
+    real_T scale_k;
+    real_T absxk_i3;
+    real_T scale_nl;
     real_T absxk_o;
-    real_T scale_l;
-    real_T absxk_hg;
-    real_T c_ln;
-    real_T scale_c5;
-    real_T absxk_cx;
-    real_T scale_a;
-    real_T absxk_i;
-    real_T scale_lt;
-    real_T absxk_iy;
-    real_T temp_a;
-    real_T smax_i;
-    real_T out1_tmp_c3;
-    real_T a_m;
-    real_T u0_n;
-    real_T smax_ch;
+    real_T c_lc;
+    real_T scale_p;
+    real_T absxk_b;
+    real_T scale_f;
+    real_T absxk_is;
+    real_T scale_ci;
+    real_T absxk_g;
+    real_T temp_iu;
+    real_T smax_b;
+    real_T out1_tmp_na;
+    real_T a_p;
+    real_T u0_o;
+    real_T smax_by;
     real_T sr;
-    real_T scale_n;
-    real_T xloc_h;
+    real_T scale_o;
+    real_T xloc_c;
     real_T d8;
     real_T d9;
-    SL_Bus_proc_control_node_std_msgs_UInt8 In1_i2;// '<S305>/In1'
-    SL_Bus_proc_control_node_std_msgs_Float32 In1_e;// '<S55>/In1'
-    SL_Bus_proc_control_node_std_msgs_Float32 In1_om;// '<S61>/In1'
-    SL_Bus_proc_control_node_std_msgs_Bool ZeroOrderHold_h;// '<S111>/Zero-Order Hold' 
-    SL_Bus_proc_control_node_sonia_common_KillSwitchMsg In1_cx;// '<S304>/In1'
+    SL_Bus_proc_control_node_std_msgs_UInt8 In1_i2;// '<S307>/In1'
+    SL_Bus_proc_control_node_std_msgs_Float32 In1_e;// '<S57>/In1'
+    SL_Bus_proc_control_node_std_msgs_Float32 In1_om;// '<S63>/In1'
+    SL_Bus_proc_control_node_std_msgs_Bool In1_f;// '<S310>/In1'
+    SL_Bus_proc_control_node_std_msgs_Bool ZeroOrderHold_h;// '<S113>/Zero-Order Hold' 
+    SL_Bus_proc_control_node_sonia_common_KillSwitchMsg In1_cx;// '<S306>/In1'
+    uint16_T pwm[8];                   // '<S5>/pwm'
     int32_T A_size[2];
     int32_T varargout_3_size[2];
     int32_T varargout_1_size[2];
-    int32_T varargout_3_size_i[2];
+    int32_T varargout_3_size_j[2];
     int32_T varargout_1_size_e[2];
     int32_T c_size[2];
     int32_T Jc_size[2];
-    int32_T Jx_pc[2];
+    int32_T Jx_pw[2];
     int32_T tmp_size[2];
-    int32_T varargout_1_size_k[2];
-    int32_T c_size_i[2];
-    int32_T idx[2];
-    int32_T tmp_size_n[2];
+    int32_T varargout_1_size_n[2];
     int32_T c_size_o[2];
+    int32_T idx[2];
+    int32_T tmp_size_d[2];
+    int32_T c_size_g[2];
     int32_T b_size[2];
     int32_T b_rhs_size[2];
-    int32_T b_size_l[2];
+    int32_T b_size_i[2];
     int32_T e_size[2];
-    int32_T b_size_p[2];
-    int32_T b_size_b[2];
+    int32_T b_size_ih[2];
+    int32_T b_size_c[2];
     boolean_T bv3[8];
-    int8_T ipiv_f[6];
-    int16_T Jx_i[2];
-    real32_T rtb_PressureDepth_Data_c;
-    int32_T k_g;
+    int8_T ipiv_b[6];
+    int16_T Jx_g[2];
+    real32_T rtb_PressureDepth_Data;
+    int32_T k_d;
     int32_T ibmat;
-    int32_T e_i;
+    int32_T e_f;
     int32_T coffset;
     int32_T aoffset;
-    int32_T i_b;
-    int32_T i_n;
+    int32_T i_j;
+    int32_T i_e;
     int32_T i1;
     int32_T B_size;
     int32_T i2;
@@ -1397,23 +1424,23 @@ class proc_control_nodeModelClass {
     int32_T mNonlinIneq;
     int32_T k_p;
     int32_T c_idx;
-    int32_T ix_o;
+    int32_T ix_d;
     int32_T ia;
     int32_T loop_ub;
-    int32_T tmp_size_b;
-    int32_T tmp_size_o;
+    int32_T tmp_size_f;
+    int32_T tmp_size_n;
     int32_T b_y_size_idx_0;
     int32_T mFixed;
-    int32_T mIneq_c;
+    int32_T mIneq_o;
     int32_T mLB;
     int32_T mUB;
     int32_T qpoptions_MaxIterations;
     int32_T idxLambdaNonlinIneq;
     int32_T mLambda;
-    int32_T ix_j;
+    int32_T ix_du;
     int32_T iy;
-    int32_T ia_e;
-    int32_T b_c_p;
+    int32_T ia_l;
+    int32_T b_c_f;
     int32_T b_iy;
     int32_T b_ia;
     int32_T mConstr_tmp;
@@ -1426,71 +1453,71 @@ class proc_control_nodeModelClass {
     int32_T result_idx_0;
     int32_T c_k;
     int32_T d_k;
-    int32_T i_np;
+    int32_T i_jf;
     int32_T b_c_size;
     int32_T b_size_idx_0;
     int32_T i4;
     int32_T i5;
-    int32_T loop_ub_o;
+    int32_T loop_ub_g;
     int32_T empty_non_axis_sizes_idx_0;
     int32_T varargin_1_size_idx_1_tmp;
     int32_T m;
-    int32_T coffset_d;
+    int32_T coffset_l;
     int32_T boffset;
-    int32_T aoffset_g;
+    int32_T aoffset_k;
     int32_T kidx;
     int32_T b_j1;
-    int32_T i2_i;
-    int32_T i_i;
+    int32_T i2_p;
+    int32_T i_b;
     int32_T i6;
-    int32_T kidx_c;
-    int32_T i_bv;
+    int32_T kidx_i;
+    int32_T i_p;
     int32_T i7;
     int32_T i8;
-    int32_T kidx_g;
-    int32_T b_j1_d;
-    int32_T i2_f;
-    int32_T i_j;
+    int32_T kidx_l;
+    int32_T b_j1_e;
+    int32_T i2_e;
+    int32_T i_pn;
     int32_T i9;
-    int32_T kidx_e;
-    int32_T i_p;
+    int32_T kidx_j;
+    int32_T i_g;
     int32_T i10;
     int32_T i11;
     int32_T mLinIneq;
-    int32_T loop_ub_d;
+    int32_T loop_ub_l;
     int32_T y_size_idx_0;
     int32_T ineqEnd;
-    int32_T c_fm;
+    int32_T c_jo;
     int32_T unnamed_idx_1;
-    int32_T result_n;
-    int32_T result_idx_0_o;
+    int32_T result_p;
+    int32_T result_idx_0_d;
     int32_T b_i;
     int32_T j;
-    int32_T b_i_d;
-    int32_T j_l;
+    int32_T b_i_k;
+    int32_T j_m;
     int32_T coffset_f;
-    int32_T aoffset_j;
-    int32_T j_g;
-    int32_T i_l;
-    int32_T k_k;
-    int32_T j_p;
-    int32_T i_bu;
+    int32_T aoffset_m;
+    int32_T j_n;
+    int32_T i_m;
+    int32_T k_b0;
+    int32_T j_c;
+    int32_T i_gw;
     int32_T ii;
     int32_T mmip1;
     int32_T knt;
-    int32_T b_k_i;
-    int32_T i_pm;
+    int32_T b_k_c;
+    int32_T i_i;
     int32_T mmi_tmp;
     int32_T lastv;
     int32_T lastc;
     int32_T coltop;
-    int32_T ia_l;
+    int32_T ia_k;
     int32_T jA;
-    int32_T i_e;
+    int32_T i_go;
     int32_T i12;
     int32_T b_j;
-    int32_T b_i_e;
-    int32_T e_p;
+    int32_T b_i_p;
+    int32_T e_fd;
     int32_T i13;
     int32_T i14;
     int32_T i15;
@@ -1498,43 +1525,14 @@ class proc_control_nodeModelClass {
     int32_T e_k;
     int32_T i16;
     int32_T i17;
-    int32_T e_k_j;
+    int32_T e_k_m;
     int32_T A2_tmp;
     int32_T A_tmp;
-    int32_T b_j_g;
-    int32_T c_le;
-    int32_T ix_jo;
-    int32_T coffset_p;
-    int32_T aoffset_d;
-    int32_T j_k;
-    int32_T i_m;
-    int32_T k_f;
-    int32_T j_m;
-    int32_T i_nf;
-    int32_T ii_m;
-    int32_T mmip1_b;
-    int32_T knt_c;
-    int32_T b_k_g;
-    int32_T i_c;
-    int32_T mmi_tmp_i;
-    int32_T lastv_k;
-    int32_T lastc_g;
-    int32_T coltop_p;
-    int32_T ia_f;
-    int32_T jA_m;
-    int32_T i18;
-    int32_T i19;
-    int32_T i20;
-    int32_T i21;
-    int32_T i_my;
-    int32_T j_lb;
-    int32_T i22;
-    int32_T j_j;
-    int32_T i23;
-    int32_T i24;
-    int32_T K_tmp;
+    int32_T b_j_m;
+    int32_T c_lb;
+    int32_T ix_j;
     int32_T coffset_m;
-    int32_T aoffset_j4;
+    int32_T aoffset_j;
     int32_T j_i;
     int32_T i_a;
     int32_T k_h;
@@ -1544,525 +1542,570 @@ class proc_control_nodeModelClass {
     int32_T mmip1_d;
     int32_T knt_l;
     int32_T b_k_f;
-    int32_T i_lt;
+    int32_T i_l;
     int32_T mmi_tmp_l;
     int32_T lastv_f;
-    int32_T lastc_gy;
+    int32_T lastc_g;
     int32_T coltop_g;
     int32_T ia_a;
     int32_T jA_d;
-    int32_T e_k_b;
+    int32_T i18;
+    int32_T i19;
+    int32_T i20;
+    int32_T i21;
+    int32_T i_bc;
+    int32_T j_dg;
+    int32_T i22;
+    int32_T j_f;
+    int32_T i23;
+    int32_T i24;
+    int32_T K_tmp;
+    int32_T coffset_a;
+    int32_T aoffset_mq;
+    int32_T j_ie;
+    int32_T i_ir;
+    int32_T k_k;
+    int32_T j_a;
+    int32_T i_m2;
+    int32_T ii_c;
+    int32_T mmip1_b;
+    int32_T knt_k;
+    int32_T b_k_l;
+    int32_T i_n;
+    int32_T mmi_tmp_p;
+    int32_T lastv_f0;
+    int32_T lastc_k;
+    int32_T coltop_e;
+    int32_T ia_n;
+    int32_T jA_o;
+    int32_T e_k_a;
     int32_T i25;
     int32_T i26;
-    int32_T e_k_d;
-    int32_T A2_tmp_f;
-    int32_T A_tmp_a;
-    int32_T b_j_m;
-    int32_T c_i;
-    int32_T ix_i;
-    int32_T j_kq;
-    int32_T coffset_a;
-    int32_T aoffset_m;
-    int32_T i_ce;
+    int32_T e_k_b;
+    int32_T A2_tmp_b;
+    int32_T A_tmp_m;
+    int32_T b_j_mc;
+    int32_T c_kw;
+    int32_T ix_m;
+    int32_T j_h;
+    int32_T coffset_i;
+    int32_T aoffset_c;
+    int32_T i_ni;
     int32_T i27;
     int32_T i28;
     int32_T i29;
     int32_T S_tmp;
     int32_T Pxy_tmp;
-    int32_T j_b;
-    int32_T i_k;
-    int32_T ii_l;
-    int32_T mmip1_n;
-    int32_T knt_p;
-    int32_T b_k_f0;
-    int32_T i_ko;
-    int32_T mmi_tmp_e;
-    int32_T lastv_n;
-    int32_T lastc_o;
-    int32_T coltop_a;
-    int32_T ia_b;
-    int32_T jA_b;
-    int32_T i_mg;
-    int32_T i_mc;
+    int32_T j_il;
+    int32_T i_o;
+    int32_T ii_hy;
+    int32_T mmip1_p;
+    int32_T knt_g;
+    int32_T b_k_cy;
+    int32_T i_gn;
+    int32_T mmi_tmp_b;
+    int32_T lastv_j;
+    int32_T lastc_h;
+    int32_T coltop_d;
+    int32_T ia_o;
+    int32_T jA_k;
+    int32_T i_jw;
+    int32_T i_d;
     int32_T wtYerr_tmp;
-    int32_T k_kw;
-    int32_T b_i_m;
-    int32_T i_h;
-    int32_T idx_i;
-    int32_T i_ct;
+    int32_T k_f;
+    int32_T b_i_a;
+    int32_T i_eg;
+    int32_T idx_n;
+    int32_T i_ob;
     int32_T i30;
-    int32_T i_ni;
+    int32_T i_dk;
     int32_T i31;
     int32_T U_tmp;
-    int32_T U_tmp_i;
+    int32_T U_tmp_c;
     int32_T lambda_tmp_tmp;
-    int32_T i_o;
-    int32_T f_i;
-    int32_T iC_h;
+    int32_T i_mw;
+    int32_T f_i_o;
+    int32_T iC_b;
     int32_T RLinv_tmp_tmp;
     int32_T RLinv_tmp;
-    int32_T j_pj;
-    int32_T i_g;
-    int32_T ii_c;
+    int32_T j_ml;
+    int32_T i_ii;
+    int32_T ii_i;
     int32_T mmip1_g;
-    int32_T knt_b;
-    int32_T b_k_j;
-    int32_T i_ha;
-    int32_T mmi_tmp_d;
-    int32_T lastv_o;
-    int32_T lastc_k;
-    int32_T coltop_j;
-    int32_T ia_d;
-    int32_T jA_f;
+    int32_T knt_m;
+    int32_T b_k_n;
+    int32_T i_c;
+    int32_T mmi_tmp_j;
+    int32_T lastv_e;
+    int32_T lastc_e;
+    int32_T coltop_k;
+    int32_T ia_k4;
+    int32_T jA_i;
     int32_T jy;
-    int32_T ix_a;
-    int32_T j_e;
-    int32_T b_ns;
+    int32_T ix_e;
+    int32_T j_l;
+    int32_T b_l;
     int32_T ijA;
-    int32_T i_ob;
+    int32_T i_lc;
     int32_T i32;
     int32_T b_Kr_tmp;
-    int32_T i_d;
+    int32_T i_obs;
     int32_T i33;
-    int32_T b_Kr_tmp_c;
-    int32_T i_mw;
+    int32_T b_Kr_tmp_i;
+    int32_T i_e2;
     int32_T i34;
-    int32_T U_tmp_o;
-    int32_T U_tmp_b;
-    int32_T lambda_tmp_tmp_m;
+    int32_T U_tmp_l;
+    int32_T U_tmp_n;
+    int32_T lambda_tmp_tmp_e;
     int32_T itau;
-    int32_T idx_ii;
+    int32_T info;
+    int32_T jBcol;
+    int32_T jAcol;
+    int32_T kBcol;
+    int32_T k_c;
+    int32_T b_i_ap;
+    int32_T Y_tmp;
+    int32_T j_ms;
+    int32_T c_ck;
+    int32_T ix_f;
+    int32_T idx_m;
     int32_T c_j1;
     int32_T i35;
-    int32_T idx_ih;
+    int32_T idx_k;
     int32_T dCoeffs_tmp;
     int32_T ii_data_idx_0;
     int32_T tGreaterThanTfIdx_data_idx_0;
     int32_T iv0;
     int32_T Tries;
-    int32_T j_g5;
-    int32_T Tries_m;
+    int32_T j_b;
+    int32_T Tries_h;
     int32_T idxAjj;
-    int32_T j_n;
-    int32_T iy_c;
+    int32_T j_hc;
+    int32_T iy_h;
     int32_T nVar;
-    int32_T b_k_jv;
+    int32_T b_k_b;
     int32_T iH0;
-    int32_T y_size_idx_0_e;
+    int32_T y_size_idx_0_b;
     int32_T nVarOrig;
     int32_T nVarMax;
-    int32_T mIneq_e;
-    int32_T temp_k;
+    int32_T mIneq_d;
+    int32_T temp_jd;
     int32_T b_mIneq;
     int32_T mLBOrig;
     int32_T idx_positive;
     int32_T idx_negative;
-    int32_T nVar_k;
+    int32_T nVar_d;
     int32_T b_idx;
-    int32_T y_size_idx_0_i;
+    int32_T y_size_idx_0_l;
     int32_T PROBTYPE_ORIG;
     int32_T mConstr;
     int32_T mEqFixed;
     int32_T nVar_tmp;
     int32_T activeSetChangeID;
-    int32_T nVar_e;
+    int32_T nVar_j;
     int32_T globalActiveConstrIdx;
     int32_T workingIdx;
     int32_T TYPE;
     int32_T iQR0;
-    int32_T iy_l;
+    int32_T iy_b;
     int32_T iyend;
     int32_T b_ix;
-    int32_T j_ld;
-    int32_T ia_lc;
-    int32_T memspace_o;
-    int32_T loop_ub_i;
-    int32_T y_size_idx_0_e2;
-    int32_T nVar_tmp_tmp_l;
-    int32_T nVar_n;
+    int32_T j_f2;
+    int32_T ia_p;
+    int32_T memspace_l;
+    int32_T loop_ub_l1;
+    int32_T y_size_idx_0_i;
+    int32_T nVar_tmp_tmp_o;
+    int32_T nVar_b;
     int32_T ldq;
-    int32_T ix_e;
-    int32_T iy_cu;
-    int32_T jBcol;
+    int32_T ix_i;
+    int32_T iy_g;
+    int32_T jBcol_p;
     int32_T iAcol;
     int32_T ib;
-    int32_T f_a;
+    int32_T f_h;
     int32_T b_ic;
     int32_T b_br;
     int32_T b_ar;
     int32_T mWConstr_tmp_tmp;
     int32_T iA0;
-    int32_T iQR0_m;
-    int32_T b_idx_c;
+    int32_T iQR0_d;
+    int32_T b_idx_f;
     int32_T obj;
     int32_T minmana;
     int32_T minmn;
     int32_T lda;
     int32_T ii_f;
     int32_T mmi;
-    int32_T i_mj;
-    int32_T knt_k;
-    int32_T b_k_b;
-    int32_T i_hc;
+    int32_T i_c1;
+    int32_T knt_d;
+    int32_T b_k_ca;
+    int32_T i_bci;
     int32_T i36;
     int32_T iaii;
-    int32_T b_hc;
+    int32_T b_pw;
     int32_T b_k_h;
-    int32_T i_bp;
-    int32_T ix_b;
-    int32_T b_iy_d;
-    int32_T b_jd;
+    int32_T i_ei;
+    int32_T ix_l;
+    int32_T b_iy_h;
+    int32_T b_nt;
     int32_T iac;
-    int32_T d_d;
-    int32_T ia_lo;
-    int32_T knt_j;
+    int32_T d_kr;
+    int32_T ia_b;
+    int32_T knt_o;
     int32_T c_lastc;
-    int32_T coltop_b;
+    int32_T coltop_n;
     int32_T b_coltop;
-    int32_T jA_f2;
+    int32_T jA_f;
     int32_T nWIneq_old;
     int32_T nWLower_old;
     int32_T nWUpper_old;
-    int32_T nVar_p;
-    int32_T mConstrMax_l;
+    int32_T nVar_g;
+    int32_T mConstrMax_d;
     int32_T idx_Aineq;
     int32_T idx_upper;
     int32_T idx_Partition;
-    int32_T iy_l1;
-    int32_T iac_i;
-    int32_T b_ia_o;
+    int32_T iy_d;
+    int32_T iac_e;
+    int32_T b_ia_c;
     int32_T idx_Aineq_tmp;
-    int32_T b_b;
+    int32_T b_a;
     int32_T i37;
-    int32_T nVar_i;
+    int32_T nVar_h;
     int32_T mTotalWorkingEq;
     int32_T totalRank;
-    int32_T ix_g;
-    int32_T iy_p;
-    int32_T b_k_h5;
-    int32_T loop_ub_dd;
+    int32_T ix_er;
+    int32_T iy_n;
+    int32_T b_k_hg;
+    int32_T loop_ub_o;
     int32_T ma;
     int32_T minmana_f;
-    int32_T minmn_f;
-    int32_T c_j_c;
-    int32_T ma_d;
-    int32_T minmn_c;
-    int32_T ii_b;
+    int32_T minmn_k;
+    int32_T c_j_e;
+    int32_T ma_i;
+    int32_T minmn_o;
+    int32_T ii_j;
     int32_T nmi;
-    int32_T mmi_p;
+    int32_T mmi_k;
     int32_T pvt;
-    int32_T j_h;
-    int32_T ix_ei;
-    int32_T k_l;
-    int32_T lastv_h;
-    int32_T lastc_n;
-    int32_T coltop_k;
-    int32_T ia_bt;
-    int32_T jA_o;
-    int32_T jy_n;
-    int32_T k_fi;
+    int32_T j_j;
+    int32_T ix_d0;
+    int32_T k_g;
+    int32_T lastv_c;
+    int32_T lastc_kh;
+    int32_T coltop_j;
+    int32_T ia_h;
+    int32_T jA_c;
+    int32_T jy_d;
+    int32_T k_a;
     int32_T i38;
-    int32_T nVar_g;
+    int32_T nVar_p;
     int32_T mNull;
     int32_T nullStartIdx;
     int32_T b_ldw;
     int32_T b_nullStart;
     int32_T idx_col;
     int32_T order;
-    int32_T ix_d;
-    int32_T b_ix_d;
+    int32_T ix_fk;
+    int32_T b_ix_h;
     int32_T b_ldw_tmp;
     int32_T LDimSizeP1;
     int32_T A_maxDiag_idx;
     int32_T LD_diagOffset;
-    int32_T order_e;
-    int32_T b_k_c;
-    int32_T LDimSizeP1_a;
+    int32_T order_j;
+    int32_T b_k_nr;
+    int32_T LDimSizeP1_o;
     int32_T subRows;
-    int32_T LD_diagOffset_h;
+    int32_T LD_diagOffset_o;
     int32_T subBlockSize;
     int32_T FMat_offset;
-    int32_T k_er;
-    int32_T ix_n;
-    int32_T c_h;
-    int32_T ia_o;
-    int32_T iy_f;
+    int32_T k_dv;
+    int32_T ix_a;
+    int32_T c_kwn;
+    int32_T ia_c;
+    int32_T iy_j;
     int32_T ip;
-    int32_T b_j_k;
-    int32_T ix_ej;
-    int32_T nVar_iw;
-    int32_T mFixed_o;
-    int32_T mIneq_j;
-    int32_T mLB_k;
-    int32_T mUB_j;
-    int32_T mLambda_d;
+    int32_T b_j_b;
+    int32_T ix_n;
+    int32_T nVar_dm;
+    int32_T mFixed_h;
+    int32_T mIneq_b;
+    int32_T mLB_p;
+    int32_T mUB_b;
+    int32_T mLambda_p;
     int32_T nActiveConstr;
     int32_T fullRank_R;
     int32_T rankR;
     int32_T iQR_diag;
-    int32_T iQR0_g;
-    int32_T idx_c;
-    int32_T n_k;
-    int32_T k_j;
+    int32_T iQR0_n;
+    int32_T idx_j;
+    int32_T n_b;
+    int32_T k_n;
     int32_T i39;
-    int32_T i_hcu;
-    int32_T itau_c;
-    int32_T iaii_d;
-    int32_T d_a;
-    int32_T b_k_p;
-    int32_T ix_f;
-    int32_T b_iy_h;
+    int32_T i_bw;
     int32_T itau_j;
-    int32_T iaii_n;
-    int32_T lastv_o1;
-    int32_T lastc_on;
-    int32_T coltop_d;
-    int32_T b_ia_a;
-    int32_T i_kw;
-    int32_T ix_c;
-    int32_T itau_jy;
-    int32_T iaii_b;
-    int32_T b_nc;
+    int32_T iaii_k;
+    int32_T d_d;
     int32_T b_k_d;
-    int32_T i_hf;
-    int32_T ix_bf;
-    int32_T itau_p;
-    int32_T iaii_bp;
-    int32_T b_px;
-    int32_T b_k_n;
-    int32_T i_j2;
-    int32_T ix_bn;
-    int32_T itau_n;
-    int32_T iaii_bw;
-    int32_T lastv_j;
-    int32_T lastc_k0;
-    int32_T coltop_dq;
-    int32_T b_ia_d;
-    int32_T i_o0;
-    int32_T ix_cf;
+    int32_T ix_o;
+    int32_T b_iy_c;
+    int32_T itau_o;
+    int32_T iaii_a;
+    int32_T lastv_d;
+    int32_T lastc_el;
+    int32_T coltop_i;
+    int32_T b_ia_b;
+    int32_T i_an;
+    int32_T ix_k;
+    int32_T itau_m;
+    int32_T iaii_j;
+    int32_T b_jm;
+    int32_T b_k_k;
+    int32_T i_k;
+    int32_T ix_ar;
+    int32_T itau_k;
+    int32_T iaii_f;
+    int32_T b_cz;
+    int32_T b_k_o;
+    int32_T i_kv;
+    int32_T ix_p;
+    int32_T itau_f;
+    int32_T iaii_d;
+    int32_T lastv_eb;
+    int32_T lastc_l;
+    int32_T coltop_ez;
+    int32_T b_ia_h;
+    int32_T i_gg;
+    int32_T ix_p5;
     int32_T totalIneq;
     int32_T ldw;
-    int32_T iyend_o;
-    int32_T ix_aj;
-    int32_T b_iy_dq;
-    int32_T iac_e;
-    int32_T b_iz;
-    int32_T ia_bw;
-    int32_T iy_a;
-    int32_T ix_k;
-    int32_T i_m2;
-    int32_T k_jx;
+    int32_T iyend_n;
+    int32_T ix_o2;
+    int32_T b_iy_l;
+    int32_T iac_f;
+    int32_T b_h;
+    int32_T ia_d;
+    int32_T iy_m;
+    int32_T ix_iy;
+    int32_T i_j4;
+    int32_T k_pa;
     int32_T idxRotGCol;
-    int32_T iA0_j;
+    int32_T iA0_d;
     int32_T iUU0;
-    int32_T b_idx_k;
-    int32_T b_kp;
+    int32_T b_idx_j;
+    int32_T b_kk;
     int32_T idxA1j;
-    int32_T idxAjj_a;
-    int32_T b_j_kc;
-    int32_T ix_fo;
-    int32_T iy_cz;
-    int32_T b_o;
-    int32_T mLB_kv;
-    int32_T mUB_p;
-    int32_T mFixed_f;
-    int32_T mIneq_d;
-    int32_T b_k_e;
-    int32_T iy_lf;
-    int32_T ix_ez;
-    int32_T b_iy_hv;
-    int32_T mLB_g;
-    int32_T mUB_p5;
-    int32_T mFixed_n;
-    int32_T mIneq_o;
-    int32_T b_k_l;
-    int32_T iy_fz;
-    int32_T ix_h;
-    int32_T b_iy_d4;
+    int32_T idxAjj_m;
+    int32_T b_j_d;
+    int32_T ix_pz;
+    int32_T iy_i;
+    int32_T b_g;
+    int32_T mLB_e;
+    int32_T mUB_h;
+    int32_T mFixed_g;
+    int32_T mIneq_c;
+    int32_T b_k_a;
+    int32_T iy_f;
+    int32_T ix_ik;
+    int32_T b_iy_c1;
+    int32_T mLB_n;
+    int32_T mUB_c;
+    int32_T mFixed_c;
+    int32_T mIneq_i;
+    int32_T b_k_hu;
+    int32_T iy_ml;
+    int32_T ix_g;
+    int32_T b_iy_o;
     int32_T mLB_m;
-    int32_T mUB_i;
-    int32_T mFixed_j;
-    int32_T mIneq_p;
-    int32_T b_k_db;
-    int32_T iy_j;
-    int32_T ix_kk;
-    int32_T b_iy_m;
+    int32_T mUB_e;
+    int32_T mFixed_e;
+    int32_T mIneq_il;
+    int32_T b_k_fw;
+    int32_T iy_hv;
+    int32_T ix_in;
+    int32_T b_iy_p;
     int32_T nWFixed;
     int32_T idx_global;
     int32_T iAeq0;
     int32_T iATw0;
     int32_T b_idx_local;
-    int32_T c_i_d;
-    int32_T mIneq_pz;
+    int32_T c_i_a;
+    int32_T mIneq_f;
     int32_T offsetEq1;
     int32_T offsetEq2;
     int32_T colOffsetATw;
     int32_T colOffsetAineq;
-    int32_T LDimSizeP1_i;
-    int32_T LD_diagOffset_g;
+    int32_T LDimSizeP1_d;
+    int32_T LD_diagOffset_c;
     int32_T subMatrixDim;
-    int32_T k_ef;
+    int32_T k_j;
     int32_T nFixedConstr;
-    int32_T nVar_h;
+    int32_T nVar_c;
     int32_T idxPosQR;
     int32_T idxPosATwset;
     int32_T nDepIneq;
-    int32_T nFixedConstr_g;
-    int32_T nVar_c;
-    int32_T idxPosQR_a;
-    int32_T idxPosATwset_f;
-    int32_T nDepIneq_i;
-    int32_T k_c;
+    int32_T nFixedConstr_n;
+    int32_T nVar_jf;
+    int32_T idxPosQR_k;
+    int32_T idxPosATwset_o;
+    int32_T nDepIneq_g;
+    int32_T k_ks;
     int32_T kend;
-    int32_T k_n;
-    int32_T ix_c2;
-    int32_T iA0_c;
-    int32_T iQR0_i;
-    int32_T b_idx_h;
+    int32_T k_j5;
+    int32_T ix_px;
+    int32_T iA0_h;
+    int32_T iQR0_nw;
+    int32_T b_idx_b;
     int32_T b_m;
     int32_T maxRegVar;
     int32_T d_i;
-    int32_T iy_g;
-    int32_T iy_o;
-    int32_T ix_m;
+    int32_T iy_k;
+    int32_T iy_b4;
+    int32_T ix_l1;
     int32_T br;
     int32_T ar;
     int32_T b_cr;
-    int32_T br_e;
-    int32_T ar_e;
-    int32_T ia_i;
-    int32_T b_cr_f;
-    int32_T c_hv;
-    int32_T idx_in;
+    int32_T br_g;
+    int32_T ar_g;
+    int32_T ia_n4;
+    int32_T b_cr_c;
+    int32_T c_eo;
+    int32_T idx_f;
     int32_T fMultiplier;
-    int32_T iy_pi;
-    int32_T ix_aa;
-    int32_T b_iy_f;
+    int32_T iy_k4;
+    int32_T ix_c;
+    int32_T b_iy_d;
     int32_T jjA;
-    int32_T ix_dd;
-    int32_T jBcol_c;
+    int32_T ix_mz;
+    int32_T jBcol_j;
     int32_T kAcol;
-    int32_T iy_j1;
-    int32_T ix_c3;
-    int32_T iy_n;
-    int32_T ix_jf;
+    int32_T iy_c;
+    int32_T ix_d4;
+    int32_T iy_p;
+    int32_T ix_ay;
     int32_T iL0;
+    int32_T c_idx_m;
+    int32_T ix_nk;
+    int32_T iy_k5;
+    int32_T iL0_p;
     int32_T c_idx_k;
-    int32_T ix_os;
-    int32_T iy_g2;
-    int32_T iL0_k;
-    int32_T c_idx_j;
-    int32_T ix_p;
-    int32_T iy_h;
-    int32_T jBcol_n;
-    int32_T kAcol_b;
-    int32_T jBcol_m;
-    int32_T kAcol_k;
-    int32_T k_b;
-    int32_T i_l1;
-    int32_T idx_g;
+    int32_T ix_gk;
+    int32_T iy_hq;
+    int32_T jBcol_l;
+    int32_T kAcol_o;
+    int32_T jBcol_a;
+    int32_T kAcol_n;
+    int32_T k_o;
+    int32_T i_da;
+    int32_T idx_h;
     int32_T i40;
-    int32_T ix_g2;
-    int32_T ix_n4;
-    int32_T iy_c3;
-    int32_T ix_eo;
+    int32_T ix_h;
+    int32_T ix_a0;
+    int32_T iy_kg;
+    int32_T ix_jr;
     int32_T iCol;
     int32_T iCol_old;
-    int32_T k_fb;
-    int32_T i_k4;
-    int32_T k_cc;
-    int32_T ix_dt;
-    int32_T idx_m;
+    int32_T k_dg;
+    int32_T i_pe;
+    int32_T k_dh;
+    int32_T ix_b;
+    int32_T idx_o;
     int32_T colOffsetAeq;
-    int32_T b_jc;
-    int32_T nVar_cf;
+    int32_T b_j4;
+    int32_T nVar_pc;
     uint32_T bpIdx;
-    SL_Bus_proc_control_node_std_msgs_Float32 b_varargout_2_d4;
-    SL_Bus_proc_control_node_std_msgs_Float32 BusAssignment_h;// '<S68>/Bus Assignment' 
+    SL_Bus_proc_control_node_std_msgs_Float32 b_varargout_2_l;
+    SL_Bus_proc_control_node_std_msgs_Float32 BusAssignment_h;// '<S70>/Bus Assignment' 
     ZCEventType zcEvent;
-    boolean_T b_pd[4];
-    boolean_T ZeroOrderHold1;          // '<S5>/Zero-Order Hold1'
+    boolean_T b_cy[4];
     boolean_T Merge1;                  // '<S9>/Merge1'
+    boolean_T ZeroOrderHold1;          // '<S5>/Zero-Order Hold1'
     boolean_T ZeroOrderHold2;          // '<S5>/Zero-Order Hold2'
-    B_MATLABFunction1_proc_contro_T sf_MATLABFunction1_p;// '<S276>/MATLAB Function1' 
-    B_MATLABFunction1_proc_contro_T sf_MATLABFunction1_n;// '<S278>/MATLAB Function1' 
+    B_MATLABFunction1_proc_contro_T sf_MATLABFunction1_p;// '<S278>/MATLAB Function1' 
+    B_MATLABFunction1_proc_contro_T sf_MATLABFunction1_n;// '<S280>/MATLAB Function1' 
   };
 
   // Block states (default storage) for system '<Root>'
   struct DW_proc_control_node_T {
-    TrajectoryManager_proc_contro_T obj;// '<S280>/MATLAB System'
-    mpcManager_proc_control_node_T obj_n;// '<S134>/MPC manager'
-    OpenLoopController_proc_contr_T obj_m;// '<S133>/MATLAB System'
-    robotics_slcore_internal_bloc_T obj_j;// '<S295>/Rotation Trajectory'
-    robotics_slcore_internal_bl_b_T obj_jo;// '<S297>/Polynomial Trajectory1'
-    AddPose_proc_control_node_T obj_a; // '<S280>/MATLAB System1'
+    TrajectoryManager_proc_contro_T obj;// '<S282>/MATLAB System'
+    mpcManager_proc_control_node_T obj_n;// '<S136>/MPC manager'
+    OpenLoopController_proc_contr_T obj_m;// '<S135>/MATLAB System'
+    robotics_slcore_internal_bloc_T obj_j;// '<S296>/Rotation Trajectory'
+    robotics_slcore_internal_bl_b_T obj_jo;// '<S298>/Polynomial Trajectory1'
+    AddPose_proc_control_node_T obj_a; // '<S282>/MATLAB System1'
     rosCommandManager_proc_contro_T obj_mv;// '<S10>/MATLAB System'
-    ros_slroscpp_internal_block_S_T obj_h;// '<S302>/SourceBlock'
-    ros_slroscpp_internal_block_S_T obj_o;// '<S301>/SourceBlock'
-    ros_slroscpp_internal_block_S_T obj_mt;// '<S300>/SourceBlock'
-    ros_slroscpp_internal_block_S_T obj_hb;// '<S299>/SourceBlock'
-    ros_slroscpp_internal_block_S_T obj_b;// '<S298>/SourceBlock'
-    ros_slroscpp_internal_block_S_T obj_hd;// '<S293>/SourceBlock'
-    ros_slroscpp_internal_block_S_T obj_c;// '<S283>/SourceBlock'
-    ros_slroscpp_internal_block_S_T obj_ow;// '<S52>/SourceBlock'
-    ros_slroscpp_internal_block_S_T obj_d;// '<S51>/SourceBlock'
-    ros_slroscpp_internal_block_S_T obj_l;// '<S50>/SourceBlock'
-    ros_slroscpp_internal_block_S_T obj_df;// '<S58>/SourceBlock'
-    ros_slroscpp_internal_block_S_T obj_bg;// '<S57>/SourceBlock'
-    ros_slroscpp_internal_block_S_T obj_i;// '<S56>/SourceBlock'
-    ros_slroscpp_internal_block_P_T obj_ag;// '<S118>/SinkBlock'
-    ros_slroscpp_internal_block_P_T obj_e;// '<S114>/SinkBlock'
-    ros_slroscpp_internal_block_P_T obj_lf;// '<S110>/SinkBlock'
-    ros_slroscpp_internal_block_P_T obj_mj;// '<S109>/SinkBlock'
-    ros_slroscpp_internal_block_P_T obj_p;// '<S108>/SinkBlock'
-    ros_slroscpp_internal_block_P_T obj_lfs;// '<S107>/SinkBlock'
-    ros_slroscpp_internal_block_P_T obj_ap;// '<S101>/SinkBlock'
-    ros_slroscpp_internal_block_P_T obj_f;// '<S82>/SinkBlock'
-    ros_slroscpp_internal_block_P_T obj_ab;// '<S79>/SinkBlock'
-    ros_slroscpp_internal_block_P_T obj_k;// '<S76>/SinkBlock'
-    ros_slroscpp_internal_block_P_T obj_kw;// '<S74>/SinkBlock'
-    real_T Integrator_DSTATE[6];       // '<S286>/Integrator'
-    real_T Integrator_DSTATE_l[6];     // '<S287>/Integrator'
-    real_T Delay_DSTATE;               // '<S5>/Delay'
-    real_T Delay_DSTATE_e;             // '<S10>/Delay'
-    real_T DiscreteTimeIntegrator_DSTATE;// '<S295>/Discrete-Time Integrator'
-    real_T _DSTATE[8];                 // '<S241>/ '
-    real_T Delay_DSTATE_i;             // '<S253>/Delay'
-    real_T last_mv_DSTATE[8];          // '<S181>/last_mv'
-    real_T Delay1_DSTATE[8];           // '<S131>/Delay1'
-    real_T last_mv_DSTATE_j[8];        // '<S139>/last_mv'
-    real_T Delay1_DSTATE_c[8];         // '<S130>/Delay1'
-    real_T UD_DSTATE[6];               // '<S211>/UD'
-    real_T Delay_DSTATE_a[8];          // '<S134>/Delay'
-    real_T P[169];                     // '<S267>/DataStoreMemory - P'
-    real_T x[13];                      // '<S267>/DataStoreMemory - x'
+    ros_slroscpp_internal_block_S_T obj_f;// '<S304>/SourceBlock'
+    ros_slroscpp_internal_block_S_T obj_h;// '<S303>/SourceBlock'
+    ros_slroscpp_internal_block_S_T obj_o;// '<S302>/SourceBlock'
+    ros_slroscpp_internal_block_S_T obj_mt;// '<S301>/SourceBlock'
+    ros_slroscpp_internal_block_S_T obj_hb;// '<S300>/SourceBlock'
+    ros_slroscpp_internal_block_S_T obj_b;// '<S299>/SourceBlock'
+    ros_slroscpp_internal_block_S_T obj_hd;// '<S294>/SourceBlock'
+    ros_slroscpp_internal_block_S_T obj_c;// '<S285>/SourceBlock'
+    ros_slroscpp_internal_block_S_T obj_ow;// '<S54>/SourceBlock'
+    ros_slroscpp_internal_block_S_T obj_d;// '<S53>/SourceBlock'
+    ros_slroscpp_internal_block_S_T obj_l;// '<S52>/SourceBlock'
+    ros_slroscpp_internal_block_S_T obj_df;// '<S60>/SourceBlock'
+    ros_slroscpp_internal_block_S_T obj_bg;// '<S59>/SourceBlock'
+    ros_slroscpp_internal_block_S_T obj_i;// '<S58>/SourceBlock'
+    ros_slroscpp_internal_block_P_T obj_ag;// '<S120>/SinkBlock'
+    ros_slroscpp_internal_block_P_T obj_e;// '<S116>/SinkBlock'
+    ros_slroscpp_internal_block_P_T obj_lf;// '<S112>/SinkBlock'
+    ros_slroscpp_internal_block_P_T obj_mj;// '<S111>/SinkBlock'
+    ros_slroscpp_internal_block_P_T obj_p;// '<S110>/SinkBlock'
+    ros_slroscpp_internal_block_P_T obj_lfs;// '<S109>/SinkBlock'
+    ros_slroscpp_internal_block_P_T obj_ap;// '<S103>/SinkBlock'
+    ros_slroscpp_internal_block_P_T obj_fh;// '<S84>/SinkBlock'
+    ros_slroscpp_internal_block_P_T obj_ab;// '<S81>/SinkBlock'
+    ros_slroscpp_internal_block_P_T obj_k;// '<S78>/SinkBlock'
+    ros_slroscpp_internal_block_P_T obj_kw;// '<S76>/SinkBlock'
+    real_T Integrator_DSTATE[6];       // '<S288>/Integrator'
+    real_T Integrator_DSTATE_l[6];     // '<S289>/Integrator'
+    real_T Delay_DSTATE;               // '<S10>/Delay'
+    real_T DiscreteTimeIntegrator_DSTATE;// '<S296>/Discrete-Time Integrator'
+    real_T _DSTATE[8];                 // '<S243>/ '
+    real_T Delay_DSTATE_i;             // '<S255>/Delay'
+    real_T last_mv_DSTATE[8];          // '<S183>/last_mv'
+    real_T Delay1_DSTATE[8];           // '<S133>/Delay1'
+    real_T last_mv_DSTATE_j[8];        // '<S141>/last_mv'
+    real_T Delay1_DSTATE_c[8];         // '<S132>/Delay1'
+    real_T UD_DSTATE[6];               // '<S213>/UD'
+    real_T Delay_DSTATE_a[8];          // '<S136>/Delay'
+    real_T Delay_DSTATE_d;             // '<S5>/Delay'
+    real_T P[169];                     // '<S269>/DataStoreMemory - P'
+    real_T x[13];                      // '<S269>/DataStoreMemory - x'
+    real_T LastPcov_PreviousInput_n[400];// '<S141>/LastPcov'
+    real_T last_x_PreviousInput[20];   // '<S141>/last_x'
     real_T XDrift_NextOutput;          // '<S14>/X Drift'
     real_T YDrift_NextOutput;          // '<S14>/Y Drift'
     real_T NextOutput;                 // '<S25>/White Noise'
     real_T NextOutput_b;               // '<S26>/White Noise'
-    int32_T clockTickCounter;          // '<S131>/Pulse Generator'
-    int32_T clockTickCounter_h;        // '<S130>/Pulse Generator'
-    int32_T clockTickCounter_p;        // '<S134>/Pulse Generator'
+    real_T NextOutput_g;               // '<S27>/White Noise'
+    int32_T clockTickCounter;          // '<S133>/Pulse Generator'
+    int32_T clockTickCounter_h;        // '<S132>/Pulse Generator'
+    int32_T clockTickCounter_p;        // '<S136>/Pulse Generator'
     uint32_T m_bpIndex[8];             // '<S7>/N to PWM'
     uint32_T RandSeed;                 // '<S14>/X Drift'
     uint32_T RandSeed_a;               // '<S14>/Y Drift'
     uint32_T m_bpIndex_m[8];           // '<S13>/ PWM to N'
     uint32_T RandSeed_j;               // '<S25>/White Noise'
     uint32_T RandSeed_d;               // '<S26>/White Noise'
+    uint32_T RandSeed_e;               // '<S27>/White Noise'
     int_T Integrator_IWORK;            // '<S1>/Integrator'
     int_T Integrator1_IWORK;           // '<S1>/Integrator1'
     int_T Integrator2_IWORK;           // '<S1>/Integrator2'
     int_T Integrator3_IWORK;           // '<S1>/Integrator3'
-    boolean_T Delay1_DSTATE_cr;        // '<S280>/Delay1'
-    int8_T Integrator_PrevResetState;  // '<S286>/Integrator'
-    int8_T Integrator_PrevResetState_h;// '<S287>/Integrator'
+    boolean_T Delay1_DSTATE_cr;        // '<S282>/Delay1'
+    int8_T Integrator_PrevResetState;  // '<S288>/Integrator'
+    int8_T Integrator_PrevResetState_h;// '<S289>/Integrator'
     int8_T SwitchCase_ActiveSubsystem; // '<S9>/Switch Case'
     int8_T SwitchCase_ActiveSubsystem_l;// '<S7>/Switch Case'
-    boolean_T Memory_PreviousInput[48];// '<S181>/Memory'
-    boolean_T Memory_PreviousInput_h[48];// '<S139>/Memory'
-    boolean_T Memory_PreviousInput_i;  // '<S65>/Memory'
-    boolean_T Memory_PreviousInput_f;  // '<S66>/Memory'
+    boolean_T Memory_PreviousInput[48];// '<S183>/Memory'
+    boolean_T Memory_PreviousInput_h[48];// '<S141>/Memory'
+    boolean_T Memory_PreviousInput_i;  // '<S67>/Memory'
+    boolean_T Memory_PreviousInput_f;  // '<S68>/Memory'
     boolean_T SensorManager_MODE;      // '<Root>/Sensor Manager'
+    boolean_T SendDatatoROS_MODE;      // '<Root>/Send Data to ROS'
     boolean_T ROSOutput_MODE;          // '<Root>/ROS Output'
     boolean_T Plotvalues_MODE;         // '<Root>/Plot values'
     boolean_T ModlePhysique_MODE;      // '<Root>/Modèle Physique'
@@ -2118,7 +2161,7 @@ class proc_control_nodeModelClass {
 
   // Zero-crossing (trigger) state
   struct PrevZCX_proc_control_node_T {
-    ZCSigState Trajectorygenerator_Reset_ZCE;// '<S280>/Trajectory generator'
+    ZCSigState Trajectorygenerator_Reset_ZCE;// '<S282>/Trajectory generator'
     ZCSigState Integrator_Reset_ZCE;   // '<S1>/Integrator'
     ZCSigState Integrator1_Reset_ZCE;  // '<S1>/Integrator1'
     ZCSigState Integrator2_Reset_ZCE;  // '<S1>/Integrator2'
@@ -2130,32 +2173,32 @@ class proc_control_nodeModelClass {
     struct_o8hsIzLhLtBwbMcAhMRRVC MPC; // Variable: MPC
                                           //  Referenced by:
                                           //    '<S7>/Saturation'
-                                          //    '<S130>/Constant1'
-                                          //    '<S130>/Constant3'
-                                          //    '<S131>/Constant1'
-                                          //    '<S131>/Constant3'
-                                          //    '<S134>/MPC manager'
-                                          //    '<S276>/Constant3'
+                                          //    '<S132>/Constant1'
+                                          //    '<S132>/Constant3'
+                                          //    '<S133>/Constant1'
+                                          //    '<S133>/Constant3'
+                                          //    '<S136>/MPC manager'
                                           //    '<S278>/Constant3'
-                                          //    '<S279>/Constant3'
+                                          //    '<S280>/Constant3'
+                                          //    '<S281>/Constant3'
 
     struct_ZrQKn1ZmSobvV9swgXlOXB physics;// Variable: physics
                                              //  Referenced by:
                                              //    '<S16>/Constant'
-                                             //    '<S70>/Constant'
-                                             //    '<S133>/MATLAB System'
-                                             //    '<S236>/Constant'
+                                             //    '<S72>/Constant'
+                                             //    '<S135>/MATLAB System'
+                                             //    '<S238>/Constant'
 
     struct_RoPeIRaOs110XaoEJ1OUdD simulation;// Variable: simulation
                                                 //  Referenced by:
-                                                //    '<S70>/ '
-                                                //    '<S70>/  '
+                                                //    '<S72>/ '
+                                                //    '<S72>/  '
 
     real_T Config10[29];               // Variable: Config10
-                                          //  Referenced by: '<S134>/MPC manager'
+                                          //  Referenced by: '<S136>/MPC manager'
 
     real_T Config19[29];               // Variable: Config19
-                                          //  Referenced by: '<S134>/MPC manager'
+                                          //  Referenced by: '<S136>/MPC manager'
 
     real_T N[201];                     // Variable: N
                                           //  Referenced by:
@@ -2163,13 +2206,13 @@ class proc_control_nodeModelClass {
                                           //    '<S13>/ PWM to N'
 
     real_T Ui[8];                      // Variable: Ui
-                                          //  Referenced by: '<S134>/MPC manager'
+                                          //  Referenced by: '<S136>/MPC manager'
 
     real_T binv[48];                   // Variable: binv
-                                          //  Referenced by: '<S133>/MATLAB System'
+                                          //  Referenced by: '<S135>/MATLAB System'
 
     real_T constValues[41];            // Variable: constValues
-                                          //  Referenced by: '<S134>/MPC manager'
+                                          //  Referenced by: '<S136>/MPC manager'
 
     real_T dMaxX;                      // Variable: dMaxX
                                           //  Referenced by: '<S14>/X Drift'
@@ -2238,7 +2281,7 @@ class proc_control_nodeModelClass {
                                           //  Referenced by: '<S14>/Z Wave'
 
     real_T wn_l;                       // Variable: wn_l
-                                          //  Referenced by: '<S282>/Gain'
+                                          //  Referenced by: '<S284>/Gain'
 
     real_T wpPhi;                      // Variable: wpPhi
                                           //  Referenced by: '<S14>/Roll Wave'
@@ -2259,7 +2302,7 @@ class proc_control_nodeModelClass {
                                           //  Referenced by: '<S14>/Z Wave'
 
     real_T zeta_l;                     // Variable: zeta_l
-                                          //  Referenced by: '<S282>/Gain'
+                                          //  Referenced by: '<S284>/Gain'
 
     uint16_T PWM[201];                 // Variable: PWM
                                           //  Referenced by:
@@ -2274,13 +2317,17 @@ class proc_control_nodeModelClass {
                                    // Mask Parameter: BandLimitedWhiteNoise1_Cov
                                       //  Referenced by: '<S26>/Output'
 
+    real_T BandLimitedWhiteNoise2_Cov;
+                                   // Mask Parameter: BandLimitedWhiteNoise2_Cov
+                                      //  Referenced by: '<S27>/Output'
+
     real_T SecondOrderFilter_FilterType;
                                  // Mask Parameter: SecondOrderFilter_FilterType
-                                    //  Referenced by: '<S282>/Constant4'
+                                    //  Referenced by: '<S284>/Constant4'
 
     real_T DiscreteDerivative_ICPrevScaled;
                               // Mask Parameter: DiscreteDerivative_ICPrevScaled
-                                 //  Referenced by: '<S211>/UD'
+                                 //  Referenced by: '<S213>/UD'
 
     real_T BandLimitedWhiteNoise_seed;
                                    // Mask Parameter: BandLimitedWhiteNoise_seed
@@ -2290,56 +2337,60 @@ class proc_control_nodeModelClass {
                                   // Mask Parameter: BandLimitedWhiteNoise1_seed
                                      //  Referenced by: '<S26>/White Noise'
 
+    real_T BandLimitedWhiteNoise2_seed;
+                                  // Mask Parameter: BandLimitedWhiteNoise2_seed
+                                     //  Referenced by: '<S27>/White Noise'
+
     boolean_T MinMaxRunningResettable_vinit;
                                 // Mask Parameter: MinMaxRunningResettable_vinit
                                    //  Referenced by:
-                                   //    '<S65>/Initial Condition'
-                                   //    '<S65>/Memory'
+                                   //    '<S67>/Initial Condition'
+                                   //    '<S67>/Memory'
 
     boolean_T MinMaxRunningResettable1_vinit;
                                // Mask Parameter: MinMaxRunningResettable1_vinit
                                   //  Referenced by:
-                                  //    '<S66>/Initial Condition'
-                                  //    '<S66>/Memory'
+                                  //    '<S68>/Initial Condition'
+                                  //    '<S68>/Memory'
 
     SL_Bus_proc_control_node_std_msgs_UInt16MultiArray Constant_Value;// Computed Parameter: Constant_Value
-                                                                      //  Referenced by: '<S103>/Constant'
+                                                                      //  Referenced by: '<S105>/Constant'
 
     SL_Bus_proc_control_node_nav_msgs_Odometry Constant_Value_f;// Computed Parameter: Constant_Value_f
-                                                                   //  Referenced by: '<S115>/Constant'
+                                                                   //  Referenced by: '<S117>/Constant'
 
     SL_Bus_proc_control_node_sensor_msgs_Imu Out1_Y0;// Computed Parameter: Out1_Y0
-                                                        //  Referenced by: '<S59>/Out1'
+                                                        //  Referenced by: '<S61>/Out1'
 
     SL_Bus_proc_control_node_sensor_msgs_Imu Constant_Value_i;// Computed Parameter: Constant_Value_i
-                                                                 //  Referenced by: '<S56>/Constant'
+                                                                 //  Referenced by: '<S58>/Constant'
 
     SL_Bus_proc_control_node_sensor_msgs_Imu Out1_Y0_l;// Computed Parameter: Out1_Y0_l
-                                                          //  Referenced by: '<S53>/Out1'
+                                                          //  Referenced by: '<S55>/Out1'
 
     SL_Bus_proc_control_node_sensor_msgs_Imu Constant_Value_l;// Computed Parameter: Constant_Value_l
-                                                                 //  Referenced by: '<S50>/Constant'
+                                                                 //  Referenced by: '<S52>/Constant'
 
     SL_Bus_proc_control_node_sensor_msgs_Imu Constant_Value_g;// Computed Parameter: Constant_Value_g
-                                                                 //  Referenced by: '<S77>/Constant'
+                                                                 //  Referenced by: '<S79>/Constant'
 
     SL_Bus_proc_control_node_gazebo_msgs_ModelState Constant_Value_o;// Computed Parameter: Constant_Value_o
-                                                                      //  Referenced by: '<S80>/Constant'
+                                                                      //  Referenced by: '<S82>/Constant'
 
     SL_Bus_proc_control_node_sonia_common_BodyVelocityDVL Out1_Y0_m;// Computed Parameter: Out1_Y0_m
-                                                                      //  Referenced by: '<S60>/Out1'
+                                                                      //  Referenced by: '<S62>/Out1'
 
     SL_Bus_proc_control_node_sonia_common_BodyVelocityDVL Constant_Value_k;// Computed Parameter: Constant_Value_k
-                                                                      //  Referenced by: '<S57>/Constant'
+                                                                      //  Referenced by: '<S59>/Constant'
 
     SL_Bus_proc_control_node_sonia_common_BodyVelocityDVL Out1_Y0_p;// Computed Parameter: Out1_Y0_p
-                                                                      //  Referenced by: '<S54>/Out1'
+                                                                      //  Referenced by: '<S56>/Out1'
 
     SL_Bus_proc_control_node_sonia_common_BodyVelocityDVL Constant_Value_f2;// Computed Parameter: Constant_Value_f2
-                                                                      //  Referenced by: '<S51>/Constant'
+                                                                      //  Referenced by: '<S53>/Constant'
 
     SL_Bus_proc_control_node_sonia_common_BodyVelocityDVL Constant_Value_h;// Computed Parameter: Constant_Value_h
-                                                                      //  Referenced by: '<S72>/Constant'
+                                                                      //  Referenced by: '<S74>/Constant'
 
     struct_4PbJwSXWqPjMkDpID5GvdG Output_Y0;// Computed Parameter: Output_Y0
                                                //  Referenced by: '<S6>/Output'
@@ -2354,76 +2405,82 @@ class proc_control_nodeModelClass {
                                                       //  Referenced by: '<S1>/Sensors Output'
 
     SL_Bus_proc_control_node_sonia_common_AddPose Out1_Y0_d;// Computed Parameter: Out1_Y0_d
-                                                               //  Referenced by: '<S296>/Out1'
+                                                               //  Referenced by: '<S297>/Out1'
 
     SL_Bus_proc_control_node_sonia_common_AddPose Constant_Value_lq;// Computed Parameter: Constant_Value_lq
-                                                                      //  Referenced by: '<S293>/Constant'
+                                                                      //  Referenced by: '<S294>/Constant'
 
     SL_Bus_proc_control_node_geometry_msgs_Pose Constant_Value_oj;// Computed Parameter: Constant_Value_oj
-                                                                     //  Referenced by: '<S99>/Constant'
+                                                                     //  Referenced by: '<S101>/Constant'
 
     SL_Bus_proc_control_node_geometry_msgs_Pose Out1_Y0_g;// Computed Parameter: Out1_Y0_g
-                                                             //  Referenced by: '<S303>/Out1'
+                                                             //  Referenced by: '<S305>/Out1'
 
     SL_Bus_proc_control_node_geometry_msgs_Pose Constant_Value_b;// Computed Parameter: Constant_Value_b
-                                                                    //  Referenced by: '<S298>/Constant'
+                                                                    //  Referenced by: '<S299>/Constant'
 
     SL_Bus_proc_control_node_geometry_msgs_Twist Out1_Y0_pb;// Computed Parameter: Out1_Y0_pb
-                                                               //  Referenced by: '<S288>/Out1'
+                                                               //  Referenced by: '<S290>/Out1'
 
     SL_Bus_proc_control_node_geometry_msgs_Twist Constant_Value_hg;// Computed Parameter: Constant_Value_hg
-                                                                      //  Referenced by: '<S283>/Constant'
+                                                                      //  Referenced by: '<S285>/Constant'
 
     SL_Bus_proc_control_node_sonia_common_KillSwitchMsg Out1_Y0_h;// Computed Parameter: Out1_Y0_h
-                                                                     //  Referenced by: '<S304>/Out1'
+                                                                     //  Referenced by: '<S306>/Out1'
 
     SL_Bus_proc_control_node_sonia_common_KillSwitchMsg Constant_Value_ok;// Computed Parameter: Constant_Value_ok
-                                                                      //  Referenced by: '<S299>/Constant'
+                                                                      //  Referenced by: '<S300>/Constant'
 
     SL_Bus_proc_control_node_std_msgs_Bool Constant_Value_m;// Computed Parameter: Constant_Value_m
-                                                               //  Referenced by: '<S102>/Constant'
+                                                               //  Referenced by: '<S104>/Constant'
 
     SL_Bus_proc_control_node_std_msgs_Bool Constant_Value_c;// Computed Parameter: Constant_Value_c
-                                                               //  Referenced by: '<S105>/Constant'
+                                                               //  Referenced by: '<S107>/Constant'
 
     SL_Bus_proc_control_node_std_msgs_Bool Constant_Value_e;// Computed Parameter: Constant_Value_e
-                                                               //  Referenced by: '<S113>/Constant'
+                                                               //  Referenced by: '<S115>/Constant'
 
     SL_Bus_proc_control_node_std_msgs_Bool Out1_Y0_e;// Computed Parameter: Out1_Y0_e
-                                                        //  Referenced by: '<S306>/Out1'
+                                                        //  Referenced by: '<S308>/Out1'
 
     SL_Bus_proc_control_node_std_msgs_Bool Constant_Value_kd;// Computed Parameter: Constant_Value_kd
-                                                                //  Referenced by: '<S301>/Constant'
+                                                                //  Referenced by: '<S302>/Constant'
 
     SL_Bus_proc_control_node_std_msgs_Bool Out1_Y0_o;// Computed Parameter: Out1_Y0_o
-                                                        //  Referenced by: '<S307>/Out1'
+                                                        //  Referenced by: '<S309>/Out1'
 
     SL_Bus_proc_control_node_std_msgs_Bool Constant_Value_n;// Computed Parameter: Constant_Value_n
-                                                               //  Referenced by: '<S302>/Constant'
+                                                               //  Referenced by: '<S303>/Constant'
+
+    SL_Bus_proc_control_node_std_msgs_Bool Out1_Y0_a;// Computed Parameter: Out1_Y0_a
+                                                        //  Referenced by: '<S310>/Out1'
+
+    SL_Bus_proc_control_node_std_msgs_Bool Constant_Value_p;// Computed Parameter: Constant_Value_p
+                                                               //  Referenced by: '<S304>/Constant'
 
     SL_Bus_proc_control_node_std_msgs_Float32 Out1_Y0_n;// Computed Parameter: Out1_Y0_n
-                                                           //  Referenced by: '<S61>/Out1'
+                                                           //  Referenced by: '<S63>/Out1'
 
     SL_Bus_proc_control_node_std_msgs_Float32 Constant_Value_d;// Computed Parameter: Constant_Value_d
-                                                                  //  Referenced by: '<S58>/Constant'
+                                                                  //  Referenced by: '<S60>/Constant'
 
     SL_Bus_proc_control_node_std_msgs_Float32 Out1_Y0_nb;// Computed Parameter: Out1_Y0_nb
-                                                            //  Referenced by: '<S55>/Out1'
+                                                            //  Referenced by: '<S57>/Out1'
 
     SL_Bus_proc_control_node_std_msgs_Float32 Constant_Value_oz;// Computed Parameter: Constant_Value_oz
-                                                                   //  Referenced by: '<S52>/Constant'
+                                                                   //  Referenced by: '<S54>/Constant'
 
     SL_Bus_proc_control_node_std_msgs_Float32 Constant_Value_bv;// Computed Parameter: Constant_Value_bv
-                                                                   //  Referenced by: '<S75>/Constant'
+                                                                   //  Referenced by: '<S77>/Constant'
 
     SL_Bus_proc_control_node_std_msgs_Int8 Constant_Value_ly;// Computed Parameter: Constant_Value_ly
-                                                                //  Referenced by: '<S104>/Constant'
+                                                                //  Referenced by: '<S106>/Constant'
 
     SL_Bus_proc_control_node_std_msgs_UInt8 Out1_Y0_k;// Computed Parameter: Out1_Y0_k
-                                                         //  Referenced by: '<S305>/Out1'
+                                                         //  Referenced by: '<S307>/Out1'
 
     SL_Bus_proc_control_node_std_msgs_UInt8 Constant_Value_a;// Computed Parameter: Constant_Value_a
-                                                                //  Referenced by: '<S300>/Constant'
+                                                                //  Referenced by: '<S301>/Constant'
 
     real_T TransferFcn_A;              // Computed Parameter: TransferFcn_A
                                           //  Referenced by: '<S17>/Transfer Fcn'
@@ -2515,543 +2572,546 @@ class proc_control_nodeModelClass {
     real_T WhiteNoise_StdDev_d;       // Computed Parameter: WhiteNoise_StdDev_d
                                          //  Referenced by: '<S26>/White Noise'
 
-    real_T Constant_Value_mj;          // Expression: 0.5
-                                          //  Referenced by: '<S37>/Constant'
+    real_T WhiteNoise_Mean_c;          // Expression: 0
+                                          //  Referenced by: '<S27>/White Noise'
 
-    real_T Gain_Gain;                  // Expression: 2
-                                          //  Referenced by: '<S37>/Gain'
-
-    real_T Gain1_Gain;                 // Expression: 2
-                                          //  Referenced by: '<S37>/Gain1'
-
-    real_T Gain2_Gain;                 // Expression: 2
-                                          //  Referenced by: '<S37>/Gain2'
+    real_T WhiteNoise_StdDev_e;       // Computed Parameter: WhiteNoise_StdDev_e
+                                         //  Referenced by: '<S27>/White Noise'
 
     real_T u2_Gain;                    // Expression: 0.5
-                                          //  Referenced by: '<S31>/1//2'
+                                          //  Referenced by: '<S33>/1//2'
 
     real_T Constant_Value_k2;          // Expression: 0.5
-                                          //  Referenced by: '<S41>/Constant'
-
-    real_T Gain_Gain_j;                // Expression: 2
-                                          //  Referenced by: '<S41>/Gain'
-
-    real_T Gain1_Gain_e;               // Expression: 2
-                                          //  Referenced by: '<S41>/Gain1'
-
-    real_T Gain2_Gain_d;               // Expression: 2
-                                          //  Referenced by: '<S41>/Gain2'
-
-    real_T Constant_Value_gp;          // Expression: 0.5
-                                          //  Referenced by: '<S42>/Constant'
-
-    real_T Gain_Gain_e;                // Expression: 2
-                                          //  Referenced by: '<S42>/Gain'
-
-    real_T Gain1_Gain_eg;              // Expression: 2
-                                          //  Referenced by: '<S42>/Gain1'
-
-    real_T Gain2_Gain_l;               // Expression: 2
-                                          //  Referenced by: '<S42>/Gain2'
-
-    real_T Constant_Value_iw;          // Expression: 0.5
                                           //  Referenced by: '<S43>/Constant'
 
-    real_T Gain_Gain_m;                // Expression: 2
-                                          //  Referenced by: '<S43>/Gain'
-
-    real_T Gain1_Gain_g;               // Expression: 2
-                                          //  Referenced by: '<S43>/Gain1'
-
-    real_T Gain2_Gain_b;               // Expression: 2
+    real_T Gain2_Gain;                 // Expression: 2
                                           //  Referenced by: '<S43>/Gain2'
 
+    real_T Gain_Gain;                  // Expression: 2
+                                          //  Referenced by: '<S43>/Gain'
+
+    real_T Gain1_Gain;                 // Expression: 2
+                                          //  Referenced by: '<S43>/Gain1'
+
+    real_T Gain_Gain_e;                // Expression: 2
+                                          //  Referenced by: '<S44>/Gain'
+
+    real_T Constant_Value_gp;          // Expression: 0.5
+                                          //  Referenced by: '<S44>/Constant'
+
+    real_T Gain2_Gain_l;               // Expression: 2
+                                          //  Referenced by: '<S44>/Gain2'
+
+    real_T Gain1_Gain_e;               // Expression: 2
+                                          //  Referenced by: '<S44>/Gain1'
+
+    real_T Gain_Gain_m;                // Expression: 2
+                                          //  Referenced by: '<S45>/Gain'
+
+    real_T Gain1_Gain_g;               // Expression: 2
+                                          //  Referenced by: '<S45>/Gain1'
+
+    real_T Constant_Value_iw;          // Expression: 0.5
+                                          //  Referenced by: '<S45>/Constant'
+
+    real_T Gain2_Gain_b;               // Expression: 2
+                                          //  Referenced by: '<S45>/Gain2'
+
+    real_T Constant_Value_mj;          // Expression: 0.5
+                                          //  Referenced by: '<S39>/Constant'
+
+    real_T Gain_Gain_f;                // Expression: 2
+                                          //  Referenced by: '<S39>/Gain'
+
+    real_T Gain1_Gain_c;               // Expression: 2
+                                          //  Referenced by: '<S39>/Gain1'
+
+    real_T Gain2_Gain_n;               // Expression: 2
+                                          //  Referenced by: '<S39>/Gain2'
+
     real_T y_Y0;                       // Computed Parameter: y_Y0
-                                          //  Referenced by: '<S49>/y'
+                                          //  Referenced by: '<S51>/y'
 
     real_T Constant_Value_f2j;         // Expression: 0
-                                          //  Referenced by: '<S49>/Constant'
+                                          //  Referenced by: '<S51>/Constant'
 
     real_T Constant1_Value;            // Expression: 0
-                                          //  Referenced by: '<S49>/Constant1'
+                                          //  Referenced by: '<S51>/Constant1'
 
     real_T Delay_InitialCondition;     // Expression: 0
                                           //  Referenced by: '<S3>/Delay'
 
     real_T ENU2NED_Value[3];           // Expression: [pi,0,0]
-                                          //  Referenced by: '<S70>/ENU 2 NED'
+                                          //  Referenced by: '<S72>/ENU 2 NED'
 
     real_T u2_Gain_g;                  // Expression: 0.5
-                                          //  Referenced by: '<S86>/1//2'
+                                          //  Referenced by: '<S88>/1//2'
 
-    real_T Constant_Value_p;           // Expression: 0.5
-                                          //  Referenced by: '<S94>/Constant'
-
-    real_T Gain2_Gain_a;               // Expression: 2
-                                          //  Referenced by: '<S94>/Gain2'
-
-    real_T Gain_Gain_l;                // Expression: 2
-                                          //  Referenced by: '<S94>/Gain'
-
-    real_T Gain1_Gain_c;               // Expression: 2
-                                          //  Referenced by: '<S94>/Gain1'
-
-    real_T Gain_Gain_d;                // Expression: 2
-                                          //  Referenced by: '<S95>/Gain'
-
-    real_T Constant_Value_fk;          // Expression: 0.5
-                                          //  Referenced by: '<S95>/Constant'
-
-    real_T Gain2_Gain_i;               // Expression: 2
-                                          //  Referenced by: '<S95>/Gain2'
-
-    real_T Gain1_Gain_h;               // Expression: 2
-                                          //  Referenced by: '<S95>/Gain1'
-
-    real_T Gain_Gain_f;                // Expression: 2
-                                          //  Referenced by: '<S96>/Gain'
-
-    real_T Gain1_Gain_m;               // Expression: 2
-                                          //  Referenced by: '<S96>/Gain1'
-
-    real_T Constant_Value_ek;          // Expression: 0.5
+    real_T Constant_Value_pm;          // Expression: 0.5
                                           //  Referenced by: '<S96>/Constant'
 
-    real_T Gain2_Gain_db;              // Expression: 2
+    real_T Gain2_Gain_a;               // Expression: 2
                                           //  Referenced by: '<S96>/Gain2'
 
-    real_T Constant_Value_pz;          // Expression: 1
-                                          //  Referenced by: '<S125>/Constant'
+    real_T Gain_Gain_l;                // Expression: 2
+                                          //  Referenced by: '<S96>/Gain'
 
-    real_T Constant_Value_pm;          // Expression: 1
-                                          //  Referenced by: '<S126>/Constant'
+    real_T Gain1_Gain_cn;              // Expression: 2
+                                          //  Referenced by: '<S96>/Gain1'
+
+    real_T Gain_Gain_d;                // Expression: 2
+                                          //  Referenced by: '<S97>/Gain'
+
+    real_T Constant_Value_fk;          // Expression: 0.5
+                                          //  Referenced by: '<S97>/Constant'
+
+    real_T Gain2_Gain_i;               // Expression: 2
+                                          //  Referenced by: '<S97>/Gain2'
+
+    real_T Gain1_Gain_h;               // Expression: 2
+                                          //  Referenced by: '<S97>/Gain1'
+
+    real_T Gain_Gain_f3;               // Expression: 2
+                                          //  Referenced by: '<S98>/Gain'
+
+    real_T Gain1_Gain_m;               // Expression: 2
+                                          //  Referenced by: '<S98>/Gain1'
+
+    real_T Constant_Value_ek;          // Expression: 0.5
+                                          //  Referenced by: '<S98>/Constant'
+
+    real_T Gain2_Gain_d;               // Expression: 2
+                                          //  Referenced by: '<S98>/Gain2'
+
+    real_T Delay_InitialCondition_f;   // Expression: 0.0
+                                          //  Referenced by: '<S5>/Delay'
+
+    real_T Constant_Value_pz;          // Expression: 1
+                                          //  Referenced by: '<S127>/Constant'
+
+    real_T Constant_Value_pmj;         // Expression: 1
+                                          //  Referenced by: '<S128>/Constant'
 
     real_T Gain_Gain_ei;               // Expression: 180/pi
-                                          //  Referenced by: '<S121>/Gain'
+                                          //  Referenced by: '<S123>/Gain'
 
     real_T Gain_Gain_i;                // Expression: 180/pi
-                                          //  Referenced by: '<S120>/Gain'
+                                          //  Referenced by: '<S122>/Gain'
 
     real_T MPCmanager_eInit;           // Expression: 0
-                                          //  Referenced by: '<S134>/MPC manager'
+                                          //  Referenced by: '<S136>/MPC manager'
 
     real_T Delay_InitialCondition_g[8];// Expression: [0,0,0,0,0,0,0,0].'
-                                          //  Referenced by: '<S134>/Delay'
+                                          //  Referenced by: '<S136>/Delay'
 
     real_T md_zero_Value;              // Expression: zeros(1,1)
-                                          //  Referenced by: '<S213>/md_zero'
+                                          //  Referenced by: '<S215>/md_zero'
 
     real_T mvtarget_zero_Value[8];     // Expression: zeros(8,1)
-                                          //  Referenced by: '<S213>/mv.target_zero'
+                                          //  Referenced by: '<S215>/mv.target_zero'
 
     real_T ymin_zero_Value[13];        // Expression: zeros(13,1)
-                                          //  Referenced by: '<S213>/y.min_zero'
+                                          //  Referenced by: '<S215>/y.min_zero'
 
     real_T ymax_zero_Value[13];        // Expression: zeros(13,1)
-                                          //  Referenced by: '<S213>/y.max_zero'
+                                          //  Referenced by: '<S215>/y.max_zero'
 
     real_T dmvmin_zero_Value[8];       // Expression: zeros(8,1)
-                                          //  Referenced by: '<S213>/dmv.min_zero'
+                                          //  Referenced by: '<S215>/dmv.min_zero'
 
     real_T dmvmax_zero_Value[8];       // Expression: zeros(8,1)
-                                          //  Referenced by: '<S213>/dmv.max_zero'
+                                          //  Referenced by: '<S215>/dmv.max_zero'
 
     real_T xmin_zero_Value[13];        // Expression: zeros(13,1)
-                                          //  Referenced by: '<S213>/x.min_zero'
+                                          //  Referenced by: '<S215>/x.min_zero'
 
     real_T xmax_zero_Value[13];        // Expression: zeros(13,1)
-                                          //  Referenced by: '<S213>/x.max_zero'
+                                          //  Referenced by: '<S215>/x.max_zero'
 
     real_T ecrwt_zero_Value;           // Expression: zeros(1,1)
-                                          //  Referenced by: '<S213>/ecr.wt_zero'
+                                          //  Referenced by: '<S215>/ecr.wt_zero'
 
     real_T params_zero_Value;          // Expression: zeros(1,1)
-                                          //  Referenced by: '<S213>/params_zero'
+                                          //  Referenced by: '<S215>/params_zero'
 
     real_T PulseGenerator_Amp;         // Expression: 1
-                                          //  Referenced by: '<S134>/Pulse Generator'
+                                          //  Referenced by: '<S136>/Pulse Generator'
 
     real_T PulseGenerator_Period;      // Expression: 20
-                                          //  Referenced by: '<S134>/Pulse Generator'
+                                          //  Referenced by: '<S136>/Pulse Generator'
 
     real_T PulseGenerator_Duty;        // Expression: 10
-                                          //  Referenced by: '<S134>/Pulse Generator'
+                                          //  Referenced by: '<S136>/Pulse Generator'
 
     real_T PulseGenerator_PhaseDelay;  // Expression: 0
-                                          //  Referenced by: '<S134>/Pulse Generator'
+                                          //  Referenced by: '<S136>/Pulse Generator'
 
     real_T MATLABSystem_k;             // Expression: 40
-                                          //  Referenced by: '<S133>/MATLAB System'
+                                          //  Referenced by: '<S135>/MATLAB System'
 
     real_T Constant_Value_d1;          // Expression: 0
-                                          //  Referenced by: '<S133>/Constant'
+                                          //  Referenced by: '<S135>/Constant'
 
     real_T Constant1_Value_p;          // Expression: 0
-                                          //  Referenced by: '<S133>/Constant1'
+                                          //  Referenced by: '<S135>/Constant1'
 
     real_T TSamp_WtEt;                 // Computed Parameter: TSamp_WtEt
-                                          //  Referenced by: '<S211>/TSamp'
+                                          //  Referenced by: '<S213>/TSamp'
 
     real_T Constant_Value_lp;          // Expression: 1
-                                          //  Referenced by: '<S173>/Constant'
+                                          //  Referenced by: '<S175>/Constant'
 
     real_T Constant_Value_du;          // Expression: 1
-                                          //  Referenced by: '<S174>/Constant'
+                                          //  Referenced by: '<S176>/Constant'
 
     real_T E_zero_Value[8];            // Expression: zeros(1,8)
-                                          //  Referenced by: '<S135>/E_zero'
+                                          //  Referenced by: '<S137>/E_zero'
 
     real_T F_zero_Value[12];           // Expression: zeros(1,12)
-                                          //  Referenced by: '<S135>/F_zero'
+                                          //  Referenced by: '<S137>/F_zero'
 
     real_T G_zero_Value;               // Expression: zeros(1,1)
-                                          //  Referenced by: '<S135>/G_zero'
+                                          //  Referenced by: '<S137>/G_zero'
 
     real_T LastPcov_InitialCondition[400];// Expression: lastPcov
-                                             //  Referenced by: '<S139>/LastPcov'
+                                             //  Referenced by: '<S141>/LastPcov'
 
     real_T ywt_zero_Value[12];         // Expression: zeros(12,1)
-                                          //  Referenced by: '<S135>/y.wt_zero'
+                                          //  Referenced by: '<S137>/y.wt_zero'
 
     real_T uwt_zero_Value[8];          // Expression: zeros(8,1)
-                                          //  Referenced by: '<S135>/u.wt_zero'
+                                          //  Referenced by: '<S137>/u.wt_zero'
 
     real_T duwt_zero_Value[8];         // Expression: zeros(8,1)
-                                          //  Referenced by: '<S135>/du.wt_zero'
+                                          //  Referenced by: '<S137>/du.wt_zero'
 
     real_T extmv_zero_Value[8];        // Expression: zeros(8,1)
-                                          //  Referenced by: '<S135>/ext.mv_zero'
+                                          //  Referenced by: '<S137>/ext.mv_zero'
 
     real_T extmv_scale_Gain[8];        // Expression: RMVscale
-                                          //  Referenced by: '<S139>/ext.mv_scale'
+                                          //  Referenced by: '<S141>/ext.mv_scale'
 
     real_T last_mv_InitialCondition[8];// Expression: lastu+uoff
-                                          //  Referenced by: '<S139>/last_mv'
+                                          //  Referenced by: '<S141>/last_mv'
 
-    real_T Constant_Value_oq[8];       // Expression: zeros(1,8)
-                                          //  Referenced by: '<S130>/Constant'
-
-    real_T ym_zero_Value[12];          // Expression: zeros(nym,1)
-                                          //  Referenced by: '<S139>/ym_zero'
+    real_T last_x_InitialCondition[20];// Expression: lastx+xoff
+                                          //  Referenced by: '<S141>/last_x'
 
     real_T md_zero_Value_m;            // Expression: zeros(1,1)
-                                          //  Referenced by: '<S135>/md_zero'
+                                          //  Referenced by: '<S137>/md_zero'
 
     real_T umin_zero_Value[8];         // Expression: zeros(8,1)
-                                          //  Referenced by: '<S135>/umin_zero'
+                                          //  Referenced by: '<S137>/umin_zero'
 
     real_T umax_zero_Value[8];         // Expression: zeros(8,1)
-                                          //  Referenced by: '<S135>/umax_zero'
+                                          //  Referenced by: '<S137>/umax_zero'
 
     real_T ymin_zero_Value_j[12];      // Expression: zeros(12,1)
-                                          //  Referenced by: '<S135>/ymin_zero'
+                                          //  Referenced by: '<S137>/ymin_zero'
 
     real_T ymax_zero_Value_g[12];      // Expression: zeros(12,1)
-                                          //  Referenced by: '<S135>/ymax_zero'
+                                          //  Referenced by: '<S137>/ymax_zero'
 
     real_T umin_scale4_Gain[8];    // Expression: MVscale(:,ones(1,max(nCC,1)))'
-                                      //  Referenced by: '<S139>/umin_scale4'
+                                      //  Referenced by: '<S141>/umin_scale4'
 
     real_T ymin_scale1_Gain[12];    // Expression: Yscale(:,ones(1,max(nCC,1)))'
-                                       //  Referenced by: '<S139>/ymin_scale1'
+                                       //  Referenced by: '<S141>/ymin_scale1'
 
     real_T S_zero_Value;               // Expression: zeros(1,1)
-                                          //  Referenced by: '<S135>/S_zero'
+                                          //  Referenced by: '<S137>/S_zero'
 
     real_T ymin_scale2_Gain;       // Expression: MDscale(:,ones(1,max(nCC,1)))'
-                                      //  Referenced by: '<S139>/ymin_scale2'
+                                      //  Referenced by: '<S141>/ymin_scale2'
 
     real_T switch_zero_Value;          // Expression: zeros(1,1)
-                                          //  Referenced by: '<S135>/switch_zero'
+                                          //  Referenced by: '<S137>/switch_zero'
 
     real_T mvtarget_zero_Value_o[8];   // Expression: zeros(8,1)
-                                          //  Referenced by: '<S135>/mv.target_zero'
+                                          //  Referenced by: '<S137>/mv.target_zero'
 
     real_T uref_scale_Gain[8];         // Expression: RMVscale
-                                          //  Referenced by: '<S139>/uref_scale'
+                                          //  Referenced by: '<S141>/uref_scale'
 
     real_T ecrwt_zero_Value_j;         // Expression: zeros(1,1)
-                                          //  Referenced by: '<S135>/ecr.wt_zero'
+                                          //  Referenced by: '<S137>/ecr.wt_zero'
 
     real_T Delay1_InitialCondition[8]; // Expression: [0,0,0,0,0,0,0,0].'
-                                          //  Referenced by: '<S130>/Delay1'
+                                          //  Referenced by: '<S132>/Delay1'
 
     real_T u_scale_Gain[8];            // Expression: MVscale
-                                          //  Referenced by: '<S139>/u_scale'
+                                          //  Referenced by: '<S141>/u_scale'
 
     real_T PulseGenerator_Amp_a;       // Expression: 1
-                                          //  Referenced by: '<S130>/Pulse Generator'
+                                          //  Referenced by: '<S132>/Pulse Generator'
 
     real_T PulseGenerator_Period_g;    // Expression: 2
-                                          //  Referenced by: '<S130>/Pulse Generator'
+                                          //  Referenced by: '<S132>/Pulse Generator'
 
     real_T PulseGenerator_Duty_c;      // Expression: 1
-                                          //  Referenced by: '<S130>/Pulse Generator'
+                                          //  Referenced by: '<S132>/Pulse Generator'
 
     real_T PulseGenerator_PhaseDelay_h;// Expression: 0
-                                          //  Referenced by: '<S130>/Pulse Generator'
+                                          //  Referenced by: '<S132>/Pulse Generator'
 
     real_T E_zero_Value_m[8];          // Expression: zeros(1,8)
-                                          //  Referenced by: '<S178>/E_zero'
+                                          //  Referenced by: '<S180>/E_zero'
 
     real_T F_zero_Value_d[13];         // Expression: zeros(1,13)
-                                          //  Referenced by: '<S178>/F_zero'
+                                          //  Referenced by: '<S180>/F_zero'
 
     real_T G_zero_Value_l;             // Expression: zeros(1,1)
-                                          //  Referenced by: '<S178>/G_zero'
+                                          //  Referenced by: '<S180>/G_zero'
 
     real_T LastPcov_InitialCondition_k[441];// Expression: lastPcov
-                                               //  Referenced by: '<S181>/LastPcov'
+                                               //  Referenced by: '<S183>/LastPcov'
 
     real_T ywt_zero_Value_f[13];       // Expression: zeros(13,1)
-                                          //  Referenced by: '<S178>/y.wt_zero'
+                                          //  Referenced by: '<S180>/y.wt_zero'
 
     real_T uwt_zero_Value_f[8];        // Expression: zeros(8,1)
-                                          //  Referenced by: '<S178>/u.wt_zero'
+                                          //  Referenced by: '<S180>/u.wt_zero'
 
     real_T duwt_zero_Value_a[8];       // Expression: zeros(8,1)
-                                          //  Referenced by: '<S178>/du.wt_zero'
+                                          //  Referenced by: '<S180>/du.wt_zero'
 
     real_T extmv_zero_Value_g[8];      // Expression: zeros(8,1)
-                                          //  Referenced by: '<S178>/ext.mv_zero'
+                                          //  Referenced by: '<S180>/ext.mv_zero'
 
     real_T extmv_scale_Gain_p[8];      // Expression: RMVscale
-                                          //  Referenced by: '<S181>/ext.mv_scale'
+                                          //  Referenced by: '<S183>/ext.mv_scale'
 
     real_T last_mv_InitialCondition_k[8];// Expression: lastu+uoff
-                                            //  Referenced by: '<S181>/last_mv'
+                                            //  Referenced by: '<S183>/last_mv'
 
     real_T Constant_Value_e3[8];       // Expression: zeros(1,8)
-                                          //  Referenced by: '<S131>/Constant'
+                                          //  Referenced by: '<S133>/Constant'
 
-    real_T ym_zero_Value_e[13];        // Expression: zeros(nym,1)
-                                          //  Referenced by: '<S181>/ym_zero'
+    real_T ym_zero_Value[13];          // Expression: zeros(nym,1)
+                                          //  Referenced by: '<S183>/ym_zero'
 
     real_T md_zero_Value_n;            // Expression: zeros(1,1)
-                                          //  Referenced by: '<S178>/md_zero'
+                                          //  Referenced by: '<S180>/md_zero'
 
     real_T umin_zero_Value_d[8];       // Expression: zeros(8,1)
-                                          //  Referenced by: '<S178>/umin_zero'
+                                          //  Referenced by: '<S180>/umin_zero'
 
     real_T umax_zero_Value_m[8];       // Expression: zeros(8,1)
-                                          //  Referenced by: '<S178>/umax_zero'
+                                          //  Referenced by: '<S180>/umax_zero'
 
     real_T ymin_zero_Value_e[13];      // Expression: zeros(13,1)
-                                          //  Referenced by: '<S178>/ymin_zero'
+                                          //  Referenced by: '<S180>/ymin_zero'
 
     real_T ymax_zero_Value_a[13];      // Expression: zeros(13,1)
-                                          //  Referenced by: '<S178>/ymax_zero'
+                                          //  Referenced by: '<S180>/ymax_zero'
 
     real_T umin_scale4_Gain_o[8];  // Expression: MVscale(:,ones(1,max(nCC,1)))'
-                                      //  Referenced by: '<S181>/umin_scale4'
+                                      //  Referenced by: '<S183>/umin_scale4'
 
     real_T ymin_scale1_Gain_k[13];  // Expression: Yscale(:,ones(1,max(nCC,1)))'
-                                       //  Referenced by: '<S181>/ymin_scale1'
+                                       //  Referenced by: '<S183>/ymin_scale1'
 
     real_T S_zero_Value_d;             // Expression: zeros(1,1)
-                                          //  Referenced by: '<S178>/S_zero'
+                                          //  Referenced by: '<S180>/S_zero'
 
     real_T ymin_scale2_Gain_n;     // Expression: MDscale(:,ones(1,max(nCC,1)))'
-                                      //  Referenced by: '<S181>/ymin_scale2'
+                                      //  Referenced by: '<S183>/ymin_scale2'
 
     real_T switch_zero_Value_f;        // Expression: zeros(1,1)
-                                          //  Referenced by: '<S178>/switch_zero'
+                                          //  Referenced by: '<S180>/switch_zero'
 
     real_T mvtarget_zero_Value_g[8];   // Expression: zeros(8,1)
-                                          //  Referenced by: '<S178>/mv.target_zero'
+                                          //  Referenced by: '<S180>/mv.target_zero'
 
     real_T uref_scale_Gain_c[8];       // Expression: RMVscale
-                                          //  Referenced by: '<S181>/uref_scale'
+                                          //  Referenced by: '<S183>/uref_scale'
 
     real_T ecrwt_zero_Value_p;         // Expression: zeros(1,1)
-                                          //  Referenced by: '<S178>/ecr.wt_zero'
+                                          //  Referenced by: '<S180>/ecr.wt_zero'
 
     real_T Delay1_InitialCondition_l[8];// Expression: [0,0,0,0,0,0,0,0].'
-                                           //  Referenced by: '<S131>/Delay1'
+                                           //  Referenced by: '<S133>/Delay1'
 
     real_T u_scale_Gain_c[8];          // Expression: MVscale
-                                          //  Referenced by: '<S181>/u_scale'
+                                          //  Referenced by: '<S183>/u_scale'
 
     real_T PulseGenerator_Amp_b;       // Expression: 1
-                                          //  Referenced by: '<S131>/Pulse Generator'
+                                          //  Referenced by: '<S133>/Pulse Generator'
 
     real_T PulseGenerator_Period_h;    // Expression: 2
-                                          //  Referenced by: '<S131>/Pulse Generator'
+                                          //  Referenced by: '<S133>/Pulse Generator'
 
     real_T PulseGenerator_Duty_n;      // Expression: 1
-                                          //  Referenced by: '<S131>/Pulse Generator'
+                                          //  Referenced by: '<S133>/Pulse Generator'
 
     real_T PulseGenerator_PhaseDelay_c;// Expression: 0
-                                          //  Referenced by: '<S131>/Pulse Generator'
+                                          //  Referenced by: '<S133>/Pulse Generator'
 
     real_T Constant_Value_mg;          // Expression: 0
-                                          //  Referenced by: '<S132>/Constant'
+                                          //  Referenced by: '<S134>/Constant'
 
     real_T Constant1_Value_n[8];       // Expression: zeros(1,8)
-                                          //  Referenced by: '<S132>/Constant1'
+                                          //  Referenced by: '<S134>/Constant1'
 
     real_T Constant2_Value;            // Expression: 0
-                                          //  Referenced by: '<S132>/Constant2'
+                                          //  Referenced by: '<S134>/Constant2'
 
     real_T Quat_Y0;                    // Computed Parameter: Quat_Y0
-                                          //  Referenced by: '<S256>/Quat'
+                                          //  Referenced by: '<S258>/Quat'
 
     real_T siydevant_Value[3];         // Expression: [0,pi,pi/2]
-                                          //  Referenced by: '<S256>/si y devant'
+                                          //  Referenced by: '<S258>/si y devant'
 
     real_T u2_Gain_b;                  // Expression: 0.5
-                                          //  Referenced by: '<S257>/1//2'
+                                          //  Referenced by: '<S259>/1//2'
 
     real_T enable_Y0;                  // Computed Parameter: enable_Y0
-                                          //  Referenced by: '<S237>/enable'
+                                          //  Referenced by: '<S239>/enable'
 
     real_T error_Y0;                   // Computed Parameter: error_Y0
-                                          //  Referenced by: '<S237>/error'
+                                          //  Referenced by: '<S239>/error'
 
     real_T BodyVelocity_Y0;            // Computed Parameter: BodyVelocity_Y0
-                                          //  Referenced by: '<S237>/Body Velocity'
+                                          //  Referenced by: '<S239>/Body Velocity'
 
     real_T Constant1_Value_a;          // Expression: 10
-                                          //  Referenced by: '<S237>/Constant1'
+                                          //  Referenced by: '<S239>/Constant1'
 
     real_T Constant6_Value;            // Expression: 0
-                                          //  Referenced by: '<S253>/Constant6'
+                                          //  Referenced by: '<S255>/Constant6'
 
     real_T Delay_InitialCondition_l;   // Expression: 1
-                                          //  Referenced by: '<S253>/Delay'
+                                          //  Referenced by: '<S255>/Delay'
 
     real_T Constant_Value_fg;          // Expression: 0.5
-                                          //  Referenced by: '<S259>/Constant'
-
-    real_T Gain_Gain_o;                // Expression: 2
-                                          //  Referenced by: '<S259>/Gain'
-
-    real_T Gain1_Gain_k;               // Expression: 2
-                                          //  Referenced by: '<S259>/Gain1'
-
-    real_T Gain2_Gain_o;               // Expression: 2
-                                          //  Referenced by: '<S259>/Gain2'
-
-    real_T Constant_Value_j;           // Expression: 0.5
-                                          //  Referenced by: '<S260>/Constant'
-
-    real_T Gain_Gain_mq;               // Expression: 2
-                                          //  Referenced by: '<S260>/Gain'
-
-    real_T Gain1_Gain_b;               // Expression: 2
-                                          //  Referenced by: '<S260>/Gain1'
-
-    real_T Gain2_Gain_k;               // Expression: 2
-                                          //  Referenced by: '<S260>/Gain2'
-
-    real_T Constant_Value_ol;          // Expression: 0.5
                                           //  Referenced by: '<S261>/Constant'
 
-    real_T Gain_Gain_n;                // Expression: 2
+    real_T Gain_Gain_o;                // Expression: 2
                                           //  Referenced by: '<S261>/Gain'
 
-    real_T Gain1_Gain_ch;              // Expression: 2
+    real_T Gain1_Gain_k;               // Expression: 2
                                           //  Referenced by: '<S261>/Gain1'
 
-    real_T Gain2_Gain_br;              // Expression: 2
+    real_T Gain2_Gain_o;               // Expression: 2
                                           //  Referenced by: '<S261>/Gain2'
 
-    real_T xhat_Y0;                    // Computed Parameter: xhat_Y0
-                                          //  Referenced by: '<S240>/xhat'
+    real_T Constant_Value_j;           // Expression: 0.5
+                                          //  Referenced by: '<S262>/Constant'
 
-    real_T Constant_Value_pg;          // Expression: 1
-                                          //  Referenced by: '<S240>/Constant'
+    real_T Gain_Gain_mq;               // Expression: 2
+                                          //  Referenced by: '<S262>/Gain'
+
+    real_T Gain1_Gain_b;               // Expression: 2
+                                          //  Referenced by: '<S262>/Gain1'
+
+    real_T Gain2_Gain_k;               // Expression: 2
+                                          //  Referenced by: '<S262>/Gain2'
+
+    real_T Constant_Value_ol;          // Expression: 0.5
+                                          //  Referenced by: '<S263>/Constant'
+
+    real_T Gain_Gain_n;                // Expression: 2
+                                          //  Referenced by: '<S263>/Gain'
+
+    real_T Gain1_Gain_ch;              // Expression: 2
+                                          //  Referenced by: '<S263>/Gain1'
+
+    real_T Gain2_Gain_br;              // Expression: 2
+                                          //  Referenced by: '<S263>/Gain2'
+
+    real_T xhat_Y0;                    // Computed Parameter: xhat_Y0
+                                          //  Referenced by: '<S242>/xhat'
 
     real_T Q_Value[169];               // Expression: p.Q
-                                          //  Referenced by: '<S267>/Q'
+                                          //  Referenced by: '<S269>/Q'
 
     real_T R2_Value[9];                // Expression: p.R{2}
-                                          //  Referenced by: '<S267>/R2'
+                                          //  Referenced by: '<S269>/R2'
 
     real_T MeasurementFcn2Inputs_Value;// Expression: 1
-                                          //  Referenced by: '<S267>/MeasurementFcn2Inputs'
+                                          //  Referenced by: '<S269>/MeasurementFcn2Inputs'
 
     real_T R1_Value[64];               // Expression: p.R{1}
-                                          //  Referenced by: '<S267>/R1'
+                                          //  Referenced by: '<S269>/R1'
 
     real_T MeasurementFcn1Inputs_Value;// Expression: 0
-                                          //  Referenced by: '<S267>/MeasurementFcn1Inputs'
+                                          //  Referenced by: '<S269>/MeasurementFcn1Inputs'
 
     real_T DataStoreMemoryP_InitialValue[169];// Expression: p.InitialCovariance
-                                                 //  Referenced by: '<S267>/DataStoreMemory - P'
+                                                 //  Referenced by: '<S269>/DataStoreMemory - P'
 
     real_T DataStoreMemoryx_InitialValue[13];// Expression: p.InitialState
-                                                //  Referenced by: '<S267>/DataStoreMemory - x'
+                                                //  Referenced by: '<S269>/DataStoreMemory - x'
 
     real_T Constant_Value_a1;          // Expression: 0.5
-                                          //  Referenced by: '<S250>/Constant'
+                                          //  Referenced by: '<S252>/Constant'
 
-    real_T Gain_Gain_jj;               // Expression: 2
-                                          //  Referenced by: '<S250>/Gain'
+    real_T Gain_Gain_j;                // Expression: 2
+                                          //  Referenced by: '<S252>/Gain'
 
     real_T Gain1_Gain_j;               // Expression: 2
-                                          //  Referenced by: '<S250>/Gain1'
+                                          //  Referenced by: '<S252>/Gain1'
 
     real_T Gain2_Gain_ob;              // Expression: 2
-                                          //  Referenced by: '<S250>/Gain2'
+                                          //  Referenced by: '<S252>/Gain2'
 
     real_T _InitialCondition[8];       // Expression: [0,0,0,0,0,0,0,0]
-                                          //  Referenced by: '<S241>/ '
+                                          //  Referenced by: '<S243>/ '
 
     real_T Constant7_Value[7];         // Expression: [0 0 0 1 0 0 0]
-                                          //  Referenced by: '<S279>/Constant7'
+                                          //  Referenced by: '<S281>/Constant7'
 
     real_T Constant_Value_fi[13];     // Expression: [0,0,0,1,0,0,0,0,0,0,0,0,0]
-                                         //  Referenced by: '<S278>/Constant'
+                                         //  Referenced by: '<S280>/Constant'
 
     real_T MATLABSystem_linearConvergence;// Expression: .2
-                                             //  Referenced by: '<S280>/MATLAB System'
+                                             //  Referenced by: '<S282>/MATLAB System'
 
     real_T MATLABSystem_quaternionConverge;// Expression: .1
-                                              //  Referenced by: '<S280>/MATLAB System'
+                                              //  Referenced by: '<S282>/MATLAB System'
 
     real_T MATLABSystem_TargetThreshold;// Expression: 3
-                                           //  Referenced by: '<S280>/MATLAB System'
+                                           //  Referenced by: '<S282>/MATLAB System'
 
     real_T linWpts_Y0;                 // Computed Parameter: linWpts_Y0
-                                          //  Referenced by: '<S292>/linWpts'
+                                          //  Referenced by: '<S293>/linWpts'
 
     real_T RotWpts_Y0;                 // Computed Parameter: RotWpts_Y0
-                                          //  Referenced by: '<S292>/RotWpts'
+                                          //  Referenced by: '<S293>/RotWpts'
 
     real_T time_Y0;                    // Computed Parameter: time_Y0
-                                          //  Referenced by: '<S292>/time'
+                                          //  Referenced by: '<S293>/time'
 
     real_T Input_Y0;                   // Computed Parameter: Input_Y0
-                                          //  Referenced by: '<S292>/Input'
+                                          //  Referenced by: '<S293>/Input'
 
     real_T target_Y0;                  // Computed Parameter: target_Y0
-                                          //  Referenced by: '<S292>/target'
+                                          //  Referenced by: '<S293>/target'
 
     real_T Constant1_Value_o;          // Expression: 0
-                                          //  Referenced by: '<S292>/Constant1'
+                                          //  Referenced by: '<S293>/Constant1'
 
     real_T Out1_Y0_i;                  // Computed Parameter: Out1_Y0_i
-                                          //  Referenced by: '<S294>/Out1'
+                                          //  Referenced by: '<S295>/Out1'
 
     real_T PolynomialTrajectory1_VelocityB[6];// Expression: zeros( 3, 2 )
-                                                 //  Referenced by: '<S297>/Polynomial Trajectory1'
+                                                 //  Referenced by: '<S298>/Polynomial Trajectory1'
 
     real_T Constant_Value_ep;          // Expression: 1
-                                          //  Referenced by: '<S295>/Constant'
+                                          //  Referenced by: '<S296>/Constant'
 
     real_T DiscreteTimeIntegrator_gainval;
                            // Computed Parameter: DiscreteTimeIntegrator_gainval
-                              //  Referenced by: '<S295>/Discrete-Time Integrator'
+                              //  Referenced by: '<S296>/Discrete-Time Integrator'
 
     real_T DiscreteTimeIntegrator_IC;  // Expression: 0
-                                          //  Referenced by: '<S295>/Discrete-Time Integrator'
+                                          //  Referenced by: '<S296>/Discrete-Time Integrator'
 
     real_T Constant_Value_ha;          // Expression: 0
-                                          //  Referenced by: '<S280>/Constant'
+                                          //  Referenced by: '<S282>/Constant'
 
     real_T Constant_Value_m5[13];     // Expression: [0,0,0,1,0,0,0,0,0,0,0,0,0]
-                                         //  Referenced by: '<S276>/Constant'
+                                         //  Referenced by: '<S278>/Constant'
 
     real_T MATLABSystem_initial_mode;  // Expression: 0
                                           //  Referenced by: '<S10>/MATLAB System'
@@ -3060,89 +3120,89 @@ class proc_control_nodeModelClass {
                                           //  Referenced by: '<S10>/Delay'
 
     real_T Constant_Value_as;          // Expression: 0
-                                          //  Referenced by: '<S282>/Constant'
+                                          //  Referenced by: '<S284>/Constant'
 
     real_T Constant3_Value;            // Expression: x0
-                                          //  Referenced by: '<S282>/Constant3'
+                                          //  Referenced by: '<S284>/Constant3'
 
     real_T Integrator_gainval;         // Computed Parameter: Integrator_gainval
-                                          //  Referenced by: '<S286>/Integrator'
+                                          //  Referenced by: '<S288>/Integrator'
 
     real_T Integrator_UpperSat;        // Expression: antiwindupUpperLimit
-                                          //  Referenced by: '<S286>/Integrator'
+                                          //  Referenced by: '<S288>/Integrator'
 
     real_T Integrator_LowerSat;        // Expression: antiwindupLowerLimit
-                                          //  Referenced by: '<S286>/Integrator'
+                                          //  Referenced by: '<S288>/Integrator'
 
     real_T Saturation_UpperSat;        // Expression: windupUpperLimit
-                                          //  Referenced by: '<S286>/Saturation'
+                                          //  Referenced by: '<S288>/Saturation'
 
     real_T Saturation_LowerSat;        // Expression: windupLowerLimit
-                                          //  Referenced by: '<S286>/Saturation'
+                                          //  Referenced by: '<S288>/Saturation'
 
     real_T Gain3_Gain;                 // Expression: (2*pi*fn).^2
-                                          //  Referenced by: '<S282>/Gain3'
+                                          //  Referenced by: '<S284>/Gain3'
 
     real_T Gain_Gain_g;                // Expression: -1
-                                          //  Referenced by: '<S277>/Gain'
+                                          //  Referenced by: '<S279>/Gain'
 
     real_T Constant1_Value_d;          // Expression: 0
-                                          //  Referenced by: '<S282>/Constant1'
+                                          //  Referenced by: '<S284>/Constant1'
 
     real_T Constant2_Value_m;          // Expression: xdot0
-                                          //  Referenced by: '<S282>/Constant2'
+                                          //  Referenced by: '<S284>/Constant2'
 
     real_T Integrator_gainval_e;     // Computed Parameter: Integrator_gainval_e
-                                        //  Referenced by: '<S287>/Integrator'
+                                        //  Referenced by: '<S289>/Integrator'
 
     real_T Integrator_UpperSat_f;      // Expression: antiwindupUpperLimit
-                                          //  Referenced by: '<S287>/Integrator'
+                                          //  Referenced by: '<S289>/Integrator'
 
     real_T Integrator_LowerSat_p;      // Expression: antiwindupLowerLimit
-                                          //  Referenced by: '<S287>/Integrator'
+                                          //  Referenced by: '<S289>/Integrator'
 
     real_T Saturation_UpperSat_m;      // Expression: windupUpperLimit
-                                          //  Referenced by: '<S287>/Saturation'
+                                          //  Referenced by: '<S289>/Saturation'
 
     real_T Saturation_LowerSat_c;      // Expression: windupLowerLimit
-                                          //  Referenced by: '<S287>/Saturation'
-
-    real_T Delay_InitialCondition_f;   // Expression: 0.0
-                                          //  Referenced by: '<S5>/Delay'
+                                          //  Referenced by: '<S289>/Saturation'
 
     int16_T FixedHorizonOptimizer_Ndis;// Expression: Ndis
-                                          //  Referenced by: '<S167>/FixedHorizonOptimizer'
+                                          //  Referenced by: '<S169>/FixedHorizonOptimizer'
 
     int16_T FixedHorizonOptimizer_Ndis_g;// Expression: Ndis
-                                            //  Referenced by: '<S209>/FixedHorizonOptimizer'
+                                            //  Referenced by: '<S211>/FixedHorizonOptimizer'
+
+    uint16_T mv_Y0;                    // Computed Parameter: mv_Y0
+                                          //  Referenced by: '<S5>/mv'
 
     boolean_T depthnew_Y0;             // Computed Parameter: depthnew_Y0
-                                          //  Referenced by: '<S48>/depth new'
+                                          //  Referenced by: '<S50>/depth new'
 
     boolean_T depthnew_Y0_l;           // Computed Parameter: depthnew_Y0_l
-                                          //  Referenced by: '<S47>/depth new'
+                                          //  Referenced by: '<S49>/depth new'
 
     boolean_T Memory_InitialCondition[48];// Expression: iA
-                                             //  Referenced by: '<S139>/Memory'
+                                             //  Referenced by: '<S141>/Memory'
 
     boolean_T Memory_InitialCondition_b[48];// Expression: iA
-                                               //  Referenced by: '<S181>/Memory'
+                                               //  Referenced by: '<S183>/Memory'
 
     boolean_T yBlockOrdering_Y0;       // Computed Parameter: yBlockOrdering_Y0
-                                          //  Referenced by: '<S268>/yBlockOrdering'
+                                          //  Referenced by: '<S270>/yBlockOrdering'
 
     boolean_T yBlockOrdering_Y0_o;    // Computed Parameter: yBlockOrdering_Y0_o
-                                         //  Referenced by: '<S269>/yBlockOrdering'
+                                         //  Referenced by: '<S271>/yBlockOrdering'
 
     boolean_T BlockOrdering_Value;     // Expression: true()
-                                          //  Referenced by: '<S267>/BlockOrdering'
+                                          //  Referenced by: '<S269>/BlockOrdering'
 
     boolean_T Enable1_Value;           // Expression: true()
-                                          //  Referenced by: '<S267>/Enable1'
+                                          //  Referenced by: '<S269>/Enable1'
 
     boolean_T Delay1_InitialCondition_k;
                                 // Computed Parameter: Delay1_InitialCondition_k
-                                   //  Referenced by: '<S280>/Delay1'
+                                   //  Referenced by: '<S282>/Delay1'
 
     boolean_T Merge1_InitialOutput;  // Computed Parameter: Merge1_InitialOutput
                                         //  Referenced by: '<S9>/Merge1'
@@ -3190,13 +3250,13 @@ class proc_control_nodeModelClass {
       uint32_T clockTickH1;
       boolean_T firstInitCondFlag;
       struct {
-        uint16_T TID[6];
+        uint16_T TID[7];
       } TaskCounters;
 
       SimTimeStep simTimeStep;
       boolean_T stopRequestedFlag;
       time_T *t;
-      time_T tArray[6];
+      time_T tArray[7];
     } Timing;
   };
 
@@ -3234,7 +3294,7 @@ class proc_control_nodeModelClass {
   // Real-Time Model
   RT_MODEL_proc_control_node_T proc_control_node_M;
 
-  // private member function(s) for subsystem '<S278>/MATLAB Function1'
+  // private member function(s) for subsystem '<S280>/MATLAB Function1'
   static void proc_control_no_MATLABFunction1(const real_T rtu_matrix[13],
     real_T rty_y[130], B_MATLABFunction1_proc_contro_T *localB);
 
@@ -3815,6 +3875,9 @@ class proc_control_nodeModelClass {
     real_T b_Yscale[12], const real_T old_yoff[12], const real_T b_myindex[12],
     const real_T X0[12], real_T b_xoff[20], const real_T DX0[12], real_T Bv[220],
     real_T new_mvoff[8], real_T new_yoff[12], real_T new_myoff[12]);
+  void proc_control_node_xgetrf(real_T b_A[144], int32_T ipiv[12], int32_T *info);
+  void proc_control_node_mrdiv(const real_T b_A[144], const real_T b_B[144],
+    real_T Y[144]);
   void proc_control_mpc_constraintcoef(const real_T b_A[400], const real_T Bu
     [160], const real_T Bv[20], const real_T b_C[240], const real_T Dv[12],
     const real_T b_Jm[1920], real_T b_SuJm[2880], real_T b_Sx[2400], real_T
@@ -3941,55 +4004,53 @@ class proc_control_nodeModelClass {
 //  Block '<S13>/Scope' : Unused code path elimination
 //  Block '<S14>/Scope1' : Unused code path elimination
 //  Block '<S1>/Scope' : Unused code path elimination
-//  Block '<S35>/Constant' : Unused code path elimination
-//  Block '<S35>/Gain' : Unused code path elimination
-//  Block '<S35>/Gain1' : Unused code path elimination
-//  Block '<S35>/Gain2' : Unused code path elimination
-//  Block '<S35>/Product' : Unused code path elimination
-//  Block '<S35>/Product1' : Unused code path elimination
-//  Block '<S35>/Product2' : Unused code path elimination
-//  Block '<S35>/Product3' : Unused code path elimination
-//  Block '<S35>/Product4' : Unused code path elimination
-//  Block '<S35>/Product5' : Unused code path elimination
-//  Block '<S35>/Product6' : Unused code path elimination
-//  Block '<S35>/Product7' : Unused code path elimination
-//  Block '<S35>/Product8' : Unused code path elimination
-//  Block '<S35>/Sum' : Unused code path elimination
-//  Block '<S35>/Sum1' : Unused code path elimination
-//  Block '<S35>/Sum2' : Unused code path elimination
-//  Block '<S35>/Sum3' : Unused code path elimination
-//  Block '<S36>/Constant' : Unused code path elimination
-//  Block '<S36>/Gain' : Unused code path elimination
-//  Block '<S36>/Gain1' : Unused code path elimination
-//  Block '<S36>/Gain2' : Unused code path elimination
-//  Block '<S36>/Product' : Unused code path elimination
-//  Block '<S36>/Product1' : Unused code path elimination
-//  Block '<S36>/Product2' : Unused code path elimination
-//  Block '<S36>/Product3' : Unused code path elimination
-//  Block '<S36>/Product4' : Unused code path elimination
-//  Block '<S36>/Product5' : Unused code path elimination
-//  Block '<S36>/Product6' : Unused code path elimination
-//  Block '<S36>/Product7' : Unused code path elimination
-//  Block '<S36>/Product8' : Unused code path elimination
-//  Block '<S36>/Sum' : Unused code path elimination
-//  Block '<S36>/Sum1' : Unused code path elimination
-//  Block '<S36>/Sum2' : Unused code path elimination
-//  Block '<S36>/Sum3' : Unused code path elimination
+//  Block '<S37>/Constant' : Unused code path elimination
+//  Block '<S37>/Gain' : Unused code path elimination
+//  Block '<S37>/Gain1' : Unused code path elimination
+//  Block '<S37>/Gain2' : Unused code path elimination
+//  Block '<S37>/Product' : Unused code path elimination
+//  Block '<S37>/Product1' : Unused code path elimination
+//  Block '<S37>/Product2' : Unused code path elimination
+//  Block '<S37>/Product3' : Unused code path elimination
+//  Block '<S37>/Product4' : Unused code path elimination
+//  Block '<S37>/Product5' : Unused code path elimination
+//  Block '<S37>/Product6' : Unused code path elimination
+//  Block '<S37>/Product7' : Unused code path elimination
+//  Block '<S37>/Product8' : Unused code path elimination
+//  Block '<S37>/Sum' : Unused code path elimination
+//  Block '<S37>/Sum1' : Unused code path elimination
+//  Block '<S37>/Sum2' : Unused code path elimination
+//  Block '<S37>/Sum3' : Unused code path elimination
+//  Block '<S38>/Constant' : Unused code path elimination
+//  Block '<S38>/Gain' : Unused code path elimination
+//  Block '<S38>/Gain1' : Unused code path elimination
+//  Block '<S38>/Gain2' : Unused code path elimination
+//  Block '<S38>/Product' : Unused code path elimination
+//  Block '<S38>/Product1' : Unused code path elimination
+//  Block '<S38>/Product2' : Unused code path elimination
+//  Block '<S38>/Product3' : Unused code path elimination
+//  Block '<S38>/Product4' : Unused code path elimination
+//  Block '<S38>/Product5' : Unused code path elimination
+//  Block '<S38>/Product6' : Unused code path elimination
+//  Block '<S38>/Product7' : Unused code path elimination
+//  Block '<S38>/Product8' : Unused code path elimination
+//  Block '<S38>/Sum' : Unused code path elimination
+//  Block '<S38>/Sum1' : Unused code path elimination
+//  Block '<S38>/Sum2' : Unused code path elimination
+//  Block '<S38>/Sum3' : Unused code path elimination
 //  Block '<S2>/Scope' : Unused code path elimination
 //  Block '<S2>/Scope2' : Unused code path elimination
 //  Block '<S2>/Scope3' : Unused code path elimination
 //  Block '<S2>/Scope4' : Unused code path elimination
 //  Block '<S3>/Display' : Unused code path elimination
-//  Block '<S63>/Data Type Duplicate' : Unused code path elimination
-//  Block '<S65>/FixPt Data Type Duplicate2' : Unused code path elimination
-//  Block '<S64>/Data Type Duplicate' : Unused code path elimination
-//  Block '<S66>/FixPt Data Type Duplicate2' : Unused code path elimination
-//  Block '<S139>/Data Type Conversion22' : Unused code path elimination
-//  Block '<S139>/Data Type Conversion23' : Unused code path elimination
-//  Block '<S139>/Floor' : Unused code path elimination
-//  Block '<S139>/Floor1' : Unused code path elimination
-//  Block '<S140>/Matrix Dimension Check' : Unused code path elimination
-//  Block '<S141>/Matrix Dimension Check' : Unused code path elimination
+//  Block '<S65>/Data Type Duplicate' : Unused code path elimination
+//  Block '<S67>/FixPt Data Type Duplicate2' : Unused code path elimination
+//  Block '<S66>/Data Type Duplicate' : Unused code path elimination
+//  Block '<S68>/FixPt Data Type Duplicate2' : Unused code path elimination
+//  Block '<S141>/Data Type Conversion22' : Unused code path elimination
+//  Block '<S141>/Data Type Conversion23' : Unused code path elimination
+//  Block '<S141>/Floor' : Unused code path elimination
+//  Block '<S141>/Floor1' : Unused code path elimination
 //  Block '<S142>/Matrix Dimension Check' : Unused code path elimination
 //  Block '<S143>/Matrix Dimension Check' : Unused code path elimination
 //  Block '<S144>/Matrix Dimension Check' : Unused code path elimination
@@ -4008,24 +4069,25 @@ class proc_control_nodeModelClass {
 //  Block '<S157>/Matrix Dimension Check' : Unused code path elimination
 //  Block '<S158>/Matrix Dimension Check' : Unused code path elimination
 //  Block '<S159>/Matrix Dimension Check' : Unused code path elimination
-//  Block '<S160>/Vector Dimension Check' : Unused code path elimination
-//  Block '<S161>/Vector Dimension Check' : Unused code path elimination
+//  Block '<S160>/Matrix Dimension Check' : Unused code path elimination
+//  Block '<S161>/Matrix Dimension Check' : Unused code path elimination
 //  Block '<S162>/Vector Dimension Check' : Unused code path elimination
 //  Block '<S163>/Vector Dimension Check' : Unused code path elimination
 //  Block '<S164>/Vector Dimension Check' : Unused code path elimination
 //  Block '<S165>/Vector Dimension Check' : Unused code path elimination
 //  Block '<S166>/Vector Dimension Check' : Unused code path elimination
-//  Block '<S139>/last_x' : Unused code path elimination
-//  Block '<S139>/useq_scale' : Unused code path elimination
-//  Block '<S139>/useq_scale1' : Unused code path elimination
-//  Block '<S135>/m_zero' : Unused code path elimination
-//  Block '<S135>/p_zero' : Unused code path elimination
-//  Block '<S181>/Data Type Conversion22' : Unused code path elimination
-//  Block '<S181>/Data Type Conversion23' : Unused code path elimination
-//  Block '<S181>/Floor' : Unused code path elimination
-//  Block '<S181>/Floor1' : Unused code path elimination
-//  Block '<S182>/Matrix Dimension Check' : Unused code path elimination
-//  Block '<S183>/Matrix Dimension Check' : Unused code path elimination
+//  Block '<S167>/Vector Dimension Check' : Unused code path elimination
+//  Block '<S168>/Vector Dimension Check' : Unused code path elimination
+//  Block '<S141>/useq_scale' : Unused code path elimination
+//  Block '<S141>/useq_scale1' : Unused code path elimination
+//  Block '<S141>/ym_zero' : Unused code path elimination
+//  Block '<S137>/m_zero' : Unused code path elimination
+//  Block '<S137>/p_zero' : Unused code path elimination
+//  Block '<S132>/Constant' : Unused code path elimination
+//  Block '<S183>/Data Type Conversion22' : Unused code path elimination
+//  Block '<S183>/Data Type Conversion23' : Unused code path elimination
+//  Block '<S183>/Floor' : Unused code path elimination
+//  Block '<S183>/Floor1' : Unused code path elimination
 //  Block '<S184>/Matrix Dimension Check' : Unused code path elimination
 //  Block '<S185>/Matrix Dimension Check' : Unused code path elimination
 //  Block '<S186>/Matrix Dimension Check' : Unused code path elimination
@@ -4044,22 +4106,23 @@ class proc_control_nodeModelClass {
 //  Block '<S199>/Matrix Dimension Check' : Unused code path elimination
 //  Block '<S200>/Matrix Dimension Check' : Unused code path elimination
 //  Block '<S201>/Matrix Dimension Check' : Unused code path elimination
-//  Block '<S202>/Vector Dimension Check' : Unused code path elimination
-//  Block '<S203>/Vector Dimension Check' : Unused code path elimination
+//  Block '<S202>/Matrix Dimension Check' : Unused code path elimination
+//  Block '<S203>/Matrix Dimension Check' : Unused code path elimination
 //  Block '<S204>/Vector Dimension Check' : Unused code path elimination
 //  Block '<S205>/Vector Dimension Check' : Unused code path elimination
 //  Block '<S206>/Vector Dimension Check' : Unused code path elimination
 //  Block '<S207>/Vector Dimension Check' : Unused code path elimination
 //  Block '<S208>/Vector Dimension Check' : Unused code path elimination
-//  Block '<S181>/last_x' : Unused code path elimination
-//  Block '<S181>/useq_scale' : Unused code path elimination
-//  Block '<S181>/useq_scale1' : Unused code path elimination
-//  Block '<S178>/m_zero' : Unused code path elimination
-//  Block '<S178>/p_zero' : Unused code path elimination
+//  Block '<S209>/Vector Dimension Check' : Unused code path elimination
+//  Block '<S210>/Vector Dimension Check' : Unused code path elimination
+//  Block '<S183>/last_x' : Unused code path elimination
+//  Block '<S183>/useq_scale' : Unused code path elimination
+//  Block '<S183>/useq_scale1' : Unused code path elimination
+//  Block '<S180>/m_zero' : Unused code path elimination
+//  Block '<S180>/p_zero' : Unused code path elimination
+//  Block '<S133>/Scope' : Unused code path elimination
 //  Block '<S7>/Display' : Unused code path elimination
-//  Block '<S211>/Data Type Duplicate' : Unused code path elimination
-//  Block '<S215>/Matrix Dimension Check' : Unused code path elimination
-//  Block '<S216>/Matrix Dimension Check' : Unused code path elimination
+//  Block '<S213>/Data Type Duplicate' : Unused code path elimination
 //  Block '<S217>/Matrix Dimension Check' : Unused code path elimination
 //  Block '<S218>/Matrix Dimension Check' : Unused code path elimination
 //  Block '<S219>/Matrix Dimension Check' : Unused code path elimination
@@ -4074,163 +4137,166 @@ class proc_control_nodeModelClass {
 //  Block '<S228>/Matrix Dimension Check' : Unused code path elimination
 //  Block '<S229>/Matrix Dimension Check' : Unused code path elimination
 //  Block '<S230>/Matrix Dimension Check' : Unused code path elimination
-//  Block '<S231>/Vector Dimension Check' : Unused code path elimination
-//  Block '<S232>/Vector Dimension Check' : Unused code path elimination
+//  Block '<S231>/Matrix Dimension Check' : Unused code path elimination
+//  Block '<S232>/Matrix Dimension Check' : Unused code path elimination
 //  Block '<S233>/Vector Dimension Check' : Unused code path elimination
 //  Block '<S234>/Vector Dimension Check' : Unused code path elimination
+//  Block '<S235>/Vector Dimension Check' : Unused code path elimination
+//  Block '<S236>/Vector Dimension Check' : Unused code path elimination
 //  Block '<S7>/Scope1' : Unused code path elimination
-//  Block '<S236>/Display' : Unused code path elimination
-//  Block '<S236>/Display1' : Unused code path elimination
-//  Block '<S248>/Constant' : Unused code path elimination
-//  Block '<S248>/Gain' : Unused code path elimination
-//  Block '<S248>/Gain1' : Unused code path elimination
-//  Block '<S248>/Gain2' : Unused code path elimination
-//  Block '<S248>/Product' : Unused code path elimination
-//  Block '<S248>/Product1' : Unused code path elimination
-//  Block '<S248>/Product2' : Unused code path elimination
-//  Block '<S248>/Product3' : Unused code path elimination
-//  Block '<S248>/Product4' : Unused code path elimination
-//  Block '<S248>/Product5' : Unused code path elimination
-//  Block '<S248>/Product6' : Unused code path elimination
-//  Block '<S248>/Product7' : Unused code path elimination
-//  Block '<S248>/Product8' : Unused code path elimination
-//  Block '<S248>/Sum' : Unused code path elimination
-//  Block '<S248>/Sum1' : Unused code path elimination
-//  Block '<S248>/Sum2' : Unused code path elimination
-//  Block '<S248>/Sum3' : Unused code path elimination
-//  Block '<S249>/Constant' : Unused code path elimination
-//  Block '<S249>/Gain' : Unused code path elimination
-//  Block '<S249>/Gain1' : Unused code path elimination
-//  Block '<S249>/Gain2' : Unused code path elimination
-//  Block '<S249>/Product' : Unused code path elimination
-//  Block '<S249>/Product1' : Unused code path elimination
-//  Block '<S249>/Product2' : Unused code path elimination
-//  Block '<S249>/Product3' : Unused code path elimination
-//  Block '<S249>/Product4' : Unused code path elimination
-//  Block '<S249>/Product5' : Unused code path elimination
-//  Block '<S249>/Product6' : Unused code path elimination
-//  Block '<S249>/Product7' : Unused code path elimination
-//  Block '<S249>/Product8' : Unused code path elimination
-//  Block '<S249>/Sum' : Unused code path elimination
-//  Block '<S249>/Sum1' : Unused code path elimination
-//  Block '<S249>/Sum2' : Unused code path elimination
-//  Block '<S249>/Sum3' : Unused code path elimination
-//  Block '<S236>/Scope' : Unused code path elimination
+//  Block '<S238>/Display' : Unused code path elimination
+//  Block '<S238>/Display1' : Unused code path elimination
+//  Block '<S250>/Constant' : Unused code path elimination
+//  Block '<S250>/Gain' : Unused code path elimination
+//  Block '<S250>/Gain1' : Unused code path elimination
+//  Block '<S250>/Gain2' : Unused code path elimination
+//  Block '<S250>/Product' : Unused code path elimination
+//  Block '<S250>/Product1' : Unused code path elimination
+//  Block '<S250>/Product2' : Unused code path elimination
+//  Block '<S250>/Product3' : Unused code path elimination
+//  Block '<S250>/Product4' : Unused code path elimination
+//  Block '<S250>/Product5' : Unused code path elimination
+//  Block '<S250>/Product6' : Unused code path elimination
+//  Block '<S250>/Product7' : Unused code path elimination
+//  Block '<S250>/Product8' : Unused code path elimination
+//  Block '<S250>/Sum' : Unused code path elimination
+//  Block '<S250>/Sum1' : Unused code path elimination
+//  Block '<S250>/Sum2' : Unused code path elimination
+//  Block '<S250>/Sum3' : Unused code path elimination
+//  Block '<S251>/Constant' : Unused code path elimination
+//  Block '<S251>/Gain' : Unused code path elimination
+//  Block '<S251>/Gain1' : Unused code path elimination
+//  Block '<S251>/Gain2' : Unused code path elimination
+//  Block '<S251>/Product' : Unused code path elimination
+//  Block '<S251>/Product1' : Unused code path elimination
+//  Block '<S251>/Product2' : Unused code path elimination
+//  Block '<S251>/Product3' : Unused code path elimination
+//  Block '<S251>/Product4' : Unused code path elimination
+//  Block '<S251>/Product5' : Unused code path elimination
+//  Block '<S251>/Product6' : Unused code path elimination
+//  Block '<S251>/Product7' : Unused code path elimination
+//  Block '<S251>/Product8' : Unused code path elimination
+//  Block '<S251>/Sum' : Unused code path elimination
+//  Block '<S251>/Sum1' : Unused code path elimination
+//  Block '<S251>/Sum2' : Unused code path elimination
+//  Block '<S251>/Sum3' : Unused code path elimination
 //  Block '<S238>/Scope' : Unused code path elimination
-//  Block '<S238>/Scope1' : Unused code path elimination
-//  Block '<S238>/Scope2' : Unused code path elimination
-//  Block '<S238>/Scope3' : Unused code path elimination
-//  Block '<S8>/Scope' : Unused code path elimination
-//  Block '<S268>/RegisterSimulinkFcn' : Unused code path elimination
-//  Block '<S269>/RegisterSimulinkFcn' : Unused code path elimination
+//  Block '<S240>/Scope' : Unused code path elimination
+//  Block '<S240>/Scope1' : Unused code path elimination
+//  Block '<S240>/Scope2' : Unused code path elimination
+//  Block '<S240>/Scope3' : Unused code path elimination
+//  Block '<S242>/Display' : Unused code path elimination
+//  Block '<S270>/RegisterSimulinkFcn' : Unused code path elimination
 //  Block '<S271>/RegisterSimulinkFcn' : Unused code path elimination
-//  Block '<S267>/checkMeasurementFcn1Signals' : Unused code path elimination
-//  Block '<S267>/checkMeasurementFcn2Signals' : Unused code path elimination
-//  Block '<S267>/checkStateTransitionFcnSignals' : Unused code path elimination
+//  Block '<S273>/RegisterSimulinkFcn' : Unused code path elimination
+//  Block '<S269>/checkMeasurementFcn1Signals' : Unused code path elimination
+//  Block '<S269>/checkMeasurementFcn2Signals' : Unused code path elimination
+//  Block '<S269>/checkStateTransitionFcnSignals' : Unused code path elimination
 //  Block '<S9>/Scope' : Unused code path elimination
-//  Block '<S277>/Scope1' : Unused code path elimination
-//  Block '<S278>/Scope' : Unused code path elimination
-//  Block '<S278>/Scope1' : Unused code path elimination
-//  Block '<S292>/Display' : Unused code path elimination
-//  Block '<S292>/Selector3' : Unused code path elimination
+//  Block '<S279>/Scope1' : Unused code path elimination
+//  Block '<S280>/Scope' : Unused code path elimination
 //  Block '<S280>/Scope1' : Unused code path elimination
-//  Block '<S280>/Scope2' : Unused code path elimination
-//  Block '<S280>/Scope3' : Unused code path elimination
-//  Block '<S295>/Scope' : Unused code path elimination
+//  Block '<S293>/Display' : Unused code path elimination
+//  Block '<S293>/Selector3' : Unused code path elimination
+//  Block '<S282>/Scope' : Unused code path elimination
+//  Block '<S282>/Scope1' : Unused code path elimination
+//  Block '<S282>/Scope2' : Unused code path elimination
+//  Block '<S282>/Scope3' : Unused code path elimination
+//  Block '<S296>/Scope' : Unused code path elimination
 //  Block '<S3>/Zero-Order Hold' : Eliminated since input and output rates are identical
-//  Block '<S139>/Data Type Conversion1' : Eliminate redundant data type conversion
-//  Block '<S139>/Data Type Conversion10' : Eliminate redundant data type conversion
-//  Block '<S139>/Data Type Conversion11' : Eliminate redundant data type conversion
-//  Block '<S139>/Data Type Conversion12' : Eliminate redundant data type conversion
-//  Block '<S139>/Data Type Conversion13' : Eliminate redundant data type conversion
-//  Block '<S139>/Data Type Conversion14' : Eliminate redundant data type conversion
-//  Block '<S139>/Data Type Conversion15' : Eliminate redundant data type conversion
-//  Block '<S139>/Data Type Conversion16' : Eliminate redundant data type conversion
-//  Block '<S139>/Data Type Conversion17' : Eliminate redundant data type conversion
-//  Block '<S139>/Data Type Conversion18' : Eliminate redundant data type conversion
-//  Block '<S139>/Data Type Conversion19' : Eliminate redundant data type conversion
-//  Block '<S139>/Data Type Conversion2' : Eliminate redundant data type conversion
-//  Block '<S139>/Data Type Conversion20' : Eliminate redundant data type conversion
-//  Block '<S139>/Data Type Conversion21' : Eliminate redundant data type conversion
-//  Block '<S139>/Data Type Conversion3' : Eliminate redundant data type conversion
-//  Block '<S139>/Data Type Conversion4' : Eliminate redundant data type conversion
-//  Block '<S139>/Data Type Conversion5' : Eliminate redundant data type conversion
-//  Block '<S139>/Data Type Conversion6' : Eliminate redundant data type conversion
-//  Block '<S139>/Data Type Conversion7' : Eliminate redundant data type conversion
-//  Block '<S139>/Data Type Conversion8' : Eliminate redundant data type conversion
-//  Block '<S139>/Data Type Conversion9' : Eliminate redundant data type conversion
-//  Block '<S139>/E Conversion' : Eliminate redundant data type conversion
-//  Block '<S139>/F Conversion' : Eliminate redundant data type conversion
-//  Block '<S139>/G Conversion' : Eliminate redundant data type conversion
-//  Block '<S139>/Reshape' : Reshape block reduction
-//  Block '<S139>/Reshape1' : Reshape block reduction
-//  Block '<S139>/Reshape2' : Reshape block reduction
-//  Block '<S139>/Reshape3' : Reshape block reduction
-//  Block '<S139>/Reshape4' : Reshape block reduction
-//  Block '<S139>/Reshape5' : Reshape block reduction
-//  Block '<S139>/S Conversion' : Eliminate redundant data type conversion
-//  Block '<S181>/Data Type Conversion1' : Eliminate redundant data type conversion
-//  Block '<S181>/Data Type Conversion10' : Eliminate redundant data type conversion
-//  Block '<S181>/Data Type Conversion11' : Eliminate redundant data type conversion
-//  Block '<S181>/Data Type Conversion12' : Eliminate redundant data type conversion
-//  Block '<S181>/Data Type Conversion13' : Eliminate redundant data type conversion
-//  Block '<S181>/Data Type Conversion14' : Eliminate redundant data type conversion
-//  Block '<S181>/Data Type Conversion15' : Eliminate redundant data type conversion
-//  Block '<S181>/Data Type Conversion16' : Eliminate redundant data type conversion
-//  Block '<S181>/Data Type Conversion17' : Eliminate redundant data type conversion
-//  Block '<S181>/Data Type Conversion18' : Eliminate redundant data type conversion
-//  Block '<S181>/Data Type Conversion19' : Eliminate redundant data type conversion
-//  Block '<S181>/Data Type Conversion2' : Eliminate redundant data type conversion
-//  Block '<S181>/Data Type Conversion20' : Eliminate redundant data type conversion
-//  Block '<S181>/Data Type Conversion21' : Eliminate redundant data type conversion
-//  Block '<S181>/Data Type Conversion3' : Eliminate redundant data type conversion
-//  Block '<S181>/Data Type Conversion4' : Eliminate redundant data type conversion
-//  Block '<S181>/Data Type Conversion5' : Eliminate redundant data type conversion
-//  Block '<S181>/Data Type Conversion6' : Eliminate redundant data type conversion
-//  Block '<S181>/Data Type Conversion7' : Eliminate redundant data type conversion
-//  Block '<S181>/Data Type Conversion8' : Eliminate redundant data type conversion
-//  Block '<S181>/Data Type Conversion9' : Eliminate redundant data type conversion
-//  Block '<S181>/E Conversion' : Eliminate redundant data type conversion
-//  Block '<S181>/F Conversion' : Eliminate redundant data type conversion
-//  Block '<S181>/G Conversion' : Eliminate redundant data type conversion
-//  Block '<S181>/Reshape' : Reshape block reduction
-//  Block '<S181>/Reshape1' : Reshape block reduction
-//  Block '<S181>/Reshape2' : Reshape block reduction
-//  Block '<S181>/Reshape3' : Reshape block reduction
-//  Block '<S181>/Reshape4' : Reshape block reduction
-//  Block '<S181>/Reshape5' : Reshape block reduction
-//  Block '<S181>/S Conversion' : Eliminate redundant data type conversion
-//  Block '<S214>/Reshape1' : Reshape block reduction
-//  Block '<S214>/mo or x Conversion' : Eliminate redundant data type conversion
-//  Block '<S214>/mo or x Conversion1' : Eliminate redundant data type conversion
-//  Block '<S214>/mo or x Conversion10' : Eliminate redundant data type conversion
-//  Block '<S214>/mo or x Conversion11' : Eliminate redundant data type conversion
-//  Block '<S214>/mo or x Conversion12' : Eliminate redundant data type conversion
-//  Block '<S214>/mo or x Conversion13' : Eliminate redundant data type conversion
-//  Block '<S214>/mo or x Conversion14' : Eliminate redundant data type conversion
-//  Block '<S214>/mo or x Conversion15' : Eliminate redundant data type conversion
-//  Block '<S214>/mo or x Conversion16' : Eliminate redundant data type conversion
-//  Block '<S214>/mo or x Conversion17' : Eliminate redundant data type conversion
-//  Block '<S214>/mo or x Conversion18' : Eliminate redundant data type conversion
-//  Block '<S214>/mo or x Conversion19' : Eliminate redundant data type conversion
-//  Block '<S214>/mo or x Conversion2' : Eliminate redundant data type conversion
-//  Block '<S214>/mo or x Conversion3' : Eliminate redundant data type conversion
-//  Block '<S214>/mo or x Conversion4' : Eliminate redundant data type conversion
-//  Block '<S214>/mo or x Conversion5' : Eliminate redundant data type conversion
-//  Block '<S214>/mo or x Conversion6' : Eliminate redundant data type conversion
-//  Block '<S214>/mo or x Conversion7' : Eliminate redundant data type conversion
-//  Block '<S214>/mo or x Conversion8' : Eliminate redundant data type conversion
-//  Block '<S214>/mo or x Conversion9' : Eliminate redundant data type conversion
-//  Block '<S267>/DataTypeConversion_Enable1' : Eliminate redundant data type conversion
-//  Block '<S267>/DataTypeConversion_Q' : Eliminate redundant data type conversion
-//  Block '<S267>/DataTypeConversion_R1' : Eliminate redundant data type conversion
-//  Block '<S267>/DataTypeConversion_R2' : Eliminate redundant data type conversion
-//  Block '<S267>/DataTypeConversion_uMeas1' : Eliminate redundant data type conversion
-//  Block '<S267>/DataTypeConversion_uMeas2' : Eliminate redundant data type conversion
-//  Block '<S267>/DataTypeConversion_uState' : Eliminate redundant data type conversion
-//  Block '<S267>/DataTypeConversion_y1' : Eliminate redundant data type conversion
-//  Block '<S267>/DataTypeConversion_y2' : Eliminate redundant data type conversion
-//  Block '<S241>/Zero-Order Hold' : Eliminated since input and output rates are identical
+//  Block '<S141>/Data Type Conversion1' : Eliminate redundant data type conversion
+//  Block '<S141>/Data Type Conversion10' : Eliminate redundant data type conversion
+//  Block '<S141>/Data Type Conversion11' : Eliminate redundant data type conversion
+//  Block '<S141>/Data Type Conversion12' : Eliminate redundant data type conversion
+//  Block '<S141>/Data Type Conversion13' : Eliminate redundant data type conversion
+//  Block '<S141>/Data Type Conversion14' : Eliminate redundant data type conversion
+//  Block '<S141>/Data Type Conversion15' : Eliminate redundant data type conversion
+//  Block '<S141>/Data Type Conversion16' : Eliminate redundant data type conversion
+//  Block '<S141>/Data Type Conversion17' : Eliminate redundant data type conversion
+//  Block '<S141>/Data Type Conversion18' : Eliminate redundant data type conversion
+//  Block '<S141>/Data Type Conversion19' : Eliminate redundant data type conversion
+//  Block '<S141>/Data Type Conversion2' : Eliminate redundant data type conversion
+//  Block '<S141>/Data Type Conversion20' : Eliminate redundant data type conversion
+//  Block '<S141>/Data Type Conversion21' : Eliminate redundant data type conversion
+//  Block '<S141>/Data Type Conversion3' : Eliminate redundant data type conversion
+//  Block '<S141>/Data Type Conversion4' : Eliminate redundant data type conversion
+//  Block '<S141>/Data Type Conversion5' : Eliminate redundant data type conversion
+//  Block '<S141>/Data Type Conversion6' : Eliminate redundant data type conversion
+//  Block '<S141>/Data Type Conversion7' : Eliminate redundant data type conversion
+//  Block '<S141>/Data Type Conversion8' : Eliminate redundant data type conversion
+//  Block '<S141>/Data Type Conversion9' : Eliminate redundant data type conversion
+//  Block '<S141>/E Conversion' : Eliminate redundant data type conversion
+//  Block '<S141>/F Conversion' : Eliminate redundant data type conversion
+//  Block '<S141>/G Conversion' : Eliminate redundant data type conversion
+//  Block '<S141>/Reshape' : Reshape block reduction
+//  Block '<S141>/Reshape1' : Reshape block reduction
+//  Block '<S141>/Reshape2' : Reshape block reduction
+//  Block '<S141>/Reshape3' : Reshape block reduction
+//  Block '<S141>/Reshape4' : Reshape block reduction
+//  Block '<S141>/Reshape5' : Reshape block reduction
+//  Block '<S141>/S Conversion' : Eliminate redundant data type conversion
+//  Block '<S183>/Data Type Conversion1' : Eliminate redundant data type conversion
+//  Block '<S183>/Data Type Conversion10' : Eliminate redundant data type conversion
+//  Block '<S183>/Data Type Conversion11' : Eliminate redundant data type conversion
+//  Block '<S183>/Data Type Conversion12' : Eliminate redundant data type conversion
+//  Block '<S183>/Data Type Conversion13' : Eliminate redundant data type conversion
+//  Block '<S183>/Data Type Conversion14' : Eliminate redundant data type conversion
+//  Block '<S183>/Data Type Conversion15' : Eliminate redundant data type conversion
+//  Block '<S183>/Data Type Conversion16' : Eliminate redundant data type conversion
+//  Block '<S183>/Data Type Conversion17' : Eliminate redundant data type conversion
+//  Block '<S183>/Data Type Conversion18' : Eliminate redundant data type conversion
+//  Block '<S183>/Data Type Conversion19' : Eliminate redundant data type conversion
+//  Block '<S183>/Data Type Conversion2' : Eliminate redundant data type conversion
+//  Block '<S183>/Data Type Conversion20' : Eliminate redundant data type conversion
+//  Block '<S183>/Data Type Conversion21' : Eliminate redundant data type conversion
+//  Block '<S183>/Data Type Conversion3' : Eliminate redundant data type conversion
+//  Block '<S183>/Data Type Conversion4' : Eliminate redundant data type conversion
+//  Block '<S183>/Data Type Conversion5' : Eliminate redundant data type conversion
+//  Block '<S183>/Data Type Conversion6' : Eliminate redundant data type conversion
+//  Block '<S183>/Data Type Conversion7' : Eliminate redundant data type conversion
+//  Block '<S183>/Data Type Conversion8' : Eliminate redundant data type conversion
+//  Block '<S183>/Data Type Conversion9' : Eliminate redundant data type conversion
+//  Block '<S183>/E Conversion' : Eliminate redundant data type conversion
+//  Block '<S183>/F Conversion' : Eliminate redundant data type conversion
+//  Block '<S183>/G Conversion' : Eliminate redundant data type conversion
+//  Block '<S183>/Reshape' : Reshape block reduction
+//  Block '<S183>/Reshape1' : Reshape block reduction
+//  Block '<S183>/Reshape2' : Reshape block reduction
+//  Block '<S183>/Reshape3' : Reshape block reduction
+//  Block '<S183>/Reshape4' : Reshape block reduction
+//  Block '<S183>/Reshape5' : Reshape block reduction
+//  Block '<S183>/S Conversion' : Eliminate redundant data type conversion
+//  Block '<S216>/Reshape1' : Reshape block reduction
+//  Block '<S216>/mo or x Conversion' : Eliminate redundant data type conversion
+//  Block '<S216>/mo or x Conversion1' : Eliminate redundant data type conversion
+//  Block '<S216>/mo or x Conversion10' : Eliminate redundant data type conversion
+//  Block '<S216>/mo or x Conversion11' : Eliminate redundant data type conversion
+//  Block '<S216>/mo or x Conversion12' : Eliminate redundant data type conversion
+//  Block '<S216>/mo or x Conversion13' : Eliminate redundant data type conversion
+//  Block '<S216>/mo or x Conversion14' : Eliminate redundant data type conversion
+//  Block '<S216>/mo or x Conversion15' : Eliminate redundant data type conversion
+//  Block '<S216>/mo or x Conversion16' : Eliminate redundant data type conversion
+//  Block '<S216>/mo or x Conversion17' : Eliminate redundant data type conversion
+//  Block '<S216>/mo or x Conversion18' : Eliminate redundant data type conversion
+//  Block '<S216>/mo or x Conversion19' : Eliminate redundant data type conversion
+//  Block '<S216>/mo or x Conversion2' : Eliminate redundant data type conversion
+//  Block '<S216>/mo or x Conversion3' : Eliminate redundant data type conversion
+//  Block '<S216>/mo or x Conversion4' : Eliminate redundant data type conversion
+//  Block '<S216>/mo or x Conversion5' : Eliminate redundant data type conversion
+//  Block '<S216>/mo or x Conversion6' : Eliminate redundant data type conversion
+//  Block '<S216>/mo or x Conversion7' : Eliminate redundant data type conversion
+//  Block '<S216>/mo or x Conversion8' : Eliminate redundant data type conversion
+//  Block '<S216>/mo or x Conversion9' : Eliminate redundant data type conversion
+//  Block '<S269>/DataTypeConversion_Enable1' : Eliminate redundant data type conversion
+//  Block '<S269>/DataTypeConversion_Q' : Eliminate redundant data type conversion
+//  Block '<S269>/DataTypeConversion_R1' : Eliminate redundant data type conversion
+//  Block '<S269>/DataTypeConversion_R2' : Eliminate redundant data type conversion
+//  Block '<S269>/DataTypeConversion_uMeas1' : Eliminate redundant data type conversion
+//  Block '<S269>/DataTypeConversion_uMeas2' : Eliminate redundant data type conversion
+//  Block '<S269>/DataTypeConversion_uState' : Eliminate redundant data type conversion
+//  Block '<S269>/DataTypeConversion_y1' : Eliminate redundant data type conversion
+//  Block '<S269>/DataTypeConversion_y2' : Eliminate redundant data type conversion
+//  Block '<S243>/Zero-Order Hold' : Eliminated since input and output rates are identical
 
 
 //-
@@ -4274,287 +4340,290 @@ class proc_control_nodeModelClass {
 //  '<S24>'  : 'proc_control_node/Modèle Physique/Modele Thruster/T8'
 //  '<S25>'  : 'proc_control_node/Modèle Physique/Sensor Model/Band-Limited White Noise'
 //  '<S26>'  : 'proc_control_node/Modèle Physique/Sensor Model/Band-Limited White Noise1'
-//  '<S27>'  : 'proc_control_node/Modèle Physique/Sensor Model/IMU Inverse'
-//  '<S28>'  : 'proc_control_node/Modèle Physique/Sensor Model/Quaternion Conjugate'
-//  '<S29>'  : 'proc_control_node/Modèle Physique/Sensor Model/Quaternion Rotation'
-//  '<S30>'  : 'proc_control_node/Modèle Physique/Sensor Model/Quaternion Rotation1'
-//  '<S31>'  : 'proc_control_node/Modèle Physique/Sensor Model/Rotation Angles to Quaternions'
-//  '<S32>'  : 'proc_control_node/Modèle Physique/Sensor Model/IMU Inverse/Quaternion Conjugate'
-//  '<S33>'  : 'proc_control_node/Modèle Physique/Sensor Model/IMU Inverse/Quaternion Norm'
-//  '<S34>'  : 'proc_control_node/Modèle Physique/Sensor Model/Quaternion Rotation/Quaternion Normalize'
-//  '<S35>'  : 'proc_control_node/Modèle Physique/Sensor Model/Quaternion Rotation/V1'
-//  '<S36>'  : 'proc_control_node/Modèle Physique/Sensor Model/Quaternion Rotation/V2'
-//  '<S37>'  : 'proc_control_node/Modèle Physique/Sensor Model/Quaternion Rotation/V3'
-//  '<S38>'  : 'proc_control_node/Modèle Physique/Sensor Model/Quaternion Rotation/Quaternion Normalize/Quaternion Modulus'
-//  '<S39>'  : 'proc_control_node/Modèle Physique/Sensor Model/Quaternion Rotation/Quaternion Normalize/Quaternion Modulus/Quaternion Norm'
-//  '<S40>'  : 'proc_control_node/Modèle Physique/Sensor Model/Quaternion Rotation1/Quaternion Normalize'
-//  '<S41>'  : 'proc_control_node/Modèle Physique/Sensor Model/Quaternion Rotation1/V1'
-//  '<S42>'  : 'proc_control_node/Modèle Physique/Sensor Model/Quaternion Rotation1/V2'
-//  '<S43>'  : 'proc_control_node/Modèle Physique/Sensor Model/Quaternion Rotation1/V3'
-//  '<S44>'  : 'proc_control_node/Modèle Physique/Sensor Model/Quaternion Rotation1/Quaternion Normalize/Quaternion Modulus'
-//  '<S45>'  : 'proc_control_node/Modèle Physique/Sensor Model/Quaternion Rotation1/Quaternion Normalize/Quaternion Modulus/Quaternion Norm'
-//  '<S46>'  : 'proc_control_node/ROS Input/Quaternion Normalise'
-//  '<S47>'  : 'proc_control_node/ROS Input/Real System'
-//  '<S48>'  : 'proc_control_node/ROS Input/Simulation'
-//  '<S49>'  : 'proc_control_node/ROS Input/Subsystem'
-//  '<S50>'  : 'proc_control_node/ROS Input/Real System/Subscribe'
-//  '<S51>'  : 'proc_control_node/ROS Input/Real System/Subscribe1'
-//  '<S52>'  : 'proc_control_node/ROS Input/Real System/Subscribe2'
-//  '<S53>'  : 'proc_control_node/ROS Input/Real System/Subscribe/Enabled Subsystem'
-//  '<S54>'  : 'proc_control_node/ROS Input/Real System/Subscribe1/Enabled Subsystem'
-//  '<S55>'  : 'proc_control_node/ROS Input/Real System/Subscribe2/Enabled Subsystem'
-//  '<S56>'  : 'proc_control_node/ROS Input/Simulation/Subscribe'
-//  '<S57>'  : 'proc_control_node/ROS Input/Simulation/Subscribe1'
-//  '<S58>'  : 'proc_control_node/ROS Input/Simulation/Subscribe2'
-//  '<S59>'  : 'proc_control_node/ROS Input/Simulation/Subscribe/Enabled Subsystem'
-//  '<S60>'  : 'proc_control_node/ROS Input/Simulation/Subscribe1/Enabled Subsystem'
-//  '<S61>'  : 'proc_control_node/ROS Input/Simulation/Subscribe2/Enabled Subsystem'
-//  '<S62>'  : 'proc_control_node/ROS Input/Subsystem/MATLAB Function'
-//  '<S63>'  : 'proc_control_node/ROS Input/Subsystem/MinMax Running Resettable'
-//  '<S64>'  : 'proc_control_node/ROS Input/Subsystem/MinMax Running Resettable1'
-//  '<S65>'  : 'proc_control_node/ROS Input/Subsystem/MinMax Running Resettable/Subsystem'
-//  '<S66>'  : 'proc_control_node/ROS Input/Subsystem/MinMax Running Resettable1/Subsystem'
-//  '<S67>'  : 'proc_control_node/ROS Output/Send DVL msg'
-//  '<S68>'  : 'proc_control_node/ROS Output/Send Depth msg'
-//  '<S69>'  : 'proc_control_node/ROS Output/Send IMU msg'
-//  '<S70>'  : 'proc_control_node/ROS Output/Send to Gazebo'
-//  '<S71>'  : 'proc_control_node/ROS Output/Send to Unity'
-//  '<S72>'  : 'proc_control_node/ROS Output/Send DVL msg/   '
-//  '<S73>'  : 'proc_control_node/ROS Output/Send DVL msg/MATLAB Function'
-//  '<S74>'  : 'proc_control_node/ROS Output/Send DVL msg/Publish'
-//  '<S75>'  : 'proc_control_node/ROS Output/Send Depth msg/Blank Message'
-//  '<S76>'  : 'proc_control_node/ROS Output/Send Depth msg/Publish'
-//  '<S77>'  : 'proc_control_node/ROS Output/Send IMU msg/   '
-//  '<S78>'  : 'proc_control_node/ROS Output/Send IMU msg/MATLAB Function'
-//  '<S79>'  : 'proc_control_node/ROS Output/Send IMU msg/Publish'
-//  '<S80>'  : 'proc_control_node/ROS Output/Send to Gazebo/   '
-//  '<S81>'  : 'proc_control_node/ROS Output/Send to Gazebo/MATLAB Function'
-//  '<S82>'  : 'proc_control_node/ROS Output/Send to Gazebo/Publish'
-//  '<S83>'  : 'proc_control_node/ROS Output/Send to Gazebo/Quaternion Inverse'
-//  '<S84>'  : 'proc_control_node/ROS Output/Send to Gazebo/Quaternion Multiplication'
-//  '<S85>'  : 'proc_control_node/ROS Output/Send to Gazebo/Quaternion Rotation'
-//  '<S86>'  : 'proc_control_node/ROS Output/Send to Gazebo/Rotation Angles to Quaternions'
-//  '<S87>'  : 'proc_control_node/ROS Output/Send to Gazebo/Quaternion Inverse/Quaternion Conjugate'
-//  '<S88>'  : 'proc_control_node/ROS Output/Send to Gazebo/Quaternion Inverse/Quaternion Norm'
-//  '<S89>'  : 'proc_control_node/ROS Output/Send to Gazebo/Quaternion Multiplication/q0'
-//  '<S90>'  : 'proc_control_node/ROS Output/Send to Gazebo/Quaternion Multiplication/q1'
-//  '<S91>'  : 'proc_control_node/ROS Output/Send to Gazebo/Quaternion Multiplication/q2'
-//  '<S92>'  : 'proc_control_node/ROS Output/Send to Gazebo/Quaternion Multiplication/q3'
-//  '<S93>'  : 'proc_control_node/ROS Output/Send to Gazebo/Quaternion Rotation/Quaternion Normalize'
-//  '<S94>'  : 'proc_control_node/ROS Output/Send to Gazebo/Quaternion Rotation/V1'
-//  '<S95>'  : 'proc_control_node/ROS Output/Send to Gazebo/Quaternion Rotation/V2'
-//  '<S96>'  : 'proc_control_node/ROS Output/Send to Gazebo/Quaternion Rotation/V3'
-//  '<S97>'  : 'proc_control_node/ROS Output/Send to Gazebo/Quaternion Rotation/Quaternion Normalize/Quaternion Modulus'
-//  '<S98>'  : 'proc_control_node/ROS Output/Send to Gazebo/Quaternion Rotation/Quaternion Normalize/Quaternion Modulus/Quaternion Norm'
-//  '<S99>'  : 'proc_control_node/ROS Output/Send to Unity/   '
-//  '<S100>' : 'proc_control_node/ROS Output/Send to Unity/MATLAB Function'
-//  '<S101>' : 'proc_control_node/ROS Output/Send to Unity/Publish'
-//  '<S102>' : 'proc_control_node/Send Data to ROS/Blank Message1'
-//  '<S103>' : 'proc_control_node/Send Data to ROS/Blank Message2'
-//  '<S104>' : 'proc_control_node/Send Data to ROS/Blank Message3'
-//  '<S105>' : 'proc_control_node/Send Data to ROS/Blank Message4'
-//  '<S106>' : 'proc_control_node/Send Data to ROS/MATLAB Function3'
-//  '<S107>' : 'proc_control_node/Send Data to ROS/Publish1'
-//  '<S108>' : 'proc_control_node/Send Data to ROS/Publish2'
-//  '<S109>' : 'proc_control_node/Send Data to ROS/Publish3'
-//  '<S110>' : 'proc_control_node/Send Data to ROS/Publish4'
-//  '<S111>' : 'proc_control_node/Sensor Manager/Send Sensor ON'
-//  '<S112>' : 'proc_control_node/Sensor Manager/Send To Telemetry '
-//  '<S113>' : 'proc_control_node/Sensor Manager/Send Sensor ON/Blank Message'
-//  '<S114>' : 'proc_control_node/Sensor Manager/Send Sensor ON/Publish'
-//  '<S115>' : 'proc_control_node/Sensor Manager/Send To Telemetry /Blank Message'
-//  '<S116>' : 'proc_control_node/Sensor Manager/Send To Telemetry /Conversion d'unité'
-//  '<S117>' : 'proc_control_node/Sensor Manager/Send To Telemetry /MATLAB Function1'
-//  '<S118>' : 'proc_control_node/Sensor Manager/Send To Telemetry /Publish'
-//  '<S119>' : 'proc_control_node/Sensor Manager/Send To Telemetry /Conversion d'unité/Quaternions to Rotation Angles'
-//  '<S120>' : 'proc_control_node/Sensor Manager/Send To Telemetry /Conversion d'unité/Radians to Degrees'
-//  '<S121>' : 'proc_control_node/Sensor Manager/Send To Telemetry /Conversion d'unité/Radians to Degrees1'
-//  '<S122>' : 'proc_control_node/Sensor Manager/Send To Telemetry /Conversion d'unité/Quaternions to Rotation Angles/Angle Calculation'
-//  '<S123>' : 'proc_control_node/Sensor Manager/Send To Telemetry /Conversion d'unité/Quaternions to Rotation Angles/Quaternion Normalize'
-//  '<S124>' : 'proc_control_node/Sensor Manager/Send To Telemetry /Conversion d'unité/Quaternions to Rotation Angles/Angle Calculation/Protect asincos input'
-//  '<S125>' : 'proc_control_node/Sensor Manager/Send To Telemetry /Conversion d'unité/Quaternions to Rotation Angles/Angle Calculation/Protect asincos input/If Action Subsystem'
-//  '<S126>' : 'proc_control_node/Sensor Manager/Send To Telemetry /Conversion d'unité/Quaternions to Rotation Angles/Angle Calculation/Protect asincos input/If Action Subsystem1'
-//  '<S127>' : 'proc_control_node/Sensor Manager/Send To Telemetry /Conversion d'unité/Quaternions to Rotation Angles/Angle Calculation/Protect asincos input/If Action Subsystem2'
-//  '<S128>' : 'proc_control_node/Sensor Manager/Send To Telemetry /Conversion d'unité/Quaternions to Rotation Angles/Quaternion Normalize/Quaternion Modulus'
-//  '<S129>' : 'proc_control_node/Sensor Manager/Send To Telemetry /Conversion d'unité/Quaternions to Rotation Angles/Quaternion Normalize/Quaternion Modulus/Quaternion Norm'
-//  '<S130>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler '
-//  '<S131>' : 'proc_control_node/Subsystem Controller/Adaptive MPC quaternion '
-//  '<S132>' : 'proc_control_node/Subsystem Controller/IDLE'
-//  '<S133>' : 'proc_control_node/Subsystem Controller/JoyStick OpenLoop'
-//  '<S134>' : 'proc_control_node/Subsystem Controller/Quaternion Non linear MPC (Not for codegen)'
-//  '<S135>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Adaptive MPC Controller'
-//  '<S136>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Bus2Mux'
-//  '<S137>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /MATLAB Function'
-//  '<S138>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /MATLAB Function2'
-//  '<S139>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Adaptive MPC Controller/MPC'
-//  '<S140>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Adaptive MPC Controller/MPC/MPC Matrix Signal Check'
-//  '<S141>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Adaptive MPC Controller/MPC/MPC Matrix Signal Check A'
-//  '<S142>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Adaptive MPC Controller/MPC/MPC Matrix Signal Check B'
-//  '<S143>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Adaptive MPC Controller/MPC/MPC Matrix Signal Check C'
-//  '<S144>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Adaptive MPC Controller/MPC/MPC Matrix Signal Check D'
-//  '<S145>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Adaptive MPC Controller/MPC/MPC Matrix Signal Check DX'
-//  '<S146>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Adaptive MPC Controller/MPC/MPC Matrix Signal Check U'
-//  '<S147>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Adaptive MPC Controller/MPC/MPC Matrix Signal Check X'
-//  '<S148>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Adaptive MPC Controller/MPC/MPC Matrix Signal Check Y'
-//  '<S149>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Adaptive MPC Controller/MPC/MPC Matrix Signal Check1'
-//  '<S150>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Adaptive MPC Controller/MPC/MPC Matrix Signal Check2'
-//  '<S151>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Adaptive MPC Controller/MPC/MPC Preview Signal Check'
-//  '<S152>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Adaptive MPC Controller/MPC/MPC Preview Signal Check1'
-//  '<S153>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Adaptive MPC Controller/MPC/MPC Preview Signal Check2'
-//  '<S154>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Adaptive MPC Controller/MPC/MPC Preview Signal Check3'
-//  '<S155>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Adaptive MPC Controller/MPC/MPC Preview Signal Check4'
-//  '<S156>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Adaptive MPC Controller/MPC/MPC Preview Signal Check5'
-//  '<S157>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Adaptive MPC Controller/MPC/MPC Preview Signal Check6'
-//  '<S158>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Adaptive MPC Controller/MPC/MPC Preview Signal Check7'
-//  '<S159>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Adaptive MPC Controller/MPC/MPC Preview Signal Check8'
-//  '<S160>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Adaptive MPC Controller/MPC/MPC Scalar Signal Check'
-//  '<S161>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Adaptive MPC Controller/MPC/MPC Scalar Signal Check1'
-//  '<S162>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Adaptive MPC Controller/MPC/MPC Scalar Signal Check2'
-//  '<S163>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Adaptive MPC Controller/MPC/MPC Vector Signal Check'
-//  '<S164>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Adaptive MPC Controller/MPC/MPC Vector Signal Check1'
-//  '<S165>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Adaptive MPC Controller/MPC/MPC Vector Signal Check11'
-//  '<S166>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Adaptive MPC Controller/MPC/MPC Vector Signal Check6'
-//  '<S167>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Adaptive MPC Controller/MPC/optimizer'
-//  '<S168>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Adaptive MPC Controller/MPC/optimizer/FixedHorizonOptimizer'
-//  '<S169>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Bus2Mux/Quaternions to Rotation Angles'
-//  '<S170>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Bus2Mux/Quaternions to Rotation Angles/Angle Calculation'
-//  '<S171>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Bus2Mux/Quaternions to Rotation Angles/Quaternion Normalize'
-//  '<S172>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Bus2Mux/Quaternions to Rotation Angles/Angle Calculation/Protect asincos input'
-//  '<S173>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Bus2Mux/Quaternions to Rotation Angles/Angle Calculation/Protect asincos input/If Action Subsystem'
-//  '<S174>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Bus2Mux/Quaternions to Rotation Angles/Angle Calculation/Protect asincos input/If Action Subsystem1'
-//  '<S175>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Bus2Mux/Quaternions to Rotation Angles/Angle Calculation/Protect asincos input/If Action Subsystem2'
-//  '<S176>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Bus2Mux/Quaternions to Rotation Angles/Quaternion Normalize/Quaternion Modulus'
-//  '<S177>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Bus2Mux/Quaternions to Rotation Angles/Quaternion Normalize/Quaternion Modulus/Quaternion Norm'
-//  '<S178>' : 'proc_control_node/Subsystem Controller/Adaptive MPC quaternion /Adaptive MPC Controller'
-//  '<S179>' : 'proc_control_node/Subsystem Controller/Adaptive MPC quaternion /Bus2Mux'
-//  '<S180>' : 'proc_control_node/Subsystem Controller/Adaptive MPC quaternion /MATLAB Function2'
-//  '<S181>' : 'proc_control_node/Subsystem Controller/Adaptive MPC quaternion /Adaptive MPC Controller/MPC'
-//  '<S182>' : 'proc_control_node/Subsystem Controller/Adaptive MPC quaternion /Adaptive MPC Controller/MPC/MPC Matrix Signal Check'
-//  '<S183>' : 'proc_control_node/Subsystem Controller/Adaptive MPC quaternion /Adaptive MPC Controller/MPC/MPC Matrix Signal Check A'
-//  '<S184>' : 'proc_control_node/Subsystem Controller/Adaptive MPC quaternion /Adaptive MPC Controller/MPC/MPC Matrix Signal Check B'
-//  '<S185>' : 'proc_control_node/Subsystem Controller/Adaptive MPC quaternion /Adaptive MPC Controller/MPC/MPC Matrix Signal Check C'
-//  '<S186>' : 'proc_control_node/Subsystem Controller/Adaptive MPC quaternion /Adaptive MPC Controller/MPC/MPC Matrix Signal Check D'
-//  '<S187>' : 'proc_control_node/Subsystem Controller/Adaptive MPC quaternion /Adaptive MPC Controller/MPC/MPC Matrix Signal Check DX'
-//  '<S188>' : 'proc_control_node/Subsystem Controller/Adaptive MPC quaternion /Adaptive MPC Controller/MPC/MPC Matrix Signal Check U'
-//  '<S189>' : 'proc_control_node/Subsystem Controller/Adaptive MPC quaternion /Adaptive MPC Controller/MPC/MPC Matrix Signal Check X'
-//  '<S190>' : 'proc_control_node/Subsystem Controller/Adaptive MPC quaternion /Adaptive MPC Controller/MPC/MPC Matrix Signal Check Y'
-//  '<S191>' : 'proc_control_node/Subsystem Controller/Adaptive MPC quaternion /Adaptive MPC Controller/MPC/MPC Matrix Signal Check1'
-//  '<S192>' : 'proc_control_node/Subsystem Controller/Adaptive MPC quaternion /Adaptive MPC Controller/MPC/MPC Matrix Signal Check2'
-//  '<S193>' : 'proc_control_node/Subsystem Controller/Adaptive MPC quaternion /Adaptive MPC Controller/MPC/MPC Preview Signal Check'
-//  '<S194>' : 'proc_control_node/Subsystem Controller/Adaptive MPC quaternion /Adaptive MPC Controller/MPC/MPC Preview Signal Check1'
-//  '<S195>' : 'proc_control_node/Subsystem Controller/Adaptive MPC quaternion /Adaptive MPC Controller/MPC/MPC Preview Signal Check2'
-//  '<S196>' : 'proc_control_node/Subsystem Controller/Adaptive MPC quaternion /Adaptive MPC Controller/MPC/MPC Preview Signal Check3'
-//  '<S197>' : 'proc_control_node/Subsystem Controller/Adaptive MPC quaternion /Adaptive MPC Controller/MPC/MPC Preview Signal Check4'
-//  '<S198>' : 'proc_control_node/Subsystem Controller/Adaptive MPC quaternion /Adaptive MPC Controller/MPC/MPC Preview Signal Check5'
-//  '<S199>' : 'proc_control_node/Subsystem Controller/Adaptive MPC quaternion /Adaptive MPC Controller/MPC/MPC Preview Signal Check6'
-//  '<S200>' : 'proc_control_node/Subsystem Controller/Adaptive MPC quaternion /Adaptive MPC Controller/MPC/MPC Preview Signal Check7'
-//  '<S201>' : 'proc_control_node/Subsystem Controller/Adaptive MPC quaternion /Adaptive MPC Controller/MPC/MPC Preview Signal Check8'
-//  '<S202>' : 'proc_control_node/Subsystem Controller/Adaptive MPC quaternion /Adaptive MPC Controller/MPC/MPC Scalar Signal Check'
-//  '<S203>' : 'proc_control_node/Subsystem Controller/Adaptive MPC quaternion /Adaptive MPC Controller/MPC/MPC Scalar Signal Check1'
-//  '<S204>' : 'proc_control_node/Subsystem Controller/Adaptive MPC quaternion /Adaptive MPC Controller/MPC/MPC Scalar Signal Check2'
-//  '<S205>' : 'proc_control_node/Subsystem Controller/Adaptive MPC quaternion /Adaptive MPC Controller/MPC/MPC Vector Signal Check'
-//  '<S206>' : 'proc_control_node/Subsystem Controller/Adaptive MPC quaternion /Adaptive MPC Controller/MPC/MPC Vector Signal Check1'
-//  '<S207>' : 'proc_control_node/Subsystem Controller/Adaptive MPC quaternion /Adaptive MPC Controller/MPC/MPC Vector Signal Check11'
-//  '<S208>' : 'proc_control_node/Subsystem Controller/Adaptive MPC quaternion /Adaptive MPC Controller/MPC/MPC Vector Signal Check6'
-//  '<S209>' : 'proc_control_node/Subsystem Controller/Adaptive MPC quaternion /Adaptive MPC Controller/MPC/optimizer'
-//  '<S210>' : 'proc_control_node/Subsystem Controller/Adaptive MPC quaternion /Adaptive MPC Controller/MPC/optimizer/FixedHorizonOptimizer'
-//  '<S211>' : 'proc_control_node/Subsystem Controller/JoyStick OpenLoop/Discrete Derivative'
-//  '<S212>' : 'proc_control_node/Subsystem Controller/Quaternion Non linear MPC (Not for codegen)/Bus2Mux1'
-//  '<S213>' : 'proc_control_node/Subsystem Controller/Quaternion Non linear MPC (Not for codegen)/Nonlinear MPC Controller'
-//  '<S214>' : 'proc_control_node/Subsystem Controller/Quaternion Non linear MPC (Not for codegen)/Nonlinear MPC Controller/MPC'
-//  '<S215>' : 'proc_control_node/Subsystem Controller/Quaternion Non linear MPC (Not for codegen)/Nonlinear MPC Controller/MPC/MPC Preview Signal Check'
-//  '<S216>' : 'proc_control_node/Subsystem Controller/Quaternion Non linear MPC (Not for codegen)/Nonlinear MPC Controller/MPC/MPC Preview Signal Check1'
-//  '<S217>' : 'proc_control_node/Subsystem Controller/Quaternion Non linear MPC (Not for codegen)/Nonlinear MPC Controller/MPC/MPC Preview Signal Check10'
-//  '<S218>' : 'proc_control_node/Subsystem Controller/Quaternion Non linear MPC (Not for codegen)/Nonlinear MPC Controller/MPC/MPC Preview Signal Check11'
-//  '<S219>' : 'proc_control_node/Subsystem Controller/Quaternion Non linear MPC (Not for codegen)/Nonlinear MPC Controller/MPC/MPC Preview Signal Check12'
-//  '<S220>' : 'proc_control_node/Subsystem Controller/Quaternion Non linear MPC (Not for codegen)/Nonlinear MPC Controller/MPC/MPC Preview Signal Check13'
-//  '<S221>' : 'proc_control_node/Subsystem Controller/Quaternion Non linear MPC (Not for codegen)/Nonlinear MPC Controller/MPC/MPC Preview Signal Check14'
-//  '<S222>' : 'proc_control_node/Subsystem Controller/Quaternion Non linear MPC (Not for codegen)/Nonlinear MPC Controller/MPC/MPC Preview Signal Check15'
-//  '<S223>' : 'proc_control_node/Subsystem Controller/Quaternion Non linear MPC (Not for codegen)/Nonlinear MPC Controller/MPC/MPC Preview Signal Check16'
-//  '<S224>' : 'proc_control_node/Subsystem Controller/Quaternion Non linear MPC (Not for codegen)/Nonlinear MPC Controller/MPC/MPC Preview Signal Check3'
-//  '<S225>' : 'proc_control_node/Subsystem Controller/Quaternion Non linear MPC (Not for codegen)/Nonlinear MPC Controller/MPC/MPC Preview Signal Check4'
-//  '<S226>' : 'proc_control_node/Subsystem Controller/Quaternion Non linear MPC (Not for codegen)/Nonlinear MPC Controller/MPC/MPC Preview Signal Check5'
-//  '<S227>' : 'proc_control_node/Subsystem Controller/Quaternion Non linear MPC (Not for codegen)/Nonlinear MPC Controller/MPC/MPC Preview Signal Check6'
-//  '<S228>' : 'proc_control_node/Subsystem Controller/Quaternion Non linear MPC (Not for codegen)/Nonlinear MPC Controller/MPC/MPC Preview Signal Check7'
-//  '<S229>' : 'proc_control_node/Subsystem Controller/Quaternion Non linear MPC (Not for codegen)/Nonlinear MPC Controller/MPC/MPC Preview Signal Check8'
-//  '<S230>' : 'proc_control_node/Subsystem Controller/Quaternion Non linear MPC (Not for codegen)/Nonlinear MPC Controller/MPC/MPC Preview Signal Check9'
-//  '<S231>' : 'proc_control_node/Subsystem Controller/Quaternion Non linear MPC (Not for codegen)/Nonlinear MPC Controller/MPC/MPC Scalar Signal Check1'
-//  '<S232>' : 'proc_control_node/Subsystem Controller/Quaternion Non linear MPC (Not for codegen)/Nonlinear MPC Controller/MPC/MPC Scalar Signal Check2'
-//  '<S233>' : 'proc_control_node/Subsystem Controller/Quaternion Non linear MPC (Not for codegen)/Nonlinear MPC Controller/MPC/MPC Vector Signal Check1'
-//  '<S234>' : 'proc_control_node/Subsystem Controller/Quaternion Non linear MPC (Not for codegen)/Nonlinear MPC Controller/MPC/MPC Vector Signal Check11'
-//  '<S235>' : 'proc_control_node/Subsystem Controller/Quaternion Non linear MPC (Not for codegen)/Nonlinear MPC Controller/MPC/NLMPC'
-//  '<S236>' : 'proc_control_node/Subsystem ProcNav/AHRS//Detph Mesurments'
-//  '<S237>' : 'proc_control_node/Subsystem ProcNav/DVL Mesurments'
-//  '<S238>' : 'proc_control_node/Subsystem ProcNav/Mux2Bus'
-//  '<S239>' : 'proc_control_node/Subsystem ProcNav/Reset Logic'
-//  '<S240>' : 'proc_control_node/Subsystem ProcNav/Subsystem'
-//  '<S241>' : 'proc_control_node/Subsystem ProcNav/Thursters Mesurments'
-//  '<S242>' : 'proc_control_node/Subsystem ProcNav/AHRS//Detph Mesurments/Quaternion Conjugate'
-//  '<S243>' : 'proc_control_node/Subsystem ProcNav/AHRS//Detph Mesurments/Quaternion Inverse'
-//  '<S244>' : 'proc_control_node/Subsystem ProcNav/AHRS//Detph Mesurments/Quaternion Rotation'
-//  '<S245>' : 'proc_control_node/Subsystem ProcNav/AHRS//Detph Mesurments/Quaternion Inverse/Quaternion Conjugate'
-//  '<S246>' : 'proc_control_node/Subsystem ProcNav/AHRS//Detph Mesurments/Quaternion Inverse/Quaternion Norm'
-//  '<S247>' : 'proc_control_node/Subsystem ProcNav/AHRS//Detph Mesurments/Quaternion Rotation/Quaternion Normalize'
-//  '<S248>' : 'proc_control_node/Subsystem ProcNav/AHRS//Detph Mesurments/Quaternion Rotation/V1'
-//  '<S249>' : 'proc_control_node/Subsystem ProcNav/AHRS//Detph Mesurments/Quaternion Rotation/V2'
-//  '<S250>' : 'proc_control_node/Subsystem ProcNav/AHRS//Detph Mesurments/Quaternion Rotation/V3'
-//  '<S251>' : 'proc_control_node/Subsystem ProcNav/AHRS//Detph Mesurments/Quaternion Rotation/Quaternion Normalize/Quaternion Modulus'
-//  '<S252>' : 'proc_control_node/Subsystem ProcNav/AHRS//Detph Mesurments/Quaternion Rotation/Quaternion Normalize/Quaternion Modulus/Quaternion Norm'
-//  '<S253>' : 'proc_control_node/Subsystem ProcNav/DVL Mesurments/DVL2Ship'
-//  '<S254>' : 'proc_control_node/Subsystem ProcNav/DVL Mesurments/MATLAB Function1'
-//  '<S255>' : 'proc_control_node/Subsystem ProcNav/DVL Mesurments/Quaternion Rotation1'
-//  '<S256>' : 'proc_control_node/Subsystem ProcNav/DVL Mesurments/DVL2Ship/Subsystem2'
-//  '<S257>' : 'proc_control_node/Subsystem ProcNav/DVL Mesurments/DVL2Ship/Subsystem2/Rotation Angles to Quaternions'
-//  '<S258>' : 'proc_control_node/Subsystem ProcNav/DVL Mesurments/Quaternion Rotation1/Quaternion Normalize'
-//  '<S259>' : 'proc_control_node/Subsystem ProcNav/DVL Mesurments/Quaternion Rotation1/V1'
-//  '<S260>' : 'proc_control_node/Subsystem ProcNav/DVL Mesurments/Quaternion Rotation1/V2'
-//  '<S261>' : 'proc_control_node/Subsystem ProcNav/DVL Mesurments/Quaternion Rotation1/V3'
-//  '<S262>' : 'proc_control_node/Subsystem ProcNav/DVL Mesurments/Quaternion Rotation1/Quaternion Normalize/Quaternion Modulus'
-//  '<S263>' : 'proc_control_node/Subsystem ProcNav/DVL Mesurments/Quaternion Rotation1/Quaternion Normalize/Quaternion Modulus/Quaternion Norm'
-//  '<S264>' : 'proc_control_node/Subsystem ProcNav/Mux2Bus/Quaternion Inverse'
-//  '<S265>' : 'proc_control_node/Subsystem ProcNav/Mux2Bus/Quaternion Inverse/Quaternion Conjugate'
-//  '<S266>' : 'proc_control_node/Subsystem ProcNav/Mux2Bus/Quaternion Inverse/Quaternion Norm'
-//  '<S267>' : 'proc_control_node/Subsystem ProcNav/Subsystem/Extended Kalman Filter'
-//  '<S268>' : 'proc_control_node/Subsystem ProcNav/Subsystem/Extended Kalman Filter/Correct1'
-//  '<S269>' : 'proc_control_node/Subsystem ProcNav/Subsystem/Extended Kalman Filter/Correct2'
-//  '<S270>' : 'proc_control_node/Subsystem ProcNav/Subsystem/Extended Kalman Filter/Output'
-//  '<S271>' : 'proc_control_node/Subsystem ProcNav/Subsystem/Extended Kalman Filter/Predict'
-//  '<S272>' : 'proc_control_node/Subsystem ProcNav/Subsystem/Extended Kalman Filter/Correct1/Correct'
-//  '<S273>' : 'proc_control_node/Subsystem ProcNav/Subsystem/Extended Kalman Filter/Correct2/Correct'
-//  '<S274>' : 'proc_control_node/Subsystem ProcNav/Subsystem/Extended Kalman Filter/Output/MATLAB Function'
-//  '<S275>' : 'proc_control_node/Subsystem ProcNav/Subsystem/Extended Kalman Filter/Predict/Predict'
-//  '<S276>' : 'proc_control_node/Subsystem Trajectory/If Action Subsystem'
-//  '<S277>' : 'proc_control_node/Subsystem Trajectory/Subsystem'
-//  '<S278>' : 'proc_control_node/Subsystem Trajectory/SubsystemAuto'
-//  '<S279>' : 'proc_control_node/Subsystem Trajectory/SubsystemManual'
-//  '<S280>' : 'proc_control_node/Subsystem Trajectory/singleWpts Trajectory'
-//  '<S281>' : 'proc_control_node/Subsystem Trajectory/If Action Subsystem/MATLAB Function1'
-//  '<S282>' : 'proc_control_node/Subsystem Trajectory/Subsystem/Second-Order Filter'
-//  '<S283>' : 'proc_control_node/Subsystem Trajectory/Subsystem/Subscribe2'
-//  '<S284>' : 'proc_control_node/Subsystem Trajectory/Subsystem/Second-Order Filter/Integrator (Discrete or Continuous)'
-//  '<S285>' : 'proc_control_node/Subsystem Trajectory/Subsystem/Second-Order Filter/Integrator (Discrete or Continuous)1'
-//  '<S286>' : 'proc_control_node/Subsystem Trajectory/Subsystem/Second-Order Filter/Integrator (Discrete or Continuous)/Discrete'
-//  '<S287>' : 'proc_control_node/Subsystem Trajectory/Subsystem/Second-Order Filter/Integrator (Discrete or Continuous)1/Discrete'
-//  '<S288>' : 'proc_control_node/Subsystem Trajectory/Subsystem/Subscribe2/Enabled Subsystem'
-//  '<S289>' : 'proc_control_node/Subsystem Trajectory/SubsystemAuto/MATLAB Function1'
-//  '<S290>' : 'proc_control_node/Subsystem Trajectory/SubsystemManual/MATLAB Function1'
-//  '<S291>' : 'proc_control_node/Subsystem Trajectory/singleWpts Trajectory/MATLAB Function'
-//  '<S292>' : 'proc_control_node/Subsystem Trajectory/singleWpts Trajectory/Pre-traitement'
-//  '<S293>' : 'proc_control_node/Subsystem Trajectory/singleWpts Trajectory/Subscribe'
-//  '<S294>' : 'proc_control_node/Subsystem Trajectory/singleWpts Trajectory/Subsystem1'
-//  '<S295>' : 'proc_control_node/Subsystem Trajectory/singleWpts Trajectory/Trajectory generator'
-//  '<S296>' : 'proc_control_node/Subsystem Trajectory/singleWpts Trajectory/Subscribe/Enabled Subsystem'
-//  '<S297>' : 'proc_control_node/Subsystem Trajectory/singleWpts Trajectory/Trajectory generator/Subsystem'
-//  '<S298>' : 'proc_control_node/Subsystem1/Subscribe'
-//  '<S299>' : 'proc_control_node/Subsystem1/Subscribe1'
-//  '<S300>' : 'proc_control_node/Subsystem1/Subscribe2'
-//  '<S301>' : 'proc_control_node/Subsystem1/Subscribe3'
-//  '<S302>' : 'proc_control_node/Subsystem1/Subscribe4'
-//  '<S303>' : 'proc_control_node/Subsystem1/Subscribe/Enabled Subsystem'
-//  '<S304>' : 'proc_control_node/Subsystem1/Subscribe1/Enabled Subsystem'
-//  '<S305>' : 'proc_control_node/Subsystem1/Subscribe2/Enabled Subsystem'
-//  '<S306>' : 'proc_control_node/Subsystem1/Subscribe3/Enabled Subsystem'
-//  '<S307>' : 'proc_control_node/Subsystem1/Subscribe4/Enabled Subsystem'
+//  '<S27>'  : 'proc_control_node/Modèle Physique/Sensor Model/Band-Limited White Noise2'
+//  '<S28>'  : 'proc_control_node/Modèle Physique/Sensor Model/IMU Inverse'
+//  '<S29>'  : 'proc_control_node/Modèle Physique/Sensor Model/MATLAB Function'
+//  '<S30>'  : 'proc_control_node/Modèle Physique/Sensor Model/Quaternion Conjugate'
+//  '<S31>'  : 'proc_control_node/Modèle Physique/Sensor Model/Quaternion Rotation'
+//  '<S32>'  : 'proc_control_node/Modèle Physique/Sensor Model/Quaternion Rotation1'
+//  '<S33>'  : 'proc_control_node/Modèle Physique/Sensor Model/Rotation Angles to Quaternions'
+//  '<S34>'  : 'proc_control_node/Modèle Physique/Sensor Model/IMU Inverse/Quaternion Conjugate'
+//  '<S35>'  : 'proc_control_node/Modèle Physique/Sensor Model/IMU Inverse/Quaternion Norm'
+//  '<S36>'  : 'proc_control_node/Modèle Physique/Sensor Model/Quaternion Rotation/Quaternion Normalize'
+//  '<S37>'  : 'proc_control_node/Modèle Physique/Sensor Model/Quaternion Rotation/V1'
+//  '<S38>'  : 'proc_control_node/Modèle Physique/Sensor Model/Quaternion Rotation/V2'
+//  '<S39>'  : 'proc_control_node/Modèle Physique/Sensor Model/Quaternion Rotation/V3'
+//  '<S40>'  : 'proc_control_node/Modèle Physique/Sensor Model/Quaternion Rotation/Quaternion Normalize/Quaternion Modulus'
+//  '<S41>'  : 'proc_control_node/Modèle Physique/Sensor Model/Quaternion Rotation/Quaternion Normalize/Quaternion Modulus/Quaternion Norm'
+//  '<S42>'  : 'proc_control_node/Modèle Physique/Sensor Model/Quaternion Rotation1/Quaternion Normalize'
+//  '<S43>'  : 'proc_control_node/Modèle Physique/Sensor Model/Quaternion Rotation1/V1'
+//  '<S44>'  : 'proc_control_node/Modèle Physique/Sensor Model/Quaternion Rotation1/V2'
+//  '<S45>'  : 'proc_control_node/Modèle Physique/Sensor Model/Quaternion Rotation1/V3'
+//  '<S46>'  : 'proc_control_node/Modèle Physique/Sensor Model/Quaternion Rotation1/Quaternion Normalize/Quaternion Modulus'
+//  '<S47>'  : 'proc_control_node/Modèle Physique/Sensor Model/Quaternion Rotation1/Quaternion Normalize/Quaternion Modulus/Quaternion Norm'
+//  '<S48>'  : 'proc_control_node/ROS Input/Quaternion Normalise'
+//  '<S49>'  : 'proc_control_node/ROS Input/Real System'
+//  '<S50>'  : 'proc_control_node/ROS Input/Simulation'
+//  '<S51>'  : 'proc_control_node/ROS Input/Subsystem'
+//  '<S52>'  : 'proc_control_node/ROS Input/Real System/Subscribe'
+//  '<S53>'  : 'proc_control_node/ROS Input/Real System/Subscribe1'
+//  '<S54>'  : 'proc_control_node/ROS Input/Real System/Subscribe2'
+//  '<S55>'  : 'proc_control_node/ROS Input/Real System/Subscribe/Enabled Subsystem'
+//  '<S56>'  : 'proc_control_node/ROS Input/Real System/Subscribe1/Enabled Subsystem'
+//  '<S57>'  : 'proc_control_node/ROS Input/Real System/Subscribe2/Enabled Subsystem'
+//  '<S58>'  : 'proc_control_node/ROS Input/Simulation/Subscribe'
+//  '<S59>'  : 'proc_control_node/ROS Input/Simulation/Subscribe1'
+//  '<S60>'  : 'proc_control_node/ROS Input/Simulation/Subscribe2'
+//  '<S61>'  : 'proc_control_node/ROS Input/Simulation/Subscribe/Enabled Subsystem'
+//  '<S62>'  : 'proc_control_node/ROS Input/Simulation/Subscribe1/Enabled Subsystem'
+//  '<S63>'  : 'proc_control_node/ROS Input/Simulation/Subscribe2/Enabled Subsystem'
+//  '<S64>'  : 'proc_control_node/ROS Input/Subsystem/MATLAB Function'
+//  '<S65>'  : 'proc_control_node/ROS Input/Subsystem/MinMax Running Resettable'
+//  '<S66>'  : 'proc_control_node/ROS Input/Subsystem/MinMax Running Resettable1'
+//  '<S67>'  : 'proc_control_node/ROS Input/Subsystem/MinMax Running Resettable/Subsystem'
+//  '<S68>'  : 'proc_control_node/ROS Input/Subsystem/MinMax Running Resettable1/Subsystem'
+//  '<S69>'  : 'proc_control_node/ROS Output/Send DVL msg'
+//  '<S70>'  : 'proc_control_node/ROS Output/Send Depth msg'
+//  '<S71>'  : 'proc_control_node/ROS Output/Send IMU msg'
+//  '<S72>'  : 'proc_control_node/ROS Output/Send to Gazebo'
+//  '<S73>'  : 'proc_control_node/ROS Output/Send to Unity'
+//  '<S74>'  : 'proc_control_node/ROS Output/Send DVL msg/   '
+//  '<S75>'  : 'proc_control_node/ROS Output/Send DVL msg/MATLAB Function'
+//  '<S76>'  : 'proc_control_node/ROS Output/Send DVL msg/Publish'
+//  '<S77>'  : 'proc_control_node/ROS Output/Send Depth msg/Blank Message'
+//  '<S78>'  : 'proc_control_node/ROS Output/Send Depth msg/Publish'
+//  '<S79>'  : 'proc_control_node/ROS Output/Send IMU msg/   '
+//  '<S80>'  : 'proc_control_node/ROS Output/Send IMU msg/MATLAB Function'
+//  '<S81>'  : 'proc_control_node/ROS Output/Send IMU msg/Publish'
+//  '<S82>'  : 'proc_control_node/ROS Output/Send to Gazebo/   '
+//  '<S83>'  : 'proc_control_node/ROS Output/Send to Gazebo/MATLAB Function'
+//  '<S84>'  : 'proc_control_node/ROS Output/Send to Gazebo/Publish'
+//  '<S85>'  : 'proc_control_node/ROS Output/Send to Gazebo/Quaternion Inverse'
+//  '<S86>'  : 'proc_control_node/ROS Output/Send to Gazebo/Quaternion Multiplication'
+//  '<S87>'  : 'proc_control_node/ROS Output/Send to Gazebo/Quaternion Rotation'
+//  '<S88>'  : 'proc_control_node/ROS Output/Send to Gazebo/Rotation Angles to Quaternions'
+//  '<S89>'  : 'proc_control_node/ROS Output/Send to Gazebo/Quaternion Inverse/Quaternion Conjugate'
+//  '<S90>'  : 'proc_control_node/ROS Output/Send to Gazebo/Quaternion Inverse/Quaternion Norm'
+//  '<S91>'  : 'proc_control_node/ROS Output/Send to Gazebo/Quaternion Multiplication/q0'
+//  '<S92>'  : 'proc_control_node/ROS Output/Send to Gazebo/Quaternion Multiplication/q1'
+//  '<S93>'  : 'proc_control_node/ROS Output/Send to Gazebo/Quaternion Multiplication/q2'
+//  '<S94>'  : 'proc_control_node/ROS Output/Send to Gazebo/Quaternion Multiplication/q3'
+//  '<S95>'  : 'proc_control_node/ROS Output/Send to Gazebo/Quaternion Rotation/Quaternion Normalize'
+//  '<S96>'  : 'proc_control_node/ROS Output/Send to Gazebo/Quaternion Rotation/V1'
+//  '<S97>'  : 'proc_control_node/ROS Output/Send to Gazebo/Quaternion Rotation/V2'
+//  '<S98>'  : 'proc_control_node/ROS Output/Send to Gazebo/Quaternion Rotation/V3'
+//  '<S99>'  : 'proc_control_node/ROS Output/Send to Gazebo/Quaternion Rotation/Quaternion Normalize/Quaternion Modulus'
+//  '<S100>' : 'proc_control_node/ROS Output/Send to Gazebo/Quaternion Rotation/Quaternion Normalize/Quaternion Modulus/Quaternion Norm'
+//  '<S101>' : 'proc_control_node/ROS Output/Send to Unity/   '
+//  '<S102>' : 'proc_control_node/ROS Output/Send to Unity/MATLAB Function'
+//  '<S103>' : 'proc_control_node/ROS Output/Send to Unity/Publish'
+//  '<S104>' : 'proc_control_node/Send Data to ROS/Blank Message1'
+//  '<S105>' : 'proc_control_node/Send Data to ROS/Blank Message2'
+//  '<S106>' : 'proc_control_node/Send Data to ROS/Blank Message3'
+//  '<S107>' : 'proc_control_node/Send Data to ROS/Blank Message4'
+//  '<S108>' : 'proc_control_node/Send Data to ROS/MATLAB Function3'
+//  '<S109>' : 'proc_control_node/Send Data to ROS/Publish1'
+//  '<S110>' : 'proc_control_node/Send Data to ROS/Publish2'
+//  '<S111>' : 'proc_control_node/Send Data to ROS/Publish3'
+//  '<S112>' : 'proc_control_node/Send Data to ROS/Publish4'
+//  '<S113>' : 'proc_control_node/Sensor Manager/Send Sensor ON'
+//  '<S114>' : 'proc_control_node/Sensor Manager/Send To Telemetry '
+//  '<S115>' : 'proc_control_node/Sensor Manager/Send Sensor ON/Blank Message'
+//  '<S116>' : 'proc_control_node/Sensor Manager/Send Sensor ON/Publish'
+//  '<S117>' : 'proc_control_node/Sensor Manager/Send To Telemetry /Blank Message'
+//  '<S118>' : 'proc_control_node/Sensor Manager/Send To Telemetry /Conversion d'unité'
+//  '<S119>' : 'proc_control_node/Sensor Manager/Send To Telemetry /MATLAB Function1'
+//  '<S120>' : 'proc_control_node/Sensor Manager/Send To Telemetry /Publish'
+//  '<S121>' : 'proc_control_node/Sensor Manager/Send To Telemetry /Conversion d'unité/Quaternions to Rotation Angles'
+//  '<S122>' : 'proc_control_node/Sensor Manager/Send To Telemetry /Conversion d'unité/Radians to Degrees'
+//  '<S123>' : 'proc_control_node/Sensor Manager/Send To Telemetry /Conversion d'unité/Radians to Degrees1'
+//  '<S124>' : 'proc_control_node/Sensor Manager/Send To Telemetry /Conversion d'unité/Quaternions to Rotation Angles/Angle Calculation'
+//  '<S125>' : 'proc_control_node/Sensor Manager/Send To Telemetry /Conversion d'unité/Quaternions to Rotation Angles/Quaternion Normalize'
+//  '<S126>' : 'proc_control_node/Sensor Manager/Send To Telemetry /Conversion d'unité/Quaternions to Rotation Angles/Angle Calculation/Protect asincos input'
+//  '<S127>' : 'proc_control_node/Sensor Manager/Send To Telemetry /Conversion d'unité/Quaternions to Rotation Angles/Angle Calculation/Protect asincos input/If Action Subsystem'
+//  '<S128>' : 'proc_control_node/Sensor Manager/Send To Telemetry /Conversion d'unité/Quaternions to Rotation Angles/Angle Calculation/Protect asincos input/If Action Subsystem1'
+//  '<S129>' : 'proc_control_node/Sensor Manager/Send To Telemetry /Conversion d'unité/Quaternions to Rotation Angles/Angle Calculation/Protect asincos input/If Action Subsystem2'
+//  '<S130>' : 'proc_control_node/Sensor Manager/Send To Telemetry /Conversion d'unité/Quaternions to Rotation Angles/Quaternion Normalize/Quaternion Modulus'
+//  '<S131>' : 'proc_control_node/Sensor Manager/Send To Telemetry /Conversion d'unité/Quaternions to Rotation Angles/Quaternion Normalize/Quaternion Modulus/Quaternion Norm'
+//  '<S132>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler '
+//  '<S133>' : 'proc_control_node/Subsystem Controller/Adaptive MPC quaternion '
+//  '<S134>' : 'proc_control_node/Subsystem Controller/IDLE'
+//  '<S135>' : 'proc_control_node/Subsystem Controller/JoyStick OpenLoop'
+//  '<S136>' : 'proc_control_node/Subsystem Controller/Quaternion Non linear MPC (Not for codegen)'
+//  '<S137>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Adaptive MPC Controller'
+//  '<S138>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Bus2Mux'
+//  '<S139>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /MATLAB Function'
+//  '<S140>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /MATLAB Function2'
+//  '<S141>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Adaptive MPC Controller/MPC'
+//  '<S142>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Adaptive MPC Controller/MPC/MPC Matrix Signal Check'
+//  '<S143>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Adaptive MPC Controller/MPC/MPC Matrix Signal Check A'
+//  '<S144>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Adaptive MPC Controller/MPC/MPC Matrix Signal Check B'
+//  '<S145>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Adaptive MPC Controller/MPC/MPC Matrix Signal Check C'
+//  '<S146>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Adaptive MPC Controller/MPC/MPC Matrix Signal Check D'
+//  '<S147>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Adaptive MPC Controller/MPC/MPC Matrix Signal Check DX'
+//  '<S148>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Adaptive MPC Controller/MPC/MPC Matrix Signal Check U'
+//  '<S149>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Adaptive MPC Controller/MPC/MPC Matrix Signal Check X'
+//  '<S150>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Adaptive MPC Controller/MPC/MPC Matrix Signal Check Y'
+//  '<S151>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Adaptive MPC Controller/MPC/MPC Matrix Signal Check1'
+//  '<S152>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Adaptive MPC Controller/MPC/MPC Matrix Signal Check2'
+//  '<S153>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Adaptive MPC Controller/MPC/MPC Preview Signal Check'
+//  '<S154>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Adaptive MPC Controller/MPC/MPC Preview Signal Check1'
+//  '<S155>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Adaptive MPC Controller/MPC/MPC Preview Signal Check2'
+//  '<S156>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Adaptive MPC Controller/MPC/MPC Preview Signal Check3'
+//  '<S157>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Adaptive MPC Controller/MPC/MPC Preview Signal Check4'
+//  '<S158>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Adaptive MPC Controller/MPC/MPC Preview Signal Check5'
+//  '<S159>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Adaptive MPC Controller/MPC/MPC Preview Signal Check6'
+//  '<S160>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Adaptive MPC Controller/MPC/MPC Preview Signal Check7'
+//  '<S161>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Adaptive MPC Controller/MPC/MPC Preview Signal Check8'
+//  '<S162>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Adaptive MPC Controller/MPC/MPC Scalar Signal Check'
+//  '<S163>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Adaptive MPC Controller/MPC/MPC Scalar Signal Check1'
+//  '<S164>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Adaptive MPC Controller/MPC/MPC Scalar Signal Check2'
+//  '<S165>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Adaptive MPC Controller/MPC/MPC Vector Signal Check'
+//  '<S166>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Adaptive MPC Controller/MPC/MPC Vector Signal Check1'
+//  '<S167>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Adaptive MPC Controller/MPC/MPC Vector Signal Check11'
+//  '<S168>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Adaptive MPC Controller/MPC/MPC Vector Signal Check6'
+//  '<S169>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Adaptive MPC Controller/MPC/optimizer'
+//  '<S170>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Adaptive MPC Controller/MPC/optimizer/FixedHorizonOptimizer'
+//  '<S171>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Bus2Mux/Quaternions to Rotation Angles'
+//  '<S172>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Bus2Mux/Quaternions to Rotation Angles/Angle Calculation'
+//  '<S173>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Bus2Mux/Quaternions to Rotation Angles/Quaternion Normalize'
+//  '<S174>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Bus2Mux/Quaternions to Rotation Angles/Angle Calculation/Protect asincos input'
+//  '<S175>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Bus2Mux/Quaternions to Rotation Angles/Angle Calculation/Protect asincos input/If Action Subsystem'
+//  '<S176>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Bus2Mux/Quaternions to Rotation Angles/Angle Calculation/Protect asincos input/If Action Subsystem1'
+//  '<S177>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Bus2Mux/Quaternions to Rotation Angles/Angle Calculation/Protect asincos input/If Action Subsystem2'
+//  '<S178>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Bus2Mux/Quaternions to Rotation Angles/Quaternion Normalize/Quaternion Modulus'
+//  '<S179>' : 'proc_control_node/Subsystem Controller/Adaptive MPC Euler /Bus2Mux/Quaternions to Rotation Angles/Quaternion Normalize/Quaternion Modulus/Quaternion Norm'
+//  '<S180>' : 'proc_control_node/Subsystem Controller/Adaptive MPC quaternion /Adaptive MPC Controller'
+//  '<S181>' : 'proc_control_node/Subsystem Controller/Adaptive MPC quaternion /Bus2Mux'
+//  '<S182>' : 'proc_control_node/Subsystem Controller/Adaptive MPC quaternion /MATLAB Function2'
+//  '<S183>' : 'proc_control_node/Subsystem Controller/Adaptive MPC quaternion /Adaptive MPC Controller/MPC'
+//  '<S184>' : 'proc_control_node/Subsystem Controller/Adaptive MPC quaternion /Adaptive MPC Controller/MPC/MPC Matrix Signal Check'
+//  '<S185>' : 'proc_control_node/Subsystem Controller/Adaptive MPC quaternion /Adaptive MPC Controller/MPC/MPC Matrix Signal Check A'
+//  '<S186>' : 'proc_control_node/Subsystem Controller/Adaptive MPC quaternion /Adaptive MPC Controller/MPC/MPC Matrix Signal Check B'
+//  '<S187>' : 'proc_control_node/Subsystem Controller/Adaptive MPC quaternion /Adaptive MPC Controller/MPC/MPC Matrix Signal Check C'
+//  '<S188>' : 'proc_control_node/Subsystem Controller/Adaptive MPC quaternion /Adaptive MPC Controller/MPC/MPC Matrix Signal Check D'
+//  '<S189>' : 'proc_control_node/Subsystem Controller/Adaptive MPC quaternion /Adaptive MPC Controller/MPC/MPC Matrix Signal Check DX'
+//  '<S190>' : 'proc_control_node/Subsystem Controller/Adaptive MPC quaternion /Adaptive MPC Controller/MPC/MPC Matrix Signal Check U'
+//  '<S191>' : 'proc_control_node/Subsystem Controller/Adaptive MPC quaternion /Adaptive MPC Controller/MPC/MPC Matrix Signal Check X'
+//  '<S192>' : 'proc_control_node/Subsystem Controller/Adaptive MPC quaternion /Adaptive MPC Controller/MPC/MPC Matrix Signal Check Y'
+//  '<S193>' : 'proc_control_node/Subsystem Controller/Adaptive MPC quaternion /Adaptive MPC Controller/MPC/MPC Matrix Signal Check1'
+//  '<S194>' : 'proc_control_node/Subsystem Controller/Adaptive MPC quaternion /Adaptive MPC Controller/MPC/MPC Matrix Signal Check2'
+//  '<S195>' : 'proc_control_node/Subsystem Controller/Adaptive MPC quaternion /Adaptive MPC Controller/MPC/MPC Preview Signal Check'
+//  '<S196>' : 'proc_control_node/Subsystem Controller/Adaptive MPC quaternion /Adaptive MPC Controller/MPC/MPC Preview Signal Check1'
+//  '<S197>' : 'proc_control_node/Subsystem Controller/Adaptive MPC quaternion /Adaptive MPC Controller/MPC/MPC Preview Signal Check2'
+//  '<S198>' : 'proc_control_node/Subsystem Controller/Adaptive MPC quaternion /Adaptive MPC Controller/MPC/MPC Preview Signal Check3'
+//  '<S199>' : 'proc_control_node/Subsystem Controller/Adaptive MPC quaternion /Adaptive MPC Controller/MPC/MPC Preview Signal Check4'
+//  '<S200>' : 'proc_control_node/Subsystem Controller/Adaptive MPC quaternion /Adaptive MPC Controller/MPC/MPC Preview Signal Check5'
+//  '<S201>' : 'proc_control_node/Subsystem Controller/Adaptive MPC quaternion /Adaptive MPC Controller/MPC/MPC Preview Signal Check6'
+//  '<S202>' : 'proc_control_node/Subsystem Controller/Adaptive MPC quaternion /Adaptive MPC Controller/MPC/MPC Preview Signal Check7'
+//  '<S203>' : 'proc_control_node/Subsystem Controller/Adaptive MPC quaternion /Adaptive MPC Controller/MPC/MPC Preview Signal Check8'
+//  '<S204>' : 'proc_control_node/Subsystem Controller/Adaptive MPC quaternion /Adaptive MPC Controller/MPC/MPC Scalar Signal Check'
+//  '<S205>' : 'proc_control_node/Subsystem Controller/Adaptive MPC quaternion /Adaptive MPC Controller/MPC/MPC Scalar Signal Check1'
+//  '<S206>' : 'proc_control_node/Subsystem Controller/Adaptive MPC quaternion /Adaptive MPC Controller/MPC/MPC Scalar Signal Check2'
+//  '<S207>' : 'proc_control_node/Subsystem Controller/Adaptive MPC quaternion /Adaptive MPC Controller/MPC/MPC Vector Signal Check'
+//  '<S208>' : 'proc_control_node/Subsystem Controller/Adaptive MPC quaternion /Adaptive MPC Controller/MPC/MPC Vector Signal Check1'
+//  '<S209>' : 'proc_control_node/Subsystem Controller/Adaptive MPC quaternion /Adaptive MPC Controller/MPC/MPC Vector Signal Check11'
+//  '<S210>' : 'proc_control_node/Subsystem Controller/Adaptive MPC quaternion /Adaptive MPC Controller/MPC/MPC Vector Signal Check6'
+//  '<S211>' : 'proc_control_node/Subsystem Controller/Adaptive MPC quaternion /Adaptive MPC Controller/MPC/optimizer'
+//  '<S212>' : 'proc_control_node/Subsystem Controller/Adaptive MPC quaternion /Adaptive MPC Controller/MPC/optimizer/FixedHorizonOptimizer'
+//  '<S213>' : 'proc_control_node/Subsystem Controller/JoyStick OpenLoop/Discrete Derivative'
+//  '<S214>' : 'proc_control_node/Subsystem Controller/Quaternion Non linear MPC (Not for codegen)/Bus2Mux1'
+//  '<S215>' : 'proc_control_node/Subsystem Controller/Quaternion Non linear MPC (Not for codegen)/Nonlinear MPC Controller'
+//  '<S216>' : 'proc_control_node/Subsystem Controller/Quaternion Non linear MPC (Not for codegen)/Nonlinear MPC Controller/MPC'
+//  '<S217>' : 'proc_control_node/Subsystem Controller/Quaternion Non linear MPC (Not for codegen)/Nonlinear MPC Controller/MPC/MPC Preview Signal Check'
+//  '<S218>' : 'proc_control_node/Subsystem Controller/Quaternion Non linear MPC (Not for codegen)/Nonlinear MPC Controller/MPC/MPC Preview Signal Check1'
+//  '<S219>' : 'proc_control_node/Subsystem Controller/Quaternion Non linear MPC (Not for codegen)/Nonlinear MPC Controller/MPC/MPC Preview Signal Check10'
+//  '<S220>' : 'proc_control_node/Subsystem Controller/Quaternion Non linear MPC (Not for codegen)/Nonlinear MPC Controller/MPC/MPC Preview Signal Check11'
+//  '<S221>' : 'proc_control_node/Subsystem Controller/Quaternion Non linear MPC (Not for codegen)/Nonlinear MPC Controller/MPC/MPC Preview Signal Check12'
+//  '<S222>' : 'proc_control_node/Subsystem Controller/Quaternion Non linear MPC (Not for codegen)/Nonlinear MPC Controller/MPC/MPC Preview Signal Check13'
+//  '<S223>' : 'proc_control_node/Subsystem Controller/Quaternion Non linear MPC (Not for codegen)/Nonlinear MPC Controller/MPC/MPC Preview Signal Check14'
+//  '<S224>' : 'proc_control_node/Subsystem Controller/Quaternion Non linear MPC (Not for codegen)/Nonlinear MPC Controller/MPC/MPC Preview Signal Check15'
+//  '<S225>' : 'proc_control_node/Subsystem Controller/Quaternion Non linear MPC (Not for codegen)/Nonlinear MPC Controller/MPC/MPC Preview Signal Check16'
+//  '<S226>' : 'proc_control_node/Subsystem Controller/Quaternion Non linear MPC (Not for codegen)/Nonlinear MPC Controller/MPC/MPC Preview Signal Check3'
+//  '<S227>' : 'proc_control_node/Subsystem Controller/Quaternion Non linear MPC (Not for codegen)/Nonlinear MPC Controller/MPC/MPC Preview Signal Check4'
+//  '<S228>' : 'proc_control_node/Subsystem Controller/Quaternion Non linear MPC (Not for codegen)/Nonlinear MPC Controller/MPC/MPC Preview Signal Check5'
+//  '<S229>' : 'proc_control_node/Subsystem Controller/Quaternion Non linear MPC (Not for codegen)/Nonlinear MPC Controller/MPC/MPC Preview Signal Check6'
+//  '<S230>' : 'proc_control_node/Subsystem Controller/Quaternion Non linear MPC (Not for codegen)/Nonlinear MPC Controller/MPC/MPC Preview Signal Check7'
+//  '<S231>' : 'proc_control_node/Subsystem Controller/Quaternion Non linear MPC (Not for codegen)/Nonlinear MPC Controller/MPC/MPC Preview Signal Check8'
+//  '<S232>' : 'proc_control_node/Subsystem Controller/Quaternion Non linear MPC (Not for codegen)/Nonlinear MPC Controller/MPC/MPC Preview Signal Check9'
+//  '<S233>' : 'proc_control_node/Subsystem Controller/Quaternion Non linear MPC (Not for codegen)/Nonlinear MPC Controller/MPC/MPC Scalar Signal Check1'
+//  '<S234>' : 'proc_control_node/Subsystem Controller/Quaternion Non linear MPC (Not for codegen)/Nonlinear MPC Controller/MPC/MPC Scalar Signal Check2'
+//  '<S235>' : 'proc_control_node/Subsystem Controller/Quaternion Non linear MPC (Not for codegen)/Nonlinear MPC Controller/MPC/MPC Vector Signal Check1'
+//  '<S236>' : 'proc_control_node/Subsystem Controller/Quaternion Non linear MPC (Not for codegen)/Nonlinear MPC Controller/MPC/MPC Vector Signal Check11'
+//  '<S237>' : 'proc_control_node/Subsystem Controller/Quaternion Non linear MPC (Not for codegen)/Nonlinear MPC Controller/MPC/NLMPC'
+//  '<S238>' : 'proc_control_node/Subsystem ProcNav/AHRS//Detph Mesurments'
+//  '<S239>' : 'proc_control_node/Subsystem ProcNav/DVL Mesurments'
+//  '<S240>' : 'proc_control_node/Subsystem ProcNav/Mux2Bus'
+//  '<S241>' : 'proc_control_node/Subsystem ProcNav/Reset Logic'
+//  '<S242>' : 'proc_control_node/Subsystem ProcNav/Subsystem'
+//  '<S243>' : 'proc_control_node/Subsystem ProcNav/Thursters Mesurments'
+//  '<S244>' : 'proc_control_node/Subsystem ProcNav/AHRS//Detph Mesurments/Quaternion Conjugate'
+//  '<S245>' : 'proc_control_node/Subsystem ProcNav/AHRS//Detph Mesurments/Quaternion Inverse'
+//  '<S246>' : 'proc_control_node/Subsystem ProcNav/AHRS//Detph Mesurments/Quaternion Rotation'
+//  '<S247>' : 'proc_control_node/Subsystem ProcNav/AHRS//Detph Mesurments/Quaternion Inverse/Quaternion Conjugate'
+//  '<S248>' : 'proc_control_node/Subsystem ProcNav/AHRS//Detph Mesurments/Quaternion Inverse/Quaternion Norm'
+//  '<S249>' : 'proc_control_node/Subsystem ProcNav/AHRS//Detph Mesurments/Quaternion Rotation/Quaternion Normalize'
+//  '<S250>' : 'proc_control_node/Subsystem ProcNav/AHRS//Detph Mesurments/Quaternion Rotation/V1'
+//  '<S251>' : 'proc_control_node/Subsystem ProcNav/AHRS//Detph Mesurments/Quaternion Rotation/V2'
+//  '<S252>' : 'proc_control_node/Subsystem ProcNav/AHRS//Detph Mesurments/Quaternion Rotation/V3'
+//  '<S253>' : 'proc_control_node/Subsystem ProcNav/AHRS//Detph Mesurments/Quaternion Rotation/Quaternion Normalize/Quaternion Modulus'
+//  '<S254>' : 'proc_control_node/Subsystem ProcNav/AHRS//Detph Mesurments/Quaternion Rotation/Quaternion Normalize/Quaternion Modulus/Quaternion Norm'
+//  '<S255>' : 'proc_control_node/Subsystem ProcNav/DVL Mesurments/DVL2Ship'
+//  '<S256>' : 'proc_control_node/Subsystem ProcNav/DVL Mesurments/MATLAB Function1'
+//  '<S257>' : 'proc_control_node/Subsystem ProcNav/DVL Mesurments/Quaternion Rotation1'
+//  '<S258>' : 'proc_control_node/Subsystem ProcNav/DVL Mesurments/DVL2Ship/Subsystem2'
+//  '<S259>' : 'proc_control_node/Subsystem ProcNav/DVL Mesurments/DVL2Ship/Subsystem2/Rotation Angles to Quaternions'
+//  '<S260>' : 'proc_control_node/Subsystem ProcNav/DVL Mesurments/Quaternion Rotation1/Quaternion Normalize'
+//  '<S261>' : 'proc_control_node/Subsystem ProcNav/DVL Mesurments/Quaternion Rotation1/V1'
+//  '<S262>' : 'proc_control_node/Subsystem ProcNav/DVL Mesurments/Quaternion Rotation1/V2'
+//  '<S263>' : 'proc_control_node/Subsystem ProcNav/DVL Mesurments/Quaternion Rotation1/V3'
+//  '<S264>' : 'proc_control_node/Subsystem ProcNav/DVL Mesurments/Quaternion Rotation1/Quaternion Normalize/Quaternion Modulus'
+//  '<S265>' : 'proc_control_node/Subsystem ProcNav/DVL Mesurments/Quaternion Rotation1/Quaternion Normalize/Quaternion Modulus/Quaternion Norm'
+//  '<S266>' : 'proc_control_node/Subsystem ProcNav/Mux2Bus/Quaternion Inverse'
+//  '<S267>' : 'proc_control_node/Subsystem ProcNav/Mux2Bus/Quaternion Inverse/Quaternion Conjugate'
+//  '<S268>' : 'proc_control_node/Subsystem ProcNav/Mux2Bus/Quaternion Inverse/Quaternion Norm'
+//  '<S269>' : 'proc_control_node/Subsystem ProcNav/Subsystem/Extended Kalman Filter'
+//  '<S270>' : 'proc_control_node/Subsystem ProcNav/Subsystem/Extended Kalman Filter/Correct1'
+//  '<S271>' : 'proc_control_node/Subsystem ProcNav/Subsystem/Extended Kalman Filter/Correct2'
+//  '<S272>' : 'proc_control_node/Subsystem ProcNav/Subsystem/Extended Kalman Filter/Output'
+//  '<S273>' : 'proc_control_node/Subsystem ProcNav/Subsystem/Extended Kalman Filter/Predict'
+//  '<S274>' : 'proc_control_node/Subsystem ProcNav/Subsystem/Extended Kalman Filter/Correct1/Correct'
+//  '<S275>' : 'proc_control_node/Subsystem ProcNav/Subsystem/Extended Kalman Filter/Correct2/Correct'
+//  '<S276>' : 'proc_control_node/Subsystem ProcNav/Subsystem/Extended Kalman Filter/Output/MATLAB Function'
+//  '<S277>' : 'proc_control_node/Subsystem ProcNav/Subsystem/Extended Kalman Filter/Predict/Predict'
+//  '<S278>' : 'proc_control_node/Subsystem Trajectory/If Action Subsystem'
+//  '<S279>' : 'proc_control_node/Subsystem Trajectory/Subsystem'
+//  '<S280>' : 'proc_control_node/Subsystem Trajectory/SubsystemAuto'
+//  '<S281>' : 'proc_control_node/Subsystem Trajectory/SubsystemManual'
+//  '<S282>' : 'proc_control_node/Subsystem Trajectory/singleWpts Trajectory'
+//  '<S283>' : 'proc_control_node/Subsystem Trajectory/If Action Subsystem/MATLAB Function1'
+//  '<S284>' : 'proc_control_node/Subsystem Trajectory/Subsystem/Second-Order Filter'
+//  '<S285>' : 'proc_control_node/Subsystem Trajectory/Subsystem/Subscribe2'
+//  '<S286>' : 'proc_control_node/Subsystem Trajectory/Subsystem/Second-Order Filter/Integrator (Discrete or Continuous)'
+//  '<S287>' : 'proc_control_node/Subsystem Trajectory/Subsystem/Second-Order Filter/Integrator (Discrete or Continuous)1'
+//  '<S288>' : 'proc_control_node/Subsystem Trajectory/Subsystem/Second-Order Filter/Integrator (Discrete or Continuous)/Discrete'
+//  '<S289>' : 'proc_control_node/Subsystem Trajectory/Subsystem/Second-Order Filter/Integrator (Discrete or Continuous)1/Discrete'
+//  '<S290>' : 'proc_control_node/Subsystem Trajectory/Subsystem/Subscribe2/Enabled Subsystem'
+//  '<S291>' : 'proc_control_node/Subsystem Trajectory/SubsystemAuto/MATLAB Function1'
+//  '<S292>' : 'proc_control_node/Subsystem Trajectory/SubsystemManual/MATLAB Function1'
+//  '<S293>' : 'proc_control_node/Subsystem Trajectory/singleWpts Trajectory/Pre-traitement'
+//  '<S294>' : 'proc_control_node/Subsystem Trajectory/singleWpts Trajectory/Subscribe'
+//  '<S295>' : 'proc_control_node/Subsystem Trajectory/singleWpts Trajectory/Subsystem1'
+//  '<S296>' : 'proc_control_node/Subsystem Trajectory/singleWpts Trajectory/Trajectory generator'
+//  '<S297>' : 'proc_control_node/Subsystem Trajectory/singleWpts Trajectory/Subscribe/Enabled Subsystem'
+//  '<S298>' : 'proc_control_node/Subsystem Trajectory/singleWpts Trajectory/Trajectory generator/Subsystem'
+//  '<S299>' : 'proc_control_node/Subsystem1/Subscribe'
+//  '<S300>' : 'proc_control_node/Subsystem1/Subscribe1'
+//  '<S301>' : 'proc_control_node/Subsystem1/Subscribe2'
+//  '<S302>' : 'proc_control_node/Subsystem1/Subscribe3'
+//  '<S303>' : 'proc_control_node/Subsystem1/Subscribe4'
+//  '<S304>' : 'proc_control_node/Subsystem1/Subscribe5'
+//  '<S305>' : 'proc_control_node/Subsystem1/Subscribe/Enabled Subsystem'
+//  '<S306>' : 'proc_control_node/Subsystem1/Subscribe1/Enabled Subsystem'
+//  '<S307>' : 'proc_control_node/Subsystem1/Subscribe2/Enabled Subsystem'
+//  '<S308>' : 'proc_control_node/Subsystem1/Subscribe3/Enabled Subsystem'
+//  '<S309>' : 'proc_control_node/Subsystem1/Subscribe4/Enabled Subsystem'
+//  '<S310>' : 'proc_control_node/Subsystem1/Subscribe5/Enabled Subsystem'
 
 #endif                                 // RTW_HEADER_proc_control_node_h_
 

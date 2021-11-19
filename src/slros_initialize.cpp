@@ -42,6 +42,9 @@ SimulinkSubscriber<std_msgs::Bool, SL_Bus_proc_control_node_std_msgs_Bool> Sub_p
 // For Block proc_control_node/Subsystem1/Subscribe4
 SimulinkSubscriber<std_msgs::Bool, SL_Bus_proc_control_node_std_msgs_Bool> Sub_proc_control_node_185_268;
 
+// For Block proc_control_node/Subsystem1/Subscribe5
+SimulinkSubscriber<std_msgs::Bool, SL_Bus_proc_control_node_std_msgs_Bool> Sub_proc_control_node_185_270;
+
 // For Block proc_control_node/ROS Output/Send DVL msg/Publish
 SimulinkPublisher<sonia_common::BodyVelocityDVL, SL_Bus_proc_control_node_sonia_common_BodyVelocityDVL> Pub_proc_control_node_41;
 

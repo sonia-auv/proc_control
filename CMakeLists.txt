@@ -55,18 +55,6 @@ file(GLOB ${PROJECT_NAME}_CPP_SOURCES RELATIVE ${PROJECT_SOURCE_DIR} ${PROJECT_S
 ## Declare executable
 add_executable(${PROJECT_NAME}_node
    ${PROJECT_SRC_FILES}/proc_control_node.cpp
-   ##proc_control_node_data.cpp
-   ##rtGetInf.cpp
-   ##rtGetNaN.cpp
-   ##rt_nonfinite.cpp
-   ##rt_zcfcn.cpp
-   ##rtiostream_interface.c
-   ##rtiostream_tcpip.c
-   ##rosnodeinterface.cpp
-   ##main.cpp
-   ##slros_busmsg_conversion.cpp
-   ##slros_initialize.cpp
-   ##slros_generic_param.cpp
    ${${PROJECT_NAME}_C_SOURCES}
    ${${PROJECT_NAME}_CPP_SOURCES}
 )

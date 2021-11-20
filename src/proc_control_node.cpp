@@ -9,7 +9,7 @@
 //
 // Model version                  : 1.194
 // Simulink Coder version         : 9.5 (R2021a) 14-Nov-2020
-// C/C++ source code generated on : Fri Nov 19 14:23:11 2021
+// C/C++ source code generated on : Fri Nov 19 22:01:48 2021
 //
 // Target selection: ert.tlc
 // Embedded hardware selection: ARM Compatible->ARM 64-bit (LLP64)
@@ -296,13 +296,13 @@ real_T proc_control_nodeModelClass::proc_control_node_xnrm2_e(int32_T n, const
       proc_control_node_B.scale_lc = 3.3121686421112381E-170;
       kend = (ix0 + n) - 1;
       for (k = ix0; k <= kend; k++) {
-        proc_control_node_B.absxk_pr = fabs(x[k - 1]);
-        if (proc_control_node_B.absxk_pr > proc_control_node_B.scale_lc) {
-          t = proc_control_node_B.scale_lc / proc_control_node_B.absxk_pr;
+        proc_control_node_B.absxk_p = fabs(x[k - 1]);
+        if (proc_control_node_B.absxk_p > proc_control_node_B.scale_lc) {
+          t = proc_control_node_B.scale_lc / proc_control_node_B.absxk_p;
           y = y * t * t + 1.0;
-          proc_control_node_B.scale_lc = proc_control_node_B.absxk_pr;
+          proc_control_node_B.scale_lc = proc_control_node_B.absxk_p;
         } else {
-          t = proc_control_node_B.absxk_pr / proc_control_node_B.scale_lc;
+          t = proc_control_node_B.absxk_p / proc_control_node_B.scale_lc;
           y += t * t;
         }
       }
@@ -350,15 +350,15 @@ void proc_control_nodeModelClass::proc_control_node_xgemv_k(int32_T m, int32_T n
     b_iy = 0;
     b = (n - 1) * 22 + ia0;
     for (iac = ia0; iac <= b; iac += 22) {
-      proc_control_node_B.ix_f4 = ix0;
-      proc_control_node_B.c_pz = 0.0;
+      proc_control_node_B.ix_p2 = ix0;
+      proc_control_node_B.c_d2 = 0.0;
       d = (iac + m) - 1;
       for (ia = iac; ia <= d; ia++) {
-        proc_control_node_B.c_pz += A[ia - 1] * x[proc_control_node_B.ix_f4 - 1];
-        proc_control_node_B.ix_f4++;
+        proc_control_node_B.c_d2 += A[ia - 1] * x[proc_control_node_B.ix_p2 - 1];
+        proc_control_node_B.ix_p2++;
       }
 
-      y[b_iy] += proc_control_node_B.c_pz;
+      y[b_iy] += proc_control_node_B.c_d2;
       b_iy++;
     }
   }
@@ -378,11 +378,11 @@ void proc_control_nodeModelClass::proc_control_node_xgerc_k(int32_T m, int32_T n
     jy = 0;
     for (j = 0; j < n; j++) {
       if (y[jy] != 0.0) {
-        proc_control_node_B.temp_a = y[jy] * alpha1;
+        proc_control_node_B.temp_l = y[jy] * alpha1;
         ix = ix0;
         b = m + proc_control_node_B.jA_m;
         for (ijA = proc_control_node_B.jA_m; ijA < b; ijA++) {
-          A[ijA] += A[ix - 1] * proc_control_node_B.temp_a;
+          A[ijA] += A[ix - 1] * proc_control_node_B.temp_l;
           ix++;
         }
       }
@@ -457,19 +457,19 @@ void proc_control_nodeModelClass::proc_control_node_qrf_i(real_T A[198], int32_T
       proc_control_node_B.i_oc) - 1;
     proc_control_node_B.mmi_tmp_b = m - proc_control_node_B.i_oc;
     if (proc_control_node_B.i_oc + 1 < m) {
-      proc_control_node_B.b_atmp_h = A[proc_control_node_B.ii_o];
+      proc_control_node_B.b_atmp_c = A[proc_control_node_B.ii_o];
       tau[proc_control_node_B.i_oc] = 0.0;
       if (proc_control_node_B.mmi_tmp_b > 0) {
-        proc_control_node_B.beta1_c = proc_control_node_xnrm2_e
+        proc_control_node_B.beta1_a = proc_control_node_xnrm2_e
           (proc_control_node_B.mmi_tmp_b - 1, A, proc_control_node_B.ii_o + 2);
-        if (proc_control_node_B.beta1_c != 0.0) {
-          proc_control_node_B.beta1_c = proc_control_node_rt_hypotd_snf
-            (A[proc_control_node_B.ii_o], proc_control_node_B.beta1_c);
+        if (proc_control_node_B.beta1_a != 0.0) {
+          proc_control_node_B.beta1_a = proc_control_node_rt_hypotd_snf
+            (A[proc_control_node_B.ii_o], proc_control_node_B.beta1_a);
           if (A[proc_control_node_B.ii_o] >= 0.0) {
-            proc_control_node_B.beta1_c = -proc_control_node_B.beta1_c;
+            proc_control_node_B.beta1_a = -proc_control_node_B.beta1_a;
           }
 
-          if (fabs(proc_control_node_B.beta1_c) < 1.0020841800044864E-292) {
+          if (fabs(proc_control_node_B.beta1_a) < 1.0020841800044864E-292) {
             proc_control_node_B.knt_c = -1;
             proc_control_node_B.mmip1_d = proc_control_node_B.ii_o +
               proc_control_node_B.mmi_tmp_b;
@@ -482,69 +482,69 @@ void proc_control_nodeModelClass::proc_control_node_qrf_i(real_T A[198], int32_T
                 proc_control_node_B.b_k_m++;
               }
 
-              proc_control_node_B.beta1_c *= 9.9792015476736E+291;
-              proc_control_node_B.b_atmp_h *= 9.9792015476736E+291;
-            } while (!(fabs(proc_control_node_B.beta1_c) >=
+              proc_control_node_B.beta1_a *= 9.9792015476736E+291;
+              proc_control_node_B.b_atmp_c *= 9.9792015476736E+291;
+            } while (!(fabs(proc_control_node_B.beta1_a) >=
                        1.0020841800044864E-292));
 
-            proc_control_node_B.beta1_c = proc_control_node_rt_hypotd_snf
-              (proc_control_node_B.b_atmp_h, proc_control_node_xnrm2_e
+            proc_control_node_B.beta1_a = proc_control_node_rt_hypotd_snf
+              (proc_control_node_B.b_atmp_c, proc_control_node_xnrm2_e
                (proc_control_node_B.mmi_tmp_b - 1, A, proc_control_node_B.ii_o +
                 2));
-            if (proc_control_node_B.b_atmp_h >= 0.0) {
-              proc_control_node_B.beta1_c = -proc_control_node_B.beta1_c;
+            if (proc_control_node_B.b_atmp_c >= 0.0) {
+              proc_control_node_B.beta1_a = -proc_control_node_B.beta1_a;
             }
 
-            tau[proc_control_node_B.i_oc] = (proc_control_node_B.beta1_c -
-              proc_control_node_B.b_atmp_h) / proc_control_node_B.beta1_c;
-            proc_control_node_B.b_atmp_h = 1.0 / (proc_control_node_B.b_atmp_h -
-              proc_control_node_B.beta1_c);
+            tau[proc_control_node_B.i_oc] = (proc_control_node_B.beta1_a -
+              proc_control_node_B.b_atmp_c) / proc_control_node_B.beta1_a;
+            proc_control_node_B.b_atmp_c = 1.0 / (proc_control_node_B.b_atmp_c -
+              proc_control_node_B.beta1_a);
             proc_control_node_B.b_k_m = proc_control_node_B.ii_o + 1;
             while (proc_control_node_B.b_k_m + 1 <= proc_control_node_B.mmip1_d)
             {
-              A[proc_control_node_B.b_k_m] *= proc_control_node_B.b_atmp_h;
+              A[proc_control_node_B.b_k_m] *= proc_control_node_B.b_atmp_c;
               proc_control_node_B.b_k_m++;
             }
 
             proc_control_node_B.mmip1_d = 0;
             while (proc_control_node_B.mmip1_d <= proc_control_node_B.knt_c) {
-              proc_control_node_B.beta1_c *= 1.0020841800044864E-292;
+              proc_control_node_B.beta1_a *= 1.0020841800044864E-292;
               proc_control_node_B.mmip1_d++;
             }
 
-            proc_control_node_B.b_atmp_h = proc_control_node_B.beta1_c;
+            proc_control_node_B.b_atmp_c = proc_control_node_B.beta1_a;
           } else {
-            tau[proc_control_node_B.i_oc] = (proc_control_node_B.beta1_c -
-              A[proc_control_node_B.ii_o]) / proc_control_node_B.beta1_c;
-            proc_control_node_B.b_atmp_h = 1.0 / (A[proc_control_node_B.ii_o] -
-              proc_control_node_B.beta1_c);
+            tau[proc_control_node_B.i_oc] = (proc_control_node_B.beta1_a -
+              A[proc_control_node_B.ii_o]) / proc_control_node_B.beta1_a;
+            proc_control_node_B.b_atmp_c = 1.0 / (A[proc_control_node_B.ii_o] -
+              proc_control_node_B.beta1_a);
             proc_control_node_B.knt_c = proc_control_node_B.ii_o +
               proc_control_node_B.mmi_tmp_b;
             proc_control_node_B.mmip1_d = proc_control_node_B.ii_o + 1;
             while (proc_control_node_B.mmip1_d + 1 <= proc_control_node_B.knt_c)
             {
-              A[proc_control_node_B.mmip1_d] *= proc_control_node_B.b_atmp_h;
+              A[proc_control_node_B.mmip1_d] *= proc_control_node_B.b_atmp_c;
               proc_control_node_B.mmip1_d++;
             }
 
-            proc_control_node_B.b_atmp_h = proc_control_node_B.beta1_c;
+            proc_control_node_B.b_atmp_c = proc_control_node_B.beta1_a;
           }
         }
       }
 
-      A[proc_control_node_B.ii_o] = proc_control_node_B.b_atmp_h;
+      A[proc_control_node_B.ii_o] = proc_control_node_B.b_atmp_c;
     } else {
       tau[proc_control_node_B.i_oc] = 0.0;
     }
 
     if (proc_control_node_B.i_oc + 1 < n) {
-      proc_control_node_B.b_atmp_h = A[proc_control_node_B.ii_o];
+      proc_control_node_B.b_atmp_c = A[proc_control_node_B.ii_o];
       A[proc_control_node_B.ii_o] = 1.0;
       proc_control_node_xzlarf_a3(proc_control_node_B.mmi_tmp_b, (n -
         proc_control_node_B.i_oc) - 1, proc_control_node_B.ii_o + 1,
         tau[proc_control_node_B.i_oc], A, proc_control_node_B.ii_o + 23,
         proc_control_node_B.work_k1);
-      A[proc_control_node_B.ii_o] = proc_control_node_B.b_atmp_h;
+      A[proc_control_node_B.ii_o] = proc_control_node_B.b_atmp_c;
     }
 
     proc_control_node_B.i_oc++;
@@ -566,54 +566,54 @@ void proc_control_nodeModelClass::proc_control_node_xorgqr_g(int32_T m, int32_T
   int32_T exitg1;
   boolean_T exitg2;
   if (n >= 1) {
-    proc_control_node_B.itau_ar = k;
-    while (proc_control_node_B.itau_ar <= n - 1) {
-      proc_control_node_B.i_p2 = (proc_control_node_B.itau_ar * 22 + ia0) - 1;
-      proc_control_node_B.iaii_k = 0;
-      while (proc_control_node_B.iaii_k <= m - 1) {
-        A[proc_control_node_B.i_p2 + proc_control_node_B.iaii_k] = 0.0;
-        proc_control_node_B.iaii_k++;
+    proc_control_node_B.itau_k = k;
+    while (proc_control_node_B.itau_k <= n - 1) {
+      proc_control_node_B.i_kv = (proc_control_node_B.itau_k * 22 + ia0) - 1;
+      proc_control_node_B.iaii_ar = 0;
+      while (proc_control_node_B.iaii_ar <= m - 1) {
+        A[proc_control_node_B.i_kv + proc_control_node_B.iaii_ar] = 0.0;
+        proc_control_node_B.iaii_ar++;
       }
 
-      A[proc_control_node_B.i_p2 + proc_control_node_B.itau_ar] = 1.0;
-      proc_control_node_B.itau_ar++;
+      A[proc_control_node_B.i_kv + proc_control_node_B.itau_k] = 1.0;
+      proc_control_node_B.itau_k++;
     }
 
-    proc_control_node_B.itau_ar = (itau0 + k) - 2;
+    proc_control_node_B.itau_k = (itau0 + k) - 2;
     memset(&proc_control_node_B.work_f[0], 0, 9U * sizeof(real_T));
-    proc_control_node_B.i_p2 = k;
-    while (proc_control_node_B.i_p2 >= 1) {
-      proc_control_node_B.iaii_k = (((proc_control_node_B.i_p2 - 1) * 22 + ia0)
-        + proc_control_node_B.i_p2) - 1;
-      if (proc_control_node_B.i_p2 < n) {
-        A[proc_control_node_B.iaii_k - 1] = 1.0;
-        proc_control_node_B.lastc_c = (m - proc_control_node_B.i_p2) - 1;
-        if (tau[proc_control_node_B.itau_ar] != 0.0) {
-          proc_control_node_B.lastv_fo = proc_control_node_B.lastc_c + 2;
-          proc_control_node_B.lastc_c += proc_control_node_B.iaii_k;
-          while ((proc_control_node_B.lastv_fo > 0) &&
-                 (A[proc_control_node_B.lastc_c] == 0.0)) {
-            proc_control_node_B.lastv_fo--;
-            proc_control_node_B.lastc_c--;
+    proc_control_node_B.i_kv = k;
+    while (proc_control_node_B.i_kv >= 1) {
+      proc_control_node_B.iaii_ar = (((proc_control_node_B.i_kv - 1) * 22 + ia0)
+        + proc_control_node_B.i_kv) - 1;
+      if (proc_control_node_B.i_kv < n) {
+        A[proc_control_node_B.iaii_ar - 1] = 1.0;
+        proc_control_node_B.lastc_f = (m - proc_control_node_B.i_kv) - 1;
+        if (tau[proc_control_node_B.itau_k] != 0.0) {
+          proc_control_node_B.lastv_k = proc_control_node_B.lastc_f + 2;
+          proc_control_node_B.lastc_f += proc_control_node_B.iaii_ar;
+          while ((proc_control_node_B.lastv_k > 0) &&
+                 (A[proc_control_node_B.lastc_f] == 0.0)) {
+            proc_control_node_B.lastv_k--;
+            proc_control_node_B.lastc_f--;
           }
 
-          proc_control_node_B.lastc_c = n - proc_control_node_B.i_p2;
+          proc_control_node_B.lastc_f = n - proc_control_node_B.i_kv;
           exitg2 = false;
-          while ((!exitg2) && (proc_control_node_B.lastc_c > 0)) {
-            proc_control_node_B.coltop_o = ((proc_control_node_B.lastc_c - 1) *
-              22 + proc_control_node_B.iaii_k) + 21;
-            proc_control_node_B.b_ia_k = proc_control_node_B.coltop_o;
+          while ((!exitg2) && (proc_control_node_B.lastc_f > 0)) {
+            proc_control_node_B.coltop_c = ((proc_control_node_B.lastc_f - 1) *
+              22 + proc_control_node_B.iaii_ar) + 21;
+            proc_control_node_B.b_ia_on = proc_control_node_B.coltop_c;
             do {
               exitg1 = 0;
-              if (proc_control_node_B.b_ia_k + 1 <= proc_control_node_B.coltop_o
-                  + proc_control_node_B.lastv_fo) {
-                if (A[proc_control_node_B.b_ia_k] != 0.0) {
+              if (proc_control_node_B.b_ia_on + 1 <=
+                  proc_control_node_B.coltop_c + proc_control_node_B.lastv_k) {
+                if (A[proc_control_node_B.b_ia_on] != 0.0) {
                   exitg1 = 1;
                 } else {
-                  proc_control_node_B.b_ia_k++;
+                  proc_control_node_B.b_ia_on++;
                 }
               } else {
-                proc_control_node_B.lastc_c--;
+                proc_control_node_B.lastc_f--;
                 exitg1 = 2;
               }
             } while (exitg1 == 0);
@@ -623,41 +623,40 @@ void proc_control_nodeModelClass::proc_control_node_xorgqr_g(int32_T m, int32_T
             }
           }
         } else {
-          proc_control_node_B.lastv_fo = 0;
-          proc_control_node_B.lastc_c = 0;
+          proc_control_node_B.lastv_k = 0;
+          proc_control_node_B.lastc_f = 0;
         }
 
-        if (proc_control_node_B.lastv_fo > 0) {
-          proc_control_node_xgemv_k(proc_control_node_B.lastv_fo,
-            proc_control_node_B.lastc_c, A, proc_control_node_B.iaii_k + 22, A,
-            proc_control_node_B.iaii_k, proc_control_node_B.work_f);
-          proc_control_node_xgerc_k(proc_control_node_B.lastv_fo,
-            proc_control_node_B.lastc_c, -tau[proc_control_node_B.itau_ar],
-            proc_control_node_B.iaii_k, proc_control_node_B.work_f, A,
-            proc_control_node_B.iaii_k + 22);
-        }
-      }
-
-      if (proc_control_node_B.i_p2 < m) {
-        proc_control_node_B.lastv_fo = (proc_control_node_B.iaii_k + m) -
-          proc_control_node_B.i_p2;
-        proc_control_node_B.lastc_c = proc_control_node_B.iaii_k;
-        while (proc_control_node_B.lastc_c + 1 <= proc_control_node_B.lastv_fo)
-        {
-          A[proc_control_node_B.lastc_c] *= -tau[proc_control_node_B.itau_ar];
-          proc_control_node_B.lastc_c++;
+        if (proc_control_node_B.lastv_k > 0) {
+          proc_control_node_xgemv_k(proc_control_node_B.lastv_k,
+            proc_control_node_B.lastc_f, A, proc_control_node_B.iaii_ar + 22, A,
+            proc_control_node_B.iaii_ar, proc_control_node_B.work_f);
+          proc_control_node_xgerc_k(proc_control_node_B.lastv_k,
+            proc_control_node_B.lastc_f, -tau[proc_control_node_B.itau_k],
+            proc_control_node_B.iaii_ar, proc_control_node_B.work_f, A,
+            proc_control_node_B.iaii_ar + 22);
         }
       }
 
-      A[proc_control_node_B.iaii_k - 1] = 1.0 - tau[proc_control_node_B.itau_ar];
-      proc_control_node_B.lastv_fo = 0;
-      while (proc_control_node_B.lastv_fo <= proc_control_node_B.i_p2 - 2) {
-        A[(proc_control_node_B.iaii_k - proc_control_node_B.lastv_fo) - 2] = 0.0;
-        proc_control_node_B.lastv_fo++;
+      if (proc_control_node_B.i_kv < m) {
+        proc_control_node_B.lastv_k = (proc_control_node_B.iaii_ar + m) -
+          proc_control_node_B.i_kv;
+        proc_control_node_B.lastc_f = proc_control_node_B.iaii_ar;
+        while (proc_control_node_B.lastc_f + 1 <= proc_control_node_B.lastv_k) {
+          A[proc_control_node_B.lastc_f] *= -tau[proc_control_node_B.itau_k];
+          proc_control_node_B.lastc_f++;
+        }
       }
 
-      proc_control_node_B.itau_ar--;
-      proc_control_node_B.i_p2--;
+      A[proc_control_node_B.iaii_ar - 1] = 1.0 - tau[proc_control_node_B.itau_k];
+      proc_control_node_B.lastv_k = 0;
+      while (proc_control_node_B.lastv_k <= proc_control_node_B.i_kv - 2) {
+        A[(proc_control_node_B.iaii_ar - proc_control_node_B.lastv_k) - 2] = 0.0;
+        proc_control_node_B.lastv_k++;
+      }
+
+      proc_control_node_B.itau_k--;
+      proc_control_node_B.i_kv--;
     }
   }
 }
@@ -708,16 +707,16 @@ void proc_control_nodeModelClass::proc_control_node_qrFactor(const real_T A[117]
     for (proc_control_node_B.i_fs = 0; proc_control_node_B.i_fs < 13;
          proc_control_node_B.i_fs++) {
       proc_control_node_B.aoffset_j = proc_control_node_B.i_fs * 13;
-      proc_control_node_B.s_om = 0.0;
+      proc_control_node_B.s_h = 0.0;
       for (proc_control_node_B.k_a = 0; proc_control_node_B.k_a < 13;
            proc_control_node_B.k_a++) {
-        proc_control_node_B.s_om += A[proc_control_node_B.k_a * 9 +
+        proc_control_node_B.s_h += A[proc_control_node_B.k_a * 9 +
           proc_control_node_B.j_de] * S[proc_control_node_B.aoffset_j +
           proc_control_node_B.k_a];
       }
 
       proc_control_node_B.y_c[proc_control_node_B.coffset_k +
-        proc_control_node_B.i_fs] = proc_control_node_B.s_om;
+        proc_control_node_B.i_fs] = proc_control_node_B.s_h;
       proc_control_node_B.y_m[proc_control_node_B.i_fs + 22 *
         proc_control_node_B.j_de] = proc_control_node_B.y_c[13 *
         proc_control_node_B.j_de + proc_control_node_B.i_fs];
@@ -764,10 +763,10 @@ void proc_control_nodeModelClass::EKFCorrectorAdditive_getMeasure(const real_T
 {
   static const int8_T b[9] = { 2, 9, 3, 4, 5, 6, 10, 11, 12 };
 
-  for (proc_control_node_B.i_o = 0; proc_control_node_B.i_o < 9;
-       proc_control_node_B.i_o++) {
-    proc_control_node_B.z_l[proc_control_node_B.i_o] =
-      x[b[proc_control_node_B.i_o]];
+  for (proc_control_node_B.i_oa = 0; proc_control_node_B.i_oa < 9;
+       proc_control_node_B.i_oa++) {
+    proc_control_node_B.z_l[proc_control_node_B.i_oa] =
+      x[b[proc_control_node_B.i_oa]];
   }
 
   for (proc_control_node_B.j_d = 0; proc_control_node_B.j_d < 13;
@@ -782,29 +781,29 @@ void proc_control_nodeModelClass::EKFCorrectorAdditive_getMeasure(const real_T
 
     proc_control_node_B.imvec_o[proc_control_node_B.j_d] =
       x[proc_control_node_B.j_d] + proc_control_node_B.epsilon;
-    for (proc_control_node_B.i_o = 0; proc_control_node_B.i_o < 9;
-         proc_control_node_B.i_o++) {
-      dHdx[proc_control_node_B.i_o + 9 * proc_control_node_B.j_d] =
-        (proc_control_node_B.imvec_o[b[proc_control_node_B.i_o]] -
-         proc_control_node_B.z_l[proc_control_node_B.i_o]) /
+    for (proc_control_node_B.i_oa = 0; proc_control_node_B.i_oa < 9;
+         proc_control_node_B.i_oa++) {
+      dHdx[proc_control_node_B.i_oa + 9 * proc_control_node_B.j_d] =
+        (proc_control_node_B.imvec_o[b[proc_control_node_B.i_oa]] -
+         proc_control_node_B.z_l[proc_control_node_B.i_oa]) /
         proc_control_node_B.epsilon;
     }
   }
 
-  for (proc_control_node_B.i_o = 0; proc_control_node_B.i_o < 9;
-       proc_control_node_B.i_o++) {
-    zEstimated[proc_control_node_B.i_o] = x[b[proc_control_node_B.i_o]];
+  for (proc_control_node_B.i_oa = 0; proc_control_node_B.i_oa < 9;
+       proc_control_node_B.i_oa++) {
+    zEstimated[proc_control_node_B.i_oa] = x[b[proc_control_node_B.i_oa]];
   }
 
-  proc_control_node_B.i_o = 0;
+  proc_control_node_B.i_oa = 0;
   for (proc_control_node_B.j_d = 0; proc_control_node_B.j_d < 13;
        proc_control_node_B.j_d++) {
-    memset(&proc_control_node_B.S[proc_control_node_B.i_o], 0, 13U * sizeof
+    memset(&proc_control_node_B.S[proc_control_node_B.i_oa], 0, 13U * sizeof
            (real_T));
-    proc_control_node_B.i_o += 13;
+    proc_control_node_B.i_oa += 13;
   }
 
-  proc_control_node_B.i_o = 0;
+  proc_control_node_B.i_oa = 0;
   for (proc_control_node_B.i26 = 0; proc_control_node_B.i26 < 13;
        proc_control_node_B.i26++) {
     proc_control_node_B.i27 = 0;
@@ -815,24 +814,24 @@ void proc_control_nodeModelClass::EKFCorrectorAdditive_getMeasure(const real_T
         proc_control_node_B.S_tmp = proc_control_node_B.i25 +
           proc_control_node_B.i27;
         proc_control_node_B.S[proc_control_node_B.S_tmp] +=
-          S[proc_control_node_B.i25 + proc_control_node_B.i_o] *
-          S[proc_control_node_B.j_d + proc_control_node_B.i_o];
+          S[proc_control_node_B.i25 + proc_control_node_B.i_oa] *
+          S[proc_control_node_B.j_d + proc_control_node_B.i_oa];
       }
 
       proc_control_node_B.i27 += 13;
     }
 
-    proc_control_node_B.i_o += 13;
+    proc_control_node_B.i_oa += 13;
   }
 
-  proc_control_node_B.i_o = 0;
+  proc_control_node_B.i_oa = 0;
   for (proc_control_node_B.j_d = 0; proc_control_node_B.j_d < 9;
        proc_control_node_B.j_d++) {
-    memset(&Pxy[proc_control_node_B.i_o], 0, 13U * sizeof(real_T));
-    proc_control_node_B.i_o += 13;
+    memset(&Pxy[proc_control_node_B.i_oa], 0, 13U * sizeof(real_T));
+    proc_control_node_B.i_oa += 13;
   }
 
-  proc_control_node_B.i_o = 0;
+  proc_control_node_B.i_oa = 0;
   for (proc_control_node_B.j_d = 0; proc_control_node_B.j_d < 9;
        proc_control_node_B.j_d++) {
     proc_control_node_B.i26 = 0;
@@ -842,7 +841,7 @@ void proc_control_nodeModelClass::EKFCorrectorAdditive_getMeasure(const real_T
       for (proc_control_node_B.i25 = 0; proc_control_node_B.i25 < 13;
            proc_control_node_B.i25++) {
         proc_control_node_B.Pxy_tmp = proc_control_node_B.i25 +
-          proc_control_node_B.i_o;
+          proc_control_node_B.i_oa;
         Pxy[proc_control_node_B.Pxy_tmp] +=
           proc_control_node_B.S[proc_control_node_B.i25 +
           proc_control_node_B.i26] * dHdx[proc_control_node_B.i27 +
@@ -853,7 +852,7 @@ void proc_control_nodeModelClass::EKFCorrectorAdditive_getMeasure(const real_T
       proc_control_node_B.i27 += 9;
     }
 
-    proc_control_node_B.i_o += 13;
+    proc_control_node_B.i_oa += 13;
   }
 
   proc_control_node_qrFactor(dHdx, S, Rs, Sy);
@@ -869,16 +868,16 @@ void proc_control_nodeModelClass::proc_control_node_trisolve_ga(const real_T A
   int32_T tmp;
   int32_T tmp_0;
   for (j = 0; j < 13; j++) {
-    proc_control_node_B.jBcol_k = 9 * j;
+    proc_control_node_B.jBcol_nk = 9 * j;
     for (k = 0; k < 9; k++) {
-      proc_control_node_B.kAcol_p = 9 * k;
-      tmp = k + proc_control_node_B.jBcol_k;
+      proc_control_node_B.kAcol_k = 9 * k;
+      tmp = k + proc_control_node_B.jBcol_nk;
       proc_control_node_B.d7 = B[tmp];
       if (proc_control_node_B.d7 != 0.0) {
-        B[tmp] = proc_control_node_B.d7 / A[k + proc_control_node_B.kAcol_p];
+        B[tmp] = proc_control_node_B.d7 / A[k + proc_control_node_B.kAcol_k];
         for (i = k + 2; i < 10; i++) {
-          tmp_0 = (i + proc_control_node_B.jBcol_k) - 1;
-          B[tmp_0] -= A[(i + proc_control_node_B.kAcol_p) - 1] * B[tmp];
+          tmp_0 = (i + proc_control_node_B.jBcol_nk) - 1;
+          B[tmp_0] -= A[(i + proc_control_node_B.kAcol_k) - 1] * B[tmp];
         }
       }
     }
@@ -895,16 +894,16 @@ void proc_control_nodeModelClass::proc_control_node_trisolve_ga0(const real_T A
   int32_T tmp;
   int32_T tmp_0;
   for (j = 0; j < 13; j++) {
-    proc_control_node_B.jBcol_m = 9 * j;
+    proc_control_node_B.jBcol_a = 9 * j;
     for (k = 8; k >= 0; k--) {
-      proc_control_node_B.kAcol_n = 9 * k;
-      tmp = k + proc_control_node_B.jBcol_m;
+      proc_control_node_B.kAcol_m = 9 * k;
+      tmp = k + proc_control_node_B.jBcol_a;
       proc_control_node_B.d6 = B[tmp];
       if (proc_control_node_B.d6 != 0.0) {
-        B[tmp] = proc_control_node_B.d6 / A[k + proc_control_node_B.kAcol_n];
+        B[tmp] = proc_control_node_B.d6 / A[k + proc_control_node_B.kAcol_m];
         for (i = 0; i < k; i++) {
-          tmp_0 = i + proc_control_node_B.jBcol_m;
-          B[tmp_0] -= B[tmp] * A[i + proc_control_node_B.kAcol_n];
+          tmp_0 = i + proc_control_node_B.jBcol_a;
+          B[tmp_0] -= B[tmp] * A[i + proc_control_node_B.kAcol_m];
         }
       }
     }
@@ -963,15 +962,15 @@ void proc_control_nodeModelClass::proc_control_node_xgemv_kv(int32_T m, int32_T
     b_iy = 0;
     b = (n - 1) * 22 + ia0;
     for (iac = ia0; iac <= b; iac += 22) {
-      proc_control_node_B.ix_kp = ix0;
-      proc_control_node_B.c_df = 0.0;
+      proc_control_node_B.ix_kg = ix0;
+      proc_control_node_B.c_pz = 0.0;
       d = (iac + m) - 1;
       for (ia = iac; ia <= d; ia++) {
-        proc_control_node_B.c_df += A[ia - 1] * x[proc_control_node_B.ix_kp - 1];
-        proc_control_node_B.ix_kp++;
+        proc_control_node_B.c_pz += A[ia - 1] * x[proc_control_node_B.ix_kg - 1];
+        proc_control_node_B.ix_kg++;
       }
 
-      y[b_iy] += proc_control_node_B.c_df;
+      y[b_iy] += proc_control_node_B.c_pz;
       b_iy++;
     }
   }
@@ -991,11 +990,11 @@ void proc_control_nodeModelClass::proc_control_node_xgerc_kg(int32_T m, int32_T
     jy = 0;
     for (j = 0; j < n; j++) {
       if (y[jy] != 0.0) {
-        proc_control_node_B.temp_n = y[jy] * alpha1;
+        proc_control_node_B.temp_g = y[jy] * alpha1;
         ix = ix0;
         b = m + proc_control_node_B.jA_d;
         for (ijA = proc_control_node_B.jA_d; ijA < b; ijA++) {
-          A[ijA] += A[ix - 1] * proc_control_node_B.temp_n;
+          A[ijA] += A[ix - 1] * proc_control_node_B.temp_g;
           ix++;
         }
       }
@@ -1070,19 +1069,19 @@ void proc_control_nodeModelClass::proc_control_node_qrf_if(real_T A[286],
       proc_control_node_B.i_i) - 1;
     proc_control_node_B.mmi_tmp_a = m - proc_control_node_B.i_i;
     if (proc_control_node_B.i_i + 1 < m) {
-      proc_control_node_B.b_atmp_l = A[proc_control_node_B.ii_l];
+      proc_control_node_B.b_atmp_m = A[proc_control_node_B.ii_l];
       tau[proc_control_node_B.i_i] = 0.0;
       if (proc_control_node_B.mmi_tmp_a > 0) {
-        proc_control_node_B.beta1_m = proc_control_node_xnrm2_en
+        proc_control_node_B.beta1_n = proc_control_node_xnrm2_en
           (proc_control_node_B.mmi_tmp_a - 1, A, proc_control_node_B.ii_l + 2);
-        if (proc_control_node_B.beta1_m != 0.0) {
-          proc_control_node_B.beta1_m = proc_control_node_rt_hypotd_snf
-            (A[proc_control_node_B.ii_l], proc_control_node_B.beta1_m);
+        if (proc_control_node_B.beta1_n != 0.0) {
+          proc_control_node_B.beta1_n = proc_control_node_rt_hypotd_snf
+            (A[proc_control_node_B.ii_l], proc_control_node_B.beta1_n);
           if (A[proc_control_node_B.ii_l] >= 0.0) {
-            proc_control_node_B.beta1_m = -proc_control_node_B.beta1_m;
+            proc_control_node_B.beta1_n = -proc_control_node_B.beta1_n;
           }
 
-          if (fabs(proc_control_node_B.beta1_m) < 1.0020841800044864E-292) {
+          if (fabs(proc_control_node_B.beta1_n) < 1.0020841800044864E-292) {
             proc_control_node_B.knt_m = -1;
             proc_control_node_B.mmip1_j = proc_control_node_B.ii_l +
               proc_control_node_B.mmi_tmp_a;
@@ -1095,69 +1094,69 @@ void proc_control_nodeModelClass::proc_control_node_qrf_if(real_T A[286],
                 proc_control_node_B.b_k_j++;
               }
 
-              proc_control_node_B.beta1_m *= 9.9792015476736E+291;
-              proc_control_node_B.b_atmp_l *= 9.9792015476736E+291;
-            } while (!(fabs(proc_control_node_B.beta1_m) >=
+              proc_control_node_B.beta1_n *= 9.9792015476736E+291;
+              proc_control_node_B.b_atmp_m *= 9.9792015476736E+291;
+            } while (!(fabs(proc_control_node_B.beta1_n) >=
                        1.0020841800044864E-292));
 
-            proc_control_node_B.beta1_m = proc_control_node_rt_hypotd_snf
-              (proc_control_node_B.b_atmp_l, proc_control_node_xnrm2_en
+            proc_control_node_B.beta1_n = proc_control_node_rt_hypotd_snf
+              (proc_control_node_B.b_atmp_m, proc_control_node_xnrm2_en
                (proc_control_node_B.mmi_tmp_a - 1, A, proc_control_node_B.ii_l +
                 2));
-            if (proc_control_node_B.b_atmp_l >= 0.0) {
-              proc_control_node_B.beta1_m = -proc_control_node_B.beta1_m;
+            if (proc_control_node_B.b_atmp_m >= 0.0) {
+              proc_control_node_B.beta1_n = -proc_control_node_B.beta1_n;
             }
 
-            tau[proc_control_node_B.i_i] = (proc_control_node_B.beta1_m -
-              proc_control_node_B.b_atmp_l) / proc_control_node_B.beta1_m;
-            proc_control_node_B.b_atmp_l = 1.0 / (proc_control_node_B.b_atmp_l -
-              proc_control_node_B.beta1_m);
+            tau[proc_control_node_B.i_i] = (proc_control_node_B.beta1_n -
+              proc_control_node_B.b_atmp_m) / proc_control_node_B.beta1_n;
+            proc_control_node_B.b_atmp_m = 1.0 / (proc_control_node_B.b_atmp_m -
+              proc_control_node_B.beta1_n);
             proc_control_node_B.b_k_j = proc_control_node_B.ii_l + 1;
             while (proc_control_node_B.b_k_j + 1 <= proc_control_node_B.mmip1_j)
             {
-              A[proc_control_node_B.b_k_j] *= proc_control_node_B.b_atmp_l;
+              A[proc_control_node_B.b_k_j] *= proc_control_node_B.b_atmp_m;
               proc_control_node_B.b_k_j++;
             }
 
             proc_control_node_B.mmip1_j = 0;
             while (proc_control_node_B.mmip1_j <= proc_control_node_B.knt_m) {
-              proc_control_node_B.beta1_m *= 1.0020841800044864E-292;
+              proc_control_node_B.beta1_n *= 1.0020841800044864E-292;
               proc_control_node_B.mmip1_j++;
             }
 
-            proc_control_node_B.b_atmp_l = proc_control_node_B.beta1_m;
+            proc_control_node_B.b_atmp_m = proc_control_node_B.beta1_n;
           } else {
-            tau[proc_control_node_B.i_i] = (proc_control_node_B.beta1_m -
-              A[proc_control_node_B.ii_l]) / proc_control_node_B.beta1_m;
-            proc_control_node_B.b_atmp_l = 1.0 / (A[proc_control_node_B.ii_l] -
-              proc_control_node_B.beta1_m);
+            tau[proc_control_node_B.i_i] = (proc_control_node_B.beta1_n -
+              A[proc_control_node_B.ii_l]) / proc_control_node_B.beta1_n;
+            proc_control_node_B.b_atmp_m = 1.0 / (A[proc_control_node_B.ii_l] -
+              proc_control_node_B.beta1_n);
             proc_control_node_B.knt_m = proc_control_node_B.ii_l +
               proc_control_node_B.mmi_tmp_a;
             proc_control_node_B.mmip1_j = proc_control_node_B.ii_l + 1;
             while (proc_control_node_B.mmip1_j + 1 <= proc_control_node_B.knt_m)
             {
-              A[proc_control_node_B.mmip1_j] *= proc_control_node_B.b_atmp_l;
+              A[proc_control_node_B.mmip1_j] *= proc_control_node_B.b_atmp_m;
               proc_control_node_B.mmip1_j++;
             }
 
-            proc_control_node_B.b_atmp_l = proc_control_node_B.beta1_m;
+            proc_control_node_B.b_atmp_m = proc_control_node_B.beta1_n;
           }
         }
       }
 
-      A[proc_control_node_B.ii_l] = proc_control_node_B.b_atmp_l;
+      A[proc_control_node_B.ii_l] = proc_control_node_B.b_atmp_m;
     } else {
       tau[proc_control_node_B.i_i] = 0.0;
     }
 
     if (proc_control_node_B.i_i + 1 < n) {
-      proc_control_node_B.b_atmp_l = A[proc_control_node_B.ii_l];
+      proc_control_node_B.b_atmp_m = A[proc_control_node_B.ii_l];
       A[proc_control_node_B.ii_l] = 1.0;
       proc_control_node_xzlarf_a33(proc_control_node_B.mmi_tmp_a, (n -
         proc_control_node_B.i_i) - 1, proc_control_node_B.ii_l + 1,
         tau[proc_control_node_B.i_i], A, proc_control_node_B.ii_l + 23,
         proc_control_node_B.work_d);
-      A[proc_control_node_B.ii_l] = proc_control_node_B.b_atmp_l;
+      A[proc_control_node_B.ii_l] = proc_control_node_B.b_atmp_m;
     }
 
     proc_control_node_B.i_i++;
@@ -1177,52 +1176,52 @@ void proc_control_nodeModelClass::proc_control_node_xorgqr_gf(int32_T m, int32_T
   n, int32_T k, real_T A[286], int32_T ia0, const real_T tau[13], int32_T itau0)
 {
   if (n >= 1) {
-    proc_control_node_B.itau_k = k;
-    while (proc_control_node_B.itau_k <= n - 1) {
-      proc_control_node_B.i_kg = (proc_control_node_B.itau_k * 22 + ia0) - 1;
-      proc_control_node_B.iaii_m = 0;
-      while (proc_control_node_B.iaii_m <= m - 1) {
-        A[proc_control_node_B.i_kg + proc_control_node_B.iaii_m] = 0.0;
-        proc_control_node_B.iaii_m++;
+    proc_control_node_B.itau_a = k;
+    while (proc_control_node_B.itau_a <= n - 1) {
+      proc_control_node_B.i_jm = (proc_control_node_B.itau_a * 22 + ia0) - 1;
+      proc_control_node_B.iaii_k = 0;
+      while (proc_control_node_B.iaii_k <= m - 1) {
+        A[proc_control_node_B.i_jm + proc_control_node_B.iaii_k] = 0.0;
+        proc_control_node_B.iaii_k++;
       }
 
-      A[proc_control_node_B.i_kg + proc_control_node_B.itau_k] = 1.0;
-      proc_control_node_B.itau_k++;
+      A[proc_control_node_B.i_jm + proc_control_node_B.itau_a] = 1.0;
+      proc_control_node_B.itau_a++;
     }
 
-    proc_control_node_B.itau_k = (itau0 + k) - 2;
+    proc_control_node_B.itau_a = (itau0 + k) - 2;
     memset(&proc_control_node_B.work_j[0], 0, 13U * sizeof(real_T));
-    proc_control_node_B.i_kg = k;
-    while (proc_control_node_B.i_kg >= 1) {
-      proc_control_node_B.iaii_m = (((proc_control_node_B.i_kg - 1) * 22 + ia0)
-        + proc_control_node_B.i_kg) - 1;
-      if (proc_control_node_B.i_kg < n) {
-        A[proc_control_node_B.iaii_m - 1] = 1.0;
-        proc_control_node_xzlarf_a33((m - proc_control_node_B.i_kg) + 1, n -
-          proc_control_node_B.i_kg, proc_control_node_B.iaii_m,
-          tau[proc_control_node_B.itau_k], A, proc_control_node_B.iaii_m + 22,
+    proc_control_node_B.i_jm = k;
+    while (proc_control_node_B.i_jm >= 1) {
+      proc_control_node_B.iaii_k = (((proc_control_node_B.i_jm - 1) * 22 + ia0)
+        + proc_control_node_B.i_jm) - 1;
+      if (proc_control_node_B.i_jm < n) {
+        A[proc_control_node_B.iaii_k - 1] = 1.0;
+        proc_control_node_xzlarf_a33((m - proc_control_node_B.i_jm) + 1, n -
+          proc_control_node_B.i_jm, proc_control_node_B.iaii_k,
+          tau[proc_control_node_B.itau_a], A, proc_control_node_B.iaii_k + 22,
           proc_control_node_B.work_j);
       }
 
-      if (proc_control_node_B.i_kg < m) {
-        proc_control_node_B.b_jx = (proc_control_node_B.iaii_m + m) -
-          proc_control_node_B.i_kg;
-        proc_control_node_B.b_k_jm = proc_control_node_B.iaii_m;
-        while (proc_control_node_B.b_k_jm + 1 <= proc_control_node_B.b_jx) {
-          A[proc_control_node_B.b_k_jm] *= -tau[proc_control_node_B.itau_k];
-          proc_control_node_B.b_k_jm++;
+      if (proc_control_node_B.i_jm < m) {
+        proc_control_node_B.b_m2 = (proc_control_node_B.iaii_k + m) -
+          proc_control_node_B.i_jm;
+        proc_control_node_B.b_k_jx = proc_control_node_B.iaii_k;
+        while (proc_control_node_B.b_k_jx + 1 <= proc_control_node_B.b_m2) {
+          A[proc_control_node_B.b_k_jx] *= -tau[proc_control_node_B.itau_a];
+          proc_control_node_B.b_k_jx++;
         }
       }
 
-      A[proc_control_node_B.iaii_m - 1] = 1.0 - tau[proc_control_node_B.itau_k];
-      proc_control_node_B.b_jx = 0;
-      while (proc_control_node_B.b_jx <= proc_control_node_B.i_kg - 2) {
-        A[(proc_control_node_B.iaii_m - proc_control_node_B.b_jx) - 2] = 0.0;
-        proc_control_node_B.b_jx++;
+      A[proc_control_node_B.iaii_k - 1] = 1.0 - tau[proc_control_node_B.itau_a];
+      proc_control_node_B.b_m2 = 0;
+      while (proc_control_node_B.b_m2 <= proc_control_node_B.i_jm - 2) {
+        A[(proc_control_node_B.iaii_k - proc_control_node_B.b_m2) - 2] = 0.0;
+        proc_control_node_B.b_m2++;
       }
 
-      proc_control_node_B.itau_k--;
-      proc_control_node_B.i_kg--;
+      proc_control_node_B.itau_a--;
+      proc_control_node_B.i_jm--;
     }
   }
 }
@@ -1273,16 +1272,16 @@ void proc_control_nodeModelClass::proc_control_node_qrFactor_a(const real_T A
     for (proc_control_node_B.i_pd = 0; proc_control_node_B.i_pd < 13;
          proc_control_node_B.i_pd++) {
       proc_control_node_B.aoffset_k = proc_control_node_B.i_pd * 13;
-      proc_control_node_B.s_g = 0.0;
+      proc_control_node_B.s_l = 0.0;
       for (proc_control_node_B.k_f = 0; proc_control_node_B.k_f < 13;
            proc_control_node_B.k_f++) {
-        proc_control_node_B.s_g += A[proc_control_node_B.k_f * 13 +
+        proc_control_node_B.s_l += A[proc_control_node_B.k_f * 13 +
           proc_control_node_B.j_g] * S[proc_control_node_B.aoffset_k +
           proc_control_node_B.k_f];
       }
 
       proc_control_node_B.y_p[proc_control_node_B.coffset_i +
-        proc_control_node_B.i_pd] = proc_control_node_B.s_g;
+        proc_control_node_B.i_pd] = proc_control_node_B.s_l;
       proc_control_node_B.y_i[proc_control_node_B.i_pd + 22 *
         proc_control_node_B.j_g] = proc_control_node_B.y_p[13 *
         proc_control_node_B.j_g + proc_control_node_B.i_pd];
@@ -1501,12 +1500,12 @@ void proc_control_nodeModelClass::proc_control_node_xgemv_bs(int32_T m, int32_T
     b_iy = 0;
     b = ((n - 1) << 4) + ia0;
     for (iac = ia0; iac <= b; iac += 16) {
-      proc_control_node_B.ix_o0 = ix0;
+      proc_control_node_B.ix_ld = ix0;
       proc_control_node_B.c_pc = 0.0;
       d = (iac + m) - 1;
       for (ia = iac; ia <= d; ia++) {
-        proc_control_node_B.c_pc += A[ia - 1] * x[proc_control_node_B.ix_o0 - 1];
-        proc_control_node_B.ix_o0++;
+        proc_control_node_B.c_pc += A[ia - 1] * x[proc_control_node_B.ix_ld - 1];
+        proc_control_node_B.ix_ld++;
       }
 
       y[b_iy] += proc_control_node_B.c_pc;
@@ -1529,11 +1528,11 @@ void proc_control_nodeModelClass::proc_control_node_xgerc_og(int32_T m, int32_T
     jy = 0;
     for (j = 0; j < n; j++) {
       if (y[jy] != 0.0) {
-        proc_control_node_B.temp_j = y[jy] * alpha1;
+        proc_control_node_B.temp_kb = y[jy] * alpha1;
         ix = ix0;
         b = m + proc_control_node_B.jA_f;
         for (ijA = proc_control_node_B.jA_f; ijA < b; ijA++) {
-          A[ijA] += A[ix - 1] * proc_control_node_B.temp_j;
+          A[ijA] += A[ix - 1] * proc_control_node_B.temp_kb;
           ix++;
         }
       }
@@ -1554,18 +1553,18 @@ void proc_control_nodeModelClass::proc_control_node_qr_f(const real_T A[48],
   proc_control_node_B.work_c[0] = 0.0;
   proc_control_node_B.work_c[1] = 0.0;
   proc_control_node_B.work_c[2] = 0.0;
-  proc_control_node_B.b_atmp_f = proc_control_node_B.b_A_p[0];
+  proc_control_node_B.b_atmp_ci = proc_control_node_B.b_A_p[0];
   proc_control_node_B.tau_idx_0 = 0.0;
-  proc_control_node_B.beta1_ci = proc_control_node_xnrm2_k(15,
+  proc_control_node_B.beta1_j = proc_control_node_xnrm2_k(15,
     proc_control_node_B.b_A_p, 2);
-  if (proc_control_node_B.beta1_ci != 0.0) {
-    proc_control_node_B.beta1_ci = proc_control_node_rt_hypotd_snf
-      (proc_control_node_B.b_A_p[0], proc_control_node_B.beta1_ci);
+  if (proc_control_node_B.beta1_j != 0.0) {
+    proc_control_node_B.beta1_j = proc_control_node_rt_hypotd_snf
+      (proc_control_node_B.b_A_p[0], proc_control_node_B.beta1_j);
     if (proc_control_node_B.b_A_p[0] >= 0.0) {
-      proc_control_node_B.beta1_ci = -proc_control_node_B.beta1_ci;
+      proc_control_node_B.beta1_j = -proc_control_node_B.beta1_j;
     }
 
-    if (fabs(proc_control_node_B.beta1_ci) < 1.0020841800044864E-292) {
+    if (fabs(proc_control_node_B.beta1_j) < 1.0020841800044864E-292) {
       proc_control_node_B.knt_h = -1;
       proc_control_node_B.c_lastc = 0;
       do {
@@ -1577,47 +1576,47 @@ void proc_control_nodeModelClass::proc_control_node_qr_f(const real_T A[48],
           proc_control_node_B.b_coltop++;
         }
 
-        proc_control_node_B.beta1_ci *= 9.9792015476736E+291;
-        proc_control_node_B.b_atmp_f *= 9.9792015476736E+291;
-      } while (!(fabs(proc_control_node_B.beta1_ci) >= 1.0020841800044864E-292));
+        proc_control_node_B.beta1_j *= 9.9792015476736E+291;
+        proc_control_node_B.b_atmp_ci *= 9.9792015476736E+291;
+      } while (!(fabs(proc_control_node_B.beta1_j) >= 1.0020841800044864E-292));
 
-      proc_control_node_B.beta1_ci = proc_control_node_rt_hypotd_snf
-        (proc_control_node_B.b_atmp_f, proc_control_node_xnrm2_k(15,
+      proc_control_node_B.beta1_j = proc_control_node_rt_hypotd_snf
+        (proc_control_node_B.b_atmp_ci, proc_control_node_xnrm2_k(15,
           proc_control_node_B.b_A_p, 2));
-      if (proc_control_node_B.b_atmp_f >= 0.0) {
-        proc_control_node_B.beta1_ci = -proc_control_node_B.beta1_ci;
+      if (proc_control_node_B.b_atmp_ci >= 0.0) {
+        proc_control_node_B.beta1_j = -proc_control_node_B.beta1_j;
       }
 
-      proc_control_node_B.tau_idx_0 = (proc_control_node_B.beta1_ci -
-        proc_control_node_B.b_atmp_f) / proc_control_node_B.beta1_ci;
-      proc_control_node_B.b_atmp_f = 1.0 / (proc_control_node_B.b_atmp_f -
-        proc_control_node_B.beta1_ci);
+      proc_control_node_B.tau_idx_0 = (proc_control_node_B.beta1_j -
+        proc_control_node_B.b_atmp_ci) / proc_control_node_B.beta1_j;
+      proc_control_node_B.b_atmp_ci = 1.0 / (proc_control_node_B.b_atmp_ci -
+        proc_control_node_B.beta1_j);
       proc_control_node_B.b_coltop = 1;
       while (proc_control_node_B.b_coltop + 1 <= 16) {
         proc_control_node_B.b_A_p[proc_control_node_B.b_coltop] *=
-          proc_control_node_B.b_atmp_f;
+          proc_control_node_B.b_atmp_ci;
         proc_control_node_B.b_coltop++;
       }
 
       while (proc_control_node_B.c_lastc <= proc_control_node_B.knt_h) {
-        proc_control_node_B.beta1_ci *= 1.0020841800044864E-292;
+        proc_control_node_B.beta1_j *= 1.0020841800044864E-292;
         proc_control_node_B.c_lastc++;
       }
 
-      proc_control_node_B.b_atmp_f = proc_control_node_B.beta1_ci;
+      proc_control_node_B.b_atmp_ci = proc_control_node_B.beta1_j;
     } else {
-      proc_control_node_B.tau_idx_0 = (proc_control_node_B.beta1_ci -
-        proc_control_node_B.b_A_p[0]) / proc_control_node_B.beta1_ci;
-      proc_control_node_B.b_atmp_f = 1.0 / (proc_control_node_B.b_A_p[0] -
-        proc_control_node_B.beta1_ci);
+      proc_control_node_B.tau_idx_0 = (proc_control_node_B.beta1_j -
+        proc_control_node_B.b_A_p[0]) / proc_control_node_B.beta1_j;
+      proc_control_node_B.b_atmp_ci = 1.0 / (proc_control_node_B.b_A_p[0] -
+        proc_control_node_B.beta1_j);
       proc_control_node_B.c_lastc = 1;
       while (proc_control_node_B.c_lastc + 1 <= 16) {
         proc_control_node_B.b_A_p[proc_control_node_B.c_lastc] *=
-          proc_control_node_B.b_atmp_f;
+          proc_control_node_B.b_atmp_ci;
         proc_control_node_B.c_lastc++;
       }
 
-      proc_control_node_B.b_atmp_f = proc_control_node_B.beta1_ci;
+      proc_control_node_B.b_atmp_ci = proc_control_node_B.beta1_j;
     }
   }
 
@@ -1671,19 +1670,19 @@ void proc_control_nodeModelClass::proc_control_node_qr_f(const real_T A[48],
       proc_control_node_B.work_c, proc_control_node_B.b_A_p, 17);
   }
 
-  proc_control_node_B.b_A_p[0] = proc_control_node_B.b_atmp_f;
-  proc_control_node_B.b_atmp_f = proc_control_node_B.b_A_p[17];
+  proc_control_node_B.b_A_p[0] = proc_control_node_B.b_atmp_ci;
+  proc_control_node_B.b_atmp_ci = proc_control_node_B.b_A_p[17];
   proc_control_node_B.tau_idx_1 = 0.0;
-  proc_control_node_B.beta1_ci = proc_control_node_xnrm2_k(14,
+  proc_control_node_B.beta1_j = proc_control_node_xnrm2_k(14,
     proc_control_node_B.b_A_p, 19);
-  if (proc_control_node_B.beta1_ci != 0.0) {
-    proc_control_node_B.beta1_ci = proc_control_node_rt_hypotd_snf
-      (proc_control_node_B.b_A_p[17], proc_control_node_B.beta1_ci);
+  if (proc_control_node_B.beta1_j != 0.0) {
+    proc_control_node_B.beta1_j = proc_control_node_rt_hypotd_snf
+      (proc_control_node_B.b_A_p[17], proc_control_node_B.beta1_j);
     if (proc_control_node_B.b_A_p[17] >= 0.0) {
-      proc_control_node_B.beta1_ci = -proc_control_node_B.beta1_ci;
+      proc_control_node_B.beta1_j = -proc_control_node_B.beta1_j;
     }
 
-    if (fabs(proc_control_node_B.beta1_ci) < 1.0020841800044864E-292) {
+    if (fabs(proc_control_node_B.beta1_j) < 1.0020841800044864E-292) {
       proc_control_node_B.knt_h = -1;
       do {
         proc_control_node_B.knt_h++;
@@ -1694,48 +1693,48 @@ void proc_control_nodeModelClass::proc_control_node_qr_f(const real_T A[48],
           proc_control_node_B.b_coltop++;
         }
 
-        proc_control_node_B.beta1_ci *= 9.9792015476736E+291;
-        proc_control_node_B.b_atmp_f *= 9.9792015476736E+291;
-      } while (!(fabs(proc_control_node_B.beta1_ci) >= 1.0020841800044864E-292));
+        proc_control_node_B.beta1_j *= 9.9792015476736E+291;
+        proc_control_node_B.b_atmp_ci *= 9.9792015476736E+291;
+      } while (!(fabs(proc_control_node_B.beta1_j) >= 1.0020841800044864E-292));
 
-      proc_control_node_B.beta1_ci = proc_control_node_rt_hypotd_snf
-        (proc_control_node_B.b_atmp_f, proc_control_node_xnrm2_k(14,
+      proc_control_node_B.beta1_j = proc_control_node_rt_hypotd_snf
+        (proc_control_node_B.b_atmp_ci, proc_control_node_xnrm2_k(14,
           proc_control_node_B.b_A_p, 19));
-      if (proc_control_node_B.b_atmp_f >= 0.0) {
-        proc_control_node_B.beta1_ci = -proc_control_node_B.beta1_ci;
+      if (proc_control_node_B.b_atmp_ci >= 0.0) {
+        proc_control_node_B.beta1_j = -proc_control_node_B.beta1_j;
       }
 
-      proc_control_node_B.tau_idx_1 = (proc_control_node_B.beta1_ci -
-        proc_control_node_B.b_atmp_f) / proc_control_node_B.beta1_ci;
-      proc_control_node_B.b_atmp_f = 1.0 / (proc_control_node_B.b_atmp_f -
-        proc_control_node_B.beta1_ci);
+      proc_control_node_B.tau_idx_1 = (proc_control_node_B.beta1_j -
+        proc_control_node_B.b_atmp_ci) / proc_control_node_B.beta1_j;
+      proc_control_node_B.b_atmp_ci = 1.0 / (proc_control_node_B.b_atmp_ci -
+        proc_control_node_B.beta1_j);
       proc_control_node_B.b_coltop = 18;
       while (proc_control_node_B.b_coltop + 1 <= 32) {
         proc_control_node_B.b_A_p[proc_control_node_B.b_coltop] *=
-          proc_control_node_B.b_atmp_f;
+          proc_control_node_B.b_atmp_ci;
         proc_control_node_B.b_coltop++;
       }
 
       proc_control_node_B.c_lastc = 0;
       while (proc_control_node_B.c_lastc <= proc_control_node_B.knt_h) {
-        proc_control_node_B.beta1_ci *= 1.0020841800044864E-292;
+        proc_control_node_B.beta1_j *= 1.0020841800044864E-292;
         proc_control_node_B.c_lastc++;
       }
 
-      proc_control_node_B.b_atmp_f = proc_control_node_B.beta1_ci;
+      proc_control_node_B.b_atmp_ci = proc_control_node_B.beta1_j;
     } else {
-      proc_control_node_B.tau_idx_1 = (proc_control_node_B.beta1_ci -
-        proc_control_node_B.b_A_p[17]) / proc_control_node_B.beta1_ci;
-      proc_control_node_B.b_atmp_f = 1.0 / (proc_control_node_B.b_A_p[17] -
-        proc_control_node_B.beta1_ci);
+      proc_control_node_B.tau_idx_1 = (proc_control_node_B.beta1_j -
+        proc_control_node_B.b_A_p[17]) / proc_control_node_B.beta1_j;
+      proc_control_node_B.b_atmp_ci = 1.0 / (proc_control_node_B.b_A_p[17] -
+        proc_control_node_B.beta1_j);
       proc_control_node_B.c_lastc = 18;
       while (proc_control_node_B.c_lastc + 1 <= 32) {
         proc_control_node_B.b_A_p[proc_control_node_B.c_lastc] *=
-          proc_control_node_B.b_atmp_f;
+          proc_control_node_B.b_atmp_ci;
         proc_control_node_B.c_lastc++;
       }
 
-      proc_control_node_B.b_atmp_f = proc_control_node_B.beta1_ci;
+      proc_control_node_B.b_atmp_ci = proc_control_node_B.beta1_j;
     }
   }
 
@@ -1779,19 +1778,19 @@ void proc_control_nodeModelClass::proc_control_node_qr_f(const real_T A[48],
       proc_control_node_B.work_c, proc_control_node_B.b_A_p, 34);
   }
 
-  proc_control_node_B.b_A_p[17] = proc_control_node_B.b_atmp_f;
-  proc_control_node_B.b_atmp_f = proc_control_node_B.b_A_p[34];
+  proc_control_node_B.b_A_p[17] = proc_control_node_B.b_atmp_ci;
+  proc_control_node_B.b_atmp_ci = proc_control_node_B.b_A_p[34];
   proc_control_node_B.tau_idx_2 = 0.0;
-  proc_control_node_B.beta1_ci = proc_control_node_xnrm2_k(13,
+  proc_control_node_B.beta1_j = proc_control_node_xnrm2_k(13,
     proc_control_node_B.b_A_p, 36);
-  if (proc_control_node_B.beta1_ci != 0.0) {
-    proc_control_node_B.beta1_ci = proc_control_node_rt_hypotd_snf
-      (proc_control_node_B.b_A_p[34], proc_control_node_B.beta1_ci);
+  if (proc_control_node_B.beta1_j != 0.0) {
+    proc_control_node_B.beta1_j = proc_control_node_rt_hypotd_snf
+      (proc_control_node_B.b_A_p[34], proc_control_node_B.beta1_j);
     if (proc_control_node_B.b_A_p[34] >= 0.0) {
-      proc_control_node_B.beta1_ci = -proc_control_node_B.beta1_ci;
+      proc_control_node_B.beta1_j = -proc_control_node_B.beta1_j;
     }
 
-    if (fabs(proc_control_node_B.beta1_ci) < 1.0020841800044864E-292) {
+    if (fabs(proc_control_node_B.beta1_j) < 1.0020841800044864E-292) {
       proc_control_node_B.knt_h = -1;
       do {
         proc_control_node_B.knt_h++;
@@ -1802,52 +1801,52 @@ void proc_control_nodeModelClass::proc_control_node_qr_f(const real_T A[48],
           proc_control_node_B.b_coltop++;
         }
 
-        proc_control_node_B.beta1_ci *= 9.9792015476736E+291;
-        proc_control_node_B.b_atmp_f *= 9.9792015476736E+291;
-      } while (!(fabs(proc_control_node_B.beta1_ci) >= 1.0020841800044864E-292));
+        proc_control_node_B.beta1_j *= 9.9792015476736E+291;
+        proc_control_node_B.b_atmp_ci *= 9.9792015476736E+291;
+      } while (!(fabs(proc_control_node_B.beta1_j) >= 1.0020841800044864E-292));
 
-      proc_control_node_B.beta1_ci = proc_control_node_rt_hypotd_snf
-        (proc_control_node_B.b_atmp_f, proc_control_node_xnrm2_k(13,
+      proc_control_node_B.beta1_j = proc_control_node_rt_hypotd_snf
+        (proc_control_node_B.b_atmp_ci, proc_control_node_xnrm2_k(13,
           proc_control_node_B.b_A_p, 36));
-      if (proc_control_node_B.b_atmp_f >= 0.0) {
-        proc_control_node_B.beta1_ci = -proc_control_node_B.beta1_ci;
+      if (proc_control_node_B.b_atmp_ci >= 0.0) {
+        proc_control_node_B.beta1_j = -proc_control_node_B.beta1_j;
       }
 
-      proc_control_node_B.tau_idx_2 = (proc_control_node_B.beta1_ci -
-        proc_control_node_B.b_atmp_f) / proc_control_node_B.beta1_ci;
-      proc_control_node_B.b_atmp_f = 1.0 / (proc_control_node_B.b_atmp_f -
-        proc_control_node_B.beta1_ci);
+      proc_control_node_B.tau_idx_2 = (proc_control_node_B.beta1_j -
+        proc_control_node_B.b_atmp_ci) / proc_control_node_B.beta1_j;
+      proc_control_node_B.b_atmp_ci = 1.0 / (proc_control_node_B.b_atmp_ci -
+        proc_control_node_B.beta1_j);
       proc_control_node_B.b_coltop = 35;
       while (proc_control_node_B.b_coltop + 1 <= 48) {
         proc_control_node_B.b_A_p[proc_control_node_B.b_coltop] *=
-          proc_control_node_B.b_atmp_f;
+          proc_control_node_B.b_atmp_ci;
         proc_control_node_B.b_coltop++;
       }
 
       proc_control_node_B.c_lastc = 0;
       while (proc_control_node_B.c_lastc <= proc_control_node_B.knt_h) {
-        proc_control_node_B.beta1_ci *= 1.0020841800044864E-292;
+        proc_control_node_B.beta1_j *= 1.0020841800044864E-292;
         proc_control_node_B.c_lastc++;
       }
 
-      proc_control_node_B.b_atmp_f = proc_control_node_B.beta1_ci;
+      proc_control_node_B.b_atmp_ci = proc_control_node_B.beta1_j;
     } else {
-      proc_control_node_B.tau_idx_2 = (proc_control_node_B.beta1_ci -
-        proc_control_node_B.b_A_p[34]) / proc_control_node_B.beta1_ci;
-      proc_control_node_B.b_atmp_f = 1.0 / (proc_control_node_B.b_A_p[34] -
-        proc_control_node_B.beta1_ci);
+      proc_control_node_B.tau_idx_2 = (proc_control_node_B.beta1_j -
+        proc_control_node_B.b_A_p[34]) / proc_control_node_B.beta1_j;
+      proc_control_node_B.b_atmp_ci = 1.0 / (proc_control_node_B.b_A_p[34] -
+        proc_control_node_B.beta1_j);
       proc_control_node_B.c_lastc = 35;
       while (proc_control_node_B.c_lastc + 1 <= 48) {
         proc_control_node_B.b_A_p[proc_control_node_B.c_lastc] *=
-          proc_control_node_B.b_atmp_f;
+          proc_control_node_B.b_atmp_ci;
         proc_control_node_B.c_lastc++;
       }
 
-      proc_control_node_B.b_atmp_f = proc_control_node_B.beta1_ci;
+      proc_control_node_B.b_atmp_ci = proc_control_node_B.beta1_j;
     }
   }
 
-  proc_control_node_B.b_A_p[34] = proc_control_node_B.b_atmp_f;
+  proc_control_node_B.b_A_p[34] = proc_control_node_B.b_atmp_ci;
   R[0] = proc_control_node_B.b_A_p[0];
   proc_control_node_B.c_lastc = 1;
   while (proc_control_node_B.c_lastc + 1 < 4) {
@@ -2121,15 +2120,15 @@ void proc_control_nodeModelClass::proc_control_node_xgemv_bsn(int32_T m, int32_T
     b_iy = 0;
     b = ((n - 1) << 4) + ia0;
     for (iac = ia0; iac <= b; iac += 16) {
-      proc_control_node_B.ix_oz = ix0;
-      proc_control_node_B.c_p = 0.0;
+      proc_control_node_B.ix_cf = ix0;
+      proc_control_node_B.c_a = 0.0;
       d = (iac + m) - 1;
       for (ia = iac; ia <= d; ia++) {
-        proc_control_node_B.c_p += A[ia - 1] * x[proc_control_node_B.ix_oz - 1];
-        proc_control_node_B.ix_oz++;
+        proc_control_node_B.c_a += A[ia - 1] * x[proc_control_node_B.ix_cf - 1];
+        proc_control_node_B.ix_cf++;
       }
 
-      y[b_iy] += proc_control_node_B.c_p;
+      y[b_iy] += proc_control_node_B.c_a;
       b_iy++;
     }
   }
@@ -2149,11 +2148,11 @@ void proc_control_nodeModelClass::proc_control_node_xgerc_ogv(int32_T m, int32_T
     jy = 0;
     for (j = 0; j < n; j++) {
       if (y[jy] != 0.0) {
-        proc_control_node_B.temp_gi = y[jy] * alpha1;
+        proc_control_node_B.temp_o = y[jy] * alpha1;
         ix = ix0;
         b = m + proc_control_node_B.jA_h;
         for (ijA = proc_control_node_B.jA_h; ijA < b; ijA++) {
-          A[ijA] += A[ix - 1] * proc_control_node_B.temp_gi;
+          A[ijA] += A[ix - 1] * proc_control_node_B.temp_o;
           ix++;
         }
       }
@@ -2228,19 +2227,19 @@ void proc_control_nodeModelClass::proc_control_node_qrf_m3(real_T A[208],
       proc_control_node_B.i_pj) - 1;
     proc_control_node_B.mmi_tmp_g = m - proc_control_node_B.i_pj;
     if (proc_control_node_B.i_pj + 1 < m) {
-      proc_control_node_B.b_atmp_j = A[proc_control_node_B.ii_n];
+      proc_control_node_B.b_atmp_jb = A[proc_control_node_B.ii_n];
       tau[proc_control_node_B.i_pj] = 0.0;
       if (proc_control_node_B.mmi_tmp_g > 0) {
-        proc_control_node_B.beta1_jb = proc_control_node_xnrm2_kt
+        proc_control_node_B.beta1_gi = proc_control_node_xnrm2_kt
           (proc_control_node_B.mmi_tmp_g - 1, A, proc_control_node_B.ii_n + 2);
-        if (proc_control_node_B.beta1_jb != 0.0) {
-          proc_control_node_B.beta1_jb = proc_control_node_rt_hypotd_snf
-            (A[proc_control_node_B.ii_n], proc_control_node_B.beta1_jb);
+        if (proc_control_node_B.beta1_gi != 0.0) {
+          proc_control_node_B.beta1_gi = proc_control_node_rt_hypotd_snf
+            (A[proc_control_node_B.ii_n], proc_control_node_B.beta1_gi);
           if (A[proc_control_node_B.ii_n] >= 0.0) {
-            proc_control_node_B.beta1_jb = -proc_control_node_B.beta1_jb;
+            proc_control_node_B.beta1_gi = -proc_control_node_B.beta1_gi;
           }
 
-          if (fabs(proc_control_node_B.beta1_jb) < 1.0020841800044864E-292) {
+          if (fabs(proc_control_node_B.beta1_gi) < 1.0020841800044864E-292) {
             proc_control_node_B.knt_o = -1;
             proc_control_node_B.mmip1_i = proc_control_node_B.ii_n +
               proc_control_node_B.mmi_tmp_g;
@@ -2253,69 +2252,69 @@ void proc_control_nodeModelClass::proc_control_node_qrf_m3(real_T A[208],
                 proc_control_node_B.b_k_h++;
               }
 
-              proc_control_node_B.beta1_jb *= 9.9792015476736E+291;
-              proc_control_node_B.b_atmp_j *= 9.9792015476736E+291;
-            } while (!(fabs(proc_control_node_B.beta1_jb) >=
+              proc_control_node_B.beta1_gi *= 9.9792015476736E+291;
+              proc_control_node_B.b_atmp_jb *= 9.9792015476736E+291;
+            } while (!(fabs(proc_control_node_B.beta1_gi) >=
                        1.0020841800044864E-292));
 
-            proc_control_node_B.beta1_jb = proc_control_node_rt_hypotd_snf
-              (proc_control_node_B.b_atmp_j, proc_control_node_xnrm2_kt
+            proc_control_node_B.beta1_gi = proc_control_node_rt_hypotd_snf
+              (proc_control_node_B.b_atmp_jb, proc_control_node_xnrm2_kt
                (proc_control_node_B.mmi_tmp_g - 1, A, proc_control_node_B.ii_n +
                 2));
-            if (proc_control_node_B.b_atmp_j >= 0.0) {
-              proc_control_node_B.beta1_jb = -proc_control_node_B.beta1_jb;
+            if (proc_control_node_B.b_atmp_jb >= 0.0) {
+              proc_control_node_B.beta1_gi = -proc_control_node_B.beta1_gi;
             }
 
-            tau[proc_control_node_B.i_pj] = (proc_control_node_B.beta1_jb -
-              proc_control_node_B.b_atmp_j) / proc_control_node_B.beta1_jb;
-            proc_control_node_B.b_atmp_j = 1.0 / (proc_control_node_B.b_atmp_j -
-              proc_control_node_B.beta1_jb);
+            tau[proc_control_node_B.i_pj] = (proc_control_node_B.beta1_gi -
+              proc_control_node_B.b_atmp_jb) / proc_control_node_B.beta1_gi;
+            proc_control_node_B.b_atmp_jb = 1.0 / (proc_control_node_B.b_atmp_jb
+              - proc_control_node_B.beta1_gi);
             proc_control_node_B.b_k_h = proc_control_node_B.ii_n + 1;
             while (proc_control_node_B.b_k_h + 1 <= proc_control_node_B.mmip1_i)
             {
-              A[proc_control_node_B.b_k_h] *= proc_control_node_B.b_atmp_j;
+              A[proc_control_node_B.b_k_h] *= proc_control_node_B.b_atmp_jb;
               proc_control_node_B.b_k_h++;
             }
 
             proc_control_node_B.mmip1_i = 0;
             while (proc_control_node_B.mmip1_i <= proc_control_node_B.knt_o) {
-              proc_control_node_B.beta1_jb *= 1.0020841800044864E-292;
+              proc_control_node_B.beta1_gi *= 1.0020841800044864E-292;
               proc_control_node_B.mmip1_i++;
             }
 
-            proc_control_node_B.b_atmp_j = proc_control_node_B.beta1_jb;
+            proc_control_node_B.b_atmp_jb = proc_control_node_B.beta1_gi;
           } else {
-            tau[proc_control_node_B.i_pj] = (proc_control_node_B.beta1_jb -
-              A[proc_control_node_B.ii_n]) / proc_control_node_B.beta1_jb;
-            proc_control_node_B.b_atmp_j = 1.0 / (A[proc_control_node_B.ii_n] -
-              proc_control_node_B.beta1_jb);
+            tau[proc_control_node_B.i_pj] = (proc_control_node_B.beta1_gi -
+              A[proc_control_node_B.ii_n]) / proc_control_node_B.beta1_gi;
+            proc_control_node_B.b_atmp_jb = 1.0 / (A[proc_control_node_B.ii_n] -
+              proc_control_node_B.beta1_gi);
             proc_control_node_B.knt_o = proc_control_node_B.ii_n +
               proc_control_node_B.mmi_tmp_g;
             proc_control_node_B.mmip1_i = proc_control_node_B.ii_n + 1;
             while (proc_control_node_B.mmip1_i + 1 <= proc_control_node_B.knt_o)
             {
-              A[proc_control_node_B.mmip1_i] *= proc_control_node_B.b_atmp_j;
+              A[proc_control_node_B.mmip1_i] *= proc_control_node_B.b_atmp_jb;
               proc_control_node_B.mmip1_i++;
             }
 
-            proc_control_node_B.b_atmp_j = proc_control_node_B.beta1_jb;
+            proc_control_node_B.b_atmp_jb = proc_control_node_B.beta1_gi;
           }
         }
       }
 
-      A[proc_control_node_B.ii_n] = proc_control_node_B.b_atmp_j;
+      A[proc_control_node_B.ii_n] = proc_control_node_B.b_atmp_jb;
     } else {
       tau[proc_control_node_B.i_pj] = 0.0;
     }
 
     if (proc_control_node_B.i_pj + 1 < n) {
-      proc_control_node_B.b_atmp_j = A[proc_control_node_B.ii_n];
+      proc_control_node_B.b_atmp_jb = A[proc_control_node_B.ii_n];
       A[proc_control_node_B.ii_n] = 1.0;
       proc_control_node_xzlarf_n(proc_control_node_B.mmi_tmp_g, (n -
         proc_control_node_B.i_pj) - 1, proc_control_node_B.ii_n + 1,
         tau[proc_control_node_B.i_pj], A, proc_control_node_B.ii_n + 17,
         proc_control_node_B.work_a);
-      A[proc_control_node_B.ii_n] = proc_control_node_B.b_atmp_j;
+      A[proc_control_node_B.ii_n] = proc_control_node_B.b_atmp_jb;
     }
 
     proc_control_node_B.i_pj++;
@@ -2338,54 +2337,54 @@ void proc_control_nodeModelClass::proc_control_node_xorgqr_gf3(int32_T m,
   int32_T exitg1;
   boolean_T exitg2;
   if (n >= 1) {
-    proc_control_node_B.itau_bw = k;
-    while (proc_control_node_B.itau_bw <= n - 1) {
-      proc_control_node_B.i_cf = ((proc_control_node_B.itau_bw << 4) + ia0) - 1;
-      proc_control_node_B.iaii_j = 0;
-      while (proc_control_node_B.iaii_j <= m - 1) {
-        A[proc_control_node_B.i_cf + proc_control_node_B.iaii_j] = 0.0;
-        proc_control_node_B.iaii_j++;
+    proc_control_node_B.itau_n = k;
+    while (proc_control_node_B.itau_n <= n - 1) {
+      proc_control_node_B.i_o0 = ((proc_control_node_B.itau_n << 4) + ia0) - 1;
+      proc_control_node_B.iaii_bw = 0;
+      while (proc_control_node_B.iaii_bw <= m - 1) {
+        A[proc_control_node_B.i_o0 + proc_control_node_B.iaii_bw] = 0.0;
+        proc_control_node_B.iaii_bw++;
       }
 
-      A[proc_control_node_B.i_cf + proc_control_node_B.itau_bw] = 1.0;
-      proc_control_node_B.itau_bw++;
+      A[proc_control_node_B.i_o0 + proc_control_node_B.itau_n] = 1.0;
+      proc_control_node_B.itau_n++;
     }
 
-    proc_control_node_B.itau_bw = (itau0 + k) - 2;
+    proc_control_node_B.itau_n = (itau0 + k) - 2;
     memset(&proc_control_node_B.work_l[0], 0, 13U * sizeof(real_T));
-    proc_control_node_B.i_cf = k;
-    while (proc_control_node_B.i_cf >= 1) {
-      proc_control_node_B.iaii_j = ((((proc_control_node_B.i_cf - 1) << 4) + ia0)
-        + proc_control_node_B.i_cf) - 1;
-      if (proc_control_node_B.i_cf < n) {
-        A[proc_control_node_B.iaii_j - 1] = 1.0;
-        proc_control_node_B.lastc_dq = (m - proc_control_node_B.i_cf) - 1;
-        if (tau[proc_control_node_B.itau_bw] != 0.0) {
-          proc_control_node_B.lastv_k = proc_control_node_B.lastc_dq + 2;
-          proc_control_node_B.lastc_dq += proc_control_node_B.iaii_j;
-          while ((proc_control_node_B.lastv_k > 0) &&
-                 (A[proc_control_node_B.lastc_dq] == 0.0)) {
-            proc_control_node_B.lastv_k--;
-            proc_control_node_B.lastc_dq--;
+    proc_control_node_B.i_o0 = k;
+    while (proc_control_node_B.i_o0 >= 1) {
+      proc_control_node_B.iaii_bw = ((((proc_control_node_B.i_o0 - 1) << 4) +
+        ia0) + proc_control_node_B.i_o0) - 1;
+      if (proc_control_node_B.i_o0 < n) {
+        A[proc_control_node_B.iaii_bw - 1] = 1.0;
+        proc_control_node_B.lastc_k0 = (m - proc_control_node_B.i_o0) - 1;
+        if (tau[proc_control_node_B.itau_n] != 0.0) {
+          proc_control_node_B.lastv_j = proc_control_node_B.lastc_k0 + 2;
+          proc_control_node_B.lastc_k0 += proc_control_node_B.iaii_bw;
+          while ((proc_control_node_B.lastv_j > 0) &&
+                 (A[proc_control_node_B.lastc_k0] == 0.0)) {
+            proc_control_node_B.lastv_j--;
+            proc_control_node_B.lastc_k0--;
           }
 
-          proc_control_node_B.lastc_dq = n - proc_control_node_B.i_cf;
+          proc_control_node_B.lastc_k0 = n - proc_control_node_B.i_o0;
           exitg2 = false;
-          while ((!exitg2) && (proc_control_node_B.lastc_dq > 0)) {
-            proc_control_node_B.coltop_dj = (((proc_control_node_B.lastc_dq - 1)
-              << 4) + proc_control_node_B.iaii_j) + 15;
-            proc_control_node_B.b_ia_o0 = proc_control_node_B.coltop_dj;
+          while ((!exitg2) && (proc_control_node_B.lastc_k0 > 0)) {
+            proc_control_node_B.coltop_dq = (((proc_control_node_B.lastc_k0 - 1)
+              << 4) + proc_control_node_B.iaii_bw) + 15;
+            proc_control_node_B.b_ia_d = proc_control_node_B.coltop_dq;
             do {
               exitg1 = 0;
-              if (proc_control_node_B.b_ia_o0 + 1 <=
-                  proc_control_node_B.coltop_dj + proc_control_node_B.lastv_k) {
-                if (A[proc_control_node_B.b_ia_o0] != 0.0) {
+              if (proc_control_node_B.b_ia_d + 1 <=
+                  proc_control_node_B.coltop_dq + proc_control_node_B.lastv_j) {
+                if (A[proc_control_node_B.b_ia_d] != 0.0) {
                   exitg1 = 1;
                 } else {
-                  proc_control_node_B.b_ia_o0++;
+                  proc_control_node_B.b_ia_d++;
                 }
               } else {
-                proc_control_node_B.lastc_dq--;
+                proc_control_node_B.lastc_k0--;
                 exitg1 = 2;
               }
             } while (exitg1 == 0);
@@ -2395,41 +2394,41 @@ void proc_control_nodeModelClass::proc_control_node_xorgqr_gf3(int32_T m,
             }
           }
         } else {
-          proc_control_node_B.lastv_k = 0;
-          proc_control_node_B.lastc_dq = 0;
+          proc_control_node_B.lastv_j = 0;
+          proc_control_node_B.lastc_k0 = 0;
         }
 
-        if (proc_control_node_B.lastv_k > 0) {
-          proc_control_node_xgemv_bsn(proc_control_node_B.lastv_k,
-            proc_control_node_B.lastc_dq, A, proc_control_node_B.iaii_j + 16, A,
-            proc_control_node_B.iaii_j, proc_control_node_B.work_l);
-          proc_control_node_xgerc_ogv(proc_control_node_B.lastv_k,
-            proc_control_node_B.lastc_dq, -tau[proc_control_node_B.itau_bw],
-            proc_control_node_B.iaii_j, proc_control_node_B.work_l, A,
-            proc_control_node_B.iaii_j + 16);
+        if (proc_control_node_B.lastv_j > 0) {
+          proc_control_node_xgemv_bsn(proc_control_node_B.lastv_j,
+            proc_control_node_B.lastc_k0, A, proc_control_node_B.iaii_bw + 16, A,
+            proc_control_node_B.iaii_bw, proc_control_node_B.work_l);
+          proc_control_node_xgerc_ogv(proc_control_node_B.lastv_j,
+            proc_control_node_B.lastc_k0, -tau[proc_control_node_B.itau_n],
+            proc_control_node_B.iaii_bw, proc_control_node_B.work_l, A,
+            proc_control_node_B.iaii_bw + 16);
         }
       }
 
-      if (proc_control_node_B.i_cf < m) {
-        proc_control_node_B.lastv_k = (proc_control_node_B.iaii_j + m) -
-          proc_control_node_B.i_cf;
-        proc_control_node_B.lastc_dq = proc_control_node_B.iaii_j;
-        while (proc_control_node_B.lastc_dq + 1 <= proc_control_node_B.lastv_k)
+      if (proc_control_node_B.i_o0 < m) {
+        proc_control_node_B.lastv_j = (proc_control_node_B.iaii_bw + m) -
+          proc_control_node_B.i_o0;
+        proc_control_node_B.lastc_k0 = proc_control_node_B.iaii_bw;
+        while (proc_control_node_B.lastc_k0 + 1 <= proc_control_node_B.lastv_j)
         {
-          A[proc_control_node_B.lastc_dq] *= -tau[proc_control_node_B.itau_bw];
-          proc_control_node_B.lastc_dq++;
+          A[proc_control_node_B.lastc_k0] *= -tau[proc_control_node_B.itau_n];
+          proc_control_node_B.lastc_k0++;
         }
       }
 
-      A[proc_control_node_B.iaii_j - 1] = 1.0 - tau[proc_control_node_B.itau_bw];
-      proc_control_node_B.lastv_k = 0;
-      while (proc_control_node_B.lastv_k <= proc_control_node_B.i_cf - 2) {
-        A[(proc_control_node_B.iaii_j - proc_control_node_B.lastv_k) - 2] = 0.0;
-        proc_control_node_B.lastv_k++;
+      A[proc_control_node_B.iaii_bw - 1] = 1.0 - tau[proc_control_node_B.itau_n];
+      proc_control_node_B.lastv_j = 0;
+      while (proc_control_node_B.lastv_j <= proc_control_node_B.i_o0 - 2) {
+        A[(proc_control_node_B.iaii_bw - proc_control_node_B.lastv_j) - 2] = 0.0;
+        proc_control_node_B.lastv_j++;
       }
 
-      proc_control_node_B.itau_bw--;
-      proc_control_node_B.i_cf--;
+      proc_control_node_B.itau_n--;
+      proc_control_node_B.i_o0--;
     }
   }
 }
@@ -2480,16 +2479,16 @@ void proc_control_nodeModelClass::proc_control_node_qrFactor_l(const real_T A
     for (proc_control_node_B.i_mc = 0; proc_control_node_B.i_mc < 13;
          proc_control_node_B.i_mc++) {
       proc_control_node_B.aoffset_mc = proc_control_node_B.i_mc * 13;
-      proc_control_node_B.s_e = 0.0;
+      proc_control_node_B.s_j = 0.0;
       for (proc_control_node_B.k_h = 0; proc_control_node_B.k_h < 13;
            proc_control_node_B.k_h++) {
-        proc_control_node_B.s_e += A[proc_control_node_B.k_h * 13 +
+        proc_control_node_B.s_j += A[proc_control_node_B.k_h * 13 +
           proc_control_node_B.j_k] * S[proc_control_node_B.aoffset_mc +
           proc_control_node_B.k_h];
       }
 
       proc_control_node_B.y_o[proc_control_node_B.coffset_m +
-        proc_control_node_B.i_mc] = proc_control_node_B.s_e;
+        proc_control_node_B.i_mc] = proc_control_node_B.s_j;
       proc_control_node_B.y_l[proc_control_node_B.i_mc +
         (proc_control_node_B.j_k << 4)] = proc_control_node_B.y_o[13 *
         proc_control_node_B.j_k + proc_control_node_B.i_mc];
@@ -2730,17 +2729,16 @@ real_T proc_control_nodeModelClass::proc_control_node_erf(real_T x)
         y = 0.12837916709551259 * x + x;
       }
     } else {
-      proc_control_node_B.z_cm = x * x;
-      y = ((((proc_control_node_B.z_cm * -2.3763016656650163E-5 +
-              -0.0057702702964894416) * proc_control_node_B.z_cm +
-             -0.02848174957559851) * proc_control_node_B.z_cm +
-            -0.3250421072470015) * proc_control_node_B.z_cm +
-           0.12837916709551256) / (((((proc_control_node_B.z_cm *
-        -3.9602282787753681E-6 + 0.00013249473800432164) *
-        proc_control_node_B.z_cm + 0.0050813062818757656) *
-        proc_control_node_B.z_cm + 0.0650222499887673) *
-        proc_control_node_B.z_cm + 0.39791722395915535) *
-        proc_control_node_B.z_cm + 1.0) * x + x;
+      proc_control_node_B.z_o = x * x;
+      y = ((((proc_control_node_B.z_o * -2.3763016656650163E-5 +
+              -0.0057702702964894416) * proc_control_node_B.z_o +
+             -0.02848174957559851) * proc_control_node_B.z_o +
+            -0.3250421072470015) * proc_control_node_B.z_o + 0.12837916709551256)
+        / (((((proc_control_node_B.z_o * -3.9602282787753681E-6 +
+               0.00013249473800432164) * proc_control_node_B.z_o +
+              0.0050813062818757656) * proc_control_node_B.z_o +
+             0.0650222499887673) * proc_control_node_B.z_o + 0.39791722395915535)
+           * proc_control_node_B.z_o + 1.0) * x + x;
     }
   } else if (proc_control_node_B.absx < 1.25) {
     if (x >= 0.0) {
@@ -2779,59 +2777,56 @@ real_T proc_control_nodeModelClass::proc_control_node_erf(real_T x)
       y = 1.0;
     }
   } else {
-    proc_control_node_B.s_oc = 1.0 / (proc_control_node_B.absx *
+    proc_control_node_B.s_o = 1.0 / (proc_control_node_B.absx *
       proc_control_node_B.absx);
     if (proc_control_node_B.absx < 2.8571434020996094) {
-      proc_control_node_B.R_o = ((((((proc_control_node_B.s_oc *
-        -9.8143293441691455 + -81.2874355063066) * proc_control_node_B.s_oc +
-        -184.60509290671104) * proc_control_node_B.s_oc + -162.39666946257347) *
-        proc_control_node_B.s_oc + -62.375332450326006) *
-        proc_control_node_B.s_oc + -10.558626225323291) *
-        proc_control_node_B.s_oc + -0.69385857270718176) *
-        proc_control_node_B.s_oc + -0.0098649440348471482;
-      proc_control_node_B.s_oc = (((((((proc_control_node_B.s_oc *
-        -0.0604244152148581 + 6.5702497703192817) * proc_control_node_B.s_oc +
-        108.63500554177944) * proc_control_node_B.s_oc + 429.00814002756783) *
-        proc_control_node_B.s_oc + 645.38727173326788) *
-        proc_control_node_B.s_oc + 434.56587747522923) *
-        proc_control_node_B.s_oc + 137.65775414351904) *
-        proc_control_node_B.s_oc + 19.651271667439257) *
-        proc_control_node_B.s_oc + 1.0;
+      proc_control_node_B.R_h = ((((((proc_control_node_B.s_o *
+        -9.8143293441691455 + -81.2874355063066) * proc_control_node_B.s_o +
+        -184.60509290671104) * proc_control_node_B.s_o + -162.39666946257347) *
+        proc_control_node_B.s_o + -62.375332450326006) * proc_control_node_B.s_o
+        + -10.558626225323291) * proc_control_node_B.s_o + -0.69385857270718176)
+        * proc_control_node_B.s_o + -0.0098649440348471482;
+      proc_control_node_B.s_o = (((((((proc_control_node_B.s_o *
+        -0.0604244152148581 + 6.5702497703192817) * proc_control_node_B.s_o +
+        108.63500554177944) * proc_control_node_B.s_o + 429.00814002756783) *
+        proc_control_node_B.s_o + 645.38727173326788) * proc_control_node_B.s_o
+        + 434.56587747522923) * proc_control_node_B.s_o + 137.65775414351904) *
+        proc_control_node_B.s_o + 19.651271667439257) * proc_control_node_B.s_o
+        + 1.0;
     } else {
-      proc_control_node_B.R_o = (((((proc_control_node_B.s_oc *
-        -483.5191916086514 + -1025.0951316110772) * proc_control_node_B.s_oc +
-        -637.56644336838963) * proc_control_node_B.s_oc + -160.63638485582192) *
-        proc_control_node_B.s_oc + -17.757954917754752) *
-        proc_control_node_B.s_oc + -0.799283237680523) *
-        proc_control_node_B.s_oc + -0.0098649429247001;
-      proc_control_node_B.s_oc = ((((((proc_control_node_B.s_oc *
-        -22.440952446585818 + 474.52854120695537) * proc_control_node_B.s_oc +
-        2553.0504064331644) * proc_control_node_B.s_oc + 3199.8582195085955) *
-        proc_control_node_B.s_oc + 1536.729586084437) * proc_control_node_B.s_oc
-        + 325.79251299657392) * proc_control_node_B.s_oc + 30.338060743482458) *
-        proc_control_node_B.s_oc + 1.0;
+      proc_control_node_B.R_h = (((((proc_control_node_B.s_o *
+        -483.5191916086514 + -1025.0951316110772) * proc_control_node_B.s_o +
+        -637.56644336838963) * proc_control_node_B.s_o + -160.63638485582192) *
+        proc_control_node_B.s_o + -17.757954917754752) * proc_control_node_B.s_o
+        + -0.799283237680523) * proc_control_node_B.s_o + -0.0098649429247001;
+      proc_control_node_B.s_o = ((((((proc_control_node_B.s_o *
+        -22.440952446585818 + 474.52854120695537) * proc_control_node_B.s_o +
+        2553.0504064331644) * proc_control_node_B.s_o + 3199.8582195085955) *
+        proc_control_node_B.s_o + 1536.729586084437) * proc_control_node_B.s_o +
+        325.79251299657392) * proc_control_node_B.s_o + 30.338060743482458) *
+        proc_control_node_B.s_o + 1.0;
     }
 
     if (!rtIsNaN(proc_control_node_B.absx)) {
-      proc_control_node_B.z_cm = frexp(proc_control_node_B.absx, &e);
+      proc_control_node_B.z_o = frexp(proc_control_node_B.absx, &e);
     } else {
-      proc_control_node_B.z_cm = proc_control_node_B.absx;
+      proc_control_node_B.z_o = proc_control_node_B.absx;
       e = 0;
     }
 
-    proc_control_node_B.z_cm = floor(proc_control_node_B.z_cm * 2.097152E+6) /
+    proc_control_node_B.z_o = floor(proc_control_node_B.z_o * 2.097152E+6) /
       2.097152E+6 * rt_powd_snf(2.0, static_cast<real_T>(e));
     if (x < 0.0) {
-      y = exp((proc_control_node_B.z_cm - proc_control_node_B.absx) *
-              (proc_control_node_B.z_cm + proc_control_node_B.absx) +
-              proc_control_node_B.R_o / proc_control_node_B.s_oc) * exp
-        (-proc_control_node_B.z_cm * proc_control_node_B.z_cm - 0.5625) /
+      y = exp((proc_control_node_B.z_o - proc_control_node_B.absx) *
+              (proc_control_node_B.z_o + proc_control_node_B.absx) +
+              proc_control_node_B.R_h / proc_control_node_B.s_o) * exp
+        (-proc_control_node_B.z_o * proc_control_node_B.z_o - 0.5625) /
         proc_control_node_B.absx - 1.0;
     } else {
-      y = 1.0 - exp((proc_control_node_B.z_cm - proc_control_node_B.absx) *
-                    (proc_control_node_B.z_cm + proc_control_node_B.absx) +
-                    proc_control_node_B.R_o / proc_control_node_B.s_oc) * exp
-        (-proc_control_node_B.z_cm * proc_control_node_B.z_cm - 0.5625) /
+      y = 1.0 - exp((proc_control_node_B.z_o - proc_control_node_B.absx) *
+                    (proc_control_node_B.z_o + proc_control_node_B.absx) +
+                    proc_control_node_B.R_h / proc_control_node_B.s_o) * exp
+        (-proc_control_node_B.z_o * proc_control_node_B.z_o - 0.5625) /
         proc_control_node_B.absx;
     }
   }
@@ -2843,63 +2838,63 @@ real_T proc_control_nodeModelClass::proc_control_node_erf(real_T x)
 void proc_control_nodeModelClass::proc_con_AUVQuatPerturbedSimFcn(const real_T
   in1[13], const real_T in2[6], const real_T in3[8], real_T out1[13])
 {
-  proc_control_node_B.t8_p = in1[4] * in1[6];
-  proc_control_node_B.t9_n = in1[5] * in1[6];
-  proc_control_node_B.t10_c = in1[3] * in1[4];
-  proc_control_node_B.t11_n = in1[3] * in1[5];
-  proc_control_node_B.t12_d = in1[4] * in1[4];
-  proc_control_node_B.t13_i = in1[5] * in1[5];
-  proc_control_node_B.t15_n = in1[4] * in1[5] * 2.0;
+  proc_control_node_B.t8_n = in1[4] * in1[6];
+  proc_control_node_B.t9_c = in1[5] * in1[6];
+  proc_control_node_B.t10_n = in1[3] * in1[4];
+  proc_control_node_B.t11_d = in1[3] * in1[5];
+  proc_control_node_B.t12_i = in1[4] * in1[4];
+  proc_control_node_B.t13_n = in1[5] * in1[5];
+  proc_control_node_B.t15_b = in1[4] * in1[5] * 2.0;
   proc_control_node_B.t20_b = in1[3] * in1[6] * 2.0;
-  proc_control_node_B.t33_b = in1[11] / 500.0;
-  proc_control_node_B.t37_j = in1[10] / 1000.0;
-  proc_control_node_B.t39_n = in1[12] * 0.018;
+  proc_control_node_B.t33_j = in1[11] / 500.0;
+  proc_control_node_B.t37_n = in1[10] / 1000.0;
+  proc_control_node_B.t39_f = in1[12] * 0.018;
   proc_control_node_B.t63 = in1[7] * 32.4648;
   proc_control_node_B.t67 = in1[8] * 43.6156;
-  proc_control_node_B.t68_f = in1[9] * 46.7695;
-  proc_control_node_B.t16_e = proc_control_node_B.t8_p * 2.0;
-  proc_control_node_B.t17_i = proc_control_node_B.t9_n * 2.0;
-  proc_control_node_B.t18_a0 = proc_control_node_B.t10_c * 2.0;
-  proc_control_node_B.t19_f = proc_control_node_B.t11_n * 2.0;
-  proc_control_node_B.t21_k = proc_control_node_B.t12_d * 2.0;
-  proc_control_node_B.t22_c = proc_control_node_B.t13_i * 2.0;
-  proc_control_node_B.t23_j = in1[6] * in1[6] * 2.0;
-  proc_control_node_B.t71 = proc_control_node_B.t33_b +
-    proc_control_node_B.t39_n;
-  proc_control_node_B.t33_b += proc_control_node_B.t37_j;
-  proc_control_node_B.t37_j += proc_control_node_B.t39_n;
-  proc_control_node_B.t39_n = in1[11] * 0.558 + proc_control_node_B.t63;
-  proc_control_node_B.t80 = in1[10] * 0.062 + proc_control_node_B.t68_f;
+  proc_control_node_B.t68_e = in1[9] * 46.7695;
+  proc_control_node_B.t16_i = proc_control_node_B.t8_n * 2.0;
+  proc_control_node_B.t17_a0 = proc_control_node_B.t9_c * 2.0;
+  proc_control_node_B.t18_f = proc_control_node_B.t10_n * 2.0;
+  proc_control_node_B.t19_k = proc_control_node_B.t11_d * 2.0;
+  proc_control_node_B.t21_c = proc_control_node_B.t12_i * 2.0;
+  proc_control_node_B.t22_j = proc_control_node_B.t13_n * 2.0;
+  proc_control_node_B.t23_l = in1[6] * in1[6] * 2.0;
+  proc_control_node_B.t71 = proc_control_node_B.t33_j +
+    proc_control_node_B.t39_f;
+  proc_control_node_B.t33_j += proc_control_node_B.t37_n;
+  proc_control_node_B.t37_n += proc_control_node_B.t39_f;
+  proc_control_node_B.t39_f = in1[11] * 0.558 + proc_control_node_B.t63;
+  proc_control_node_B.t80 = in1[10] * 0.062 + proc_control_node_B.t68_e;
   proc_control_node_B.t81 = in1[12] * 0.031 + proc_control_node_B.t67;
   proc_control_node_B.t84 = (in1[11] / 125.0 + in1[12] / 250.0) + in1[10] *
     0.592;
-  proc_control_node_B.t45_l = proc_control_node_B.t17_i +
-    proc_control_node_B.t18_a0;
-  proc_control_node_B.t55_a = proc_control_node_erf(in1[2] * 13.333333333333334
+  proc_control_node_B.t45_a = proc_control_node_B.t17_a0 +
+    proc_control_node_B.t18_f;
+  proc_control_node_B.t55_i = proc_control_node_erf(in1[2] * 13.333333333333334
     - 2.0);
-  proc_control_node_B.t65_i = (proc_control_node_B.t21_k +
-    proc_control_node_B.t22_c) - 1.0;
+  proc_control_node_B.t65_o = (proc_control_node_B.t21_c +
+    proc_control_node_B.t22_j) - 1.0;
   proc_control_node_B.t63 = in1[12] * 0.062 + -proc_control_node_B.t63;
   proc_control_node_B.t67 = in1[10] * 0.558 + -proc_control_node_B.t67;
-  proc_control_node_B.t68_f = in1[11] * 0.031 + -proc_control_node_B.t68_f;
+  proc_control_node_B.t68_e = in1[11] * 0.031 + -proc_control_node_B.t68_e;
   proc_control_node_B.t86 = (in1[10] / 250.0 + -(in1[11] / 1000.0)) + in1[12] *
     1.8864;
   proc_control_node_B.t87 = (in1[10] / 125.0 + -(in1[12] / 1000.0)) + in1[11] *
     1.7228;
-  proc_control_node_B.t56_ok = proc_control_node_B.t16_e +
-    -proc_control_node_B.t19_f;
-  proc_control_node_B.t85 = proc_control_node_B.t55_a * 0.01575 + 0.01575;
-  proc_control_node_B.t55_a = proc_control_node_B.t55_a * 15.7185 - 15.2815;
-  out1[0] = (((proc_control_node_B.t22_c + proc_control_node_B.t23_j) - 1.0) *
-             -in1[7] + (proc_control_node_B.t16_e + proc_control_node_B.t19_f) *
-             in1[9]) + (proc_control_node_B.t15_n - proc_control_node_B.t20_b) *
+  proc_control_node_B.t56_b = proc_control_node_B.t16_i +
+    -proc_control_node_B.t19_k;
+  proc_control_node_B.t85 = proc_control_node_B.t55_i * 0.01575 + 0.01575;
+  proc_control_node_B.t55_i = proc_control_node_B.t55_i * 15.7185 - 15.2815;
+  out1[0] = (((proc_control_node_B.t22_j + proc_control_node_B.t23_l) - 1.0) *
+             -in1[7] + (proc_control_node_B.t16_i + proc_control_node_B.t19_k) *
+             in1[9]) + (proc_control_node_B.t15_b - proc_control_node_B.t20_b) *
     in1[8];
-  out1[1] = ((proc_control_node_B.t15_n + proc_control_node_B.t20_b) * in1[7] -
-             ((proc_control_node_B.t21_k + proc_control_node_B.t23_j) - 1.0) *
-             in1[8]) + (proc_control_node_B.t17_i - proc_control_node_B.t18_a0) *
+  out1[1] = ((proc_control_node_B.t15_b + proc_control_node_B.t20_b) * in1[7] -
+             ((proc_control_node_B.t21_c + proc_control_node_B.t23_l) - 1.0) *
+             in1[8]) + (proc_control_node_B.t17_a0 - proc_control_node_B.t18_f) *
     in1[9];
-  out1[2] = (proc_control_node_B.t56_ok * in1[7] + proc_control_node_B.t45_l *
-             in1[8]) - proc_control_node_B.t65_i * in1[9];
+  out1[2] = (proc_control_node_B.t56_b * in1[7] + proc_control_node_B.t45_a *
+             in1[8]) - proc_control_node_B.t65_o * in1[9];
   out1[3] = (in1[4] * in1[10] * -0.5 - in1[5] * in1[11] / 2.0) - in1[6] * in1[12]
     / 2.0;
   out1[4] = (in1[3] * in1[10] / 2.0 - in1[6] * in1[11] / 2.0) + in1[5] * in1[12]
@@ -2908,45 +2903,45 @@ void proc_control_nodeModelClass::proc_con_AUVQuatPerturbedSimFcn(const real_T
     / 2.0;
   out1[6] = (in1[5] * in1[10] * -0.5 + in1[4] * in1[11] / 2.0) + in1[3] * in1[12]
     / 2.0;
-  proc_control_node_B.t15_n = in1[10] * proc_control_node_B.t71;
+  proc_control_node_B.t15_b = in1[10] * proc_control_node_B.t71;
   proc_control_node_B.t20_b = in1[10] * (fabs(in1[10]) * 0.167 +
     3.3333333333333335);
-  proc_control_node_B.t16_e = in1[10] * proc_control_node_B.t80;
-  proc_control_node_B.t17_i = in1[10] * proc_control_node_B.t67;
-  proc_control_node_B.t18_a0 = in1[10] * proc_control_node_B.t86;
-  proc_control_node_B.t19_f = in1[10] * proc_control_node_B.t87;
-  proc_control_node_B.t21_k = in1[11] * (fabs(in1[11]) / 10.0 +
+  proc_control_node_B.t16_i = in1[10] * proc_control_node_B.t80;
+  proc_control_node_B.t17_a0 = in1[10] * proc_control_node_B.t67;
+  proc_control_node_B.t18_f = in1[10] * proc_control_node_B.t86;
+  proc_control_node_B.t19_k = in1[10] * proc_control_node_B.t87;
+  proc_control_node_B.t21_c = in1[11] * (fabs(in1[11]) / 10.0 +
     2.3333333333333335);
-  proc_control_node_B.t22_c = in1[11] * proc_control_node_B.t37_j;
-  proc_control_node_B.t23_j = in1[11] * proc_control_node_B.t39_n;
-  proc_control_node_B.out1_tmp_b = in1[11] * proc_control_node_B.t68_f;
-  proc_control_node_B.out1_tmp_a = in1[11] * proc_control_node_B.t84;
+  proc_control_node_B.t22_j = in1[11] * proc_control_node_B.t37_n;
+  proc_control_node_B.t23_l = in1[11] * proc_control_node_B.t39_f;
+  proc_control_node_B.out1_tmp_a = in1[11] * proc_control_node_B.t68_e;
+  proc_control_node_B.out1_tmp_aq = in1[11] * proc_control_node_B.t84;
   proc_control_node_B.t86 *= in1[11];
-  proc_control_node_B.out1_tmp_aq = in1[12] * (fabs(in1[12]) * 0.102 + 5.0);
-  proc_control_node_B.out1_tmp_i0 = in1[12] * proc_control_node_B.t33_b;
-  proc_control_node_B.out1_tmp_iz = in1[12] * proc_control_node_B.t63;
-  proc_control_node_B.out1_tmp_l = in1[12] * proc_control_node_B.t81;
+  proc_control_node_B.out1_tmp_i0 = in1[12] * (fabs(in1[12]) * 0.102 + 5.0);
+  proc_control_node_B.out1_tmp_iz = in1[12] * proc_control_node_B.t33_j;
+  proc_control_node_B.out1_tmp_l = in1[12] * proc_control_node_B.t63;
+  proc_control_node_B.out1_tmp_o5 = in1[12] * proc_control_node_B.t81;
   proc_control_node_B.t84 *= in1[12];
   proc_control_node_B.t87 *= in1[12];
-  proc_control_node_B.out1_tmp_o5 = (proc_control_node_B.t9_n +
-    proc_control_node_B.t10_c) * proc_control_node_B.t55_a;
-  proc_control_node_B.t45_l *= proc_control_node_B.t85;
-  proc_control_node_B.out1_tmp_p = (proc_control_node_B.t8_p +
-    -proc_control_node_B.t11_n) * proc_control_node_B.t55_a;
-  proc_control_node_B.t56_ok *= proc_control_node_B.t85;
-  proc_control_node_B.t55_a *= proc_control_node_B.t65_i;
-  proc_control_node_B.t65_i = (fabs(in1[7]) * 1.17 + 15.0) * in1[7];
+  proc_control_node_B.out1_tmp_p = (proc_control_node_B.t9_c +
+    proc_control_node_B.t10_n) * proc_control_node_B.t55_i;
+  proc_control_node_B.t45_a *= proc_control_node_B.t85;
+  proc_control_node_B.out1_tmp_om = (proc_control_node_B.t8_n +
+    -proc_control_node_B.t11_d) * proc_control_node_B.t55_i;
+  proc_control_node_B.t56_b *= proc_control_node_B.t85;
+  proc_control_node_B.t55_i *= proc_control_node_B.t65_o;
+  proc_control_node_B.t65_o = (fabs(in1[7]) * 1.17 + 15.0) * in1[7];
   proc_control_node_B.t71 *= in1[7];
   proc_control_node_B.t81 *= in1[7];
-  proc_control_node_B.t68_f *= in1[7];
+  proc_control_node_B.t68_e *= in1[7];
   proc_control_node_B.t85 = (fabs(in1[8]) * 0.82 + 20.0) * in1[8];
-  proc_control_node_B.t37_j *= in1[8];
+  proc_control_node_B.t37_n *= in1[8];
   proc_control_node_B.t63 *= in1[8];
   proc_control_node_B.t80 *= in1[8];
-  proc_control_node_B.out1_tmp_om = (fabs(in1[9]) * 0.756 + 23.333333333333332) *
+  proc_control_node_B.out1_tmp_c = (fabs(in1[9]) * 0.756 + 23.333333333333332) *
     in1[9];
-  proc_control_node_B.t33_b *= in1[9];
-  proc_control_node_B.t39_n *= in1[9];
+  proc_control_node_B.t33_j *= in1[9];
+  proc_control_node_B.t39_f *= in1[9];
   proc_control_node_B.t67 *= in1[9];
   out1[7] = (((((((((((((((((((((in2[0] * 0.030976977065388711 + in2[1] *
     9.4803055144857715E-7) - in2[2] * 6.8231348244175949E-6) + in2[3] *
@@ -2955,49 +2950,49 @@ void proc_control_nodeModelClass::proc_con_AUVQuatPerturbedSimFcn(const real_T
     1.8595780444550231E-21)) + in3[2] * 0.00033506403327449372) + (in3[3] *
     0.00033363213569639753 - in3[4] * 0.001819638864719295)) + (in3[5] *
     -0.0018124211550371481 + in3[6] * 0.0018538731733468781)) + (in3[7] *
-    0.001778186846409557 - proc_control_node_B.t8_p * 0.11107598193630119)) +
-                        ((proc_control_node_B.t9_n * -0.00081126583629370218 -
-    proc_control_node_B.t10_c * 0.00081126583629370218) +
-    proc_control_node_B.t11_n * 0.11107598193630119)) +
-                       ((proc_control_node_B.t12_d * -0.0062610285338271466 -
-    proc_control_node_B.t13_i * 0.0062610285338271466) + in3[0] *
+    0.001778186846409557 - proc_control_node_B.t8_n * 0.11107598193630119)) +
+                        ((proc_control_node_B.t9_c * -0.00081126583629370218 -
+    proc_control_node_B.t10_n * 0.00081126583629370218) +
+    proc_control_node_B.t11_d * 0.11107598193630119)) +
+                       ((proc_control_node_B.t12_i * -0.0062610285338271466 -
+    proc_control_node_B.t13_n * 0.0062610285338271466) + in3[0] *
                         1.4142135623730951 * 0.015171119710606879)) + ((in3[1] *
     1.4142135623730951 * 0.014928824155507611 + in3[2] * 1.4142135623730951 *
     0.015171119710606879) + in3[3] * 1.4142135623730951 * 0.01516372519659284))
-                     + (((proc_control_node_B.t15_n * -0.96028628902704993 -
+                     + (((proc_control_node_B.t15_b * -0.96028628902704993 -
     proc_control_node_B.t20_b * 0.0001303522588356414) +
-    proc_control_node_B.t16_e * 9.4803055144857715E-7) -
-                        proc_control_node_B.t17_i * 6.8231348244175949E-6)) +
-                    (((proc_control_node_B.t18_a0 * -0.010033314971702871 -
-                       proc_control_node_B.t19_f * 0.0010125044874363649) +
-                      proc_control_node_B.t21_k * 0.010033314971702871) -
-                     proc_control_node_B.t22_c * 2.9388947094905889E-5)) +
-                   (((proc_control_node_B.t23_j * -6.8231348244175949E-6 +
-                      proc_control_node_B.out1_tmp_b * 0.030976977065388711) +
-                     proc_control_node_B.out1_tmp_a * 0.0010125044874363649) -
+    proc_control_node_B.t16_i * 9.4803055144857715E-7) -
+                        proc_control_node_B.t17_a0 * 6.8231348244175949E-6)) +
+                    (((proc_control_node_B.t18_f * -0.010033314971702871 -
+                       proc_control_node_B.t19_k * 0.0010125044874363649) +
+                      proc_control_node_B.t21_c * 0.010033314971702871) -
+                     proc_control_node_B.t22_j * 2.9388947094905889E-5)) +
+                   (((proc_control_node_B.t23_l * -6.8231348244175949E-6 +
+                      proc_control_node_B.out1_tmp_a * 0.030976977065388711) +
+                     proc_control_node_B.out1_tmp_aq * 0.0010125044874363649) -
                     proc_control_node_B.t86 * 0.0001303522588356414)) +
-                  (((proc_control_node_B.out1_tmp_aq * -0.0010125044874363649 +
-                     proc_control_node_B.out1_tmp_i0 * 0.0002115171795569455) +
-                    proc_control_node_B.out1_tmp_iz * 9.4803055144857715E-7) +
-                   proc_control_node_B.out1_tmp_l * 0.030976977065388711)) +
+                  (((proc_control_node_B.out1_tmp_i0 * -0.0010125044874363649 +
+                     proc_control_node_B.out1_tmp_iz * 0.0002115171795569455) +
+                    proc_control_node_B.out1_tmp_l * 9.4803055144857715E-7) +
+                   proc_control_node_B.out1_tmp_o5 * 0.030976977065388711)) +
                  ((proc_control_node_B.t84 * 0.010033314971702871 +
                    proc_control_node_B.t87 * 0.0001303522588356414) -
-                  proc_control_node_B.out1_tmp_o5 * 1.860035941942108E-5)) +
-                ((proc_control_node_B.t45_l * -0.0076571888871557192 -
-                  proc_control_node_B.out1_tmp_p * 0.60776829002292643) -
-                 proc_control_node_B.t56_ok * 0.589379797395962)) +
-               ((proc_control_node_B.t55_a * -6.6934952627536608E-5 -
-                 proc_control_node_B.t65_i * 0.030976977065388711) +
+                  proc_control_node_B.out1_tmp_p * 1.860035941942108E-5)) +
+                ((proc_control_node_B.t45_a * -0.0076571888871557192 -
+                  proc_control_node_B.out1_tmp_om * 0.60776829002292643) -
+                 proc_control_node_B.t56_b * 0.589379797395962)) +
+               ((proc_control_node_B.t55_i * -6.6934952627536608E-5 -
+                 proc_control_node_B.t65_o * 0.030976977065388711) +
                 proc_control_node_B.t71 * 0.0040409200239048832)) +
               (((proc_control_node_B.t81 * -0.0010125044874363649 +
-                 proc_control_node_B.t68_f * 0.010033314971702871) -
+                 proc_control_node_B.t68_e * 0.010033314971702871) -
                 proc_control_node_B.t85 * 9.4803055144857715E-7) -
-               proc_control_node_B.t37_j * 0.311032764122789)) +
+               proc_control_node_B.t37_n * 0.311032764122789)) +
              (((proc_control_node_B.t63 * -0.0010125044874363649 -
                 proc_control_node_B.t80 * 0.0001303522588356414) +
-               proc_control_node_B.out1_tmp_om * 6.8231348244175949E-6) +
-              proc_control_node_B.t33_b * 0.031387639110527318)) +
-    ((proc_control_node_B.t39_n * 0.010033314971702871 - proc_control_node_B.t67
+               proc_control_node_B.out1_tmp_c * 6.8231348244175949E-6) +
+              proc_control_node_B.t33_j * 0.031387639110527318)) +
+    ((proc_control_node_B.t39_f * 0.010033314971702871 - proc_control_node_B.t67
       * 0.0001303522588356414) + 0.0031305142669135729);
   out1[8] = (((((((((((((((((((((in2[0] * 9.4803055144857715E-7 + in2[1] *
     0.02320783323245932) - in2[2] * 2.9076309096921531E-5) + in2[3] *
@@ -3006,48 +3001,48 @@ void proc_control_nodeModelClass::proc_con_AUVQuatPerturbedSimFcn(const real_T
     7.9244610288113972E-21)) + in3[2] * -0.00014157257363048341) + (in3[3] *
     -0.0001409675626320625 - in3[4] * 0.0034249251816346319)) + (in3[5] *
     0.003387750973601051 + in3[6] * 0.0035708122797193441)) + (in3[7] *
-    -0.0035336380716857632 - proc_control_node_B.t8_p * 0.00060385694847962161))
-                        + ((proc_control_node_B.t9_n * -0.23982646564227009 -
-    proc_control_node_B.t10_c * 0.23982646564227009) + proc_control_node_B.t11_n
-    * 0.00060385694847962161)) + ((proc_control_node_B.t12_d *
-    -0.026680932679612211 - proc_control_node_B.t13_i * 0.026680932679612211) -
+    -0.0035336380716857632 - proc_control_node_B.t8_n * 0.00060385694847962161))
+                        + ((proc_control_node_B.t9_c * -0.23982646564227009 -
+    proc_control_node_B.t10_n * 0.23982646564227009) + proc_control_node_B.t11_d
+    * 0.00060385694847962161)) + ((proc_control_node_B.t12_i *
+    -0.026680932679612211 - proc_control_node_B.t13_n * 0.026680932679612211) -
     in3[0] * 1.4142135623730951 * 0.01090649593858282)) + ((in3[1] *
     1.4142135623730951 * 0.011000123045544621 - in3[2] * 1.4142135623730951 *
     0.01090649593858282) + in3[3] * 1.4142135623730951 * 0.01090087173345982)) +
-                     (((proc_control_node_B.t15_n * -2.9388947094905889E-5 -
+                     (((proc_control_node_B.t15_b * -2.9388947094905889E-5 -
                         proc_control_node_B.t20_b * 0.021882274381510681) +
-                       proc_control_node_B.t16_e * 0.02320783323245932) -
-                      proc_control_node_B.t17_i * 2.9076309096921531E-5)) +
-                    (((proc_control_node_B.t18_a0 * -0.0001026911824132076 +
-                       proc_control_node_B.t19_f * 0.00042780737967584029) +
-                      proc_control_node_B.t21_k * 0.0001026911824132076) -
-                     proc_control_node_B.t22_c * 0.71944283020623911)) +
-                   (((proc_control_node_B.t23_j * -2.9076309096921531E-5 +
-                      proc_control_node_B.out1_tmp_b * 9.4803055144857715E-7) -
-                     proc_control_node_B.out1_tmp_a * 0.00042780737967584029) -
+                       proc_control_node_B.t16_i * 0.02320783323245932) -
+                      proc_control_node_B.t17_a0 * 2.9076309096921531E-5)) +
+                    (((proc_control_node_B.t18_f * -0.0001026911824132076 +
+                       proc_control_node_B.t19_k * 0.00042780737967584029) +
+                      proc_control_node_B.t21_c * 0.0001026911824132076) -
+                     proc_control_node_B.t22_j * 0.71944283020623911)) +
+                   (((proc_control_node_B.t23_l * -2.9076309096921531E-5 +
+                      proc_control_node_B.out1_tmp_a * 9.4803055144857715E-7) -
+                     proc_control_node_B.out1_tmp_aq * 0.00042780737967584029) -
                     proc_control_node_B.t86 * 0.021882274381510681)) +
-                  (((proc_control_node_B.out1_tmp_aq * 0.00042780737967584029 +
-                     proc_control_node_B.out1_tmp_i0 * 0.00090136558200456737) +
-                    proc_control_node_B.out1_tmp_iz * 0.02320783323245932) +
-                   proc_control_node_B.out1_tmp_l * 9.4803055144857715E-7)) +
+                  (((proc_control_node_B.out1_tmp_i0 * 0.00042780737967584029 +
+                     proc_control_node_B.out1_tmp_iz * 0.00090136558200456737) +
+                    proc_control_node_B.out1_tmp_l * 0.02320783323245932) +
+                   proc_control_node_B.out1_tmp_o5 * 9.4803055144857715E-7)) +
                  ((proc_control_node_B.t84 * 0.0001026911824132076 +
                    proc_control_node_B.t87 * 0.021882274381510681) -
-                  proc_control_node_B.out1_tmp_o5 * 0.45533768802085189)) +
-                ((proc_control_node_B.t45_l * -1.2854146887555269 -
-                  proc_control_node_B.out1_tmp_p * 1.860035941942108E-5) -
-                 proc_control_node_B.t56_ok * 0.0060323141908477191)) +
-               (((proc_control_node_B.t55_a * -0.00028523859224080018 -
-                  proc_control_node_B.t65_i * 9.4803055144857715E-7) +
+                  proc_control_node_B.out1_tmp_p * 0.45533768802085189)) +
+                ((proc_control_node_B.t45_a * -1.2854146887555269 -
+                  proc_control_node_B.out1_tmp_om * 1.860035941942108E-5) -
+                 proc_control_node_B.t56_b * 0.0060323141908477191)) +
+               (((proc_control_node_B.t55_i * -0.00028523859224080018 -
+                  proc_control_node_B.t65_o * 9.4803055144857715E-7) +
                  proc_control_node_B.t71 * 0.678350505826831) +
                 proc_control_node_B.t81 * 0.00042780737967584029)) +
-              (((proc_control_node_B.t68_f * 0.0001026911824132076 -
+              (((proc_control_node_B.t68_e * 0.0001026911824132076 -
                  proc_control_node_B.t85 * 0.02320783323245932) -
-                proc_control_node_B.t37_j * 0.0031834266548094372) +
+                proc_control_node_B.t37_n * 0.0031834266548094372) +
                proc_control_node_B.t63 * 0.00042780737967584029)) +
              (((proc_control_node_B.t80 * -0.021882274381510681 +
-                proc_control_node_B.out1_tmp_om * 2.9076309096921531E-5) -
-               proc_control_node_B.t33_b * 0.013262028769951049) +
-              proc_control_node_B.t39_n * 0.0001026911824132076)) +
+                proc_control_node_B.out1_tmp_c * 2.9076309096921531E-5) -
+               proc_control_node_B.t33_j * 0.013262028769951049) +
+              proc_control_node_B.t39_f * 0.0001026911824132076)) +
     (proc_control_node_B.t67 * -0.021882274381510681 + 0.0133404663398061);
   out1[9] = ((((((((((((((((((((((in2[0] * -6.8231348244175949E-6 - in2[1] *
     2.9076309096921531E-5) + in2[2] * 0.021384731826702759) - in2[3] *
@@ -3056,49 +3051,49 @@ void proc_control_nodeModelClass::proc_con_AUVQuatPerturbedSimFcn(const real_T
     -5.8281975682474322E-18) + in3[2] * 1.748241265284163E-6) + (in3[3] *
     1.740770148765829E-6 - in3[4] * 0.02095639900015615)) + (in3[5] *
     0.021100316216985739 - in3[6] * 0.021822949502860629)) + (in3[7] *
-    0.02167903228603104 + proc_control_node_B.t8_p * 0.004346059700124901)) +
-                        ((proc_control_node_B.t9_n * 0.024881704687475689 +
-    proc_control_node_B.t10_c * 0.024881704687475689) -
-    proc_control_node_B.t11_n * 0.004346059700124901)) +
-                       ((proc_control_node_B.t12_d * 0.0030060816152820162 +
-    proc_control_node_B.t13_i * 0.0030060816152820162) - in3[0] *
+    0.02167903228603104 + proc_control_node_B.t8_n * 0.004346059700124901)) +
+                        ((proc_control_node_B.t9_c * 0.024881704687475689 +
+    proc_control_node_B.t10_n * 0.024881704687475689) -
+    proc_control_node_B.t11_d * 0.004346059700124901)) +
+                       ((proc_control_node_B.t12_i * 0.0030060816152820162 +
+    proc_control_node_B.t13_n * 0.0030060816152820162) - in3[0] *
                         1.4142135623730951 * 4.8869263875916949E-5)) + ((in3[1] *
     1.4142135623730951 * 6.6264429389244648E-5 - in3[2] * 1.4142135623730951 *
     4.8869263875916949E-5) + in3[3] * 1.4142135623730951 * 6.7490056888775055E-5))
-                     + (((proc_control_node_B.t15_n * 0.0002115171795569455 +
+                     + (((proc_control_node_B.t15_b * 0.0002115171795569455 +
     proc_control_node_B.t20_b * 0.002272431716587712) -
-    proc_control_node_B.t16_e * 2.9076309096921531E-5) +
-                        proc_control_node_B.t17_i * 0.021384731826702759)) +
-                    (((proc_control_node_B.t18_a0 * 0.00039756137245743289 -
-                       proc_control_node_B.t19_f * 5.2828771531483014E-6) -
-                      proc_control_node_B.t21_k * 0.00039756137245743289) +
-                     proc_control_node_B.t22_c * 0.00090136558200456737)) +
-                   (((proc_control_node_B.t23_j * 0.021384731826702759 -
-                      proc_control_node_B.out1_tmp_b * 6.8231348244175949E-6) +
-                     proc_control_node_B.out1_tmp_a * 5.2828771531483014E-6) +
+    proc_control_node_B.t16_i * 2.9076309096921531E-5) +
+                        proc_control_node_B.t17_a0 * 0.021384731826702759)) +
+                    (((proc_control_node_B.t18_f * 0.00039756137245743289 -
+                       proc_control_node_B.t19_k * 5.2828771531483014E-6) -
+                      proc_control_node_B.t21_c * 0.00039756137245743289) +
+                     proc_control_node_B.t22_j * 0.00090136558200456737)) +
+                   (((proc_control_node_B.t23_l * 0.021384731826702759 -
+                      proc_control_node_B.out1_tmp_a * 6.8231348244175949E-6) +
+                     proc_control_node_B.out1_tmp_aq * 5.2828771531483014E-6) +
                     proc_control_node_B.t86 * 0.002272431716587712)) +
-                  (((proc_control_node_B.out1_tmp_aq * -5.2828771531483014E-6 -
-                     proc_control_node_B.out1_tmp_i0 * 0.66292668662778553) -
-                    proc_control_node_B.out1_tmp_iz * 2.9076309096921531E-5) -
-                   proc_control_node_B.out1_tmp_l * 6.8231348244175949E-6)) +
+                  (((proc_control_node_B.out1_tmp_i0 * -5.2828771531483014E-6 -
+                     proc_control_node_B.out1_tmp_iz * 0.66292668662778553) -
+                    proc_control_node_B.out1_tmp_l * 2.9076309096921531E-5) -
+                   proc_control_node_B.out1_tmp_o5 * 6.8231348244175949E-6)) +
                  ((proc_control_node_B.t84 * -0.00039756137245743289 -
                    proc_control_node_B.t87 * 0.002272431716587712) +
-                  proc_control_node_B.out1_tmp_o5 * 0.00057047718448160036)) +
-                ((proc_control_node_B.t45_l * 0.133487820176676 +
-                  proc_control_node_B.out1_tmp_p * 0.00013386990525507319) +
-                 proc_control_node_B.t56_ok * 0.023353661458078809)) +
-               (((proc_control_node_B.t55_a * 0.2097842192199541 +
-                  proc_control_node_B.t65_i * 6.8231348244175949E-6) -
+                  proc_control_node_B.out1_tmp_p * 0.00057047718448160036)) +
+                ((proc_control_node_B.t45_a * 0.133487820176676 +
+                  proc_control_node_B.out1_tmp_om * 0.00013386990525507319) +
+                 proc_control_node_B.t56_b * 0.023353661458078809)) +
+               (((proc_control_node_B.t55_i * 0.2097842192199541 +
+                  proc_control_node_B.t65_o * 6.8231348244175949E-6) -
                  proc_control_node_B.t71 * 0.070445383214219059) -
                 proc_control_node_B.t81 * 5.2828771531483014E-6)) +
-              (((proc_control_node_B.t68_f * -0.00039756137245743289 +
+              (((proc_control_node_B.t68_e * -0.00039756137245743289 +
                  proc_control_node_B.t85 * 2.9076309096921531E-5) +
-                proc_control_node_B.t37_j * 0.01232440254618042) -
+                proc_control_node_B.t37_n * 0.01232440254618042) -
                proc_control_node_B.t63 * 5.2828771531483014E-6)) +
              (((proc_control_node_B.t80 * 0.002272431716587712 -
-                proc_control_node_B.out1_tmp_om * 0.021384731826702759) +
-               proc_control_node_B.t33_b * 0.00016376919174759729) -
-              proc_control_node_B.t39_n * 0.00039756137245743289)) +
+                proc_control_node_B.out1_tmp_c * 0.021384731826702759) +
+               proc_control_node_B.t33_j * 0.00016376919174759729) -
+              proc_control_node_B.t39_f * 0.00039756137245743289)) +
     (proc_control_node_B.t67 * 0.002272431716587712 - 0.0015030408076410081);
   out1[10] = ((((((((((((((((((((((((in2[0] * 0.0001303522588356414 + in2[1] *
     0.021882274381510681) - in2[2] * 0.002272431716587712) + in2[3] *
@@ -3107,47 +3102,47 @@ void proc_control_nodeModelClass::proc_con_AUVQuatPerturbedSimFcn(const real_T
     6.1932883292401409E-19) + in3[2] * -0.00131904594055876) + (in3[3] *
     -0.0013134089920948341 - in3[4] * 0.26767193546582568)) + (in3[5] *
     0.26476621250220889 + in3[6] * 0.2790736050389333)) + (in3[7] *
-    -0.27616788207531651 - proc_control_node_B.t8_p * 0.0830290934481406)) +
-    ((proc_control_node_B.t9_n * -18.72549529020894 - proc_control_node_B.t10_c *
-      18.72549529020894) + proc_control_node_B.t11_n * 0.0830290934481406)) +
-    ((proc_control_node_B.t12_d * -2.0852233152147792 -
-      proc_control_node_B.t13_i * 2.0852233152147792) + in3[0] *
+    -0.27616788207531651 - proc_control_node_B.t8_n * 0.0830290934481406)) +
+    ((proc_control_node_B.t9_c * -18.72549529020894 - proc_control_node_B.t10_n *
+      18.72549529020894) + proc_control_node_B.t11_d * 0.0830290934481406)) +
+    ((proc_control_node_B.t12_i * -2.0852233152147792 -
+      proc_control_node_B.t13_n * 2.0852233152147792) + in3[0] *
      1.4142135623730951 * 0.043593198825375247)) + ((in3[1] * 1.4142135623730951
     * -0.043051831063235027 + in3[2] * 1.4142135623730951 * 0.043593198825375247)
     - in3[3] * 1.4142135623730951 * 0.043976565543532631)) +
-                        ((proc_control_node_B.t15_n * -0.0040409200239048832 -
-    proc_control_node_B.t20_b * 1.71018810547529) + proc_control_node_B.t16_e *
-    0.021882274381510681)) + ((proc_control_node_B.t17_i * -0.002272431716587712
-    - proc_control_node_B.t18_a0 * 0.0080268590155159435) +
-    proc_control_node_B.t19_f * 0.0039859244840414)) +
-                      ((proc_control_node_B.t21_k * 0.0080268590155159435 -
-                        proc_control_node_B.t22_c * 0.678350505826831) -
-                       proc_control_node_B.t23_j * 0.002272431716587712)) +
-                     ((proc_control_node_B.out1_tmp_b * 0.0001303522588356414 -
-                       proc_control_node_B.out1_tmp_a * 0.0039859244840414) -
+                        ((proc_control_node_B.t15_b * -0.0040409200239048832 -
+    proc_control_node_B.t20_b * 1.71018810547529) + proc_control_node_B.t16_i *
+    0.021882274381510681)) + ((proc_control_node_B.t17_a0 *
+    -0.002272431716587712 - proc_control_node_B.t18_f * 0.0080268590155159435) +
+    proc_control_node_B.t19_k * 0.0039859244840414)) +
+                      ((proc_control_node_B.t21_c * 0.0080268590155159435 -
+                        proc_control_node_B.t22_j * 0.678350505826831) -
+                       proc_control_node_B.t23_l * 0.002272431716587712)) +
+                     ((proc_control_node_B.out1_tmp_a * 0.0001303522588356414 -
+                       proc_control_node_B.out1_tmp_aq * 0.0039859244840414) -
                       proc_control_node_B.t86 * 1.71018810547529)) +
-                    (((proc_control_node_B.out1_tmp_aq * 0.0039859244840414 +
-                       proc_control_node_B.out1_tmp_i0 * 0.070445383214219059) +
-                      proc_control_node_B.out1_tmp_iz * 0.021882274381510681) +
-                     proc_control_node_B.out1_tmp_l * 0.0001303522588356414)) +
+                    (((proc_control_node_B.out1_tmp_i0 * 0.0039859244840414 +
+                       proc_control_node_B.out1_tmp_iz * 0.070445383214219059) +
+                      proc_control_node_B.out1_tmp_l * 0.021882274381510681) +
+                     proc_control_node_B.out1_tmp_o5 * 0.0001303522588356414)) +
                    ((proc_control_node_B.t84 * 0.0080268590155159435 +
                      proc_control_node_B.t87 * 1.71018810547529) -
-                    proc_control_node_B.out1_tmp_o5 * 0.42933022336523952)) +
-                  ((proc_control_node_B.t45_l * -100.460348544499 -
-                    proc_control_node_B.out1_tmp_p * 0.0025575113183552841) -
-                   proc_control_node_B.t56_ok * 0.47151599980996189)) +
-                 ((proc_control_node_B.t55_a * -0.022292555139725449 -
-                   proc_control_node_B.t65_i * 0.0001303522588356414) +
+                    proc_control_node_B.out1_tmp_p * 0.42933022336523952)) +
+                  ((proc_control_node_B.t45_a * -100.460348544499 -
+                    proc_control_node_B.out1_tmp_om * 0.0025575113183552841) -
+                   proc_control_node_B.t56_b * 0.47151599980996189)) +
+                 ((proc_control_node_B.t55_i * -0.022292555139725449 -
+                   proc_control_node_B.t65_o * 0.0001303522588356414) +
                   proc_control_node_B.t71 * 53.015831269733987)) +
                 ((proc_control_node_B.t81 * 0.0039859244840414 +
-                  proc_control_node_B.t68_f * 0.0080268590155159435) -
+                  proc_control_node_B.t68_e * 0.0080268590155159435) -
                  proc_control_node_B.t85 * 0.021882274381510681)) +
-               ((proc_control_node_B.t37_j * -0.2488326294809943 +
+               ((proc_control_node_B.t37_n * -0.2488326294809943 +
                  proc_control_node_B.t63 * 0.0039859244840414) -
                 proc_control_node_B.t80 * 1.71018810547529)) +
-              ((proc_control_node_B.out1_tmp_om * 0.002272431716587712 -
-                proc_control_node_B.t33_b * 0.1235636590052834) +
-               proc_control_node_B.t39_n * 0.0080268590155159435)) +
+              ((proc_control_node_B.out1_tmp_c * 0.002272431716587712 -
+                proc_control_node_B.t33_j * 0.1235636590052834) +
+               proc_control_node_B.t39_f * 0.0080268590155159435)) +
     (proc_control_node_B.t67 * -1.71018810547529 + 1.0426116576073889);
   out1[11] = ((((((((((((((((((((((in2[0] * -0.010033314971702871 - in2[1] *
     0.0001026911824132076) + in2[2] * 0.00039756137245743289) - in2[3] *
@@ -3156,49 +3151,49 @@ void proc_control_nodeModelClass::proc_con_AUVQuatPerturbedSimFcn(const real_T
     1.083514276897426E-19)) + in3[2] * -5.3156315041823265E-7) + (in3[3] *
     -5.2929151302328333E-7 + in3[4] * 0.10593667623599359)) + (in3[5] *
     0.10537885436940329 - in3[6] * 0.10793139553633729)) + (in3[7] *
-    -0.1033841350690595 + proc_control_node_B.t8_p * 6.3908140435873166)) +
-    ((proc_control_node_B.t9_n * 0.087876754449678615 +
-      proc_control_node_B.t10_c * 0.087876754449678615) -
-     proc_control_node_B.t11_n * 6.3908140435873166)) +
-    ((proc_control_node_B.t12_d * 0.36480930847148191 +
-      proc_control_node_B.t13_i * 0.36480930847148191) + in3[0] *
+    -0.1033841350690595 + proc_control_node_B.t8_n * 6.3908140435873166)) +
+    ((proc_control_node_B.t9_c * 0.087876754449678615 +
+      proc_control_node_B.t10_n * 0.087876754449678615) -
+     proc_control_node_B.t11_d * 6.3908140435873166)) +
+    ((proc_control_node_B.t12_i * 0.36480930847148191 +
+      proc_control_node_B.t13_n * 0.36480930847148191) + in3[0] *
      1.4142135623730951 * 0.013457654526727991)) + ((in3[1] * 1.4142135623730951
     * 0.013869054980635681 + in3[2] * 1.4142135623730951 * 0.013457654526727991)
     + in3[3] * 1.4142135623730951 * 0.01386868232130781)) +
-                       (((proc_control_node_B.t15_n * 0.311032764122789 +
+                       (((proc_control_node_B.t15_b * 0.311032764122789 +
     proc_control_node_B.t20_b * 0.0080268590155159435) -
-    proc_control_node_B.t16_e * 0.0001026911824132076) +
-                        proc_control_node_B.t17_i * 0.00039756137245743289)) +
-                      ((proc_control_node_B.t18_a0 * 0.58374455968341665 +
-                        proc_control_node_B.t19_f * 1.606290206365557E-6) -
-                       proc_control_node_B.t21_k * 0.58374455968341665)) +
-                     (((proc_control_node_B.t22_c * 0.0031834266548094372 +
-                        proc_control_node_B.t23_j * 0.00039756137245743289) -
-                       proc_control_node_B.out1_tmp_b * 0.010033314971702871) -
-                      proc_control_node_B.out1_tmp_a * 1.606290206365557E-6)) +
+    proc_control_node_B.t16_i * 0.0001026911824132076) +
+                        proc_control_node_B.t17_a0 * 0.00039756137245743289)) +
+                      ((proc_control_node_B.t18_f * 0.58374455968341665 +
+                        proc_control_node_B.t19_k * 1.606290206365557E-6) -
+                       proc_control_node_B.t21_c * 0.58374455968341665)) +
+                     (((proc_control_node_B.t22_j * 0.0031834266548094372 +
+                        proc_control_node_B.t23_l * 0.00039756137245743289) -
+                       proc_control_node_B.out1_tmp_a * 0.010033314971702871) -
+                      proc_control_node_B.out1_tmp_aq * 1.606290206365557E-6)) +
                     (((proc_control_node_B.t86 * 0.0080268590155159435 +
-                       proc_control_node_B.out1_tmp_aq * 1.606290206365557E-6) -
-                      proc_control_node_B.out1_tmp_i0 * 0.01232440254618042) -
-                     proc_control_node_B.out1_tmp_iz * 0.0001026911824132076)) +
-                   ((proc_control_node_B.out1_tmp_l * -0.010033314971702871 -
+                       proc_control_node_B.out1_tmp_i0 * 1.606290206365557E-6) -
+                      proc_control_node_B.out1_tmp_iz * 0.01232440254618042) -
+                     proc_control_node_B.out1_tmp_l * 0.0001026911824132076)) +
+                   ((proc_control_node_B.out1_tmp_o5 * -0.010033314971702871 -
                      proc_control_node_B.t84 * 0.58374455968341665) -
                     proc_control_node_B.t87 * 0.0080268590155159435)) +
-                  ((proc_control_node_B.out1_tmp_o5 * 0.002014800998947134 +
-                    proc_control_node_B.t45_l * 0.47151599980996189) +
-                   proc_control_node_B.out1_tmp_p * 0.19685363974481029)) +
-                 ((proc_control_node_B.t56_ok * 34.290486373399979 +
-                   proc_control_node_B.t55_a * 0.003900077063807416) +
-                  proc_control_node_B.t65_i * 0.010033314971702871)) +
+                  ((proc_control_node_B.out1_tmp_p * 0.002014800998947134 +
+                    proc_control_node_B.t45_a * 0.47151599980996189) +
+                   proc_control_node_B.out1_tmp_om * 0.19685363974481029)) +
+                 ((proc_control_node_B.t56_b * 34.290486373399979 +
+                   proc_control_node_B.t55_i * 0.003900077063807416) +
+                  proc_control_node_B.t65_o * 0.010033314971702871)) +
                 ((proc_control_node_B.t71 * -0.2488326294809943 +
                   proc_control_node_B.t81 * 1.606290206365557E-6) -
-                 proc_control_node_B.t68_f * 0.58374455968341665)) +
+                 proc_control_node_B.t68_e * 0.58374455968341665)) +
                (((proc_control_node_B.t85 * 0.0001026911824132076 +
-                  proc_control_node_B.t37_j * 18.096081350185919) +
+                  proc_control_node_B.t37_n * 18.096081350185919) +
                  proc_control_node_B.t63 * 1.606290206365557E-6) +
                 proc_control_node_B.t80 * 0.0080268590155159435)) +
-              ((proc_control_node_B.out1_tmp_om * -0.00039756137245743289 -
-                proc_control_node_B.t33_b * 4.9794996397332282E-5) -
-               proc_control_node_B.t39_n * 0.58374455968341665)) +
+              ((proc_control_node_B.out1_tmp_c * -0.00039756137245743289 -
+                proc_control_node_B.t33_j * 4.9794996397332282E-5) -
+               proc_control_node_B.t39_f * 0.58374455968341665)) +
     (proc_control_node_B.t67 * 0.0080268590155159435 - 0.182404654235741);
   out1[12] = (((((((((((((((((((((((in2[0] * 0.0010125044874363649 - in2[1] *
     0.00042780737967584029) + in2[2] * 5.2828771531483014E-6) - in2[3] *
@@ -3207,47 +3202,47 @@ void proc_control_nodeModelClass::proc_con_AUVQuatPerturbedSimFcn(const real_T
     -1.4397960202092559E-21) + in3[2] * 0.175443390567933) + (in3[3] *
     0.17469363248858291 + in3[4] * 0.00062021813460420567)) + (in3[5] *
     -0.0006207996116589 - in3[6] * 0.00064672437426625525)) + (in3[7] *
-    0.00064730585132094889 - proc_control_node_B.t8_p * 0.64492422651466708)) +
-    ((proc_control_node_B.t9_n * 0.3660910622711756 + proc_control_node_B.t10_c *
-      0.3660910622711756) + proc_control_node_B.t11_n * 0.64492422651466708)) +
-    ((proc_control_node_B.t12_d * 0.0048476610015380046 +
-      proc_control_node_B.t13_i * 0.0048476610015380046) + in3[0] *
+    0.00064730585132094889 - proc_control_node_B.t8_n * 0.64492422651466708)) +
+    ((proc_control_node_B.t9_c * 0.3660910622711756 + proc_control_node_B.t10_n *
+      0.3660910622711756) + proc_control_node_B.t11_d * 0.64492422651466708)) +
+    ((proc_control_node_B.t12_i * 0.0048476610015380046 +
+      proc_control_node_B.t13_n * 0.0048476610015380046) + in3[0] *
      1.4142135623730951 * 0.00059255494878017434)) + ((in3[1] *
     1.4142135623730951 * -0.1225770464045467 + in3[2] * 1.4142135623730951 *
     0.00059255494878017434) + in3[3] * 1.4142135623730951 *
-    0.00041984673608298361)) + (((proc_control_node_B.t15_n *
+    0.00041984673608298361)) + (((proc_control_node_B.t15_b *
     -0.031387639110527318 + proc_control_node_B.t20_b * 0.0039859244840414) -
-    proc_control_node_B.t16_e * 0.00042780737967584029) +
-    proc_control_node_B.t17_i * 5.2828771531483014E-6)) +
-                      (((proc_control_node_B.t18_a0 * -1.606290206365557E-6 -
-    proc_control_node_B.t19_f * 0.53015902215788635) + proc_control_node_B.t21_k
-                        * 1.606290206365557E-6) + proc_control_node_B.t22_c *
-                       0.013262028769951049)) + (((proc_control_node_B.t23_j *
-    5.2828771531483014E-6 + proc_control_node_B.out1_tmp_b *
-    0.0010125044874363649) + proc_control_node_B.out1_tmp_a *
+    proc_control_node_B.t16_i * 0.00042780737967584029) +
+    proc_control_node_B.t17_a0 * 5.2828771531483014E-6)) +
+                      (((proc_control_node_B.t18_f * -1.606290206365557E-6 -
+    proc_control_node_B.t19_k * 0.53015902215788635) + proc_control_node_B.t21_c
+                        * 1.606290206365557E-6) + proc_control_node_B.t22_j *
+                       0.013262028769951049)) + (((proc_control_node_B.t23_l *
+    5.2828771531483014E-6 + proc_control_node_B.out1_tmp_a *
+    0.0010125044874363649) + proc_control_node_B.out1_tmp_aq *
     0.53015902215788635) + proc_control_node_B.t86 * 0.0039859244840414)) +
-                    ((proc_control_node_B.out1_tmp_aq * -0.53015902215788635 -
-                      proc_control_node_B.out1_tmp_i0 * 0.00016376919174759729)
-                     - proc_control_node_B.out1_tmp_iz * 0.00042780737967584029))
-                   + (((proc_control_node_B.out1_tmp_l * 0.0010125044874363649 +
-                        proc_control_node_B.t84 * 1.606290206365557E-6) -
+                    ((proc_control_node_B.out1_tmp_i0 * -0.53015902215788635 -
+                      proc_control_node_B.out1_tmp_iz * 0.00016376919174759729)
+                     - proc_control_node_B.out1_tmp_l * 0.00042780737967584029))
+                   + (((proc_control_node_B.out1_tmp_o5 * 0.0010125044874363649
+                        + proc_control_node_B.t84 * 1.606290206365557E-6) -
                        proc_control_node_B.t87 * 0.0039859244840414) +
-                      proc_control_node_B.out1_tmp_o5 * 0.008393580789239987)) +
-                  ((proc_control_node_B.t45_l * 0.23414229210041551 -
-                    proc_control_node_B.out1_tmp_p * 0.01986533804350149) -
-                   proc_control_node_B.t56_ok * 9.4357149063583354E-5)) +
-                 ((proc_control_node_B.t55_a * 5.1825024872384838E-5 -
-                   proc_control_node_B.t65_i * 0.0010125044874363649) -
+                      proc_control_node_B.out1_tmp_p * 0.008393580789239987)) +
+                  ((proc_control_node_B.t45_a * 0.23414229210041551 -
+                    proc_control_node_B.out1_tmp_om * 0.01986533804350149) -
+                   proc_control_node_B.t56_b * 9.4357149063583354E-5)) +
+                 ((proc_control_node_B.t55_i * 5.1825024872384838E-5 -
+                   proc_control_node_B.t65_o * 0.0010125044874363649) -
                   proc_control_node_B.t71 * 0.1235636590052834)) +
                 (((proc_control_node_B.t81 * -0.53015902215788635 +
-                   proc_control_node_B.t68_f * 1.606290206365557E-6) +
+                   proc_control_node_B.t68_e * 1.606290206365557E-6) +
                   proc_control_node_B.t85 * 0.00042780737967584029) -
-                 proc_control_node_B.t37_j * 4.9794996397332282E-5)) +
+                 proc_control_node_B.t37_n * 4.9794996397332282E-5)) +
                ((proc_control_node_B.t63 * -0.53015902215788635 +
                  proc_control_node_B.t80 * 0.0039859244840414) -
-                proc_control_node_B.out1_tmp_om * 5.2828771531483014E-6)) +
-              ((proc_control_node_B.t33_b * 16.434929686894481 +
-                proc_control_node_B.t39_n * 1.606290206365557E-6) +
+                proc_control_node_B.out1_tmp_c * 5.2828771531483014E-6)) +
+              ((proc_control_node_B.t33_j * 16.434929686894481 +
+                proc_control_node_B.t39_f * 1.606290206365557E-6) +
                proc_control_node_B.t67 * 0.0039859244840414)) +
     -0.0024238305007690032;
 }
@@ -3304,15 +3299,15 @@ void proc_control_nodeModelClass::proc_control_node_xgemv_l(int32_T m, int32_T n
     b_iy = 0;
     b = (n - 1) * 26 + ia0;
     for (iac = ia0; iac <= b; iac += 26) {
-      proc_control_node_B.ix_a = ix0;
-      proc_control_node_B.c_aw = 0.0;
+      proc_control_node_B.ix_bw = ix0;
+      proc_control_node_B.c_d = 0.0;
       d = (iac + m) - 1;
       for (ia = iac; ia <= d; ia++) {
-        proc_control_node_B.c_aw += A[ia - 1] * x[proc_control_node_B.ix_a - 1];
-        proc_control_node_B.ix_a++;
+        proc_control_node_B.c_d += A[ia - 1] * x[proc_control_node_B.ix_bw - 1];
+        proc_control_node_B.ix_bw++;
       }
 
-      y[b_iy] += proc_control_node_B.c_aw;
+      y[b_iy] += proc_control_node_B.c_d;
       b_iy++;
     }
   }
@@ -3332,11 +3327,11 @@ void proc_control_nodeModelClass::proc_control_node_xgerc_e(int32_T m, int32_T n
     jy = 0;
     for (j = 0; j < n; j++) {
       if (y[jy] != 0.0) {
-        proc_control_node_B.temp_g = y[jy] * alpha1;
+        proc_control_node_B.temp_j = y[jy] * alpha1;
         ix = ix0;
         b = m + proc_control_node_B.jA_o;
         for (ijA = proc_control_node_B.jA_o; ijA < b; ijA++) {
-          A[ijA] += A[ix - 1] * proc_control_node_B.temp_g;
+          A[ijA] += A[ix - 1] * proc_control_node_B.temp_j;
           ix++;
         }
       }
@@ -3411,19 +3406,19 @@ void proc_control_nodeModelClass::proc_control_node_qrf_j(real_T A[338], int32_T
       proc_control_node_B.i_nz) - 1;
     proc_control_node_B.mmi_tmp_p = m - proc_control_node_B.i_nz;
     if (proc_control_node_B.i_nz + 1 < m) {
-      proc_control_node_B.b_atmp_a = A[proc_control_node_B.ii_c];
+      proc_control_node_B.b_atmp_j = A[proc_control_node_B.ii_c];
       tau[proc_control_node_B.i_nz] = 0.0;
       if (proc_control_node_B.mmi_tmp_p > 0) {
-        proc_control_node_B.beta1_j = proc_control_node_xnrm2_cf
+        proc_control_node_B.beta1_g = proc_control_node_xnrm2_cf
           (proc_control_node_B.mmi_tmp_p - 1, A, proc_control_node_B.ii_c + 2);
-        if (proc_control_node_B.beta1_j != 0.0) {
-          proc_control_node_B.beta1_j = proc_control_node_rt_hypotd_snf
-            (A[proc_control_node_B.ii_c], proc_control_node_B.beta1_j);
+        if (proc_control_node_B.beta1_g != 0.0) {
+          proc_control_node_B.beta1_g = proc_control_node_rt_hypotd_snf
+            (A[proc_control_node_B.ii_c], proc_control_node_B.beta1_g);
           if (A[proc_control_node_B.ii_c] >= 0.0) {
-            proc_control_node_B.beta1_j = -proc_control_node_B.beta1_j;
+            proc_control_node_B.beta1_g = -proc_control_node_B.beta1_g;
           }
 
-          if (fabs(proc_control_node_B.beta1_j) < 1.0020841800044864E-292) {
+          if (fabs(proc_control_node_B.beta1_g) < 1.0020841800044864E-292) {
             proc_control_node_B.knt_k = -1;
             proc_control_node_B.mmip1_b = proc_control_node_B.ii_c +
               proc_control_node_B.mmi_tmp_p;
@@ -3436,69 +3431,69 @@ void proc_control_nodeModelClass::proc_control_node_qrf_j(real_T A[338], int32_T
                 proc_control_node_B.b_k_l++;
               }
 
-              proc_control_node_B.beta1_j *= 9.9792015476736E+291;
-              proc_control_node_B.b_atmp_a *= 9.9792015476736E+291;
-            } while (!(fabs(proc_control_node_B.beta1_j) >=
+              proc_control_node_B.beta1_g *= 9.9792015476736E+291;
+              proc_control_node_B.b_atmp_j *= 9.9792015476736E+291;
+            } while (!(fabs(proc_control_node_B.beta1_g) >=
                        1.0020841800044864E-292));
 
-            proc_control_node_B.beta1_j = proc_control_node_rt_hypotd_snf
-              (proc_control_node_B.b_atmp_a, proc_control_node_xnrm2_cf
+            proc_control_node_B.beta1_g = proc_control_node_rt_hypotd_snf
+              (proc_control_node_B.b_atmp_j, proc_control_node_xnrm2_cf
                (proc_control_node_B.mmi_tmp_p - 1, A, proc_control_node_B.ii_c +
                 2));
-            if (proc_control_node_B.b_atmp_a >= 0.0) {
-              proc_control_node_B.beta1_j = -proc_control_node_B.beta1_j;
+            if (proc_control_node_B.b_atmp_j >= 0.0) {
+              proc_control_node_B.beta1_g = -proc_control_node_B.beta1_g;
             }
 
-            tau[proc_control_node_B.i_nz] = (proc_control_node_B.beta1_j -
-              proc_control_node_B.b_atmp_a) / proc_control_node_B.beta1_j;
-            proc_control_node_B.b_atmp_a = 1.0 / (proc_control_node_B.b_atmp_a -
-              proc_control_node_B.beta1_j);
+            tau[proc_control_node_B.i_nz] = (proc_control_node_B.beta1_g -
+              proc_control_node_B.b_atmp_j) / proc_control_node_B.beta1_g;
+            proc_control_node_B.b_atmp_j = 1.0 / (proc_control_node_B.b_atmp_j -
+              proc_control_node_B.beta1_g);
             proc_control_node_B.b_k_l = proc_control_node_B.ii_c + 1;
             while (proc_control_node_B.b_k_l + 1 <= proc_control_node_B.mmip1_b)
             {
-              A[proc_control_node_B.b_k_l] *= proc_control_node_B.b_atmp_a;
+              A[proc_control_node_B.b_k_l] *= proc_control_node_B.b_atmp_j;
               proc_control_node_B.b_k_l++;
             }
 
             proc_control_node_B.mmip1_b = 0;
             while (proc_control_node_B.mmip1_b <= proc_control_node_B.knt_k) {
-              proc_control_node_B.beta1_j *= 1.0020841800044864E-292;
+              proc_control_node_B.beta1_g *= 1.0020841800044864E-292;
               proc_control_node_B.mmip1_b++;
             }
 
-            proc_control_node_B.b_atmp_a = proc_control_node_B.beta1_j;
+            proc_control_node_B.b_atmp_j = proc_control_node_B.beta1_g;
           } else {
-            tau[proc_control_node_B.i_nz] = (proc_control_node_B.beta1_j -
-              A[proc_control_node_B.ii_c]) / proc_control_node_B.beta1_j;
-            proc_control_node_B.b_atmp_a = 1.0 / (A[proc_control_node_B.ii_c] -
-              proc_control_node_B.beta1_j);
+            tau[proc_control_node_B.i_nz] = (proc_control_node_B.beta1_g -
+              A[proc_control_node_B.ii_c]) / proc_control_node_B.beta1_g;
+            proc_control_node_B.b_atmp_j = 1.0 / (A[proc_control_node_B.ii_c] -
+              proc_control_node_B.beta1_g);
             proc_control_node_B.knt_k = proc_control_node_B.ii_c +
               proc_control_node_B.mmi_tmp_p;
             proc_control_node_B.mmip1_b = proc_control_node_B.ii_c + 1;
             while (proc_control_node_B.mmip1_b + 1 <= proc_control_node_B.knt_k)
             {
-              A[proc_control_node_B.mmip1_b] *= proc_control_node_B.b_atmp_a;
+              A[proc_control_node_B.mmip1_b] *= proc_control_node_B.b_atmp_j;
               proc_control_node_B.mmip1_b++;
             }
 
-            proc_control_node_B.b_atmp_a = proc_control_node_B.beta1_j;
+            proc_control_node_B.b_atmp_j = proc_control_node_B.beta1_g;
           }
         }
       }
 
-      A[proc_control_node_B.ii_c] = proc_control_node_B.b_atmp_a;
+      A[proc_control_node_B.ii_c] = proc_control_node_B.b_atmp_j;
     } else {
       tau[proc_control_node_B.i_nz] = 0.0;
     }
 
     if (proc_control_node_B.i_nz + 1 < n) {
-      proc_control_node_B.b_atmp_a = A[proc_control_node_B.ii_c];
+      proc_control_node_B.b_atmp_j = A[proc_control_node_B.ii_c];
       A[proc_control_node_B.ii_c] = 1.0;
       proc_control_node_xzlarf_j(proc_control_node_B.mmi_tmp_p, (n -
         proc_control_node_B.i_nz) - 1, proc_control_node_B.ii_c + 1,
         tau[proc_control_node_B.i_nz], A, proc_control_node_B.ii_c + 27,
         proc_control_node_B.work_p);
-      A[proc_control_node_B.ii_c] = proc_control_node_B.b_atmp_a;
+      A[proc_control_node_B.ii_c] = proc_control_node_B.b_atmp_j;
     }
 
     proc_control_node_B.i_nz++;
@@ -3518,52 +3513,52 @@ void proc_control_nodeModelClass::proc_control_node_xorgqr_e(int32_T m, int32_T
   n, int32_T k, real_T A[338], int32_T ia0, const real_T tau[13], int32_T itau0)
 {
   if (n >= 1) {
-    proc_control_node_B.itau_a = k;
-    while (proc_control_node_B.itau_a <= n - 1) {
-      proc_control_node_B.i_bw = (proc_control_node_B.itau_a * 26 + ia0) - 1;
-      proc_control_node_B.iaii_d = 0;
-      while (proc_control_node_B.iaii_d <= m - 1) {
-        A[proc_control_node_B.i_bw + proc_control_node_B.iaii_d] = 0.0;
-        proc_control_node_B.iaii_d++;
+    proc_control_node_B.itau_o = k;
+    while (proc_control_node_B.itau_o <= n - 1) {
+      proc_control_node_B.i_iz = (proc_control_node_B.itau_o * 26 + ia0) - 1;
+      proc_control_node_B.iaii_a = 0;
+      while (proc_control_node_B.iaii_a <= m - 1) {
+        A[proc_control_node_B.i_iz + proc_control_node_B.iaii_a] = 0.0;
+        proc_control_node_B.iaii_a++;
       }
 
-      A[proc_control_node_B.i_bw + proc_control_node_B.itau_a] = 1.0;
-      proc_control_node_B.itau_a++;
+      A[proc_control_node_B.i_iz + proc_control_node_B.itau_o] = 1.0;
+      proc_control_node_B.itau_o++;
     }
 
-    proc_control_node_B.itau_a = (itau0 + k) - 2;
+    proc_control_node_B.itau_o = (itau0 + k) - 2;
     memset(&proc_control_node_B.work_k[0], 0, 13U * sizeof(real_T));
-    proc_control_node_B.i_bw = k;
-    while (proc_control_node_B.i_bw >= 1) {
-      proc_control_node_B.iaii_d = (((proc_control_node_B.i_bw - 1) * 26 + ia0)
-        + proc_control_node_B.i_bw) - 1;
-      if (proc_control_node_B.i_bw < n) {
-        A[proc_control_node_B.iaii_d - 1] = 1.0;
-        proc_control_node_xzlarf_j((m - proc_control_node_B.i_bw) + 1, n -
-          proc_control_node_B.i_bw, proc_control_node_B.iaii_d,
-          tau[proc_control_node_B.itau_a], A, proc_control_node_B.iaii_d + 26,
+    proc_control_node_B.i_iz = k;
+    while (proc_control_node_B.i_iz >= 1) {
+      proc_control_node_B.iaii_a = (((proc_control_node_B.i_iz - 1) * 26 + ia0)
+        + proc_control_node_B.i_iz) - 1;
+      if (proc_control_node_B.i_iz < n) {
+        A[proc_control_node_B.iaii_a - 1] = 1.0;
+        proc_control_node_xzlarf_j((m - proc_control_node_B.i_iz) + 1, n -
+          proc_control_node_B.i_iz, proc_control_node_B.iaii_a,
+          tau[proc_control_node_B.itau_o], A, proc_control_node_B.iaii_a + 26,
           proc_control_node_B.work_k);
       }
 
-      if (proc_control_node_B.i_bw < m) {
-        proc_control_node_B.b_e = (proc_control_node_B.iaii_d + m) -
-          proc_control_node_B.i_bw;
-        proc_control_node_B.b_k_i = proc_control_node_B.iaii_d;
-        while (proc_control_node_B.b_k_i + 1 <= proc_control_node_B.b_e) {
-          A[proc_control_node_B.b_k_i] *= -tau[proc_control_node_B.itau_a];
-          proc_control_node_B.b_k_i++;
+      if (proc_control_node_B.i_iz < m) {
+        proc_control_node_B.b_dq = (proc_control_node_B.iaii_a + m) -
+          proc_control_node_B.i_iz;
+        proc_control_node_B.b_k_el = proc_control_node_B.iaii_a;
+        while (proc_control_node_B.b_k_el + 1 <= proc_control_node_B.b_dq) {
+          A[proc_control_node_B.b_k_el] *= -tau[proc_control_node_B.itau_o];
+          proc_control_node_B.b_k_el++;
         }
       }
 
-      A[proc_control_node_B.iaii_d - 1] = 1.0 - tau[proc_control_node_B.itau_a];
-      proc_control_node_B.b_e = 0;
-      while (proc_control_node_B.b_e <= proc_control_node_B.i_bw - 2) {
-        A[(proc_control_node_B.iaii_d - proc_control_node_B.b_e) - 2] = 0.0;
-        proc_control_node_B.b_e++;
+      A[proc_control_node_B.iaii_a - 1] = 1.0 - tau[proc_control_node_B.itau_o];
+      proc_control_node_B.b_dq = 0;
+      while (proc_control_node_B.b_dq <= proc_control_node_B.i_iz - 2) {
+        A[(proc_control_node_B.iaii_a - proc_control_node_B.b_dq) - 2] = 0.0;
+        proc_control_node_B.b_dq++;
       }
 
-      proc_control_node_B.itau_a--;
-      proc_control_node_B.i_bw--;
+      proc_control_node_B.itau_o--;
+      proc_control_node_B.i_iz--;
     }
   }
 }
@@ -3614,16 +3609,16 @@ void proc_control_nodeModelClass::proc_control_node_qrFactor_d(const real_T A
     for (proc_control_node_B.i_ir = 0; proc_control_node_B.i_ir < 13;
          proc_control_node_B.i_ir++) {
       proc_control_node_B.aoffset_m = proc_control_node_B.i_ir * 13;
-      proc_control_node_B.s_o = 0.0;
+      proc_control_node_B.s_a = 0.0;
       for (proc_control_node_B.k_k = 0; proc_control_node_B.k_k < 13;
            proc_control_node_B.k_k++) {
-        proc_control_node_B.s_o += A[proc_control_node_B.k_k * 13 +
+        proc_control_node_B.s_a += A[proc_control_node_B.k_k * 13 +
           proc_control_node_B.j_i] * S[proc_control_node_B.aoffset_m +
           proc_control_node_B.k_k];
       }
 
       proc_control_node_B.y_j[proc_control_node_B.coffset_a +
-        proc_control_node_B.i_ir] = proc_control_node_B.s_o;
+        proc_control_node_B.i_ir] = proc_control_node_B.s_a;
       proc_control_node_B.k_k = proc_control_node_B.i_ir + 26 *
         proc_control_node_B.j_i;
       proc_control_node_B.y_n[proc_control_node_B.k_k] =
@@ -3719,38 +3714,38 @@ void proc_control_nodeModelClass::proc_contr_quaternionBase_slerp(real_T q1_a,
   proc_control_node_B.q1n_d = q1_d / n;
   n = sqrt(((q2_a * q2_a + q2_b * q2_b) + q2_c * q2_c) + q2_d * q2_d);
   proc_control_node_B.q2n_a = q2_a / n;
-  proc_control_node_B.q2n_b_n = q2_b / n;
-  proc_control_node_B.q2n_c_o = q2_c / n;
+  proc_control_node_B.q2n_b_o = q2_b / n;
+  proc_control_node_B.q2n_c_e = q2_c / n;
   n = q2_d / n;
-  proc_control_node_B.dp_e = ((proc_control_node_B.q1n_a *
+  proc_control_node_B.dp_m = ((proc_control_node_B.q1n_a *
     proc_control_node_B.q2n_a + proc_control_node_B.q1n_b *
-    proc_control_node_B.q2n_b_n) + proc_control_node_B.q1n_c *
-    proc_control_node_B.q2n_c_o) + proc_control_node_B.q1n_d * n;
-  if (proc_control_node_B.dp_e < 0.0) {
+    proc_control_node_B.q2n_b_o) + proc_control_node_B.q1n_c *
+    proc_control_node_B.q2n_c_e) + proc_control_node_B.q1n_d * n;
+  if (proc_control_node_B.dp_m < 0.0) {
     proc_control_node_B.q2n_a = -proc_control_node_B.q2n_a;
-    proc_control_node_B.q2n_b_n = -proc_control_node_B.q2n_b_n;
-    proc_control_node_B.q2n_c_o = -proc_control_node_B.q2n_c_o;
+    proc_control_node_B.q2n_b_o = -proc_control_node_B.q2n_b_o;
+    proc_control_node_B.q2n_c_e = -proc_control_node_B.q2n_c_e;
     n = -n;
-    proc_control_node_B.dp_e = -proc_control_node_B.dp_e;
+    proc_control_node_B.dp_m = -proc_control_node_B.dp_m;
   }
 
-  if (proc_control_node_B.dp_e > 1.0) {
-    proc_control_node_B.dp_e = 1.0;
+  if (proc_control_node_B.dp_m > 1.0) {
+    proc_control_node_B.dp_m = 1.0;
   }
 
-  proc_control_node_B.theta0_m = acos(proc_control_node_B.dp_e);
-  proc_control_node_B.dp_e = 1.0 / sin(proc_control_node_B.theta0_m);
-  b_x = sin((1.0 - t) * proc_control_node_B.theta0_m);
-  proc_control_node_B.theta0_m = sin(t * proc_control_node_B.theta0_m);
-  *qo_a = (b_x * proc_control_node_B.q1n_a + proc_control_node_B.theta0_m *
-           proc_control_node_B.q2n_a) * proc_control_node_B.dp_e;
-  *qo_b = (b_x * proc_control_node_B.q1n_b + proc_control_node_B.theta0_m *
-           proc_control_node_B.q2n_b_n) * proc_control_node_B.dp_e;
-  *qo_c = (b_x * proc_control_node_B.q1n_c + proc_control_node_B.theta0_m *
-           proc_control_node_B.q2n_c_o) * proc_control_node_B.dp_e;
-  *qo_d = (b_x * proc_control_node_B.q1n_d + proc_control_node_B.theta0_m * n) *
-    proc_control_node_B.dp_e;
-  if (rtIsInf(proc_control_node_B.dp_e)) {
+  proc_control_node_B.theta0_c = acos(proc_control_node_B.dp_m);
+  proc_control_node_B.dp_m = 1.0 / sin(proc_control_node_B.theta0_c);
+  b_x = sin((1.0 - t) * proc_control_node_B.theta0_c);
+  proc_control_node_B.theta0_c = sin(t * proc_control_node_B.theta0_c);
+  *qo_a = (b_x * proc_control_node_B.q1n_a + proc_control_node_B.theta0_c *
+           proc_control_node_B.q2n_a) * proc_control_node_B.dp_m;
+  *qo_b = (b_x * proc_control_node_B.q1n_b + proc_control_node_B.theta0_c *
+           proc_control_node_B.q2n_b_o) * proc_control_node_B.dp_m;
+  *qo_c = (b_x * proc_control_node_B.q1n_c + proc_control_node_B.theta0_c *
+           proc_control_node_B.q2n_c_e) * proc_control_node_B.dp_m;
+  *qo_d = (b_x * proc_control_node_B.q1n_d + proc_control_node_B.theta0_c * n) *
+    proc_control_node_B.dp_m;
+  if (rtIsInf(proc_control_node_B.dp_m)) {
     *qo_a = proc_control_node_B.q1n_a;
     *qo_b = proc_control_node_B.q1n_b;
     *qo_c = proc_control_node_B.q1n_c;
@@ -3880,26 +3875,26 @@ void proc_control_nodeModelClass::proc_control_no_SystemCore_step
     proc_control_node_B.e_idx_0 = 0.0;
   }
 
-  proc_control_node_B.n_d = sqrt(((varargin_2[0] * varargin_2[0] + varargin_2[1]
+  proc_control_node_B.n_m = sqrt(((varargin_2[0] * varargin_2[0] + varargin_2[1]
     * varargin_2[1]) + varargin_2[2] * varargin_2[2]) + varargin_2[3] *
     varargin_2[3]);
-  proc_control_node_B.pn_a = varargin_2[0] / proc_control_node_B.n_d;
-  proc_control_node_B.pn_b = varargin_2[1] / proc_control_node_B.n_d;
-  proc_control_node_B.pn_c = varargin_2[2] / proc_control_node_B.n_d;
-  proc_control_node_B.pn_d = varargin_2[3] / proc_control_node_B.n_d;
-  proc_control_node_B.n_d = sqrt(((varargin_3[0] * varargin_3[0] + varargin_3[1]
+  proc_control_node_B.pn_a = varargin_2[0] / proc_control_node_B.n_m;
+  proc_control_node_B.pn_b = varargin_2[1] / proc_control_node_B.n_m;
+  proc_control_node_B.pn_c = varargin_2[2] / proc_control_node_B.n_m;
+  proc_control_node_B.pn_d = varargin_2[3] / proc_control_node_B.n_m;
+  proc_control_node_B.n_m = sqrt(((varargin_3[0] * varargin_3[0] + varargin_3[1]
     * varargin_3[1]) + varargin_3[2] * varargin_3[2]) + varargin_3[3] *
     varargin_3[3]);
-  proc_control_node_B.qn_a = varargin_3[0] / proc_control_node_B.n_d;
-  proc_control_node_B.qn_b = varargin_3[1] / proc_control_node_B.n_d;
-  proc_control_node_B.qn_c = varargin_3[2] / proc_control_node_B.n_d;
-  proc_control_node_B.qn_d = varargin_3[3] / proc_control_node_B.n_d;
+  proc_control_node_B.qn_a = varargin_3[0] / proc_control_node_B.n_m;
+  proc_control_node_B.qn_b = varargin_3[1] / proc_control_node_B.n_m;
+  proc_control_node_B.qn_c = varargin_3[2] / proc_control_node_B.n_m;
+  proc_control_node_B.qn_d = varargin_3[3] / proc_control_node_B.n_m;
   proc_control_node_B.n_tmp = sqrt(((proc_control_node_B.pn_a *
     proc_control_node_B.pn_a + proc_control_node_B.pn_b *
     proc_control_node_B.pn_b) + proc_control_node_B.pn_c *
     proc_control_node_B.pn_c) + proc_control_node_B.pn_d *
     proc_control_node_B.pn_d);
-  proc_control_node_B.n_tmp_f = proc_control_node_B.pn_a /
+  proc_control_node_B.n_tmp_n = proc_control_node_B.pn_a /
     proc_control_node_B.n_tmp;
   proc_control_node_B.q1n_b_tmp = proc_control_node_B.pn_b /
     proc_control_node_B.n_tmp;
@@ -3907,34 +3902,34 @@ void proc_control_nodeModelClass::proc_control_no_SystemCore_step
     proc_control_node_B.n_tmp;
   proc_control_node_B.q1n_d_tmp = proc_control_node_B.pn_d /
     proc_control_node_B.n_tmp;
-  proc_control_node_B.n_tmp_m = sqrt(((proc_control_node_B.qn_a *
+  proc_control_node_B.n_tmp_f = sqrt(((proc_control_node_B.qn_a *
     proc_control_node_B.qn_a + proc_control_node_B.qn_b *
     proc_control_node_B.qn_b) + proc_control_node_B.qn_c *
     proc_control_node_B.qn_c) + proc_control_node_B.qn_d *
     proc_control_node_B.qn_d);
   proc_control_node_B.n_tmp = proc_control_node_B.qn_a /
-    proc_control_node_B.n_tmp_m;
-  proc_control_node_B.n_d = proc_control_node_B.n_tmp;
+    proc_control_node_B.n_tmp_f;
+  proc_control_node_B.n_m = proc_control_node_B.n_tmp;
   proc_control_node_B.q2n_b_tmp = proc_control_node_B.qn_b /
-    proc_control_node_B.n_tmp_m;
+    proc_control_node_B.n_tmp_f;
   proc_control_node_B.q2n_b = proc_control_node_B.q2n_b_tmp;
   proc_control_node_B.q2n_c_tmp = proc_control_node_B.qn_c /
-    proc_control_node_B.n_tmp_m;
+    proc_control_node_B.n_tmp_f;
   proc_control_node_B.q2n_c = proc_control_node_B.q2n_c_tmp;
-  proc_control_node_B.n_tmp_m = proc_control_node_B.qn_d /
-    proc_control_node_B.n_tmp_m;
-  proc_control_node_B.q2n_d = proc_control_node_B.n_tmp_m;
-  proc_control_node_B.dp_tmp = ((proc_control_node_B.n_tmp_f *
+  proc_control_node_B.n_tmp_f = proc_control_node_B.qn_d /
+    proc_control_node_B.n_tmp_f;
+  proc_control_node_B.q2n_d = proc_control_node_B.n_tmp_f;
+  proc_control_node_B.dp_tmp = ((proc_control_node_B.n_tmp_n *
     proc_control_node_B.n_tmp + proc_control_node_B.q1n_b_tmp *
     proc_control_node_B.q2n_b_tmp) + proc_control_node_B.q1n_c_tmp *
     proc_control_node_B.q2n_c_tmp) + proc_control_node_B.q1n_d_tmp *
-    proc_control_node_B.n_tmp_m;
+    proc_control_node_B.n_tmp_f;
   proc_control_node_B.dp = proc_control_node_B.dp_tmp;
   if (proc_control_node_B.dp_tmp < 0.0) {
-    proc_control_node_B.n_d = -proc_control_node_B.n_tmp;
+    proc_control_node_B.n_m = -proc_control_node_B.n_tmp;
     proc_control_node_B.q2n_b = -proc_control_node_B.q2n_b_tmp;
     proc_control_node_B.q2n_c = -proc_control_node_B.q2n_c_tmp;
-    proc_control_node_B.q2n_d = -proc_control_node_B.n_tmp_m;
+    proc_control_node_B.q2n_d = -proc_control_node_B.n_tmp_f;
     proc_control_node_B.dp = -proc_control_node_B.dp_tmp;
   }
 
@@ -3947,8 +3942,8 @@ void proc_control_nodeModelClass::proc_control_no_SystemCore_step
   proc_control_node_B.dp = 1.0 / proc_control_node_B.sinv_tmp;
   proc_control_node_B.theta0 = sin(0.0 * proc_control_node_B.theta0);
   proc_control_node_B.linearScaling = (proc_control_node_B.sinv_tmp *
-    proc_control_node_B.n_tmp_f + proc_control_node_B.theta0 *
-    proc_control_node_B.n_d) * proc_control_node_B.dp;
+    proc_control_node_B.n_tmp_n + proc_control_node_B.theta0 *
+    proc_control_node_B.n_m) * proc_control_node_B.dp;
   proc_control_node_B.pnCorrected_b = (proc_control_node_B.sinv_tmp *
     proc_control_node_B.q1n_b_tmp + proc_control_node_B.theta0 *
     proc_control_node_B.q2n_b) * proc_control_node_B.dp;
@@ -3959,31 +3954,31 @@ void proc_control_nodeModelClass::proc_control_no_SystemCore_step
     proc_control_node_B.q1n_d_tmp + proc_control_node_B.theta0 *
     proc_control_node_B.q2n_d) * proc_control_node_B.dp;
   if (rtIsInf(proc_control_node_B.dp)) {
-    proc_control_node_B.linearScaling = proc_control_node_B.n_tmp_f;
+    proc_control_node_B.linearScaling = proc_control_node_B.n_tmp_n;
     proc_control_node_B.pnCorrected_b = proc_control_node_B.q1n_b_tmp;
     proc_control_node_B.pnCorrected_c = proc_control_node_B.q1n_c_tmp;
     proc_control_node_B.pnCorrected_d = proc_control_node_B.q1n_d_tmp;
   }
 
-  proc_control_node_B.n_d = sqrt(((proc_control_node_B.linearScaling *
+  proc_control_node_B.n_m = sqrt(((proc_control_node_B.linearScaling *
     proc_control_node_B.linearScaling + proc_control_node_B.pnCorrected_b *
     proc_control_node_B.pnCorrected_b) + proc_control_node_B.pnCorrected_c *
     proc_control_node_B.pnCorrected_c) + proc_control_node_B.pnCorrected_d *
     proc_control_node_B.pnCorrected_d);
-  proc_control_node_B.linearScaling /= proc_control_node_B.n_d;
-  proc_control_node_B.pnCorrected_b /= proc_control_node_B.n_d;
-  proc_control_node_B.pnCorrected_c /= proc_control_node_B.n_d;
-  proc_control_node_B.pnCorrected_d /= proc_control_node_B.n_d;
-  proc_control_node_B.n_d = proc_control_node_B.n_tmp;
+  proc_control_node_B.linearScaling /= proc_control_node_B.n_m;
+  proc_control_node_B.pnCorrected_b /= proc_control_node_B.n_m;
+  proc_control_node_B.pnCorrected_c /= proc_control_node_B.n_m;
+  proc_control_node_B.pnCorrected_d /= proc_control_node_B.n_m;
+  proc_control_node_B.n_m = proc_control_node_B.n_tmp;
   proc_control_node_B.q2n_b = proc_control_node_B.q2n_b_tmp;
   proc_control_node_B.q2n_c = proc_control_node_B.q2n_c_tmp;
-  proc_control_node_B.q2n_d = proc_control_node_B.n_tmp_m;
+  proc_control_node_B.q2n_d = proc_control_node_B.n_tmp_f;
   proc_control_node_B.dp = proc_control_node_B.dp_tmp;
   if (proc_control_node_B.dp_tmp < 0.0) {
-    proc_control_node_B.n_d = -proc_control_node_B.n_tmp;
+    proc_control_node_B.n_m = -proc_control_node_B.n_tmp;
     proc_control_node_B.q2n_b = -proc_control_node_B.q2n_b_tmp;
     proc_control_node_B.q2n_c = -proc_control_node_B.q2n_c_tmp;
-    proc_control_node_B.q2n_d = -proc_control_node_B.n_tmp_m;
+    proc_control_node_B.q2n_d = -proc_control_node_B.n_tmp_f;
     proc_control_node_B.dp = -proc_control_node_B.dp_tmp;
   }
 
@@ -3996,9 +3991,9 @@ void proc_control_nodeModelClass::proc_control_no_SystemCore_step
   proc_control_node_B.dp = 1.0 / proc_control_node_B.sinv_tmp;
   proc_control_node_B.theta0 = sin(0.0 * proc_control_node_B.theta0);
   proc_control_node_B.n_tmp = (proc_control_node_B.theta0 *
-    proc_control_node_B.n_tmp_f + proc_control_node_B.sinv_tmp *
-    proc_control_node_B.n_d) * proc_control_node_B.dp;
-  proc_control_node_B.n_tmp_m = (proc_control_node_B.theta0 *
+    proc_control_node_B.n_tmp_n + proc_control_node_B.sinv_tmp *
+    proc_control_node_B.n_m) * proc_control_node_B.dp;
+  proc_control_node_B.n_tmp_f = (proc_control_node_B.theta0 *
     proc_control_node_B.q1n_b_tmp + proc_control_node_B.sinv_tmp *
     proc_control_node_B.q2n_b) * proc_control_node_B.dp;
   proc_control_node_B.q2n_c = (proc_control_node_B.theta0 *
@@ -4008,120 +4003,120 @@ void proc_control_nodeModelClass::proc_control_no_SystemCore_step
     proc_control_node_B.q1n_d_tmp + proc_control_node_B.sinv_tmp *
     proc_control_node_B.q2n_d) * proc_control_node_B.dp;
   if (rtIsInf(proc_control_node_B.dp)) {
-    proc_control_node_B.n_tmp = proc_control_node_B.n_tmp_f;
-    proc_control_node_B.n_tmp_m = proc_control_node_B.q1n_b_tmp;
+    proc_control_node_B.n_tmp = proc_control_node_B.n_tmp_n;
+    proc_control_node_B.n_tmp_f = proc_control_node_B.q1n_b_tmp;
     proc_control_node_B.q2n_c = proc_control_node_B.q1n_c_tmp;
     proc_control_node_B.q2n_d = proc_control_node_B.q1n_d_tmp;
   }
 
-  proc_control_node_B.n_d = sqrt(((proc_control_node_B.n_tmp *
-    proc_control_node_B.n_tmp + proc_control_node_B.n_tmp_m *
-    proc_control_node_B.n_tmp_m) + proc_control_node_B.q2n_c *
+  proc_control_node_B.n_m = sqrt(((proc_control_node_B.n_tmp *
+    proc_control_node_B.n_tmp + proc_control_node_B.n_tmp_f *
+    proc_control_node_B.n_tmp_f) + proc_control_node_B.q2n_c *
     proc_control_node_B.q2n_c) + proc_control_node_B.q2n_d *
     proc_control_node_B.q2n_d);
-  proc_control_node_B.n_tmp /= proc_control_node_B.n_d;
-  proc_control_node_B.n_tmp_m /= proc_control_node_B.n_d;
-  proc_control_node_B.q2n_c /= proc_control_node_B.n_d;
-  proc_control_node_B.q2n_d /= proc_control_node_B.n_d;
+  proc_control_node_B.n_tmp /= proc_control_node_B.n_m;
+  proc_control_node_B.n_tmp_f /= proc_control_node_B.n_m;
+  proc_control_node_B.q2n_c /= proc_control_node_B.n_m;
+  proc_control_node_B.q2n_d /= proc_control_node_B.n_m;
   proc_contr_quaternionBase_slerp(proc_control_node_B.pn_a,
     proc_control_node_B.pn_b, proc_control_node_B.pn_c, proc_control_node_B.pn_d,
     proc_control_node_B.qn_a, proc_control_node_B.qn_b, proc_control_node_B.qn_c,
     proc_control_node_B.qn_d, proc_control_node_B.b_idx_0,
-    &proc_control_node_B.n_d, &proc_control_node_B.n_tmp_f,
+    &proc_control_node_B.n_m, &proc_control_node_B.n_tmp_n,
     &proc_control_node_B.q1n_b_tmp, &proc_control_node_B.q1n_c_tmp);
   proc_control_quaternionBase_log(((proc_control_node_B.linearScaling *
     proc_control_node_B.n_tmp - -proc_control_node_B.pnCorrected_b *
-    proc_control_node_B.n_tmp_m) - -proc_control_node_B.pnCorrected_c *
+    proc_control_node_B.n_tmp_f) - -proc_control_node_B.pnCorrected_c *
     proc_control_node_B.q2n_c) - -proc_control_node_B.pnCorrected_d *
     proc_control_node_B.q2n_d, ((proc_control_node_B.linearScaling *
-    proc_control_node_B.n_tmp_m + -proc_control_node_B.pnCorrected_b *
+    proc_control_node_B.n_tmp_f + -proc_control_node_B.pnCorrected_b *
     proc_control_node_B.n_tmp) + -proc_control_node_B.pnCorrected_c *
     proc_control_node_B.q2n_d) - -proc_control_node_B.pnCorrected_d *
     proc_control_node_B.q2n_c, ((proc_control_node_B.linearScaling *
     proc_control_node_B.q2n_c - -proc_control_node_B.pnCorrected_b *
     proc_control_node_B.q2n_d) + -proc_control_node_B.pnCorrected_c *
     proc_control_node_B.n_tmp) + -proc_control_node_B.pnCorrected_d *
-    proc_control_node_B.n_tmp_m, ((proc_control_node_B.linearScaling *
+    proc_control_node_B.n_tmp_f, ((proc_control_node_B.linearScaling *
     proc_control_node_B.q2n_d + -proc_control_node_B.pnCorrected_b *
     proc_control_node_B.q2n_c) - -proc_control_node_B.pnCorrected_c *
-    proc_control_node_B.n_tmp_m) + -proc_control_node_B.pnCorrected_d *
+    proc_control_node_B.n_tmp_f) + -proc_control_node_B.pnCorrected_d *
     proc_control_node_B.n_tmp, &proc_control_node_B.pn_a,
     &proc_control_node_B.pn_b, &proc_control_node_B.pn_c,
     &proc_control_node_B.pn_d);
-  proc_control_node_B.qn_a = (((proc_control_node_B.n_d *
-    proc_control_node_B.pn_a - proc_control_node_B.n_tmp_f *
+  proc_control_node_B.qn_a = (((proc_control_node_B.n_m *
+    proc_control_node_B.pn_a - proc_control_node_B.n_tmp_n *
     proc_control_node_B.pn_b) - proc_control_node_B.q1n_b_tmp *
     proc_control_node_B.pn_c) - proc_control_node_B.q1n_c_tmp *
     proc_control_node_B.pn_d) * proc_control_node_B.e_idx_0 * 2.0;
-  proc_control_node_B.qn_b = (((proc_control_node_B.n_d *
-    proc_control_node_B.pn_b + proc_control_node_B.n_tmp_f *
+  proc_control_node_B.qn_b = (((proc_control_node_B.n_m *
+    proc_control_node_B.pn_b + proc_control_node_B.n_tmp_n *
     proc_control_node_B.pn_a) + proc_control_node_B.q1n_b_tmp *
     proc_control_node_B.pn_d) - proc_control_node_B.q1n_c_tmp *
     proc_control_node_B.pn_c) * proc_control_node_B.e_idx_0 * 2.0;
-  proc_control_node_B.qn_c = (((proc_control_node_B.n_d *
-    proc_control_node_B.pn_c - proc_control_node_B.n_tmp_f *
+  proc_control_node_B.qn_c = (((proc_control_node_B.n_m *
+    proc_control_node_B.pn_c - proc_control_node_B.n_tmp_n *
     proc_control_node_B.pn_d) + proc_control_node_B.q1n_b_tmp *
     proc_control_node_B.pn_a) + proc_control_node_B.q1n_c_tmp *
     proc_control_node_B.pn_b) * proc_control_node_B.e_idx_0 * 2.0;
-  proc_control_node_B.pn_d = (((proc_control_node_B.n_d *
-    proc_control_node_B.pn_d + proc_control_node_B.n_tmp_f *
+  proc_control_node_B.pn_d = (((proc_control_node_B.n_m *
+    proc_control_node_B.pn_d + proc_control_node_B.n_tmp_n *
     proc_control_node_B.pn_c) - proc_control_node_B.q1n_b_tmp *
     proc_control_node_B.pn_b) + proc_control_node_B.q1n_c_tmp *
     proc_control_node_B.pn_a) * proc_control_node_B.e_idx_0 * 2.0;
   proc_control_quaternionBase_log(((proc_control_node_B.linearScaling *
     proc_control_node_B.n_tmp - -proc_control_node_B.pnCorrected_b *
-    proc_control_node_B.n_tmp_m) - -proc_control_node_B.pnCorrected_c *
+    proc_control_node_B.n_tmp_f) - -proc_control_node_B.pnCorrected_c *
     proc_control_node_B.q2n_c) - -proc_control_node_B.pnCorrected_d *
     proc_control_node_B.q2n_d, ((proc_control_node_B.linearScaling *
-    proc_control_node_B.n_tmp_m + -proc_control_node_B.pnCorrected_b *
+    proc_control_node_B.n_tmp_f + -proc_control_node_B.pnCorrected_b *
     proc_control_node_B.n_tmp) + -proc_control_node_B.pnCorrected_c *
     proc_control_node_B.q2n_d) - -proc_control_node_B.pnCorrected_d *
     proc_control_node_B.q2n_c, ((proc_control_node_B.linearScaling *
     proc_control_node_B.q2n_c - -proc_control_node_B.pnCorrected_b *
     proc_control_node_B.q2n_d) + -proc_control_node_B.pnCorrected_c *
     proc_control_node_B.n_tmp) + -proc_control_node_B.pnCorrected_d *
-    proc_control_node_B.n_tmp_m, ((proc_control_node_B.linearScaling *
+    proc_control_node_B.n_tmp_f, ((proc_control_node_B.linearScaling *
     proc_control_node_B.q2n_d + -proc_control_node_B.pnCorrected_b *
     proc_control_node_B.q2n_c) - -proc_control_node_B.pnCorrected_c *
-    proc_control_node_B.n_tmp_m) + -proc_control_node_B.pnCorrected_d *
+    proc_control_node_B.n_tmp_f) + -proc_control_node_B.pnCorrected_d *
     proc_control_node_B.n_tmp, &proc_control_node_B.pn_a,
     &proc_control_node_B.pn_b, &proc_control_node_B.pn_c,
     &proc_control_node_B.qn_d);
-  proc_control_node_B.dp = ((proc_control_node_B.n_d * proc_control_node_B.pn_a
-    - proc_control_node_B.n_tmp_f * proc_control_node_B.pn_b) -
+  proc_control_node_B.dp = ((proc_control_node_B.n_m * proc_control_node_B.pn_a
+    - proc_control_node_B.n_tmp_n * proc_control_node_B.pn_b) -
     proc_control_node_B.q1n_b_tmp * proc_control_node_B.pn_c) -
     proc_control_node_B.q1n_c_tmp * proc_control_node_B.qn_d;
-  proc_control_node_B.sinv_tmp = ((proc_control_node_B.n_d *
-    proc_control_node_B.pn_b + proc_control_node_B.n_tmp_f *
+  proc_control_node_B.sinv_tmp = ((proc_control_node_B.n_m *
+    proc_control_node_B.pn_b + proc_control_node_B.n_tmp_n *
     proc_control_node_B.pn_a) + proc_control_node_B.q1n_b_tmp *
     proc_control_node_B.qn_d) - proc_control_node_B.q1n_c_tmp *
     proc_control_node_B.pn_c;
-  proc_control_node_B.q2n_b = ((proc_control_node_B.n_d *
-    proc_control_node_B.pn_c - proc_control_node_B.n_tmp_f *
+  proc_control_node_B.q2n_b = ((proc_control_node_B.n_m *
+    proc_control_node_B.pn_c - proc_control_node_B.n_tmp_n *
     proc_control_node_B.qn_d) + proc_control_node_B.q1n_b_tmp *
     proc_control_node_B.pn_a) + proc_control_node_B.q1n_c_tmp *
     proc_control_node_B.pn_b;
-  proc_control_node_B.theta0 = ((proc_control_node_B.n_d *
-    proc_control_node_B.qn_d + proc_control_node_B.n_tmp_f *
+  proc_control_node_B.theta0 = ((proc_control_node_B.n_m *
+    proc_control_node_B.qn_d + proc_control_node_B.n_tmp_n *
     proc_control_node_B.pn_c) - proc_control_node_B.q1n_b_tmp *
     proc_control_node_B.pn_b) + proc_control_node_B.q1n_c_tmp *
     proc_control_node_B.pn_a;
   proc_control_quaternionBase_log(((proc_control_node_B.linearScaling *
     proc_control_node_B.n_tmp - -proc_control_node_B.pnCorrected_b *
-    proc_control_node_B.n_tmp_m) - -proc_control_node_B.pnCorrected_c *
+    proc_control_node_B.n_tmp_f) - -proc_control_node_B.pnCorrected_c *
     proc_control_node_B.q2n_c) - -proc_control_node_B.pnCorrected_d *
     proc_control_node_B.q2n_d, ((proc_control_node_B.linearScaling *
-    proc_control_node_B.n_tmp_m + -proc_control_node_B.pnCorrected_b *
+    proc_control_node_B.n_tmp_f + -proc_control_node_B.pnCorrected_b *
     proc_control_node_B.n_tmp) + -proc_control_node_B.pnCorrected_c *
     proc_control_node_B.q2n_d) - -proc_control_node_B.pnCorrected_d *
     proc_control_node_B.q2n_c, ((proc_control_node_B.linearScaling *
     proc_control_node_B.q2n_c - -proc_control_node_B.pnCorrected_b *
     proc_control_node_B.q2n_d) + -proc_control_node_B.pnCorrected_c *
     proc_control_node_B.n_tmp) + -proc_control_node_B.pnCorrected_d *
-    proc_control_node_B.n_tmp_m, ((proc_control_node_B.linearScaling *
+    proc_control_node_B.n_tmp_f, ((proc_control_node_B.linearScaling *
     proc_control_node_B.q2n_d + -proc_control_node_B.pnCorrected_b *
     proc_control_node_B.q2n_c) - -proc_control_node_B.pnCorrected_c *
-    proc_control_node_B.n_tmp_m) + -proc_control_node_B.pnCorrected_d *
+    proc_control_node_B.n_tmp_f) + -proc_control_node_B.pnCorrected_d *
     proc_control_node_B.n_tmp, &proc_control_node_B.pn_a,
     &proc_control_node_B.pn_b, &proc_control_node_B.pn_c,
     &proc_control_node_B.qn_d);
@@ -4145,25 +4140,25 @@ void proc_control_nodeModelClass::proc_control_no_SystemCore_step
     proc_control_node_B.pn_c) - proc_control_node_B.q2n_b *
     proc_control_node_B.pn_b) + proc_control_node_B.theta0 *
     proc_control_node_B.pn_a) * 0.0 * 2.0;
-  varargout_1[0] = proc_control_node_B.n_d;
-  varargout_1[1] = proc_control_node_B.n_tmp_f;
+  varargout_1[0] = proc_control_node_B.n_m;
+  varargout_1[1] = proc_control_node_B.n_tmp_n;
   varargout_1[2] = proc_control_node_B.q1n_b_tmp;
   varargout_1[3] = proc_control_node_B.q1n_c_tmp;
-  varargout_2[0] = ((proc_control_node_B.qn_a * -proc_control_node_B.n_tmp_f +
-                     proc_control_node_B.qn_b * proc_control_node_B.n_d) +
+  varargout_2[0] = ((proc_control_node_B.qn_a * -proc_control_node_B.n_tmp_n +
+                     proc_control_node_B.qn_b * proc_control_node_B.n_m) +
                     proc_control_node_B.qn_c * -proc_control_node_B.q1n_c_tmp) -
     proc_control_node_B.pn_d * -proc_control_node_B.q1n_b_tmp;
   varargout_2[1] = ((proc_control_node_B.qn_a * -proc_control_node_B.q1n_b_tmp -
                      proc_control_node_B.qn_b * -proc_control_node_B.q1n_c_tmp)
-                    + proc_control_node_B.qn_c * proc_control_node_B.n_d) +
-    proc_control_node_B.pn_d * -proc_control_node_B.n_tmp_f;
+                    + proc_control_node_B.qn_c * proc_control_node_B.n_m) +
+    proc_control_node_B.pn_d * -proc_control_node_B.n_tmp_n;
   varargout_2[2] = ((proc_control_node_B.qn_a * -proc_control_node_B.q1n_c_tmp +
                      proc_control_node_B.qn_b * -proc_control_node_B.q1n_b_tmp)
-                    - proc_control_node_B.qn_c * -proc_control_node_B.n_tmp_f) +
-    proc_control_node_B.pn_d * proc_control_node_B.n_d;
+                    - proc_control_node_B.qn_c * -proc_control_node_B.n_tmp_n) +
+    proc_control_node_B.pn_d * proc_control_node_B.n_m;
   varargout_3[0] = ((proc_control_node_B.linearScaling *
-                     -proc_control_node_B.n_tmp_f +
-                     proc_control_node_B.pnCorrected_b * proc_control_node_B.n_d)
+                     -proc_control_node_B.n_tmp_n +
+                     proc_control_node_B.pnCorrected_b * proc_control_node_B.n_m)
                     + proc_control_node_B.pnCorrected_c *
                     -proc_control_node_B.q1n_c_tmp) - proc_control_node_B.qn_d *
     -proc_control_node_B.q1n_b_tmp;
@@ -4171,15 +4166,15 @@ void proc_control_nodeModelClass::proc_control_no_SystemCore_step
                      -proc_control_node_B.q1n_b_tmp -
                      proc_control_node_B.pnCorrected_b *
                      -proc_control_node_B.q1n_c_tmp) +
-                    proc_control_node_B.pnCorrected_c * proc_control_node_B.n_d)
-    + proc_control_node_B.qn_d * -proc_control_node_B.n_tmp_f;
+                    proc_control_node_B.pnCorrected_c * proc_control_node_B.n_m)
+    + proc_control_node_B.qn_d * -proc_control_node_B.n_tmp_n;
   varargout_3[2] = ((proc_control_node_B.linearScaling *
                      -proc_control_node_B.q1n_c_tmp +
                      proc_control_node_B.pnCorrected_b *
                      -proc_control_node_B.q1n_b_tmp) -
                     proc_control_node_B.pnCorrected_c *
-                    -proc_control_node_B.n_tmp_f) + proc_control_node_B.qn_d *
-    proc_control_node_B.n_d;
+                    -proc_control_node_B.n_tmp_n) + proc_control_node_B.qn_d *
+    proc_control_node_B.n_m;
 }
 
 void proc_control_nodeModelClass::proc_control_node_ppval(const real_T
@@ -4492,7 +4487,7 @@ void proc_control_nodeModelClass::TrajectoryManager_SendCurrentPo
   while ((!exitg1) && (b_i < 9)) {
     b_index = b_i + 2;
     for (i = 0; i < 13; i++) {
-      proc_control_node_B.x_hp[i] = (b_this->poseBuffer[(6001 * i + b_i) + 1] ==
+      proc_control_node_B.x_f[i] = (b_this->poseBuffer[(6001 * i + b_i) + 1] ==
         b_this->emptyArray[i]);
     }
 
@@ -4500,7 +4495,7 @@ void proc_control_nodeModelClass::TrajectoryManager_SendCurrentPo
     b_k = 0;
     exitg2 = false;
     while ((!exitg2) && (b_k < 13)) {
-      if (!proc_control_node_B.x_hp[b_k]) {
+      if (!proc_control_node_B.x_f[b_k]) {
         y = false;
         exitg2 = true;
       } else {
@@ -4545,7 +4540,7 @@ void proc_control_nodeModelClass::TrajectoryManager_SendCurrentPo
   //  Ne pas supprimer le point si c'est le dernier.
   i = 0;
   for (b_i = 0; b_i < 13; b_i++) {
-    proc_control_node_B.x_hp[b_i] = !(b_this->poseBuffer[i + 10] ==
+    proc_control_node_B.x_f[b_i] = !(b_this->poseBuffer[i + 10] ==
       b_this->emptyArray[b_i]);
     i += 6001;
   }
@@ -4554,7 +4549,7 @@ void proc_control_nodeModelClass::TrajectoryManager_SendCurrentPo
   b_k = 0;
   exitg1 = false;
   while ((!exitg1) && (b_k < 13)) {
-    if (!proc_control_node_B.x_hp[b_k]) {
+    if (!proc_control_node_B.x_f[b_k]) {
       y = false;
       exitg1 = true;
     } else {
@@ -5544,66 +5539,66 @@ void proc_control_nodeModelClass::proc_cont_AUVQuatJacobianMatrix(const real_T
   }
 
   if (in1[11] < 0.0) {
-    proc_control_node_B.t9_e = -1.0;
+    proc_control_node_B.t9_j = -1.0;
   } else if (in1[11] > 0.0) {
-    proc_control_node_B.t9_e = 1.0;
+    proc_control_node_B.t9_j = 1.0;
   } else if (in1[11] == 0.0) {
-    proc_control_node_B.t9_e = 0.0;
+    proc_control_node_B.t9_j = 0.0;
   } else {
-    proc_control_node_B.t9_e = (rtNaN);
+    proc_control_node_B.t9_j = (rtNaN);
   }
 
   if (in1[12] < 0.0) {
-    proc_control_node_B.t10_j = -1.0;
+    proc_control_node_B.t10_o = -1.0;
   } else if (in1[12] > 0.0) {
-    proc_control_node_B.t10_j = 1.0;
+    proc_control_node_B.t10_o = 1.0;
   } else if (in1[12] == 0.0) {
-    proc_control_node_B.t10_j = 0.0;
+    proc_control_node_B.t10_o = 0.0;
   } else {
-    proc_control_node_B.t10_j = (rtNaN);
+    proc_control_node_B.t10_o = (rtNaN);
   }
 
   if (in1[7] < 0.0) {
-    proc_control_node_B.t11_o = -1.0;
+    proc_control_node_B.t11_f = -1.0;
   } else if (in1[7] > 0.0) {
-    proc_control_node_B.t11_o = 1.0;
+    proc_control_node_B.t11_f = 1.0;
   } else if (in1[7] == 0.0) {
-    proc_control_node_B.t11_o = 0.0;
+    proc_control_node_B.t11_f = 0.0;
   } else {
-    proc_control_node_B.t11_o = (rtNaN);
+    proc_control_node_B.t11_f = (rtNaN);
   }
 
   if (in1[8] < 0.0) {
-    proc_control_node_B.t12_f = -1.0;
+    proc_control_node_B.t12_m = -1.0;
   } else if (in1[8] > 0.0) {
-    proc_control_node_B.t12_f = 1.0;
+    proc_control_node_B.t12_m = 1.0;
   } else if (in1[8] == 0.0) {
-    proc_control_node_B.t12_f = 0.0;
+    proc_control_node_B.t12_m = 0.0;
   } else {
-    proc_control_node_B.t12_f = (rtNaN);
+    proc_control_node_B.t12_m = (rtNaN);
   }
 
   if (in1[9] < 0.0) {
-    proc_control_node_B.t13_m = -1.0;
+    proc_control_node_B.t13_a = -1.0;
   } else if (in1[9] > 0.0) {
-    proc_control_node_B.t13_m = 1.0;
+    proc_control_node_B.t13_a = 1.0;
   } else if (in1[9] == 0.0) {
-    proc_control_node_B.t13_m = 0.0;
+    proc_control_node_B.t13_a = 0.0;
   } else {
-    proc_control_node_B.t13_m = (rtNaN);
+    proc_control_node_B.t13_a = (rtNaN);
   }
 
-  proc_control_node_B.t17_a = in1[4] * in1[5] * 2.0;
+  proc_control_node_B.t17_h = in1[4] * in1[5] * 2.0;
   proc_control_node_B.t18 = in1[4] * in1[6] * 2.0;
   proc_control_node_B.t19 = in1[5] * in1[6] * 2.0;
   proc_control_node_B.t20 = in1[3] * in1[4] * 2.0;
-  proc_control_node_B.t21_h = in1[3] * in1[5] * 2.0;
+  proc_control_node_B.t21_o = in1[3] * in1[5] * 2.0;
   proc_control_node_B.t22 = in1[3] * in1[6] * 2.0;
   proc_control_node_B.t23 = in1[4] * in1[7] * 2.0;
   proc_control_node_B.t24_tmp = in1[5] * in1[7];
   proc_control_node_B.t24 = proc_control_node_B.t24_tmp * 2.0;
-  proc_control_node_B.t25_tmp_j = in1[6] * in1[7];
-  proc_control_node_B.t25 = proc_control_node_B.t25_tmp_j * 2.0;
+  proc_control_node_B.t25_tmp_l = in1[6] * in1[7];
+  proc_control_node_B.t25 = proc_control_node_B.t25_tmp_l * 2.0;
   proc_control_node_B.t26 = in1[3] * in1[7] * 2.0;
   proc_control_node_B.t27_tmp = in1[4] * in1[8];
   proc_control_node_B.t27 = proc_control_node_B.t27_tmp * 2.0;
@@ -5625,12 +5620,12 @@ void proc_control_nodeModelClass::proc_cont_AUVQuatJacobianMatrix(const real_T
   proc_control_node_B.t44 = in1[11] / 2.0;
   proc_control_node_B.t45 = in1[12] / 2.0;
   proc_control_node_B.t55 = in1[12] * 1.0571299073092789E-5;
-  proc_control_node_B.t56_o = in1[11] * 9.7602896722846373E-5;
-  proc_control_node_B.t57_h = in1[8] * 0.01129023503850542;
-  proc_control_node_B.t58_j = in1[7] * 0.00477039452928936;
+  proc_control_node_B.t56_h = in1[11] * 9.7602896722846373E-5;
+  proc_control_node_B.t57_j = in1[8] * 0.01129023503850542;
+  proc_control_node_B.t58_g = in1[7] * 0.00477039452928936;
   proc_control_node_B.t59 = in1[10] * 9.1703771260780813E-5;
   proc_control_node_B.t61 = in1[9] * 0.143523560675718;
-  proc_control_node_B.t62_g = in1[7] * 0.00568699616459184;
+  proc_control_node_B.t62_j = in1[7] * 0.00568699616459184;
   proc_control_node_B.t65 = in1[9] * 0.069014505171846527;
   proc_control_node_B.t68 = in1[8] * 0.0071670223909459834;
   proc_control_node_B.t35 = in1[4] * in1[4] * 2.0;
@@ -5693,7 +5688,7 @@ void proc_control_nodeModelClass::proc_cont_AUVQuatJacobianMatrix(const real_T
   Anqv[77] = (in1[5] * 0.009785912146552939 + in1[6] * 0.38451002147839958) +
     in1[3] * 0.65361132374006825;
   Anqv[78] = (-proc_control_node_B.t30 + proc_control_node_B.t31) -
-    proc_control_node_B.t25_tmp_j * 4.0;
+    proc_control_node_B.t25_tmp_l * 4.0;
   Anqv[79] = (proc_control_node_B.t26 + proc_control_node_B.t32) -
     proc_control_node_B.t29_tmp * 4.0;
   Anqv[80] = proc_control_node_B.t23 + proc_control_node_B.t28;
@@ -5708,111 +5703,111 @@ void proc_control_nodeModelClass::proc_cont_AUVQuatJacobianMatrix(const real_T
   Anqv[89] = in1[4] * 8.6371397256799973 + in1[5] * 0.1184627304742461;
   Anqv[90] = in1[4] * -0.65361132374006825 + in1[5] * 0.38451002147839958;
   Anqv[91] = (-proc_control_node_B.t36 + -proc_control_node_B.t37) + 1.0;
-  Anqv[92] = proc_control_node_B.t17_a + proc_control_node_B.t22;
-  Anqv[93] = proc_control_node_B.t18 - proc_control_node_B.t21_h;
+  Anqv[92] = proc_control_node_B.t17_h + proc_control_node_B.t22;
+  Anqv[93] = proc_control_node_B.t18 - proc_control_node_B.t21_o;
   Anqv[94] = 0.0;
   Anqv[95] = 0.0;
   Anqv[96] = 0.0;
   Anqv[97] = 0.0;
-  proc_control_node_B.t11_o *= in1[7];
+  proc_control_node_B.t11_f *= in1[7];
   Anqv[98] = (((((proc_control_node_B.t5 * -0.036243063166504788 +
-                  proc_control_node_B.t55) + proc_control_node_B.t56_o) -
-                proc_control_node_B.t57_h) - proc_control_node_B.t61) -
-              proc_control_node_B.t11_o * 0.036243063166504788) -
+                  proc_control_node_B.t55) + proc_control_node_B.t56_h) -
+                proc_control_node_B.t57_j) - proc_control_node_B.t61) -
+              proc_control_node_B.t11_f * 0.036243063166504788) -
     0.46465465598083061;
   Anqv[99] = (((in1[8] * 0.00477039452928936 - in1[9] * 0.001468966557066211) -
-               proc_control_node_B.t11_o * 1.109195745194835E-6) -
+               proc_control_node_B.t11_f * 1.109195745194835E-6) -
               1.422045827172866E-5) + ((in1[11] * 0.00041592787873873338 - in1
     [12] * 0.74121409319149256) - proc_control_node_B.t5 * 1.109195745194835E-6);
   Anqv[100] = (((in1[8] * -5.890830655932608E-5 + in1[9] * 0.00568699616459184)
-                + proc_control_node_B.t11_o * 7.9830677445685858E-6) +
+                + proc_control_node_B.t11_f * 7.9830677445685858E-6) +
                0.0001023470223662639) + ((in1[11] * 0.69409782663856512 - in1[12]
     * 0.00032422410747795261) + proc_control_node_B.t5 * 7.9830677445685858E-6);
   Anqv[101] = (((in1[11] * 0.032506453976272241 + in1[12] * 0.24400486517334929)
                 - proc_control_node_B.t5 * 0.0001525121428377004) + ((in1[8] *
     0.044446246736648841 - in1[9] * 0.1148218101592509) -
-    proc_control_node_B.t11_o * 0.0001525121428377004)) + -0.0019552838825346208;
+    proc_control_node_B.t11_f * 0.0001525121428377004)) + -0.0019552838825346208;
   Anqv[102] = (((in1[8] * 1.7911420833141059E-5 + in1[9] * 8.3502908029033716) +
-                proc_control_node_B.t11_o * 0.011738978516892359) +
+                proc_control_node_B.t11_f * 0.011738978516892359) +
                0.150499724575543) + ((in1[11] * -0.00568699616459184 - in1[12] *
     0.001145088836853196) + proc_control_node_B.t5 * 0.011738978516892359);
   Anqv[103] = (((in1[11] * -7.5569972812640509E-5 - in1[12] *
                  0.00477039452928936) - proc_control_node_B.t5 *
                 0.0011846302503005471) + ((in1[8] * -5.91169722427816 - in1[9] *
-    2.2977499514997389E-5) - proc_control_node_B.t11_o * 0.0011846302503005471))
+    2.2977499514997389E-5) - proc_control_node_B.t11_f * 0.0011846302503005471))
     + -0.015187567311545479;
-  Anqv[104] = proc_control_node_B.t17_a - proc_control_node_B.t22;
+  Anqv[104] = proc_control_node_B.t17_h - proc_control_node_B.t22;
   Anqv[105] = (-proc_control_node_B.t35 + -proc_control_node_B.t37) + 1.0;
   Anqv[106] = proc_control_node_B.t19 + proc_control_node_B.t20;
   Anqv[107] = 0.0;
   Anqv[108] = 0.0;
   Anqv[109] = 0.0;
   Anqv[110] = 0.0;
-  proc_control_node_B.t11_o = proc_control_node_B.t12_f * in1[8];
+  proc_control_node_B.t11_f = proc_control_node_B.t12_m * in1[8];
   Anqv[111] = (((in1[10] * -2.1519484922730651E-5 + in1[12] * 1.3454180758607359)
                 - proc_control_node_B.t6 * 7.7738505218783331E-7) - in1[7] *
                0.01129023503850542) + ((in1[9] * -0.00041111798914172931 -
-    proc_control_node_B.t11_o * 7.7738505218783331E-7) - 1.8960611028971542E-5);
+    proc_control_node_B.t11_f * 7.7738505218783331E-7) - 1.8960611028971542E-5);
   Anqv[112] = (((((proc_control_node_B.t6 * -0.01903042325061665 +
-                   proc_control_node_B.t55) + proc_control_node_B.t58_j) +
+                   proc_control_node_B.t55) + proc_control_node_B.t58_g) +
                  -proc_control_node_B.t59) - proc_control_node_B.t65) -
-               proc_control_node_B.t11_o * 0.01903042325061665) -
+               proc_control_node_B.t11_f * 0.01903042325061665) -
     0.46415666464918648;
   Anqv[113] = (((in1[7] * -5.890830655932608E-5 + in1[9] * 0.0071670223909459834)
-                + proc_control_node_B.t11_o * 2.3842573459475649E-5) +
+                + proc_control_node_B.t11_f * 2.3842573459475649E-5) +
                0.00058152618193843065) + ((in1[10] * -0.93255469429176219 - in1
     [12] * 7.6083411800115719E-5) + proc_control_node_B.t6 *
     2.3842573459475649E-5);
   Anqv[114] = (((in1[10] * -0.0071670223909459834 + in1[12] *
                  0.00145353196782447) - proc_control_node_B.t6 *
                 0.017943464992838758) + ((in1[7] * 0.044446246736648841 - in1[9]
-    * 5.3937622658585171) - proc_control_node_B.t11_o * 0.017943464992838758)) +
+    * 5.3937622658585171) - proc_control_node_B.t11_f * 0.017943464992838758)) +
     -0.4376454876302136;
   Anqv[115] = (((in1[10] * 0.0012538688125934979 - in1[12] * 0.1118794885864644)
                 + proc_control_node_B.t6 * 8.4206769578830268E-5) + in1[7] *
-               1.7911420833141059E-5) + ((proc_control_node_B.t11_o *
+               1.7911420833141059E-5) + ((proc_control_node_B.t11_f *
     8.4206769578830268E-5 + in1[9] * 0.025315910649035739) +
     0.0020538236482641531);
   Anqv[116] = (((in1[10] * 1.6661666253314429E-5 + in1[12] * 0.01129023503850542)
                 + proc_control_node_B.t6 * 0.00035080205133418912) + ((in1[7] *
     -5.91169722427816 + in1[9] * 0.01257120723021817) +
-    proc_control_node_B.t11_o * 0.00035080205133418912)) + 0.0085561475935168052;
-  Anqv[117] = proc_control_node_B.t18 + proc_control_node_B.t21_h;
+    proc_control_node_B.t11_f * 0.00035080205133418912)) + 0.0085561475935168052;
+  Anqv[117] = proc_control_node_B.t18 + proc_control_node_B.t21_o;
   Anqv[118] = proc_control_node_B.t19 - proc_control_node_B.t20;
   Anqv[119] = (-proc_control_node_B.t35 + -proc_control_node_B.t36) + 1.0;
   Anqv[120] = 0.0;
   Anqv[121] = 0.0;
   Anqv[122] = 0.0;
   Anqv[123] = 0.0;
-  proc_control_node_B.t11_o = proc_control_node_B.t13_m * in1[9];
+  proc_control_node_B.t11_f = proc_control_node_B.t13_a * in1[9];
   Anqv[124] = (((in1[10] * 2.989993556213668E-6 - in1[11] * 1.4431163638272659)
                 + proc_control_node_B.t7 * 5.1582899272597018E-6) - in1[7] *
-               0.143523560675718) + ((proc_control_node_B.t11_o *
+               0.143523560675718) + ((proc_control_node_B.t11_f *
     5.1582899272597018E-6 + in1[8] * -0.00041111798914172931) +
     0.0001592064792364106);
   Anqv[125] = (((in1[10] * 1.0731951852318531 - in1[11] * 1.356129262930646E-5)
                 + proc_control_node_B.t7 * 2.1981689677272681E-5) + ((in1[7] *
     -0.001468966557066211 - in1[8] * 0.069014505171846527) +
-    proc_control_node_B.t11_o * 2.1981689677272681E-5)) + 0.00067844721226150231;
+    proc_control_node_B.t11_f * 2.1981689677272681E-5)) + 0.00067844721226150231;
   Anqv[126] = (((((proc_control_node_B.t7 * -0.01616685726098728 +
-                   proc_control_node_B.t56_o) + -proc_control_node_B.t59) +
-                 proc_control_node_B.t62_g) + proc_control_node_B.t68) -
-               proc_control_node_B.t11_o * 0.01616685726098728) -
+                   proc_control_node_B.t56_h) + -proc_control_node_B.t59) +
+                 proc_control_node_B.t62_j) + proc_control_node_B.t68) -
+               proc_control_node_B.t11_f * 0.01616685726098728) -
     0.49897707595639768;
   Anqv[127] = (((in1[10] * 0.069014505171846527 - in1[11] *
                  0.0018646499569661989) + proc_control_node_B.t7 *
                 0.00171795837774031) + ((in1[7] * -0.1148218101592509 - in1[8] *
-    5.3937622658585171) + proc_control_node_B.t11_o * 0.00171795837774031)) +
+    5.3937622658585171) + proc_control_node_B.t11_f * 0.00171795837774031)) +
     0.053023406720379938;
   Anqv[128] = (((in1[10] * -0.00032387772021301561 + in1[11] * 0.143523560675718)
                 - proc_control_node_B.t7 * 0.00030055639757781919) + ((in1[7] *
     8.3502908029033716 + in1[8] * 0.025315910649035739) -
-    proc_control_node_B.t11_o * 0.00030055639757781919)) +
+    proc_control_node_B.t11_f * 0.00030055639757781919)) +
     -0.0092764320240067664;
   Anqv[129] = (((in1[10] * -0.0013492616947596331 - in1[11] *
                  0.01448357294143097) - proc_control_node_B.t7 *
                 3.993855127780116E-6) - in1[7] * 2.2977499514997389E-5) + ((in1
-    [8] * 0.01257120723021817 - proc_control_node_B.t11_o * 3.993855127780116E-6)
+    [8] * 0.01257120723021817 - proc_control_node_B.t11_f * 3.993855127780116E-6)
     - 0.00012326713357346041);
   Anqv[130] = 0.0;
   Anqv[131] = 0.0;
@@ -5821,37 +5816,37 @@ void proc_control_nodeModelClass::proc_cont_AUVQuatJacobianMatrix(const real_T
   Anqv[134] = proc_control_node_B.t42;
   Anqv[135] = proc_control_node_B.t41;
   Anqv[136] = -proc_control_node_B.t40;
-  proc_control_node_B.t11_o = in1[10] * proc_control_node_B.t8;
+  proc_control_node_B.t11_f = in1[10] * proc_control_node_B.t8;
   Anqv[137] = (((in1[10] * -0.00010396365424827521 - in1[11] *
                  0.0030560301354578762) - in1[12] * 0.030270009262121408) -
                proc_control_node_B.t2 * 2.1768827225552109E-5) + (((in1[8] *
     -2.1519484922730651E-5 + in1[9] * 2.989993556213668E-6) -
-    proc_control_node_B.t11_o * 2.1768827225552109E-5) - 0.00043450752945213789);
+    proc_control_node_B.t11_f * 2.1768827225552109E-5) - 0.00043450752945213789);
   Anqv[138] = ((((in1[10] * 0.0028513455484883 - in1[11] *
                   0.00032316342950661811) + in1[12] * 4.2079285691049859E-5) -
                 proc_control_node_B.t2 * 0.0036543398217122828) + ((in1[8] *
     -9.1703771260780813E-5 + in1[9] * 1.0731951852318531) -
-    proc_control_node_B.t11_o * 0.0036543398217122828)) + -0.072940914605035587;
+    proc_control_node_B.t11_f * 0.0036543398217122828)) + -0.072940914605035587;
   Anqv[139] = (((in1[10] * 0.023864851221217471 + in1[11] *
                  4.0426879502317728E-6) - in1[12] * 0.00016269010774240791) +
                ((proc_control_node_B.t2 * 0.0003794960966701478 - in1[8] *
                  0.93255469429176219) - in1[9] * 9.1703771260780813E-5)) +
-    (proc_control_node_B.t11_o * 0.0003794960966701478 + 0.007574772388625705);
+    (proc_control_node_B.t11_f * 0.0003794960966701478 + 0.007574772388625705);
   Anqv[140] = ((((proc_control_node_B.t2 * -0.28560141361437341 +
                   proc_control_node_B.t65) - proc_control_node_B.t68) -
-                proc_control_node_B.t11_o * 0.28560141361437341) -
+                proc_control_node_B.t11_f * 0.28560141361437341) -
                5.7006270182509668) + ((in1[10] * 0.00017692814721597281 - in1[11]
     * 0.00301187450220627) + in1[12] * 0.0032852614324183722);
   Anqv[141] = (((in1[10] * 0.005100926963153893 + in1[11] * 7.54282242443926E-5)
                 + in1[12] * 0.76112100692746432) + ((proc_control_node_B.t2 *
     0.0013404854555911631 + in1[8] * 0.0012538688125934979) - in1[9] *
-    0.00032387772021301561)) + (proc_control_node_B.t11_o *
+    0.00032387772021301561)) + (proc_control_node_B.t11_f *
     0.0013404854555911631 + 0.026756196718386482);
   Anqv[142] = (((in1[10] * -0.0085297096290247246 - in1[11] *
                  0.59953739020136265) - in1[12] * 6.8948828938803766E-5) +
                ((proc_control_node_B.t2 * 0.00066564938883491385 + in1[8] *
                  1.6661666253314429E-5) - in1[9] * 0.0013492616947596331)) +
-    (proc_control_node_B.t11_o * 0.00066564938883491385 + 0.013286414946804669);
+    (proc_control_node_B.t11_f * 0.00066564938883491385 + 0.013286414946804669);
   Anqv[143] = 0.0;
   Anqv[144] = 0.0;
   Anqv[145] = 0.0;
@@ -5859,35 +5854,35 @@ void proc_control_nodeModelClass::proc_cont_AUVQuatJacobianMatrix(const real_T
   Anqv[147] = -proc_control_node_B.t41;
   Anqv[148] = proc_control_node_B.t42;
   Anqv[149] = proc_control_node_B.t39;
-  proc_control_node_B.t11_o = in1[11] * proc_control_node_B.t9_e;
+  proc_control_node_B.t11_f = in1[11] * proc_control_node_B.t9_j;
   Anqv[150] = ((((in1[10] * -0.0030560301354578762 + in1[11] *
                   0.001929418735906703) + in1[12] * 6.2884941489263073E-5) +
                 proc_control_node_B.t3 * 0.001003331497170287) + ((in1[7] *
     9.7602896722846373E-5 - in1[9] * 1.4431163638272659) +
-    proc_control_node_B.t11_o * 0.001003331497170287)) + 0.0234110682673067;
+    proc_control_node_B.t11_f * 0.001003331497170287)) + 0.0234110682673067;
   Anqv[151] = (((in1[10] * -0.00032316342950661811 + in1[11] *
                  4.5292476302332957E-6) - in1[12] * 0.016528998001422841) +
                proc_control_node_B.t3 * 1.026911824132076E-5) + (((in1[7] *
     0.00041592787873873338 - in1[9] * 1.356129262930646E-5) +
-    proc_control_node_B.t11_o * 1.026911824132076E-5) + 0.00023961275896415121);
+    proc_control_node_B.t11_f * 1.026911824132076E-5) + 0.00023961275896415121);
   Anqv[152] = (((in1[10] * 4.0426879502317728E-6 + in1[11] *
                  0.023860477346842442) - in1[12] * 0.000941018323416786) +
                ((proc_control_node_B.t3 * -3.9756137245743291E-5 + in1[7] *
                  0.69409782663856512) + in1[9] * 9.7602896722846373E-5)) +
-    (proc_control_node_B.t11_o * -3.9756137245743291E-5 - 0.00092764320240067675);
+    (proc_control_node_B.t11_f * -3.9756137245743291E-5 - 0.00092764320240067675);
   Anqv[153] = (((in1[10] * -0.00301187450220627 + in1[11] *
                  0.00082864946354184129) - in1[12] * 0.291807921220024) +
                ((proc_control_node_B.t3 * 0.00080268590155159437 + in1[7] *
                  0.032506453976272241) - in1[9] * 0.0018646499569661989)) +
-    (proc_control_node_B.t11_o * 0.00080268590155159437 + 0.018729337702870542);
+    (proc_control_node_B.t11_f * 0.00080268590155159437 + 0.018729337702870542);
   Anqv[154] = ((((proc_control_node_B.t3 * -0.058374455968341669 +
-                  proc_control_node_B.t61) - proc_control_node_B.t62_g) -
-                proc_control_node_B.t11_o * 0.058374455968341669) -
+                  proc_control_node_B.t61) - proc_control_node_B.t62_j) -
+                proc_control_node_B.t11_f * 0.058374455968341669) -
                1.362070639261306) + ((in1[10] * 7.54282242443926E-5 - in1[11] *
     0.00019446645525741661) - in1[12] * 0.003324115892995542);
   Anqv[155] = ((((proc_control_node_B.t3 * 1.6062902063655571E-7 - in1[7] *
                   7.5569972812640509E-5) - in1[9] * 0.01448357294143097) +
-                proc_control_node_B.t11_o * 1.6062902063655571E-7) + ((in1[10] *
+                proc_control_node_B.t11_f * 1.6062902063655571E-7) + ((in1[10] *
     -0.59953739020136265 + in1[11] * 0.0085432434746820687) + in1[12] *
     0.0030111351640179931)) + 3.7480104815196341E-6;
   Anqv[156] = 0.0;
@@ -5897,35 +5892,35 @@ void proc_control_nodeModelClass::proc_cont_AUVQuatJacobianMatrix(const real_T
   Anqv[160] = proc_control_node_B.t40;
   Anqv[161] = -proc_control_node_B.t39;
   Anqv[162] = proc_control_node_B.t42;
-  proc_control_node_B.t11_o = in1[12] * proc_control_node_B.t10_j;
+  proc_control_node_B.t11_f = in1[12] * proc_control_node_B.t10_o;
   Anqv[163] = (((in1[10] * -0.030270009262121408 + in1[11] *
                  6.2884941489263073E-5) + in1[12] * 0.0020006959490984312) -
                proc_control_node_B.t4 * 0.0001032754577185093) + (((in1[7] *
     1.0571299073092789E-5 + in1[8] * 1.3454180758607359) -
-    proc_control_node_B.t11_o * 0.0001032754577185093) - 0.0050625224371818262);
+    proc_control_node_B.t11_f * 0.0001032754577185093) - 0.0050625224371818262);
   Anqv[164] = (((in1[10] * 4.2079285691049859E-5 - in1[11] *
                  0.016528998001422841) + in1[12] * 0.00283488707941543) +
                proc_control_node_B.t4 * 4.3636352726935713E-5) + (((in1[7] *
     -0.74121409319149256 + in1[8] * 1.0571299073092789E-5) +
-    proc_control_node_B.t11_o * 4.3636352726935713E-5) + 0.0021390368983792022);
+    proc_control_node_B.t11_f * 4.3636352726935713E-5) + 0.0021390368983792022);
   Anqv[165] = ((((proc_control_node_B.t4 * -5.3885346962112674E-7 - in1[7] *
                   0.00032422410747795261) - in1[8] * 7.6083411800115719E-5) -
-                proc_control_node_B.t11_o * 5.3885346962112674E-7) + ((in1[10] *
+                proc_control_node_B.t11_f * 5.3885346962112674E-7) + ((in1[10] *
     -0.00016269010774240791 - in1[11] * 0.000941018323416786) - in1[12] *
     2.6641242336162E-6)) + -2.6414385765741509E-5;
   Anqv[166] = (((in1[10] * 0.0032852614324183722 - in1[11] * 0.291807921220024)
                 - in1[12] * 0.00063467747547131872) + ((proc_control_node_B.t4 *
     0.00040656429737222281 + in1[7] * 0.24400486517334929) + in1[8] *
-    0.00145353196782447)) + (proc_control_node_B.t11_o * 0.00040656429737222281
+    0.00145353196782447)) + (proc_control_node_B.t11_f * 0.00040656429737222281
     + 0.019929622420207);
   Anqv[167] = ((((proc_control_node_B.t4 * 1.6384160104928689E-7 - in1[7] *
                   0.001145088836853196) - in1[8] * 0.1118794885864644) +
-                proc_control_node_B.t11_o * 1.6384160104928689E-7) + ((in1[10] *
+                proc_control_node_B.t11_f * 1.6384160104928689E-7) + ((in1[10] *
     0.76112100692746432 - in1[11] * 0.003324115892995542) - in1[12] *
     0.005288701994301117)) + 8.0314510318277867E-6;
   Anqv[168] = ((((proc_control_node_B.t4 * -0.054076220260104418 +
-                  proc_control_node_B.t57_h) - proc_control_node_B.t58_j) -
-                proc_control_node_B.t11_o * 0.054076220260104418) -
+                  proc_control_node_B.t57_j) - proc_control_node_B.t58_g) -
+                proc_control_node_B.t11_f * 0.054076220260104418) -
                2.6507951107894319) + ((in1[10] * -6.8948828938803766E-5 + in1[11]
     * 0.0030111351640179931) + in1[12] * 1.7711862430984169E-5);
 }
@@ -5934,54 +5929,54 @@ void proc_control_nodeModelClass::proc_cont_AUVQuatJacobianMatrix(const real_T
 void proc_control_nodeModelClass::proc_control_node_AUVQuatSimFcn(const real_T
   in1[13], const real_T in2[8], real_T out1[13])
 {
-  proc_control_node_B.t8_h = in1[4] * in1[4];
-  proc_control_node_B.t9_i = in1[5] * in1[5];
-  proc_control_node_B.t11_d = in1[4] * in1[5] * 2.0;
+  proc_control_node_B.t8_i = in1[4] * in1[4];
+  proc_control_node_B.t9_d = in1[5] * in1[5];
+  proc_control_node_B.t11_b = in1[4] * in1[5] * 2.0;
   proc_control_node_B.t12_tmp = in1[4] * in1[6];
-  proc_control_node_B.t12_b = proc_control_node_B.t12_tmp * 2.0;
+  proc_control_node_B.t12_h = proc_control_node_B.t12_tmp * 2.0;
   proc_control_node_B.t13_tmp = in1[5] * in1[6];
-  proc_control_node_B.t13_h = proc_control_node_B.t13_tmp * 2.0;
+  proc_control_node_B.t13_p = proc_control_node_B.t13_tmp * 2.0;
   proc_control_node_B.t14_tmp = in1[3] * in1[4];
-  proc_control_node_B.t14_p = proc_control_node_B.t14_tmp * 2.0;
+  proc_control_node_B.t14_n = proc_control_node_B.t14_tmp * 2.0;
   proc_control_node_B.t15_tmp = in1[3] * in1[5];
   proc_control_node_B.t15 = proc_control_node_B.t15_tmp * 2.0;
   proc_control_node_B.t16 = in1[3] * in1[6] * 2.0;
-  proc_control_node_B.t25_n = in1[11] / 500.0;
-  proc_control_node_B.t29_j = in1[10] / 1000.0;
-  proc_control_node_B.t31_o = in1[12] * 0.018;
+  proc_control_node_B.t25_j = in1[11] / 500.0;
+  proc_control_node_B.t29_o = in1[10] / 1000.0;
+  proc_control_node_B.t31_b = in1[12] * 0.018;
   proc_control_node_B.t50 = in1[7] * 32.4648;
   proc_control_node_B.t53 = in1[8] * 43.6156;
   proc_control_node_B.t54 = in1[9] * 46.7695;
-  proc_control_node_B.t17_b = proc_control_node_B.t8_h * 2.0;
-  proc_control_node_B.t18_j = proc_control_node_B.t9_i * 2.0;
-  proc_control_node_B.t19_e = in1[6] * in1[6] * 2.0;
-  proc_control_node_B.t57_i = proc_control_node_B.t25_n +
-    proc_control_node_B.t31_o;
-  proc_control_node_B.t25_n += proc_control_node_B.t29_j;
-  proc_control_node_B.t29_j += proc_control_node_B.t31_o;
-  proc_control_node_B.t31_o = in1[11] * 0.558 + proc_control_node_B.t50;
+  proc_control_node_B.t17_j = proc_control_node_B.t8_i * 2.0;
+  proc_control_node_B.t18_e = proc_control_node_B.t9_d * 2.0;
+  proc_control_node_B.t19_i = in1[6] * in1[6] * 2.0;
+  proc_control_node_B.t57_n = proc_control_node_B.t25_j +
+    proc_control_node_B.t31_b;
+  proc_control_node_B.t25_j += proc_control_node_B.t29_o;
+  proc_control_node_B.t29_o += proc_control_node_B.t31_b;
+  proc_control_node_B.t31_b = in1[11] * 0.558 + proc_control_node_B.t50;
   proc_control_node_B.t64 = in1[10] * 0.062 + proc_control_node_B.t54;
-  proc_control_node_B.t65_n = in1[12] * 0.031 + proc_control_node_B.t53;
-  proc_control_node_B.t68_i = (in1[11] / 125.0 + in1[12] / 250.0) + in1[10] *
+  proc_control_node_B.t65_i = in1[12] * 0.031 + proc_control_node_B.t53;
+  proc_control_node_B.t68_p = (in1[11] / 125.0 + in1[12] / 250.0) + in1[10] *
     0.592;
   proc_control_node_B.t50 = in1[12] * 0.062 + -proc_control_node_B.t50;
   proc_control_node_B.t53 = in1[10] * 0.558 + -proc_control_node_B.t53;
   proc_control_node_B.t54 = in1[11] * 0.031 + -proc_control_node_B.t54;
   proc_control_node_B.t69 = (in1[10] / 250.0 + -(in1[11] / 1000.0)) + in1[12] *
     1.8864;
-  proc_control_node_B.t70_p = (in1[10] / 125.0 + -(in1[12] / 1000.0)) + in1[11] *
+  proc_control_node_B.t70_o = (in1[10] / 125.0 + -(in1[12] / 1000.0)) + in1[11] *
     1.7228;
-  out1[0] = (((proc_control_node_B.t18_j + proc_control_node_B.t19_e) - 1.0) *
-             -in1[7] + (proc_control_node_B.t12_b + proc_control_node_B.t15) *
-             in1[9]) + (proc_control_node_B.t11_d - proc_control_node_B.t16) *
+  out1[0] = (((proc_control_node_B.t18_e + proc_control_node_B.t19_i) - 1.0) *
+             -in1[7] + (proc_control_node_B.t12_h + proc_control_node_B.t15) *
+             in1[9]) + (proc_control_node_B.t11_b - proc_control_node_B.t16) *
     in1[8];
-  out1[1] = ((proc_control_node_B.t11_d + proc_control_node_B.t16) * in1[7] -
-             ((proc_control_node_B.t17_b + proc_control_node_B.t19_e) - 1.0) *
-             in1[8]) + (proc_control_node_B.t13_h - proc_control_node_B.t14_p) *
+  out1[1] = ((proc_control_node_B.t11_b + proc_control_node_B.t16) * in1[7] -
+             ((proc_control_node_B.t17_j + proc_control_node_B.t19_i) - 1.0) *
+             in1[8]) + (proc_control_node_B.t13_p - proc_control_node_B.t14_n) *
     in1[9];
-  out1[2] = ((proc_control_node_B.t13_h + proc_control_node_B.t14_p) * in1[8] -
-             ((proc_control_node_B.t17_b + proc_control_node_B.t18_j) - 1.0) *
-             in1[9]) + (proc_control_node_B.t12_b - proc_control_node_B.t15) *
+  out1[2] = ((proc_control_node_B.t13_p + proc_control_node_B.t14_n) * in1[8] -
+             ((proc_control_node_B.t17_j + proc_control_node_B.t18_e) - 1.0) *
+             in1[9]) + (proc_control_node_B.t12_h - proc_control_node_B.t15) *
     in1[7];
   out1[3] = (in1[4] * in1[10] * -0.5 - in1[5] * in1[11] / 2.0) - in1[6] * in1[12]
     / 2.0;
@@ -5991,46 +5986,46 @@ void proc_control_nodeModelClass::proc_control_node_AUVQuatSimFcn(const real_T
     / 2.0;
   out1[6] = (in1[5] * in1[10] * -0.5 + in1[4] * in1[11] / 2.0) + in1[3] * in1[12]
     / 2.0;
-  proc_control_node_B.t11_d = in1[10] * proc_control_node_B.t57_i;
-  proc_control_node_B.t12_b = in1[10] * (fabs(in1[10]) * 0.167 +
+  proc_control_node_B.t11_b = in1[10] * proc_control_node_B.t57_n;
+  proc_control_node_B.t12_h = in1[10] * (fabs(in1[10]) * 0.167 +
     3.3333333333333335);
-  proc_control_node_B.t13_h = in1[10] * proc_control_node_B.t64;
-  proc_control_node_B.t14_p = in1[10] * proc_control_node_B.t53;
+  proc_control_node_B.t13_p = in1[10] * proc_control_node_B.t64;
+  proc_control_node_B.t14_n = in1[10] * proc_control_node_B.t53;
   proc_control_node_B.t15 = in1[10] * proc_control_node_B.t69;
-  proc_control_node_B.t16 = in1[10] * proc_control_node_B.t70_p;
-  proc_control_node_B.t17_b = in1[11] * (fabs(in1[11]) / 10.0 +
+  proc_control_node_B.t16 = in1[10] * proc_control_node_B.t70_o;
+  proc_control_node_B.t17_j = in1[11] * (fabs(in1[11]) / 10.0 +
     2.3333333333333335);
-  proc_control_node_B.t18_j = in1[11] * proc_control_node_B.t29_j;
-  proc_control_node_B.t19_e = in1[11] * proc_control_node_B.t31_o;
+  proc_control_node_B.t18_e = in1[11] * proc_control_node_B.t29_o;
+  proc_control_node_B.t19_i = in1[11] * proc_control_node_B.t31_b;
   proc_control_node_B.out1_tmp = in1[11] * proc_control_node_B.t54;
-  proc_control_node_B.out1_tmp_o = in1[11] * proc_control_node_B.t68_i;
+  proc_control_node_B.out1_tmp_m = in1[11] * proc_control_node_B.t68_p;
   proc_control_node_B.t69 *= in1[11];
-  proc_control_node_B.out1_tmp_m = in1[12] * (fabs(in1[12]) * 0.102 + 5.0);
-  proc_control_node_B.out1_tmp_ot = in1[12] * proc_control_node_B.t25_n;
-  proc_control_node_B.out1_tmp_g = in1[12] * proc_control_node_B.t50;
-  proc_control_node_B.out1_tmp_e = in1[12] * proc_control_node_B.t65_n;
-  proc_control_node_B.t68_i *= in1[12];
-  proc_control_node_B.t70_p *= in1[12];
-  proc_control_node_B.out1_tmp_i = (fabs(in1[7]) * 1.17 + 15.0) * in1[7];
-  proc_control_node_B.t57_i *= in1[7];
-  proc_control_node_B.t65_n *= in1[7];
+  proc_control_node_B.out1_tmp_o = in1[12] * (fabs(in1[12]) * 0.102 + 5.0);
+  proc_control_node_B.out1_tmp_g = in1[12] * proc_control_node_B.t25_j;
+  proc_control_node_B.out1_tmp_e = in1[12] * proc_control_node_B.t50;
+  proc_control_node_B.out1_tmp_i = in1[12] * proc_control_node_B.t65_i;
+  proc_control_node_B.t68_p *= in1[12];
+  proc_control_node_B.t70_o *= in1[12];
+  proc_control_node_B.out1_tmp_gb = (fabs(in1[7]) * 1.17 + 15.0) * in1[7];
+  proc_control_node_B.t57_n *= in1[7];
+  proc_control_node_B.t65_i *= in1[7];
   proc_control_node_B.t54 *= in1[7];
-  proc_control_node_B.out1_tmp_gb = (fabs(in1[8]) * 0.82 + 20.0) * in1[8];
-  proc_control_node_B.t29_j *= in1[8];
+  proc_control_node_B.out1_tmp_ge = (fabs(in1[8]) * 0.82 + 20.0) * in1[8];
+  proc_control_node_B.t29_o *= in1[8];
   proc_control_node_B.t50 *= in1[8];
   proc_control_node_B.t64 *= in1[8];
   proc_control_node_B.out1_tmp_is = (fabs(in1[9]) * 0.756 + 23.333333333333332) *
     in1[9];
-  proc_control_node_B.t25_n *= in1[9];
-  proc_control_node_B.t31_o *= in1[9];
+  proc_control_node_B.t25_j *= in1[9];
+  proc_control_node_B.t31_b *= in1[9];
   proc_control_node_B.t53 *= in1[9];
   out1[7] = (((((((((((((((in2[0] * -0.00033076834054020519 + in2[1] *
     1.8595780444550231E-21) + in2[2] * 0.00033506403327449372) + (in2[3] *
     0.00033363213569639753 - in2[4] * 0.001819638864719295)) + (in2[5] *
     -0.0018124211550371481 + in2[6] * 0.0018538731733468781)) + (in2[7] *
-    0.001778186846409557 - proc_control_node_B.t8_h * 0.0063195296824236141)) +
+    0.001778186846409557 - proc_control_node_B.t8_i * 0.0063195296824236141)) +
                       ((in2[0] * 1.4142135623730951 * 0.015171119710606879 +
-                        proc_control_node_B.t9_i * -0.0063195296824236141) +
+                        proc_control_node_B.t9_d * -0.0063195296824236141) +
                        in2[1] * 1.4142135623730951 * 0.014928824155507611)) +
                      ((in2[2] * 1.4142135623730951 * 0.015171119710606879 + in2
                        [3] * 1.4142135623730951 * 0.01516372519659284) -
@@ -6038,42 +6033,42 @@ void proc_control_nodeModelClass::proc_control_node_AUVQuatSimFcn(const real_T
                     ((proc_control_node_B.t13_tmp * -0.0013017970932508 -
                       proc_control_node_B.t14_tmp * 0.0013017970932508) +
                      proc_control_node_B.t15_tmp * 0.4138016519122657)) +
-                   (((proc_control_node_B.t11_d * -0.96028628902704993 -
-                      proc_control_node_B.t12_b * 0.0001303522588356414) +
-                     proc_control_node_B.t13_h * 9.4803055144857715E-7) -
-                    proc_control_node_B.t14_p * 6.8231348244175949E-6)) +
+                   (((proc_control_node_B.t11_b * -0.96028628902704993 -
+                      proc_control_node_B.t12_h * 0.0001303522588356414) +
+                     proc_control_node_B.t13_p * 9.4803055144857715E-7) -
+                    proc_control_node_B.t14_n * 6.8231348244175949E-6)) +
                   (((proc_control_node_B.t15 * -0.010033314971702871 -
                      proc_control_node_B.t16 * 0.0010125044874363649) +
-                    proc_control_node_B.t17_b * 0.010033314971702871) -
-                   proc_control_node_B.t18_j * 2.9388947094905889E-5)) +
-                 (((proc_control_node_B.t19_e * -6.8231348244175949E-6 +
+                    proc_control_node_B.t17_j * 0.010033314971702871) -
+                   proc_control_node_B.t18_e * 2.9388947094905889E-5)) +
+                 (((proc_control_node_B.t19_i * -6.8231348244175949E-6 +
                     proc_control_node_B.out1_tmp * 0.030976977065388711) +
-                   proc_control_node_B.out1_tmp_o * 0.0010125044874363649) -
+                   proc_control_node_B.out1_tmp_m * 0.0010125044874363649) -
                   proc_control_node_B.t69 * 0.0001303522588356414)) +
-                (((proc_control_node_B.out1_tmp_m * -0.0010125044874363649 +
-                   proc_control_node_B.out1_tmp_ot * 0.0002115171795569455) +
-                  proc_control_node_B.out1_tmp_g * 9.4803055144857715E-7) +
-                 proc_control_node_B.out1_tmp_e * 0.030976977065388711)) +
-               (((proc_control_node_B.t68_i * 0.010033314971702871 +
-                  proc_control_node_B.t70_p * 0.0001303522588356414) -
-                 proc_control_node_B.out1_tmp_i * 0.030976977065388711) +
-                proc_control_node_B.t57_i * 0.0040409200239048832)) +
-              (((proc_control_node_B.t65_n * -0.0010125044874363649 +
+                (((proc_control_node_B.out1_tmp_o * -0.0010125044874363649 +
+                   proc_control_node_B.out1_tmp_g * 0.0002115171795569455) +
+                  proc_control_node_B.out1_tmp_e * 9.4803055144857715E-7) +
+                 proc_control_node_B.out1_tmp_i * 0.030976977065388711)) +
+               (((proc_control_node_B.t68_p * 0.010033314971702871 +
+                  proc_control_node_B.t70_o * 0.0001303522588356414) -
+                 proc_control_node_B.out1_tmp_gb * 0.030976977065388711) +
+                proc_control_node_B.t57_n * 0.0040409200239048832)) +
+              (((proc_control_node_B.t65_i * -0.0010125044874363649 +
                  proc_control_node_B.t54 * 0.010033314971702871) -
-                proc_control_node_B.out1_tmp_gb * 9.4803055144857715E-7) -
-               proc_control_node_B.t29_j * 0.311032764122789)) +
+                proc_control_node_B.out1_tmp_ge * 9.4803055144857715E-7) -
+               proc_control_node_B.t29_o * 0.311032764122789)) +
              (((proc_control_node_B.t50 * -0.0010125044874363649 -
                 proc_control_node_B.t64 * 0.0001303522588356414) +
                proc_control_node_B.out1_tmp_is * 6.8231348244175949E-6) +
-              proc_control_node_B.t25_n * 0.031387639110527318)) +
-    ((proc_control_node_B.t31_o * 0.010033314971702871 - proc_control_node_B.t53
+              proc_control_node_B.t25_j * 0.031387639110527318)) +
+    ((proc_control_node_B.t31_b * 0.010033314971702871 - proc_control_node_B.t53
       * 0.0001303522588356414) + 0.003159764841211807);
   out1[8] = (((((((((((((((in2[0] * 0.00013975754063522079 + in2[1] *
     7.9244610288113972E-21) + in2[2] * -0.00014157257363048341) + (in2[3] *
     -0.0001409675626320625 - in2[4] * 0.0034249251816346319)) + (in2[5] *
     0.003387750973601051 + in2[6] * 0.0035708122797193441)) + (in2[7] *
-    -0.0035336380716857632 - proc_control_node_B.t8_h * 0.02693023120923067)) +
-                      ((proc_control_node_B.t9_i * -0.02693023120923067 - in2[0]
+    -0.0035336380716857632 - proc_control_node_B.t8_i * 0.02693023120923067)) +
+                      ((proc_control_node_B.t9_d * -0.02693023120923067 - in2[0]
                         * 1.4142135623730951 * 0.01090649593858282) + in2[1] *
                        1.4142135623730951 * 0.011000123045544621)) + ((in2[2] *
     1.4142135623730951 * -0.01090649593858282 + in2[3] * 1.4142135623730951 *
@@ -6081,42 +6076,42 @@ void proc_control_nodeModelClass::proc_control_node_AUVQuatSimFcn(const real_T
                     + ((proc_control_node_B.t13_tmp * -0.51979016069898065 -
                         proc_control_node_B.t14_tmp * 0.51979016069898065) +
                        proc_control_node_B.t15_tmp * 0.00099202109956931486)) +
-                   (((proc_control_node_B.t11_d * -2.9388947094905889E-5 -
-                      proc_control_node_B.t12_b * 0.021882274381510681) +
-                     proc_control_node_B.t13_h * 0.02320783323245932) -
-                    proc_control_node_B.t14_p * 2.9076309096921531E-5)) +
+                   (((proc_control_node_B.t11_b * -2.9388947094905889E-5 -
+                      proc_control_node_B.t12_h * 0.021882274381510681) +
+                     proc_control_node_B.t13_p * 0.02320783323245932) -
+                    proc_control_node_B.t14_n * 2.9076309096921531E-5)) +
                   (((proc_control_node_B.t15 * -0.0001026911824132076 +
                      proc_control_node_B.t16 * 0.00042780737967584029) +
-                    proc_control_node_B.t17_b * 0.0001026911824132076) -
-                   proc_control_node_B.t18_j * 0.71944283020623911)) +
-                 (((proc_control_node_B.t19_e * -2.9076309096921531E-5 +
+                    proc_control_node_B.t17_j * 0.0001026911824132076) -
+                   proc_control_node_B.t18_e * 0.71944283020623911)) +
+                 (((proc_control_node_B.t19_i * -2.9076309096921531E-5 +
                     proc_control_node_B.out1_tmp * 9.4803055144857715E-7) -
-                   proc_control_node_B.out1_tmp_o * 0.00042780737967584029) -
+                   proc_control_node_B.out1_tmp_m * 0.00042780737967584029) -
                   proc_control_node_B.t69 * 0.021882274381510681)) +
-                (((proc_control_node_B.out1_tmp_m * 0.00042780737967584029 +
-                   proc_control_node_B.out1_tmp_ot * 0.00090136558200456737) +
-                  proc_control_node_B.out1_tmp_g * 0.02320783323245932) +
-                 proc_control_node_B.out1_tmp_e * 9.4803055144857715E-7)) +
-               (((proc_control_node_B.t68_i * 0.0001026911824132076 +
-                  proc_control_node_B.t70_p * 0.021882274381510681) -
-                 proc_control_node_B.out1_tmp_i * 9.4803055144857715E-7) +
-                proc_control_node_B.t57_i * 0.678350505826831)) +
-              (((proc_control_node_B.t65_n * 0.00042780737967584029 +
+                (((proc_control_node_B.out1_tmp_o * 0.00042780737967584029 +
+                   proc_control_node_B.out1_tmp_g * 0.00090136558200456737) +
+                  proc_control_node_B.out1_tmp_e * 0.02320783323245932) +
+                 proc_control_node_B.out1_tmp_i * 9.4803055144857715E-7)) +
+               (((proc_control_node_B.t68_p * 0.0001026911824132076 +
+                  proc_control_node_B.t70_o * 0.021882274381510681) -
+                 proc_control_node_B.out1_tmp_gb * 9.4803055144857715E-7) +
+                proc_control_node_B.t57_n * 0.678350505826831)) +
+              (((proc_control_node_B.t65_i * 0.00042780737967584029 +
                  proc_control_node_B.t54 * 0.0001026911824132076) -
-                proc_control_node_B.out1_tmp_gb * 0.02320783323245932) -
-               proc_control_node_B.t29_j * 0.0031834266548094372)) +
+                proc_control_node_B.out1_tmp_ge * 0.02320783323245932) -
+               proc_control_node_B.t29_o * 0.0031834266548094372)) +
              (((proc_control_node_B.t50 * 0.00042780737967584029 -
                 proc_control_node_B.t64 * 0.021882274381510681) +
                proc_control_node_B.out1_tmp_is * 2.9076309096921531E-5) -
-              proc_control_node_B.t25_n * 0.013262028769951049)) +
-    ((proc_control_node_B.t31_o * 0.0001026911824132076 -
+              proc_control_node_B.t25_j * 0.013262028769951049)) +
+    ((proc_control_node_B.t31_b * 0.0001026911824132076 -
       proc_control_node_B.t53 * 0.021882274381510681) + 0.01346511560461533);
   out1[9] = (((((((((((((((in2[0] * -1.725827915740819E-6 + in2[1] *
     -5.8281975682474322E-18) + in2[2] * 1.748241265284163E-6) + (in2[3] *
     1.740770148765829E-6 - in2[4] * 0.02095639900015615)) + (in2[5] *
     0.021100316216985739 - in2[6] * 0.021822949502860629)) + (in2[7] *
-    0.02167903228603104 + proc_control_node_B.t8_h * 0.18635748921352191)) +
-                      ((proc_control_node_B.t9_i * 0.18635748921352191 - in2[0] *
+    0.02167903228603104 + proc_control_node_B.t8_i * 0.18635748921352191)) +
+                      ((proc_control_node_B.t9_d * 0.18635748921352191 - in2[0] *
                         1.4142135623730951 * 4.8869263875916949E-5) + in2[1] *
                        1.4142135623730951 * 6.6264429389244648E-5)) + ((in2[2] *
     1.4142135623730951 * -4.8869263875916949E-5 + in2[3] * 1.4142135623730951 *
@@ -6124,164 +6119,164 @@ void proc_control_nodeModelClass::proc_control_node_AUVQuatSimFcn(const real_T
                     + ((proc_control_node_B.t13_tmp * 0.033540735888224739 +
                         proc_control_node_B.t14_tmp * 0.033540735888224739) -
                        proc_control_node_B.t15_tmp * 0.0058758415205803329)) +
-                   (((proc_control_node_B.t11_d * 0.0002115171795569455 +
-                      proc_control_node_B.t12_b * 0.002272431716587712) -
-                     proc_control_node_B.t13_h * 2.9076309096921531E-5) +
-                    proc_control_node_B.t14_p * 0.021384731826702759)) +
+                   (((proc_control_node_B.t11_b * 0.0002115171795569455 +
+                      proc_control_node_B.t12_h * 0.002272431716587712) -
+                     proc_control_node_B.t13_p * 2.9076309096921531E-5) +
+                    proc_control_node_B.t14_n * 0.021384731826702759)) +
                   (((proc_control_node_B.t15 * 0.00039756137245743289 -
                      proc_control_node_B.t16 * 5.2828771531483014E-6) -
-                    proc_control_node_B.t17_b * 0.00039756137245743289) +
-                   proc_control_node_B.t18_j * 0.00090136558200456737)) +
-                 (((proc_control_node_B.t19_e * 0.021384731826702759 -
+                    proc_control_node_B.t17_j * 0.00039756137245743289) +
+                   proc_control_node_B.t18_e * 0.00090136558200456737)) +
+                 (((proc_control_node_B.t19_i * 0.021384731826702759 -
                     proc_control_node_B.out1_tmp * 6.8231348244175949E-6) +
-                   proc_control_node_B.out1_tmp_o * 5.2828771531483014E-6) +
+                   proc_control_node_B.out1_tmp_m * 5.2828771531483014E-6) +
                   proc_control_node_B.t69 * 0.002272431716587712)) +
-                (((proc_control_node_B.out1_tmp_m * -5.2828771531483014E-6 -
-                   proc_control_node_B.out1_tmp_ot * 0.66292668662778553) -
-                  proc_control_node_B.out1_tmp_g * 2.9076309096921531E-5) -
-                 proc_control_node_B.out1_tmp_e * 6.8231348244175949E-6)) +
-               (((proc_control_node_B.t68_i * -0.00039756137245743289 -
-                  proc_control_node_B.t70_p * 0.002272431716587712) +
-                 proc_control_node_B.out1_tmp_i * 6.8231348244175949E-6) -
-                proc_control_node_B.t57_i * 0.070445383214219059)) +
-              (((proc_control_node_B.t65_n * -5.2828771531483014E-6 -
+                (((proc_control_node_B.out1_tmp_o * -5.2828771531483014E-6 -
+                   proc_control_node_B.out1_tmp_g * 0.66292668662778553) -
+                  proc_control_node_B.out1_tmp_e * 2.9076309096921531E-5) -
+                 proc_control_node_B.out1_tmp_i * 6.8231348244175949E-6)) +
+               (((proc_control_node_B.t68_p * -0.00039756137245743289 -
+                  proc_control_node_B.t70_o * 0.002272431716587712) +
+                 proc_control_node_B.out1_tmp_gb * 6.8231348244175949E-6) -
+                proc_control_node_B.t57_n * 0.070445383214219059)) +
+              (((proc_control_node_B.t65_i * -5.2828771531483014E-6 -
                  proc_control_node_B.t54 * 0.00039756137245743289) +
-                proc_control_node_B.out1_tmp_gb * 2.9076309096921531E-5) +
-               proc_control_node_B.t29_j * 0.01232440254618042)) +
+                proc_control_node_B.out1_tmp_ge * 2.9076309096921531E-5) +
+               proc_control_node_B.t29_o * 0.01232440254618042)) +
              (((proc_control_node_B.t50 * -5.2828771531483014E-6 +
                 proc_control_node_B.t64 * 0.002272431716587712) -
                proc_control_node_B.out1_tmp_is * 0.021384731826702759) +
-              proc_control_node_B.t25_n * 0.00016376919174759729)) +
-    ((proc_control_node_B.t31_o * -0.00039756137245743289 +
+              proc_control_node_B.t25_j * 0.00016376919174759729)) +
+    ((proc_control_node_B.t31_b * -0.00039756137245743289 +
       proc_control_node_B.t53 * 0.002272431716587712) - 0.093178744606760927);
   out1[10] = (((((((((((((((((in2[0] * 0.0013021350951669831 + in2[1] *
     6.1932883292401409E-19) + in2[2] * -0.00131904594055876) + (in2[3] *
     -0.0013134089920948341 - in2[4] * 0.26767193546582568)) + (in2[5] *
     0.26476621250220889 + in2[6] * 0.2790736050389333)) + (in2[7] *
-    -0.27616788207531651 - proc_control_node_B.t8_h * 2.1047070084068991)) +
+    -0.27616788207531651 - proc_control_node_B.t8_i * 2.1047070084068991)) +
     ((in2[0] * 1.4142135623730951 * 0.043593198825375247 +
-      proc_control_node_B.t9_i * -2.1047070084068991) - in2[1] *
+      proc_control_node_B.t9_d * -2.1047070084068991) - in2[1] *
      1.4142135623730951 * 0.043051831063235027)) + ((in2[2] * 1.4142135623730951
     * 0.043593198825375247 - in2[3] * 1.4142135623730951 * 0.043976565543532631)
     - proc_control_node_B.t12_tmp * 0.1138522338822895)) +
                        ((proc_control_node_B.t13_tmp * -25.242114556122988 -
     proc_control_node_B.t14_tmp * 25.242114556122988) +
                         proc_control_node_B.t15_tmp * 0.1138522338822895)) +
-                      ((proc_control_node_B.t11_d * -0.0040409200239048832 -
-                        proc_control_node_B.t12_b * 1.71018810547529) +
-                       proc_control_node_B.t13_h * 0.021882274381510681)) +
-                     ((proc_control_node_B.t14_p * -0.002272431716587712 -
+                      ((proc_control_node_B.t11_b * -0.0040409200239048832 -
+                        proc_control_node_B.t12_h * 1.71018810547529) +
+                       proc_control_node_B.t13_p * 0.021882274381510681)) +
+                     ((proc_control_node_B.t14_n * -0.002272431716587712 -
                        proc_control_node_B.t15 * 0.0080268590155159435) +
                       proc_control_node_B.t16 * 0.0039859244840414)) +
-                    ((proc_control_node_B.t17_b * 0.0080268590155159435 -
-                      proc_control_node_B.t18_j * 0.678350505826831) -
-                     proc_control_node_B.t19_e * 0.002272431716587712)) +
+                    ((proc_control_node_B.t17_j * 0.0080268590155159435 -
+                      proc_control_node_B.t18_e * 0.678350505826831) -
+                     proc_control_node_B.t19_i * 0.002272431716587712)) +
                    ((proc_control_node_B.out1_tmp * 0.0001303522588356414 -
-                     proc_control_node_B.out1_tmp_o * 0.0039859244840414) -
+                     proc_control_node_B.out1_tmp_m * 0.0039859244840414) -
                     proc_control_node_B.t69 * 1.71018810547529)) +
-                  (((proc_control_node_B.out1_tmp_m * 0.0039859244840414 +
-                     proc_control_node_B.out1_tmp_ot * 0.070445383214219059) +
-                    proc_control_node_B.out1_tmp_g * 0.021882274381510681) +
-                   proc_control_node_B.out1_tmp_e * 0.0001303522588356414)) +
-                 ((proc_control_node_B.t68_i * 0.0080268590155159435 +
-                   proc_control_node_B.t70_p * 1.71018810547529) -
-                  proc_control_node_B.out1_tmp_i * 0.0001303522588356414)) +
-                ((proc_control_node_B.t57_i * 53.015831269733987 +
-                  proc_control_node_B.t65_n * 0.0039859244840414) +
+                  (((proc_control_node_B.out1_tmp_o * 0.0039859244840414 +
+                     proc_control_node_B.out1_tmp_g * 0.070445383214219059) +
+                    proc_control_node_B.out1_tmp_e * 0.021882274381510681) +
+                   proc_control_node_B.out1_tmp_i * 0.0001303522588356414)) +
+                 ((proc_control_node_B.t68_p * 0.0080268590155159435 +
+                   proc_control_node_B.t70_o * 1.71018810547529) -
+                  proc_control_node_B.out1_tmp_gb * 0.0001303522588356414)) +
+                ((proc_control_node_B.t57_n * 53.015831269733987 +
+                  proc_control_node_B.t65_i * 0.0039859244840414) +
                  proc_control_node_B.t54 * 0.0080268590155159435)) +
-               ((proc_control_node_B.out1_tmp_gb * -0.021882274381510681 -
-                 proc_control_node_B.t29_j * 0.2488326294809943) +
+               ((proc_control_node_B.out1_tmp_ge * -0.021882274381510681 -
+                 proc_control_node_B.t29_o * 0.2488326294809943) +
                 proc_control_node_B.t50 * 0.0039859244840414)) +
               ((proc_control_node_B.t64 * -1.71018810547529 +
                 proc_control_node_B.out1_tmp_is * 0.002272431716587712) -
-               proc_control_node_B.t25_n * 0.1235636590052834)) +
-    ((proc_control_node_B.t31_o * 0.0080268590155159435 -
+               proc_control_node_B.t25_j * 0.1235636590052834)) +
+    ((proc_control_node_B.t31_b * 0.0080268590155159435 -
       proc_control_node_B.t53 * 1.71018810547529) + 1.0523535042034491);
   out1[11] = ((((((((((((((((in2[0] * 5.24748238233168E-7 - in2[1] *
     1.083514276897426E-19) + in2[2] * -5.3156315041823265E-7) + (in2[3] *
     -5.2929151302328333E-7 + in2[4] * 0.10593667623599359)) + (in2[5] *
     0.10537885436940329 - in2[6] * 0.10793139553633729)) + (in2[7] *
-    -0.1033841350690595 + proc_control_node_B.t8_h * 0.36821797582524962)) +
+    -0.1033841350690595 + proc_control_node_B.t8_i * 0.36821797582524962)) +
                         ((in2[0] * 1.4142135623730951 * 0.013457654526727991 +
-    proc_control_node_B.t9_i * 0.36821797582524962) + in2[1] *
+    proc_control_node_B.t9_d * 0.36821797582524962) + in2[1] *
     1.4142135623730951 * 0.013869054980635681)) + ((in2[2] * 1.4142135623730951 *
     0.013457654526727991 + in2[3] * 1.4142135623730951 * 0.01386868232130781) +
     proc_control_node_B.t12_tmp * 8.6371397256799973)) +
                       ((proc_control_node_B.t13_tmp * 0.1184627304742461 +
                         proc_control_node_B.t14_tmp * 0.1184627304742461) -
                        proc_control_node_B.t15_tmp * 8.6371397256799973)) +
-                     (((proc_control_node_B.t11_d * 0.311032764122789 +
-                        proc_control_node_B.t12_b * 0.0080268590155159435) -
-                       proc_control_node_B.t13_h * 0.0001026911824132076) +
-                      proc_control_node_B.t14_p * 0.00039756137245743289)) +
+                     (((proc_control_node_B.t11_b * 0.311032764122789 +
+                        proc_control_node_B.t12_h * 0.0080268590155159435) -
+                       proc_control_node_B.t13_p * 0.0001026911824132076) +
+                      proc_control_node_B.t14_n * 0.00039756137245743289)) +
                     ((proc_control_node_B.t15 * 0.58374455968341665 +
                       proc_control_node_B.t16 * 1.606290206365557E-6) -
-                     proc_control_node_B.t17_b * 0.58374455968341665)) +
-                   (((proc_control_node_B.t18_j * 0.0031834266548094372 +
-                      proc_control_node_B.t19_e * 0.00039756137245743289) -
+                     proc_control_node_B.t17_j * 0.58374455968341665)) +
+                   (((proc_control_node_B.t18_e * 0.0031834266548094372 +
+                      proc_control_node_B.t19_i * 0.00039756137245743289) -
                      proc_control_node_B.out1_tmp * 0.010033314971702871) -
-                    proc_control_node_B.out1_tmp_o * 1.606290206365557E-6)) +
+                    proc_control_node_B.out1_tmp_m * 1.606290206365557E-6)) +
                   (((proc_control_node_B.t69 * 0.0080268590155159435 +
-                     proc_control_node_B.out1_tmp_m * 1.606290206365557E-6) -
-                    proc_control_node_B.out1_tmp_ot * 0.01232440254618042) -
-                   proc_control_node_B.out1_tmp_g * 0.0001026911824132076)) +
-                 ((proc_control_node_B.out1_tmp_e * -0.010033314971702871 -
-                   proc_control_node_B.t68_i * 0.58374455968341665) -
-                  proc_control_node_B.t70_p * 0.0080268590155159435)) +
-                ((proc_control_node_B.out1_tmp_i * 0.010033314971702871 -
-                  proc_control_node_B.t57_i * 0.2488326294809943) +
-                 proc_control_node_B.t65_n * 1.606290206365557E-6)) +
+                     proc_control_node_B.out1_tmp_o * 1.606290206365557E-6) -
+                    proc_control_node_B.out1_tmp_g * 0.01232440254618042) -
+                   proc_control_node_B.out1_tmp_e * 0.0001026911824132076)) +
+                 ((proc_control_node_B.out1_tmp_i * -0.010033314971702871 -
+                   proc_control_node_B.t68_p * 0.58374455968341665) -
+                  proc_control_node_B.t70_o * 0.0080268590155159435)) +
+                ((proc_control_node_B.out1_tmp_gb * 0.010033314971702871 -
+                  proc_control_node_B.t57_n * 0.2488326294809943) +
+                 proc_control_node_B.t65_i * 1.606290206365557E-6)) +
                ((proc_control_node_B.t54 * -0.58374455968341665 +
-                 proc_control_node_B.out1_tmp_gb * 0.0001026911824132076) +
-                proc_control_node_B.t29_j * 18.096081350185919)) +
+                 proc_control_node_B.out1_tmp_ge * 0.0001026911824132076) +
+                proc_control_node_B.t29_o * 18.096081350185919)) +
               (((proc_control_node_B.t50 * 1.606290206365557E-6 +
                  proc_control_node_B.t64 * 0.0080268590155159435) -
                 proc_control_node_B.out1_tmp_is * 0.00039756137245743289) -
-               proc_control_node_B.t25_n * 4.9794996397332282E-5)) +
-    ((proc_control_node_B.t31_o * -0.58374455968341665 + proc_control_node_B.t53
+               proc_control_node_B.t25_j * 4.9794996397332282E-5)) +
+    ((proc_control_node_B.t31_b * -0.58374455968341665 + proc_control_node_B.t53
       * 0.0080268590155159435) - 0.18410898791262481);
   out1[12] = ((((((((((((((((in2[0] * -0.1731941163298826 + in2[1] *
     -1.4397960202092559E-21) + in2[2] * 0.175443390567933) + (in2[3] *
     0.17469363248858291 + in2[4] * 0.00062021813460420567)) + (in2[5] *
     -0.0006207996116589 - in2[6] * 0.00064672437426625525)) + (in2[7] *
-    0.00064730585132094889 + proc_control_node_B.t8_h * 0.0048929560732764686))
+    0.00064730585132094889 + proc_control_node_B.t8_i * 0.0048929560732764686))
                         + ((in2[0] * 1.4142135623730951 * 0.00059255494878017434
-    + proc_control_node_B.t9_i * 0.0048929560732764686) - in2[1] *
+    + proc_control_node_B.t9_d * 0.0048929560732764686) - in2[1] *
     1.4142135623730951 * 0.1225770464045467)) + ((in2[2] * 1.4142135623730951 *
     0.00059255494878017434 + in2[3] * 1.4142135623730951 *
     0.00041984673608298361) - proc_control_node_B.t12_tmp * 0.65361132374006825))
                       + ((proc_control_node_B.t13_tmp * 0.38451002147839958 +
     proc_control_node_B.t14_tmp * 0.38451002147839958) +
     proc_control_node_B.t15_tmp * 0.65361132374006825)) +
-                     (((proc_control_node_B.t11_d * -0.031387639110527318 +
-                        proc_control_node_B.t12_b * 0.0039859244840414) -
-                       proc_control_node_B.t13_h * 0.00042780737967584029) +
-                      proc_control_node_B.t14_p * 5.2828771531483014E-6)) +
+                     (((proc_control_node_B.t11_b * -0.031387639110527318 +
+                        proc_control_node_B.t12_h * 0.0039859244840414) -
+                       proc_control_node_B.t13_p * 0.00042780737967584029) +
+                      proc_control_node_B.t14_n * 5.2828771531483014E-6)) +
                     (((proc_control_node_B.t15 * -1.606290206365557E-6 -
                        proc_control_node_B.t16 * 0.53015902215788635) +
-                      proc_control_node_B.t17_b * 1.606290206365557E-6) +
-                     proc_control_node_B.t18_j * 0.013262028769951049)) +
-                   (((proc_control_node_B.t19_e * 5.2828771531483014E-6 +
+                      proc_control_node_B.t17_j * 1.606290206365557E-6) +
+                     proc_control_node_B.t18_e * 0.013262028769951049)) +
+                   (((proc_control_node_B.t19_i * 5.2828771531483014E-6 +
                       proc_control_node_B.out1_tmp * 0.0010125044874363649) +
-                     proc_control_node_B.out1_tmp_o * 0.53015902215788635) +
+                     proc_control_node_B.out1_tmp_m * 0.53015902215788635) +
                     proc_control_node_B.t69 * 0.0039859244840414)) +
-                  ((proc_control_node_B.out1_tmp_m * -0.53015902215788635 -
-                    proc_control_node_B.out1_tmp_ot * 0.00016376919174759729) -
-                   proc_control_node_B.out1_tmp_g * 0.00042780737967584029)) +
-                 (((proc_control_node_B.out1_tmp_e * 0.0010125044874363649 +
-                    proc_control_node_B.t68_i * 1.606290206365557E-6) -
-                   proc_control_node_B.t70_p * 0.0039859244840414) -
-                  proc_control_node_B.out1_tmp_i * 0.0010125044874363649)) +
-                ((proc_control_node_B.t57_i * -0.1235636590052834 -
-                  proc_control_node_B.t65_n * 0.53015902215788635) +
+                  ((proc_control_node_B.out1_tmp_o * -0.53015902215788635 -
+                    proc_control_node_B.out1_tmp_g * 0.00016376919174759729) -
+                   proc_control_node_B.out1_tmp_e * 0.00042780737967584029)) +
+                 (((proc_control_node_B.out1_tmp_i * 0.0010125044874363649 +
+                    proc_control_node_B.t68_p * 1.606290206365557E-6) -
+                   proc_control_node_B.t70_o * 0.0039859244840414) -
+                  proc_control_node_B.out1_tmp_gb * 0.0010125044874363649)) +
+                ((proc_control_node_B.t57_n * -0.1235636590052834 -
+                  proc_control_node_B.t65_i * 0.53015902215788635) +
                  proc_control_node_B.t54 * 1.606290206365557E-6)) +
-               ((proc_control_node_B.out1_tmp_gb * 0.00042780737967584029 -
-                 proc_control_node_B.t29_j * 4.9794996397332282E-5) -
+               ((proc_control_node_B.out1_tmp_ge * 0.00042780737967584029 -
+                 proc_control_node_B.t29_o * 4.9794996397332282E-5) -
                 proc_control_node_B.t50 * 0.53015902215788635)) +
               (((proc_control_node_B.t64 * 0.0039859244840414 -
                  proc_control_node_B.out1_tmp_is * 5.2828771531483014E-6) +
-                proc_control_node_B.t25_n * 16.434929686894481) +
-               proc_control_node_B.t31_o * 1.606290206365557E-6)) +
+                proc_control_node_B.t25_j * 16.434929686894481) +
+               proc_control_node_B.t31_b * 1.606290206365557E-6)) +
     (proc_control_node_B.t53 * 0.0039859244840414 - 0.0024464780366382352);
 }
 
@@ -6490,9 +6485,9 @@ void proc_control_nodeModelClass::proc_control_node_isfinite_k(const real_T x[13
 {
   int32_T i;
   for (i = 0; i < 13; i++) {
-    proc_control_node_B.x_m = x[i];
-    b[i] = ((!rtIsInf(proc_control_node_B.x_m)) && (!rtIsNaN
-             (proc_control_node_B.x_m)));
+    proc_control_node_B.x_g = x[i];
+    b[i] = ((!rtIsInf(proc_control_node_B.x_g)) && (!rtIsNaN
+             (proc_control_node_B.x_g)));
   }
 }
 
@@ -6625,12 +6620,12 @@ void proc_control_nodeModelClass::proc_control_node_outputBounds(const real_T
       (runtimedata_OutputMin[proc_control_node_B.i_p]);
   }
 
-  proc_control_node_all(proc_control_node_B.bv, proc_control_node_B.x);
+  proc_control_node_all(proc_control_node_B.bv, proc_control_node_B.x_h);
   y = true;
   proc_control_node_B.d_k = 0;
   exitg1 = false;
   while ((!exitg1) && (proc_control_node_B.d_k < 13)) {
-    if (!proc_control_node_B.x[proc_control_node_B.d_k]) {
+    if (!proc_control_node_B.x_h[proc_control_node_B.d_k]) {
       y = false;
       exitg1 = true;
     } else {
@@ -6645,11 +6640,11 @@ void proc_control_nodeModelClass::proc_control_node_outputBounds(const real_T
         (runtimedata_OutputMax[proc_control_node_B.i_p]);
     }
 
-    proc_control_node_all(proc_control_node_B.bv, proc_control_node_B.x);
+    proc_control_node_all(proc_control_node_B.bv, proc_control_node_B.x_h);
     proc_control_node_B.d_k = 0;
     exitg1 = false;
     while ((!exitg1) && (proc_control_node_B.d_k < 13)) {
-      if (!proc_control_node_B.x[proc_control_node_B.d_k]) {
+      if (!proc_control_node_B.x_h[proc_control_node_B.d_k]) {
         y = false;
         exitg1 = true;
       } else {
@@ -6688,29 +6683,29 @@ void proc_control_nodeModelClass::proc_control_node_outputBounds(const real_T
       }
 
       proc_control_node_isfinite_k(proc_control_node_B.runtimedata_OutputMin,
-        proc_control_node_B.x);
+        proc_control_node_B.x_h);
       for (proc_control_node_B.i_p = 0; proc_control_node_B.i_p < 13;
            proc_control_node_B.i_p++) {
         proc_control_node_B.icf_p[static_cast<int32_T>
           (proc_control_node_B.ic_o[proc_control_node_B.i_p]) - 1] =
-          proc_control_node_B.x[proc_control_node_B.i_p];
+          proc_control_node_B.x_h[proc_control_node_B.i_p];
         proc_control_node_B.runtimedata_OutputMin[proc_control_node_B.i_p] =
           runtimedata_OutputMax[10 * proc_control_node_B.i_p +
           proc_control_node_B.d_k];
       }
 
       proc_control_node_isfinite_k(proc_control_node_B.runtimedata_OutputMin,
-        proc_control_node_B.x);
+        proc_control_node_B.x_h);
       for (proc_control_node_B.i_p = 0; proc_control_node_B.i_p < 13;
            proc_control_node_B.i_p++) {
-        proc_control_node_B.ic_l =
+        proc_control_node_B.ic_k =
           proc_control_node_B.ic_o[proc_control_node_B.i_p];
-        proc_control_node_B.icf_p[static_cast<int32_T>(proc_control_node_B.ic_l
-          + 13.0) - 1] = proc_control_node_B.x[proc_control_node_B.i_p];
+        proc_control_node_B.icf_p[static_cast<int32_T>(proc_control_node_B.ic_k
+          + 13.0) - 1] = proc_control_node_B.x_h[proc_control_node_B.i_p];
         proc_control_node_B.ic[proc_control_node_B.i_p] = static_cast<int32_T>
-          (proc_control_node_B.ic_l) - 1;
+          (proc_control_node_B.ic_k) - 1;
         proc_control_node_B.ic[proc_control_node_B.i_p + 13] =
-          static_cast<int32_T>(proc_control_node_B.ic_l + 13.0) - 1;
+          static_cast<int32_T>(proc_control_node_B.ic_k + 13.0) - 1;
       }
 
       for (proc_control_node_B.i_p = 0; proc_control_node_B.i_p < 26;
@@ -6721,14 +6716,14 @@ void proc_control_nodeModelClass::proc_control_node_outputBounds(const real_T
 
       if (proc_control_node_any(proc_control_node_B.icf_e)) {
         memset(&proc_control_node_B.Ck[0], 0, 169U * sizeof(int8_T));
-        for (proc_control_node_B.c_k = 0; proc_control_node_B.c_k < 13;
-             proc_control_node_B.c_k++) {
-          proc_control_node_B.Ck[proc_control_node_B.c_k + 13 *
-            proc_control_node_B.c_k] = 1;
+        for (proc_control_node_B.c_k_e = 0; proc_control_node_B.c_k_e < 13;
+             proc_control_node_B.c_k_e++) {
+          proc_control_node_B.Ck[proc_control_node_B.c_k_e + 13 *
+            proc_control_node_B.c_k_e] = 1;
           proc_control_node_B.b_c[static_cast<int32_T>
-            (proc_control_node_B.ic_o[proc_control_node_B.c_k]) - 1] =
-            (runtimedata_OutputMin[10 * proc_control_node_B.c_k +
-             proc_control_node_B.d_k] - e) - X[(11 * proc_control_node_B.c_k +
+            (proc_control_node_B.ic_o[proc_control_node_B.c_k_e]) - 1] =
+            (runtimedata_OutputMin[10 * proc_control_node_B.c_k_e +
+             proc_control_node_B.d_k] - e) - X[(11 * proc_control_node_B.c_k_e +
             proc_control_node_B.d_k) + 1];
         }
 
@@ -6747,31 +6742,31 @@ void proc_control_nodeModelClass::proc_control_node_outputBounds(const real_T
             (-proc_control_node_B.Ck[proc_control_node_B.i_p]);
         }
 
-        for (proc_control_node_B.c_k = 0; proc_control_node_B.c_k < 13;
-             proc_control_node_B.c_k++) {
+        for (proc_control_node_B.c_k_e = 0; proc_control_node_B.c_k_e < 13;
+             proc_control_node_B.c_k_e++) {
           for (proc_control_node_B.i_p = 0; proc_control_node_B.i_p < 13;
                proc_control_node_B.i_p++) {
             proc_control_node_B.Jx[((static_cast<int32_T>
               (proc_control_node_B.ic_o[proc_control_node_B.i_p]) + 260 *
-              proc_control_node_B.c_k) + 3380 * proc_control_node_B.d_k) - 1] =
-              proc_control_node_B.val[13 * proc_control_node_B.c_k +
+              proc_control_node_B.c_k_e) + 3380 * proc_control_node_B.d_k) - 1] =
+              proc_control_node_B.val[13 * proc_control_node_B.c_k_e +
               proc_control_node_B.i_p];
           }
         }
 
-        for (proc_control_node_B.c_k = 0; proc_control_node_B.c_k < 13;
-             proc_control_node_B.c_k++) {
+        for (proc_control_node_B.c_k_e = 0; proc_control_node_B.c_k_e < 13;
+             proc_control_node_B.c_k_e++) {
           for (proc_control_node_B.i_p = 0; proc_control_node_B.i_p < 13;
                proc_control_node_B.i_p++) {
             proc_control_node_B.Jx[((static_cast<int32_T>
               (proc_control_node_B.ic_o[proc_control_node_B.i_p] + 13.0) + 260 *
-              proc_control_node_B.c_k) + 3380 * proc_control_node_B.d_k) - 1] =
-              proc_control_node_B.Ck[13 * proc_control_node_B.c_k +
+              proc_control_node_B.c_k_e) + 3380 * proc_control_node_B.d_k) - 1] =
+              proc_control_node_B.Ck[13 * proc_control_node_B.c_k_e +
               proc_control_node_B.i_p];
           }
 
           proc_control_node_B.Je[static_cast<int32_T>
-            (proc_control_node_B.ic_o[proc_control_node_B.c_k]) - 1] = -1;
+            (proc_control_node_B.ic_o[proc_control_node_B.c_k_e]) - 1] = -1;
         }
 
         for (proc_control_node_B.i_p = 0; proc_control_node_B.i_p < 13;
@@ -6788,20 +6783,20 @@ void proc_control_nodeModelClass::proc_control_node_outputBounds(const real_T
     }
 
     proc_control_node_B.d_k = 0;
-    for (proc_control_node_B.c_k = 0; proc_control_node_B.c_k < 260;
-         proc_control_node_B.c_k++) {
-      if (proc_control_node_B.icf_p[proc_control_node_B.c_k]) {
+    for (proc_control_node_B.c_k_e = 0; proc_control_node_B.c_k_e < 260;
+         proc_control_node_B.c_k_e++) {
+      if (proc_control_node_B.icf_p[proc_control_node_B.c_k_e]) {
         proc_control_node_B.d_k++;
       }
     }
 
     proc_control_node_B.b_size_idx_0 = proc_control_node_B.d_k;
     proc_control_node_B.d_k = 0;
-    for (proc_control_node_B.c_k = 0; proc_control_node_B.c_k < 260;
-         proc_control_node_B.c_k++) {
-      if (proc_control_node_B.icf_p[proc_control_node_B.c_k]) {
+    for (proc_control_node_B.c_k_e = 0; proc_control_node_B.c_k_e < 260;
+         proc_control_node_B.c_k_e++) {
+      if (proc_control_node_B.icf_p[proc_control_node_B.c_k_e]) {
         proc_control_node_B.b_data_d[proc_control_node_B.d_k] =
-          static_cast<int16_T>(proc_control_node_B.c_k + 1);
+          static_cast<int16_T>(proc_control_node_B.c_k_e + 1);
         proc_control_node_B.d_k++;
       }
     }
@@ -6821,20 +6816,20 @@ void proc_control_nodeModelClass::proc_control_node_outputBounds(const real_T
     }
 
     proc_control_node_B.d_k = 0;
-    for (proc_control_node_B.c_k = 0; proc_control_node_B.c_k < 260;
-         proc_control_node_B.c_k++) {
-      if (proc_control_node_B.icf_p[proc_control_node_B.c_k]) {
+    for (proc_control_node_B.c_k_e = 0; proc_control_node_B.c_k_e < 260;
+         proc_control_node_B.c_k_e++) {
+      if (proc_control_node_B.icf_p[proc_control_node_B.c_k_e]) {
         proc_control_node_B.d_k++;
       }
     }
 
     proc_control_node_B.b_size_idx_0 = proc_control_node_B.d_k;
     proc_control_node_B.d_k = 0;
-    for (proc_control_node_B.c_k = 0; proc_control_node_B.c_k < 260;
-         proc_control_node_B.c_k++) {
-      if (proc_control_node_B.icf_p[proc_control_node_B.c_k]) {
+    for (proc_control_node_B.c_k_e = 0; proc_control_node_B.c_k_e < 260;
+         proc_control_node_B.c_k_e++) {
+      if (proc_control_node_B.icf_p[proc_control_node_B.c_k_e]) {
         proc_control_node_B.d_data[proc_control_node_B.d_k] =
-          static_cast<int16_T>(proc_control_node_B.c_k + 1);
+          static_cast<int16_T>(proc_control_node_B.c_k_e + 1);
         proc_control_node_B.d_k++;
       }
     }
@@ -6846,22 +6841,22 @@ void proc_control_nodeModelClass::proc_control_node_outputBounds(const real_T
          proc_control_node_B.i_p++) {
       for (proc_control_node_B.d_k = 0; proc_control_node_B.d_k < 13;
            proc_control_node_B.d_k++) {
-        for (proc_control_node_B.c_k = 0; proc_control_node_B.c_k <
-             proc_control_node_B.b_size_idx_0; proc_control_node_B.c_k++) {
-          proc_control_node_B.Jx_data[(proc_control_node_B.c_k +
+        for (proc_control_node_B.c_k_e = 0; proc_control_node_B.c_k_e <
+             proc_control_node_B.b_size_idx_0; proc_control_node_B.c_k_e++) {
+          proc_control_node_B.Jx_data[(proc_control_node_B.c_k_e +
             proc_control_node_B.b_size_idx_0 * proc_control_node_B.d_k) +
             proc_control_node_B.b_size_idx_0 * 13 * proc_control_node_B.i_p] =
             proc_control_node_B.Jx[((260 * proc_control_node_B.d_k +
-            proc_control_node_B.d_data[proc_control_node_B.c_k]) + 3380 *
+            proc_control_node_B.d_data[proc_control_node_B.c_k_e]) + 3380 *
             proc_control_node_B.i_p) - 1];
         }
       }
 
       for (proc_control_node_B.d_k = 0; proc_control_node_B.d_k < 8;
            proc_control_node_B.d_k++) {
-        for (proc_control_node_B.c_k = 0; proc_control_node_B.c_k <
-             proc_control_node_B.b_size_idx_0; proc_control_node_B.c_k++) {
-          proc_control_node_B.tmp_data[(proc_control_node_B.c_k +
+        for (proc_control_node_B.c_k_e = 0; proc_control_node_B.c_k_e <
+             proc_control_node_B.b_size_idx_0; proc_control_node_B.c_k_e++) {
+          proc_control_node_B.tmp_data[(proc_control_node_B.c_k_e +
             proc_control_node_B.b_size_idx_0 * proc_control_node_B.d_k) +
             (proc_control_node_B.b_size_idx_0 << 3) * proc_control_node_B.i_p] =
             0.0;
@@ -7240,31 +7235,31 @@ void proc_control_nodeModelClass::proc_control_quadraticObjective(const real_T
   }
 
   for (i = 0; i < 10; i++) {
-    proc_control_node_B.wtYerr_j = 0.0;
+    proc_control_node_B.wtYerr_a = 0.0;
     for (i_0 = 0; i_0 < 13; i_0++) {
       runtimedata_OutputWeights_tmp = 10 * i_0 + i;
-      proc_control_node_B.runtimedata_OutputWeights_a =
+      proc_control_node_B.runtimedata_OutputWeights_h =
         runtimedata_OutputWeights[runtimedata_OutputWeights_tmp];
       wtYerr = (proc_control_node_B.b_X_p[(i + 1) * 13 + i_0] -
                 runtimedata_ref[runtimedata_OutputWeights_tmp]) *
-        proc_control_node_B.runtimedata_OutputWeights_a;
-      proc_control_node_B.wtYerr_j += wtYerr * wtYerr;
+        proc_control_node_B.runtimedata_OutputWeights_h;
+      proc_control_node_B.wtYerr_a += wtYerr * wtYerr;
       proc_control_node_B.runtimedata_OutputWeights[i_0] =
-        proc_control_node_B.runtimedata_OutputWeights_a * wtYerr;
+        proc_control_node_B.runtimedata_OutputWeights_h * wtYerr;
     }
 
-    *f += proc_control_node_B.wtYerr_j;
+    *f += proc_control_node_B.wtYerr_a;
     for (i_0 = 0; i_0 < 13; i_0++) {
-      proc_control_node_B.wtYerr_j = 0.0;
+      proc_control_node_B.wtYerr_a = 0.0;
       for (runtimedata_OutputWeights_tmp = 0; runtimedata_OutputWeights_tmp < 13;
            runtimedata_OutputWeights_tmp++) {
-        proc_control_node_B.wtYerr_j += static_cast<real_T>(b[13 *
+        proc_control_node_B.wtYerr_a += static_cast<real_T>(b[13 *
           runtimedata_OutputWeights_tmp + i_0]) *
           proc_control_node_B.runtimedata_OutputWeights[runtimedata_OutputWeights_tmp];
       }
 
       proc_control_node_B.gfx[i_0] = gfx[static_cast<int32_T>
-        (proc_control_node_B.ix[i_0]) - 1] + proc_control_node_B.wtYerr_j;
+        (proc_control_node_B.ix[i_0]) - 1] + proc_control_node_B.wtYerr_a;
     }
 
     for (i_0 = 0; i_0 < 13; i_0++) {
@@ -7290,37 +7285,37 @@ void proc_control_nodeModelClass::proc_control_quadraticObjective(const real_T
       }
     }
 
-    proc_control_node_B.wtYerr_j = 0.0;
+    proc_control_node_B.wtYerr_a = 0.0;
     for (i_0 = 0; i_0 < 8; i_0++) {
       runtimedata_OutputWeights_tmp = 10 * i_0 + i;
-      proc_control_node_B.runtimedata_OutputWeights_a =
+      proc_control_node_B.runtimedata_OutputWeights_h =
         runtimedata_MVWeights[runtimedata_OutputWeights_tmp];
       wtYerr = (proc_control_node_B.umvk_l[i_0] -
                 runtimedata_MVScaledTarget[runtimedata_OutputWeights_tmp]) *
-        proc_control_node_B.runtimedata_OutputWeights_a;
-      proc_control_node_B.wtYerr_j += wtYerr * wtYerr;
+        proc_control_node_B.runtimedata_OutputWeights_h;
+      proc_control_node_B.wtYerr_a += wtYerr * wtYerr;
       proc_control_node_B.gfu[i_0] = gfu[static_cast<int32_T>
         (proc_control_node_B.iu[i_0]) - 1] +
-        proc_control_node_B.runtimedata_OutputWeights_a * wtYerr;
+        proc_control_node_B.runtimedata_OutputWeights_h * wtYerr;
       proc_control_node_B.umvk_l[i_0] = wtYerr;
     }
 
-    *f += proc_control_node_B.wtYerr_j;
-    proc_control_node_B.wtYerr_j = 0.0;
+    *f += proc_control_node_B.wtYerr_a;
+    proc_control_node_B.wtYerr_a = 0.0;
     for (i_0 = 0; i_0 < 8; i_0++) {
-      proc_control_node_B.runtimedata_OutputWeights_a =
+      proc_control_node_B.runtimedata_OutputWeights_h =
         runtimedata_MVRateWeights[10 * i_0 + i];
       gfu[static_cast<int32_T>(proc_control_node_B.iu[i_0]) - 1] =
         proc_control_node_B.gfu[i_0];
-      wtYerr = proc_control_node_B.runtimedata_OutputWeights_a *
+      wtYerr = proc_control_node_B.runtimedata_OutputWeights_h *
         proc_control_node_B.duk_g[i_0];
-      proc_control_node_B.wtYerr_j += wtYerr * wtYerr;
+      proc_control_node_B.wtYerr_a += wtYerr * wtYerr;
       proc_control_node_B.umvk_l[i_0] =
-        proc_control_node_B.runtimedata_OutputWeights_a * wtYerr;
+        proc_control_node_B.runtimedata_OutputWeights_h * wtYerr;
       proc_control_node_B.duk_g[i_0] = wtYerr;
     }
 
-    *f += proc_control_node_B.wtYerr_j;
+    *f += proc_control_node_B.wtYerr_a;
     for (i_0 = 0; i_0 < 8; i_0++) {
       proc_control_node_B.gfu[i_0] = gfu[static_cast<int32_T>
         (proc_control_node_B.iu[i_0]) - 1] + proc_control_node_B.umvk_l[i_0];
@@ -7424,25 +7419,25 @@ void proc_control_nodeModelClass::proc_control_node_anon_d(const real_T
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 };
 
   proc_control_node_znlmpc_getXUe(z, runtimedata_x, proc_control_node_B.X_m,
-    proc_control_node_B.U_e, &proc_control_node_B.e_j);
+    proc_control_node_B.U_e, &proc_control_node_B.e_e);
   proc_control_quadraticObjective(runtimedata_lastMV, runtimedata_ref,
     runtimedata_OutputWeights, runtimedata_MVWeights, runtimedata_MVRateWeights,
     runtimedata_MVScaledTarget, proc_control_node_B.X_m, proc_control_node_B.U_e,
-    proc_control_node_B.e_j, varargout_1, proc_control_node_B.gfX,
+    proc_control_node_B.e_e, varargout_1, proc_control_node_B.gfX,
     proc_control_node_B.gfU, &proc_control_node_B.gfE);
   for (proc_control_node_B.i18 = 0; proc_control_node_B.i18 < 16;
        proc_control_node_B.i18++) {
-    proc_control_node_B.e_j = 0.0;
+    proc_control_node_B.e_e = 0.0;
     proc_control_node_B.i20 = 0;
     for (proc_control_node_B.i19 = 0; proc_control_node_B.i19 < 80;
          proc_control_node_B.i19++) {
-      proc_control_node_B.e_j += static_cast<real_T>(b[proc_control_node_B.i20 +
+      proc_control_node_B.e_e += static_cast<real_T>(b[proc_control_node_B.i20 +
         proc_control_node_B.i18]) *
         proc_control_node_B.gfU[proc_control_node_B.i19];
       proc_control_node_B.i20 += 16;
     }
 
-    proc_control_node_B.b_ce[proc_control_node_B.i18] = proc_control_node_B.e_j;
+    proc_control_node_B.b_ce[proc_control_node_B.i18] = proc_control_node_B.e_e;
   }
 
   memcpy(&varargout_2[0], &proc_control_node_B.gfX[0], 130U * sizeof(real_T));
@@ -8097,11 +8092,11 @@ void proc_control_nodeModelClass::proc_control_node_initActiveSet
     obj->isActiveConstr.data[proc_control_node_B.idx_global] = true;
     proc_control_node_B.iAeq0 = obj->ldA * proc_control_node_B.b_idx_local;
     proc_control_node_B.iATw0 = obj->ldA * proc_control_node_B.idx_global;
-    proc_control_node_B.c_i_e = 0;
-    while (proc_control_node_B.c_i_e <= obj->nVar - 1) {
-      obj->ATwset.data[proc_control_node_B.iATw0 + proc_control_node_B.c_i_e] =
-        obj->Aeq.data[proc_control_node_B.iAeq0 + proc_control_node_B.c_i_e];
-      proc_control_node_B.c_i_e++;
+    proc_control_node_B.c_i_m = 0;
+    while (proc_control_node_B.c_i_m <= obj->nVar - 1) {
+      obj->ATwset.data[proc_control_node_B.iATw0 + proc_control_node_B.c_i_m] =
+        obj->Aeq.data[proc_control_node_B.iAeq0 + proc_control_node_B.c_i_m];
+      proc_control_node_B.c_i_m++;
     }
 
     obj->bwset.data[proc_control_node_B.idx_global] = obj->
@@ -8172,19 +8167,19 @@ void proc_control_nodeModelClass::proc_control_node_xgemv(int32_T m, int32_T n,
   int32_T ia;
   int32_T iac;
   if (n != 0) {
-    proc_control_node_B.ix_pd = ix0;
+    proc_control_node_B.ix_d4 = ix0;
     c = (n - 1) * lda + 1;
     iac = 1;
     while (((lda > 0) && (iac <= c)) || ((lda < 0) && (iac >= c))) {
-      proc_control_node_B.iy_a = 0;
+      proc_control_node_B.iy_pd = 0;
       b = (iac + m) - 1;
       for (ia = iac; ia <= b; ia++) {
-        y_data[proc_control_node_B.iy_a] += A_data[ia - 1] *
-          x_data[proc_control_node_B.ix_pd - 1];
-        proc_control_node_B.iy_a++;
+        y_data[proc_control_node_B.iy_pd] += A_data[ia - 1] *
+          x_data[proc_control_node_B.ix_d4 - 1];
+        proc_control_node_B.iy_pd++;
       }
 
-      proc_control_node_B.ix_pd++;
+      proc_control_node_B.ix_d4++;
       iac += lda;
     }
   }
@@ -8198,39 +8193,39 @@ void proc_control_nodeModelClass::proc_control_nod_computeGradLag(real_T
   int32_T mLB, const int32_T finiteUB_data[], int32_T mUB, const real_T
   lambda_data[])
 {
-  proc_control_node_B.iL0_c = 0;
-  while (proc_control_node_B.iL0_c <= nVar - 1) {
-    workspace_data[proc_control_node_B.iL0_c] =
-      grad_data[proc_control_node_B.iL0_c];
-    proc_control_node_B.iL0_c++;
+  proc_control_node_B.iL0_j = 0;
+  while (proc_control_node_B.iL0_j <= nVar - 1) {
+    workspace_data[proc_control_node_B.iL0_j] =
+      grad_data[proc_control_node_B.iL0_j];
+    proc_control_node_B.iL0_j++;
   }
 
-  proc_control_node_B.iL0_c = 0;
-  while (proc_control_node_B.iL0_c <= mFixed - 1) {
-    workspace_data[finiteFixed_data[proc_control_node_B.iL0_c] - 1] +=
-      lambda_data[proc_control_node_B.iL0_c];
-    proc_control_node_B.iL0_c++;
+  proc_control_node_B.iL0_j = 0;
+  while (proc_control_node_B.iL0_j <= mFixed - 1) {
+    workspace_data[finiteFixed_data[proc_control_node_B.iL0_j] - 1] +=
+      lambda_data[proc_control_node_B.iL0_j];
+    proc_control_node_B.iL0_j++;
   }
 
   proc_control_node_xgemv(nVar, 130, AeqTrans_data, ldA, lambda_data, mFixed + 1,
     workspace_data);
   proc_control_node_xgemv(nVar, mIneq, AineqTrans_data, ldA, lambda_data, mFixed
     + 131, workspace_data);
-  proc_control_node_B.iL0_c = (mFixed + mIneq) + 130;
-  proc_control_node_B.c_idx_d4 = 0;
-  while (proc_control_node_B.c_idx_d4 <= mLB - 1) {
-    workspace_data[finiteLB_data[proc_control_node_B.c_idx_d4] - 1] -=
-      lambda_data[proc_control_node_B.iL0_c];
-    proc_control_node_B.iL0_c++;
-    proc_control_node_B.c_idx_d4++;
+  proc_control_node_B.iL0_j = (mFixed + mIneq) + 130;
+  proc_control_node_B.c_idx_cf = 0;
+  while (proc_control_node_B.c_idx_cf <= mLB - 1) {
+    workspace_data[finiteLB_data[proc_control_node_B.c_idx_cf] - 1] -=
+      lambda_data[proc_control_node_B.iL0_j];
+    proc_control_node_B.iL0_j++;
+    proc_control_node_B.c_idx_cf++;
   }
 
-  proc_control_node_B.c_idx_d4 = 0;
-  while (proc_control_node_B.c_idx_d4 <= mUB - 1) {
-    workspace_data[finiteUB_data[proc_control_node_B.c_idx_d4] - 1] +=
-      lambda_data[proc_control_node_B.iL0_c];
-    proc_control_node_B.iL0_c++;
-    proc_control_node_B.c_idx_d4++;
+  proc_control_node_B.c_idx_cf = 0;
+  while (proc_control_node_B.c_idx_cf <= mUB - 1) {
+    workspace_data[finiteUB_data[proc_control_node_B.c_idx_cf] - 1] +=
+      lambda_data[proc_control_node_B.iL0_j];
+    proc_control_node_B.iL0_j++;
+    proc_control_node_B.c_idx_cf++;
   }
 }
 
@@ -8506,19 +8501,19 @@ void proc_control_nodeModelClass::proc_control_node_xgemv_m(int32_T m, int32_T n
   int32_T ia;
   int32_T iac;
   if (n != 0) {
-    proc_control_node_B.ix_m = ix0;
+    proc_control_node_B.ix_dt = ix0;
     c = (n - 1) * lda + 1;
     iac = 1;
     while (((lda > 0) && (iac <= c)) || ((lda < 0) && (iac >= c))) {
-      proc_control_node_B.iy_jc = 0;
+      proc_control_node_B.iy_mz = 0;
       b = (iac + m) - 1;
       for (ia = iac; ia <= b; ia++) {
-        y_data[proc_control_node_B.iy_jc] += A_data[ia - 1] *
-          x_data[proc_control_node_B.ix_m - 1];
-        proc_control_node_B.iy_jc++;
+        y_data[proc_control_node_B.iy_mz] += A_data[ia - 1] *
+          x_data[proc_control_node_B.ix_dt - 1];
+        proc_control_node_B.iy_mz++;
       }
 
-      proc_control_node_B.ix_m++;
+      proc_control_node_B.ix_dt++;
       iac += lda;
     }
   }
@@ -8550,20 +8545,20 @@ void proc_control_nodeModelClass::proc_control_n_computeGradLag_b(real_T
   proc_control_node_xgemv_m(nVar, mIneq, AineqTrans_data, ldA, lambda_data,
     mFixed + 131, workspace_data);
   proc_control_node_B.iL0 = (mFixed + mIneq) + 130;
-  proc_control_node_B.c_idx_d = 0;
-  while (proc_control_node_B.c_idx_d <= mLB - 1) {
-    workspace_data[finiteLB_data[proc_control_node_B.c_idx_d] - 1] -=
+  proc_control_node_B.c_idx_c = 0;
+  while (proc_control_node_B.c_idx_c <= mLB - 1) {
+    workspace_data[finiteLB_data[proc_control_node_B.c_idx_c] - 1] -=
       lambda_data[proc_control_node_B.iL0];
     proc_control_node_B.iL0++;
-    proc_control_node_B.c_idx_d++;
+    proc_control_node_B.c_idx_c++;
   }
 
-  proc_control_node_B.c_idx_d = 0;
-  while (proc_control_node_B.c_idx_d <= mUB - 1) {
-    workspace_data[finiteUB_data[proc_control_node_B.c_idx_d] - 1] +=
+  proc_control_node_B.c_idx_c = 0;
+  while (proc_control_node_B.c_idx_c <= mUB - 1) {
+    workspace_data[finiteUB_data[proc_control_node_B.c_idx_c] - 1] +=
       lambda_data[proc_control_node_B.iL0];
     proc_control_node_B.iL0++;
-    proc_control_node_B.c_idx_d++;
+    proc_control_node_B.c_idx_c++;
   }
 }
 
@@ -8603,7 +8598,7 @@ void proc_control_nodeModelClass::proc_updateWorkingSetForNewQP_l(const real_T
   int32_T i;
   int32_T iEq0;
   int32_T iw0;
-  proc_control_node_B.nVar_j = WorkingSet->nVar - 1;
+  proc_control_node_B.nVar_k = WorkingSet->nVar - 1;
   for (iw0 = 0; iw0 < 130; iw0++) {
     WorkingSet->beq[iw0] = -cEq[iw0];
     WorkingSet->bwset.data[mFixed + iw0] = WorkingSet->beq[iw0];
@@ -8612,7 +8607,7 @@ void proc_control_nodeModelClass::proc_updateWorkingSetForNewQP_l(const real_T
   iw0 = WorkingSet->ldA * mFixed;
   iEq0 = 0;
   for (c_idx = 0; c_idx < 130; c_idx++) {
-    for (i = 0; i <= proc_control_node_B.nVar_j; i++) {
+    for (i = 0; i <= proc_control_node_B.nVar_k; i++) {
       WorkingSet->ATwset.data[iw0 + i] = WorkingSet->Aeq.data[iEq0 + i];
     }
 
@@ -8662,7 +8657,7 @@ void proc_control_nodeModelClass::proc_updateWorkingSetForNewQP_l(const real_T
              mNonlinIneq)) {
           iw0 = WorkingSet->ldA * c_idx;
           iEq0 = (WorkingSet->Wlocalidx.data[c_idx] - 1) * WorkingSet->ldA;
-          for (i = 1; i - 1 <= proc_control_node_B.nVar_j; i++) {
+          for (i = 1; i - 1 <= proc_control_node_B.nVar_k; i++) {
             WorkingSet->ATwset.data[(iw0 + i) - 1] = WorkingSet->Aineq.data
               [(iEq0 + i) - 1];
           }
@@ -8688,16 +8683,16 @@ real_T proc_control_nodeModelClass::proc_control_node_xnrm2(int32_T n, const
       proc_control_node_B.scale_p = 3.3121686421112381E-170;
       kend = (ix0 + n) - 1;
       for (k = ix0; k <= kend; k++) {
-        proc_control_node_B.absxk_p = fabs(x_data[k - 1]);
-        if (proc_control_node_B.absxk_p > proc_control_node_B.scale_p) {
-          proc_control_node_B.t_m4 = proc_control_node_B.scale_p /
-            proc_control_node_B.absxk_p;
-          y = y * proc_control_node_B.t_m4 * proc_control_node_B.t_m4 + 1.0;
-          proc_control_node_B.scale_p = proc_control_node_B.absxk_p;
+        proc_control_node_B.absxk_m = fabs(x_data[k - 1]);
+        if (proc_control_node_B.absxk_m > proc_control_node_B.scale_p) {
+          proc_control_node_B.t_kt = proc_control_node_B.scale_p /
+            proc_control_node_B.absxk_m;
+          y = y * proc_control_node_B.t_kt * proc_control_node_B.t_kt + 1.0;
+          proc_control_node_B.scale_p = proc_control_node_B.absxk_m;
         } else {
-          proc_control_node_B.t_m4 = proc_control_node_B.absxk_p /
+          proc_control_node_B.t_kt = proc_control_node_B.absxk_m /
             proc_control_node_B.scale_p;
-          y += proc_control_node_B.t_m4 * proc_control_node_B.t_m4;
+          y += proc_control_node_B.t_kt * proc_control_node_B.t_kt;
         }
       }
 
@@ -8729,10 +8724,10 @@ real_T proc_control_nodeModelClass::proc_control_node_xzlarfg(int32_T n, real_T 
         c_k = (ix0 + n) - 2;
         do {
           proc_control_node_B.knt_i++;
-          proc_control_node_B.b_k_ok = ix0;
-          while (proc_control_node_B.b_k_ok <= c_k) {
-            x_data[proc_control_node_B.b_k_ok - 1] *= 9.9792015476736E+291;
-            proc_control_node_B.b_k_ok++;
+          proc_control_node_B.b_k_o = ix0;
+          while (proc_control_node_B.b_k_o <= c_k) {
+            x_data[proc_control_node_B.b_k_o - 1] *= 9.9792015476736E+291;
+            proc_control_node_B.b_k_o++;
           }
 
           proc_control_node_B.xnorm *= 9.9792015476736E+291;
@@ -8747,10 +8742,10 @@ real_T proc_control_nodeModelClass::proc_control_node_xzlarfg(int32_T n, real_T 
 
         tau = (proc_control_node_B.xnorm - *alpha1) / proc_control_node_B.xnorm;
         *alpha1 = 1.0 / (*alpha1 - proc_control_node_B.xnorm);
-        proc_control_node_B.b_k_ok = ix0;
-        while (proc_control_node_B.b_k_ok <= c_k) {
-          x_data[proc_control_node_B.b_k_ok - 1] *= *alpha1;
-          proc_control_node_B.b_k_ok++;
+        proc_control_node_B.b_k_o = ix0;
+        while (proc_control_node_B.b_k_o <= c_k) {
+          x_data[proc_control_node_B.b_k_o - 1] *= *alpha1;
+          proc_control_node_B.b_k_o++;
         }
 
         for (c_k = 0; c_k <= proc_control_node_B.knt_i; c_k++) {
@@ -8783,28 +8778,28 @@ void proc_control_nodeModelClass::proc_control_node_xgemv_mt(int32_T m, int32_T
   int32_T ia;
   int32_T iac;
   if (n != 0) {
-    proc_control_node_B.b_iy_n = 0;
-    while (proc_control_node_B.b_iy_n <= n - 1) {
-      y_data[proc_control_node_B.b_iy_n] = 0.0;
-      proc_control_node_B.b_iy_n++;
+    proc_control_node_B.b_iy_b = 0;
+    while (proc_control_node_B.b_iy_b <= n - 1) {
+      y_data[proc_control_node_B.b_iy_b] = 0.0;
+      proc_control_node_B.b_iy_b++;
     }
 
-    proc_control_node_B.b_iy_n = 0;
-    proc_control_node_B.b_kg = (n - 1) * lda + ia0;
+    proc_control_node_B.b_iy_b = 0;
+    proc_control_node_B.b_a = (n - 1) * lda + ia0;
     iac = ia0;
-    while (((lda > 0) && (iac <= proc_control_node_B.b_kg)) || ((lda < 0) &&
-            (iac >= proc_control_node_B.b_kg))) {
-      proc_control_node_B.ix_bn = ix0;
-      proc_control_node_B.c_j = 0.0;
+    while (((lda > 0) && (iac <= proc_control_node_B.b_a)) || ((lda < 0) && (iac
+             >= proc_control_node_B.b_a))) {
+      proc_control_node_B.ix_j = ix0;
+      proc_control_node_B.c_p = 0.0;
       d = (iac + m) - 1;
       for (ia = iac; ia <= d; ia++) {
-        proc_control_node_B.c_j += A_data[ia - 1] *
-          x_data[proc_control_node_B.ix_bn - 1];
-        proc_control_node_B.ix_bn++;
+        proc_control_node_B.c_p += A_data[ia - 1] *
+          x_data[proc_control_node_B.ix_j - 1];
+        proc_control_node_B.ix_j++;
       }
 
-      y_data[proc_control_node_B.b_iy_n] += proc_control_node_B.c_j;
-      proc_control_node_B.b_iy_n++;
+      y_data[proc_control_node_B.b_iy_b] += proc_control_node_B.c_p;
+      proc_control_node_B.b_iy_b++;
       iac += lda;
     }
   }
@@ -8819,22 +8814,22 @@ void proc_control_nodeModelClass::proc_control_node_xgerc(int32_T m, int32_T n,
   int32_T ijA;
   int32_T j;
   if (!(alpha1 == 0.0)) {
-    proc_control_node_B.jA_j = ia0 - 1;
-    proc_control_node_B.jy_d = 0;
+    proc_control_node_B.jA_k = ia0 - 1;
+    proc_control_node_B.jy_j = 0;
     for (j = 0; j < n; j++) {
-      if (y_data[proc_control_node_B.jy_d] != 0.0) {
-        proc_control_node_B.temp_l = y_data[proc_control_node_B.jy_d] * alpha1;
-        proc_control_node_B.ix_ld = ix0;
-        b = m + proc_control_node_B.jA_j;
-        for (ijA = proc_control_node_B.jA_j; ijA < b; ijA++) {
-          A_data[ijA] += A_data[proc_control_node_B.ix_ld - 1] *
-            proc_control_node_B.temp_l;
-          proc_control_node_B.ix_ld++;
+      if (y_data[proc_control_node_B.jy_j] != 0.0) {
+        proc_control_node_B.temp_p = y_data[proc_control_node_B.jy_j] * alpha1;
+        proc_control_node_B.ix_h = ix0;
+        b = m + proc_control_node_B.jA_k;
+        for (ijA = proc_control_node_B.jA_k; ijA < b; ijA++) {
+          A_data[ijA] += A_data[proc_control_node_B.ix_h - 1] *
+            proc_control_node_B.temp_p;
+          proc_control_node_B.ix_h++;
         }
       }
 
-      proc_control_node_B.jy_d++;
-      proc_control_node_B.jA_j += lda;
+      proc_control_node_B.jy_j++;
+      proc_control_node_B.jA_k += lda;
     }
   }
 }
@@ -8847,31 +8842,31 @@ void proc_control_nodeModelClass::proc_control_node_xzlarf(int32_T m, int32_T n,
   int32_T exitg1;
   boolean_T exitg2;
   if (tau != 0.0) {
-    proc_control_node_B.lastv_i = m;
-    proc_control_node_B.lastc_o = iv0 + m;
-    while ((proc_control_node_B.lastv_i > 0) &&
-           (C_data[proc_control_node_B.lastc_o - 2] == 0.0)) {
-      proc_control_node_B.lastv_i--;
-      proc_control_node_B.lastc_o--;
+    proc_control_node_B.lastv_e = m;
+    proc_control_node_B.lastc_iw = iv0 + m;
+    while ((proc_control_node_B.lastv_e > 0) &&
+           (C_data[proc_control_node_B.lastc_iw - 2] == 0.0)) {
+      proc_control_node_B.lastv_e--;
+      proc_control_node_B.lastc_iw--;
     }
 
-    proc_control_node_B.lastc_o = n;
+    proc_control_node_B.lastc_iw = n;
     exitg2 = false;
-    while ((!exitg2) && (proc_control_node_B.lastc_o > 0)) {
-      proc_control_node_B.coltop_j = (proc_control_node_B.lastc_o - 1) * ldc +
+    while ((!exitg2) && (proc_control_node_B.lastc_iw > 0)) {
+      proc_control_node_B.coltop_o = (proc_control_node_B.lastc_iw - 1) * ldc +
         ic0;
-      proc_control_node_B.ia_ky = proc_control_node_B.coltop_j;
+      proc_control_node_B.ia_jo = proc_control_node_B.coltop_o;
       do {
         exitg1 = 0;
-        if (proc_control_node_B.ia_ky <= (proc_control_node_B.coltop_j +
-             proc_control_node_B.lastv_i) - 1) {
-          if (C_data[proc_control_node_B.ia_ky - 1] != 0.0) {
+        if (proc_control_node_B.ia_jo <= (proc_control_node_B.coltop_o +
+             proc_control_node_B.lastv_e) - 1) {
+          if (C_data[proc_control_node_B.ia_jo - 1] != 0.0) {
             exitg1 = 1;
           } else {
-            proc_control_node_B.ia_ky++;
+            proc_control_node_B.ia_jo++;
           }
         } else {
-          proc_control_node_B.lastc_o--;
+          proc_control_node_B.lastc_iw--;
           exitg1 = 2;
         }
       } while (exitg1 == 0);
@@ -8881,15 +8876,15 @@ void proc_control_nodeModelClass::proc_control_node_xzlarf(int32_T m, int32_T n,
       }
     }
   } else {
-    proc_control_node_B.lastv_i = 0;
-    proc_control_node_B.lastc_o = 0;
+    proc_control_node_B.lastv_e = 0;
+    proc_control_node_B.lastc_iw = 0;
   }
 
-  if (proc_control_node_B.lastv_i > 0) {
-    proc_control_node_xgemv_mt(proc_control_node_B.lastv_i,
-      proc_control_node_B.lastc_o, C_data, ic0, ldc, C_data, iv0, work_data);
-    proc_control_node_xgerc(proc_control_node_B.lastv_i,
-      proc_control_node_B.lastc_o, -tau, iv0, work_data, C_data, ic0, ldc);
+  if (proc_control_node_B.lastv_e > 0) {
+    proc_control_node_xgemv_mt(proc_control_node_B.lastv_e,
+      proc_control_node_B.lastc_iw, C_data, ic0, ldc, C_data, iv0, work_data);
+    proc_control_node_xgerc(proc_control_node_B.lastv_e,
+      proc_control_node_B.lastc_iw, -tau, iv0, work_data, C_data, ic0, ldc);
   }
 }
 
@@ -8910,24 +8905,24 @@ void proc_control_nodeModelClass::proc_control_node_qrf(real_T A_data[], const
       proc_control_node_B.lda + proc_control_node_B.i_l1;
     proc_control_node_B.mmi = m - proc_control_node_B.i_l1;
     if (proc_control_node_B.i_l1 + 1 < m) {
-      proc_control_node_B.b_atmp_k = A_data[proc_control_node_B.ii_lr];
+      proc_control_node_B.b_atmp_p = A_data[proc_control_node_B.ii_lr];
       tau_data[proc_control_node_B.i_l1] = proc_control_node_xzlarfg
-        (proc_control_node_B.mmi, &proc_control_node_B.b_atmp_k, A_data,
+        (proc_control_node_B.mmi, &proc_control_node_B.b_atmp_p, A_data,
          proc_control_node_B.ii_lr + 2);
-      A_data[proc_control_node_B.ii_lr] = proc_control_node_B.b_atmp_k;
+      A_data[proc_control_node_B.ii_lr] = proc_control_node_B.b_atmp_p;
     } else {
       tau_data[proc_control_node_B.i_l1] = 0.0;
     }
 
     if (proc_control_node_B.i_l1 + 1 < n) {
-      proc_control_node_B.b_atmp_k = A_data[proc_control_node_B.ii_lr];
+      proc_control_node_B.b_atmp_p = A_data[proc_control_node_B.ii_lr];
       A_data[proc_control_node_B.ii_lr] = 1.0;
       proc_control_node_xzlarf(proc_control_node_B.mmi, (n -
         proc_control_node_B.i_l1) - 1, proc_control_node_B.ii_lr + 1,
         tau_data[proc_control_node_B.i_l1], A_data, (proc_control_node_B.ii_lr +
         proc_control_node_B.lda) + 1, proc_control_node_B.lda,
         proc_control_node_B.work_data);
-      A_data[proc_control_node_B.ii_lr] = proc_control_node_B.b_atmp_k;
+      A_data[proc_control_node_B.ii_lr] = proc_control_node_B.b_atmp_p;
     }
 
     proc_control_node_B.i_l1++;
@@ -8944,9 +8939,9 @@ void proc_control_nodeModelClass::proc_control_node_xswap(int32_T n, real_T
   ix = ix0 - 1;
   iy = iy0 - 1;
   for (k = 0; k < n; k++) {
-    proc_control_node_B.temp_cf = x_data[ix];
+    proc_control_node_B.temp_c = x_data[ix];
     x_data[ix] = x_data[iy];
-    x_data[iy] = proc_control_node_B.temp_cf;
+    x_data[iy] = proc_control_node_B.temp_c;
     ix++;
     iy++;
   }
@@ -8957,144 +8952,144 @@ void proc_control_nodeModelClass::proc_control_node_qrpf(real_T A_data[], const
   int32_T A_size[2], int32_T m, int32_T n, int32_T nfxd, real_T tau_data[],
   int32_T jpvt_data[])
 {
-  proc_control_node_B.ma_e = A_size[0];
+  proc_control_node_B.ma_h = A_size[0];
   if (m < n) {
-    proc_control_node_B.minmn_n = m;
+    proc_control_node_B.minmn_e = m;
   } else {
-    proc_control_node_B.minmn_n = n;
+    proc_control_node_B.minmn_e = n;
   }
 
-  proc_control_node_B.ii_h = A_size[1];
-  if (0 <= proc_control_node_B.ii_h - 1) {
-    memset(&proc_control_node_B.work_data_j[0], 0, proc_control_node_B.ii_h *
+  proc_control_node_B.ii_ne = A_size[1];
+  if (0 <= proc_control_node_B.ii_ne - 1) {
+    memset(&proc_control_node_B.work_data_j[0], 0, proc_control_node_B.ii_ne *
            sizeof(real_T));
   }
 
-  proc_control_node_B.ii_h = A_size[1];
-  if (0 <= proc_control_node_B.ii_h - 1) {
-    memset(&proc_control_node_B.vn1_data[0], 0, proc_control_node_B.ii_h *
+  proc_control_node_B.ii_ne = A_size[1];
+  if (0 <= proc_control_node_B.ii_ne - 1) {
+    memset(&proc_control_node_B.vn1_data[0], 0, proc_control_node_B.ii_ne *
            sizeof(real_T));
   }
 
-  proc_control_node_B.ii_h = A_size[1];
-  if (0 <= proc_control_node_B.ii_h - 1) {
-    memset(&proc_control_node_B.vn2_data[0], 0, proc_control_node_B.ii_h *
+  proc_control_node_B.ii_ne = A_size[1];
+  if (0 <= proc_control_node_B.ii_ne - 1) {
+    memset(&proc_control_node_B.vn2_data[0], 0, proc_control_node_B.ii_ne *
            sizeof(real_T));
   }
 
-  proc_control_node_B.j_fo = nfxd;
-  while (proc_control_node_B.j_fo + 1 <= n) {
-    proc_control_node_B.vn1_data[proc_control_node_B.j_fo] =
-      proc_control_node_xnrm2(m - nfxd, A_data, (proc_control_node_B.j_fo *
-      proc_control_node_B.ma_e + nfxd) + 1);
-    proc_control_node_B.vn2_data[proc_control_node_B.j_fo] =
-      proc_control_node_B.vn1_data[proc_control_node_B.j_fo];
-    proc_control_node_B.j_fo++;
+  proc_control_node_B.j_o = nfxd;
+  while (proc_control_node_B.j_o + 1 <= n) {
+    proc_control_node_B.vn1_data[proc_control_node_B.j_o] =
+      proc_control_node_xnrm2(m - nfxd, A_data, (proc_control_node_B.j_o *
+      proc_control_node_B.ma_h + nfxd) + 1);
+    proc_control_node_B.vn2_data[proc_control_node_B.j_o] =
+      proc_control_node_B.vn1_data[proc_control_node_B.j_o];
+    proc_control_node_B.j_o++;
   }
 
-  proc_control_node_B.j_fo = nfxd;
-  while (proc_control_node_B.j_fo + 1 <= proc_control_node_B.minmn_n) {
-    proc_control_node_B.ii_h = proc_control_node_B.j_fo *
-      proc_control_node_B.ma_e + proc_control_node_B.j_fo;
-    proc_control_node_B.nmi = n - proc_control_node_B.j_fo;
-    proc_control_node_B.mmi_o = m - proc_control_node_B.j_fo;
+  proc_control_node_B.j_o = nfxd;
+  while (proc_control_node_B.j_o + 1 <= proc_control_node_B.minmn_e) {
+    proc_control_node_B.ii_ne = proc_control_node_B.j_o *
+      proc_control_node_B.ma_h + proc_control_node_B.j_o;
+    proc_control_node_B.nmi = n - proc_control_node_B.j_o;
+    proc_control_node_B.mmi_h = m - proc_control_node_B.j_o;
     if (proc_control_node_B.nmi < 1) {
       proc_control_node_B.pvt = -1;
     } else {
       proc_control_node_B.pvt = 0;
       if (proc_control_node_B.nmi > 1) {
-        proc_control_node_B.ix_k1 = proc_control_node_B.j_fo;
-        proc_control_node_B.smax_j0 = fabs
-          (proc_control_node_B.vn1_data[proc_control_node_B.j_fo]);
-        proc_control_node_B.k_e = 2;
-        while (proc_control_node_B.k_e <= proc_control_node_B.nmi) {
-          proc_control_node_B.ix_k1++;
+        proc_control_node_B.ix_fo = proc_control_node_B.j_o;
+        proc_control_node_B.smax_l = fabs
+          (proc_control_node_B.vn1_data[proc_control_node_B.j_o]);
+        proc_control_node_B.k_k1 = 2;
+        while (proc_control_node_B.k_k1 <= proc_control_node_B.nmi) {
+          proc_control_node_B.ix_fo++;
           proc_control_node_B.temp2 = fabs
-            (proc_control_node_B.vn1_data[proc_control_node_B.ix_k1]);
-          if (proc_control_node_B.temp2 > proc_control_node_B.smax_j0) {
-            proc_control_node_B.pvt = proc_control_node_B.k_e - 1;
-            proc_control_node_B.smax_j0 = proc_control_node_B.temp2;
+            (proc_control_node_B.vn1_data[proc_control_node_B.ix_fo]);
+          if (proc_control_node_B.temp2 > proc_control_node_B.smax_l) {
+            proc_control_node_B.pvt = proc_control_node_B.k_k1 - 1;
+            proc_control_node_B.smax_l = proc_control_node_B.temp2;
           }
 
-          proc_control_node_B.k_e++;
+          proc_control_node_B.k_k1++;
         }
       }
     }
 
-    proc_control_node_B.pvt += proc_control_node_B.j_fo;
-    if (proc_control_node_B.pvt + 1 != proc_control_node_B.j_fo + 1) {
+    proc_control_node_B.pvt += proc_control_node_B.j_o;
+    if (proc_control_node_B.pvt + 1 != proc_control_node_B.j_o + 1) {
       proc_control_node_xswap(m, A_data, proc_control_node_B.pvt *
-        proc_control_node_B.ma_e + 1, proc_control_node_B.j_fo *
-        proc_control_node_B.ma_e + 1);
-      proc_control_node_B.ix_k1 = jpvt_data[proc_control_node_B.pvt];
-      jpvt_data[proc_control_node_B.pvt] = jpvt_data[proc_control_node_B.j_fo];
-      jpvt_data[proc_control_node_B.j_fo] = proc_control_node_B.ix_k1;
+        proc_control_node_B.ma_h + 1, proc_control_node_B.j_o *
+        proc_control_node_B.ma_h + 1);
+      proc_control_node_B.ix_fo = jpvt_data[proc_control_node_B.pvt];
+      jpvt_data[proc_control_node_B.pvt] = jpvt_data[proc_control_node_B.j_o];
+      jpvt_data[proc_control_node_B.j_o] = proc_control_node_B.ix_fo;
       proc_control_node_B.vn1_data[proc_control_node_B.pvt] =
-        proc_control_node_B.vn1_data[proc_control_node_B.j_fo];
+        proc_control_node_B.vn1_data[proc_control_node_B.j_o];
       proc_control_node_B.vn2_data[proc_control_node_B.pvt] =
-        proc_control_node_B.vn2_data[proc_control_node_B.j_fo];
+        proc_control_node_B.vn2_data[proc_control_node_B.j_o];
     }
 
-    if (proc_control_node_B.j_fo + 1 < m) {
-      proc_control_node_B.smax_j0 = A_data[proc_control_node_B.ii_h];
-      tau_data[proc_control_node_B.j_fo] = proc_control_node_xzlarfg
-        (proc_control_node_B.mmi_o, &proc_control_node_B.smax_j0, A_data,
-         proc_control_node_B.ii_h + 2);
-      A_data[proc_control_node_B.ii_h] = proc_control_node_B.smax_j0;
+    if (proc_control_node_B.j_o + 1 < m) {
+      proc_control_node_B.smax_l = A_data[proc_control_node_B.ii_ne];
+      tau_data[proc_control_node_B.j_o] = proc_control_node_xzlarfg
+        (proc_control_node_B.mmi_h, &proc_control_node_B.smax_l, A_data,
+         proc_control_node_B.ii_ne + 2);
+      A_data[proc_control_node_B.ii_ne] = proc_control_node_B.smax_l;
     } else {
-      tau_data[proc_control_node_B.j_fo] = 0.0;
+      tau_data[proc_control_node_B.j_o] = 0.0;
     }
 
-    if (proc_control_node_B.j_fo + 1 < n) {
-      proc_control_node_B.smax_j0 = A_data[proc_control_node_B.ii_h];
-      A_data[proc_control_node_B.ii_h] = 1.0;
-      proc_control_node_xzlarf(proc_control_node_B.mmi_o,
-        proc_control_node_B.nmi - 1, proc_control_node_B.ii_h + 1,
-        tau_data[proc_control_node_B.j_fo], A_data, (proc_control_node_B.ii_h +
-        proc_control_node_B.ma_e) + 1, proc_control_node_B.ma_e,
+    if (proc_control_node_B.j_o + 1 < n) {
+      proc_control_node_B.smax_l = A_data[proc_control_node_B.ii_ne];
+      A_data[proc_control_node_B.ii_ne] = 1.0;
+      proc_control_node_xzlarf(proc_control_node_B.mmi_h,
+        proc_control_node_B.nmi - 1, proc_control_node_B.ii_ne + 1,
+        tau_data[proc_control_node_B.j_o], A_data, (proc_control_node_B.ii_ne +
+        proc_control_node_B.ma_h) + 1, proc_control_node_B.ma_h,
         proc_control_node_B.work_data_j);
-      A_data[proc_control_node_B.ii_h] = proc_control_node_B.smax_j0;
+      A_data[proc_control_node_B.ii_ne] = proc_control_node_B.smax_l;
     }
 
-    proc_control_node_B.ii_h = proc_control_node_B.j_fo + 1;
-    while (proc_control_node_B.ii_h + 1 <= n) {
-      proc_control_node_B.nmi = proc_control_node_B.ii_h *
-        proc_control_node_B.ma_e + proc_control_node_B.j_fo;
-      if (proc_control_node_B.vn1_data[proc_control_node_B.ii_h] != 0.0) {
-        proc_control_node_B.smax_j0 = fabs(A_data[proc_control_node_B.nmi]) /
-          proc_control_node_B.vn1_data[proc_control_node_B.ii_h];
-        proc_control_node_B.smax_j0 = 1.0 - proc_control_node_B.smax_j0 *
-          proc_control_node_B.smax_j0;
-        if (proc_control_node_B.smax_j0 < 0.0) {
-          proc_control_node_B.smax_j0 = 0.0;
+    proc_control_node_B.ii_ne = proc_control_node_B.j_o + 1;
+    while (proc_control_node_B.ii_ne + 1 <= n) {
+      proc_control_node_B.nmi = proc_control_node_B.ii_ne *
+        proc_control_node_B.ma_h + proc_control_node_B.j_o;
+      if (proc_control_node_B.vn1_data[proc_control_node_B.ii_ne] != 0.0) {
+        proc_control_node_B.smax_l = fabs(A_data[proc_control_node_B.nmi]) /
+          proc_control_node_B.vn1_data[proc_control_node_B.ii_ne];
+        proc_control_node_B.smax_l = 1.0 - proc_control_node_B.smax_l *
+          proc_control_node_B.smax_l;
+        if (proc_control_node_B.smax_l < 0.0) {
+          proc_control_node_B.smax_l = 0.0;
         }
 
         proc_control_node_B.temp2 =
-          proc_control_node_B.vn1_data[proc_control_node_B.ii_h] /
-          proc_control_node_B.vn2_data[proc_control_node_B.ii_h];
+          proc_control_node_B.vn1_data[proc_control_node_B.ii_ne] /
+          proc_control_node_B.vn2_data[proc_control_node_B.ii_ne];
         proc_control_node_B.temp2 = proc_control_node_B.temp2 *
-          proc_control_node_B.temp2 * proc_control_node_B.smax_j0;
+          proc_control_node_B.temp2 * proc_control_node_B.smax_l;
         if (proc_control_node_B.temp2 <= 1.4901161193847656E-8) {
-          if (proc_control_node_B.j_fo + 1 < m) {
-            proc_control_node_B.vn1_data[proc_control_node_B.ii_h] =
-              proc_control_node_xnrm2(proc_control_node_B.mmi_o - 1, A_data,
+          if (proc_control_node_B.j_o + 1 < m) {
+            proc_control_node_B.vn1_data[proc_control_node_B.ii_ne] =
+              proc_control_node_xnrm2(proc_control_node_B.mmi_h - 1, A_data,
               proc_control_node_B.nmi + 2);
-            proc_control_node_B.vn2_data[proc_control_node_B.ii_h] =
-              proc_control_node_B.vn1_data[proc_control_node_B.ii_h];
+            proc_control_node_B.vn2_data[proc_control_node_B.ii_ne] =
+              proc_control_node_B.vn1_data[proc_control_node_B.ii_ne];
           } else {
-            proc_control_node_B.vn1_data[proc_control_node_B.ii_h] = 0.0;
-            proc_control_node_B.vn2_data[proc_control_node_B.ii_h] = 0.0;
+            proc_control_node_B.vn1_data[proc_control_node_B.ii_ne] = 0.0;
+            proc_control_node_B.vn2_data[proc_control_node_B.ii_ne] = 0.0;
           }
         } else {
-          proc_control_node_B.vn1_data[proc_control_node_B.ii_h] *= sqrt
-            (proc_control_node_B.smax_j0);
+          proc_control_node_B.vn1_data[proc_control_node_B.ii_ne] *= sqrt
+            (proc_control_node_B.smax_l);
         }
       }
 
-      proc_control_node_B.ii_h++;
+      proc_control_node_B.ii_ne++;
     }
 
-    proc_control_node_B.j_fo++;
+    proc_control_node_B.j_o++;
   }
 }
 
@@ -9129,27 +9124,25 @@ void proc_control_nodeModelClass::proc_control_node_xgeqp3(real_T A_data[],
     }
   } else {
     proc_control_node_B.minmana_c = -1;
-    proc_control_node_B.c_j_h = 0;
-    while (proc_control_node_B.c_j_h <= n - 1) {
-      if (jpvt_data[proc_control_node_B.c_j_h] != 0) {
+    proc_control_node_B.c_j = 0;
+    while (proc_control_node_B.c_j <= n - 1) {
+      if (jpvt_data[proc_control_node_B.c_j] != 0) {
         proc_control_node_B.minmana_c++;
-        if (proc_control_node_B.c_j_h + 1 != proc_control_node_B.minmana_c + 1)
-        {
-          proc_control_node_xswap(m, A_data, proc_control_node_B.c_j_h *
+        if (proc_control_node_B.c_j + 1 != proc_control_node_B.minmana_c + 1) {
+          proc_control_node_xswap(m, A_data, proc_control_node_B.c_j *
             proc_control_node_B.ma + 1, proc_control_node_B.minmana_c *
             proc_control_node_B.ma + 1);
-          jpvt_data[proc_control_node_B.c_j_h] =
+          jpvt_data[proc_control_node_B.c_j] =
             jpvt_data[proc_control_node_B.minmana_c];
-          jpvt_data[proc_control_node_B.minmana_c] = proc_control_node_B.c_j_h +
-            1;
+          jpvt_data[proc_control_node_B.minmana_c] = proc_control_node_B.c_j + 1;
         } else {
-          jpvt_data[proc_control_node_B.c_j_h] = proc_control_node_B.c_j_h + 1;
+          jpvt_data[proc_control_node_B.c_j] = proc_control_node_B.c_j + 1;
         }
       } else {
-        jpvt_data[proc_control_node_B.c_j_h] = proc_control_node_B.c_j_h + 1;
+        jpvt_data[proc_control_node_B.c_j] = proc_control_node_B.c_j + 1;
       }
 
-      proc_control_node_B.c_j_h++;
+      proc_control_node_B.c_j++;
     }
 
     if (proc_control_node_B.minmana_c + 1 < proc_control_node_B.minmn_a) {
@@ -9172,18 +9165,18 @@ void proc_control_nodeModelClass::proc_control_node_factorQRE
   (s_2F24x1ekvOt8ZUO1knVMv_proc__T *obj, const real_T A_data[], int32_T mrows,
    int32_T ncols, int32_T ldA)
 {
-  proc_control_node_B.b_idx_o = 0;
-  while (proc_control_node_B.b_idx_o <= ncols - 1) {
-    proc_control_node_B.iA0_j = ldA * proc_control_node_B.b_idx_o;
-    proc_control_node_B.iQR0_k = obj->ldq * proc_control_node_B.b_idx_o;
-    proc_control_node_B.b_g2 = 1;
-    while (proc_control_node_B.b_g2 - 1 <= mrows - 1) {
-      obj->QR.data[(proc_control_node_B.iQR0_k + proc_control_node_B.b_g2) - 1] =
-        A_data[(proc_control_node_B.iA0_j + proc_control_node_B.b_g2) - 1];
-      proc_control_node_B.b_g2++;
+  proc_control_node_B.b_idx_k = 0;
+  while (proc_control_node_B.b_idx_k <= ncols - 1) {
+    proc_control_node_B.iA0_n = ldA * proc_control_node_B.b_idx_k;
+    proc_control_node_B.iQR0_j = obj->ldq * proc_control_node_B.b_idx_k;
+    proc_control_node_B.b_o = 1;
+    while (proc_control_node_B.b_o - 1 <= mrows - 1) {
+      obj->QR.data[(proc_control_node_B.iQR0_j + proc_control_node_B.b_o) - 1] =
+        A_data[(proc_control_node_B.iA0_n + proc_control_node_B.b_o) - 1];
+      proc_control_node_B.b_o++;
     }
 
-    proc_control_node_B.b_idx_o++;
+    proc_control_node_B.b_idx_k++;
   }
 
   obj->usedPivoting = true;
@@ -9197,10 +9190,10 @@ void proc_control_nodeModelClass::proc_control_node_factorQRE
 
   proc_control_node_B.b_size_o[0] = obj->QR.size[0];
   proc_control_node_B.b_size_o[1] = obj->QR.size[1];
-  proc_control_node_B.iA0_j = obj->QR.size[0] * obj->QR.size[1];
-  if (0 <= proc_control_node_B.iA0_j - 1) {
+  proc_control_node_B.iA0_n = obj->QR.size[0] * obj->QR.size[1];
+  if (0 <= proc_control_node_B.iA0_n - 1) {
     memcpy(&proc_control_node_B.b_data[0], &obj->QR.data[0],
-           proc_control_node_B.iA0_j * sizeof(real_T));
+           proc_control_node_B.iA0_n * sizeof(real_T));
   }
 
   proc_control_node_xgeqp3(proc_control_node_B.b_data,
@@ -9208,11 +9201,11 @@ void proc_control_nodeModelClass::proc_control_node_factorQRE
     &obj->tau.size);
   obj->QR.size[0] = proc_control_node_B.b_size_o[0];
   obj->QR.size[1] = proc_control_node_B.b_size_o[1];
-  proc_control_node_B.iA0_j = proc_control_node_B.b_size_o[0] *
+  proc_control_node_B.iA0_n = proc_control_node_B.b_size_o[0] *
     proc_control_node_B.b_size_o[1];
-  if (0 <= proc_control_node_B.iA0_j - 1) {
+  if (0 <= proc_control_node_B.iA0_n - 1) {
     memcpy(&obj->QR.data[0], &proc_control_node_B.b_data[0],
-           proc_control_node_B.iA0_j * sizeof(real_T));
+           proc_control_node_B.iA0_n * sizeof(real_T));
   }
 }
 
@@ -9222,59 +9215,59 @@ void proc_control_nodeModelClass::proc_control_node_xorgqr(int32_T m, int32_T n,
   tau_data[])
 {
   if (n >= 1) {
-    proc_control_node_B.itau_b = k;
-    while (proc_control_node_B.itau_b <= n - 1) {
-      proc_control_node_B.i_py = proc_control_node_B.itau_b * lda;
-      proc_control_node_B.iaii_p = 0;
-      while (proc_control_node_B.iaii_p <= m - 1) {
-        A_data[proc_control_node_B.i_py + proc_control_node_B.iaii_p] = 0.0;
-        proc_control_node_B.iaii_p++;
+    proc_control_node_B.itau_p = k;
+    while (proc_control_node_B.itau_p <= n - 1) {
+      proc_control_node_B.i_bf = proc_control_node_B.itau_p * lda;
+      proc_control_node_B.iaii_b = 0;
+      while (proc_control_node_B.iaii_b <= m - 1) {
+        A_data[proc_control_node_B.i_bf + proc_control_node_B.iaii_b] = 0.0;
+        proc_control_node_B.iaii_b++;
       }
 
-      A_data[proc_control_node_B.i_py + proc_control_node_B.itau_b] = 1.0;
-      proc_control_node_B.itau_b++;
+      A_data[proc_control_node_B.i_bf + proc_control_node_B.itau_p] = 1.0;
+      proc_control_node_B.itau_p++;
     }
 
-    proc_control_node_B.itau_b = k - 1;
-    proc_control_node_B.iaii_p = static_cast<int16_T>(A_size[1]);
-    if (0 <= proc_control_node_B.iaii_p - 1) {
-      memset(&proc_control_node_B.work_data_d[0], 0, proc_control_node_B.iaii_p *
+    proc_control_node_B.itau_p = k - 1;
+    proc_control_node_B.iaii_b = static_cast<int16_T>(A_size[1]);
+    if (0 <= proc_control_node_B.iaii_b - 1) {
+      memset(&proc_control_node_B.work_data_d[0], 0, proc_control_node_B.iaii_b *
              sizeof(real_T));
     }
 
-    proc_control_node_B.i_py = k;
-    while (proc_control_node_B.i_py >= 1) {
-      proc_control_node_B.iaii_p = (proc_control_node_B.i_py - 1) * lda +
-        proc_control_node_B.i_py;
-      if (proc_control_node_B.i_py < n) {
-        A_data[proc_control_node_B.iaii_p - 1] = 1.0;
-        proc_control_node_xzlarf((m - proc_control_node_B.i_py) + 1, n -
-          proc_control_node_B.i_py, proc_control_node_B.iaii_p,
-          tau_data[proc_control_node_B.itau_b], A_data,
-          proc_control_node_B.iaii_p + lda, lda, proc_control_node_B.work_data_d);
+    proc_control_node_B.i_bf = k;
+    while (proc_control_node_B.i_bf >= 1) {
+      proc_control_node_B.iaii_b = (proc_control_node_B.i_bf - 1) * lda +
+        proc_control_node_B.i_bf;
+      if (proc_control_node_B.i_bf < n) {
+        A_data[proc_control_node_B.iaii_b - 1] = 1.0;
+        proc_control_node_xzlarf((m - proc_control_node_B.i_bf) + 1, n -
+          proc_control_node_B.i_bf, proc_control_node_B.iaii_b,
+          tau_data[proc_control_node_B.itau_p], A_data,
+          proc_control_node_B.iaii_b + lda, lda, proc_control_node_B.work_data_d);
       }
 
-      if (proc_control_node_B.i_py < m) {
-        proc_control_node_B.d_n = (proc_control_node_B.iaii_p + m) -
-          proc_control_node_B.i_py;
-        proc_control_node_B.b_k_j2 = proc_control_node_B.iaii_p;
-        while (proc_control_node_B.b_k_j2 + 1 <= proc_control_node_B.d_n) {
-          A_data[proc_control_node_B.b_k_j2] *=
-            -tau_data[proc_control_node_B.itau_b];
-          proc_control_node_B.b_k_j2++;
+      if (proc_control_node_B.i_bf < m) {
+        proc_control_node_B.d_p = (proc_control_node_B.iaii_b + m) -
+          proc_control_node_B.i_bf;
+        proc_control_node_B.b_k_n = proc_control_node_B.iaii_b;
+        while (proc_control_node_B.b_k_n + 1 <= proc_control_node_B.d_p) {
+          A_data[proc_control_node_B.b_k_n] *=
+            -tau_data[proc_control_node_B.itau_p];
+          proc_control_node_B.b_k_n++;
         }
       }
 
-      A_data[proc_control_node_B.iaii_p - 1] = 1.0 -
-        tau_data[proc_control_node_B.itau_b];
-      proc_control_node_B.d_n = 0;
-      while (proc_control_node_B.d_n <= proc_control_node_B.i_py - 2) {
-        A_data[(proc_control_node_B.iaii_p - proc_control_node_B.d_n) - 2] = 0.0;
-        proc_control_node_B.d_n++;
+      A_data[proc_control_node_B.iaii_b - 1] = 1.0 -
+        tau_data[proc_control_node_B.itau_p];
+      proc_control_node_B.d_p = 0;
+      while (proc_control_node_B.d_p <= proc_control_node_B.i_bf - 2) {
+        A_data[(proc_control_node_B.iaii_b - proc_control_node_B.d_p) - 2] = 0.0;
+        proc_control_node_B.d_p++;
       }
 
-      proc_control_node_B.itau_b--;
-      proc_control_node_B.i_py--;
+      proc_control_node_B.itau_p--;
+      proc_control_node_B.i_bf--;
     }
   }
 }
@@ -9283,21 +9276,21 @@ void proc_control_nodeModelClass::proc_control_node_xorgqr(int32_T m, int32_T n,
 void proc_control_nodeModelClass::proc_control_node_computeQ_
   (s_2F24x1ekvOt8ZUO1knVMv_proc__T *obj, int32_T nrows)
 {
-  proc_control_node_B.idx_d = 0;
-  while (proc_control_node_B.idx_d <= obj->minRowCol - 1) {
-    proc_control_node_B.iQR0_n = obj->ldq * proc_control_node_B.idx_d +
-      proc_control_node_B.idx_d;
-    proc_control_node_B.n_h = obj->mrows - proc_control_node_B.idx_d;
-    proc_control_node_B.k_b = 1;
-    while (proc_control_node_B.k_b - 1 <= proc_control_node_B.n_h - 2) {
-      proc_control_node_B.i39 = proc_control_node_B.iQR0_n +
-        proc_control_node_B.k_b;
+  proc_control_node_B.idx_nc = 0;
+  while (proc_control_node_B.idx_nc <= obj->minRowCol - 1) {
+    proc_control_node_B.iQR0_b = obj->ldq * proc_control_node_B.idx_nc +
+      proc_control_node_B.idx_nc;
+    proc_control_node_B.n_d = obj->mrows - proc_control_node_B.idx_nc;
+    proc_control_node_B.k_hf = 1;
+    while (proc_control_node_B.k_hf - 1 <= proc_control_node_B.n_d - 2) {
+      proc_control_node_B.i39 = proc_control_node_B.iQR0_b +
+        proc_control_node_B.k_hf;
       obj->Q.data[proc_control_node_B.i39] = obj->
         QR.data[proc_control_node_B.i39];
-      proc_control_node_B.k_b++;
+      proc_control_node_B.k_hf++;
     }
 
-    proc_control_node_B.idx_d++;
+    proc_control_node_B.idx_nc++;
   }
 
   proc_control_node_xorgqr(obj->mrows, nrows, obj->minRowCol, obj->Q.data,
@@ -9313,27 +9306,27 @@ void proc_control_nodeModelClass::proc_control_node_xgemv_mtm(int32_T m, int32_T
   int32_T ia;
   int32_T iac;
   if (m != 0) {
-    proc_control_node_B.b_iy_g = 0;
-    while (proc_control_node_B.b_iy_g <= n - 1) {
-      y_data[proc_control_node_B.b_iy_g] = 0.0;
-      proc_control_node_B.b_iy_g++;
+    proc_control_node_B.b_iy_g5 = 0;
+    while (proc_control_node_B.b_iy_g5 <= n - 1) {
+      y_data[proc_control_node_B.b_iy_g5] = 0.0;
+      proc_control_node_B.b_iy_g5++;
     }
 
-    proc_control_node_B.b_iy_g = 0;
+    proc_control_node_B.b_iy_g5 = 0;
     b_c = (n - 1) * lda + 1;
     iac = 1;
     while (((lda > 0) && (iac <= b_c)) || ((lda < 0) && (iac >= b_c))) {
-      proc_control_node_B.ix_g5 = 0;
+      proc_control_node_B.ix_l1 = 0;
       proc_control_node_B.c_iy = 0.0;
       b = (iac + m) - 1;
       for (ia = iac; ia <= b; ia++) {
         proc_control_node_B.c_iy += A_data[ia - 1] *
-          x_data[proc_control_node_B.ix_g5];
-        proc_control_node_B.ix_g5++;
+          x_data[proc_control_node_B.ix_l1];
+        proc_control_node_B.ix_l1++;
       }
 
-      y_data[proc_control_node_B.b_iy_g] += proc_control_node_B.c_iy;
-      proc_control_node_B.b_iy_g++;
+      y_data[proc_control_node_B.b_iy_g5] += proc_control_node_B.c_iy;
+      proc_control_node_B.b_iy_g5++;
       iac += lda;
     }
   }
@@ -9433,13 +9426,13 @@ int32_T proc_control_nodeModelClass::proc_control_node_ixamax(int32_T n, const
     idxmax = 1;
     if (n > 1) {
       ix = 0;
-      proc_control_node_B.smax_i = fabs(x_data[0]);
+      proc_control_node_B.smax_iu = fabs(x_data[0]);
       for (k = 2; k <= n; k++) {
         ix++;
         y = fabs(x_data[ix]);
-        if (y > proc_control_node_B.smax_i) {
+        if (y > proc_control_node_B.smax_iu) {
           idxmax = k;
-          proc_control_node_B.smax_i = y;
+          proc_control_node_B.smax_iu = y;
         }
       }
     }
@@ -9460,15 +9453,15 @@ void proc_control_nodeModelClass::proc_control_node_test_exit
   boolean_T exitg1;
   boolean_T guard1 = false;
   boolean_T isFeasible;
-  proc_control_node_B.nVar_dv = WorkingSet->nVar;
-  proc_control_node_B.mFixed_a = WorkingSet->sizes[0];
-  proc_control_node_B.mIneq_k = WorkingSet->sizes[2];
-  proc_control_node_B.mLB_c = WorkingSet->sizes[3];
-  proc_control_node_B.mUB_j = WorkingSet->sizes[4];
-  proc_control_node_B.mLambda_b = (((WorkingSet->sizes[0] + WorkingSet->sizes[2])
+  proc_control_node_B.nVar_o = WorkingSet->nVar;
+  proc_control_node_B.mFixed_d = WorkingSet->sizes[0];
+  proc_control_node_B.mIneq_a = WorkingSet->sizes[2];
+  proc_control_node_B.mLB_k = WorkingSet->sizes[3];
+  proc_control_node_B.mUB_c = WorkingSet->sizes[4];
+  proc_control_node_B.mLambda_j = (((WorkingSet->sizes[0] + WorkingSet->sizes[2])
     + WorkingSet->sizes[3]) + WorkingSet->sizes[4]) + 129;
   proc_control_node_B.nActiveConstr = 0;
-  while (proc_control_node_B.nActiveConstr <= proc_control_node_B.mLambda_b) {
+  while (proc_control_node_B.nActiveConstr <= proc_control_node_B.mLambda_j) {
     TrialState->lambdaStopTest.data[proc_control_node_B.nActiveConstr] =
       TrialState->lambdasqp.data[proc_control_node_B.nActiveConstr];
     proc_control_node_B.nActiveConstr++;
@@ -9480,16 +9473,16 @@ void proc_control_nodeModelClass::proc_control_node_test_exit
     WorkingSet->sizes[0], WorkingSet->indexLB.data, WorkingSet->sizes[3],
     WorkingSet->indexUB.data, WorkingSet->sizes[4],
     TrialState->lambdaStopTest.data);
-  proc_control_node_B.optimRelativeFactor_j = fabs(TrialState->
+  proc_control_node_B.optimRelativeFactor_n = fabs(TrialState->
     grad.data[proc_control_node_ixamax(WorkingSet->nVar, TrialState->grad.data)
     - 1]);
-  if ((1.0 > proc_control_node_B.optimRelativeFactor_j) || rtIsNaN
-      (proc_control_node_B.optimRelativeFactor_j)) {
-    proc_control_node_B.optimRelativeFactor_j = 1.0;
+  if ((1.0 > proc_control_node_B.optimRelativeFactor_n) || rtIsNaN
+      (proc_control_node_B.optimRelativeFactor_n)) {
+    proc_control_node_B.optimRelativeFactor_n = 1.0;
   }
 
-  if (rtIsInf(proc_control_node_B.optimRelativeFactor_j)) {
-    proc_control_node_B.optimRelativeFactor_j = 1.0;
+  if (rtIsInf(proc_control_node_B.optimRelativeFactor_n)) {
+    proc_control_node_B.optimRelativeFactor_n = 1.0;
   }
 
   MeritFunction->nlpPrimalFeasError = proc_con_computePrimalFeasError
@@ -9509,9 +9502,9 @@ void proc_control_nodeModelClass::proc_control_node_test_exit
   isFeasible = (MeritFunction->nlpPrimalFeasError <= 0.02 *
                 MeritFunction->feasRelativeFactor);
   proc_contr_computeDualFeasError(WorkingSet->nVar, TrialState->gradLag.data,
-    &dxTooSmall, &proc_control_node_B.tol_n);
+    &dxTooSmall, &proc_control_node_B.tol_j);
   Flags->gradOK = dxTooSmall;
-  MeritFunction->nlpDualFeasError = proc_control_node_B.tol_n;
+  MeritFunction->nlpDualFeasError = proc_control_node_B.tol_j;
   if (!dxTooSmall) {
     Flags->done = true;
     if (isFeasible) {
@@ -9526,9 +9519,9 @@ void proc_control_nodeModelClass::proc_control_node_test_exit
        WorkingSet->indexLB.data, WorkingSet->sizes[3], lb,
        WorkingSet->indexUB.data, WorkingSet->sizes[4],
        TrialState->lambdaStopTest.data, WorkingSet->sizes[0] + 131);
-    if ((proc_control_node_B.tol_n > MeritFunction->nlpComplError) || rtIsNaN
+    if ((proc_control_node_B.tol_j > MeritFunction->nlpComplError) || rtIsNaN
         (MeritFunction->nlpComplError)) {
-      MeritFunction->firstOrderOpt = proc_control_node_B.tol_n;
+      MeritFunction->firstOrderOpt = proc_control_node_B.tol_j;
     } else {
       MeritFunction->firstOrderOpt = MeritFunction->nlpComplError;
     }
@@ -9557,18 +9550,18 @@ void proc_control_nodeModelClass::proc_control_node_test_exit
         proc_control_node_B.d4 = proc_control_node_B.nlpComplErrorTmp;
       }
 
-      if ((!(proc_control_node_B.tol_n > MeritFunction->nlpComplError)) &&
+      if ((!(proc_control_node_B.tol_j > MeritFunction->nlpComplError)) &&
           (!rtIsNaN(MeritFunction->nlpComplError))) {
-        proc_control_node_B.tol_n = MeritFunction->nlpComplError;
+        proc_control_node_B.tol_j = MeritFunction->nlpComplError;
       }
 
-      if (proc_control_node_B.d4 < proc_control_node_B.tol_n) {
+      if (proc_control_node_B.d4 < proc_control_node_B.tol_j) {
         MeritFunction->nlpDualFeasError = proc_control_node_B.nlpComplErrorLSQ;
         MeritFunction->nlpComplError = proc_control_node_B.nlpComplErrorTmp;
         MeritFunction->firstOrderOpt = proc_control_node_B.d4;
         proc_control_node_B.nActiveConstr = 0;
         while (proc_control_node_B.nActiveConstr <=
-               proc_control_node_B.mLambda_b) {
+               proc_control_node_B.mLambda_j) {
           TrialState->lambdaStopTest.data[proc_control_node_B.nActiveConstr] =
             TrialState->
             lambdaStopTestPrev.data[proc_control_node_B.nActiveConstr];
@@ -9577,7 +9570,7 @@ void proc_control_nodeModelClass::proc_control_node_test_exit
       } else {
         proc_control_node_B.nActiveConstr = 0;
         while (proc_control_node_B.nActiveConstr <=
-               proc_control_node_B.mLambda_b) {
+               proc_control_node_B.mLambda_j) {
           TrialState->lambdaStopTestPrev.data[proc_control_node_B.nActiveConstr]
             = TrialState->lambdaStopTest.data[proc_control_node_B.nActiveConstr];
           proc_control_node_B.nActiveConstr++;
@@ -9585,7 +9578,7 @@ void proc_control_nodeModelClass::proc_control_node_test_exit
       }
     } else {
       proc_control_node_B.nActiveConstr = 0;
-      while (proc_control_node_B.nActiveConstr <= proc_control_node_B.mLambda_b)
+      while (proc_control_node_B.nActiveConstr <= proc_control_node_B.mLambda_j)
       {
         TrialState->lambdaStopTestPrev.data[proc_control_node_B.nActiveConstr] =
           TrialState->lambdaStopTest.data[proc_control_node_B.nActiveConstr];
@@ -9594,9 +9587,9 @@ void proc_control_nodeModelClass::proc_control_node_test_exit
     }
 
     if (isFeasible && (MeritFunction->nlpDualFeasError <= 0.02 *
-                       proc_control_node_B.optimRelativeFactor_j) &&
+                       proc_control_node_B.optimRelativeFactor_n) &&
         (MeritFunction->nlpComplError <= 0.02 *
-         proc_control_node_B.optimRelativeFactor_j)) {
+         proc_control_node_B.optimRelativeFactor_n)) {
       Flags->done = true;
       TrialState->sqpExitFlag = 1;
     } else {
@@ -9611,15 +9604,15 @@ void proc_control_nodeModelClass::proc_control_node_test_exit
           proc_control_node_B.nActiveConstr = 0;
           exitg1 = false;
           while ((!exitg1) && (proc_control_node_B.nActiveConstr <=
-                               proc_control_node_B.nVar_dv - 1)) {
-            proc_control_node_B.tol_n = fabs(TrialState->
+                               proc_control_node_B.nVar_o - 1)) {
+            proc_control_node_B.tol_j = fabs(TrialState->
               xstarsqp[proc_control_node_B.nActiveConstr]);
-            if ((1.0 > proc_control_node_B.tol_n) || rtIsNaN
-                (proc_control_node_B.tol_n)) {
-              proc_control_node_B.tol_n = 1.0;
+            if ((1.0 > proc_control_node_B.tol_j) || rtIsNaN
+                (proc_control_node_B.tol_j)) {
+              proc_control_node_B.tol_j = 1.0;
             }
 
-            if (0.1 * proc_control_node_B.tol_n <= fabs(TrialState->
+            if (0.1 * proc_control_node_B.tol_j <= fabs(TrialState->
                  delta_x.data[proc_control_node_B.nActiveConstr])) {
               dxTooSmall = false;
               exitg1 = true;
@@ -9654,27 +9647,27 @@ void proc_control_nodeModelClass::proc_control_node_test_exit
                 }
 
                 proc_control_node_factorQRE(QRManager, WorkingSet->ATwset.data,
-                  proc_control_node_B.nVar_dv, proc_control_node_B.nActiveConstr,
+                  proc_control_node_B.nVar_o, proc_control_node_B.nActiveConstr,
                   WorkingSet->ldA);
                 proc_control_node_computeQ_(QRManager, QRManager->mrows);
-                if (proc_control_node_B.nVar_dv >
+                if (proc_control_node_B.nVar_o >
                     proc_control_node_B.nActiveConstr) {
-                  proc_control_node_B.iQR_diag = proc_control_node_B.nVar_dv;
+                  proc_control_node_B.iQR_diag = proc_control_node_B.nVar_o;
                 } else {
                   proc_control_node_B.iQR_diag =
                     proc_control_node_B.nActiveConstr;
                 }
 
-                proc_control_node_B.tol_n = static_cast<real_T>
+                proc_control_node_B.tol_j = static_cast<real_T>
                   (proc_control_node_B.iQR_diag) * 2.2204460492503131E-16;
-                if (1.4901161193847656E-8 < proc_control_node_B.tol_n) {
-                  proc_control_node_B.tol_n = 1.4901161193847656E-8;
+                if (1.4901161193847656E-8 < proc_control_node_B.tol_j) {
+                  proc_control_node_B.tol_j = 1.4901161193847656E-8;
                 }
 
-                proc_control_node_B.tol_n *= fabs(QRManager->QR.data[0]);
-                if (proc_control_node_B.nVar_dv <
+                proc_control_node_B.tol_j *= fabs(QRManager->QR.data[0]);
+                if (proc_control_node_B.nVar_o <
                     proc_control_node_B.nActiveConstr) {
-                  proc_control_node_B.fullRank_R = proc_control_node_B.nVar_dv;
+                  proc_control_node_B.fullRank_R = proc_control_node_B.nVar_o;
                 } else {
                   proc_control_node_B.fullRank_R =
                     proc_control_node_B.nActiveConstr;
@@ -9685,7 +9678,7 @@ void proc_control_nodeModelClass::proc_control_node_test_exit
                 while ((proc_control_node_B.rankR <
                         proc_control_node_B.fullRank_R) && (fabs
                         (QRManager->QR.data[proc_control_node_B.iQR_diag]) >
-                        proc_control_node_B.tol_n)) {
+                        proc_control_node_B.tol_j)) {
                   proc_control_node_B.rankR++;
                   proc_control_node_B.iQR_diag = (proc_control_node_B.iQR_diag +
                     QRManager->ldq) + 1;
@@ -9703,8 +9696,8 @@ void proc_control_nodeModelClass::proc_control_node_test_exit
                          proc_control_node_B.iQR_diag * sizeof(real_T));
                 }
 
-                proc_control_node_xgemv_mtm(proc_control_node_B.nVar_dv,
-                  proc_control_node_B.nVar_dv, QRManager->Q.data, QRManager->ldq,
+                proc_control_node_xgemv_mtm(proc_control_node_B.nVar_o,
+                  proc_control_node_B.nVar_o, QRManager->Q.data, QRManager->ldq,
                   TrialState->grad.data, proc_control_node_B.e_data);
                 proc_control_node_xtrsv(proc_control_node_B.rankR,
                   QRManager->QR.data, QRManager->ldq, proc_control_node_B.e_data);
@@ -9723,9 +9716,9 @@ void proc_control_nodeModelClass::proc_control_node_test_exit
                   proc_control_node_B.fullRank_R++;
                 }
 
-                proc_control_node_B.nActiveConstr = proc_control_node_B.mFixed_a;
+                proc_control_node_B.nActiveConstr = proc_control_node_B.mFixed_d;
                 while (proc_control_node_B.nActiveConstr + 1 <=
-                       proc_control_node_B.mFixed_a + 130) {
+                       proc_control_node_B.mFixed_d + 130) {
                   TrialState->lambda.data[proc_control_node_B.nActiveConstr] =
                     -TrialState->lambda.data[proc_control_node_B.nActiveConstr];
                   proc_control_node_B.nActiveConstr++;
@@ -9748,44 +9741,44 @@ void proc_control_nodeModelClass::proc_control_node_test_exit
                 }
 
                 proc_control_n_computeGradLag_b(memspace->workspace_double.data,
-                  WorkingSet->ldA, proc_control_node_B.nVar_dv,
-                  TrialState->grad.data, proc_control_node_B.mIneq_k,
+                  WorkingSet->ldA, proc_control_node_B.nVar_o,
+                  TrialState->grad.data, proc_control_node_B.mIneq_a,
                   WorkingSet->Aineq.data, WorkingSet->Aeq.data,
-                  WorkingSet->indexFixed.data, proc_control_node_B.mFixed_a,
-                  WorkingSet->indexLB.data, proc_control_node_B.mLB_c,
-                  WorkingSet->indexUB.data, proc_control_node_B.mUB_j,
+                  WorkingSet->indexFixed.data, proc_control_node_B.mFixed_d,
+                  WorkingSet->indexLB.data, proc_control_node_B.mLB_k,
+                  WorkingSet->indexUB.data, proc_control_node_B.mUB_c,
                   TrialState->lambda.data);
-                proc_con_computeDualFeasError_b(proc_control_node_B.nVar_dv,
+                proc_con_computeDualFeasError_b(proc_control_node_B.nVar_o,
                   memspace->workspace_double.data, &isFeasible,
-                  &proc_control_node_B.tol_n);
+                  &proc_control_node_B.tol_j);
                 proc_control_node_B.nlpComplErrorLSQ =
                   proc_control__computeComplError(fscales_lineq_constraint_size,
                   fscales_cineq_constraint_size, TrialState->xstarsqp,
-                  proc_control_node_B.mIneq_k, TrialState->cIneq.data,
-                  WorkingSet->indexLB.data, proc_control_node_B.mLB_c, lb,
-                  WorkingSet->indexUB.data, proc_control_node_B.mUB_j,
-                  TrialState->lambda.data, proc_control_node_B.mFixed_a + 1);
-                if ((proc_control_node_B.tol_n <= 0.02 *
-                     proc_control_node_B.optimRelativeFactor_j) &&
+                  proc_control_node_B.mIneq_a, TrialState->cIneq.data,
+                  WorkingSet->indexLB.data, proc_control_node_B.mLB_k, lb,
+                  WorkingSet->indexUB.data, proc_control_node_B.mUB_c,
+                  TrialState->lambda.data, proc_control_node_B.mFixed_d + 1);
+                if ((proc_control_node_B.tol_j <= 0.02 *
+                     proc_control_node_B.optimRelativeFactor_n) &&
                     (proc_control_node_B.nlpComplErrorLSQ <= 0.02 *
-                     proc_control_node_B.optimRelativeFactor_j)) {
-                  MeritFunction->nlpDualFeasError = proc_control_node_B.tol_n;
+                     proc_control_node_B.optimRelativeFactor_n)) {
+                  MeritFunction->nlpDualFeasError = proc_control_node_B.tol_j;
                   MeritFunction->nlpComplError =
                     proc_control_node_B.nlpComplErrorLSQ;
-                  if (proc_control_node_B.tol_n >
+                  if (proc_control_node_B.tol_j >
                       proc_control_node_B.nlpComplErrorLSQ) {
-                    MeritFunction->firstOrderOpt = proc_control_node_B.tol_n;
+                    MeritFunction->firstOrderOpt = proc_control_node_B.tol_j;
                   } else {
                     MeritFunction->firstOrderOpt =
                       proc_control_node_B.nlpComplErrorLSQ;
                   }
 
-                  proc_control_node_B.nVar_dv = 0;
-                  while (proc_control_node_B.nVar_dv <=
-                         proc_control_node_B.mLambda_b) {
-                    TrialState->lambdaStopTest.data[proc_control_node_B.nVar_dv]
-                      = TrialState->lambda.data[proc_control_node_B.nVar_dv];
-                    proc_control_node_B.nVar_dv++;
+                  proc_control_node_B.nVar_o = 0;
+                  while (proc_control_node_B.nVar_o <=
+                         proc_control_node_B.mLambda_j) {
+                    TrialState->lambdaStopTest.data[proc_control_node_B.nVar_o] =
+                      TrialState->lambda.data[proc_control_node_B.nVar_o];
+                    proc_control_node_B.nVar_o++;
                   }
 
                   Flags->done = true;
@@ -9830,18 +9823,18 @@ void proc_control_nodeModelClass::proc_control_xgemv_mtmcjbiadz2i(int32_T m,
   int32_T ia;
   int32_T iac;
   int32_T iy;
-  proc_control_node_B.ix_h = ix0;
+  proc_control_node_B.ix_hk = ix0;
   b = (n - 1) * lda + ia0;
   iac = ia0;
   while (((lda > 0) && (iac <= b)) || ((lda < 0) && (iac >= b))) {
     iy = 0;
     c = (iac + m) - 1;
     for (ia = iac; ia <= c; ia++) {
-      y_data[iy] += A_data[ia - 1] * x_data[proc_control_node_B.ix_h - 1];
+      y_data[iy] += A_data[ia - 1] * x_data[proc_control_node_B.ix_hk - 1];
       iy++;
     }
 
-    proc_control_node_B.ix_h++;
+    proc_control_node_B.ix_hk++;
     iac += lda;
   }
 }
@@ -9868,26 +9861,26 @@ boolean_T proc_control_nodeModelClass::proc_control_node_BFGSUpdate(int32_T nvar
     workspace_data[b_jA] = 0.0;
   }
 
-  proc_control_node_B.ix_nw = 0;
+  proc_control_node_B.ix_c3 = 0;
   jy = (nvar - 1) * 147;
   for (c_ix = 1; c_ix <= jy + 1; c_ix += 147) {
     b_ix = 0;
     d = (c_ix + nvar) - 1;
     for (b_jA = c_ix; b_jA <= d; b_jA++) {
-      workspace_data[b_ix] += Bk[b_jA - 1] * sk_data[proc_control_node_B.ix_nw];
+      workspace_data[b_ix] += Bk[b_jA - 1] * sk_data[proc_control_node_B.ix_c3];
       b_ix++;
     }
 
-    proc_control_node_B.ix_nw++;
+    proc_control_node_B.ix_c3++;
   }
 
   proc_control_node_B.curvatureS = 0.0;
   if (nvar >= 1) {
-    proc_control_node_B.ix_nw = 0;
-    while (proc_control_node_B.ix_nw <= nvar - 1) {
-      proc_control_node_B.curvatureS += workspace_data[proc_control_node_B.ix_nw]
-        * sk_data[proc_control_node_B.ix_nw];
-      proc_control_node_B.ix_nw++;
+    proc_control_node_B.ix_c3 = 0;
+    while (proc_control_node_B.ix_c3 <= nvar - 1) {
+      proc_control_node_B.curvatureS += workspace_data[proc_control_node_B.ix_c3]
+        * sk_data[proc_control_node_B.ix_c3];
+      proc_control_node_B.ix_c3++;
     }
   }
 
@@ -9900,11 +9893,11 @@ boolean_T proc_control_nodeModelClass::proc_control_node_BFGSUpdate(int32_T nvar
 
     proc_control_node_B.dotSY = 1.0 - proc_control_node_B.dotSY;
     if (!(proc_control_node_B.dotSY == 0.0)) {
-      proc_control_node_B.ix_nw = 0;
-      while (proc_control_node_B.ix_nw <= nvar - 1) {
-        yk_data[proc_control_node_B.ix_nw] +=
-          workspace_data[proc_control_node_B.ix_nw] * proc_control_node_B.dotSY;
-        proc_control_node_B.ix_nw++;
+      proc_control_node_B.ix_c3 = 0;
+      while (proc_control_node_B.ix_c3 <= nvar - 1) {
+        yk_data[proc_control_node_B.ix_c3] +=
+          workspace_data[proc_control_node_B.ix_c3] * proc_control_node_B.dotSY;
+        proc_control_node_B.ix_c3++;
       }
     }
 
@@ -9921,32 +9914,32 @@ boolean_T proc_control_nodeModelClass::proc_control_node_BFGSUpdate(int32_T nvar
   if (success) {
     proc_control_node_B.curvatureS = -1.0 / proc_control_node_B.curvatureS;
     if (!(proc_control_node_B.curvatureS == 0.0)) {
-      proc_control_node_B.ix_nw = 0;
+      proc_control_node_B.ix_c3 = 0;
       jy = 0;
       for (c_ix = 0; c_ix < nvar; c_ix++) {
         if (workspace_data[jy] != 0.0) {
           proc_control_node_B.temp_h = workspace_data[jy] *
             proc_control_node_B.curvatureS;
           b_ix = 0;
-          d = nvar + proc_control_node_B.ix_nw;
-          for (b_jA = proc_control_node_B.ix_nw; b_jA < d; b_jA++) {
+          d = nvar + proc_control_node_B.ix_c3;
+          for (b_jA = proc_control_node_B.ix_c3; b_jA < d; b_jA++) {
             Bk[b_jA] += workspace_data[b_ix] * proc_control_node_B.temp_h;
             b_ix++;
           }
         }
 
         jy++;
-        proc_control_node_B.ix_nw += 147;
+        proc_control_node_B.ix_c3 += 147;
       }
     }
 
     proc_control_node_B.curvatureS = 1.0 / proc_control_node_B.dotSY;
     if (!(proc_control_node_B.curvatureS == 0.0)) {
       b_jA = 0;
-      proc_control_node_B.ix_nw = 0;
+      proc_control_node_B.ix_c3 = 0;
       for (jy = 0; jy < nvar; jy++) {
-        if (yk_data[proc_control_node_B.ix_nw] != 0.0) {
-          proc_control_node_B.dotSY = yk_data[proc_control_node_B.ix_nw] *
+        if (yk_data[proc_control_node_B.ix_c3] != 0.0) {
+          proc_control_node_B.dotSY = yk_data[proc_control_node_B.ix_c3] *
             proc_control_node_B.curvatureS;
           c_ix = 0;
           b_ix = nvar + b_jA;
@@ -9956,7 +9949,7 @@ boolean_T proc_control_nodeModelClass::proc_control_node_BFGSUpdate(int32_T nvar
           }
         }
 
-        proc_control_node_B.ix_nw++;
+        proc_control_node_B.ix_c3++;
         b_jA += 147;
       }
     }
@@ -10086,12 +10079,12 @@ int32_T proc_control_nodeModelClass::proc_control_RemoveDependentEq_
     proc_control_node_B.totalRank = 0;
     while (proc_control_node_B.totalRank <= proc_control_node_B.mTotalWorkingEq
            - 1) {
-      proc_control_node_B.ix_g = 0;
-      while (proc_control_node_B.ix_g <= proc_control_node_B.nVar_f) {
+      proc_control_node_B.ix_gr = 0;
+      while (proc_control_node_B.ix_gr <= proc_control_node_B.nVar_f) {
         qrmanager->QR.data[proc_control_node_B.totalRank + qrmanager->ldq *
-          proc_control_node_B.ix_g] = workingset->ATwset.data[workingset->ldA *
-          proc_control_node_B.totalRank + proc_control_node_B.ix_g];
-        proc_control_node_B.ix_g++;
+          proc_control_node_B.ix_gr] = workingset->ATwset.data[workingset->ldA *
+          proc_control_node_B.totalRank + proc_control_node_B.ix_gr];
+        proc_control_node_B.ix_gr++;
       }
 
       proc_control_node_B.totalRank++;
@@ -10135,15 +10128,15 @@ int32_T proc_control_nodeModelClass::proc_control_RemoveDependentEq_
       exitg1 = false;
       while ((!exitg1) && (proc_control_node_B.totalRank <= nDepInd - 1)) {
         proc_control_node_B.qtb = 0.0;
-        proc_control_node_B.ix_g = ((proc_control_node_B.mTotalWorkingEq -
+        proc_control_node_B.ix_gr = ((proc_control_node_B.mTotalWorkingEq -
           proc_control_node_B.totalRank) - 1) * qrmanager->ldq;
         proc_control_node_B.iy_d = 0;
         proc_control_node_B.b_k_d1 = 0;
         while (proc_control_node_B.b_k_d1 <= proc_control_node_B.mTotalWorkingEq
                - 1) {
-          proc_control_node_B.qtb += qrmanager->Q.data[proc_control_node_B.ix_g]
+          proc_control_node_B.qtb += qrmanager->Q.data[proc_control_node_B.ix_gr]
             * workingset->bwset.data[proc_control_node_B.iy_d];
-          proc_control_node_B.ix_g++;
+          proc_control_node_B.ix_gr++;
           proc_control_node_B.iy_d++;
           proc_control_node_B.b_k_d1++;
         }
@@ -10161,13 +10154,13 @@ int32_T proc_control_nodeModelClass::proc_control_RemoveDependentEq_
       proc_control_node_B.totalRank = 0;
       while (proc_control_node_B.totalRank <=
              proc_control_node_B.mTotalWorkingEq - 1) {
-        proc_control_node_B.ix_g = qrmanager->ldq *
+        proc_control_node_B.ix_gr = qrmanager->ldq *
           proc_control_node_B.totalRank;
         proc_control_node_B.iy_d = workingset->ldA *
           proc_control_node_B.totalRank;
         proc_control_node_B.b_k_d1 = 1;
         while (proc_control_node_B.b_k_d1 - 1 <= proc_control_node_B.nVar_f) {
-          qrmanager->QR.data[(proc_control_node_B.ix_g +
+          qrmanager->QR.data[(proc_control_node_B.ix_gr +
                               proc_control_node_B.b_k_d1) - 1] =
             workingset->ATwset.data[(proc_control_node_B.iy_d +
             proc_control_node_B.b_k_d1) - 1];
@@ -10238,35 +10231,36 @@ int32_T proc_control_nodeModelClass::proc_control_RemoveDependentEq_
             workingset->Wlocalidx.data[memspace->
               workspace_int.data[proc_control_node_B.mTotalWorkingEq] - 1] =
               workingset->Wlocalidx.data[proc_control_node_B.nVar_f];
-            proc_control_node_B.ix_g = 0;
-            while (proc_control_node_B.ix_g <= workingset->nVar - 1) {
-              workingset->ATwset.data[proc_control_node_B.ix_g + workingset->ldA
-                * (memspace->
-                   workspace_int.data[proc_control_node_B.mTotalWorkingEq] - 1)]
-                = workingset->ATwset.data[workingset->ldA *
-                proc_control_node_B.nVar_f + proc_control_node_B.ix_g];
-              proc_control_node_B.ix_g++;
+            proc_control_node_B.ix_gr = 0;
+            while (proc_control_node_B.ix_gr <= workingset->nVar - 1) {
+              workingset->ATwset.data[proc_control_node_B.ix_gr +
+                workingset->ldA * (memspace->
+                                   workspace_int.data[proc_control_node_B.mTotalWorkingEq]
+                                   - 1)] = workingset->ATwset.data
+                [workingset->ldA * proc_control_node_B.nVar_f +
+                proc_control_node_B.ix_gr];
+              proc_control_node_B.ix_gr++;
             }
 
             workingset->bwset.data[memspace->
               workspace_int.data[proc_control_node_B.mTotalWorkingEq] - 1] =
               workingset->bwset.data[proc_control_node_B.nVar_f];
-            proc_control_node_B.ix_g = workingset->nActiveConstr - 1;
+            proc_control_node_B.ix_gr = workingset->nActiveConstr - 1;
             workingset->Wid.data[proc_control_node_B.nVar_f] =
               workingset->Wid.data[workingset->nActiveConstr - 1];
             workingset->Wlocalidx.data[proc_control_node_B.nVar_f] =
-              workingset->Wlocalidx.data[proc_control_node_B.ix_g];
+              workingset->Wlocalidx.data[proc_control_node_B.ix_gr];
             proc_control_node_B.iy_d = 0;
             while (proc_control_node_B.iy_d <= workingset->nVar - 1) {
               workingset->ATwset.data[proc_control_node_B.iy_d + workingset->ldA
                 * proc_control_node_B.nVar_f] = workingset->
-                ATwset.data[workingset->ldA * proc_control_node_B.ix_g +
+                ATwset.data[workingset->ldA * proc_control_node_B.ix_gr +
                 proc_control_node_B.iy_d];
               proc_control_node_B.iy_d++;
             }
 
             workingset->bwset.data[proc_control_node_B.nVar_f] =
-              workingset->bwset.data[proc_control_node_B.ix_g];
+              workingset->bwset.data[proc_control_node_B.ix_gr];
             workingset->nActiveConstr--;
             workingset->nWConstr[proc_control_node_B.totalRank]--;
           }
@@ -10302,79 +10296,79 @@ void proc_control_nodeModelClass::proc_contr_RemoveDependentIneq_
   (s_UO30ZLdjVaUTEWcJEu5YnC_proc_T *workingset, s_2F24x1ekvOt8ZUO1knVMv_proc__T *
    qrmanager, s_OnOuVjEActeQRN4FyNqSwB_proc_T *memspace)
 {
-  proc_control_node_B.nFixedConstr_p = workingset->nWConstr[0] +
+  proc_control_node_B.nFixedConstr_i = workingset->nWConstr[0] +
     workingset->nWConstr[1];
-  proc_control_node_B.nVar_a = workingset->nVar;
+  proc_control_node_B.nVar_p = workingset->nVar;
   if ((workingset->nWConstr[2] + workingset->nWConstr[3]) + workingset->
       nWConstr[4] > 0) {
     proc_control_node_B.tol_e = 100.0 * static_cast<real_T>(workingset->nVar) *
       2.2204460492503131E-16;
-    proc_control_node_B.nDepIneq_c = 0;
-    while (proc_control_node_B.nDepIneq_c <= proc_control_node_B.nFixedConstr_p
+    proc_control_node_B.nDepIneq_d = 0;
+    while (proc_control_node_B.nDepIneq_d <= proc_control_node_B.nFixedConstr_i
            - 1) {
-      qrmanager->jpvt.data[proc_control_node_B.nDepIneq_c] = 1;
-      proc_control_node_B.nDepIneq_c++;
+      qrmanager->jpvt.data[proc_control_node_B.nDepIneq_d] = 1;
+      proc_control_node_B.nDepIneq_d++;
     }
 
-    proc_control_node_B.nDepIneq_c = proc_control_node_B.nFixedConstr_p + 1;
-    while (proc_control_node_B.nDepIneq_c <= workingset->nActiveConstr) {
-      qrmanager->jpvt.data[proc_control_node_B.nDepIneq_c - 1] = 0;
-      proc_control_node_B.nDepIneq_c++;
+    proc_control_node_B.nDepIneq_d = proc_control_node_B.nFixedConstr_i + 1;
+    while (proc_control_node_B.nDepIneq_d <= workingset->nActiveConstr) {
+      qrmanager->jpvt.data[proc_control_node_B.nDepIneq_d - 1] = 0;
+      proc_control_node_B.nDepIneq_d++;
     }
 
-    proc_control_node_B.nDepIneq_c = 0;
-    while (proc_control_node_B.nDepIneq_c <= workingset->nActiveConstr - 1) {
-      proc_control_node_B.idxPosQR_f = qrmanager->ldq *
-        proc_control_node_B.nDepIneq_c;
-      proc_control_node_B.idxPosATwset_d = workingset->ldA *
-        proc_control_node_B.nDepIneq_c;
-      proc_control_node_B.k_j = 1;
-      while (proc_control_node_B.k_j - 1 <= proc_control_node_B.nVar_a - 1) {
-        qrmanager->QR.data[(proc_control_node_B.idxPosQR_f +
-                            proc_control_node_B.k_j) - 1] =
-          workingset->ATwset.data[(proc_control_node_B.idxPosATwset_d +
-          proc_control_node_B.k_j) - 1];
-        proc_control_node_B.k_j++;
+    proc_control_node_B.nDepIneq_d = 0;
+    while (proc_control_node_B.nDepIneq_d <= workingset->nActiveConstr - 1) {
+      proc_control_node_B.idxPosQR_a = qrmanager->ldq *
+        proc_control_node_B.nDepIneq_d;
+      proc_control_node_B.idxPosATwset_f = workingset->ldA *
+        proc_control_node_B.nDepIneq_d;
+      proc_control_node_B.k_c = 1;
+      while (proc_control_node_B.k_c - 1 <= proc_control_node_B.nVar_p - 1) {
+        qrmanager->QR.data[(proc_control_node_B.idxPosQR_a +
+                            proc_control_node_B.k_c) - 1] =
+          workingset->ATwset.data[(proc_control_node_B.idxPosATwset_f +
+          proc_control_node_B.k_c) - 1];
+        proc_control_node_B.k_c++;
       }
 
-      proc_control_node_B.nDepIneq_c++;
+      proc_control_node_B.nDepIneq_d++;
     }
 
     proc_control_node_factorQRE_f(qrmanager, workingset->nVar,
       workingset->nActiveConstr);
-    proc_control_node_B.nDepIneq_c = 0;
-    proc_control_node_B.idxPosQR_f = workingset->nActiveConstr - 1;
-    while (proc_control_node_B.idxPosQR_f + 1 > proc_control_node_B.nVar_a) {
-      proc_control_node_B.nDepIneq_c++;
-      memspace->workspace_int.data[proc_control_node_B.nDepIneq_c - 1] =
-        qrmanager->jpvt.data[proc_control_node_B.idxPosQR_f];
-      proc_control_node_B.idxPosQR_f--;
+    proc_control_node_B.nDepIneq_d = 0;
+    proc_control_node_B.idxPosQR_a = workingset->nActiveConstr - 1;
+    while (proc_control_node_B.idxPosQR_a + 1 > proc_control_node_B.nVar_p) {
+      proc_control_node_B.nDepIneq_d++;
+      memspace->workspace_int.data[proc_control_node_B.nDepIneq_d - 1] =
+        qrmanager->jpvt.data[proc_control_node_B.idxPosQR_a];
+      proc_control_node_B.idxPosQR_a--;
     }
 
-    if (proc_control_node_B.idxPosQR_f + 1 <= workingset->nVar) {
-      proc_control_node_B.nVar_a = qrmanager->ldq *
-        proc_control_node_B.idxPosQR_f + proc_control_node_B.idxPosQR_f;
-      while ((proc_control_node_B.idxPosQR_f + 1 >
-              proc_control_node_B.nFixedConstr_p) && (fabs(qrmanager->
-               QR.data[proc_control_node_B.nVar_a]) < proc_control_node_B.tol_e))
+    if (proc_control_node_B.idxPosQR_a + 1 <= workingset->nVar) {
+      proc_control_node_B.nVar_p = qrmanager->ldq *
+        proc_control_node_B.idxPosQR_a + proc_control_node_B.idxPosQR_a;
+      while ((proc_control_node_B.idxPosQR_a + 1 >
+              proc_control_node_B.nFixedConstr_i) && (fabs(qrmanager->
+               QR.data[proc_control_node_B.nVar_p]) < proc_control_node_B.tol_e))
       {
-        proc_control_node_B.nDepIneq_c++;
-        memspace->workspace_int.data[proc_control_node_B.nDepIneq_c - 1] =
-          qrmanager->jpvt.data[proc_control_node_B.idxPosQR_f];
-        proc_control_node_B.idxPosQR_f--;
-        proc_control_node_B.nVar_a = (proc_control_node_B.nVar_a -
+        proc_control_node_B.nDepIneq_d++;
+        memspace->workspace_int.data[proc_control_node_B.nDepIneq_d - 1] =
+          qrmanager->jpvt.data[proc_control_node_B.idxPosQR_a];
+        proc_control_node_B.idxPosQR_a--;
+        proc_control_node_B.nVar_p = (proc_control_node_B.nVar_p -
           qrmanager->ldq) - 1;
       }
     }
 
     proc_control_node_countsort(memspace->workspace_int.data,
-      proc_control_node_B.nDepIneq_c, memspace->workspace_sort.data,
-      proc_control_node_B.nFixedConstr_p + 1, workingset->nActiveConstr);
-    proc_control_node_B.nFixedConstr_p = proc_control_node_B.nDepIneq_c;
-    while (proc_control_node_B.nFixedConstr_p > 0) {
+      proc_control_node_B.nDepIneq_d, memspace->workspace_sort.data,
+      proc_control_node_B.nFixedConstr_i + 1, workingset->nActiveConstr);
+    proc_control_node_B.nFixedConstr_i = proc_control_node_B.nDepIneq_d;
+    while (proc_control_node_B.nFixedConstr_i > 0) {
       proc_control_node_removeConstr(workingset, memspace->
-        workspace_int.data[proc_control_node_B.nFixedConstr_p - 1]);
-      proc_control_node_B.nFixedConstr_p--;
+        workspace_int.data[proc_control_node_B.nFixedConstr_i - 1]);
+      proc_control_node_B.nFixedConstr_i--;
     }
   }
 }
@@ -10473,10 +10467,10 @@ void proc_control_nodeModelClass::proc_control_node_factorQR
   obj->usedPivoting = false;
   obj->mrows = mrows;
   obj->ncols = ncols;
-  proc_control_node_B.idx_h = 0;
-  while (proc_control_node_B.idx_h <= ncols - 1) {
-    obj->jpvt.data[proc_control_node_B.idx_h] = proc_control_node_B.idx_h + 1;
-    proc_control_node_B.idx_h++;
+  proc_control_node_B.idx_g = 0;
+  while (proc_control_node_B.idx_g <= ncols - 1) {
+    obj->jpvt.data[proc_control_node_B.idx_g] = proc_control_node_B.idx_g + 1;
+    proc_control_node_B.idx_g++;
   }
 
   if (mrows < ncols) {
@@ -10485,9 +10479,9 @@ void proc_control_nodeModelClass::proc_control_node_factorQR
     obj->minRowCol = ncols;
   }
 
-  proc_control_node_B.idx_h = obj->QR.size[0] * obj->QR.size[1];
+  proc_control_node_B.idx_g = obj->QR.size[0] * obj->QR.size[1];
   for (proc_control_node_B.i40 = 0; proc_control_node_B.i40 <
-       proc_control_node_B.idx_h; proc_control_node_B.i40++) {
+       proc_control_node_B.idx_g; proc_control_node_B.i40++) {
   }
 
   proc_control_node_xgeqrf(obj->QR.data, obj->QR.size, mrows, ncols,
@@ -10503,28 +10497,28 @@ void proc_control_nodeModelClass::proc_control_node_xgemv_mtmcj(int32_T m,
   int32_T ia;
   int32_T iac;
   if (n != 0) {
-    proc_control_node_B.b_iy_m = 0;
-    while (proc_control_node_B.b_iy_m <= n - 1) {
-      y_data[proc_control_node_B.b_iy_m] = -y_data[proc_control_node_B.b_iy_m];
-      proc_control_node_B.b_iy_m++;
+    proc_control_node_B.b_iy_o = 0;
+    while (proc_control_node_B.b_iy_o <= n - 1) {
+      y_data[proc_control_node_B.b_iy_o] = -y_data[proc_control_node_B.b_iy_o];
+      proc_control_node_B.b_iy_o++;
     }
 
-    proc_control_node_B.iy_g = 0;
-    proc_control_node_B.b_iy_m = (n - 1) * lda + 1;
+    proc_control_node_B.iy_m = 0;
+    proc_control_node_B.b_iy_o = (n - 1) * lda + 1;
     iac = 1;
-    while (((lda > 0) && (iac <= proc_control_node_B.b_iy_m)) || ((lda < 0) &&
-            (iac >= proc_control_node_B.b_iy_m))) {
-      proc_control_node_B.ix_ox = 0;
+    while (((lda > 0) && (iac <= proc_control_node_B.b_iy_o)) || ((lda < 0) &&
+            (iac >= proc_control_node_B.b_iy_o))) {
+      proc_control_node_B.ix_go = 0;
       proc_control_node_B.c_b = 0.0;
       b = (iac + m) - 1;
       for (ia = iac; ia <= b; ia++) {
-        proc_control_node_B.c_b += x_data[proc_control_node_B.ix_ox] * A_data[ia
+        proc_control_node_B.c_b += x_data[proc_control_node_B.ix_go] * A_data[ia
           - 1];
-        proc_control_node_B.ix_ox++;
+        proc_control_node_B.ix_go++;
       }
 
-      y_data[proc_control_node_B.iy_g] += proc_control_node_B.c_b;
-      proc_control_node_B.iy_g++;
+      y_data[proc_control_node_B.iy_m] += proc_control_node_B.c_b;
+      proc_control_node_B.iy_m++;
       iac += lda;
     }
   }
@@ -10542,20 +10536,20 @@ void proc_control_nodeModelClass::proc_control_node_xgemv_mtmc(int32_T n, const
       y_data[b_iy] = -y_data[b_iy];
     }
 
-    proc_control_node_B.iy_k4 = 0;
+    proc_control_node_B.iy_fb = 0;
     b_iy = (n - 1) * lda + 1;
     iac = 1;
     while (((lda > 0) && (iac <= b_iy)) || ((lda < 0) && (iac >= b_iy))) {
-      proc_control_node_B.ix_cc = 0;
+      proc_control_node_B.ix_k4 = 0;
       proc_control_node_B.c_c3 = 0.0;
       for (ia = iac; ia <= iac + 146; ia++) {
-        proc_control_node_B.c_c3 += x_data[proc_control_node_B.ix_cc] *
+        proc_control_node_B.c_c3 += x_data[proc_control_node_B.ix_k4] *
           A_data[ia - 1];
-        proc_control_node_B.ix_cc++;
+        proc_control_node_B.ix_k4++;
       }
 
-      y_data[proc_control_node_B.iy_k4] += proc_control_node_B.c_c3;
-      proc_control_node_B.iy_k4++;
+      y_data[proc_control_node_B.iy_fb] += proc_control_node_B.c_c3;
+      proc_control_node_B.iy_fb++;
       iac += lda;
     }
   }
@@ -10566,48 +10560,48 @@ real_T proc_control_nodeModelClass::proc_con_maxConstraintViolation
   (s_UO30ZLdjVaUTEWcJEu5YnC_proc_T *obj, const real_T x_data[])
 {
   real_T v;
-  proc_control_node_B.mLB_c2 = obj->sizes[3];
-  proc_control_node_B.mUB_c = obj->sizes[4];
-  proc_control_node_B.mFixed_i = obj->sizes[0];
+  proc_control_node_B.mLB_n = obj->sizes[3];
+  proc_control_node_B.mUB_c2 = obj->sizes[4];
+  proc_control_node_B.mFixed_c = obj->sizes[0];
   if (obj->probType == 2) {
     v = 0.0;
-    proc_control_node_B.mIneq_h = obj->sizes[2] - 1;
+    proc_control_node_B.mIneq_i = obj->sizes[2] - 1;
     if (obj->Aineq.size != 0) {
-      proc_control_node_B.b_k_ml = 0;
-      while (proc_control_node_B.b_k_ml <= proc_control_node_B.mIneq_h) {
-        obj->maxConstrWorkspace.data[proc_control_node_B.b_k_ml] =
-          obj->bineq.data[proc_control_node_B.b_k_ml];
-        proc_control_node_B.b_k_ml++;
+      proc_control_node_B.b_k_hu = 0;
+      while (proc_control_node_B.b_k_hu <= proc_control_node_B.mIneq_i) {
+        obj->maxConstrWorkspace.data[proc_control_node_B.b_k_hu] =
+          obj->bineq.data[proc_control_node_B.b_k_hu];
+        proc_control_node_B.b_k_hu++;
       }
 
       proc_control_node_xgemv_mtmc(obj->sizes[2], obj->Aineq.data, obj->ldA,
         x_data, obj->maxConstrWorkspace.data);
-      proc_control_node_B.b_k_ml = 0;
-      while (proc_control_node_B.b_k_ml <= proc_control_node_B.mIneq_h) {
-        obj->maxConstrWorkspace.data[proc_control_node_B.b_k_ml] -=
-          x_data[proc_control_node_B.b_k_ml + 147];
+      proc_control_node_B.b_k_hu = 0;
+      while (proc_control_node_B.b_k_hu <= proc_control_node_B.mIneq_i) {
+        obj->maxConstrWorkspace.data[proc_control_node_B.b_k_hu] -=
+          x_data[proc_control_node_B.b_k_hu + 147];
         proc_control_node_B.u1_o = obj->
-          maxConstrWorkspace.data[proc_control_node_B.b_k_ml];
+          maxConstrWorkspace.data[proc_control_node_B.b_k_hu];
         if ((!(v > proc_control_node_B.u1_o)) && (!rtIsNaN
              (proc_control_node_B.u1_o))) {
           v = proc_control_node_B.u1_o;
         }
 
-        proc_control_node_B.b_k_ml++;
+        proc_control_node_B.b_k_hu++;
       }
     }
 
     memcpy(&obj->maxConstrWorkspace.data[0], &obj->beq[0], 130U * sizeof(real_T));
     proc_control_node_xgemv_mtmc(130, obj->Aeq.data, obj->ldA, x_data,
       obj->maxConstrWorkspace.data);
-    for (proc_control_node_B.b_k_ml = 0; proc_control_node_B.b_k_ml < 130;
-         proc_control_node_B.b_k_ml++) {
-      obj->maxConstrWorkspace.data[proc_control_node_B.b_k_ml] =
-        (obj->maxConstrWorkspace.data[proc_control_node_B.b_k_ml] - x_data
-         [(proc_control_node_B.mIneq_h + proc_control_node_B.b_k_ml) + 148]) +
-        x_data[(obj->sizes[2] + proc_control_node_B.b_k_ml) + 277];
+    for (proc_control_node_B.b_k_hu = 0; proc_control_node_B.b_k_hu < 130;
+         proc_control_node_B.b_k_hu++) {
+      obj->maxConstrWorkspace.data[proc_control_node_B.b_k_hu] =
+        (obj->maxConstrWorkspace.data[proc_control_node_B.b_k_hu] - x_data
+         [(proc_control_node_B.mIneq_i + proc_control_node_B.b_k_hu) + 148]) +
+        x_data[(obj->sizes[2] + proc_control_node_B.b_k_hu) + 277];
       proc_control_node_B.u1_o = fabs(obj->
-        maxConstrWorkspace.data[proc_control_node_B.b_k_ml]);
+        maxConstrWorkspace.data[proc_control_node_B.b_k_hu]);
       if ((!(v > proc_control_node_B.u1_o)) && (!rtIsNaN
            (proc_control_node_B.u1_o))) {
         v = proc_control_node_B.u1_o;
@@ -10615,37 +10609,37 @@ real_T proc_control_nodeModelClass::proc_con_maxConstraintViolation
     }
   } else {
     v = 0.0;
-    proc_control_node_B.mIneq_h = obj->sizes[2] - 1;
+    proc_control_node_B.mIneq_i = obj->sizes[2] - 1;
     if (obj->Aineq.size != 0) {
-      proc_control_node_B.b_k_ml = 0;
-      while (proc_control_node_B.b_k_ml <= proc_control_node_B.mIneq_h) {
-        obj->maxConstrWorkspace.data[proc_control_node_B.b_k_ml] =
-          obj->bineq.data[proc_control_node_B.b_k_ml];
-        proc_control_node_B.b_k_ml++;
+      proc_control_node_B.b_k_hu = 0;
+      while (proc_control_node_B.b_k_hu <= proc_control_node_B.mIneq_i) {
+        obj->maxConstrWorkspace.data[proc_control_node_B.b_k_hu] =
+          obj->bineq.data[proc_control_node_B.b_k_hu];
+        proc_control_node_B.b_k_hu++;
       }
 
       proc_control_node_xgemv_mtmcj(obj->nVar, obj->sizes[2], obj->Aineq.data,
         obj->ldA, x_data, obj->maxConstrWorkspace.data);
-      proc_control_node_B.b_k_ml = 0;
-      while (proc_control_node_B.b_k_ml <= proc_control_node_B.mIneq_h) {
+      proc_control_node_B.b_k_hu = 0;
+      while (proc_control_node_B.b_k_hu <= proc_control_node_B.mIneq_i) {
         proc_control_node_B.u1_o = obj->
-          maxConstrWorkspace.data[proc_control_node_B.b_k_ml];
+          maxConstrWorkspace.data[proc_control_node_B.b_k_hu];
         if ((!(v > proc_control_node_B.u1_o)) && (!rtIsNaN
              (proc_control_node_B.u1_o))) {
           v = proc_control_node_B.u1_o;
         }
 
-        proc_control_node_B.b_k_ml++;
+        proc_control_node_B.b_k_hu++;
       }
     }
 
     memcpy(&obj->maxConstrWorkspace.data[0], &obj->beq[0], 130U * sizeof(real_T));
     proc_control_node_xgemv_mtmcj(obj->nVar, 130, obj->Aeq.data, obj->ldA,
       x_data, obj->maxConstrWorkspace.data);
-    for (proc_control_node_B.mIneq_h = 0; proc_control_node_B.mIneq_h < 130;
-         proc_control_node_B.mIneq_h++) {
+    for (proc_control_node_B.mIneq_i = 0; proc_control_node_B.mIneq_i < 130;
+         proc_control_node_B.mIneq_i++) {
       proc_control_node_B.u1_o = fabs(obj->
-        maxConstrWorkspace.data[proc_control_node_B.mIneq_h]);
+        maxConstrWorkspace.data[proc_control_node_B.mIneq_i]);
       if ((!(v > proc_control_node_B.u1_o)) && (!rtIsNaN
            (proc_control_node_B.u1_o))) {
         v = proc_control_node_B.u1_o;
@@ -10653,48 +10647,48 @@ real_T proc_control_nodeModelClass::proc_con_maxConstraintViolation
     }
   }
 
-  if (proc_control_node_B.mLB_c2 > 0) {
-    proc_control_node_B.mIneq_h = 0;
-    while (proc_control_node_B.mIneq_h <= proc_control_node_B.mLB_c2 - 1) {
+  if (proc_control_node_B.mLB_n > 0) {
+    proc_control_node_B.mIneq_i = 0;
+    while (proc_control_node_B.mIneq_i <= proc_control_node_B.mLB_n - 1) {
       proc_control_node_B.u1_o = -x_data[obj->
-        indexLB.data[proc_control_node_B.mIneq_h] - 1] - obj->lb.data
-        [obj->indexLB.data[proc_control_node_B.mIneq_h] - 1];
+        indexLB.data[proc_control_node_B.mIneq_i] - 1] - obj->lb.data
+        [obj->indexLB.data[proc_control_node_B.mIneq_i] - 1];
       if ((!(v > proc_control_node_B.u1_o)) && (!rtIsNaN
            (proc_control_node_B.u1_o))) {
         v = proc_control_node_B.u1_o;
       }
 
-      proc_control_node_B.mIneq_h++;
+      proc_control_node_B.mIneq_i++;
     }
   }
 
-  if (proc_control_node_B.mUB_c > 0) {
-    proc_control_node_B.mLB_c2 = 0;
-    while (proc_control_node_B.mLB_c2 <= proc_control_node_B.mUB_c - 1) {
+  if (proc_control_node_B.mUB_c2 > 0) {
+    proc_control_node_B.mLB_n = 0;
+    while (proc_control_node_B.mLB_n <= proc_control_node_B.mUB_c2 - 1) {
       proc_control_node_B.u1_o = x_data[obj->
-        indexUB.data[proc_control_node_B.mLB_c2] - 1] - obj->ub.data
-        [obj->indexUB.data[proc_control_node_B.mLB_c2] - 1];
+        indexUB.data[proc_control_node_B.mLB_n] - 1] - obj->ub.data
+        [obj->indexUB.data[proc_control_node_B.mLB_n] - 1];
       if ((!(v > proc_control_node_B.u1_o)) && (!rtIsNaN
            (proc_control_node_B.u1_o))) {
         v = proc_control_node_B.u1_o;
       }
 
-      proc_control_node_B.mLB_c2++;
+      proc_control_node_B.mLB_n++;
     }
   }
 
-  if (proc_control_node_B.mFixed_i > 0) {
-    proc_control_node_B.mUB_c = 0;
-    while (proc_control_node_B.mUB_c <= proc_control_node_B.mFixed_i - 1) {
+  if (proc_control_node_B.mFixed_c > 0) {
+    proc_control_node_B.mUB_c2 = 0;
+    while (proc_control_node_B.mUB_c2 <= proc_control_node_B.mFixed_c - 1) {
       proc_control_node_B.u1_o = fabs(x_data[obj->
-        indexFixed.data[proc_control_node_B.mUB_c] - 1] - obj->ub.data
-        [obj->indexFixed.data[proc_control_node_B.mUB_c] - 1]);
+        indexFixed.data[proc_control_node_B.mUB_c2] - 1] - obj->ub.data
+        [obj->indexFixed.data[proc_control_node_B.mUB_c2] - 1]);
       if ((!(v > proc_control_node_B.u1_o)) && (!rtIsNaN
            (proc_control_node_B.u1_o))) {
         v = proc_control_node_B.u1_o;
       }
 
-      proc_control_node_B.mUB_c++;
+      proc_control_node_B.mUB_c2++;
     }
   }
 
@@ -10710,28 +10704,28 @@ void proc_control_nodeModelClass::proc_control_node_xgemv_mtmcjb(int32_T m,
   int32_T ia;
   int32_T iac;
   if (n != 0) {
-    proc_control_node_B.b_iy_nr = 0;
-    while (proc_control_node_B.b_iy_nr <= n - 1) {
-      y_data[proc_control_node_B.b_iy_nr] = -y_data[proc_control_node_B.b_iy_nr];
-      proc_control_node_B.b_iy_nr++;
+    proc_control_node_B.b_iy_c = 0;
+    while (proc_control_node_B.b_iy_c <= n - 1) {
+      y_data[proc_control_node_B.b_iy_c] = -y_data[proc_control_node_B.b_iy_c];
+      proc_control_node_B.b_iy_c++;
     }
 
-    proc_control_node_B.iy_ik = 0;
-    proc_control_node_B.b_iy_nr = (n - 1) * lda + 1;
+    proc_control_node_B.iy_f = 0;
+    proc_control_node_B.b_iy_c = (n - 1) * lda + 1;
     iac = 1;
-    while (((lda > 0) && (iac <= proc_control_node_B.b_iy_nr)) || ((lda < 0) &&
-            (iac >= proc_control_node_B.b_iy_nr))) {
-      proc_control_node_B.ix_c = ix0;
-      proc_control_node_B.c_g = 0.0;
+    while (((lda > 0) && (iac <= proc_control_node_B.b_iy_c)) || ((lda < 0) &&
+            (iac >= proc_control_node_B.b_iy_c))) {
+      proc_control_node_B.ix_ik = ix0;
+      proc_control_node_B.c_gn = 0.0;
       b = (iac + m) - 1;
       for (ia = iac; ia <= b; ia++) {
-        proc_control_node_B.c_g += x_data[proc_control_node_B.ix_c - 1] *
+        proc_control_node_B.c_gn += x_data[proc_control_node_B.ix_ik - 1] *
           A_data[ia - 1];
-        proc_control_node_B.ix_c++;
+        proc_control_node_B.ix_ik++;
       }
 
-      y_data[proc_control_node_B.iy_ik] += proc_control_node_B.c_g;
-      proc_control_node_B.iy_ik++;
+      y_data[proc_control_node_B.iy_f] += proc_control_node_B.c_gn;
+      proc_control_node_B.iy_f++;
       iac += lda;
     }
   }
@@ -10742,48 +10736,48 @@ real_T proc_control_nodeModelClass::proc_c_maxConstraintViolation_d
   (s_UO30ZLdjVaUTEWcJEu5YnC_proc_T *obj, const real_T x_data[], int32_T ix0)
 {
   real_T v;
-  proc_control_node_B.mLB_h = obj->sizes[3];
-  proc_control_node_B.mUB_g = obj->sizes[4];
-  proc_control_node_B.mFixed_c = obj->sizes[0];
+  proc_control_node_B.mLB_e = obj->sizes[3];
+  proc_control_node_B.mUB_h = obj->sizes[4];
+  proc_control_node_B.mFixed_g = obj->sizes[0];
   if (obj->probType == 2) {
     v = 0.0;
-    proc_control_node_B.mIneq_a = obj->sizes[2] - 1;
+    proc_control_node_B.mIneq_cg = obj->sizes[2] - 1;
     if (obj->Aineq.size != 0) {
-      proc_control_node_B.b_k_f = 0;
-      while (proc_control_node_B.b_k_f <= proc_control_node_B.mIneq_a) {
-        obj->maxConstrWorkspace.data[proc_control_node_B.b_k_f] =
-          obj->bineq.data[proc_control_node_B.b_k_f];
-        proc_control_node_B.b_k_f++;
+      proc_control_node_B.b_k_a5 = 0;
+      while (proc_control_node_B.b_k_a5 <= proc_control_node_B.mIneq_cg) {
+        obj->maxConstrWorkspace.data[proc_control_node_B.b_k_a5] =
+          obj->bineq.data[proc_control_node_B.b_k_a5];
+        proc_control_node_B.b_k_a5++;
       }
 
       proc_control_node_xgemv_mtmcjb(147, obj->sizes[2], obj->Aineq.data,
         obj->ldA, x_data, ix0, obj->maxConstrWorkspace.data);
-      proc_control_node_B.b_k_f = 0;
-      while (proc_control_node_B.b_k_f <= proc_control_node_B.mIneq_a) {
-        obj->maxConstrWorkspace.data[proc_control_node_B.b_k_f] -= x_data[(ix0 +
-          proc_control_node_B.b_k_f) + 146];
+      proc_control_node_B.b_k_a5 = 0;
+      while (proc_control_node_B.b_k_a5 <= proc_control_node_B.mIneq_cg) {
+        obj->maxConstrWorkspace.data[proc_control_node_B.b_k_a5] -= x_data[(ix0
+          + proc_control_node_B.b_k_a5) + 146];
         proc_control_node_B.u1_b = obj->
-          maxConstrWorkspace.data[proc_control_node_B.b_k_f];
+          maxConstrWorkspace.data[proc_control_node_B.b_k_a5];
         if ((!(v > proc_control_node_B.u1_b)) && (!rtIsNaN
              (proc_control_node_B.u1_b))) {
           v = proc_control_node_B.u1_b;
         }
 
-        proc_control_node_B.b_k_f++;
+        proc_control_node_B.b_k_a5++;
       }
     }
 
     memcpy(&obj->maxConstrWorkspace.data[0], &obj->beq[0], 130U * sizeof(real_T));
     proc_control_node_xgemv_mtmcjb(147, 130, obj->Aeq.data, obj->ldA, x_data,
       ix0, obj->maxConstrWorkspace.data);
-    for (proc_control_node_B.b_k_f = 0; proc_control_node_B.b_k_f < 130;
-         proc_control_node_B.b_k_f++) {
-      obj->maxConstrWorkspace.data[proc_control_node_B.b_k_f] =
-        (obj->maxConstrWorkspace.data[proc_control_node_B.b_k_f] - x_data[((ix0
-           + proc_control_node_B.mIneq_a) + proc_control_node_B.b_k_f) + 147]) +
-        x_data[((ix0 + obj->sizes[2]) + proc_control_node_B.b_k_f) + 276];
+    for (proc_control_node_B.b_k_a5 = 0; proc_control_node_B.b_k_a5 < 130;
+         proc_control_node_B.b_k_a5++) {
+      obj->maxConstrWorkspace.data[proc_control_node_B.b_k_a5] =
+        (obj->maxConstrWorkspace.data[proc_control_node_B.b_k_a5] - x_data[((ix0
+           + proc_control_node_B.mIneq_cg) + proc_control_node_B.b_k_a5) + 147])
+        + x_data[((ix0 + obj->sizes[2]) + proc_control_node_B.b_k_a5) + 276];
       proc_control_node_B.u1_b = fabs(obj->
-        maxConstrWorkspace.data[proc_control_node_B.b_k_f]);
+        maxConstrWorkspace.data[proc_control_node_B.b_k_a5]);
       if ((!(v > proc_control_node_B.u1_b)) && (!rtIsNaN
            (proc_control_node_B.u1_b))) {
         v = proc_control_node_B.u1_b;
@@ -10791,37 +10785,37 @@ real_T proc_control_nodeModelClass::proc_c_maxConstraintViolation_d
     }
   } else {
     v = 0.0;
-    proc_control_node_B.mIneq_a = obj->sizes[2] - 1;
+    proc_control_node_B.mIneq_cg = obj->sizes[2] - 1;
     if (obj->Aineq.size != 0) {
-      proc_control_node_B.b_k_f = 0;
-      while (proc_control_node_B.b_k_f <= proc_control_node_B.mIneq_a) {
-        obj->maxConstrWorkspace.data[proc_control_node_B.b_k_f] =
-          obj->bineq.data[proc_control_node_B.b_k_f];
-        proc_control_node_B.b_k_f++;
+      proc_control_node_B.b_k_a5 = 0;
+      while (proc_control_node_B.b_k_a5 <= proc_control_node_B.mIneq_cg) {
+        obj->maxConstrWorkspace.data[proc_control_node_B.b_k_a5] =
+          obj->bineq.data[proc_control_node_B.b_k_a5];
+        proc_control_node_B.b_k_a5++;
       }
 
       proc_control_node_xgemv_mtmcjb(obj->nVar, obj->sizes[2], obj->Aineq.data,
         obj->ldA, x_data, ix0, obj->maxConstrWorkspace.data);
-      proc_control_node_B.b_k_f = 0;
-      while (proc_control_node_B.b_k_f <= proc_control_node_B.mIneq_a) {
+      proc_control_node_B.b_k_a5 = 0;
+      while (proc_control_node_B.b_k_a5 <= proc_control_node_B.mIneq_cg) {
         proc_control_node_B.u1_b = obj->
-          maxConstrWorkspace.data[proc_control_node_B.b_k_f];
+          maxConstrWorkspace.data[proc_control_node_B.b_k_a5];
         if ((!(v > proc_control_node_B.u1_b)) && (!rtIsNaN
              (proc_control_node_B.u1_b))) {
           v = proc_control_node_B.u1_b;
         }
 
-        proc_control_node_B.b_k_f++;
+        proc_control_node_B.b_k_a5++;
       }
     }
 
     memcpy(&obj->maxConstrWorkspace.data[0], &obj->beq[0], 130U * sizeof(real_T));
     proc_control_node_xgemv_mtmcjb(obj->nVar, 130, obj->Aeq.data, obj->ldA,
       x_data, ix0, obj->maxConstrWorkspace.data);
-    for (proc_control_node_B.mIneq_a = 0; proc_control_node_B.mIneq_a < 130;
-         proc_control_node_B.mIneq_a++) {
+    for (proc_control_node_B.mIneq_cg = 0; proc_control_node_B.mIneq_cg < 130;
+         proc_control_node_B.mIneq_cg++) {
       proc_control_node_B.u1_b = fabs(obj->
-        maxConstrWorkspace.data[proc_control_node_B.mIneq_a]);
+        maxConstrWorkspace.data[proc_control_node_B.mIneq_cg]);
       if ((!(v > proc_control_node_B.u1_b)) && (!rtIsNaN
            (proc_control_node_B.u1_b))) {
         v = proc_control_node_B.u1_b;
@@ -10829,48 +10823,48 @@ real_T proc_control_nodeModelClass::proc_c_maxConstraintViolation_d
     }
   }
 
-  if (proc_control_node_B.mLB_h > 0) {
-    proc_control_node_B.mIneq_a = 0;
-    while (proc_control_node_B.mIneq_a <= proc_control_node_B.mLB_h - 1) {
+  if (proc_control_node_B.mLB_e > 0) {
+    proc_control_node_B.mIneq_cg = 0;
+    while (proc_control_node_B.mIneq_cg <= proc_control_node_B.mLB_e - 1) {
       proc_control_node_B.u1_b = -x_data[(ix0 + obj->
-        indexLB.data[proc_control_node_B.mIneq_a]) - 2] - obj->lb.data
-        [obj->indexLB.data[proc_control_node_B.mIneq_a] - 1];
+        indexLB.data[proc_control_node_B.mIneq_cg]) - 2] - obj->lb.data
+        [obj->indexLB.data[proc_control_node_B.mIneq_cg] - 1];
       if ((!(v > proc_control_node_B.u1_b)) && (!rtIsNaN
            (proc_control_node_B.u1_b))) {
         v = proc_control_node_B.u1_b;
       }
 
-      proc_control_node_B.mIneq_a++;
+      proc_control_node_B.mIneq_cg++;
     }
   }
 
-  if (proc_control_node_B.mUB_g > 0) {
-    proc_control_node_B.mLB_h = 0;
-    while (proc_control_node_B.mLB_h <= proc_control_node_B.mUB_g - 1) {
+  if (proc_control_node_B.mUB_h > 0) {
+    proc_control_node_B.mLB_e = 0;
+    while (proc_control_node_B.mLB_e <= proc_control_node_B.mUB_h - 1) {
       proc_control_node_B.u1_b = x_data[(ix0 + obj->
-        indexUB.data[proc_control_node_B.mLB_h]) - 2] - obj->ub.data
-        [obj->indexUB.data[proc_control_node_B.mLB_h] - 1];
+        indexUB.data[proc_control_node_B.mLB_e]) - 2] - obj->ub.data
+        [obj->indexUB.data[proc_control_node_B.mLB_e] - 1];
       if ((!(v > proc_control_node_B.u1_b)) && (!rtIsNaN
            (proc_control_node_B.u1_b))) {
         v = proc_control_node_B.u1_b;
       }
 
-      proc_control_node_B.mLB_h++;
+      proc_control_node_B.mLB_e++;
     }
   }
 
-  if (proc_control_node_B.mFixed_c > 0) {
-    proc_control_node_B.mUB_g = 0;
-    while (proc_control_node_B.mUB_g <= proc_control_node_B.mFixed_c - 1) {
+  if (proc_control_node_B.mFixed_g > 0) {
+    proc_control_node_B.mUB_h = 0;
+    while (proc_control_node_B.mUB_h <= proc_control_node_B.mFixed_g - 1) {
       proc_control_node_B.u1_b = fabs(x_data[(ix0 + obj->
-        indexFixed.data[proc_control_node_B.mUB_g]) - 2] - obj->ub.data
-        [obj->indexFixed.data[proc_control_node_B.mUB_g] - 1]);
+        indexFixed.data[proc_control_node_B.mUB_h]) - 2] - obj->ub.data
+        [obj->indexFixed.data[proc_control_node_B.mUB_h] - 1]);
       if ((!(v > proc_control_node_B.u1_b)) && (!rtIsNaN
            (proc_control_node_B.u1_b))) {
         v = proc_control_node_B.u1_b;
       }
 
-      proc_control_node_B.mUB_g++;
+      proc_control_node_B.mUB_h++;
     }
   }
 
@@ -10907,20 +10901,20 @@ boolean_T proc_control_nodeModelClass::proc_co_feasibleX0ForWorkingSet(real_T
       while (((proc_control_node_B.ldq > 0) && (proc_control_node_B.b_br <=
                proc_control_node_B.iAcol)) || ((proc_control_node_B.ldq < 0) &&
               (proc_control_node_B.b_br >= proc_control_node_B.iAcol))) {
-        proc_control_node_B.ix_lo = 0;
-        proc_control_node_B.c_d = 0.0;
+        proc_control_node_B.ix_l = 0;
+        proc_control_node_B.c_k = 0.0;
         proc_control_node_B.jBcol = (proc_control_node_B.b_br +
           proc_control_node_B.nVar_d) - 1;
         proc_control_node_B.b_ar = proc_control_node_B.b_br;
         while (proc_control_node_B.b_ar <= proc_control_node_B.jBcol) {
-          proc_control_node_B.c_d += workingset->
+          proc_control_node_B.c_k += workingset->
             ATwset.data[proc_control_node_B.b_ar - 1] *
-            xCurrent_data[proc_control_node_B.ix_lo];
-          proc_control_node_B.ix_lo++;
+            xCurrent_data[proc_control_node_B.ix_l];
+          proc_control_node_B.ix_l++;
           proc_control_node_B.b_ar++;
         }
 
-        workspace_data[proc_control_node_B.iy_j] += -proc_control_node_B.c_d;
+        workspace_data[proc_control_node_B.iy_j] += -proc_control_node_B.c_k;
         proc_control_node_B.iy_j++;
         proc_control_node_B.b_br += proc_control_node_B.ldq;
       }
@@ -10929,13 +10923,13 @@ boolean_T proc_control_nodeModelClass::proc_co_feasibleX0ForWorkingSet(real_T
     if (workingset->nActiveConstr >= workingset->nVar) {
       proc_control_node_B.ldq = 0;
       while (proc_control_node_B.ldq <= proc_control_node_B.nVar_d - 1) {
-        proc_control_node_B.ix_lo = qrmanager->ldq * proc_control_node_B.ldq;
+        proc_control_node_B.ix_l = qrmanager->ldq * proc_control_node_B.ldq;
         proc_control_node_B.iAcol = 0;
         while (proc_control_node_B.iAcol <= proc_control_node_B.mWConstr_tmp_tmp)
         {
           qrmanager->QR.data[proc_control_node_B.iAcol +
-            proc_control_node_B.ix_lo] = workingset->ATwset.data[workingset->ldA
-            * proc_control_node_B.iAcol + proc_control_node_B.ldq];
+            proc_control_node_B.ix_l] = workingset->ATwset.data[workingset->ldA *
+            proc_control_node_B.iAcol + proc_control_node_B.ldq];
           proc_control_node_B.iAcol++;
         }
 
@@ -10953,18 +10947,18 @@ boolean_T proc_control_nodeModelClass::proc_co_feasibleX0ForWorkingSet(real_T
                proc_control_node_B.b_ar * sizeof(real_T));
       }
 
-      proc_control_node_B.ix_lo = 0;
-      while ((proc_control_node_B.iy_j > 0) && (proc_control_node_B.ix_lo <=
+      proc_control_node_B.ix_l = 0;
+      while ((proc_control_node_B.iy_j > 0) && (proc_control_node_B.ix_l <=
               proc_control_node_B.iy_j)) {
-        proc_control_node_B.iAcol = proc_control_node_B.ix_lo +
+        proc_control_node_B.iAcol = proc_control_node_B.ix_l +
           proc_control_node_B.nVar_d;
-        proc_control_node_B.b_br = proc_control_node_B.ix_lo;
+        proc_control_node_B.b_br = proc_control_node_B.ix_l;
         while (proc_control_node_B.b_br + 1 <= proc_control_node_B.iAcol) {
           workspace_data[proc_control_node_B.b_br] = 0.0;
           proc_control_node_B.b_br++;
         }
 
-        proc_control_node_B.ix_lo += proc_control_node_B.iy_j;
+        proc_control_node_B.ix_l += proc_control_node_B.iy_j;
       }
 
       proc_control_node_B.b_br = -1;
@@ -10974,22 +10968,22 @@ boolean_T proc_control_nodeModelClass::proc_co_feasibleX0ForWorkingSet(real_T
         proc_control_node_B.b_ar = -1;
         proc_control_node_B.iAcol = proc_control_node_B.jBcol +
           proc_control_node_B.nVar_d;
-        proc_control_node_B.ix_lo = proc_control_node_B.jBcol;
-        while (proc_control_node_B.ix_lo + 1 <= proc_control_node_B.iAcol) {
-          proc_control_node_B.c_d = 0.0;
+        proc_control_node_B.ix_l = proc_control_node_B.jBcol;
+        while (proc_control_node_B.ix_l + 1 <= proc_control_node_B.iAcol) {
+          proc_control_node_B.c_k = 0.0;
           proc_control_node_B.ib = 1;
           while (proc_control_node_B.ib - 1 <=
                  proc_control_node_B.mWConstr_tmp_tmp) {
-            proc_control_node_B.c_d += qrmanager->Q.data[proc_control_node_B.ib
+            proc_control_node_B.c_k += qrmanager->Q.data[proc_control_node_B.ib
               + proc_control_node_B.b_ar] *
               proc_control_node_B.B_data[proc_control_node_B.ib +
               proc_control_node_B.b_br];
             proc_control_node_B.ib++;
           }
 
-          workspace_data[proc_control_node_B.ix_lo] += proc_control_node_B.c_d;
+          workspace_data[proc_control_node_B.ix_l] += proc_control_node_B.c_k;
           proc_control_node_B.b_ar += proc_control_node_B.ldq;
-          proc_control_node_B.ix_lo++;
+          proc_control_node_B.ix_l++;
         }
 
         proc_control_node_B.b_br += proc_control_node_B.iy_j;
@@ -11000,18 +10994,17 @@ boolean_T proc_control_nodeModelClass::proc_co_feasibleX0ForWorkingSet(real_T
       while (proc_control_node_B.b_ar > 0) {
         proc_control_node_B.iAcol = (proc_control_node_B.b_ar - 1) *
           proc_control_node_B.ldq - 1;
-        proc_control_node_B.c_d = workspace_data[proc_control_node_B.b_ar + -1];
-        if (proc_control_node_B.c_d != 0.0) {
+        proc_control_node_B.c_k = workspace_data[proc_control_node_B.b_ar + -1];
+        if (proc_control_node_B.c_k != 0.0) {
           workspace_data[proc_control_node_B.b_ar + -1] =
-            proc_control_node_B.c_d / qrmanager->
+            proc_control_node_B.c_k / qrmanager->
             QR.data[proc_control_node_B.b_ar + proc_control_node_B.iAcol];
-          proc_control_node_B.ix_lo = 1;
-          while (proc_control_node_B.ix_lo - 1 <= proc_control_node_B.b_ar - 2)
-          {
-            workspace_data[proc_control_node_B.ix_lo + -1] -=
+          proc_control_node_B.ix_l = 1;
+          while (proc_control_node_B.ix_l - 1 <= proc_control_node_B.b_ar - 2) {
+            workspace_data[proc_control_node_B.ix_l + -1] -=
               workspace_data[proc_control_node_B.b_ar + -1] * qrmanager->
-              QR.data[proc_control_node_B.ix_lo + proc_control_node_B.iAcol];
-            proc_control_node_B.ix_lo++;
+              QR.data[proc_control_node_B.ix_l + proc_control_node_B.iAcol];
+            proc_control_node_B.ix_l++;
           }
         }
 
@@ -11027,15 +11020,14 @@ boolean_T proc_control_nodeModelClass::proc_co_feasibleX0ForWorkingSet(real_T
         if (workspace_data[proc_control_node_B.jBcol] != 0.0) {
           workspace_data[proc_control_node_B.jBcol] /= qrmanager->
             QR.data[proc_control_node_B.b_ar + proc_control_node_B.iAcol];
-          proc_control_node_B.ix_lo = 1;
-          while (proc_control_node_B.ix_lo - 1 <= proc_control_node_B.b_ar - 2)
-          {
+          proc_control_node_B.ix_l = 1;
+          while (proc_control_node_B.ix_l - 1 <= proc_control_node_B.b_ar - 2) {
             proc_control_node_B.mWConstr_tmp_tmp = (proc_control_node_B.iy_j +
-              proc_control_node_B.ix_lo) - 1;
+              proc_control_node_B.ix_l) - 1;
             workspace_data[proc_control_node_B.mWConstr_tmp_tmp] -=
               workspace_data[proc_control_node_B.jBcol] * qrmanager->
-              QR.data[proc_control_node_B.ix_lo + proc_control_node_B.iAcol];
-            proc_control_node_B.ix_lo++;
+              QR.data[proc_control_node_B.ix_l + proc_control_node_B.iAcol];
+            proc_control_node_B.ix_l++;
           }
         }
 
@@ -11052,16 +11044,16 @@ boolean_T proc_control_nodeModelClass::proc_co_feasibleX0ForWorkingSet(real_T
              proc_control_node_B.mWConstr_tmp_tmp) {
         proc_control_node_B.iAcol = (proc_control_node_B.b_ar - 1) *
           proc_control_node_B.ldq - 1;
-        proc_control_node_B.c_d = workspace_data[proc_control_node_B.b_ar + -1];
-        proc_control_node_B.ix_lo = 1;
-        while (proc_control_node_B.ix_lo - 1 <= proc_control_node_B.b_ar - 2) {
-          proc_control_node_B.c_d -= qrmanager->
-            QR.data[proc_control_node_B.ix_lo + proc_control_node_B.iAcol] *
-            workspace_data[proc_control_node_B.ix_lo + -1];
-          proc_control_node_B.ix_lo++;
+        proc_control_node_B.c_k = workspace_data[proc_control_node_B.b_ar + -1];
+        proc_control_node_B.ix_l = 1;
+        while (proc_control_node_B.ix_l - 1 <= proc_control_node_B.b_ar - 2) {
+          proc_control_node_B.c_k -= qrmanager->QR.data[proc_control_node_B.ix_l
+            + proc_control_node_B.iAcol] *
+            workspace_data[proc_control_node_B.ix_l + -1];
+          proc_control_node_B.ix_l++;
         }
 
-        workspace_data[proc_control_node_B.b_ar + -1] = proc_control_node_B.c_d /
+        workspace_data[proc_control_node_B.b_ar + -1] = proc_control_node_B.c_k /
           qrmanager->QR.data[proc_control_node_B.b_ar +
           proc_control_node_B.iAcol];
         proc_control_node_B.b_ar++;
@@ -11074,17 +11066,16 @@ boolean_T proc_control_nodeModelClass::proc_co_feasibleX0ForWorkingSet(real_T
           proc_control_node_B.ldq - 1;
         proc_control_node_B.jBcol = (proc_control_node_B.iy_j +
           proc_control_node_B.b_ar) - 1;
-        proc_control_node_B.c_d = workspace_data[proc_control_node_B.jBcol];
-        proc_control_node_B.ix_lo = 1;
-        while (proc_control_node_B.ix_lo - 1 <= proc_control_node_B.b_ar - 2) {
-          proc_control_node_B.c_d -= qrmanager->
-            QR.data[proc_control_node_B.ix_lo + proc_control_node_B.iAcol] *
-            workspace_data[(proc_control_node_B.iy_j + proc_control_node_B.ix_lo)
-            - 1];
-          proc_control_node_B.ix_lo++;
+        proc_control_node_B.c_k = workspace_data[proc_control_node_B.jBcol];
+        proc_control_node_B.ix_l = 1;
+        while (proc_control_node_B.ix_l - 1 <= proc_control_node_B.b_ar - 2) {
+          proc_control_node_B.c_k -= qrmanager->QR.data[proc_control_node_B.ix_l
+            + proc_control_node_B.iAcol] * workspace_data
+            [(proc_control_node_B.iy_j + proc_control_node_B.ix_l) - 1];
+          proc_control_node_B.ix_l++;
         }
 
-        workspace_data[proc_control_node_B.jBcol] = proc_control_node_B.c_d /
+        workspace_data[proc_control_node_B.jBcol] = proc_control_node_B.c_k /
           qrmanager->QR.data[proc_control_node_B.b_ar +
           proc_control_node_B.iAcol];
         proc_control_node_B.b_ar++;
@@ -11096,18 +11087,18 @@ boolean_T proc_control_nodeModelClass::proc_co_feasibleX0ForWorkingSet(real_T
                proc_control_node_B.b_ar * sizeof(real_T));
       }
 
-      proc_control_node_B.ix_lo = 0;
-      while ((proc_control_node_B.iy_j > 0) && (proc_control_node_B.ix_lo <=
+      proc_control_node_B.ix_l = 0;
+      while ((proc_control_node_B.iy_j > 0) && (proc_control_node_B.ix_l <=
               proc_control_node_B.iy_j)) {
-        proc_control_node_B.iAcol = proc_control_node_B.ix_lo +
+        proc_control_node_B.iAcol = proc_control_node_B.ix_l +
           proc_control_node_B.nVar_d;
-        proc_control_node_B.b_br = proc_control_node_B.ix_lo;
+        proc_control_node_B.b_br = proc_control_node_B.ix_l;
         while (proc_control_node_B.b_br + 1 <= proc_control_node_B.iAcol) {
           workspace_data[proc_control_node_B.b_br] = 0.0;
           proc_control_node_B.b_br++;
         }
 
-        proc_control_node_B.ix_lo += proc_control_node_B.iy_j;
+        proc_control_node_B.ix_l += proc_control_node_B.iy_j;
       }
 
       proc_control_node_B.jBcol = 1;
@@ -11115,10 +11106,10 @@ boolean_T proc_control_nodeModelClass::proc_co_feasibleX0ForWorkingSet(real_T
       while ((proc_control_node_B.iy_j > 0) && (proc_control_node_B.b_ar <=
               proc_control_node_B.iy_j)) {
         proc_control_node_B.iAcol = -1;
-        proc_control_node_B.ix_lo = proc_control_node_B.jBcol +
+        proc_control_node_B.ix_l = proc_control_node_B.jBcol +
           proc_control_node_B.mWConstr_tmp_tmp;
         proc_control_node_B.ib = proc_control_node_B.jBcol;
-        while (proc_control_node_B.ib <= proc_control_node_B.ix_lo) {
+        while (proc_control_node_B.ib <= proc_control_node_B.ix_l) {
           proc_control_node_B.b_br = proc_control_node_B.iAcol;
           proc_control_node_B.f_b = proc_control_node_B.b_ar +
             proc_control_node_B.nVar_d;
@@ -11144,16 +11135,16 @@ boolean_T proc_control_nodeModelClass::proc_co_feasibleX0ForWorkingSet(real_T
     do {
       exitg1 = 0;
       if (proc_control_node_B.iy_j <= proc_control_node_B.nVar_d - 1) {
-        proc_control_node_B.c_d = workspace_data[proc_control_node_B.iy_j];
-        if (rtIsInf(proc_control_node_B.c_d) || rtIsNaN(proc_control_node_B.c_d))
+        proc_control_node_B.c_k = workspace_data[proc_control_node_B.iy_j];
+        if (rtIsInf(proc_control_node_B.c_k) || rtIsNaN(proc_control_node_B.c_k))
         {
           nonDegenerateWset = false;
           exitg1 = 1;
         } else {
-          proc_control_node_B.c_d = workspace_data[proc_control_node_B.iy_j +
+          proc_control_node_B.c_k = workspace_data[proc_control_node_B.iy_j +
             workspace_size[0]];
-          if (rtIsInf(proc_control_node_B.c_d) || rtIsNaN
-              (proc_control_node_B.c_d)) {
+          if (rtIsInf(proc_control_node_B.c_k) || rtIsNaN
+              (proc_control_node_B.c_k)) {
             nonDegenerateWset = false;
             exitg1 = 1;
           } else {
@@ -11168,13 +11159,13 @@ boolean_T proc_control_nodeModelClass::proc_co_feasibleX0ForWorkingSet(real_T
           proc_control_node_B.iy_j++;
         }
 
-        proc_control_node_B.c_d = proc_con_maxConstraintViolation(workingset,
+        proc_control_node_B.c_k = proc_con_maxConstraintViolation(workingset,
           workspace_data);
         proc_control_node_B.constrViolation_basicX =
           proc_c_maxConstraintViolation_d(workingset, workspace_data,
           workspace_size[0] + 1);
-        if ((proc_control_node_B.c_d <= 2.2204460492503131E-16) ||
-            (proc_control_node_B.c_d <
+        if ((proc_control_node_B.c_k <= 2.2204460492503131E-16) ||
+            (proc_control_node_B.c_k <
              proc_control_node_B.constrViolation_basicX)) {
           proc_control_node_B.iy_j = 0;
           while (proc_control_node_B.iy_j <= proc_control_node_B.nVar_d - 1) {
@@ -11206,7 +11197,7 @@ void proc_control_nodeModelClass::proc_con_RemoveDependentIneq__f
 {
   proc_control_node_B.nFixedConstr = workingset->nWConstr[0] +
     workingset->nWConstr[1];
-  proc_control_node_B.nVar_i = workingset->nVar;
+  proc_control_node_B.nVar_hv = workingset->nVar;
   if ((workingset->nWConstr[2] + workingset->nWConstr[3]) + workingset->
       nWConstr[4] > 0) {
     proc_control_node_B.tol_l = 1000.0 * static_cast<real_T>(workingset->nVar) *
@@ -11230,13 +11221,13 @@ void proc_control_nodeModelClass::proc_con_RemoveDependentIneq__f
         proc_control_node_B.nDepIneq;
       proc_control_node_B.idxPosATwset = workingset->ldA *
         proc_control_node_B.nDepIneq;
-      proc_control_node_B.k_hk = 1;
-      while (proc_control_node_B.k_hk - 1 <= proc_control_node_B.nVar_i - 1) {
+      proc_control_node_B.k_da = 1;
+      while (proc_control_node_B.k_da - 1 <= proc_control_node_B.nVar_hv - 1) {
         qrmanager->QR.data[(proc_control_node_B.idxPosQR +
-                            proc_control_node_B.k_hk) - 1] =
+                            proc_control_node_B.k_da) - 1] =
           workingset->ATwset.data[(proc_control_node_B.idxPosATwset +
-          proc_control_node_B.k_hk) - 1];
-        proc_control_node_B.k_hk++;
+          proc_control_node_B.k_da) - 1];
+        proc_control_node_B.k_da++;
       }
 
       proc_control_node_B.nDepIneq++;
@@ -11246,7 +11237,7 @@ void proc_control_nodeModelClass::proc_con_RemoveDependentIneq__f
       workingset->nActiveConstr);
     proc_control_node_B.nDepIneq = 0;
     proc_control_node_B.idxPosQR = workingset->nActiveConstr - 1;
-    while (proc_control_node_B.idxPosQR + 1 > proc_control_node_B.nVar_i) {
+    while (proc_control_node_B.idxPosQR + 1 > proc_control_node_B.nVar_hv) {
       proc_control_node_B.nDepIneq++;
       memspace->workspace_int.data[proc_control_node_B.nDepIneq - 1] =
         qrmanager->jpvt.data[proc_control_node_B.idxPosQR];
@@ -11254,17 +11245,17 @@ void proc_control_nodeModelClass::proc_con_RemoveDependentIneq__f
     }
 
     if (proc_control_node_B.idxPosQR + 1 <= workingset->nVar) {
-      proc_control_node_B.nVar_i = qrmanager->ldq * proc_control_node_B.idxPosQR
-        + proc_control_node_B.idxPosQR;
+      proc_control_node_B.nVar_hv = qrmanager->ldq *
+        proc_control_node_B.idxPosQR + proc_control_node_B.idxPosQR;
       while ((proc_control_node_B.idxPosQR + 1 >
               proc_control_node_B.nFixedConstr) && (fabs(qrmanager->
-               QR.data[proc_control_node_B.nVar_i]) < proc_control_node_B.tol_l))
+               QR.data[proc_control_node_B.nVar_hv]) < proc_control_node_B.tol_l))
       {
         proc_control_node_B.nDepIneq++;
         memspace->workspace_int.data[proc_control_node_B.nDepIneq - 1] =
           qrmanager->jpvt.data[proc_control_node_B.idxPosQR];
         proc_control_node_B.idxPosQR--;
-        proc_control_node_B.nVar_i = (proc_control_node_B.nVar_i -
+        proc_control_node_B.nVar_hv = (proc_control_node_B.nVar_hv -
           qrmanager->ldq) - 1;
       }
     }
@@ -11290,28 +11281,28 @@ void proc_control_nodeModelClass::proc_control_nod_xgemv_mtmcjbia(int32_T m,
   int32_T ia;
   int32_T iac;
   if (n != 0) {
-    proc_control_node_B.b_iy_e = 0;
-    while (proc_control_node_B.b_iy_e <= n - 1) {
-      y_data[proc_control_node_B.b_iy_e] = -y_data[proc_control_node_B.b_iy_e];
-      proc_control_node_B.b_iy_e++;
+    proc_control_node_B.b_iy_g = 0;
+    while (proc_control_node_B.b_iy_g <= n - 1) {
+      y_data[proc_control_node_B.b_iy_g] = -y_data[proc_control_node_B.b_iy_g];
+      proc_control_node_B.b_iy_g++;
     }
 
-    proc_control_node_B.iy_i = 0;
-    proc_control_node_B.b_iy_e = (n - 1) * lda + 1;
+    proc_control_node_B.iy_pz = 0;
+    proc_control_node_B.b_iy_g = (n - 1) * lda + 1;
     iac = 1;
-    while (((lda > 0) && (iac <= proc_control_node_B.b_iy_e)) || ((lda < 0) &&
-            (iac >= proc_control_node_B.b_iy_e))) {
-      proc_control_node_B.ix_ge = 0;
+    while (((lda > 0) && (iac <= proc_control_node_B.b_iy_g)) || ((lda < 0) &&
+            (iac >= proc_control_node_B.b_iy_g))) {
+      proc_control_node_B.ix_ig = 0;
       proc_control_node_B.c_i = 0.0;
       b = (iac + m) - 1;
       for (ia = iac; ia <= b; ia++) {
         proc_control_node_B.c_i += A_data[ia - 1] *
-          x_data[proc_control_node_B.ix_ge];
-        proc_control_node_B.ix_ge++;
+          x_data[proc_control_node_B.ix_ig];
+        proc_control_node_B.ix_ig++;
       }
 
-      y_data[proc_control_node_B.iy_i] += proc_control_node_B.c_i;
-      proc_control_node_B.iy_i++;
+      y_data[proc_control_node_B.iy_pz] += proc_control_node_B.c_i;
+      proc_control_node_B.iy_pz++;
       iac += lda;
     }
   }
@@ -11329,20 +11320,20 @@ void proc_control_nodeModelClass::proc_control_node_xgemv_mtmcjbi(int32_T n,
       y_data[b_iy] = -y_data[b_iy];
     }
 
-    proc_control_node_B.iy_e = 0;
+    proc_control_node_B.iy_c = 0;
     b_iy = (n - 1) * lda + 1;
     iac = 1;
     while (((lda > 0) && (iac <= b_iy)) || ((lda < 0) && (iac >= b_iy))) {
-      proc_control_node_B.ix_fb = 0;
+      proc_control_node_B.ix_e = 0;
       proc_control_node_B.c_ix = 0.0;
       for (ia = iac; ia <= iac + 146; ia++) {
         proc_control_node_B.c_ix += A_data[ia - 1] *
-          x_data[proc_control_node_B.ix_fb];
-        proc_control_node_B.ix_fb++;
+          x_data[proc_control_node_B.ix_e];
+        proc_control_node_B.ix_e++;
       }
 
-      y_data[proc_control_node_B.iy_e] += proc_control_node_B.c_ix;
-      proc_control_node_B.iy_e++;
+      y_data[proc_control_node_B.iy_c] += proc_control_node_B.c_ix;
+      proc_control_node_B.iy_c++;
       iac += lda;
     }
   }
@@ -11353,48 +11344,48 @@ real_T proc_control_nodeModelClass::proc__maxConstraintViolation_du
   (s_UO30ZLdjVaUTEWcJEu5YnC_proc_T *obj, const real_T x_data[])
 {
   real_T v;
-  proc_control_node_B.mLB_j = obj->sizes[3];
-  proc_control_node_B.mUB_k = obj->sizes[4];
-  proc_control_node_B.mFixed_m = obj->sizes[0];
+  proc_control_node_B.mLB_d = obj->sizes[3];
+  proc_control_node_B.mUB_j = obj->sizes[4];
+  proc_control_node_B.mFixed_k = obj->sizes[0];
   if (obj->probType == 2) {
     v = 0.0;
-    proc_control_node_B.mIneq_d = obj->sizes[2] - 1;
+    proc_control_node_B.mIneq_m = obj->sizes[2] - 1;
     if (obj->Aineq.size != 0) {
-      proc_control_node_B.b_k_p = 0;
-      while (proc_control_node_B.b_k_p <= proc_control_node_B.mIneq_d) {
-        obj->maxConstrWorkspace.data[proc_control_node_B.b_k_p] =
-          obj->bineq.data[proc_control_node_B.b_k_p];
-        proc_control_node_B.b_k_p++;
+      proc_control_node_B.b_k_do = 0;
+      while (proc_control_node_B.b_k_do <= proc_control_node_B.mIneq_m) {
+        obj->maxConstrWorkspace.data[proc_control_node_B.b_k_do] =
+          obj->bineq.data[proc_control_node_B.b_k_do];
+        proc_control_node_B.b_k_do++;
       }
 
       proc_control_node_xgemv_mtmcjbi(obj->sizes[2], obj->Aineq.data, obj->ldA,
         x_data, obj->maxConstrWorkspace.data);
-      proc_control_node_B.b_k_p = 0;
-      while (proc_control_node_B.b_k_p <= proc_control_node_B.mIneq_d) {
-        obj->maxConstrWorkspace.data[proc_control_node_B.b_k_p] -=
-          x_data[proc_control_node_B.b_k_p + 147];
+      proc_control_node_B.b_k_do = 0;
+      while (proc_control_node_B.b_k_do <= proc_control_node_B.mIneq_m) {
+        obj->maxConstrWorkspace.data[proc_control_node_B.b_k_do] -=
+          x_data[proc_control_node_B.b_k_do + 147];
         proc_control_node_B.u1_p = obj->
-          maxConstrWorkspace.data[proc_control_node_B.b_k_p];
+          maxConstrWorkspace.data[proc_control_node_B.b_k_do];
         if ((!(v > proc_control_node_B.u1_p)) && (!rtIsNaN
              (proc_control_node_B.u1_p))) {
           v = proc_control_node_B.u1_p;
         }
 
-        proc_control_node_B.b_k_p++;
+        proc_control_node_B.b_k_do++;
       }
     }
 
     memcpy(&obj->maxConstrWorkspace.data[0], &obj->beq[0], 130U * sizeof(real_T));
     proc_control_node_xgemv_mtmcjbi(130, obj->Aeq.data, obj->ldA, x_data,
       obj->maxConstrWorkspace.data);
-    for (proc_control_node_B.b_k_p = 0; proc_control_node_B.b_k_p < 130;
-         proc_control_node_B.b_k_p++) {
-      obj->maxConstrWorkspace.data[proc_control_node_B.b_k_p] =
-        (obj->maxConstrWorkspace.data[proc_control_node_B.b_k_p] - x_data
-         [(proc_control_node_B.mIneq_d + proc_control_node_B.b_k_p) + 148]) +
-        x_data[(obj->sizes[2] + proc_control_node_B.b_k_p) + 277];
+    for (proc_control_node_B.b_k_do = 0; proc_control_node_B.b_k_do < 130;
+         proc_control_node_B.b_k_do++) {
+      obj->maxConstrWorkspace.data[proc_control_node_B.b_k_do] =
+        (obj->maxConstrWorkspace.data[proc_control_node_B.b_k_do] - x_data
+         [(proc_control_node_B.mIneq_m + proc_control_node_B.b_k_do) + 148]) +
+        x_data[(obj->sizes[2] + proc_control_node_B.b_k_do) + 277];
       proc_control_node_B.u1_p = fabs(obj->
-        maxConstrWorkspace.data[proc_control_node_B.b_k_p]);
+        maxConstrWorkspace.data[proc_control_node_B.b_k_do]);
       if ((!(v > proc_control_node_B.u1_p)) && (!rtIsNaN
            (proc_control_node_B.u1_p))) {
         v = proc_control_node_B.u1_p;
@@ -11402,37 +11393,37 @@ real_T proc_control_nodeModelClass::proc__maxConstraintViolation_du
     }
   } else {
     v = 0.0;
-    proc_control_node_B.mIneq_d = obj->sizes[2] - 1;
+    proc_control_node_B.mIneq_m = obj->sizes[2] - 1;
     if (obj->Aineq.size != 0) {
-      proc_control_node_B.b_k_p = 0;
-      while (proc_control_node_B.b_k_p <= proc_control_node_B.mIneq_d) {
-        obj->maxConstrWorkspace.data[proc_control_node_B.b_k_p] =
-          obj->bineq.data[proc_control_node_B.b_k_p];
-        proc_control_node_B.b_k_p++;
+      proc_control_node_B.b_k_do = 0;
+      while (proc_control_node_B.b_k_do <= proc_control_node_B.mIneq_m) {
+        obj->maxConstrWorkspace.data[proc_control_node_B.b_k_do] =
+          obj->bineq.data[proc_control_node_B.b_k_do];
+        proc_control_node_B.b_k_do++;
       }
 
       proc_control_nod_xgemv_mtmcjbia(obj->nVar, obj->sizes[2], obj->Aineq.data,
         obj->ldA, x_data, obj->maxConstrWorkspace.data);
-      proc_control_node_B.b_k_p = 0;
-      while (proc_control_node_B.b_k_p <= proc_control_node_B.mIneq_d) {
+      proc_control_node_B.b_k_do = 0;
+      while (proc_control_node_B.b_k_do <= proc_control_node_B.mIneq_m) {
         proc_control_node_B.u1_p = obj->
-          maxConstrWorkspace.data[proc_control_node_B.b_k_p];
+          maxConstrWorkspace.data[proc_control_node_B.b_k_do];
         if ((!(v > proc_control_node_B.u1_p)) && (!rtIsNaN
              (proc_control_node_B.u1_p))) {
           v = proc_control_node_B.u1_p;
         }
 
-        proc_control_node_B.b_k_p++;
+        proc_control_node_B.b_k_do++;
       }
     }
 
     memcpy(&obj->maxConstrWorkspace.data[0], &obj->beq[0], 130U * sizeof(real_T));
     proc_control_nod_xgemv_mtmcjbia(obj->nVar, 130, obj->Aeq.data, obj->ldA,
       x_data, obj->maxConstrWorkspace.data);
-    for (proc_control_node_B.mIneq_d = 0; proc_control_node_B.mIneq_d < 130;
-         proc_control_node_B.mIneq_d++) {
+    for (proc_control_node_B.mIneq_m = 0; proc_control_node_B.mIneq_m < 130;
+         proc_control_node_B.mIneq_m++) {
       proc_control_node_B.u1_p = fabs(obj->
-        maxConstrWorkspace.data[proc_control_node_B.mIneq_d]);
+        maxConstrWorkspace.data[proc_control_node_B.mIneq_m]);
       if ((!(v > proc_control_node_B.u1_p)) && (!rtIsNaN
            (proc_control_node_B.u1_p))) {
         v = proc_control_node_B.u1_p;
@@ -11440,48 +11431,48 @@ real_T proc_control_nodeModelClass::proc__maxConstraintViolation_du
     }
   }
 
-  if (proc_control_node_B.mLB_j > 0) {
-    proc_control_node_B.mIneq_d = 0;
-    while (proc_control_node_B.mIneq_d <= proc_control_node_B.mLB_j - 1) {
+  if (proc_control_node_B.mLB_d > 0) {
+    proc_control_node_B.mIneq_m = 0;
+    while (proc_control_node_B.mIneq_m <= proc_control_node_B.mLB_d - 1) {
       proc_control_node_B.u1_p = -x_data[obj->
-        indexLB.data[proc_control_node_B.mIneq_d] - 1] - obj->lb.data
-        [obj->indexLB.data[proc_control_node_B.mIneq_d] - 1];
+        indexLB.data[proc_control_node_B.mIneq_m] - 1] - obj->lb.data
+        [obj->indexLB.data[proc_control_node_B.mIneq_m] - 1];
       if ((!(v > proc_control_node_B.u1_p)) && (!rtIsNaN
            (proc_control_node_B.u1_p))) {
         v = proc_control_node_B.u1_p;
       }
 
-      proc_control_node_B.mIneq_d++;
+      proc_control_node_B.mIneq_m++;
     }
   }
 
-  if (proc_control_node_B.mUB_k > 0) {
-    proc_control_node_B.mLB_j = 0;
-    while (proc_control_node_B.mLB_j <= proc_control_node_B.mUB_k - 1) {
+  if (proc_control_node_B.mUB_j > 0) {
+    proc_control_node_B.mLB_d = 0;
+    while (proc_control_node_B.mLB_d <= proc_control_node_B.mUB_j - 1) {
       proc_control_node_B.u1_p = x_data[obj->
-        indexUB.data[proc_control_node_B.mLB_j] - 1] - obj->ub.data
-        [obj->indexUB.data[proc_control_node_B.mLB_j] - 1];
+        indexUB.data[proc_control_node_B.mLB_d] - 1] - obj->ub.data
+        [obj->indexUB.data[proc_control_node_B.mLB_d] - 1];
       if ((!(v > proc_control_node_B.u1_p)) && (!rtIsNaN
            (proc_control_node_B.u1_p))) {
         v = proc_control_node_B.u1_p;
       }
 
-      proc_control_node_B.mLB_j++;
+      proc_control_node_B.mLB_d++;
     }
   }
 
-  if (proc_control_node_B.mFixed_m > 0) {
-    proc_control_node_B.mUB_k = 0;
-    while (proc_control_node_B.mUB_k <= proc_control_node_B.mFixed_m - 1) {
+  if (proc_control_node_B.mFixed_k > 0) {
+    proc_control_node_B.mUB_j = 0;
+    while (proc_control_node_B.mUB_j <= proc_control_node_B.mFixed_k - 1) {
       proc_control_node_B.u1_p = fabs(x_data[obj->
-        indexFixed.data[proc_control_node_B.mUB_k] - 1] - obj->ub.data
-        [obj->indexFixed.data[proc_control_node_B.mUB_k] - 1]);
+        indexFixed.data[proc_control_node_B.mUB_j] - 1] - obj->ub.data
+        [obj->indexFixed.data[proc_control_node_B.mUB_j] - 1]);
       if ((!(v > proc_control_node_B.u1_p)) && (!rtIsNaN
            (proc_control_node_B.u1_p))) {
         v = proc_control_node_B.u1_p;
       }
 
-      proc_control_node_B.mUB_k++;
+      proc_control_node_B.mUB_j++;
     }
   }
 
@@ -11558,25 +11549,25 @@ void proc_control_nodeModelClass::proc_control_no_xgemv_mtmcjbiad(int32_T m,
   int32_T ia;
   int32_T iac;
   if ((m != 0) && (n != 0)) {
-    proc_control_node_B.ix_px = 0;
-    while (proc_control_node_B.ix_px <= m - 1) {
-      y_data[proc_control_node_B.ix_px] = 0.0;
-      proc_control_node_B.ix_px++;
+    proc_control_node_B.ix_j5 = 0;
+    while (proc_control_node_B.ix_j5 <= m - 1) {
+      y_data[proc_control_node_B.ix_j5] = 0.0;
+      proc_control_node_B.ix_j5++;
     }
 
-    proc_control_node_B.ix_px = 0;
+    proc_control_node_B.ix_j5 = 0;
     c = (n - 1) * lda + 1;
     iac = 1;
     while (((lda > 0) && (iac <= c)) || ((lda < 0) && (iac >= c))) {
-      proc_control_node_B.iy_j5 = 0;
+      proc_control_node_B.iy_ks = 0;
       b = (iac + m) - 1;
       for (ia = iac; ia <= b; ia++) {
-        y_data[proc_control_node_B.iy_j5] += A[ia - 1] *
-          x_data[proc_control_node_B.ix_px];
-        proc_control_node_B.iy_j5++;
+        y_data[proc_control_node_B.iy_ks] += A[ia - 1] *
+          x_data[proc_control_node_B.ix_j5];
+        proc_control_node_B.iy_ks++;
       }
 
-      proc_control_node_B.ix_px++;
+      proc_control_node_B.ix_j5++;
       iac += lda;
     }
   }
@@ -11610,11 +11601,11 @@ void proc_control_nodeModelClass::proc_contro_computeGrad_StoreHx
 
     if (obj->hasLinear && (obj->nvar >= 1)) {
       proc_control_node_B.maxRegVar = obj->nvar - 1;
-      proc_control_node_B.iy_ks = 0;
-      while (proc_control_node_B.iy_ks <= proc_control_node_B.maxRegVar) {
-        obj->grad.data[proc_control_node_B.iy_ks] +=
-          f_data[proc_control_node_B.iy_ks];
-        proc_control_node_B.iy_ks++;
+      proc_control_node_B.iy_g2 = 0;
+      while (proc_control_node_B.iy_g2 <= proc_control_node_B.maxRegVar) {
+        obj->grad.data[proc_control_node_B.iy_g2] +=
+          f_data[proc_control_node_B.iy_g2];
+        proc_control_node_B.iy_g2++;
       }
     }
     break;
@@ -11623,11 +11614,11 @@ void proc_control_nodeModelClass::proc_contro_computeGrad_StoreHx
     proc_control_node_B.maxRegVar = obj->maxVar - 1;
     proc_control_no_xgemv_mtmcjbiad(obj->nvar, obj->nvar, H, obj->nvar, x_data,
       obj->Hx.data);
-    proc_control_node_B.iy_ks = obj->nvar;
-    while (proc_control_node_B.iy_ks + 1 <= proc_control_node_B.maxRegVar) {
-      obj->Hx.data[proc_control_node_B.iy_ks] = obj->beta *
-        x_data[proc_control_node_B.iy_ks];
-      proc_control_node_B.iy_ks++;
+    proc_control_node_B.iy_g2 = obj->nvar;
+    while (proc_control_node_B.iy_g2 + 1 <= proc_control_node_B.maxRegVar) {
+      obj->Hx.data[proc_control_node_B.iy_g2] = obj->beta *
+        x_data[proc_control_node_B.iy_g2];
+      proc_control_node_B.iy_g2++;
     }
 
     proc_control_node_B.d_i = 0;
@@ -11639,21 +11630,21 @@ void proc_control_nodeModelClass::proc_contro_computeGrad_StoreHx
 
     if (obj->hasLinear && (obj->nvar >= 1)) {
       proc_control_node_B.maxRegVar = obj->nvar - 1;
-      proc_control_node_B.iy_ks = 0;
-      while (proc_control_node_B.iy_ks <= proc_control_node_B.maxRegVar) {
-        obj->grad.data[proc_control_node_B.iy_ks] +=
-          f_data[proc_control_node_B.iy_ks];
-        proc_control_node_B.iy_ks++;
+      proc_control_node_B.iy_g2 = 0;
+      while (proc_control_node_B.iy_g2 <= proc_control_node_B.maxRegVar) {
+        obj->grad.data[proc_control_node_B.iy_g2] +=
+          f_data[proc_control_node_B.iy_g2];
+        proc_control_node_B.iy_g2++;
       }
     }
 
     proc_control_node_B.maxRegVar = (obj->maxVar - obj->nvar) - 1;
     if (proc_control_node_B.maxRegVar >= 1) {
-      proc_control_node_B.iy_ks = obj->nvar;
+      proc_control_node_B.iy_g2 = obj->nvar;
       proc_control_node_B.d_i = 0;
       while (proc_control_node_B.d_i <= proc_control_node_B.maxRegVar - 1) {
-        obj->grad.data[proc_control_node_B.iy_ks] += obj->rho;
-        proc_control_node_B.iy_ks++;
+        obj->grad.data[proc_control_node_B.iy_g2] += obj->rho;
+        proc_control_node_B.iy_g2++;
         proc_control_node_B.d_i++;
       }
     }
@@ -11793,24 +11784,24 @@ void proc_control_nodeModelClass::proc_control_n_deleteColMoveEnd
   int32_T d_k;
   int32_T ix;
   if (obj->usedPivoting) {
-    proc_control_node_B.i_o2 = 1;
-    while ((proc_control_node_B.i_o2 <= obj->ncols) && (obj->
-            jpvt.data[proc_control_node_B.i_o2 - 1] != idx)) {
-      proc_control_node_B.i_o2++;
+    proc_control_node_B.i_nl = 1;
+    while ((proc_control_node_B.i_nl <= obj->ncols) && (obj->
+            jpvt.data[proc_control_node_B.i_nl - 1] != idx)) {
+      proc_control_node_B.i_nl++;
     }
 
-    idx = proc_control_node_B.i_o2;
+    idx = proc_control_node_B.i_nl;
   }
 
   if (idx >= obj->ncols) {
     obj->ncols--;
   } else {
     obj->jpvt.data[idx - 1] = obj->jpvt.data[obj->ncols - 1];
-    proc_control_node_B.i_o2 = 0;
-    while (proc_control_node_B.i_o2 <= obj->minRowCol - 1) {
-      obj->QR.data[proc_control_node_B.i_o2 + obj->ldq * (idx - 1)] =
-        obj->QR.data[(obj->ncols - 1) * obj->ldq + proc_control_node_B.i_o2];
-      proc_control_node_B.i_o2++;
+    proc_control_node_B.i_nl = 0;
+    while (proc_control_node_B.i_nl <= obj->minRowCol - 1) {
+      obj->QR.data[proc_control_node_B.i_nl + obj->ldq * (idx - 1)] =
+        obj->QR.data[(obj->ncols - 1) * obj->ldq + proc_control_node_B.i_nl];
+      proc_control_node_B.i_nl++;
     }
 
     obj->ncols--;
@@ -11822,48 +11813,48 @@ void proc_control_nodeModelClass::proc_control_n_deleteColMoveEnd
 
     if (idx < obj->mrows) {
       if (obj->mrows - 1 < obj->ncols) {
-        proc_control_node_B.i_o2 = obj->mrows - 1;
+        proc_control_node_B.i_nl = obj->mrows - 1;
       } else {
-        proc_control_node_B.i_o2 = obj->ncols;
+        proc_control_node_B.i_nl = obj->ncols;
       }
 
-      proc_control_node_B.k_l = proc_control_node_B.i_o2;
+      proc_control_node_B.k_o = proc_control_node_B.i_nl;
       proc_control_node_B.idxRotGCol = (idx - 1) * obj->ldq;
-      while (proc_control_node_B.k_l >= idx) {
-        QRk0 = proc_control_node_B.k_l + proc_control_node_B.idxRotGCol;
+      while (proc_control_node_B.k_o >= idx) {
+        QRk0 = proc_control_node_B.k_o + proc_control_node_B.idxRotGCol;
         proc_control_node_B.b_temp = obj->QR.data[QRk0 - 1];
-        proc_control_node_B.e_g = obj->QR.data[QRk0];
+        proc_control_node_B.e_d = obj->QR.data[QRk0];
         proc_control_node_xrotg(&proc_control_node_B.b_temp,
-          &proc_control_node_B.e_g, &proc_control_node_B.c_c_d,
+          &proc_control_node_B.e_d, &proc_control_node_B.c_c,
           &proc_control_node_B.b_s_h);
         obj->QR.data[QRk0 - 1] = proc_control_node_B.b_temp;
-        obj->QR.data[QRk0] = proc_control_node_B.e_g;
-        obj->QR.data[proc_control_node_B.k_l + obj->ldq *
-          (proc_control_node_B.k_l - 1)] = 0.0;
-        QRk0 = obj->ldq * idx + proc_control_node_B.k_l;
+        obj->QR.data[QRk0] = proc_control_node_B.e_d;
+        obj->QR.data[proc_control_node_B.k_o + obj->ldq *
+          (proc_control_node_B.k_o - 1)] = 0.0;
+        QRk0 = obj->ldq * idx + proc_control_node_B.k_o;
         b_ix = obj->ncols - idx;
         if (b_ix >= 1) {
           ix = QRk0 - 1;
           for (d_k = 0; d_k < b_ix; d_k++) {
             proc_control_node_B.b_temp = obj->QR.data[ix] *
-              proc_control_node_B.c_c_d + obj->QR.data[QRk0] *
+              proc_control_node_B.c_c + obj->QR.data[QRk0] *
               proc_control_node_B.b_s_h;
-            obj->QR.data[QRk0] = obj->QR.data[QRk0] * proc_control_node_B.c_c_d
-              - obj->QR.data[ix] * proc_control_node_B.b_s_h;
+            obj->QR.data[QRk0] = obj->QR.data[QRk0] * proc_control_node_B.c_c -
+              obj->QR.data[ix] * proc_control_node_B.b_s_h;
             obj->QR.data[ix] = proc_control_node_B.b_temp;
             QRk0 += obj->ldq;
             ix += obj->ldq;
           }
         }
 
-        QRk0 = (proc_control_node_B.k_l - 1) * obj->ldq;
+        QRk0 = (proc_control_node_B.k_o - 1) * obj->ldq;
         if (obj->mrows >= 1) {
           b_ix = obj->ldq + QRk0;
           for (ix = 0; ix < obj->mrows; ix++) {
             proc_control_node_B.b_temp = obj->Q.data[QRk0] *
-              proc_control_node_B.c_c_d + obj->Q.data[b_ix] *
+              proc_control_node_B.c_c + obj->Q.data[b_ix] *
               proc_control_node_B.b_s_h;
-            obj->Q.data[b_ix] = obj->Q.data[b_ix] * proc_control_node_B.c_c_d -
+            obj->Q.data[b_ix] = obj->Q.data[b_ix] * proc_control_node_B.c_c -
               obj->Q.data[QRk0] * proc_control_node_B.b_s_h;
             obj->Q.data[QRk0] = proc_control_node_B.b_temp;
             b_ix++;
@@ -11871,45 +11862,45 @@ void proc_control_nodeModelClass::proc_control_n_deleteColMoveEnd
           }
         }
 
-        proc_control_node_B.k_l--;
+        proc_control_node_B.k_o--;
       }
 
-      proc_control_node_B.k_l = idx + 1;
-      while (proc_control_node_B.k_l <= proc_control_node_B.i_o2) {
-        QRk0 = proc_control_node_B.k_l + (proc_control_node_B.k_l - 1) *
+      proc_control_node_B.k_o = idx + 1;
+      while (proc_control_node_B.k_o <= proc_control_node_B.i_nl) {
+        QRk0 = proc_control_node_B.k_o + (proc_control_node_B.k_o - 1) *
           obj->ldq;
         proc_control_node_B.b_temp = obj->QR.data[QRk0 - 1];
-        proc_control_node_B.e_g = obj->QR.data[QRk0];
+        proc_control_node_B.e_d = obj->QR.data[QRk0];
         proc_control_node_xrotg(&proc_control_node_B.b_temp,
-          &proc_control_node_B.e_g, &proc_control_node_B.c_c_d,
+          &proc_control_node_B.e_d, &proc_control_node_B.c_c,
           &proc_control_node_B.b_s_h);
         obj->QR.data[QRk0 - 1] = proc_control_node_B.b_temp;
-        obj->QR.data[QRk0] = proc_control_node_B.e_g;
-        QRk0 = (obj->ldq + 1) * proc_control_node_B.k_l;
-        proc_control_node_B.idxRotGCol = obj->ncols - proc_control_node_B.k_l;
+        obj->QR.data[QRk0] = proc_control_node_B.e_d;
+        QRk0 = (obj->ldq + 1) * proc_control_node_B.k_o;
+        proc_control_node_B.idxRotGCol = obj->ncols - proc_control_node_B.k_o;
         if (proc_control_node_B.idxRotGCol >= 1) {
           b_ix = QRk0 - 1;
           for (ix = 0; ix < proc_control_node_B.idxRotGCol; ix++) {
             proc_control_node_B.b_temp = obj->QR.data[b_ix] *
-              proc_control_node_B.c_c_d + obj->QR.data[QRk0] *
+              proc_control_node_B.c_c + obj->QR.data[QRk0] *
               proc_control_node_B.b_s_h;
-            obj->QR.data[QRk0] = obj->QR.data[QRk0] * proc_control_node_B.c_c_d
-              - obj->QR.data[b_ix] * proc_control_node_B.b_s_h;
+            obj->QR.data[QRk0] = obj->QR.data[QRk0] * proc_control_node_B.c_c -
+              obj->QR.data[b_ix] * proc_control_node_B.b_s_h;
             obj->QR.data[b_ix] = proc_control_node_B.b_temp;
             QRk0 += obj->ldq;
             b_ix += obj->ldq;
           }
         }
 
-        proc_control_node_B.idxRotGCol = (proc_control_node_B.k_l - 1) *
+        proc_control_node_B.idxRotGCol = (proc_control_node_B.k_o - 1) *
           obj->ldq;
         if (obj->mrows >= 1) {
           QRk0 = obj->ldq + proc_control_node_B.idxRotGCol;
           for (b_ix = 0; b_ix < obj->mrows; b_ix++) {
             proc_control_node_B.b_temp = obj->
-              Q.data[proc_control_node_B.idxRotGCol] * proc_control_node_B.c_c_d
-              + obj->Q.data[QRk0] * proc_control_node_B.b_s_h;
-            obj->Q.data[QRk0] = obj->Q.data[QRk0] * proc_control_node_B.c_c_d -
+              Q.data[proc_control_node_B.idxRotGCol] * proc_control_node_B.c_c +
+              obj->Q.data[QRk0] * proc_control_node_B.b_s_h;
+            obj->Q.data[QRk0] = obj->Q.data[QRk0] * proc_control_node_B.c_c -
               obj->Q.data[proc_control_node_B.idxRotGCol] *
               proc_control_node_B.b_s_h;
             obj->Q.data[proc_control_node_B.idxRotGCol] =
@@ -11919,7 +11910,7 @@ void proc_control_nodeModelClass::proc_control_n_deleteColMoveEnd
           }
         }
 
-        proc_control_node_B.k_l++;
+        proc_control_node_B.k_o++;
       }
     }
   }
@@ -11946,38 +11937,38 @@ void proc_control_nodeModelClass::proc_control_node_xgemm(int32_T m, int32_T n,
   int32_T ib;
   if ((m != 0) && (n != 0)) {
     b_c = (n - 1) * ldc;
-    proc_control_node_B.br_h = 0;
-    while (((ldc > 0) && (proc_control_node_B.br_h <= b_c)) || ((ldc < 0) &&
-            (proc_control_node_B.br_h >= b_c))) {
-      proc_control_node_B.b_cr_m = proc_control_node_B.br_h + m;
-      proc_control_node_B.ar_n = proc_control_node_B.br_h;
-      while (proc_control_node_B.ar_n + 1 <= proc_control_node_B.b_cr_m) {
-        C_data[proc_control_node_B.ar_n] = 0.0;
-        proc_control_node_B.ar_n++;
+    proc_control_node_B.br_p = 0;
+    while (((ldc > 0) && (proc_control_node_B.br_p <= b_c)) || ((ldc < 0) &&
+            (proc_control_node_B.br_p >= b_c))) {
+      proc_control_node_B.b_cr_b = proc_control_node_B.br_p + m;
+      proc_control_node_B.ar_h = proc_control_node_B.br_p;
+      while (proc_control_node_B.ar_h + 1 <= proc_control_node_B.b_cr_b) {
+        C_data[proc_control_node_B.ar_h] = 0.0;
+        proc_control_node_B.ar_h++;
       }
 
-      proc_control_node_B.br_h += ldc;
+      proc_control_node_B.br_p += ldc;
     }
 
-    proc_control_node_B.br_h = ib0;
-    proc_control_node_B.b_cr_m = 0;
-    while (((ldc > 0) && (proc_control_node_B.b_cr_m <= b_c)) || ((ldc < 0) &&
-            (proc_control_node_B.b_cr_m >= b_c))) {
-      proc_control_node_B.ar_n = -1;
-      proc_control_node_B.c_kv = proc_control_node_B.br_h + k;
-      for (ib = proc_control_node_B.br_h; ib < proc_control_node_B.c_kv; ib++) {
-        proc_control_node_B.ia_b = proc_control_node_B.ar_n;
-        d = proc_control_node_B.b_cr_m + m;
-        for (b_ic = proc_control_node_B.b_cr_m; b_ic < d; b_ic++) {
-          proc_control_node_B.ia_b++;
-          C_data[b_ic] += B_data[ib - 1] * A[proc_control_node_B.ia_b];
+    proc_control_node_B.br_p = ib0;
+    proc_control_node_B.b_cr_b = 0;
+    while (((ldc > 0) && (proc_control_node_B.b_cr_b <= b_c)) || ((ldc < 0) &&
+            (proc_control_node_B.b_cr_b >= b_c))) {
+      proc_control_node_B.ar_h = -1;
+      proc_control_node_B.c_mt = proc_control_node_B.br_p + k;
+      for (ib = proc_control_node_B.br_p; ib < proc_control_node_B.c_mt; ib++) {
+        proc_control_node_B.ia_nw = proc_control_node_B.ar_h;
+        d = proc_control_node_B.b_cr_b + m;
+        for (b_ic = proc_control_node_B.b_cr_b; b_ic < d; b_ic++) {
+          proc_control_node_B.ia_nw++;
+          C_data[b_ic] += B_data[ib - 1] * A[proc_control_node_B.ia_nw];
         }
 
-        proc_control_node_B.ar_n += lda;
+        proc_control_node_B.ar_h += lda;
       }
 
-      proc_control_node_B.br_h += ldb;
-      proc_control_node_B.b_cr_m += ldc;
+      proc_control_node_B.br_p += ldb;
+      proc_control_node_B.b_cr_b += ldc;
     }
   }
 }
@@ -12013,13 +12004,13 @@ void proc_control_nodeModelClass::proc_control_node_xgemm_m(int32_T m, int32_T n
       proc_control_node_B.ar = ia0;
       c = proc_control_node_B.b_cr + m;
       for (b_ic = proc_control_node_B.b_cr; b_ic < c; b_ic++) {
-        proc_control_node_B.temp_ag = 0.0;
+        proc_control_node_B.temp_a = 0.0;
         for (w = 1; w - 1 < k; w++) {
-          proc_control_node_B.temp_ag += A_data[(w + proc_control_node_B.ar) - 2]
+          proc_control_node_B.temp_a += A_data[(w + proc_control_node_B.ar) - 2]
             * B_data[w + proc_control_node_B.br];
         }
 
-        C_data[b_ic] += proc_control_node_B.temp_ag;
+        C_data[b_ic] += proc_control_node_B.temp_a;
         proc_control_node_B.ar += lda;
       }
 
@@ -12066,23 +12057,23 @@ void proc_control_nodeModelClass::proc_control_node_fullColLDL2_
   int32_T ijA;
   int32_T j;
   int32_T jA;
-  proc_control_node_B.LDimSizeP1_i = obj->ldm;
-  proc_control_node_B.k_hv = 0;
-  while (proc_control_node_B.k_hv <= NColsRemain - 1) {
-    proc_control_node_B.LD_diagOffset_f = ((proc_control_node_B.LDimSizeP1_i + 1)
-      * proc_control_node_B.k_hv + LD_offset) - 1;
+  proc_control_node_B.LDimSizeP1_e = obj->ldm;
+  proc_control_node_B.k_fw = 0;
+  while (proc_control_node_B.k_fw <= NColsRemain - 1) {
+    proc_control_node_B.LD_diagOffset_i = ((proc_control_node_B.LDimSizeP1_e + 1)
+      * proc_control_node_B.k_fw + LD_offset) - 1;
     proc_control_node_B.neg_D = -1.0 / obj->
-      FMat.data[proc_control_node_B.LD_diagOffset_f];
-    proc_control_node_B.subMatrixDim = (NColsRemain - proc_control_node_B.k_hv)
+      FMat.data[proc_control_node_B.LD_diagOffset_i];
+    proc_control_node_B.subMatrixDim = (NColsRemain - proc_control_node_B.k_fw)
       - 2;
     for (jA = 1; jA - 1 <= proc_control_node_B.subMatrixDim; jA++) {
-      obj->workspace_ = obj->FMat.data[proc_control_node_B.LD_diagOffset_f + jA];
+      obj->workspace_ = obj->FMat.data[proc_control_node_B.LD_diagOffset_i + jA];
     }
 
     proc_control_node_B.y_ew = obj->workspace_;
     if (!(proc_control_node_B.neg_D == 0.0)) {
-      jA = (proc_control_node_B.LD_diagOffset_f +
-            proc_control_node_B.LDimSizeP1_i) + 1;
+      jA = (proc_control_node_B.LD_diagOffset_i +
+            proc_control_node_B.LDimSizeP1_e) + 1;
       for (j = 0; j <= proc_control_node_B.subMatrixDim; j++) {
         if (proc_control_node_B.y_ew != 0.0) {
           proc_control_node_B.temp_e = proc_control_node_B.y_ew *
@@ -12098,11 +12089,11 @@ void proc_control_nodeModelClass::proc_control_node_fullColLDL2_
     }
 
     for (jA = 1; jA - 1 <= proc_control_node_B.subMatrixDim; jA++) {
-      j = proc_control_node_B.LD_diagOffset_f + jA;
-      obj->FMat.data[j] /= obj->FMat.data[proc_control_node_B.LD_diagOffset_f];
+      j = proc_control_node_B.LD_diagOffset_i + jA;
+      obj->FMat.data[j] /= obj->FMat.data[proc_control_node_B.LD_diagOffset_i];
     }
 
-    proc_control_node_B.k_hv++;
+    proc_control_node_B.k_fw++;
   }
 }
 
@@ -12114,15 +12105,15 @@ void proc_control_nodeModelClass::proc_control_no_partialColLDL3_
   int32_T br;
   int32_T ic;
   int32_T ix_tmp;
-  proc_control_node_B.LDimSizeP1_d = obj->ldm + 1;
-  for (proc_control_node_B.k_p = 0; proc_control_node_B.k_p < 48;
-       proc_control_node_B.k_p++) {
-    proc_control_node_B.subRows = (NColsRemain - proc_control_node_B.k_p) - 1;
-    proc_control_node_B.LD_diagOffset_a = (proc_control_node_B.LDimSizeP1_d *
-      proc_control_node_B.k_p + LD_offset) - 1;
+  proc_control_node_B.LDimSizeP1_c = obj->ldm + 1;
+  for (proc_control_node_B.k_ai = 0; proc_control_node_B.k_ai < 48;
+       proc_control_node_B.k_ai++) {
+    proc_control_node_B.subRows = (NColsRemain - proc_control_node_B.k_ai) - 1;
+    proc_control_node_B.LD_diagOffset_d = (proc_control_node_B.LDimSizeP1_c *
+      proc_control_node_B.k_ai + LD_offset) - 1;
     proc_control_node_B.subBlockSize = 0;
     while (proc_control_node_B.subBlockSize <= proc_control_node_B.subRows) {
-      obj->workspace_ = obj->FMat.data[proc_control_node_B.LD_diagOffset_a +
+      obj->workspace_ = obj->FMat.data[proc_control_node_B.LD_diagOffset_d +
         proc_control_node_B.subBlockSize];
       proc_control_node_B.subBlockSize++;
     }
@@ -12134,39 +12125,39 @@ void proc_control_nodeModelClass::proc_control_no_partialColLDL3_
     }
 
     proc_control_node_B.subBlockSize = obj->ldm;
-    proc_control_node_B.y_c5 = obj->workspace2_;
-    if ((NColsRemain != 0) && (proc_control_node_B.k_p != 0)) {
-      proc_control_node_B.ix_fk = LD_offset + proc_control_node_B.k_p;
-      proc_control_node_B.FMat_offset = (proc_control_node_B.k_p - 1) * obj->ldm
-        + 1;
+    proc_control_node_B.y_ly = obj->workspace2_;
+    if ((NColsRemain != 0) && (proc_control_node_B.k_ai != 0)) {
+      proc_control_node_B.ix_p = LD_offset + proc_control_node_B.k_ai;
+      proc_control_node_B.FMat_offset = (proc_control_node_B.k_ai - 1) *
+        obj->ldm + 1;
       br = 1;
       while (((proc_control_node_B.subBlockSize > 0) && (br <=
                proc_control_node_B.FMat_offset)) ||
              ((proc_control_node_B.subBlockSize < 0) && (br >=
                proc_control_node_B.FMat_offset))) {
-        proc_control_node_B.c_h = (br + NColsRemain) - 1;
-        proc_control_node_B.ia_j5 = br;
-        while (proc_control_node_B.ia_j5 <= proc_control_node_B.c_h) {
-          proc_control_node_B.y_c5 += -obj->FMat.data[proc_control_node_B.ix_fk
-            - 1] * obj->workspace_;
-          proc_control_node_B.ia_j5++;
+        proc_control_node_B.c_fk = (br + NColsRemain) - 1;
+        proc_control_node_B.ia_h2u = br;
+        while (proc_control_node_B.ia_h2u <= proc_control_node_B.c_fk) {
+          proc_control_node_B.y_ly += -obj->FMat.data[proc_control_node_B.ix_p -
+            1] * obj->workspace_;
+          proc_control_node_B.ia_h2u++;
         }
 
-        proc_control_node_B.ix_fk += obj->ldm;
+        proc_control_node_B.ix_p += obj->ldm;
         br += proc_control_node_B.subBlockSize;
       }
     }
 
-    obj->workspace2_ = proc_control_node_B.y_c5;
+    obj->workspace2_ = proc_control_node_B.y_ly;
     proc_control_node_B.subBlockSize = 0;
     while (proc_control_node_B.subBlockSize <= NColsRemain - 1) {
-      obj->workspace_ = proc_control_node_B.y_c5;
+      obj->workspace_ = proc_control_node_B.y_ly;
       proc_control_node_B.subBlockSize++;
     }
 
     proc_control_node_B.subBlockSize = 0;
     while (proc_control_node_B.subBlockSize <= proc_control_node_B.subRows) {
-      obj->FMat.data[proc_control_node_B.LD_diagOffset_a +
+      obj->FMat.data[proc_control_node_B.LD_diagOffset_d +
         proc_control_node_B.subBlockSize] = obj->workspace_;
       proc_control_node_B.subBlockSize++;
     }
@@ -12174,27 +12165,27 @@ void proc_control_nodeModelClass::proc_control_no_partialColLDL3_
     proc_control_node_B.subBlockSize = 1;
     while (proc_control_node_B.subBlockSize - 1 <= proc_control_node_B.subRows -
            1) {
-      br = proc_control_node_B.LD_diagOffset_a +
+      br = proc_control_node_B.LD_diagOffset_d +
         proc_control_node_B.subBlockSize;
-      obj->FMat.data[br] /= obj->FMat.data[proc_control_node_B.LD_diagOffset_a];
+      obj->FMat.data[br] /= obj->FMat.data[proc_control_node_B.LD_diagOffset_d];
       proc_control_node_B.subBlockSize++;
     }
   }
 
-  proc_control_node_B.k_p = 48;
-  while (proc_control_node_B.k_p <= NColsRemain - 1) {
-    proc_control_node_B.ix_fk = NColsRemain - proc_control_node_B.k_p;
-    if (48 < proc_control_node_B.ix_fk) {
+  proc_control_node_B.k_ai = 48;
+  while (proc_control_node_B.k_ai <= NColsRemain - 1) {
+    proc_control_node_B.ix_p = NColsRemain - proc_control_node_B.k_ai;
+    if (48 < proc_control_node_B.ix_p) {
       proc_control_node_B.subBlockSize = 48;
     } else {
-      proc_control_node_B.subBlockSize = proc_control_node_B.ix_fk;
+      proc_control_node_B.subBlockSize = proc_control_node_B.ix_p;
     }
 
-    ix_tmp = proc_control_node_B.k_p + proc_control_node_B.subBlockSize;
-    proc_control_node_B.FMat_offset = proc_control_node_B.k_p;
+    ix_tmp = proc_control_node_B.k_ai + proc_control_node_B.subBlockSize;
+    proc_control_node_B.FMat_offset = proc_control_node_B.k_ai;
     while (proc_control_node_B.FMat_offset <= ix_tmp - 1) {
       proc_control_node_B.subRows = ix_tmp - proc_control_node_B.FMat_offset;
-      proc_control_node_B.LD_diagOffset_a = (proc_control_node_B.LDimSizeP1_d *
+      proc_control_node_B.LD_diagOffset_d = (proc_control_node_B.LDimSizeP1_c *
         proc_control_node_B.FMat_offset + LD_offset) - 1;
       for (br = 0; br < 48; br++) {
         obj->workspace2_ = obj->FMat.data[((LD_offset +
@@ -12203,21 +12194,21 @@ void proc_control_nodeModelClass::proc_control_no_partialColLDL3_
 
       br = obj->ldm;
       if (proc_control_node_B.subRows != 0) {
-        proc_control_node_B.c_h = (obj->ldm * 47 +
+        proc_control_node_B.c_fk = (obj->ldm * 47 +
           proc_control_node_B.FMat_offset) + 1;
-        proc_control_node_B.ia_j5 = proc_control_node_B.FMat_offset + 1;
-        while (((br > 0) && (proc_control_node_B.ia_j5 <=
-                             proc_control_node_B.c_h)) || ((br < 0) &&
-                (proc_control_node_B.ia_j5 >= proc_control_node_B.c_h))) {
-          proc_control_node_B.iy_n = proc_control_node_B.LD_diagOffset_a;
-          ic = (proc_control_node_B.ia_j5 + proc_control_node_B.subRows) - 1;
-          for (b_ia = proc_control_node_B.ia_j5; b_ia <= ic; b_ia++) {
-            obj->FMat.data[proc_control_node_B.iy_n] += obj->workspace_ *
+        proc_control_node_B.ia_h2u = proc_control_node_B.FMat_offset + 1;
+        while (((br > 0) && (proc_control_node_B.ia_h2u <=
+                             proc_control_node_B.c_fk)) || ((br < 0) &&
+                (proc_control_node_B.ia_h2u >= proc_control_node_B.c_fk))) {
+          proc_control_node_B.iy_j5 = proc_control_node_B.LD_diagOffset_d;
+          ic = (proc_control_node_B.ia_h2u + proc_control_node_B.subRows) - 1;
+          for (b_ia = proc_control_node_B.ia_h2u; b_ia <= ic; b_ia++) {
+            obj->FMat.data[proc_control_node_B.iy_j5] += obj->workspace_ *
               -obj->workspace2_;
-            proc_control_node_B.iy_n++;
+            proc_control_node_B.iy_j5++;
           }
 
-          proc_control_node_B.ia_j5 += br;
+          proc_control_node_B.ia_h2u += br;
         }
       }
 
@@ -12225,56 +12216,57 @@ void proc_control_nodeModelClass::proc_control_no_partialColLDL3_
     }
 
     if (ix_tmp < NColsRemain) {
-      proc_control_node_B.subRows = proc_control_node_B.ix_fk -
+      proc_control_node_B.subRows = proc_control_node_B.ix_p -
         proc_control_node_B.subBlockSize;
-      proc_control_node_B.LD_diagOffset_a = ((LD_offset +
-        proc_control_node_B.subBlockSize) + proc_control_node_B.LDimSizeP1_d *
-        proc_control_node_B.k_p) - 1;
-      for (proc_control_node_B.ix_fk = 0; proc_control_node_B.ix_fk < 48;
-           proc_control_node_B.ix_fk++) {
-        proc_control_node_B.FMat_offset = (LD_offset + proc_control_node_B.k_p)
-          + proc_control_node_B.ix_fk * obj->ldm;
+      proc_control_node_B.LD_diagOffset_d = ((LD_offset +
+        proc_control_node_B.subBlockSize) + proc_control_node_B.LDimSizeP1_c *
+        proc_control_node_B.k_ai) - 1;
+      for (proc_control_node_B.ix_p = 0; proc_control_node_B.ix_p < 48;
+           proc_control_node_B.ix_p++) {
+        proc_control_node_B.FMat_offset = (LD_offset + proc_control_node_B.k_ai)
+          + proc_control_node_B.ix_p * obj->ldm;
         for (br = 0; br < proc_control_node_B.subBlockSize; br++) {
           obj->workspace2_ = obj->FMat.data[(proc_control_node_B.FMat_offset +
             br) - 1];
         }
       }
 
-      proc_control_node_B.ix_fk = obj->ldm;
+      proc_control_node_B.ix_p = obj->ldm;
       proc_control_node_B.FMat_offset = obj->ldm;
       if ((proc_control_node_B.subRows != 0) &&
           (proc_control_node_B.subBlockSize != 0)) {
         proc_control_node_B.subBlockSize = (proc_control_node_B.subBlockSize - 1)
-          * obj->ldm + proc_control_node_B.LD_diagOffset_a;
+          * obj->ldm + proc_control_node_B.LD_diagOffset_d;
         br = 0;
         while (((proc_control_node_B.FMat_offset > 0) &&
-                (proc_control_node_B.LD_diagOffset_a <=
+                (proc_control_node_B.LD_diagOffset_d <=
                  proc_control_node_B.subBlockSize)) ||
                ((proc_control_node_B.FMat_offset < 0) &&
-                (proc_control_node_B.LD_diagOffset_a >=
+                (proc_control_node_B.LD_diagOffset_d >=
                  proc_control_node_B.subBlockSize))) {
           br++;
-          proc_control_node_B.c_h = proc_control_node_B.ix_fk * 47 + br;
-          proc_control_node_B.ia_j5 = br;
-          while (((proc_control_node_B.ix_fk > 0) && (proc_control_node_B.ia_j5 <=
-                   proc_control_node_B.c_h)) || ((proc_control_node_B.ix_fk < 0)
-                  && (proc_control_node_B.ia_j5 >= proc_control_node_B.c_h))) {
-            proc_control_node_B.iy_n = proc_control_node_B.LD_diagOffset_a +
+          proc_control_node_B.c_fk = proc_control_node_B.ix_p * 47 + br;
+          proc_control_node_B.ia_h2u = br;
+          while (((proc_control_node_B.ix_p > 0) && (proc_control_node_B.ia_h2u <=
+                   proc_control_node_B.c_fk)) || ((proc_control_node_B.ix_p < 0)
+                  && (proc_control_node_B.ia_h2u >= proc_control_node_B.c_fk)))
+          {
+            proc_control_node_B.iy_j5 = proc_control_node_B.LD_diagOffset_d +
               proc_control_node_B.subRows;
-            for (ic = proc_control_node_B.LD_diagOffset_a; ic <
-                 proc_control_node_B.iy_n; ic++) {
+            for (ic = proc_control_node_B.LD_diagOffset_d; ic <
+                 proc_control_node_B.iy_j5; ic++) {
               obj->FMat.data[ic] += -obj->workspace2_ * obj->workspace_;
             }
 
-            proc_control_node_B.ia_j5 += proc_control_node_B.ix_fk;
+            proc_control_node_B.ia_h2u += proc_control_node_B.ix_p;
           }
 
-          proc_control_node_B.LD_diagOffset_a += proc_control_node_B.FMat_offset;
+          proc_control_node_B.LD_diagOffset_d += proc_control_node_B.FMat_offset;
         }
       }
     }
 
-    proc_control_node_B.k_p += 48;
+    proc_control_node_B.k_ai += 48;
   }
 }
 
@@ -12289,70 +12281,70 @@ int32_T proc_control_nodeModelClass::proc_control_node_xpotrf(int32_T n, real_T
   int32_T info;
   boolean_T exitg1;
   info = 0;
-  proc_control_node_B.b_j_i = 0;
+  proc_control_node_B.b_j_m = 0;
   exitg1 = false;
-  while ((!exitg1) && (proc_control_node_B.b_j_i <= n - 1)) {
-    proc_control_node_B.idxA1j = proc_control_node_B.b_j_i * lda;
-    proc_control_node_B.idxAjj_m = proc_control_node_B.idxA1j +
-      proc_control_node_B.b_j_i;
+  while ((!exitg1) && (proc_control_node_B.b_j_m <= n - 1)) {
+    proc_control_node_B.idxA1j = proc_control_node_B.b_j_m * lda;
+    proc_control_node_B.idxAjj_d = proc_control_node_B.idxA1j +
+      proc_control_node_B.b_j_m;
     proc_control_node_B.ssq_c = 0.0;
-    if (proc_control_node_B.b_j_i >= 1) {
+    if (proc_control_node_B.b_j_m >= 1) {
       b_ix = proc_control_node_B.idxA1j;
       b_iy = proc_control_node_B.idxA1j;
-      proc_control_node_B.iy_pa = 0;
-      while (proc_control_node_B.iy_pa <= proc_control_node_B.b_j_i - 1) {
+      proc_control_node_B.iy_j4 = 0;
+      while (proc_control_node_B.iy_j4 <= proc_control_node_B.b_j_m - 1) {
         proc_control_node_B.ssq_c += A_data[b_ix] * A_data[b_iy];
         b_ix++;
         b_iy++;
-        proc_control_node_B.iy_pa++;
+        proc_control_node_B.iy_j4++;
       }
     }
 
-    proc_control_node_B.ssq_c = A_data[proc_control_node_B.idxAjj_m] -
+    proc_control_node_B.ssq_c = A_data[proc_control_node_B.idxAjj_d] -
       proc_control_node_B.ssq_c;
     if (proc_control_node_B.ssq_c > 0.0) {
       proc_control_node_B.ssq_c = sqrt(proc_control_node_B.ssq_c);
-      A_data[proc_control_node_B.idxAjj_m] = proc_control_node_B.ssq_c;
-      if (proc_control_node_B.b_j_i + 1 < n) {
-        b_ix = (n - proc_control_node_B.b_j_i) - 2;
+      A_data[proc_control_node_B.idxAjj_d] = proc_control_node_B.ssq_c;
+      if (proc_control_node_B.b_j_m + 1 < n) {
+        b_ix = (n - proc_control_node_B.b_j_m) - 2;
         b_iy = (proc_control_node_B.idxA1j + lda) + 1;
-        proc_control_node_B.idxAjj_m += lda;
-        if ((proc_control_node_B.b_j_i != 0) && (b_ix + 1 != 0)) {
-          proc_control_node_B.iy_pa = proc_control_node_B.idxAjj_m;
-          proc_control_node_B.b_db = lda * b_ix + b_iy;
-          while (((lda > 0) && (b_iy <= proc_control_node_B.b_db)) || ((lda < 0)
-                  && (b_iy >= proc_control_node_B.b_db))) {
-            proc_control_node_B.ix_j = proc_control_node_B.idxA1j;
+        proc_control_node_B.idxAjj_d += lda;
+        if ((proc_control_node_B.b_j_m != 0) && (b_ix + 1 != 0)) {
+          proc_control_node_B.iy_j4 = proc_control_node_B.idxAjj_d;
+          proc_control_node_B.b_p = lda * b_ix + b_iy;
+          while (((lda > 0) && (b_iy <= proc_control_node_B.b_p)) || ((lda < 0) &&
+                  (b_iy >= proc_control_node_B.b_p))) {
+            proc_control_node_B.ix_iy = proc_control_node_B.idxA1j;
             proc_control_node_B.c_l = 0.0;
-            d = (b_iy + proc_control_node_B.b_j_i) - 1;
+            d = (b_iy + proc_control_node_B.b_j_m) - 1;
             for (ia = b_iy; ia <= d; ia++) {
               proc_control_node_B.c_l += A_data[ia - 1] *
-                A_data[proc_control_node_B.ix_j];
-              proc_control_node_B.ix_j++;
+                A_data[proc_control_node_B.ix_iy];
+              proc_control_node_B.ix_iy++;
             }
 
-            A_data[proc_control_node_B.iy_pa] += -proc_control_node_B.c_l;
-            proc_control_node_B.iy_pa += lda;
+            A_data[proc_control_node_B.iy_j4] += -proc_control_node_B.c_l;
+            proc_control_node_B.iy_j4 += lda;
             b_iy += lda;
           }
         }
 
         proc_control_node_B.ssq_c = 1.0 / proc_control_node_B.ssq_c;
-        proc_control_node_B.idxA1j = (lda * b_ix + proc_control_node_B.idxAjj_m)
+        proc_control_node_B.idxA1j = (lda * b_ix + proc_control_node_B.idxAjj_d)
           + 1;
-        while (((lda > 0) && (proc_control_node_B.idxAjj_m + 1 <=
+        while (((lda > 0) && (proc_control_node_B.idxAjj_d + 1 <=
                               proc_control_node_B.idxA1j)) || ((lda < 0) &&
-                (proc_control_node_B.idxAjj_m + 1 >= proc_control_node_B.idxA1j)))
+                (proc_control_node_B.idxAjj_d + 1 >= proc_control_node_B.idxA1j)))
         {
-          A_data[proc_control_node_B.idxAjj_m] *= proc_control_node_B.ssq_c;
-          proc_control_node_B.idxAjj_m += lda;
+          A_data[proc_control_node_B.idxAjj_d] *= proc_control_node_B.ssq_c;
+          proc_control_node_B.idxAjj_d += lda;
         }
       }
 
-      proc_control_node_B.b_j_i++;
+      proc_control_node_B.b_j_m++;
     } else {
-      A_data[proc_control_node_B.idxAjj_m] = proc_control_node_B.ssq_c;
-      info = proc_control_node_B.b_j_i + 1;
+      A_data[proc_control_node_B.idxAjj_d] = proc_control_node_B.ssq_c;
+      info = proc_control_node_B.b_j_m + 1;
       exitg1 = true;
     }
   }
@@ -12370,25 +12362,25 @@ void proc_control_nodeModelClass::proc_control_n_xgemv_mtmcjbiadz(int32_T m,
   int32_T ia;
   int32_T iac;
   if (m != 0) {
-    proc_control_node_B.ix_n3 = 0;
-    while (proc_control_node_B.ix_n3 <= m - 1) {
-      y_data[proc_control_node_B.ix_n3] = 0.0;
-      proc_control_node_B.ix_n3++;
+    proc_control_node_B.ix_a = 0;
+    while (proc_control_node_B.ix_a <= m - 1) {
+      y_data[proc_control_node_B.ix_a] = 0.0;
+      proc_control_node_B.ix_a++;
     }
 
-    proc_control_node_B.ix_n3 = 0;
+    proc_control_node_B.ix_a = 0;
     b = (n - 1) * lda + ia0;
     iac = ia0;
     while (((lda > 0) && (iac <= b)) || ((lda < 0) && (iac >= b))) {
-      proc_control_node_B.iy_a2 = 0;
+      proc_control_node_B.iy_o = 0;
       c = (iac + m) - 1;
       for (ia = iac; ia <= c; ia++) {
-        y_data[proc_control_node_B.iy_a2] += A_data[ia - 1] *
-          x_data[proc_control_node_B.ix_n3];
-        proc_control_node_B.iy_a2++;
+        y_data[proc_control_node_B.iy_o] += A_data[ia - 1] *
+          x_data[proc_control_node_B.ix_a];
+        proc_control_node_B.iy_o++;
       }
 
-      proc_control_node_B.ix_n3++;
+      proc_control_node_B.ix_a++;
       iac += lda;
     }
   }
@@ -12400,18 +12392,18 @@ void proc_control_nodeModelClass::proc_control_node_factor
    int32_T ldA)
 {
   obj->ndims = ndims;
-  proc_control_node_B.b_idx_h = 0;
-  while (proc_control_node_B.b_idx_h <= ndims - 1) {
-    proc_control_node_B.iA0_f = ldA * proc_control_node_B.b_idx_h;
-    proc_control_node_B.iUU0 = obj->ldm * proc_control_node_B.b_idx_h;
-    proc_control_node_B.b_d = 1;
-    while (proc_control_node_B.b_d - 1 <= ndims - 1) {
-      obj->FMat.data[(proc_control_node_B.iUU0 + proc_control_node_B.b_d) - 1] =
-        A[(proc_control_node_B.iA0_f + proc_control_node_B.b_d) - 1];
-      proc_control_node_B.b_d++;
+  proc_control_node_B.b_idx_f = 0;
+  while (proc_control_node_B.b_idx_f <= ndims - 1) {
+    proc_control_node_B.iA0_l = ldA * proc_control_node_B.b_idx_f;
+    proc_control_node_B.iUU0 = obj->ldm * proc_control_node_B.b_idx_f;
+    proc_control_node_B.b_h5 = 1;
+    while (proc_control_node_B.b_h5 - 1 <= ndims - 1) {
+      obj->FMat.data[(proc_control_node_B.iUU0 + proc_control_node_B.b_h5) - 1] =
+        A[(proc_control_node_B.iA0_l + proc_control_node_B.b_h5) - 1];
+      proc_control_node_B.b_h5++;
     }
 
-    proc_control_node_B.b_idx_h++;
+    proc_control_node_B.b_idx_f++;
   }
 
   proc_control_node_B.b_size_n[0] = obj->FMat.size[0];
@@ -12422,7 +12414,7 @@ void proc_control_nodeModelClass::proc_control_node_factor
            proc_control_node_B.iUU0 * sizeof(real_T));
   }
 
-  proc_control_node_B.b_idx_h = proc_control_node_xpotrf(ndims,
+  proc_control_node_B.b_idx_f = proc_control_node_xpotrf(ndims,
     proc_control_node_B.b_data_k, obj->ldm);
   obj->FMat.size[0] = proc_control_node_B.b_size_n[0];
   obj->FMat.size[1] = proc_control_node_B.b_size_n[1];
@@ -12433,7 +12425,7 @@ void proc_control_nodeModelClass::proc_control_node_factor
            proc_control_node_B.iUU0 * sizeof(real_T));
   }
 
-  obj->info = proc_control_node_B.b_idx_h;
+  obj->info = proc_control_node_B.b_idx_f;
 }
 
 // Function for MATLAB Function: '<S216>/NLMPC'
@@ -12478,13 +12470,13 @@ void proc_control_nodeModelClass::proc_control_node_factor_p
   proc_control_node_B.A_maxDiag_idx = 0;
   while (proc_control_node_B.A_maxDiag_idx <= ndims - 1) {
     proc_control_node_B.LD_diagOffset = ldA * proc_control_node_B.A_maxDiag_idx;
-    proc_control_node_B.order_h = obj->ldm * proc_control_node_B.A_maxDiag_idx;
-    proc_control_node_B.b_k_c = 1;
-    while (proc_control_node_B.b_k_c - 1 <= ndims - 1) {
-      obj->FMat.data[(proc_control_node_B.order_h + proc_control_node_B.b_k_c) -
-        1] = A[(proc_control_node_B.LD_diagOffset + proc_control_node_B.b_k_c) -
-        1];
-      proc_control_node_B.b_k_c++;
+    proc_control_node_B.order_j = obj->ldm * proc_control_node_B.A_maxDiag_idx;
+    proc_control_node_B.b_k_hc = 1;
+    while (proc_control_node_B.b_k_hc - 1 <= ndims - 1) {
+      obj->FMat.data[(proc_control_node_B.order_j + proc_control_node_B.b_k_hc)
+        - 1] = A[(proc_control_node_B.LD_diagOffset + proc_control_node_B.b_k_hc)
+        - 1];
+      proc_control_node_B.b_k_hc++;
     }
 
     proc_control_node_B.A_maxDiag_idx++;
@@ -12507,14 +12499,14 @@ void proc_control_nodeModelClass::proc_control_node_factor_p
     while ((!exitg1) && (proc_control_node_B.A_maxDiag_idx < ndims)) {
       proc_control_node_B.LD_diagOffset = proc_control_node_B.LDimSizeP1 *
         proc_control_node_B.A_maxDiag_idx + 1;
-      proc_control_node_B.order_h = ndims - proc_control_node_B.A_maxDiag_idx;
+      proc_control_node_B.order_j = ndims - proc_control_node_B.A_maxDiag_idx;
       if (proc_control_node_B.A_maxDiag_idx + 48 <= ndims) {
         proc_control_no_partialColLDL3_(obj, proc_control_node_B.LD_diagOffset,
-          proc_control_node_B.order_h);
+          proc_control_node_B.order_j);
         proc_control_node_B.A_maxDiag_idx += 48;
       } else {
         proc_control_node_fullColLDL2_(obj, proc_control_node_B.LD_diagOffset,
-          proc_control_node_B.order_h);
+          proc_control_node_B.order_j);
         exitg1 = true;
       }
     }
@@ -12556,8 +12548,8 @@ void proc_control_nodeModelClass::proc_control_node_solve_l(const
       proc_control_node_B.jjA = j * obj->ldm + j;
       b = n_tmp - j;
       for (i = 1; i - 1 < b; i++) {
-        proc_control_node_B.ix_n4 = j + i;
-        rhs_data[proc_control_node_B.ix_n4] -= obj->
+        proc_control_node_B.ix_g2 = j + i;
+        rhs_data[proc_control_node_B.ix_g2] -= obj->
           FMat.data[proc_control_node_B.jjA + i] * rhs_data[j];
       }
     }
@@ -12593,17 +12585,17 @@ void proc_control_nodeModelClass::proc_control_nod_compute_deltax(const real_T
 {
   int32_T exitg2;
   boolean_T exitg1;
-  proc_control_node_B.nVar_c = qrmanager->mrows - 1;
+  proc_control_node_B.nVar_g = qrmanager->mrows - 1;
   proc_control_node_B.mNull = qrmanager->mrows - qrmanager->ncols;
   if (proc_control_node_B.mNull <= 0) {
     proc_control_node_B.mNull = 0;
-    while (proc_control_node_B.mNull <= proc_control_node_B.nVar_c) {
+    while (proc_control_node_B.mNull <= proc_control_node_B.nVar_g) {
       solution->searchDir.data[proc_control_node_B.mNull] = 0.0;
       proc_control_node_B.mNull++;
     }
   } else {
     proc_control_node_B.nullStartIdx = 0;
-    while (proc_control_node_B.nullStartIdx <= proc_control_node_B.nVar_c) {
+    while (proc_control_node_B.nullStartIdx <= proc_control_node_B.nVar_g) {
       solution->searchDir.data[proc_control_node_B.nullStartIdx] =
         -objective->grad.data[proc_control_node_B.nullStartIdx];
       proc_control_node_B.nullStartIdx++;
@@ -12640,11 +12632,11 @@ void proc_control_nodeModelClass::proc_control_nod_compute_deltax(const real_T
             solution->state = -6;
           } else {
             proc_control_node_solve(cholmanager, solution->searchDir.data);
-            proc_control_node_B.b_c_g = 1.0 / objective->beta;
+            proc_control_node_B.b_c_c = 1.0 / objective->beta;
             proc_control_node_B.mNull = objective->nvar;
             while (proc_control_node_B.mNull + 1 <= qrmanager->mrows) {
               solution->searchDir.data[proc_control_node_B.mNull] *=
-                proc_control_node_B.b_c_g;
+                proc_control_node_B.b_c_c;
               proc_control_node_B.mNull++;
             }
           }
@@ -12658,7 +12650,7 @@ void proc_control_nodeModelClass::proc_control_nod_compute_deltax(const real_T
         while (proc_control_node_B.b_ldw <= proc_control_node_B.mNull - 1) {
           memspace->workspace_double.data[proc_control_node_B.b_ldw] =
             -qrmanager->Q.data[(qrmanager->ncols + proc_control_node_B.b_ldw) *
-            qrmanager->ldq + proc_control_node_B.nVar_c];
+            qrmanager->ldq + proc_control_node_B.nVar_g];
           proc_control_node_B.b_ldw++;
         }
 
@@ -12686,14 +12678,14 @@ void proc_control_nodeModelClass::proc_control_nod_compute_deltax(const real_T
             memspace->workspace_double.data, memspace->workspace_double.size[0]);
           proc_control_node_B.order = 0;
           while (proc_control_node_B.order <= proc_control_node_B.mNull - 1) {
-            proc_control_node_B.ix_kh = objective->nvar;
-            while (proc_control_node_B.ix_kh + 1 <= qrmanager->mrows) {
-              memspace->workspace_double.data[proc_control_node_B.ix_kh +
+            proc_control_node_B.ix_c = objective->nvar;
+            while (proc_control_node_B.ix_c + 1 <= qrmanager->mrows) {
+              memspace->workspace_double.data[proc_control_node_B.ix_c +
                 memspace->workspace_double.size[0] * proc_control_node_B.order] =
-                qrmanager->Q.data[proc_control_node_B.ix_kh + qrmanager->Q.size
-                [0] * (proc_control_node_B.order + qrmanager->ncols)] *
+                qrmanager->Q.data[proc_control_node_B.ix_c + qrmanager->Q.size[0]
+                * (proc_control_node_B.order + qrmanager->ncols)] *
                 objective->beta;
-              proc_control_node_B.ix_kh++;
+              proc_control_node_B.ix_c++;
             }
 
             proc_control_node_B.order++;
@@ -12717,7 +12709,7 @@ void proc_control_nodeModelClass::proc_control_nod_compute_deltax(const real_T
                    proc_control_node_B.order * sizeof(real_T));
           }
 
-          proc_control_node_B.ix_kh = proc_control_node_xpotrf
+          proc_control_node_B.ix_c = proc_control_node_xpotrf
             (proc_control_node_B.mNull, proc_control_node_B.b_data_c,
              cholmanager->ldm);
           cholmanager->FMat.size[0] = proc_control_node_B.b_size_p[0];
@@ -12729,35 +12721,35 @@ void proc_control_nodeModelClass::proc_control_nod_compute_deltax(const real_T
                    proc_control_node_B.order * sizeof(real_T));
           }
 
-          cholmanager->info = proc_control_node_B.ix_kh;
+          cholmanager->info = proc_control_node_B.ix_c;
         } else {
           proc_control_node_B.b_ldw = cholmanager->ldm + 1;
           cholmanager->ndims = proc_control_node_B.mNull;
           proc_control_node_B.b_nullStart = proc_control_node_ixamax_k
             (proc_control_node_B.mNull, cholmanager->FMat.data, cholmanager->ldm
              + 1) - 1;
-          proc_control_node_B.b_c_g = fabs(cholmanager->FMat.data
+          proc_control_node_B.b_c_c = fabs(cholmanager->FMat.data
             [cholmanager->ldm * proc_control_node_B.b_nullStart +
             proc_control_node_B.b_nullStart]) * 2.2204460492503131E-16;
-          if (proc_control_node_B.b_c_g > 0.0) {
-            cholmanager->regTol_ = proc_control_node_B.b_c_g;
+          if (proc_control_node_B.b_c_c > 0.0) {
+            cholmanager->regTol_ = proc_control_node_B.b_c_c;
           } else {
             cholmanager->regTol_ = 0.0;
           }
 
           if (proc_control_node_B.mNull > 128) {
-            proc_control_node_B.ix_kh = 0;
+            proc_control_node_B.ix_c = 0;
             exitg1 = false;
-            while ((!exitg1) && (proc_control_node_B.ix_kh <
+            while ((!exitg1) && (proc_control_node_B.ix_c <
                                  proc_control_node_B.mNull)) {
               proc_control_node_B.b_nullStart = proc_control_node_B.b_ldw *
-                proc_control_node_B.ix_kh + 1;
+                proc_control_node_B.ix_c + 1;
               proc_control_node_B.order = proc_control_node_B.mNull -
-                proc_control_node_B.ix_kh;
-              if (proc_control_node_B.ix_kh + 48 <= proc_control_node_B.mNull) {
+                proc_control_node_B.ix_c;
+              if (proc_control_node_B.ix_c + 48 <= proc_control_node_B.mNull) {
                 proc_control_no_partialColLDL3_(cholmanager,
                   proc_control_node_B.b_nullStart, proc_control_node_B.order);
-                proc_control_node_B.ix_kh += 48;
+                proc_control_node_B.ix_c += 48;
               } else {
                 proc_control_node_fullColLDL2_(cholmanager,
                   proc_control_node_B.b_nullStart, proc_control_node_B.order);
@@ -12770,17 +12762,17 @@ void proc_control_nodeModelClass::proc_control_nod_compute_deltax(const real_T
           }
 
           if (cholmanager->ConvexCheck) {
-            proc_control_node_B.ix_kh = 0;
+            proc_control_node_B.ix_c = 0;
             do {
               exitg2 = 0;
-              if (proc_control_node_B.ix_kh <= proc_control_node_B.mNull - 1) {
+              if (proc_control_node_B.ix_c <= proc_control_node_B.mNull - 1) {
                 if (cholmanager->FMat.data[cholmanager->ldm *
-                    proc_control_node_B.ix_kh + proc_control_node_B.ix_kh] <=
-                    0.0) {
-                  cholmanager->info = -proc_control_node_B.ix_kh - 1;
+                    proc_control_node_B.ix_c + proc_control_node_B.ix_c] <= 0.0)
+                {
+                  cholmanager->info = -proc_control_node_B.ix_c - 1;
                   exitg2 = 1;
                 } else {
-                  proc_control_node_B.ix_kh++;
+                  proc_control_node_B.ix_c++;
                 }
               } else {
                 cholmanager->ConvexCheck = false;
@@ -12795,10 +12787,10 @@ void proc_control_nodeModelClass::proc_control_nod_compute_deltax(const real_T
         } else {
           proc_control_node_B.b_ldw = qrmanager->ldq;
           if (qrmanager->mrows != 0) {
-            proc_control_node_B.ix_kh = 0;
-            while (proc_control_node_B.ix_kh <= proc_control_node_B.mNull - 1) {
-              memspace->workspace_double.data[proc_control_node_B.ix_kh] = 0.0;
-              proc_control_node_B.ix_kh++;
+            proc_control_node_B.ix_c = 0;
+            while (proc_control_node_B.ix_c <= proc_control_node_B.mNull - 1) {
+              memspace->workspace_double.data[proc_control_node_B.ix_c] = 0.0;
+              proc_control_node_B.ix_c++;
             }
 
             proc_control_node_B.b_nullStart = 0;
@@ -12810,22 +12802,22 @@ void proc_control_nodeModelClass::proc_control_nod_compute_deltax(const real_T
                    ((proc_control_node_B.b_ldw < 0) &&
                     (proc_control_node_B.idx_col >= proc_control_node_B.order)))
             {
-              proc_control_node_B.ix_kh = 0;
-              proc_control_node_B.b_c_g = 0.0;
-              proc_control_node_B.b_ix_j = proc_control_node_B.idx_col +
-                proc_control_node_B.nVar_c;
+              proc_control_node_B.ix_c = 0;
+              proc_control_node_B.b_c_c = 0.0;
+              proc_control_node_B.b_ix_k = proc_control_node_B.idx_col +
+                proc_control_node_B.nVar_g;
               proc_control_node_B.b_ldw_tmp = proc_control_node_B.idx_col;
-              while (proc_control_node_B.b_ldw_tmp <= proc_control_node_B.b_ix_j)
+              while (proc_control_node_B.b_ldw_tmp <= proc_control_node_B.b_ix_k)
               {
-                proc_control_node_B.b_c_g += qrmanager->
+                proc_control_node_B.b_c_c += qrmanager->
                   Q.data[proc_control_node_B.b_ldw_tmp - 1] *
-                  objective->grad.data[proc_control_node_B.ix_kh];
-                proc_control_node_B.ix_kh++;
+                  objective->grad.data[proc_control_node_B.ix_c];
+                proc_control_node_B.ix_c++;
                 proc_control_node_B.b_ldw_tmp++;
               }
 
               memspace->workspace_double.data[proc_control_node_B.b_nullStart] +=
-                -proc_control_node_B.b_c_g;
+                -proc_control_node_B.b_c_c;
               proc_control_node_B.b_nullStart++;
               proc_control_node_B.idx_col += proc_control_node_B.b_ldw;
             }
@@ -12849,12 +12841,12 @@ void proc_control_nodeModelClass::proc_control_nod_compute_deltax(const real_T
               while (proc_control_node_B.b_ldw <= cholmanager->ndims - 1) {
                 proc_control_node_B.order = proc_control_node_B.b_ldw *
                   cholmanager->ldm;
-                proc_control_node_B.b_c_g =
+                proc_control_node_B.b_c_c =
                   proc_control_node_B.b_rhs_data[proc_control_node_B.b_ldw];
                 proc_control_node_B.idx_col = 0;
                 while (proc_control_node_B.idx_col <= proc_control_node_B.b_ldw
                        - 1) {
-                  proc_control_node_B.b_c_g -= cholmanager->
+                  proc_control_node_B.b_c_c -= cholmanager->
                     FMat.data[proc_control_node_B.order +
                     proc_control_node_B.idx_col] *
                     proc_control_node_B.b_rhs_data[proc_control_node_B.idx_col];
@@ -12862,7 +12854,7 @@ void proc_control_nodeModelClass::proc_control_nod_compute_deltax(const real_T
                 }
 
                 proc_control_node_B.b_rhs_data[proc_control_node_B.b_ldw] =
-                  proc_control_node_B.b_c_g / cholmanager->
+                  proc_control_node_B.b_c_c / cholmanager->
                   FMat.data[proc_control_node_B.order +
                   proc_control_node_B.b_ldw];
                 proc_control_node_B.b_ldw++;
@@ -12893,16 +12885,16 @@ void proc_control_nodeModelClass::proc_control_nod_compute_deltax(const real_T
                   cholmanager->ldm + proc_control_node_B.b_nullStart;
                 proc_control_node_B.idx_col = proc_control_node_B.b_ldw_tmp -
                   proc_control_node_B.b_nullStart;
-                proc_control_node_B.ix_kh = 1;
-                while (proc_control_node_B.ix_kh - 1 <=
+                proc_control_node_B.ix_c = 1;
+                while (proc_control_node_B.ix_c - 1 <=
                        proc_control_node_B.idx_col - 1) {
-                  proc_control_node_B.b_ix_j = proc_control_node_B.b_nullStart +
-                    proc_control_node_B.ix_kh;
-                  proc_control_node_B.b_rhs_data[proc_control_node_B.b_ix_j] -=
+                  proc_control_node_B.b_ix_k = proc_control_node_B.b_nullStart +
+                    proc_control_node_B.ix_c;
+                  proc_control_node_B.b_rhs_data[proc_control_node_B.b_ix_k] -=
                     proc_control_node_B.b_rhs_data[proc_control_node_B.b_nullStart]
                     * cholmanager->FMat.data[proc_control_node_B.order +
-                    proc_control_node_B.ix_kh];
-                  proc_control_node_B.ix_kh++;
+                    proc_control_node_B.ix_c];
+                  proc_control_node_B.ix_c++;
                 }
 
                 proc_control_node_B.b_nullStart++;
@@ -12922,12 +12914,12 @@ void proc_control_nodeModelClass::proc_control_nod_compute_deltax(const real_T
               while (proc_control_node_B.b_ldw + 1 > 0) {
                 proc_control_node_B.b_nullStart = proc_control_node_B.b_ldw *
                   cholmanager->ldm;
-                proc_control_node_B.b_c_g =
+                proc_control_node_B.b_c_c =
                   proc_control_node_B.b_rhs_data[proc_control_node_B.b_ldw];
                 proc_control_node_B.order = cholmanager->ndims;
                 while (proc_control_node_B.order >= proc_control_node_B.b_ldw +
                        2) {
-                  proc_control_node_B.b_c_g -= cholmanager->FMat.data
+                  proc_control_node_B.b_c_c -= cholmanager->FMat.data
                     [(proc_control_node_B.b_nullStart +
                       proc_control_node_B.order) - 1] *
                     proc_control_node_B.b_rhs_data[proc_control_node_B.order - 1];
@@ -12935,7 +12927,7 @@ void proc_control_nodeModelClass::proc_control_nod_compute_deltax(const real_T
                 }
 
                 proc_control_node_B.b_rhs_data[proc_control_node_B.b_ldw] =
-                  proc_control_node_B.b_c_g;
+                  proc_control_node_B.b_c_c;
                 proc_control_node_B.b_ldw--;
               }
             }
@@ -13007,21 +12999,21 @@ void proc_control_nodeModelClass::proc_control__xgemv_mtmcjbiadz2(int32_T m,
       y_data[b_iy] = -y_data[b_iy];
     }
 
-    proc_control_node_B.iy_p5 = 0;
+    proc_control_node_B.iy_g = 0;
     b_iy = (n - 1) * lda + 1;
     iac = 1;
     while (((lda > 0) && (iac <= b_iy)) || ((lda < 0) && (iac >= b_iy))) {
-      proc_control_node_B.ix_n = 0;
-      proc_control_node_B.c_f = 0.0;
+      proc_control_node_B.ix_p5 = 0;
+      proc_control_node_B.c_g = 0.0;
       b = (iac + m) - 1;
       for (ia = iac; ia <= b; ia++) {
-        proc_control_node_B.c_f += A_data[ia - 1] *
-          x_data[proc_control_node_B.ix_n];
-        proc_control_node_B.ix_n++;
+        proc_control_node_B.c_g += A_data[ia - 1] *
+          x_data[proc_control_node_B.ix_p5];
+        proc_control_node_B.ix_p5++;
       }
 
-      y_data[proc_control_node_B.iy_p5] += proc_control_node_B.c_f;
-      proc_control_node_B.iy_p5++;
+      y_data[proc_control_node_B.iy_g] += proc_control_node_B.c_g;
+      proc_control_node_B.iy_g++;
       iac += lda;
     }
   }
@@ -13057,70 +13049,70 @@ void proc_control_nodeModelClass::proc_control__feasibleratiotest(const real_T
       workingset_Aineq_data, workingset_ldA, solution_xstar_data, workspace_data);
     proc_control_node_B.ldw = workspace_size[0];
     if (workingset_sizes[2] != 0) {
-      proc_control_node_B.iyend_d = workspace_size[0] + workingset_sizes[2];
-      proc_control_node_B.b_iy_l = workspace_size[0];
-      while (proc_control_node_B.b_iy_l + 1 <= proc_control_node_B.iyend_d) {
-        workspace_data[proc_control_node_B.b_iy_l] = 0.0;
-        proc_control_node_B.b_iy_l++;
+      proc_control_node_B.iyend_f = workspace_size[0] + workingset_sizes[2];
+      proc_control_node_B.b_iy_e = workspace_size[0];
+      while (proc_control_node_B.b_iy_e + 1 <= proc_control_node_B.iyend_f) {
+        workspace_data[proc_control_node_B.b_iy_e] = 0.0;
+        proc_control_node_B.b_iy_e++;
       }
 
-      proc_control_node_B.iyend_d = workspace_size[0];
-      proc_control_node_B.b_iy_l = (workingset_sizes[2] - 1) * workingset_ldA +
+      proc_control_node_B.iyend_f = workspace_size[0];
+      proc_control_node_B.b_iy_e = (workingset_sizes[2] - 1) * workingset_ldA +
         1;
-      proc_control_node_B.iac_e = 1;
-      while (((workingset_ldA > 0) && (proc_control_node_B.iac_e <=
-               proc_control_node_B.b_iy_l)) || ((workingset_ldA < 0) &&
-              (proc_control_node_B.iac_e >= proc_control_node_B.b_iy_l))) {
-        proc_control_node_B.ix_e = 0;
-        proc_control_node_B.c_d2 = 0.0;
-        proc_control_node_B.b_hv = (proc_control_node_B.iac_e + workingset_nVar)
+      proc_control_node_B.iac_l = 1;
+      while (((workingset_ldA > 0) && (proc_control_node_B.iac_l <=
+               proc_control_node_B.b_iy_e)) || ((workingset_ldA < 0) &&
+              (proc_control_node_B.iac_l >= proc_control_node_B.b_iy_e))) {
+        proc_control_node_B.ix_dx = 0;
+        proc_control_node_B.c_pq = 0.0;
+        proc_control_node_B.b_e = (proc_control_node_B.iac_l + workingset_nVar)
           - 1;
-        proc_control_node_B.ia_gg = proc_control_node_B.iac_e;
-        while (proc_control_node_B.ia_gg <= proc_control_node_B.b_hv) {
-          proc_control_node_B.c_d2 +=
-            workingset_Aineq_data[proc_control_node_B.ia_gg - 1] *
-            solution_searchDir_data[proc_control_node_B.ix_e];
-          proc_control_node_B.ix_e++;
-          proc_control_node_B.ia_gg++;
+        proc_control_node_B.ia_hv = proc_control_node_B.iac_l;
+        while (proc_control_node_B.ia_hv <= proc_control_node_B.b_e) {
+          proc_control_node_B.c_pq +=
+            workingset_Aineq_data[proc_control_node_B.ia_hv - 1] *
+            solution_searchDir_data[proc_control_node_B.ix_dx];
+          proc_control_node_B.ix_dx++;
+          proc_control_node_B.ia_hv++;
         }
 
-        workspace_data[proc_control_node_B.iyend_d] += proc_control_node_B.c_d2;
-        proc_control_node_B.iyend_d++;
-        proc_control_node_B.iac_e += workingset_ldA;
+        workspace_data[proc_control_node_B.iyend_f] += proc_control_node_B.c_pq;
+        proc_control_node_B.iyend_f++;
+        proc_control_node_B.iac_l += workingset_ldA;
       }
     }
 
-    proc_control_node_B.iyend_d = 0;
-    while (proc_control_node_B.iyend_d <= proc_control_node_B.totalIneq) {
-      proc_control_node_B.b_iy_l = proc_control_node_B.ldw +
-        proc_control_node_B.iyend_d;
-      if ((workspace_data[proc_control_node_B.b_iy_l] >
+    proc_control_node_B.iyend_f = 0;
+    while (proc_control_node_B.iyend_f <= proc_control_node_B.totalIneq) {
+      proc_control_node_B.b_iy_e = proc_control_node_B.ldw +
+        proc_control_node_B.iyend_f;
+      if ((workspace_data[proc_control_node_B.b_iy_e] >
            proc_control_node_B.denomTol) && (!workingset_isActiveConstr_data
-           [(workingset_isActiveIdx[2] + proc_control_node_B.iyend_d) - 1])) {
-        proc_control_node_B.u0_p = fabs
-          (workspace_data[proc_control_node_B.iyend_d]);
+           [(workingset_isActiveIdx[2] + proc_control_node_B.iyend_f) - 1])) {
+        proc_control_node_B.u0_f = fabs
+          (workspace_data[proc_control_node_B.iyend_f]);
         proc_control_node_B.ratio = 0.02 -
-          workspace_data[proc_control_node_B.iyend_d];
-        if ((proc_control_node_B.u0_p < proc_control_node_B.ratio) || rtIsNaN
+          workspace_data[proc_control_node_B.iyend_f];
+        if ((proc_control_node_B.u0_f < proc_control_node_B.ratio) || rtIsNaN
             (proc_control_node_B.ratio)) {
-          proc_control_node_B.ratio = proc_control_node_B.u0_p;
+          proc_control_node_B.ratio = proc_control_node_B.u0_f;
         }
 
-        proc_control_node_B.ratio /= workspace_data[proc_control_node_B.b_iy_l];
+        proc_control_node_B.ratio /= workspace_data[proc_control_node_B.b_iy_e];
         if (proc_control_node_B.ratio < *alpha) {
           *alpha = proc_control_node_B.ratio;
           *constrType = 3;
-          *constrIdx = proc_control_node_B.iyend_d + 1;
+          *constrIdx = proc_control_node_B.iyend_f + 1;
           *newBlocking = true;
         }
       }
 
-      proc_control_node_B.iyend_d++;
+      proc_control_node_B.iyend_f++;
     }
   }
 
   if (workingset_nWConstr[3] < workingset_sizes[3]) {
-    proc_control_node_B.c_d2 = solution_xstar_data[workingset_nVar - 1] *
+    proc_control_node_B.c_pq = solution_xstar_data[workingset_nVar - 1] *
       static_cast<real_T>(isPhaseOne);
     proc_control_node_B.phaseOneCorrectionP =
       solution_searchDir_data[workingset_nVar - 1] * static_cast<real_T>
@@ -13137,14 +13129,14 @@ void proc_control_nodeModelClass::proc_control__feasibleratiotest(const real_T
           (-solution_xstar_data[workingset_indexLB_data[proc_control_node_B.totalIneq]
            - 1] -
            workingset_lb_data[workingset_indexLB_data[proc_control_node_B.totalIneq]
-           - 1]) - proc_control_node_B.c_d2;
-        proc_control_node_B.u0_p = fabs(proc_control_node_B.ratio);
-        if ((!(proc_control_node_B.u0_p < 0.02 - proc_control_node_B.ratio)) &&
+           - 1]) - proc_control_node_B.c_pq;
+        proc_control_node_B.u0_f = fabs(proc_control_node_B.ratio);
+        if ((!(proc_control_node_B.u0_f < 0.02 - proc_control_node_B.ratio)) &&
             (!rtIsNaN(0.02 - proc_control_node_B.ratio))) {
-          proc_control_node_B.u0_p = 0.02 - proc_control_node_B.ratio;
+          proc_control_node_B.u0_f = 0.02 - proc_control_node_B.ratio;
         }
 
-        proc_control_node_B.ratio = proc_control_node_B.u0_p /
+        proc_control_node_B.ratio = proc_control_node_B.u0_f /
           proc_control_node_B.pk_corrected;
         if (proc_control_node_B.ratio < *alpha) {
           *alpha = proc_control_node_B.ratio;
@@ -13157,24 +13149,24 @@ void proc_control_nodeModelClass::proc_control__feasibleratiotest(const real_T
       proc_control_node_B.totalIneq++;
     }
 
-    proc_control_node_B.b_iy_l = workingset_indexLB_data[workingset_sizes[3] - 1]
+    proc_control_node_B.b_iy_e = workingset_indexLB_data[workingset_sizes[3] - 1]
       - 1;
-    proc_control_node_B.c_d2 =
-      -solution_searchDir_data[proc_control_node_B.b_iy_l];
-    if ((proc_control_node_B.c_d2 > proc_control_node_B.denomTol) &&
+    proc_control_node_B.c_pq =
+      -solution_searchDir_data[proc_control_node_B.b_iy_e];
+    if ((proc_control_node_B.c_pq > proc_control_node_B.denomTol) &&
         (!workingset_isActiveConstr_data[(workingset_isActiveIdx[3] +
           workingset_sizes[3]) - 2])) {
       proc_control_node_B.ratio =
-        -solution_xstar_data[proc_control_node_B.b_iy_l] -
-        workingset_lb_data[proc_control_node_B.b_iy_l];
-      proc_control_node_B.u0_p = fabs(proc_control_node_B.ratio);
-      if ((!(proc_control_node_B.u0_p < 0.02 - proc_control_node_B.ratio)) &&
+        -solution_xstar_data[proc_control_node_B.b_iy_e] -
+        workingset_lb_data[proc_control_node_B.b_iy_e];
+      proc_control_node_B.u0_f = fabs(proc_control_node_B.ratio);
+      if ((!(proc_control_node_B.u0_f < 0.02 - proc_control_node_B.ratio)) &&
           (!rtIsNaN(0.02 - proc_control_node_B.ratio))) {
-        proc_control_node_B.u0_p = 0.02 - proc_control_node_B.ratio;
+        proc_control_node_B.u0_f = 0.02 - proc_control_node_B.ratio;
       }
 
-      proc_control_node_B.ratio = proc_control_node_B.u0_p /
-        proc_control_node_B.c_d2;
+      proc_control_node_B.ratio = proc_control_node_B.u0_f /
+        proc_control_node_B.c_pq;
       if (proc_control_node_B.ratio < *alpha) {
         *alpha = proc_control_node_B.ratio;
         *constrType = 4;
@@ -13288,12 +13280,12 @@ void proc_control_nodeModelClass::proc_checkStoppingAndUpdateFval(int32_T
   }
 
   if (solution->iterations - solution->iterations / 50 * 50 == 0) {
-    proc_control_node_B.b_k = proc__maxConstraintViolation_du(workingset,
+    proc_control_node_B.b_d = proc__maxConstraintViolation_du(workingset,
       solution->xstar.data);
-    solution->maxConstr = proc_control_node_B.b_k;
-    proc_control_node_B.tempMaxConstr = proc_control_node_B.b_k;
+    solution->maxConstr = proc_control_node_B.b_d;
+    proc_control_node_B.tempMaxConstr = proc_control_node_B.b_d;
     if (objective->objtype == 5) {
-      proc_control_node_B.tempMaxConstr = proc_control_node_B.b_k -
+      proc_control_node_B.tempMaxConstr = proc_control_node_B.b_d -
         solution->xstar.data[objective->nvar - 1];
     }
 
@@ -13335,7 +13327,7 @@ void proc_control_nodeModelClass::proc_checkStoppingAndUpdateFval(int32_T
       *activeSetChangeID = 0;
       proc_control_node_B.tempMaxConstr = proc__maxConstraintViolation_du
         (workingset, solution->searchDir.data);
-      if (proc_control_node_B.tempMaxConstr < proc_control_node_B.b_k) {
+      if (proc_control_node_B.tempMaxConstr < proc_control_node_B.b_d) {
         proc_control_node_B.loop_ub_b = 0;
         while (proc_control_node_B.loop_ub_b <=
                proc_control_node_B.nVar_tmp_tmp_j) {
@@ -13357,10 +13349,10 @@ void proc_control_nodeModelClass::proc_checkStoppingAndUpdateFval(int32_T
          proc_control_node_B.y_size_idx_0_d++) {
     }
 
-    proc_control_node_B.b_k = proc_contro_computeFval_ReuseHx(objective,
+    proc_control_node_B.b_d = proc_contro_computeFval_ReuseHx(objective,
       memspace->workspace_double.data, f_data, solution->xstar.data);
-    solution->fstar = proc_control_node_B.b_k;
-    if ((proc_control_node_B.b_k < options_ObjectiveLimit) && ((solution->state
+    solution->fstar = proc_control_node_B.b_d;
+    if ((proc_control_node_B.b_d < options_ObjectiveLimit) && ((solution->state
           != 0) || (objective->objtype != 5))) {
       solution->state = 2;
     }
@@ -13469,15 +13461,15 @@ void proc_control_nodeModelClass::proc_control_node_iterate(const real_T H[21609
           while (proc_control_node_B.workingIdx + 2 > qrmanager->ncols) {
             proc_control_node_B.iQR0 = proc_control_node_B.workingIdx +
               (qrmanager->ncols - 1) * qrmanager->ldq;
-            proc_control_node_B.temp_c = qrmanager->
+            proc_control_node_B.temp_k = qrmanager->
               QR.data[proc_control_node_B.iQR0];
             proc_control_node_B.i = qrmanager->QR.data[proc_control_node_B.iQR0
               + 1];
-            proc_control_node_xrotg(&proc_control_node_B.temp_c,
+            proc_control_node_xrotg(&proc_control_node_B.temp_k,
               &proc_control_node_B.i, &proc_control_node_B.normDelta,
-              &proc_control_node_B.s_gr);
+              &proc_control_node_B.s_c);
             qrmanager->QR.data[proc_control_node_B.iQR0] =
-              proc_control_node_B.temp_c;
+              proc_control_node_B.temp_k;
             qrmanager->QR.data[proc_control_node_B.iQR0 + 1] =
               proc_control_node_B.i;
             proc_control_node_B.iyend = qrmanager->ldq *
@@ -13488,16 +13480,16 @@ void proc_control_nodeModelClass::proc_control_node_iterate(const real_T H[21609
                 proc_control_node_B.iyend;
               proc_control_node_B.memspace_b = 0;
               while (proc_control_node_B.memspace_b <= qrmanager->mrows - 1) {
-                proc_control_node_B.temp_c = qrmanager->
+                proc_control_node_B.temp_k = qrmanager->
                   Q.data[proc_control_node_B.iQR0] *
                   proc_control_node_B.normDelta + qrmanager->
-                  Q.data[proc_control_node_B.iy_h] * proc_control_node_B.s_gr;
+                  Q.data[proc_control_node_B.iy_h] * proc_control_node_B.s_c;
                 qrmanager->Q.data[proc_control_node_B.iy_h] = qrmanager->
                   Q.data[proc_control_node_B.iy_h] *
                   proc_control_node_B.normDelta - qrmanager->
-                  Q.data[proc_control_node_B.iQR0] * proc_control_node_B.s_gr;
+                  Q.data[proc_control_node_B.iQR0] * proc_control_node_B.s_c;
                 qrmanager->Q.data[proc_control_node_B.iQR0] =
-                  proc_control_node_B.temp_c;
+                  proc_control_node_B.temp_k;
                 proc_control_node_B.iy_h++;
                 proc_control_node_B.iQR0++;
                 proc_control_node_B.memspace_b++;
@@ -13812,12 +13804,12 @@ void proc_control_nodeModelClass::proc_control_node_linearForm_(boolean_T
     while (((obj_nvar > 0) && (iac <= b_c)) || ((obj_nvar < 0) && (iac >= b_c)))
     {
       proc_control_node_B.c_i2 = 0.5 * x_data[proc_control_node_B.fMultiplier];
-      proc_control_node_B.iy_l = 0;
+      proc_control_node_B.iy_b = 0;
       b = (iac + obj_nvar) - 1;
       for (ia = iac; ia <= b; ia++) {
-        workspace_data[proc_control_node_B.iy_l] += H[ia - 1] *
+        workspace_data[proc_control_node_B.iy_b] += H[ia - 1] *
           proc_control_node_B.c_i2;
-        proc_control_node_B.iy_l++;
+        proc_control_node_B.iy_b++;
       }
 
       proc_control_node_B.fMultiplier++;
@@ -13842,11 +13834,11 @@ real_T proc_control_nodeModelClass::proc_control_node_computeFval(const
       f_data, x_data);
     val = 0.0;
     if (obj->nvar >= 1) {
-      proc_control_node_B.idx_b = 0;
-      while (proc_control_node_B.idx_b <= obj->nvar - 1) {
-        val += workspace_data[proc_control_node_B.idx_b] *
-          x_data[proc_control_node_B.idx_b];
-        proc_control_node_B.idx_b++;
+      proc_control_node_B.idx_k = 0;
+      while (proc_control_node_B.idx_k <= obj->nvar - 1) {
+        val += workspace_data[proc_control_node_B.idx_k] *
+          x_data[proc_control_node_B.idx_k];
+        proc_control_node_B.idx_k++;
       }
     }
     break;
@@ -13854,20 +13846,20 @@ real_T proc_control_nodeModelClass::proc_control_node_computeFval(const
    default:
     proc_control_node_linearForm_(obj->hasLinear, obj->nvar, workspace_data, H,
       f_data, x_data);
-    proc_control_node_B.idx_b = obj->nvar;
-    while (proc_control_node_B.idx_b + 1 <= obj->maxVar - 1) {
-      workspace_data[proc_control_node_B.idx_b] = 0.5 * obj->beta *
-        x_data[proc_control_node_B.idx_b] + obj->rho;
-      proc_control_node_B.idx_b++;
+    proc_control_node_B.idx_k = obj->nvar;
+    while (proc_control_node_B.idx_k + 1 <= obj->maxVar - 1) {
+      workspace_data[proc_control_node_B.idx_k] = 0.5 * obj->beta *
+        x_data[proc_control_node_B.idx_k] + obj->rho;
+      proc_control_node_B.idx_k++;
     }
 
     val = 0.0;
     if (obj->maxVar - 1 >= 1) {
-      proc_control_node_B.idx_b = 0;
-      while (proc_control_node_B.idx_b <= obj->maxVar - 2) {
-        val += workspace_data[proc_control_node_B.idx_b] *
-          x_data[proc_control_node_B.idx_b];
-        proc_control_node_B.idx_b++;
+      proc_control_node_B.idx_k = 0;
+      while (proc_control_node_B.idx_k <= obj->maxVar - 2) {
+        val += workspace_data[proc_control_node_B.idx_k] *
+          x_data[proc_control_node_B.idx_k];
+        proc_control_node_B.idx_k++;
       }
     }
     break;
@@ -14011,17 +14003,17 @@ void proc_control_nodeModelClass::proc_control_node_driver_i(const real_T H
 
   if (guard1) {
     solution->iterations = 0;
-    proc_control_node_B.b_gb = proc__maxConstraintViolation_du(workingset,
+    proc_control_node_B.b_gr = proc__maxConstraintViolation_du(workingset,
       solution->xstar.data);
-    solution->maxConstr = proc_control_node_B.b_gb;
-    if (proc_control_node_B.b_gb > 0.02) {
+    solution->maxConstr = proc_control_node_B.b_gr;
+    if (proc_control_node_B.b_gr > 0.02) {
       proc_control_node_phaseone(H, f_data, solution, memspace, workingset,
         qrmanager, cholmanager, objective, options, runTimeOptions);
       if (solution->state != 0) {
-        proc_control_node_B.b_gb = proc__maxConstraintViolation_du(workingset,
+        proc_control_node_B.b_gr = proc__maxConstraintViolation_du(workingset,
           solution->xstar.data);
-        solution->maxConstr = proc_control_node_B.b_gb;
-        if (proc_control_node_B.b_gb > 0.02) {
+        solution->maxConstr = proc_control_node_B.b_gr;
+        if (proc_control_node_B.b_gr > 0.02) {
           proc_control_node_B.nVar_m = 0;
           while (proc_control_node_B.nVar_m <= workingset->mConstrMax - 1) {
             solution->lambda.data[proc_control_node_B.nVar_m] = 0.0;
@@ -14038,7 +14030,7 @@ void proc_control_nodeModelClass::proc_control_node_driver_i(const real_T H
             memspace->workspace_double.data, H, f_data, solution->xstar.data);
           solution->state = -2;
         } else {
-          if (proc_control_node_B.b_gb > 0.0) {
+          if (proc_control_node_B.b_gr > 0.0) {
             proc_control_node_B.y_size_idx_0_k = solution->searchDir.size;
             proc_control_node_B.b_idx = solution->searchDir.size;
             if (0 <= proc_control_node_B.b_idx - 1) {
@@ -14062,10 +14054,10 @@ void proc_control_nodeModelClass::proc_control_node_driver_i(const real_T H
 
             proc_control_PresolveWorkingSet(solution, memspace, workingset,
               qrmanager);
-            proc_control_node_B.b_gb = proc__maxConstraintViolation_du
+            proc_control_node_B.b_gr = proc__maxConstraintViolation_du
               (workingset, solution->xstar.data);
-            if (proc_control_node_B.b_gb >= solution->maxConstr) {
-              solution->maxConstr = proc_control_node_B.b_gb;
+            if (proc_control_node_B.b_gr >= solution->maxConstr) {
+              solution->maxConstr = proc_control_node_B.b_gr;
               proc_control_node_B.y_size_idx_0_k = solution->xstar.size;
               proc_control_node_B.b_idx = solution->xstar.size;
               if (0 <= proc_control_node_B.b_idx - 1) {
@@ -14419,21 +14411,21 @@ void proc_control_nodeModelClass::proc_control_node_normal(const real_T Hessian
   if (TrialState->state > 0) {
     proc_control_node_B.penaltyParamTrial = MeritFunction->penaltyParam;
     proc_control_node_B.constrViolationEq = 0.0;
-    for (proc_control_node_B.k_gn = 0; proc_control_node_B.k_gn < 130;
-         proc_control_node_B.k_gn++) {
+    for (proc_control_node_B.k_d = 0; proc_control_node_B.k_d < 130;
+         proc_control_node_B.k_d++) {
       proc_control_node_B.constrViolationEq += fabs(TrialState->
-        cEq[proc_control_node_B.k_gn]);
+        cEq[proc_control_node_B.k_d]);
     }
 
     proc_control_node_B.constrViolationIneq = 0.0;
-    proc_control_node_B.k_gn = 0;
-    while (proc_control_node_B.k_gn <= WorkingSet->sizes[2] - 1) {
-      if (TrialState->cIneq.data[proc_control_node_B.k_gn] > 0.0) {
+    proc_control_node_B.k_d = 0;
+    while (proc_control_node_B.k_d <= WorkingSet->sizes[2] - 1) {
+      if (TrialState->cIneq.data[proc_control_node_B.k_d] > 0.0) {
         proc_control_node_B.constrViolationIneq += TrialState->
-          cIneq.data[proc_control_node_B.k_gn];
+          cIneq.data[proc_control_node_B.k_d];
       }
 
-      proc_control_node_B.k_gn++;
+      proc_control_node_B.k_d++;
     }
 
     proc_control_node_B.constrViolationEq +=
@@ -14498,10 +14490,10 @@ void proc_control_nodeModelClass::proc_control_node_normal(const real_T Hessian
     }
   }
 
-  proc_control_node_B.k_gn = memspace->workspace_double.size[0] *
+  proc_control_node_B.k_d = memspace->workspace_double.size[0] *
     memspace->workspace_double.size[1];
   for (proc_control_node_B.i38 = 0; proc_control_node_B.i38 <
-       proc_control_node_B.k_gn; proc_control_node_B.i38++) {
+       proc_control_node_B.k_d; proc_control_node_B.i38++) {
   }
 
   proc_control_node_sortLambdaQP(TrialState->lambda.data,
@@ -14517,10 +14509,10 @@ void proc_control_nodeModelClass::proc_control_node_normal(const real_T Hessian
   }
 
   if (nonlinEqRemoved) {
-    for (proc_control_node_B.k_gn = 0; proc_control_node_B.k_gn < 130;
-         proc_control_node_B.k_gn++) {
-      WorkingSet->Wlocalidx.data[WorkingSet->sizes[0] + proc_control_node_B.k_gn]
-        = proc_control_node_B.k_gn + 1;
+    for (proc_control_node_B.k_d = 0; proc_control_node_B.k_d < 130;
+         proc_control_node_B.k_d++) {
+      WorkingSet->Wlocalidx.data[WorkingSet->sizes[0] + proc_control_node_B.k_d]
+        = proc_control_node_B.k_d + 1;
     }
   }
 }
@@ -14725,22 +14717,22 @@ void proc_control_nodeModelClass::proc_control_node_relaxed(const real_T
     proc_control_node_B.qpfvalLinearExcess +=
       proc_control_node_B.qpfvalQuadExcess;
     proc_control_node_B.qpfvalQuadExcess = MeritFunction->linearizedConstrViol;
-    proc_control_node_B.y_ge = 0.0;
+    proc_control_node_B.y_gb = 0.0;
     if (proc_control_node_B.b_mIneq >= 1) {
       proc_control_node_B.mIneq_c = proc_control_node_B.nVarOrig +
         proc_control_node_B.b_mIneq;
       proc_control_node_B.nVarMax = proc_control_node_B.nVarOrig;
       while (proc_control_node_B.nVarMax + 1 <= proc_control_node_B.mIneq_c) {
-        proc_control_node_B.y_ge += fabs(TrialState->
+        proc_control_node_B.y_gb += fabs(TrialState->
           xstar.data[proc_control_node_B.nVarMax]);
         proc_control_node_B.nVarMax++;
       }
     }
 
-    MeritFunction->linearizedConstrViol = proc_control_node_B.y_ge;
+    MeritFunction->linearizedConstrViol = proc_control_node_B.y_gb;
     proc_control_node_B.qpfvalQuadExcess =
       (proc_control_node_B.qpfvalLinearExcess +
-       proc_control_node_B.qpfvalQuadExcess) - proc_control_node_B.y_ge;
+       proc_control_node_B.qpfvalQuadExcess) - proc_control_node_B.y_gb;
     if ((proc_control_node_B.qpfvalQuadExcess > 2.2204460492503131E-16) &&
         (proc_control_node_B.beta > 0.0)) {
       if (TrialState->sqpFval == 0.0) {
@@ -15096,7 +15088,7 @@ real_T proc_control_nodeModelClass::proc_control_node_anon_d0(const real_T
 {
   real_T varargout_1;
   proc_control_node_znlmpc_getXUe(z, runtimedata_x, proc_control_node_B.X_n,
-    proc_control_node_B.U_mv, &proc_control_node_B.e_l);
+    proc_control_node_B.U_mv, &proc_control_node_B.e_k);
   proc_control_node_B.fs = 0.0;
   for (proc_control_node_B.i_ob = 0; proc_control_node_B.i_ob < 11;
        proc_control_node_B.i_ob++) {
@@ -15122,12 +15114,12 @@ real_T proc_control_nodeModelClass::proc_control_node_anon_d0(const real_T
          proc_control_node_B.i_ob++) {
       proc_control_node_B.wtYerr_tmp = 10 * proc_control_node_B.i_ob +
         proc_control_node_B.i_lc;
-      proc_control_node_B.wtYerr_k = (proc_control_node_B.b_X_l
+      proc_control_node_B.wtYerr_d = (proc_control_node_B.b_X_l
         [(proc_control_node_B.i_lc + 1) * 13 + proc_control_node_B.i_ob] -
         runtimedata_ref[proc_control_node_B.wtYerr_tmp]) *
         runtimedata_OutputWeights[proc_control_node_B.wtYerr_tmp];
-      proc_control_node_B.wtYerr += proc_control_node_B.wtYerr_k *
-        proc_control_node_B.wtYerr_k;
+      proc_control_node_B.wtYerr += proc_control_node_B.wtYerr_d *
+        proc_control_node_B.wtYerr_d;
     }
 
     proc_control_node_B.fs += proc_control_node_B.wtYerr;
@@ -15152,33 +15144,33 @@ real_T proc_control_nodeModelClass::proc_control_node_anon_d0(const real_T
     }
 
     proc_control_node_B.wtYerr = 0.0;
-    proc_control_node_B.wtYerr_k = 0.0;
+    proc_control_node_B.wtYerr_d = 0.0;
     for (proc_control_node_B.i_ob = 0; proc_control_node_B.i_ob < 8;
          proc_control_node_B.i_ob++) {
       proc_control_node_B.wtYerr_tmp = 10 * proc_control_node_B.i_ob +
         proc_control_node_B.i_lc;
-      proc_control_node_B.umvk_d =
+      proc_control_node_B.umvk_n =
         (proc_control_node_B.umvk[proc_control_node_B.i_ob] -
          runtimedata_MVScaledTarget[proc_control_node_B.wtYerr_tmp]) *
         runtimedata_MVWeights[proc_control_node_B.wtYerr_tmp];
-      proc_control_node_B.duk_n =
+      proc_control_node_B.duk_j =
         runtimedata_MVRateWeights[proc_control_node_B.wtYerr_tmp] *
         proc_control_node_B.duk[proc_control_node_B.i_ob];
-      proc_control_node_B.wtYerr += proc_control_node_B.umvk_d *
-        proc_control_node_B.umvk_d;
-      proc_control_node_B.wtYerr_k += proc_control_node_B.duk_n *
-        proc_control_node_B.duk_n;
+      proc_control_node_B.wtYerr += proc_control_node_B.umvk_n *
+        proc_control_node_B.umvk_n;
+      proc_control_node_B.wtYerr_d += proc_control_node_B.duk_j *
+        proc_control_node_B.duk_j;
       proc_control_node_B.umvk[proc_control_node_B.i_ob] =
-        proc_control_node_B.umvk_d;
+        proc_control_node_B.umvk_n;
       proc_control_node_B.duk[proc_control_node_B.i_ob] =
-        proc_control_node_B.duk_n;
+        proc_control_node_B.duk_j;
     }
 
     proc_control_node_B.fs = (proc_control_node_B.fs +
-      proc_control_node_B.wtYerr) + proc_control_node_B.wtYerr_k;
+      proc_control_node_B.wtYerr) + proc_control_node_B.wtYerr_d;
   }
 
-  varargout_1 = 100000.0 * proc_control_node_B.e_l * proc_control_node_B.e_l +
+  varargout_1 = 100000.0 * proc_control_node_B.e_k * proc_control_node_B.e_k +
     proc_control_node_B.fs;
   return varargout_1;
 }
@@ -15260,41 +15252,41 @@ void proc_control_nodeModelClass::proc_control_nod_outputBounds_p(const real_T
   int32_T b_size_idx_0;
   boolean_T exitg1;
   boolean_T y;
-  for (proc_control_node_B.i_da = 0; proc_control_node_B.i_da < 130;
-       proc_control_node_B.i_da++) {
-    proc_control_node_B.bv1[proc_control_node_B.i_da] = rtIsInf
-      (runtimedata_OutputMin[proc_control_node_B.i_da]);
+  for (proc_control_node_B.i_ov = 0; proc_control_node_B.i_ov < 130;
+       proc_control_node_B.i_ov++) {
+    proc_control_node_B.bv1[proc_control_node_B.i_ov] = rtIsInf
+      (runtimedata_OutputMin[proc_control_node_B.i_ov]);
   }
 
-  proc_control_node_all(proc_control_node_B.bv1, proc_control_node_B.x_h);
+  proc_control_node_all(proc_control_node_B.bv1, proc_control_node_B.x_hp);
   y = true;
-  proc_control_node_B.k_o = 0;
+  proc_control_node_B.k_n = 0;
   exitg1 = false;
-  while ((!exitg1) && (proc_control_node_B.k_o < 13)) {
-    if (!proc_control_node_B.x_h[proc_control_node_B.k_o]) {
+  while ((!exitg1) && (proc_control_node_B.k_n < 13)) {
+    if (!proc_control_node_B.x_hp[proc_control_node_B.k_n]) {
       y = false;
       exitg1 = true;
     } else {
-      proc_control_node_B.k_o++;
+      proc_control_node_B.k_n++;
     }
   }
 
   if (y) {
-    for (proc_control_node_B.i_da = 0; proc_control_node_B.i_da < 130;
-         proc_control_node_B.i_da++) {
-      proc_control_node_B.bv1[proc_control_node_B.i_da] = rtIsInf
-        (runtimedata_OutputMax[proc_control_node_B.i_da]);
+    for (proc_control_node_B.i_ov = 0; proc_control_node_B.i_ov < 130;
+         proc_control_node_B.i_ov++) {
+      proc_control_node_B.bv1[proc_control_node_B.i_ov] = rtIsInf
+        (runtimedata_OutputMax[proc_control_node_B.i_ov]);
     }
 
-    proc_control_node_all(proc_control_node_B.bv1, proc_control_node_B.x_h);
-    proc_control_node_B.k_o = 0;
+    proc_control_node_all(proc_control_node_B.bv1, proc_control_node_B.x_hp);
+    proc_control_node_B.k_n = 0;
     exitg1 = false;
-    while ((!exitg1) && (proc_control_node_B.k_o < 13)) {
-      if (!proc_control_node_B.x_h[proc_control_node_B.k_o]) {
+    while ((!exitg1) && (proc_control_node_B.k_n < 13)) {
+      if (!proc_control_node_B.x_hp[proc_control_node_B.k_n]) {
         y = false;
         exitg1 = true;
       } else {
-        proc_control_node_B.k_o++;
+        proc_control_node_B.k_n++;
       }
     }
   }
@@ -15303,108 +15295,108 @@ void proc_control_nodeModelClass::proc_control_nod_outputBounds_p(const real_T
     c_size[0] = 0;
     c_size[1] = 0;
   } else {
-    for (proc_control_node_B.i_da = 0; proc_control_node_B.i_da < 260;
-         proc_control_node_B.i_da++) {
-      proc_control_node_B.b_c_f[proc_control_node_B.i_da] = 0.0;
-      proc_control_node_B.icf_d[proc_control_node_B.i_da] = true;
+    for (proc_control_node_B.i_ov = 0; proc_control_node_B.i_ov < 260;
+         proc_control_node_B.i_ov++) {
+      proc_control_node_B.b_c_f[proc_control_node_B.i_ov] = 0.0;
+      proc_control_node_B.icf_d[proc_control_node_B.i_ov] = true;
     }
 
-    for (proc_control_node_B.i_da = 0; proc_control_node_B.i_da < 13;
-         proc_control_node_B.i_da++) {
-      proc_control_node_B.ic_j[proc_control_node_B.i_da] = static_cast<real_T>
-        (proc_control_node_B.i_da) + 1.0;
+    for (proc_control_node_B.i_ov = 0; proc_control_node_B.i_ov < 13;
+         proc_control_node_B.i_ov++) {
+      proc_control_node_B.ic_j[proc_control_node_B.i_ov] = static_cast<real_T>
+        (proc_control_node_B.i_ov) + 1.0;
     }
 
-    for (proc_control_node_B.k_o = 0; proc_control_node_B.k_o < 10;
-         proc_control_node_B.k_o++) {
-      for (proc_control_node_B.i_da = 0; proc_control_node_B.i_da < 13;
-           proc_control_node_B.i_da++) {
-        proc_control_node_B.runtimedata_OutputMin_c[proc_control_node_B.i_da] =
-          runtimedata_OutputMin[10 * proc_control_node_B.i_da +
-          proc_control_node_B.k_o];
+    for (proc_control_node_B.k_n = 0; proc_control_node_B.k_n < 10;
+         proc_control_node_B.k_n++) {
+      for (proc_control_node_B.i_ov = 0; proc_control_node_B.i_ov < 13;
+           proc_control_node_B.i_ov++) {
+        proc_control_node_B.runtimedata_OutputMin_c[proc_control_node_B.i_ov] =
+          runtimedata_OutputMin[10 * proc_control_node_B.i_ov +
+          proc_control_node_B.k_n];
       }
 
       proc_control_node_isfinite_k(proc_control_node_B.runtimedata_OutputMin_c,
-        proc_control_node_B.x_h);
-      for (proc_control_node_B.i_da = 0; proc_control_node_B.i_da < 13;
-           proc_control_node_B.i_da++) {
+        proc_control_node_B.x_hp);
+      for (proc_control_node_B.i_ov = 0; proc_control_node_B.i_ov < 13;
+           proc_control_node_B.i_ov++) {
         proc_control_node_B.icf_d[static_cast<int32_T>
-          (proc_control_node_B.ic_j[proc_control_node_B.i_da]) - 1] =
-          proc_control_node_B.x_h[proc_control_node_B.i_da];
-        proc_control_node_B.runtimedata_OutputMin_c[proc_control_node_B.i_da] =
-          runtimedata_OutputMax[10 * proc_control_node_B.i_da +
-          proc_control_node_B.k_o];
+          (proc_control_node_B.ic_j[proc_control_node_B.i_ov]) - 1] =
+          proc_control_node_B.x_hp[proc_control_node_B.i_ov];
+        proc_control_node_B.runtimedata_OutputMin_c[proc_control_node_B.i_ov] =
+          runtimedata_OutputMax[10 * proc_control_node_B.i_ov +
+          proc_control_node_B.k_n];
       }
 
       proc_control_node_isfinite_k(proc_control_node_B.runtimedata_OutputMin_c,
-        proc_control_node_B.x_h);
-      for (proc_control_node_B.i_da = 0; proc_control_node_B.i_da < 13;
-           proc_control_node_B.i_da++) {
-        proc_control_node_B.ic_h =
-          proc_control_node_B.ic_j[proc_control_node_B.i_da];
-        proc_control_node_B.icf_d[static_cast<int32_T>(proc_control_node_B.ic_h
-          + 13.0) - 1] = proc_control_node_B.x_h[proc_control_node_B.i_da];
-        proc_control_node_B.ic_n[proc_control_node_B.i_da] = static_cast<int32_T>
-          (proc_control_node_B.ic_h) - 1;
-        proc_control_node_B.ic_n[proc_control_node_B.i_da + 13] =
-          static_cast<int32_T>(proc_control_node_B.ic_h + 13.0) - 1;
+        proc_control_node_B.x_hp);
+      for (proc_control_node_B.i_ov = 0; proc_control_node_B.i_ov < 13;
+           proc_control_node_B.i_ov++) {
+        proc_control_node_B.ic_m =
+          proc_control_node_B.ic_j[proc_control_node_B.i_ov];
+        proc_control_node_B.icf_d[static_cast<int32_T>(proc_control_node_B.ic_m
+          + 13.0) - 1] = proc_control_node_B.x_hp[proc_control_node_B.i_ov];
+        proc_control_node_B.ic_n[proc_control_node_B.i_ov] = static_cast<int32_T>
+          (proc_control_node_B.ic_m) - 1;
+        proc_control_node_B.ic_n[proc_control_node_B.i_ov + 13] =
+          static_cast<int32_T>(proc_control_node_B.ic_m + 13.0) - 1;
       }
 
-      for (proc_control_node_B.i_da = 0; proc_control_node_B.i_da < 26;
-           proc_control_node_B.i_da++) {
-        proc_control_node_B.icf_h[proc_control_node_B.i_da] =
-          proc_control_node_B.icf_d[proc_control_node_B.ic_n[proc_control_node_B.i_da]];
+      for (proc_control_node_B.i_ov = 0; proc_control_node_B.i_ov < 26;
+           proc_control_node_B.i_ov++) {
+        proc_control_node_B.icf_h[proc_control_node_B.i_ov] =
+          proc_control_node_B.icf_d[proc_control_node_B.ic_n[proc_control_node_B.i_ov]];
       }
 
       if (proc_control_node_any(proc_control_node_B.icf_h)) {
-        for (proc_control_node_B.i_da = 0; proc_control_node_B.i_da < 13;
-             proc_control_node_B.i_da++) {
+        for (proc_control_node_B.i_ov = 0; proc_control_node_B.i_ov < 13;
+             proc_control_node_B.i_ov++) {
           proc_control_node_B.b_c_f[static_cast<int32_T>
-            (proc_control_node_B.ic_j[proc_control_node_B.i_da]) - 1] =
-            (runtimedata_OutputMin[10 * proc_control_node_B.i_da +
-             proc_control_node_B.k_o] - e) - X[(11 * proc_control_node_B.i_da +
-            proc_control_node_B.k_o) + 1];
+            (proc_control_node_B.ic_j[proc_control_node_B.i_ov]) - 1] =
+            (runtimedata_OutputMin[10 * proc_control_node_B.i_ov +
+             proc_control_node_B.k_n] - e) - X[(11 * proc_control_node_B.i_ov +
+            proc_control_node_B.k_n) + 1];
         }
 
-        for (proc_control_node_B.i_da = 0; proc_control_node_B.i_da < 13;
-             proc_control_node_B.i_da++) {
+        for (proc_control_node_B.i_ov = 0; proc_control_node_B.i_ov < 13;
+             proc_control_node_B.i_ov++) {
           proc_control_node_B.b_c_f[static_cast<int32_T>
-            (proc_control_node_B.ic_j[proc_control_node_B.i_da] + 13.0) - 1] =
-            (X[(11 * proc_control_node_B.i_da + proc_control_node_B.k_o) + 1] -
-             runtimedata_OutputMax[10 * proc_control_node_B.i_da +
-             proc_control_node_B.k_o]) - e;
+            (proc_control_node_B.ic_j[proc_control_node_B.i_ov] + 13.0) - 1] =
+            (X[(11 * proc_control_node_B.i_ov + proc_control_node_B.k_n) + 1] -
+             runtimedata_OutputMax[10 * proc_control_node_B.i_ov +
+             proc_control_node_B.k_n]) - e;
         }
       }
 
-      for (proc_control_node_B.i_da = 0; proc_control_node_B.i_da < 13;
-           proc_control_node_B.i_da++) {
-        proc_control_node_B.ic_j[proc_control_node_B.i_da] += 26.0;
+      for (proc_control_node_B.i_ov = 0; proc_control_node_B.i_ov < 13;
+           proc_control_node_B.i_ov++) {
+        proc_control_node_B.ic_j[proc_control_node_B.i_ov] += 26.0;
       }
     }
 
-    proc_control_node_B.k_o = 0;
-    for (proc_control_node_B.i_da = 0; proc_control_node_B.i_da < 260;
-         proc_control_node_B.i_da++) {
-      if (proc_control_node_B.icf_d[proc_control_node_B.i_da]) {
-        proc_control_node_B.k_o++;
+    proc_control_node_B.k_n = 0;
+    for (proc_control_node_B.i_ov = 0; proc_control_node_B.i_ov < 260;
+         proc_control_node_B.i_ov++) {
+      if (proc_control_node_B.icf_d[proc_control_node_B.i_ov]) {
+        proc_control_node_B.k_n++;
       }
     }
 
-    b_size_idx_0 = proc_control_node_B.k_o;
-    proc_control_node_B.k_o = 0;
-    for (proc_control_node_B.i_da = 0; proc_control_node_B.i_da < 260;
-         proc_control_node_B.i_da++) {
-      if (proc_control_node_B.icf_d[proc_control_node_B.i_da]) {
-        proc_control_node_B.b_data_n[proc_control_node_B.k_o] =
-          static_cast<int16_T>(proc_control_node_B.i_da + 1);
-        proc_control_node_B.k_o++;
+    b_size_idx_0 = proc_control_node_B.k_n;
+    proc_control_node_B.k_n = 0;
+    for (proc_control_node_B.i_ov = 0; proc_control_node_B.i_ov < 260;
+         proc_control_node_B.i_ov++) {
+      if (proc_control_node_B.icf_d[proc_control_node_B.i_ov]) {
+        proc_control_node_B.b_data_n[proc_control_node_B.k_n] =
+          static_cast<int16_T>(proc_control_node_B.i_ov + 1);
+        proc_control_node_B.k_n++;
       }
     }
 
-    for (proc_control_node_B.i_da = 0; proc_control_node_B.i_da < b_size_idx_0;
-         proc_control_node_B.i_da++) {
-      proc_control_node_B.b_c_data_g[proc_control_node_B.i_da] =
-        proc_control_node_B.b_c_f[proc_control_node_B.b_data_n[proc_control_node_B.i_da]
+    for (proc_control_node_B.i_ov = 0; proc_control_node_B.i_ov < b_size_idx_0;
+         proc_control_node_B.i_ov++) {
+      proc_control_node_B.b_c_data_g[proc_control_node_B.i_ov] =
+        proc_control_node_B.b_c_f[proc_control_node_B.b_data_n[proc_control_node_B.i_ov]
         - 1];
     }
 
@@ -15424,11 +15416,11 @@ void proc_control_nodeModelClass::proc_control_node_anon_d0f(const real_T
   int32_T varargout_1_size[2], real_T varargout_2[130])
 {
   proc_control_node_znlmpc_getXUe(z, runtimedata_x, proc_control_node_B.X_p,
-    proc_control_node_B.U_j, &proc_control_node_B.e_i);
+    proc_control_node_B.U_j, &proc_control_node_B.e_h);
   proc_control_n_stateEvolution_g(proc_control_node_B.X_p,
     proc_control_node_B.U_j, varargout_2);
   proc_control_nod_outputBounds_p(runtimedata_OutputMin, runtimedata_OutputMax,
-    proc_control_node_B.X_p, proc_control_node_B.e_i,
+    proc_control_node_B.X_p, proc_control_node_B.e_h,
     proc_control_node_B.c_data_iz, proc_control_node_B.c_size_c);
   proc_control_node_B.result_m = ((proc_control_node_B.c_size_c[0] != 0) &&
     (proc_control_node_B.c_size_c[1] != 0));
@@ -15533,11 +15525,11 @@ void proc_control_nodeModelClass::proc_con_computeLinearResiduals(const real_T
              *workspaceIneq_size * sizeof(real_T));
     }
 
-    proc_control_node_B.k_kx = 0;
-    while (proc_control_node_B.k_kx <= mLinIneq - 1) {
-      proc_control_node_B.y_data_o[proc_control_node_B.k_kx] =
-        bineq_data[proc_control_node_B.k_kx];
-      proc_control_node_B.k_kx++;
+    proc_control_node_B.k_p = 0;
+    while (proc_control_node_B.k_p <= mLinIneq - 1) {
+      proc_control_node_B.y_data_o[proc_control_node_B.k_p] =
+        bineq_data[proc_control_node_B.k_p];
+      proc_control_node_B.k_p++;
     }
 
     if (0 <= *workspaceIneq_size - 1) {
@@ -15545,14 +15537,14 @@ void proc_control_nodeModelClass::proc_con_computeLinearResiduals(const real_T
              *workspaceIneq_size * sizeof(real_T));
     }
 
-    proc_control_node_B.k_kx = 0;
-    while (proc_control_node_B.k_kx <= mLinIneq - 1) {
-      workspaceIneq_data[proc_control_node_B.k_kx] =
-        -workspaceIneq_data[proc_control_node_B.k_kx];
-      proc_control_node_B.k_kx++;
+    proc_control_node_B.k_p = 0;
+    while (proc_control_node_B.k_p <= mLinIneq - 1) {
+      workspaceIneq_data[proc_control_node_B.k_p] =
+        -workspaceIneq_data[proc_control_node_B.k_p];
+      proc_control_node_B.k_p++;
     }
 
-    proc_control_node_B.k_kx = 0;
+    proc_control_node_B.k_p = 0;
     loop_ub = (mLinIneq - 1) * ldAi + 1;
     y_size_idx_0 = 1;
     while (((ldAi > 0) && (y_size_idx_0 <= loop_ub)) || ((ldAi < 0) &&
@@ -15565,8 +15557,8 @@ void proc_control_nodeModelClass::proc_con_computeLinearResiduals(const real_T
         ix++;
       }
 
-      workspaceIneq_data[proc_control_node_B.k_kx] += proc_control_node_B.c_m;
-      proc_control_node_B.k_kx++;
+      workspaceIneq_data[proc_control_node_B.k_p] += proc_control_node_B.c_m;
+      proc_control_node_B.k_p++;
       y_size_idx_0 += ldAi;
     }
   }
@@ -16589,7 +16581,7 @@ void proc_control_nodeModelClass::proc_control_node_driver(const real_T
 
   proc_control_node_B.nVar_tmp_tmp = WorkingSet->nVar;
   proc_control_node_B.mFixed = WorkingSet->sizes[0];
-  proc_control_node_B.mIneq_i = WorkingSet->sizes[2];
+  proc_control_node_B.mIneq_b = WorkingSet->sizes[2];
   proc_control_node_B.mLB = WorkingSet->sizes[3];
   proc_control_node_B.mUB = WorkingSet->sizes[4];
   proc_control_node_B.mConstr_tmp = (((WorkingSet->sizes[0] + WorkingSet->sizes
@@ -16608,11 +16600,11 @@ void proc_control_nodeModelClass::proc_control_node_driver(const real_T
   proc_control_node_B.Flags.stepAccepted = false;
   proc_control_node_B.Flags.failedLineSearch = false;
   proc_control_node_B.Flags.stepType = 1;
-  proc_control_node_B.ix_p = 0;
-  while (proc_control_node_B.ix_p <= proc_control_node_B.mConstr_tmp) {
-    TrialState->lambdaStopTest.data[proc_control_node_B.ix_p] =
-      TrialState->lambdasqp.data[proc_control_node_B.ix_p];
-    proc_control_node_B.ix_p++;
+  proc_control_node_B.ix_i = 0;
+  while (proc_control_node_B.ix_i <= proc_control_node_B.mConstr_tmp) {
+    TrialState->lambdaStopTest.data[proc_control_node_B.ix_i] =
+      TrialState->lambdasqp.data[proc_control_node_B.ix_i];
+    proc_control_node_B.ix_i++;
   }
 
   proc_control_nod_computeGradLag(TrialState->gradLag.data, WorkingSet->ldA,
@@ -16673,11 +16665,11 @@ void proc_control_nodeModelClass::proc_control_node_driver(const real_T
       MeritFunction->firstOrderOpt = 0.0;
     }
 
-    proc_control_node_B.ix_p = 0;
-    while (proc_control_node_B.ix_p <= proc_control_node_B.mConstr_tmp) {
-      TrialState->lambdaStopTestPrev.data[proc_control_node_B.ix_p] =
-        TrialState->lambdaStopTest.data[proc_control_node_B.ix_p];
-      proc_control_node_B.ix_p++;
+    proc_control_node_B.ix_i = 0;
+    while (proc_control_node_B.ix_i <= proc_control_node_B.mConstr_tmp) {
+      TrialState->lambdaStopTestPrev.data[proc_control_node_B.ix_i] =
+        TrialState->lambdaStopTest.data[proc_control_node_B.ix_i];
+      proc_control_node_B.ix_i++;
     }
 
     if (isFeasible && (proc_control_node_B.p <= 0.02 *
@@ -16727,7 +16719,7 @@ void proc_control_nodeModelClass::proc_control_node_driver(const real_T
            (!proc_control_node_B.Flags.failedLineSearch)) {
       if (proc_control_node_B.Flags.stepType != 3) {
         proc_updateWorkingSetForNewQP_l(TrialState->xstarsqp, WorkingSet,
-          proc_control_node_B.mIneq_i, TrialState->mNonlinIneq,
+          proc_control_node_B.mIneq_b, TrialState->mNonlinIneq,
           TrialState->cIneq.data, TrialState->cEq, proc_control_node_B.mLB, lb,
           proc_control_node_B.mUB, proc_control_node_B.mFixed);
       }
@@ -16740,12 +16732,12 @@ void proc_control_nodeModelClass::proc_control_node_driver(const real_T
       proc_control_node_B.Flags.stepAccepted = isFeasible;
       proc_control_node_B.Flags.stepType = proc_control_node_B.mLambda;
       if (isFeasible) {
-        proc_control_node_B.ix_p = 0;
-        while (proc_control_node_B.ix_p <= proc_control_node_B.nVar_tmp_tmp - 1)
+        proc_control_node_B.ix_i = 0;
+        while (proc_control_node_B.ix_i <= proc_control_node_B.nVar_tmp_tmp - 1)
         {
-          TrialState->xstarsqp[proc_control_node_B.ix_p] +=
-            TrialState->delta_x.data[proc_control_node_B.ix_p];
-          proc_control_node_B.ix_p++;
+          TrialState->xstarsqp[proc_control_node_B.ix_i] +=
+            TrialState->delta_x.data[proc_control_node_B.ix_i];
+          proc_control_node_B.ix_i++;
         }
 
         proc_control_n_evalObjAndConstr
@@ -16761,9 +16753,9 @@ void proc_control_nodeModelClass::proc_control_node_driver(const real_T
            FcnEvaluator->nonlcon.workspace.runtimedata.OutputMax,
            FcnEvaluator->mCineq, TrialState->xstarsqp, TrialState->cIneq.data,
            TrialState->iNonIneq0, TrialState->cEq,
-           &proc_control_node_B.optimRelativeFactor, &proc_control_node_B.ix_p);
+           &proc_control_node_B.optimRelativeFactor, &proc_control_node_B.ix_i);
         TrialState->sqpFval = proc_control_node_B.optimRelativeFactor;
-        proc_control_node_B.Flags.fevalOK = (proc_control_node_B.ix_p == 1);
+        proc_control_node_B.Flags.fevalOK = (proc_control_node_B.ix_i == 1);
         TrialState->FunctionEvaluations++;
         proc_con_computeLinearResiduals(TrialState->xstarsqp,
           proc_control_node_B.nVar_tmp_tmp, TrialState->cIneq.data,
@@ -16771,7 +16763,7 @@ void proc_control_nodeModelClass::proc_control_node_driver(const real_T
           WorkingSet->Aineq.data, bineq_data, WorkingSet->ldA);
         MeritFunction->phiFullStep = proc_control_no_computeMeritFcn
           (MeritFunction->penaltyParam, proc_control_node_B.optimRelativeFactor,
-           TrialState->cIneq.data, proc_control_node_B.mIneq_i, TrialState->cEq,
+           TrialState->cIneq.data, proc_control_node_B.mIneq_b, TrialState->cEq,
            proc_control_node_B.Flags.fevalOK);
       }
 
@@ -16789,9 +16781,9 @@ void proc_control_nodeModelClass::proc_control_node_driver(const real_T
           &FcnEvaluator->objfun.workspace.runtimedata,
           &FcnEvaluator->nonlcon.workspace.runtimedata, FcnEvaluator->mCineq,
           (proc_control_node_B.mLambda == 3) && isFeasible,
-          &proc_control_node_B.optimRelativeFactor, &proc_control_node_B.ix_p);
+          &proc_control_node_B.optimRelativeFactor, &proc_control_node_B.ix_i);
         TrialState->steplength = proc_control_node_B.optimRelativeFactor;
-        if (proc_control_node_B.ix_p > 0) {
+        if (proc_control_node_B.ix_i > 0) {
           proc_control_node_B.Flags.stepAccepted = true;
         } else {
           proc_control_node_B.Flags.failedLineSearch = true;
@@ -16801,21 +16793,21 @@ void proc_control_nodeModelClass::proc_control_node_driver(const real_T
 
     if (proc_control_node_B.Flags.stepAccepted &&
         (!proc_control_node_B.Flags.failedLineSearch)) {
-      proc_control_node_B.ix_p = 0;
-      while (proc_control_node_B.ix_p <= proc_control_node_B.nVar_tmp_tmp - 1) {
-        TrialState->xstarsqp[proc_control_node_B.ix_p] =
-          TrialState->xstarsqp_old[proc_control_node_B.ix_p] +
-          TrialState->delta_x.data[proc_control_node_B.ix_p];
-        proc_control_node_B.ix_p++;
+      proc_control_node_B.ix_i = 0;
+      while (proc_control_node_B.ix_i <= proc_control_node_B.nVar_tmp_tmp - 1) {
+        TrialState->xstarsqp[proc_control_node_B.ix_i] =
+          TrialState->xstarsqp_old[proc_control_node_B.ix_i] +
+          TrialState->delta_x.data[proc_control_node_B.ix_i];
+        proc_control_node_B.ix_i++;
       }
 
-      proc_control_node_B.ix_p = 0;
-      while (proc_control_node_B.ix_p <= proc_control_node_B.mConstr_tmp) {
-        TrialState->lambdasqp.data[proc_control_node_B.ix_p] +=
-          (TrialState->lambda.data[proc_control_node_B.ix_p] -
-           TrialState->lambdasqp.data[proc_control_node_B.ix_p]) *
+      proc_control_node_B.ix_i = 0;
+      while (proc_control_node_B.ix_i <= proc_control_node_B.mConstr_tmp) {
+        TrialState->lambdasqp.data[proc_control_node_B.ix_i] +=
+          (TrialState->lambda.data[proc_control_node_B.ix_i] -
+           TrialState->lambdasqp.data[proc_control_node_B.ix_i]) *
           TrialState->steplength;
-        proc_control_node_B.ix_p++;
+        proc_control_node_B.ix_i++;
       }
 
       proc_control_node_saveState(TrialState);
@@ -16844,7 +16836,7 @@ void proc_control_nodeModelClass::proc_control_node_driver(const real_T
       TrialState->sqpFval = TrialState->sqpFval_old;
       memcpy(&TrialState->xstarsqp[0], &TrialState->xstarsqp_old[0], 147U *
              sizeof(real_T));
-      proc_control_node_B.ix_p = TrialState->cIneq.size;
+      proc_control_node_B.ix_i = TrialState->cIneq.size;
       proc_control_node_B.idxLambdaNonlinIneq = TrialState->cIneq.size;
       if (0 <= proc_control_node_B.idxLambdaNonlinIneq - 1) {
         memcpy(&proc_control_node_B.y_data_l[0], &TrialState->cIneq.data[0],
@@ -16858,9 +16850,9 @@ void proc_control_nodeModelClass::proc_control_node_driver(const real_T
         proc_control_node_B.mLambda++;
       }
 
-      if (0 <= proc_control_node_B.ix_p - 1) {
+      if (0 <= proc_control_node_B.ix_i - 1) {
         memcpy(&TrialState->cIneq.data[0], &proc_control_node_B.y_data_l[0],
-               proc_control_node_B.ix_p * sizeof(real_T));
+               proc_control_node_B.ix_i * sizeof(real_T));
       }
 
       memcpy(&TrialState->cEq[0], &TrialState->cEq_old[0], 130U * sizeof(real_T));
@@ -16877,45 +16869,45 @@ void proc_control_nodeModelClass::proc_control_node_driver(const real_T
       proc_control_node_B.idxLambdaNonlinIneq = proc_control_node_B.mFixed +
         TrialState->iNonIneq0;
       proc_control_node_B.mLambda = WorkingSet->ldA;
-      proc_control_node_B.ix_p = 0;
-      while (proc_control_node_B.ix_p <= proc_control_node_B.nVar_tmp_tmp - 1) {
-        TrialState->delta_gradLag.data[proc_control_node_B.ix_p] =
-          TrialState->grad.data[proc_control_node_B.ix_p];
-        proc_control_node_B.ix_p++;
+      proc_control_node_B.ix_i = 0;
+      while (proc_control_node_B.ix_i <= proc_control_node_B.nVar_tmp_tmp - 1) {
+        TrialState->delta_gradLag.data[proc_control_node_B.ix_i] =
+          TrialState->grad.data[proc_control_node_B.ix_i];
+        proc_control_node_B.ix_i++;
       }
 
       if (proc_control_node_B.nVar_tmp_tmp >= 1) {
-        proc_control_node_B.ix_p = 0;
-        while (proc_control_node_B.ix_p <= proc_control_node_B.nVar_tmp_tmp - 1)
+        proc_control_node_B.ix_i = 0;
+        while (proc_control_node_B.ix_i <= proc_control_node_B.nVar_tmp_tmp - 1)
         {
-          TrialState->delta_gradLag.data[proc_control_node_B.ix_p] +=
-            -TrialState->grad_old.data[proc_control_node_B.ix_p];
-          proc_control_node_B.ix_p++;
+          TrialState->delta_gradLag.data[proc_control_node_B.ix_i] +=
+            -TrialState->grad_old.data[proc_control_node_B.ix_i];
+          proc_control_node_B.ix_i++;
         }
       }
 
       proc_control_xgemv_mtmcjbiadz2i(proc_control_node_B.nVar_tmp_tmp, 130,
         WorkingSet->Aeq.data, 1, WorkingSet->ldA, TrialState->lambdasqp.data,
         proc_control_node_B.mFixed + 1, TrialState->delta_gradLag.data);
-      proc_control_node_B.ix_p = proc_control_node_B.mFixed;
-      proc_control_node_B.b_c_e = WorkingSet->ldA * 129 + 1;
+      proc_control_node_B.ix_i = proc_control_node_B.mFixed;
+      proc_control_node_B.b_c_l = WorkingSet->ldA * 129 + 1;
       proc_control_node_B.b_iy = 1;
       while (((proc_control_node_B.mLambda > 0) && (proc_control_node_B.b_iy <=
-               proc_control_node_B.b_c_e)) || ((proc_control_node_B.mLambda < 0)
-              && (proc_control_node_B.b_iy >= proc_control_node_B.b_c_e))) {
+               proc_control_node_B.b_c_l)) || ((proc_control_node_B.mLambda < 0)
+              && (proc_control_node_B.b_iy >= proc_control_node_B.b_c_l))) {
         proc_control_node_B.iy = 0;
         proc_control_node_B.b_ia = (proc_control_node_B.b_iy +
           proc_control_node_B.nVar_tmp_tmp) - 1;
-        proc_control_node_B.ia_l = proc_control_node_B.b_iy;
-        while (proc_control_node_B.ia_l <= proc_control_node_B.b_ia) {
+        proc_control_node_B.ia_p = proc_control_node_B.b_iy;
+        while (proc_control_node_B.ia_p <= proc_control_node_B.b_ia) {
           TrialState->delta_gradLag.data[proc_control_node_B.iy] +=
-            TrialState->JacCeqTrans_old.data[proc_control_node_B.ia_l - 1] *
-            -TrialState->lambdasqp.data[proc_control_node_B.ix_p];
+            TrialState->JacCeqTrans_old.data[proc_control_node_B.ia_p - 1] *
+            -TrialState->lambdasqp.data[proc_control_node_B.ix_i];
           proc_control_node_B.iy++;
-          proc_control_node_B.ia_l++;
+          proc_control_node_B.ia_p++;
         }
 
-        proc_control_node_B.ix_p++;
+        proc_control_node_B.ix_i++;
         proc_control_node_B.b_iy += proc_control_node_B.mLambda;
       }
 
@@ -16925,16 +16917,16 @@ void proc_control_nodeModelClass::proc_control_node_driver(const real_T
           (TrialState->iNonIneq0 - 1) + 1, WorkingSet->ldA,
           TrialState->lambdasqp.data, proc_control_node_B.idxLambdaNonlinIneq +
           130, TrialState->delta_gradLag.data);
-        proc_control_node_B.ix_p = (TrialState->mNonlinIneq - 1) *
+        proc_control_node_B.ix_i = (TrialState->mNonlinIneq - 1) *
           WorkingSet->ldA + 1;
-        proc_control_node_B.b_c_e = 1;
-        while (((proc_control_node_B.mLambda > 0) && (proc_control_node_B.b_c_e <=
-                 proc_control_node_B.ix_p)) || ((proc_control_node_B.mLambda < 0)
-                && (proc_control_node_B.b_c_e >= proc_control_node_B.ix_p))) {
+        proc_control_node_B.b_c_l = 1;
+        while (((proc_control_node_B.mLambda > 0) && (proc_control_node_B.b_c_l <=
+                 proc_control_node_B.ix_i)) || ((proc_control_node_B.mLambda < 0)
+                && (proc_control_node_B.b_c_l >= proc_control_node_B.ix_i))) {
           proc_control_node_B.b_iy = 0;
-          proc_control_node_B.iy = (proc_control_node_B.b_c_e +
+          proc_control_node_B.iy = (proc_control_node_B.b_c_l +
             proc_control_node_B.nVar_tmp_tmp) - 1;
-          proc_control_node_B.b_ia = proc_control_node_B.b_c_e;
+          proc_control_node_B.b_ia = proc_control_node_B.b_c_l;
           while (proc_control_node_B.b_ia <= proc_control_node_B.iy) {
             TrialState->delta_gradLag.data[proc_control_node_B.b_iy] +=
               TrialState->JacCineqTrans_old.data[proc_control_node_B.b_ia - 1] *
@@ -16945,18 +16937,18 @@ void proc_control_nodeModelClass::proc_control_node_driver(const real_T
           }
 
           proc_control_node_B.idxLambdaNonlinIneq++;
-          proc_control_node_B.b_c_e += proc_control_node_B.mLambda;
+          proc_control_node_B.b_c_l += proc_control_node_B.mLambda;
         }
       }
 
       proc_control_node_saveJacobian(TrialState,
-        proc_control_node_B.nVar_tmp_tmp, proc_control_node_B.mIneq_i,
+        proc_control_node_B.nVar_tmp_tmp, proc_control_node_B.mIneq_b,
         WorkingSet->Aineq.data, TrialState->iNonIneq0, WorkingSet->Aeq.data,
         WorkingSet->ldA);
-      proc_control_node_B.ix_p = memspace->workspace_double.size[0] *
+      proc_control_node_B.ix_i = memspace->workspace_double.size[0] *
         memspace->workspace_double.size[1];
       for (proc_control_node_B.mLambda = 0; proc_control_node_B.mLambda <
-           proc_control_node_B.ix_p; proc_control_node_B.mLambda++) {
+           proc_control_node_B.ix_i; proc_control_node_B.mLambda++) {
       }
 
       proc_control_node_BFGSUpdate(proc_control_node_B.nVar_tmp_tmp, Hessian,
@@ -17040,36 +17032,36 @@ void proc_control_nodeModelClass::proc_control_node_fmincon(const
   proc_con_factoryConstruct_lnz42(proc_control_node_B.mIneq,
     proc_control_node_B.mIneq + 408, proc_control_node_B.mConstrMax,
     &proc_control_node_B.WorkingSet);
-  proc_control_node_B.k_g = 0;
+  proc_control_node_B.k_j = 0;
   for (proc_control_node_B.c_idx = 0; proc_control_node_B.c_idx < 147;
        proc_control_node_B.c_idx++) {
     proc_control_node_B.lb = lb[proc_control_node_B.c_idx];
     if ((!rtIsInf(proc_control_node_B.lb)) && (!rtIsNaN(proc_control_node_B.lb)))
     {
-      proc_control_node_B.k_g++;
-      proc_control_node_B.WorkingSet.indexLB.data[proc_control_node_B.k_g - 1] =
+      proc_control_node_B.k_j++;
+      proc_control_node_B.WorkingSet.indexLB.data[proc_control_node_B.k_j - 1] =
         proc_control_node_B.c_idx + 1;
     }
   }
 
   proc_control_node_loadProblem(&proc_control_node_B.WorkingSet,
-    proc_control_node_B.mIneq, *bineq_size, Aineq_data, proc_control_node_B.k_g,
+    proc_control_node_B.mIneq, *bineq_size, Aineq_data, proc_control_node_B.k_j,
     0, 0, proc_control_node_B.mConstrMax);
   proc_control_node_B.mConstrMax = 0;
-  while (proc_control_node_B.mConstrMax <= proc_control_node_B.k_g - 1) {
+  while (proc_control_node_B.mConstrMax <= proc_control_node_B.k_j - 1) {
     proc_control_node_B.lb =
       proc_control_node_B.TrialState.xstarsqp[proc_control_node_B.WorkingSet.indexLB.data
       [proc_control_node_B.mConstrMax] - 1];
-    proc_control_node_B.scale_h =
+    proc_control_node_B.scale_f =
       lb[proc_control_node_B.WorkingSet.indexLB.data[proc_control_node_B.mConstrMax]
       - 1];
-    if ((proc_control_node_B.lb > proc_control_node_B.scale_h) || rtIsNaN
-        (proc_control_node_B.scale_h)) {
+    if ((proc_control_node_B.lb > proc_control_node_B.scale_f) || rtIsNaN
+        (proc_control_node_B.scale_f)) {
       proc_control_node_B.TrialState.xstarsqp[proc_control_node_B.WorkingSet.indexLB.data
         [proc_control_node_B.mConstrMax] - 1] = proc_control_node_B.lb;
     } else {
       proc_control_node_B.TrialState.xstarsqp[proc_control_node_B.WorkingSet.indexLB.data
-        [proc_control_node_B.mConstrMax] - 1] = proc_control_node_B.scale_h;
+        [proc_control_node_B.mConstrMax] - 1] = proc_control_node_B.scale_f;
     }
 
     proc_control_node_B.mConstrMax++;
@@ -17133,20 +17125,20 @@ void proc_control_nodeModelClass::proc_control_node_fmincon(const
            || ((proc_control_node_B.mConstrMax < 0) &&
                (proc_control_node_B.b_y_size_idx_0 >=
                 proc_control_node_B.loop_ub))) {
-      proc_control_node_B.ix_lt = 0;
-      proc_control_node_B.scale_h = 0.0;
-      proc_control_node_B.ia_k = proc_control_node_B.b_y_size_idx_0;
-      while (proc_control_node_B.ia_k <= proc_control_node_B.b_y_size_idx_0 +
+      proc_control_node_B.ix_g = 0;
+      proc_control_node_B.scale_f = 0.0;
+      proc_control_node_B.ia_l = proc_control_node_B.b_y_size_idx_0;
+      while (proc_control_node_B.ia_l <= proc_control_node_B.b_y_size_idx_0 +
              146) {
-        proc_control_node_B.scale_h +=
-          proc_control_node_B.WorkingSet.Aineq.data[proc_control_node_B.ia_k - 1]
-          * proc_control_node_B.TrialState.xstarsqp[proc_control_node_B.ix_lt];
-        proc_control_node_B.ix_lt++;
-        proc_control_node_B.ia_k++;
+        proc_control_node_B.scale_f +=
+          proc_control_node_B.WorkingSet.Aineq.data[proc_control_node_B.ia_l - 1]
+          * proc_control_node_B.TrialState.xstarsqp[proc_control_node_B.ix_g];
+        proc_control_node_B.ix_g++;
+        proc_control_node_B.ia_l++;
       }
 
       proc_control_node_B.TrialState.cIneq.data[proc_control_node_B.c_idx] +=
-        proc_control_node_B.scale_h;
+        proc_control_node_B.scale_f;
       proc_control_node_B.c_idx++;
       proc_control_node_B.b_y_size_idx_0 += proc_control_node_B.mConstrMax;
     }
@@ -17154,7 +17146,7 @@ void proc_control_nodeModelClass::proc_control_node_fmincon(const
 
   proc_c_updateWorkingSetForNewQP(x0, &proc_control_node_B.WorkingSet,
     proc_control_node_B.mIneq, proc_control_node_B.TrialState.cIneq.data,
-    proc_control_node_B.TrialState.cEq, proc_control_node_B.k_g, lb, 0, 0);
+    proc_control_node_B.TrialState.cEq, proc_control_node_B.k_j, lb, 0, 0);
   proc_control_node_initActiveSet(&proc_control_node_B.WorkingSet);
   proc_control_node_B.MeritFunction.penaltyParam = 1.0;
   proc_control_node_B.MeritFunction.threshold = 0.0001;
@@ -17162,24 +17154,24 @@ void proc_control_nodeModelClass::proc_control_node_fmincon(const
   proc_control_node_B.MeritFunction.linearizedConstrViol = 0.0;
   proc_control_node_B.MeritFunction.initFval = proc_control_node_B.lb;
   proc_control_node_B.lb = 0.0;
-  for (proc_control_node_B.k_g = 0; proc_control_node_B.k_g < 130;
-       proc_control_node_B.k_g++) {
+  for (proc_control_node_B.k_j = 0; proc_control_node_B.k_j < 130;
+       proc_control_node_B.k_j++) {
     proc_control_node_B.lb += fabs
-      (proc_control_node_B.TrialState.cEq[proc_control_node_B.k_g]);
+      (proc_control_node_B.TrialState.cEq[proc_control_node_B.k_j]);
   }
 
   proc_control_node_B.MeritFunction.initConstrViolationEq =
     proc_control_node_B.lb;
   proc_control_node_B.lb = 0.0;
-  proc_control_node_B.k_g = 0;
-  while (proc_control_node_B.k_g <= proc_control_node_B.mIneq - 1) {
-    if (proc_control_node_B.TrialState.cIneq.data[proc_control_node_B.k_g] > 0.0)
+  proc_control_node_B.k_j = 0;
+  while (proc_control_node_B.k_j <= proc_control_node_B.mIneq - 1) {
+    if (proc_control_node_B.TrialState.cIneq.data[proc_control_node_B.k_j] > 0.0)
     {
       proc_control_node_B.lb +=
-        proc_control_node_B.TrialState.cIneq.data[proc_control_node_B.k_g];
+        proc_control_node_B.TrialState.cIneq.data[proc_control_node_B.k_j];
     }
 
-    proc_control_node_B.k_g++;
+    proc_control_node_B.k_j++;
   }
 
   proc_control_node_B.MeritFunction.initConstrViolationIneq =
@@ -17212,14 +17204,14 @@ void proc_control_nodeModelClass::proc_control_node_fmincon(const
     &proc_control_node_B.CholManager.regTol_,
     &proc_control_node_B.CholManager.workspace_,
     &proc_control_node_B.CholManager.workspace2_);
-  proc_control_node_B.tmp_size_p = *bineq_size;
-  proc_control_node_B.tmp_size_b = proc_control_node_B.mNonlinIneq;
+  proc_control_node_B.tmp_size_k = *bineq_size;
+  proc_control_node_B.tmp_size_p = proc_control_node_B.mNonlinIneq;
   proc_control_node_driver(bineq_data, lb, &proc_control_node_B.TrialState,
     &proc_control_node_B.MeritFunction, &proc_control_node_B.FcnEvaluator,
     &proc_control_node_B.memspace, &proc_control_node_B.WorkingSet,
     &proc_control_node_B.QRManager, &proc_control_node_B.CholManager,
-    &proc_control_node_B.QPObjective, &proc_control_node_B.tmp_size_p,
-    &proc_control_node_B.tmp_size_b, proc_control_node_B.unusedExpr);
+    &proc_control_node_B.QPObjective, &proc_control_node_B.tmp_size_k,
+    &proc_control_node_B.tmp_size_p, proc_control_node_B.unusedExpr);
   *fval = proc_control_node_B.TrialState.sqpFval;
   *exitflag = proc_control_node_B.TrialState.sqpExitFlag;
   *output_iterations = proc_control_node_B.TrialState.sqpIterations;
@@ -17229,28 +17221,28 @@ void proc_control_nodeModelClass::proc_control_node_fmincon(const
   output_algorithm[2] = 'p';
   *output_constrviolation = proc_control_node_B.MeritFunction.nlpPrimalFeasError;
   proc_control_node_B.lb = 0.0;
-  proc_control_node_B.scale_h = 3.3121686421112381E-170;
+  proc_control_node_B.scale_f = 3.3121686421112381E-170;
   for (proc_control_node_B.mNonlinIneq = 0; proc_control_node_B.mNonlinIneq <
        147; proc_control_node_B.mNonlinIneq++) {
     x[proc_control_node_B.mNonlinIneq] =
       proc_control_node_B.TrialState.xstarsqp[proc_control_node_B.mNonlinIneq];
-    proc_control_node_B.absxk_f = fabs
+    proc_control_node_B.absxk_d = fabs
       (proc_control_node_B.TrialState.delta_x.data[proc_control_node_B.mNonlinIneq]);
-    if (proc_control_node_B.absxk_f > proc_control_node_B.scale_h) {
-      proc_control_node_B.t_d = proc_control_node_B.scale_h /
-        proc_control_node_B.absxk_f;
-      proc_control_node_B.lb = proc_control_node_B.lb * proc_control_node_B.t_d *
-        proc_control_node_B.t_d + 1.0;
-      proc_control_node_B.scale_h = proc_control_node_B.absxk_f;
+    if (proc_control_node_B.absxk_d > proc_control_node_B.scale_f) {
+      proc_control_node_B.t_l = proc_control_node_B.scale_f /
+        proc_control_node_B.absxk_d;
+      proc_control_node_B.lb = proc_control_node_B.lb * proc_control_node_B.t_l *
+        proc_control_node_B.t_l + 1.0;
+      proc_control_node_B.scale_f = proc_control_node_B.absxk_d;
     } else {
-      proc_control_node_B.t_d = proc_control_node_B.absxk_f /
-        proc_control_node_B.scale_h;
-      proc_control_node_B.lb += proc_control_node_B.t_d *
-        proc_control_node_B.t_d;
+      proc_control_node_B.t_l = proc_control_node_B.absxk_d /
+        proc_control_node_B.scale_f;
+      proc_control_node_B.lb += proc_control_node_B.t_l *
+        proc_control_node_B.t_l;
     }
   }
 
-  *output_stepsize = proc_control_node_B.scale_h * sqrt(proc_control_node_B.lb);
+  *output_stepsize = proc_control_node_B.scale_f * sqrt(proc_control_node_B.lb);
   *output_lssteplength = proc_control_node_B.TrialState.steplength;
   *output_firstorderopt = proc_control_node_B.MeritFunction.firstOrderOpt;
 }
@@ -17315,131 +17307,131 @@ void proc_control_nodeModelClass::proc_contr_AUVEULJacobianMatrix(const real_T
 {
   real_T Ane_tmp;
   real_T Ane_tmp_0;
-  proc_control_node_B.t2_h = fabs(in1[9]);
-  proc_control_node_B.t3_i = fabs(in1[10]);
-  proc_control_node_B.t4_g = fabs(in1[11]);
-  proc_control_node_B.t5_c = cos(in1[3]);
-  proc_control_node_B.t6_o = cos(in1[5]);
-  proc_control_node_B.t7_g = fabs(in1[6]);
-  proc_control_node_B.t8_o = fabs(in1[7]);
-  proc_control_node_B.t9_g = cos(in1[4]);
-  proc_control_node_B.t10_a = fabs(in1[8]);
+  proc_control_node_B.t2_i = fabs(in1[9]);
+  proc_control_node_B.t3_g = fabs(in1[10]);
+  proc_control_node_B.t4_c = fabs(in1[11]);
+  proc_control_node_B.t5_o = cos(in1[3]);
+  proc_control_node_B.t6_g = cos(in1[5]);
+  proc_control_node_B.t7_o = fabs(in1[6]);
+  proc_control_node_B.t8_g = fabs(in1[7]);
+  proc_control_node_B.t9_a = cos(in1[4]);
+  proc_control_node_B.t10_g = fabs(in1[8]);
   if (in1[9] < 0.0) {
-    proc_control_node_B.t11_g = -1.0;
+    proc_control_node_B.t11_bp = -1.0;
   } else if (in1[9] > 0.0) {
-    proc_control_node_B.t11_g = 1.0;
+    proc_control_node_B.t11_bp = 1.0;
   } else if (in1[9] == 0.0) {
-    proc_control_node_B.t11_g = 0.0;
+    proc_control_node_B.t11_bp = 0.0;
   } else {
-    proc_control_node_B.t11_g = (rtNaN);
+    proc_control_node_B.t11_bp = (rtNaN);
   }
 
-  proc_control_node_B.t12_bp = sin(in1[3]);
-  proc_control_node_B.t13_k = sin(in1[5]);
+  proc_control_node_B.t12_k = sin(in1[3]);
+  proc_control_node_B.t13_c = sin(in1[5]);
   if (in1[10] < 0.0) {
-    proc_control_node_B.t14_c = -1.0;
+    proc_control_node_B.t14_j = -1.0;
   } else if (in1[10] > 0.0) {
-    proc_control_node_B.t14_c = 1.0;
+    proc_control_node_B.t14_j = 1.0;
   } else if (in1[10] == 0.0) {
-    proc_control_node_B.t14_c = 0.0;
+    proc_control_node_B.t14_j = 0.0;
   } else {
-    proc_control_node_B.t14_c = (rtNaN);
+    proc_control_node_B.t14_j = (rtNaN);
   }
 
   if (in1[11] < 0.0) {
-    proc_control_node_B.t15_j = -1.0;
+    proc_control_node_B.t15_a = -1.0;
   } else if (in1[11] > 0.0) {
-    proc_control_node_B.t15_j = 1.0;
+    proc_control_node_B.t15_a = 1.0;
   } else if (in1[11] == 0.0) {
-    proc_control_node_B.t15_j = 0.0;
+    proc_control_node_B.t15_a = 0.0;
   } else {
-    proc_control_node_B.t15_j = (rtNaN);
+    proc_control_node_B.t15_a = (rtNaN);
   }
 
-  proc_control_node_B.t16_a = sin(in1[4]);
+  proc_control_node_B.t16_d = sin(in1[4]);
   if (in1[6] < 0.0) {
-    proc_control_node_B.t17_d = -1.0;
+    proc_control_node_B.t17_c = -1.0;
   } else if (in1[6] > 0.0) {
-    proc_control_node_B.t17_d = 1.0;
+    proc_control_node_B.t17_c = 1.0;
   } else if (in1[6] == 0.0) {
-    proc_control_node_B.t17_d = 0.0;
+    proc_control_node_B.t17_c = 0.0;
   } else {
-    proc_control_node_B.t17_d = (rtNaN);
+    proc_control_node_B.t17_c = (rtNaN);
   }
 
   if (in1[7] < 0.0) {
-    proc_control_node_B.t18_c = -1.0;
+    proc_control_node_B.t18_d = -1.0;
   } else if (in1[7] > 0.0) {
-    proc_control_node_B.t18_c = 1.0;
+    proc_control_node_B.t18_d = 1.0;
   } else if (in1[7] == 0.0) {
-    proc_control_node_B.t18_c = 0.0;
+    proc_control_node_B.t18_d = 0.0;
   } else {
-    proc_control_node_B.t18_c = (rtNaN);
+    proc_control_node_B.t18_d = (rtNaN);
   }
 
   if (in1[8] < 0.0) {
-    proc_control_node_B.t19_d = -1.0;
+    proc_control_node_B.t19_a = -1.0;
   } else if (in1[8] > 0.0) {
-    proc_control_node_B.t19_d = 1.0;
+    proc_control_node_B.t19_a = 1.0;
   } else if (in1[8] == 0.0) {
-    proc_control_node_B.t19_d = 0.0;
+    proc_control_node_B.t19_a = 0.0;
   } else {
-    proc_control_node_B.t19_d = (rtNaN);
+    proc_control_node_B.t19_a = (rtNaN);
   }
 
   proc_control_node_B.t46 = in1[11] * 1.0571299073092789E-5;
   proc_control_node_B.t47 = in1[10] * 9.7602896722846373E-5;
   proc_control_node_B.t48 = in1[7] * 0.01129023503850542;
   proc_control_node_B.t49 = in1[6] * 0.00477039452928936;
-  proc_control_node_B.t50_a = in1[9] * 9.1703771260780813E-5;
+  proc_control_node_B.t50_b = in1[9] * 9.1703771260780813E-5;
   proc_control_node_B.t52 = in1[8] * 0.143523560675718;
-  proc_control_node_B.t53_b = in1[6] * 0.00568699616459184;
-  proc_control_node_B.t54_g = in1[8] * 0.069014505171846527;
-  proc_control_node_B.t55_f = in1[7] * 0.0071670223909459834;
-  proc_control_node_B.t20_c = proc_control_node_B.t16_a *
-    proc_control_node_B.t16_a;
-  proc_control_node_B.t21_p = in1[11] * proc_control_node_B.t5_c;
-  proc_control_node_B.t22_a = in1[10] * proc_control_node_B.t12_bp;
-  proc_control_node_B.t23_n = proc_control_node_B.t5_c *
-    proc_control_node_B.t6_o;
-  proc_control_node_B.t24_h = proc_control_node_B.t5_c *
-    proc_control_node_B.t13_k;
-  proc_control_node_B.t25_m = proc_control_node_B.t6_o *
-    proc_control_node_B.t12_bp;
-  proc_control_node_B.t26_f = proc_control_node_B.t12_bp *
-    proc_control_node_B.t13_k;
-  proc_control_node_B.t27_b = 1.0 / proc_control_node_B.t9_g;
-  proc_control_node_B.t28_e = proc_control_node_B.t27_b *
-    proc_control_node_B.t27_b;
-  proc_control_node_B.t31_n = proc_control_node_B.t16_a *
-    proc_control_node_B.t24_h;
-  proc_control_node_B.t32_p = proc_control_node_B.t16_a *
-    proc_control_node_B.t25_m;
-  proc_control_node_B.t37_i = proc_control_node_B.t16_a *
-    proc_control_node_B.t26_f + proc_control_node_B.t23_n;
-  proc_control_node_B.t38 = proc_control_node_B.t16_a *
-    proc_control_node_B.t23_n + proc_control_node_B.t26_f;
-  proc_control_node_B.t39_j = proc_control_node_B.t24_h +
-    -proc_control_node_B.t32_p;
-  proc_control_node_B.t40_l = proc_control_node_B.t25_m +
-    -proc_control_node_B.t31_n;
+  proc_control_node_B.t53_g = in1[6] * 0.00568699616459184;
+  proc_control_node_B.t54_f = in1[8] * 0.069014505171846527;
+  proc_control_node_B.t55_c = in1[7] * 0.0071670223909459834;
+  proc_control_node_B.t20_p = proc_control_node_B.t16_d *
+    proc_control_node_B.t16_d;
+  proc_control_node_B.t21_a = in1[11] * proc_control_node_B.t5_o;
+  proc_control_node_B.t22_n = in1[10] * proc_control_node_B.t12_k;
+  proc_control_node_B.t23_h = proc_control_node_B.t5_o *
+    proc_control_node_B.t6_g;
+  proc_control_node_B.t24_m = proc_control_node_B.t5_o *
+    proc_control_node_B.t13_c;
+  proc_control_node_B.t25_f = proc_control_node_B.t6_g *
+    proc_control_node_B.t12_k;
+  proc_control_node_B.t26_b = proc_control_node_B.t12_k *
+    proc_control_node_B.t13_c;
+  proc_control_node_B.t27_e = 1.0 / proc_control_node_B.t9_a;
+  proc_control_node_B.t28_n = proc_control_node_B.t27_e *
+    proc_control_node_B.t27_e;
+  proc_control_node_B.t31_p = proc_control_node_B.t16_d *
+    proc_control_node_B.t24_m;
+  proc_control_node_B.t32_i = proc_control_node_B.t16_d *
+    proc_control_node_B.t25_f;
+  proc_control_node_B.t37_j = proc_control_node_B.t16_d *
+    proc_control_node_B.t26_b + proc_control_node_B.t23_h;
+  proc_control_node_B.t38 = proc_control_node_B.t16_d *
+    proc_control_node_B.t23_h + proc_control_node_B.t26_b;
+  proc_control_node_B.t39_l = proc_control_node_B.t24_m +
+    -proc_control_node_B.t32_i;
+  proc_control_node_B.t40_c = proc_control_node_B.t25_f +
+    -proc_control_node_B.t31_p;
   memset(&Ane[0], 0, 36U * sizeof(real_T));
-  Ane[36] = proc_control_node_B.t38 * in1[7] + proc_control_node_B.t39_j * in1[8];
-  Ane[37] = -proc_control_node_B.t40_l * in1[7] - proc_control_node_B.t37_i *
+  Ane[36] = proc_control_node_B.t38 * in1[7] + proc_control_node_B.t39_l * in1[8];
+  Ane[37] = -proc_control_node_B.t40_c * in1[7] - proc_control_node_B.t37_j *
     in1[8];
-  Ane_tmp = proc_control_node_B.t5_c * proc_control_node_B.t9_g;
-  Ane_tmp_0 = proc_control_node_B.t9_g * proc_control_node_B.t12_bp;
+  Ane_tmp = proc_control_node_B.t5_o * proc_control_node_B.t9_a;
+  Ane_tmp_0 = proc_control_node_B.t9_a * proc_control_node_B.t12_k;
   Ane[38] = Ane_tmp * in1[7] - Ane_tmp_0 * in1[8];
-  proc_control_node_B.Ane_tmp = in1[10] * proc_control_node_B.t5_c;
-  proc_control_node_B.Ane_tmp_c = in1[11] * proc_control_node_B.t12_bp;
-  Ane[39] = proc_control_node_B.Ane_tmp * proc_control_node_B.t16_a *
-    proc_control_node_B.t27_b - proc_control_node_B.Ane_tmp_c *
-    proc_control_node_B.t16_a * proc_control_node_B.t27_b;
-  Ane[40] = -proc_control_node_B.t21_p - proc_control_node_B.t22_a;
-  Ane[41] = proc_control_node_B.Ane_tmp * proc_control_node_B.t27_b -
-    proc_control_node_B.Ane_tmp_c * proc_control_node_B.t27_b;
-  proc_control_node_B.Ane_tmp = proc_control_node_B.t9_g *
-    (proc_control_node_B.t12_bp * 0.062 + proc_control_node_B.t5_c * 0.746622);
+  proc_control_node_B.Ane_tmp = in1[10] * proc_control_node_B.t5_o;
+  proc_control_node_B.Ane_tmp_g = in1[11] * proc_control_node_B.t12_k;
+  Ane[39] = proc_control_node_B.Ane_tmp * proc_control_node_B.t16_d *
+    proc_control_node_B.t27_e - proc_control_node_B.Ane_tmp_g *
+    proc_control_node_B.t16_d * proc_control_node_B.t27_e;
+  Ane[40] = -proc_control_node_B.t21_a - proc_control_node_B.t22_n;
+  Ane[41] = proc_control_node_B.Ane_tmp * proc_control_node_B.t27_e -
+    proc_control_node_B.Ane_tmp_g * proc_control_node_B.t27_e;
+  proc_control_node_B.Ane_tmp = proc_control_node_B.t9_a *
+    (proc_control_node_B.t12_k * 0.062 + proc_control_node_B.t5_o * 0.746622);
   Ane[42] = (Ane_tmp * 0.0003038485611411295 - Ane_tmp_0 * 0.0030804819903427929)
     - proc_control_node_B.Ane_tmp * 0.0012787556591776421;
   Ane[43] = (Ane_tmp * -0.09962138533478937 - Ane_tmp_0 * 0.0001558786802929103)
@@ -17452,154 +17444,154 @@ void proc_control_nodeModelClass::proc_contr_AUVEULJacobianMatrix(const real_T
     proc_control_node_B.Ane_tmp * 0.078743486942211408;
   Ane[47] = (Ane_tmp * 0.16306065763088379 + Ane_tmp_0 * 2.2159046954574339E-5)
     + proc_control_node_B.Ane_tmp * 0.03910191918844614;
-  Ane[48] = (-proc_control_node_B.t6_o * proc_control_node_B.t16_a * in1[6] +
-             proc_control_node_B.t9_g * proc_control_node_B.t25_m * in1[7]) +
-    proc_control_node_B.t9_g * proc_control_node_B.t23_n * in1[8];
-  Ane[49] = (-proc_control_node_B.t13_k * proc_control_node_B.t16_a * in1[6] +
-             proc_control_node_B.t9_g * proc_control_node_B.t26_f * in1[7]) +
-    proc_control_node_B.t9_g * proc_control_node_B.t24_h * in1[8];
-  proc_control_node_B.Ane_tmp = proc_control_node_B.t5_c *
-    proc_control_node_B.t16_a;
-  proc_control_node_B.Ane_tmp_c = proc_control_node_B.t12_bp *
-    proc_control_node_B.t16_a;
-  Ane[50] = (-proc_control_node_B.t9_g * in1[6] - proc_control_node_B.Ane_tmp_c *
+  Ane[48] = (-proc_control_node_B.t6_g * proc_control_node_B.t16_d * in1[6] +
+             proc_control_node_B.t9_a * proc_control_node_B.t25_f * in1[7]) +
+    proc_control_node_B.t9_a * proc_control_node_B.t23_h * in1[8];
+  Ane[49] = (-proc_control_node_B.t13_c * proc_control_node_B.t16_d * in1[6] +
+             proc_control_node_B.t9_a * proc_control_node_B.t26_b * in1[7]) +
+    proc_control_node_B.t9_a * proc_control_node_B.t24_m * in1[8];
+  proc_control_node_B.Ane_tmp = proc_control_node_B.t5_o *
+    proc_control_node_B.t16_d;
+  proc_control_node_B.Ane_tmp_g = proc_control_node_B.t12_k *
+    proc_control_node_B.t16_d;
+  Ane[50] = (-proc_control_node_B.t9_a * in1[6] - proc_control_node_B.Ane_tmp_g *
              in1[7]) - proc_control_node_B.Ane_tmp * in1[8];
-  Ane[51] = (proc_control_node_B.t20_c * proc_control_node_B.t21_p *
-             proc_control_node_B.t28_e + (proc_control_node_B.t21_p +
-              proc_control_node_B.t22_a)) + proc_control_node_B.t20_c *
-    proc_control_node_B.t22_a * proc_control_node_B.t28_e;
+  Ane[51] = (proc_control_node_B.t20_p * proc_control_node_B.t21_a *
+             proc_control_node_B.t28_n + (proc_control_node_B.t21_a +
+              proc_control_node_B.t22_n)) + proc_control_node_B.t20_p *
+    proc_control_node_B.t22_n * proc_control_node_B.t28_n;
   Ane[52] = 0.0;
-  Ane[53] = proc_control_node_B.t16_a * proc_control_node_B.t21_p *
-    proc_control_node_B.t28_e + proc_control_node_B.t16_a *
-    proc_control_node_B.t22_a * proc_control_node_B.t28_e;
-  proc_control_node_B.t20_c = proc_control_node_B.t16_a *
-    (proc_control_node_B.t5_c * 0.062 + -(proc_control_node_B.t12_bp * 0.746622));
-  Ane[54] = ((proc_control_node_B.t9_g * 0.20690082595613279 -
+  Ane[53] = proc_control_node_B.t16_d * proc_control_node_B.t21_a *
+    proc_control_node_B.t28_n + proc_control_node_B.t16_d *
+    proc_control_node_B.t22_n * proc_control_node_B.t28_n;
+  proc_control_node_B.t20_p = proc_control_node_B.t16_d *
+    (proc_control_node_B.t5_o * 0.062 + -(proc_control_node_B.t12_k * 0.746622));
+  Ane[54] = ((proc_control_node_B.t9_a * 0.20690082595613279 -
               proc_control_node_B.Ane_tmp * 0.0030804819903427929) -
-             proc_control_node_B.Ane_tmp_c * 0.0003038485611411295) +
-    proc_control_node_B.t20_c * -0.0012787556591776421;
-  Ane[55] = ((proc_control_node_B.t9_g * 0.00049601054978465754 -
+             proc_control_node_B.Ane_tmp_g * 0.0003038485611411295) +
+    proc_control_node_B.t20_p * -0.0012787556591776421;
+  Ane[55] = ((proc_control_node_B.t9_a * 0.00049601054978465754 -
               proc_control_node_B.Ane_tmp * 0.0001558786802929103) +
-             proc_control_node_B.Ane_tmp_c * 0.09962138533478937) +
-    proc_control_node_B.t20_c * -0.2146651116826197;
+             proc_control_node_B.Ane_tmp_g * 0.09962138533478937) +
+    proc_control_node_B.t20_p * -0.2146651116826197;
   Ane[56] = ((proc_control_node_B.Ane_tmp * 0.091796606188097957 +
-              proc_control_node_B.t9_g * -0.0029379207602901669) -
-             proc_control_node_B.Ane_tmp_c * 0.0001262558405802736) +
-    proc_control_node_B.t20_c * 0.022292555139725449;
-  Ane[57] = ((proc_control_node_B.t9_g * 0.056926116941144737 -
+              proc_control_node_B.t9_a * -0.0029379207602901669) -
+             proc_control_node_B.Ane_tmp_g * 0.0001262558405802736) +
+    proc_control_node_B.t20_p * 0.022292555139725449;
+  Ane[57] = ((proc_control_node_B.t9_a * 0.056926116941144737 -
               proc_control_node_B.Ane_tmp * 0.01218289469126858) +
-             proc_control_node_B.Ane_tmp_c * 0.095020813300146653) +
-    proc_control_node_B.t20_c * -16.7769453147126;
+             proc_control_node_B.Ane_tmp_g * 0.095020813300146653) +
+    proc_control_node_B.t20_p * -16.7769453147126;
   Ane[58] = ((proc_control_node_B.Ane_tmp * 0.17922689172220771 +
-              proc_control_node_B.t9_g * -4.3185698628399987) -
-             proc_control_node_B.Ane_tmp_c * 0.000439745529355291) +
-    proc_control_node_B.t20_c * 0.078743486942211408;
+              proc_control_node_B.t9_a * -4.3185698628399987) -
+             proc_control_node_B.Ane_tmp_g * 0.000439745529355291) +
+    proc_control_node_B.t20_p * 0.078743486942211408;
   Ane[59] = ((proc_control_node_B.Ane_tmp * 2.2159046954574339E-5 +
-              proc_control_node_B.t9_g * 0.32680566187003413) -
-             proc_control_node_B.Ane_tmp_c * 0.16306065763088379) +
-    proc_control_node_B.t20_c * 0.03910191918844614;
-  proc_control_node_B.t20_c = proc_control_node_B.t9_g *
-    proc_control_node_B.t13_k;
-  Ane[60] = (-proc_control_node_B.t37_i * in1[7] + proc_control_node_B.t40_l *
-             in1[8]) - proc_control_node_B.t20_c * in1[6];
-  proc_control_node_B.t6_o *= proc_control_node_B.t9_g;
-  Ane[61] = (-proc_control_node_B.t39_j * in1[7] + proc_control_node_B.t38 *
-             in1[8]) + proc_control_node_B.t6_o * in1[6];
+              proc_control_node_B.t9_a * 0.32680566187003413) -
+             proc_control_node_B.Ane_tmp_g * 0.16306065763088379) +
+    proc_control_node_B.t20_p * 0.03910191918844614;
+  proc_control_node_B.t20_p = proc_control_node_B.t9_a *
+    proc_control_node_B.t13_c;
+  Ane[60] = (-proc_control_node_B.t37_j * in1[7] + proc_control_node_B.t40_c *
+             in1[8]) - proc_control_node_B.t20_p * in1[6];
+  proc_control_node_B.t6_g *= proc_control_node_B.t9_a;
+  Ane[61] = (-proc_control_node_B.t39_l * in1[7] + proc_control_node_B.t38 *
+             in1[8]) + proc_control_node_B.t6_g * in1[6];
   memset(&Ane[62], 0, 10U * sizeof(real_T));
-  Ane[72] = proc_control_node_B.t6_o;
-  Ane[73] = proc_control_node_B.t20_c;
-  Ane[74] = -proc_control_node_B.t16_a;
+  Ane[72] = proc_control_node_B.t6_g;
+  Ane[73] = proc_control_node_B.t20_p;
+  Ane[74] = -proc_control_node_B.t16_d;
   Ane[75] = 0.0;
   Ane[76] = 0.0;
   Ane[77] = 0.0;
-  proc_control_node_B.t20_c = proc_control_node_B.t17_d * in1[6];
-  Ane[78] = (((((proc_control_node_B.t7_g * -0.036243063166504788 +
+  proc_control_node_B.t20_p = proc_control_node_B.t17_c * in1[6];
+  Ane[78] = (((((proc_control_node_B.t7_o * -0.036243063166504788 +
                  proc_control_node_B.t46) + proc_control_node_B.t47) -
                proc_control_node_B.t48) - proc_control_node_B.t52) -
-             proc_control_node_B.t20_c * 0.036243063166504788) -
+             proc_control_node_B.t20_p * 0.036243063166504788) -
     0.46465465598083061;
   Ane[79] = (((in1[7] * 0.00477039452928936 - in1[8] * 0.001468966557066211) -
-              proc_control_node_B.t20_c * 1.109195745194835E-6) -
+              proc_control_node_B.t20_p * 1.109195745194835E-6) -
              1.422045827172866E-5) + ((in1[10] * 0.00041592787873873338 - in1[11]
-    * 0.74121409319149256) - proc_control_node_B.t7_g * 1.109195745194835E-6);
+    * 0.74121409319149256) - proc_control_node_B.t7_o * 1.109195745194835E-6);
   Ane[80] = (((in1[7] * -5.890830655932608E-5 + in1[8] * 0.00568699616459184) +
-              proc_control_node_B.t20_c * 7.9830677445685858E-6) +
+              proc_control_node_B.t20_p * 7.9830677445685858E-6) +
              0.0001023470223662639) + ((in1[10] * 0.69409782663856512 - in1[11] *
-    0.00032422410747795261) + proc_control_node_B.t7_g * 7.9830677445685858E-6);
+    0.00032422410747795261) + proc_control_node_B.t7_o * 7.9830677445685858E-6);
   Ane[81] = (((in1[10] * 0.032506453976272241 + in1[11] * 0.24400486517334929) -
-              proc_control_node_B.t7_g * 0.0001525121428377004) + ((in1[7] *
+              proc_control_node_B.t7_o * 0.0001525121428377004) + ((in1[7] *
     0.044446246736648841 - in1[8] * 0.1148218101592509) -
-              proc_control_node_B.t20_c * 0.0001525121428377004)) +
+              proc_control_node_B.t20_p * 0.0001525121428377004)) +
     -0.0019552838825346208;
   Ane[82] = (((in1[7] * 1.7911420833141059E-5 + in1[8] * 8.3502908029033716) +
-              proc_control_node_B.t20_c * 0.011738978516892359) +
+              proc_control_node_B.t20_p * 0.011738978516892359) +
              0.150499724575543) + ((in1[10] * -0.00568699616459184 - in1[11] *
-    0.001145088836853196) + proc_control_node_B.t7_g * 0.011738978516892359);
+    0.001145088836853196) + proc_control_node_B.t7_o * 0.011738978516892359);
   Ane[83] = (((in1[10] * -7.5569972812640509E-5 - in1[11] * 0.00477039452928936)
-              - proc_control_node_B.t7_g * 0.0011846302503005471) + ((in1[7] *
+              - proc_control_node_B.t7_o * 0.0011846302503005471) + ((in1[7] *
     -5.91169722427816 - in1[8] * 2.2977499514997389E-5) -
-              proc_control_node_B.t20_c * 0.0011846302503005471)) +
+              proc_control_node_B.t20_p * 0.0011846302503005471)) +
     -0.015187567311545479;
-  Ane[84] = -proc_control_node_B.t24_h + proc_control_node_B.t32_p;
-  Ane[85] = proc_control_node_B.t37_i;
+  Ane[84] = -proc_control_node_B.t24_m + proc_control_node_B.t32_i;
+  Ane[85] = proc_control_node_B.t37_j;
   Ane[86] = Ane_tmp_0;
   Ane[87] = 0.0;
   Ane[88] = 0.0;
   Ane[89] = 0.0;
-  Ane_tmp_0 = proc_control_node_B.t18_c * in1[7];
+  Ane_tmp_0 = proc_control_node_B.t18_d * in1[7];
   Ane[90] = (((in1[9] * -2.1519484922730651E-5 + in1[11] * 1.3454180758607359) -
-              proc_control_node_B.t8_o * 7.7738505218783331E-7) - in1[6] *
+              proc_control_node_B.t8_g * 7.7738505218783331E-7) - in1[6] *
              0.01129023503850542) + ((in1[8] * -0.00041111798914172931 -
     Ane_tmp_0 * 7.7738505218783331E-7) - 1.8960611028971542E-5);
-  Ane[91] = (((((proc_control_node_B.t8_o * -0.01903042325061665 +
+  Ane[91] = (((((proc_control_node_B.t8_g * -0.01903042325061665 +
                  proc_control_node_B.t46) + proc_control_node_B.t49) +
-               -proc_control_node_B.t50_a) - proc_control_node_B.t54_g) -
+               -proc_control_node_B.t50_b) - proc_control_node_B.t54_f) -
              Ane_tmp_0 * 0.01903042325061665) - 0.46415666464918648;
   Ane[92] = (((in1[6] * -5.890830655932608E-5 + in1[8] * 0.0071670223909459834)
               + Ane_tmp_0 * 2.3842573459475649E-5) + 0.00058152618193843065) +
     ((in1[9] * -0.93255469429176219 - in1[11] * 7.6083411800115719E-5) +
-     proc_control_node_B.t8_o * 2.3842573459475649E-5);
+     proc_control_node_B.t8_g * 2.3842573459475649E-5);
   Ane[93] = (((in1[9] * -0.0071670223909459834 + in1[11] * 0.00145353196782447)
-              - proc_control_node_B.t8_o * 0.017943464992838758) + ((in1[6] *
+              - proc_control_node_B.t8_g * 0.017943464992838758) + ((in1[6] *
     0.044446246736648841 - in1[8] * 5.3937622658585171) - Ane_tmp_0 *
               0.017943464992838758)) + -0.4376454876302136;
   Ane[94] = (((in1[9] * 0.0012538688125934979 - in1[11] * 0.1118794885864644) +
-              proc_control_node_B.t8_o * 8.4206769578830268E-5) + in1[6] *
+              proc_control_node_B.t8_g * 8.4206769578830268E-5) + in1[6] *
              1.7911420833141059E-5) + ((Ane_tmp_0 * 8.4206769578830268E-5 + in1
     [8] * 0.025315910649035739) + 0.0020538236482641531);
   Ane[95] = (((in1[9] * 1.6661666253314429E-5 + in1[11] * 0.01129023503850542) +
-              proc_control_node_B.t8_o * 0.00035080205133418912) + ((in1[6] *
+              proc_control_node_B.t8_g * 0.00035080205133418912) + ((in1[6] *
     -5.91169722427816 + in1[8] * 0.01257120723021817) + Ane_tmp_0 *
               0.00035080205133418912)) + 0.0085561475935168052;
   Ane[96] = proc_control_node_B.t38;
-  Ane[97] = -proc_control_node_B.t25_m + proc_control_node_B.t31_n;
+  Ane[97] = -proc_control_node_B.t25_f + proc_control_node_B.t31_p;
   Ane[98] = Ane_tmp;
   Ane[99] = 0.0;
   Ane[100] = 0.0;
   Ane[101] = 0.0;
-  Ane_tmp = proc_control_node_B.t19_d * in1[8];
+  Ane_tmp = proc_control_node_B.t19_a * in1[8];
   Ane[102] = (((in1[9] * 2.989993556213668E-6 - in1[10] * 1.4431163638272659) +
-               proc_control_node_B.t10_a * 5.1582899272597018E-6) - in1[6] *
+               proc_control_node_B.t10_g * 5.1582899272597018E-6) - in1[6] *
               0.143523560675718) + ((Ane_tmp * 5.1582899272597018E-6 + in1[7] *
     -0.00041111798914172931) + 0.0001592064792364106);
   Ane[103] = (((in1[9] * 1.0731951852318531 - in1[10] * 1.356129262930646E-5) +
-               proc_control_node_B.t10_a * 2.1981689677272681E-5) + ((in1[6] *
+               proc_control_node_B.t10_g * 2.1981689677272681E-5) + ((in1[6] *
     -0.001468966557066211 - in1[7] * 0.069014505171846527) + Ane_tmp *
     2.1981689677272681E-5)) + 0.00067844721226150231;
-  Ane[104] = (((((proc_control_node_B.t10_a * -0.01616685726098728 +
-                  proc_control_node_B.t47) + -proc_control_node_B.t50_a) +
-                proc_control_node_B.t53_b) + proc_control_node_B.t55_f) -
+  Ane[104] = (((((proc_control_node_B.t10_g * -0.01616685726098728 +
+                  proc_control_node_B.t47) + -proc_control_node_B.t50_b) +
+                proc_control_node_B.t53_g) + proc_control_node_B.t55_c) -
               Ane_tmp * 0.01616685726098728) - 0.49897707595639768;
   Ane[105] = (((in1[9] * 0.069014505171846527 - in1[10] * 0.0018646499569661989)
-               + proc_control_node_B.t10_a * 0.00171795837774031) + ((in1[6] *
+               + proc_control_node_B.t10_g * 0.00171795837774031) + ((in1[6] *
     -0.1148218101592509 - in1[7] * 5.3937622658585171) + Ane_tmp *
     0.00171795837774031)) + 0.053023406720379938;
   Ane[106] = (((in1[9] * -0.00032387772021301561 + in1[10] * 0.143523560675718)
-               - proc_control_node_B.t10_a * 0.00030055639757781919) + ((in1[6] *
+               - proc_control_node_B.t10_g * 0.00030055639757781919) + ((in1[6] *
     8.3502908029033716 + in1[7] * 0.025315910649035739) - Ane_tmp *
     0.00030055639757781919)) + -0.0092764320240067664;
   Ane[107] = (((in1[9] * -0.0013492616947596331 - in1[10] * 0.01448357294143097)
-               - proc_control_node_B.t10_a * 3.993855127780116E-6) - in1[6] *
+               - proc_control_node_B.t10_g * 3.993855127780116E-6) - in1[6] *
               2.2977499514997389E-5) + ((in1[7] * 0.01257120723021817 - Ane_tmp *
     3.993855127780116E-6) - 0.00012326713357346041);
   Ane[108] = 0.0;
@@ -17608,70 +17600,70 @@ void proc_control_nodeModelClass::proc_contr_AUVEULJacobianMatrix(const real_T
   Ane[111] = 1.0;
   Ane[112] = 0.0;
   Ane[113] = 0.0;
-  Ane_tmp = in1[9] * proc_control_node_B.t11_g;
+  Ane_tmp = in1[9] * proc_control_node_B.t11_bp;
   Ane[114] = (((in1[9] * -0.00010396365424827521 - in1[10] *
                 0.0030560301354578762) - in1[11] * 0.030270009262121408) -
-              proc_control_node_B.t2_h * 2.1768827225552109E-5) + (((in1[7] *
+              proc_control_node_B.t2_i * 2.1768827225552109E-5) + (((in1[7] *
     -2.1519484922730651E-5 + in1[8] * 2.989993556213668E-6) - Ane_tmp *
     2.1768827225552109E-5) - 0.00043450752945213789);
   Ane[115] = ((((in1[9] * 0.0028513455484883 - in1[10] * 0.00032316342950661811)
-                + in1[11] * 4.2079285691049859E-5) - proc_control_node_B.t2_h *
+                + in1[11] * 4.2079285691049859E-5) - proc_control_node_B.t2_i *
                0.0036543398217122828) + ((in1[7] * -9.1703771260780813E-5 + in1
     [8] * 1.0731951852318531) - Ane_tmp * 0.0036543398217122828)) +
     -0.072940914605035587;
   Ane[116] = (((in1[9] * 0.023864851221217471 + in1[10] * 4.0426879502317728E-6)
-               - in1[11] * 0.00016269010774240791) + ((proc_control_node_B.t2_h *
+               - in1[11] * 0.00016269010774240791) + ((proc_control_node_B.t2_i *
     0.0003794960966701478 - in1[7] * 0.93255469429176219) - in1[8] *
     9.1703771260780813E-5)) + (Ane_tmp * 0.0003794960966701478 +
     0.007574772388625705);
-  Ane[117] = ((((proc_control_node_B.t2_h * -0.28560141361437341 +
-                 proc_control_node_B.t54_g) - proc_control_node_B.t55_f) -
+  Ane[117] = ((((proc_control_node_B.t2_i * -0.28560141361437341 +
+                 proc_control_node_B.t54_f) - proc_control_node_B.t55_c) -
                Ane_tmp * 0.28560141361437341) - 5.7006270182509668) + ((in1[9] *
     0.00017692814721597281 - in1[10] * 0.00301187450220627) + in1[11] *
     0.0032852614324183722);
   Ane[118] = (((in1[9] * 0.005100926963153893 + in1[10] * 7.54282242443926E-5) +
-               in1[11] * 0.76112100692746432) + ((proc_control_node_B.t2_h *
+               in1[11] * 0.76112100692746432) + ((proc_control_node_B.t2_i *
     0.0013404854555911631 + in1[7] * 0.0012538688125934979) - in1[8] *
     0.00032387772021301561)) + (Ane_tmp * 0.0013404854555911631 +
     0.026756196718386482);
   Ane[119] = (((in1[9] * -0.0085297096290247246 - in1[10] * 0.59953739020136265)
-               - in1[11] * 6.8948828938803766E-5) + ((proc_control_node_B.t2_h *
+               - in1[11] * 6.8948828938803766E-5) + ((proc_control_node_B.t2_i *
     0.00066564938883491385 + in1[7] * 1.6661666253314429E-5) - in1[8] *
     0.0013492616947596331)) + (Ane_tmp * 0.00066564938883491385 +
     0.013286414946804669);
   Ane[120] = 0.0;
   Ane[121] = 0.0;
   Ane[122] = 0.0;
-  Ane[123] = proc_control_node_B.Ane_tmp_c * proc_control_node_B.t27_b;
-  Ane[124] = proc_control_node_B.t5_c;
-  Ane[125] = proc_control_node_B.t12_bp * proc_control_node_B.t27_b;
-  Ane_tmp = in1[10] * proc_control_node_B.t14_c;
+  Ane[123] = proc_control_node_B.Ane_tmp_g * proc_control_node_B.t27_e;
+  Ane[124] = proc_control_node_B.t5_o;
+  Ane[125] = proc_control_node_B.t12_k * proc_control_node_B.t27_e;
+  Ane_tmp = in1[10] * proc_control_node_B.t14_j;
   Ane[126] = ((((in1[9] * -0.0030560301354578762 + in1[10] *
                  0.001929418735906703) + in1[11] * 6.2884941489263073E-5) +
-               proc_control_node_B.t3_i * 0.001003331497170287) + ((in1[6] *
+               proc_control_node_B.t3_g * 0.001003331497170287) + ((in1[6] *
     9.7602896722846373E-5 - in1[8] * 1.4431163638272659) + Ane_tmp *
     0.001003331497170287)) + 0.0234110682673067;
   Ane[127] = (((in1[9] * -0.00032316342950661811 + in1[10] *
                 4.5292476302332957E-6) - in1[11] * 0.016528998001422841) +
-              proc_control_node_B.t3_i * 1.026911824132076E-5) + (((in1[6] *
+              proc_control_node_B.t3_g * 1.026911824132076E-5) + (((in1[6] *
     0.00041592787873873338 - in1[8] * 1.356129262930646E-5) + Ane_tmp *
     1.026911824132076E-5) + 0.00023961275896415121);
   Ane[128] = (((in1[9] * 4.0426879502317728E-6 + in1[10] * 0.023860477346842442)
-               - in1[11] * 0.000941018323416786) + ((proc_control_node_B.t3_i *
+               - in1[11] * 0.000941018323416786) + ((proc_control_node_B.t3_g *
     -3.9756137245743291E-5 + in1[6] * 0.69409782663856512) + in1[8] *
     9.7602896722846373E-5)) + (Ane_tmp * -3.9756137245743291E-5 -
     0.00092764320240067675);
   Ane[129] = (((in1[9] * -0.00301187450220627 + in1[10] * 0.00082864946354184129)
-               - in1[11] * 0.291807921220024) + ((proc_control_node_B.t3_i *
+               - in1[11] * 0.291807921220024) + ((proc_control_node_B.t3_g *
     0.00080268590155159437 + in1[6] * 0.032506453976272241) - in1[8] *
     0.0018646499569661989)) + (Ane_tmp * 0.00080268590155159437 +
     0.018729337702870542);
-  Ane[130] = ((((proc_control_node_B.t3_i * -0.058374455968341669 +
-                 proc_control_node_B.t52) - proc_control_node_B.t53_b) - Ane_tmp
+  Ane[130] = ((((proc_control_node_B.t3_g * -0.058374455968341669 +
+                 proc_control_node_B.t52) - proc_control_node_B.t53_g) - Ane_tmp
                * 0.058374455968341669) - 1.362070639261306) + ((in1[9] *
     7.54282242443926E-5 - in1[10] * 0.00019446645525741661) - in1[11] *
     0.003324115892995542);
-  Ane[131] = ((((proc_control_node_B.t3_i * 1.6062902063655571E-7 - in1[6] *
+  Ane[131] = ((((proc_control_node_B.t3_g * 1.6062902063655571E-7 - in1[6] *
                  7.5569972812640509E-5) - in1[8] * 0.01448357294143097) +
                Ane_tmp * 1.6062902063655571E-7) + ((in1[9] *
     -0.59953739020136265 + in1[10] * 0.0085432434746820687) + in1[11] *
@@ -17679,36 +17671,36 @@ void proc_control_nodeModelClass::proc_contr_AUVEULJacobianMatrix(const real_T
   Ane[132] = 0.0;
   Ane[133] = 0.0;
   Ane[134] = 0.0;
-  Ane[135] = proc_control_node_B.Ane_tmp * proc_control_node_B.t27_b;
-  Ane[136] = -proc_control_node_B.t12_bp;
-  Ane[137] = proc_control_node_B.t5_c * proc_control_node_B.t27_b;
-  Ane_tmp = in1[11] * proc_control_node_B.t15_j;
+  Ane[135] = proc_control_node_B.Ane_tmp * proc_control_node_B.t27_e;
+  Ane[136] = -proc_control_node_B.t12_k;
+  Ane[137] = proc_control_node_B.t5_o * proc_control_node_B.t27_e;
+  Ane_tmp = in1[11] * proc_control_node_B.t15_a;
   Ane[138] = (((in1[9] * -0.030270009262121408 + in1[10] * 6.2884941489263073E-5)
-               + in1[11] * 0.0020006959490984312) - proc_control_node_B.t4_g *
+               + in1[11] * 0.0020006959490984312) - proc_control_node_B.t4_c *
               0.0001032754577185093) + (((in1[6] * 1.0571299073092789E-5 + in1[7]
     * 1.3454180758607359) - Ane_tmp * 0.0001032754577185093) -
     0.0050625224371818262);
   Ane[139] = (((in1[9] * 4.2079285691049859E-5 - in1[10] * 0.016528998001422841)
-               + in1[11] * 0.00283488707941543) + proc_control_node_B.t4_g *
+               + in1[11] * 0.00283488707941543) + proc_control_node_B.t4_c *
               4.3636352726935713E-5) + (((in1[6] * -0.74121409319149256 + in1[7]
     * 1.0571299073092789E-5) + Ane_tmp * 4.3636352726935713E-5) +
     0.0021390368983792022);
-  Ane[140] = ((((proc_control_node_B.t4_g * -5.3885346962112674E-7 - in1[6] *
+  Ane[140] = ((((proc_control_node_B.t4_c * -5.3885346962112674E-7 - in1[6] *
                  0.00032422410747795261) - in1[7] * 7.6083411800115719E-5) -
                Ane_tmp * 5.3885346962112674E-7) + ((in1[9] *
     -0.00016269010774240791 - in1[10] * 0.000941018323416786) - in1[11] *
     2.6641242336162E-6)) + -2.6414385765741509E-5;
   Ane[141] = (((in1[9] * 0.0032852614324183722 - in1[10] * 0.291807921220024) -
-               in1[11] * 0.00063467747547131872) + ((proc_control_node_B.t4_g *
+               in1[11] * 0.00063467747547131872) + ((proc_control_node_B.t4_c *
     0.00040656429737222281 + in1[6] * 0.24400486517334929) + in1[7] *
     0.00145353196782447)) + (Ane_tmp * 0.00040656429737222281 +
     0.019929622420207);
-  Ane[142] = ((((proc_control_node_B.t4_g * 1.6384160104928689E-7 - in1[6] *
+  Ane[142] = ((((proc_control_node_B.t4_c * 1.6384160104928689E-7 - in1[6] *
                  0.001145088836853196) - in1[7] * 0.1118794885864644) + Ane_tmp *
                1.6384160104928689E-7) + ((in1[9] * 0.76112100692746432 - in1[10]
     * 0.003324115892995542) - in1[11] * 0.005288701994301117)) +
     8.0314510318277867E-6;
-  Ane[143] = ((((proc_control_node_B.t4_g * -0.054076220260104418 +
+  Ane[143] = ((((proc_control_node_B.t4_c * -0.054076220260104418 +
                  proc_control_node_B.t48) - proc_control_node_B.t49) - Ane_tmp *
                0.054076220260104418) - 2.6507951107894319) + ((in1[9] *
     -6.8948828938803766E-5 + in1[10] * 0.0030111351640179931) + in1[11] *
@@ -17727,7 +17719,7 @@ int32_T proc_control_nodeModelClass::proc_control_node_xgetrfs(real_T A[144],
   int32_T jA;
   int8_T ipiv;
   for (c_ix = 0; c_ix < 12; c_ix++) {
-    proc_control_node_B.ipiv_f[c_ix] = static_cast<int8_T>(c_ix + 1);
+    proc_control_node_B.ipiv_i[c_ix] = static_cast<int8_T>(c_ix + 1);
   }
 
   info = 0;
@@ -17736,27 +17728,27 @@ int32_T proc_control_nodeModelClass::proc_control_node_xgetrfs(real_T A[144],
     proc_control_node_B.c_kr = proc_control_node_B.b_j_e * 13;
     jA = 0;
     proc_control_node_B.ix_k = proc_control_node_B.c_kr;
-    proc_control_node_B.smax_j = fabs(A[proc_control_node_B.c_kr]);
+    proc_control_node_B.smax_i = fabs(A[proc_control_node_B.c_kr]);
     for (iy = 2; iy <= 12 - proc_control_node_B.b_j_e; iy++) {
       proc_control_node_B.ix_k++;
-      proc_control_node_B.y_ib = fabs(A[proc_control_node_B.ix_k]);
-      if (proc_control_node_B.y_ib > proc_control_node_B.smax_j) {
+      proc_control_node_B.y_mi = fabs(A[proc_control_node_B.ix_k]);
+      if (proc_control_node_B.y_mi > proc_control_node_B.smax_i) {
         jA = iy - 1;
-        proc_control_node_B.smax_j = proc_control_node_B.y_ib;
+        proc_control_node_B.smax_i = proc_control_node_B.y_mi;
       }
     }
 
     if (A[proc_control_node_B.c_kr + jA] != 0.0) {
       if (jA != 0) {
         c_ix = proc_control_node_B.b_j_e + jA;
-        proc_control_node_B.ipiv_f[proc_control_node_B.b_j_e] =
+        proc_control_node_B.ipiv_i[proc_control_node_B.b_j_e] =
           static_cast<int8_T>(c_ix + 1);
         for (jA = 0; jA < 12; jA++) {
           proc_control_node_B.ix_k = jA * 12 + proc_control_node_B.b_j_e;
-          proc_control_node_B.smax_j = A[proc_control_node_B.ix_k];
+          proc_control_node_B.smax_i = A[proc_control_node_B.ix_k];
           iy = jA * 12 + c_ix;
           A[proc_control_node_B.ix_k] = A[iy];
-          A[iy] = proc_control_node_B.smax_j;
+          A[iy] = proc_control_node_B.smax_i;
         }
       }
 
@@ -17774,11 +17766,11 @@ int32_T proc_control_nodeModelClass::proc_control_node_xgetrfs(real_T A[144],
     proc_control_node_B.ix_k = proc_control_node_B.c_kr + 12;
     for (iy = 0; iy <= 10 - proc_control_node_B.b_j_e; iy++) {
       if (A[proc_control_node_B.ix_k] != 0.0) {
-        proc_control_node_B.smax_j = -A[proc_control_node_B.ix_k];
+        proc_control_node_B.smax_i = -A[proc_control_node_B.ix_k];
         c_ix = proc_control_node_B.c_kr + 1;
         d = (jA - proc_control_node_B.b_j_e) + 24;
         for (ijA = jA + 13; ijA < d; ijA++) {
-          A[ijA] += A[c_ix] * proc_control_node_B.smax_j;
+          A[ijA] += A[c_ix] * proc_control_node_B.smax_i;
           c_ix++;
         }
       }
@@ -17794,16 +17786,16 @@ int32_T proc_control_nodeModelClass::proc_control_node_xgetrfs(real_T A[144],
 
   for (proc_control_node_B.b_j_e = 0; proc_control_node_B.b_j_e < 11;
        proc_control_node_B.b_j_e++) {
-    ipiv = proc_control_node_B.ipiv_f[proc_control_node_B.b_j_e];
+    ipiv = proc_control_node_B.ipiv_i[proc_control_node_B.b_j_e];
     if (proc_control_node_B.b_j_e + 1 != ipiv) {
       for (proc_control_node_B.c_kr = 0; proc_control_node_B.c_kr < 12;
            proc_control_node_B.c_kr++) {
         proc_control_node_B.ix_k = 12 * proc_control_node_B.c_kr +
           proc_control_node_B.b_j_e;
-        proc_control_node_B.smax_j = B[proc_control_node_B.ix_k];
+        proc_control_node_B.smax_i = B[proc_control_node_B.ix_k];
         c_ix = (ipiv + 12 * proc_control_node_B.c_kr) - 1;
         B[proc_control_node_B.ix_k] = B[c_ix];
-        B[c_ix] = proc_control_node_B.smax_j;
+        B[c_ix] = proc_control_node_B.smax_i;
       }
     }
   }
@@ -17831,9 +17823,9 @@ int32_T proc_control_nodeModelClass::proc_control_node_xgetrfs(real_T A[144],
          proc_control_node_B.c_kr--) {
       proc_control_node_B.ix_k = 12 * proc_control_node_B.c_kr;
       c_ix = proc_control_node_B.c_kr + jA;
-      proc_control_node_B.smax_j = B[c_ix];
-      if (proc_control_node_B.smax_j != 0.0) {
-        B[c_ix] = proc_control_node_B.smax_j / A[proc_control_node_B.c_kr +
+      proc_control_node_B.smax_i = B[c_ix];
+      if (proc_control_node_B.smax_i != 0.0) {
+        B[c_ix] = proc_control_node_B.smax_i / A[proc_control_node_B.c_kr +
           proc_control_node_B.ix_k];
         for (iy = 0; iy < proc_control_node_B.c_kr; iy++) {
           d = iy + jA;
@@ -17920,7 +17912,7 @@ void proc_control_nodeModelClass::proc_co_PadeApproximantOfDegree(const real_T
         proc_control_node_B.A2_f[proc_control_node_B.i28];
     }
 
-    proc_control_node_B.d_l = 120.0;
+    proc_control_node_B.d_j = 120.0;
   } else {
     for (proc_control_node_B.i28 = 0; proc_control_node_B.i28 < 12;
          proc_control_node_B.i28++) {
@@ -17990,7 +17982,7 @@ void proc_control_nodeModelClass::proc_co_PadeApproximantOfDegree(const real_T
           proc_control_node_B.A2_f[proc_control_node_B.i28];
       }
 
-      proc_control_node_B.d_l = 30240.0;
+      proc_control_node_B.d_j = 30240.0;
     } else {
       for (proc_control_node_B.i28 = 0; proc_control_node_B.i28 < 12;
            proc_control_node_B.i28++) {
@@ -18063,7 +18055,7 @@ void proc_control_nodeModelClass::proc_co_PadeApproximantOfDegree(const real_T
             proc_control_node_B.A2_f[proc_control_node_B.i28];
         }
 
-        proc_control_node_B.d_l = 1.729728E+7;
+        proc_control_node_B.d_j = 1.729728E+7;
         break;
 
        case 9:
@@ -18138,7 +18130,7 @@ void proc_control_nodeModelClass::proc_co_PadeApproximantOfDegree(const real_T
             proc_control_node_B.A2_f[proc_control_node_B.i28];
         }
 
-        proc_control_node_B.d_l = 1.76432256E+10;
+        proc_control_node_B.d_j = 1.76432256E+10;
         break;
 
        default:
@@ -18172,11 +18164,11 @@ void proc_control_nodeModelClass::proc_co_PadeApproximantOfDegree(const real_T
           proc_control_node_B.e_k_c = 0;
           for (proc_control_node_B.e_k_n = 0; proc_control_node_B.e_k_n < 12;
                proc_control_node_B.e_k_n++) {
-            proc_control_node_B.d_l = 0.0;
+            proc_control_node_B.d_j = 0.0;
             proc_control_node_B.A2_tmp_j = 0;
             for (proc_control_node_B.i29 = 0; proc_control_node_B.i29 < 12;
                  proc_control_node_B.i29++) {
-              proc_control_node_B.d_l +=
+              proc_control_node_B.d_j +=
                 proc_control_node_B.A4_a[proc_control_node_B.A2_tmp_j +
                 proc_control_node_B.i28] *
                 proc_control_node_B.V_e[proc_control_node_B.i29 +
@@ -18188,7 +18180,7 @@ void proc_control_nodeModelClass::proc_co_PadeApproximantOfDegree(const real_T
               proc_control_node_B.i28;
             proc_control_node_B.A4_d[proc_control_node_B.A2_tmp_j] =
               proc_control_node_B.U_h[proc_control_node_B.A2_tmp_j] +
-              proc_control_node_B.d_l;
+              proc_control_node_B.d_j;
             proc_control_node_B.e_k_c += 12;
           }
         }
@@ -18224,11 +18216,11 @@ void proc_control_nodeModelClass::proc_co_PadeApproximantOfDegree(const real_T
           proc_control_node_B.e_k_c = 0;
           for (proc_control_node_B.e_k_n = 0; proc_control_node_B.e_k_n < 12;
                proc_control_node_B.e_k_n++) {
-            proc_control_node_B.d_l = 0.0;
+            proc_control_node_B.d_j = 0.0;
             proc_control_node_B.A2_tmp_j = 0;
             for (proc_control_node_B.i29 = 0; proc_control_node_B.i29 < 12;
                  proc_control_node_B.i29++) {
-              proc_control_node_B.d_l +=
+              proc_control_node_B.d_j +=
                 proc_control_node_B.A4_a[proc_control_node_B.A2_tmp_j +
                 proc_control_node_B.i28] *
                 proc_control_node_B.A4_d[proc_control_node_B.i29 +
@@ -18240,7 +18232,7 @@ void proc_control_nodeModelClass::proc_co_PadeApproximantOfDegree(const real_T
               proc_control_node_B.i28;
             proc_control_node_B.V_e[proc_control_node_B.A2_tmp_j] =
               ((proc_control_node_B.A4_a[proc_control_node_B.A2_tmp_j] *
-                6.704425728E+11 + proc_control_node_B.d_l) +
+                6.704425728E+11 + proc_control_node_B.d_j) +
                proc_control_node_B.A3_c[proc_control_node_B.A2_tmp_j] *
                1.29060195264E+14) +
               proc_control_node_B.A2_f[proc_control_node_B.A2_tmp_j] *
@@ -18249,7 +18241,7 @@ void proc_control_nodeModelClass::proc_co_PadeApproximantOfDegree(const real_T
           }
         }
 
-        proc_control_node_B.d_l = 6.476475253248E+16;
+        proc_control_node_B.d_j = 6.476475253248E+16;
         break;
       }
     }
@@ -18259,7 +18251,7 @@ void proc_control_nodeModelClass::proc_co_PadeApproximantOfDegree(const real_T
   for (proc_control_node_B.e_k_n = 0; proc_control_node_B.e_k_n < 12;
        proc_control_node_B.e_k_n++) {
     proc_control_node_B.V_e[proc_control_node_B.e_k_c] +=
-      proc_control_node_B.d_l;
+      proc_control_node_B.d_j;
     proc_control_node_B.e_k_c += 13;
   }
 
@@ -18294,40 +18286,40 @@ void proc_control_nodeModelClass::proc_control_node_mldivide(const real_T A[36],
     proc_control_node_B.ipiv_d[c_ix] = static_cast<int8_T>(c_ix + 1);
   }
 
-  for (proc_control_node_B.b_j_o = 0; proc_control_node_B.b_j_o < 5;
-       proc_control_node_B.b_j_o++) {
-    proc_control_node_B.ip = proc_control_node_B.b_j_o * 7;
+  for (proc_control_node_B.b_j_n = 0; proc_control_node_B.b_j_n < 5;
+       proc_control_node_B.b_j_n++) {
+    proc_control_node_B.ip = proc_control_node_B.b_j_n * 7;
     iy = 0;
     proc_control_node_B.ix_o = proc_control_node_B.ip;
-    proc_control_node_B.smax_l = fabs
+    proc_control_node_B.smax_e = fabs
       (proc_control_node_B.b_A_m1[proc_control_node_B.ip]);
-    for (c_k = 2; c_k <= 6 - proc_control_node_B.b_j_o; c_k++) {
+    for (c_k = 2; c_k <= 6 - proc_control_node_B.b_j_n; c_k++) {
       proc_control_node_B.ix_o++;
-      proc_control_node_B.y_ev = fabs
+      proc_control_node_B.y_d = fabs
         (proc_control_node_B.b_A_m1[proc_control_node_B.ix_o]);
-      if (proc_control_node_B.y_ev > proc_control_node_B.smax_l) {
+      if (proc_control_node_B.y_d > proc_control_node_B.smax_e) {
         iy = c_k - 1;
-        proc_control_node_B.smax_l = proc_control_node_B.y_ev;
+        proc_control_node_B.smax_e = proc_control_node_B.y_d;
       }
     }
 
     if (proc_control_node_B.b_A_m1[proc_control_node_B.ip + iy] != 0.0) {
       if (iy != 0) {
-        iy += proc_control_node_B.b_j_o;
-        proc_control_node_B.ipiv_d[proc_control_node_B.b_j_o] =
+        iy += proc_control_node_B.b_j_n;
+        proc_control_node_B.ipiv_d[proc_control_node_B.b_j_n] =
           static_cast<int8_T>(iy + 1);
         for (c_k = 0; c_k < 6; c_k++) {
-          proc_control_node_B.smax_l = proc_control_node_B.b_A_m1[c_k * 6 +
-            proc_control_node_B.b_j_o];
+          proc_control_node_B.smax_e = proc_control_node_B.b_A_m1[c_k * 6 +
+            proc_control_node_B.b_j_n];
           proc_control_node_B.ix_o = c_k * 6 + iy;
-          proc_control_node_B.b_A_m1[proc_control_node_B.b_j_o + c_k * 6] =
+          proc_control_node_B.b_A_m1[proc_control_node_B.b_j_n + c_k * 6] =
             proc_control_node_B.b_A_m1[proc_control_node_B.ix_o];
           proc_control_node_B.b_A_m1[proc_control_node_B.ix_o] =
-            proc_control_node_B.smax_l;
+            proc_control_node_B.smax_e;
         }
       }
 
-      iy = (proc_control_node_B.ip - proc_control_node_B.b_j_o) + 6;
+      iy = (proc_control_node_B.ip - proc_control_node_B.b_j_n) + 6;
       proc_control_node_B.ix_o = proc_control_node_B.ip + 1;
       while (proc_control_node_B.ix_o + 1 <= iy) {
         proc_control_node_B.b_A_m1[proc_control_node_B.ix_o] /=
@@ -18338,15 +18330,15 @@ void proc_control_nodeModelClass::proc_control_node_mldivide(const real_T A[36],
 
     iy = proc_control_node_B.ip;
     proc_control_node_B.ix_o = proc_control_node_B.ip + 6;
-    for (c_k = 0; c_k <= 4 - proc_control_node_B.b_j_o; c_k++) {
+    for (c_k = 0; c_k <= 4 - proc_control_node_B.b_j_n; c_k++) {
       if (proc_control_node_B.b_A_m1[proc_control_node_B.ix_o] != 0.0) {
-        proc_control_node_B.smax_l =
+        proc_control_node_B.smax_e =
           -proc_control_node_B.b_A_m1[proc_control_node_B.ix_o];
         c_ix = proc_control_node_B.ip + 1;
-        d = (iy - proc_control_node_B.b_j_o) + 12;
+        d = (iy - proc_control_node_B.b_j_n) + 12;
         for (ijA = iy + 7; ijA < d; ijA++) {
           proc_control_node_B.b_A_m1[ijA] += proc_control_node_B.b_A_m1[c_ix] *
-            proc_control_node_B.smax_l;
+            proc_control_node_B.smax_e;
           c_ix++;
         }
       }
@@ -18357,23 +18349,23 @@ void proc_control_nodeModelClass::proc_control_node_mldivide(const real_T A[36],
   }
 
   memcpy(&Y[0], &B[0], 36U * sizeof(real_T));
-  for (proc_control_node_B.b_j_o = 0; proc_control_node_B.b_j_o < 5;
-       proc_control_node_B.b_j_o++) {
-    ipiv = proc_control_node_B.ipiv_d[proc_control_node_B.b_j_o];
-    if (proc_control_node_B.b_j_o + 1 != ipiv) {
+  for (proc_control_node_B.b_j_n = 0; proc_control_node_B.b_j_n < 5;
+       proc_control_node_B.b_j_n++) {
+    ipiv = proc_control_node_B.ipiv_d[proc_control_node_B.b_j_n];
+    if (proc_control_node_B.b_j_n + 1 != ipiv) {
       for (iy = 0; iy < 6; iy++) {
-        proc_control_node_B.ip = 6 * iy + proc_control_node_B.b_j_o;
-        proc_control_node_B.smax_l = Y[proc_control_node_B.ip];
+        proc_control_node_B.ip = 6 * iy + proc_control_node_B.b_j_n;
+        proc_control_node_B.smax_e = Y[proc_control_node_B.ip];
         c_ix = (ipiv + 6 * iy) - 1;
         Y[proc_control_node_B.ip] = Y[c_ix];
-        Y[c_ix] = proc_control_node_B.smax_l;
+        Y[c_ix] = proc_control_node_B.smax_e;
       }
     }
   }
 
-  for (proc_control_node_B.b_j_o = 0; proc_control_node_B.b_j_o < 6;
-       proc_control_node_B.b_j_o++) {
-    proc_control_node_B.ip = 6 * proc_control_node_B.b_j_o;
+  for (proc_control_node_B.b_j_n = 0; proc_control_node_B.b_j_n < 6;
+       proc_control_node_B.b_j_n++) {
+    proc_control_node_B.ip = 6 * proc_control_node_B.b_j_n;
     for (iy = 0; iy < 6; iy++) {
       proc_control_node_B.ix_o = 6 * iy;
       c_ix = iy + proc_control_node_B.ip;
@@ -18387,15 +18379,15 @@ void proc_control_nodeModelClass::proc_control_node_mldivide(const real_T A[36],
     }
   }
 
-  for (proc_control_node_B.b_j_o = 0; proc_control_node_B.b_j_o < 6;
-       proc_control_node_B.b_j_o++) {
-    proc_control_node_B.ip = 6 * proc_control_node_B.b_j_o;
+  for (proc_control_node_B.b_j_n = 0; proc_control_node_B.b_j_n < 6;
+       proc_control_node_B.b_j_n++) {
+    proc_control_node_B.ip = 6 * proc_control_node_B.b_j_n;
     for (iy = 5; iy >= 0; iy--) {
       proc_control_node_B.ix_o = 6 * iy;
       c_ix = iy + proc_control_node_B.ip;
-      proc_control_node_B.smax_l = Y[c_ix];
-      if (proc_control_node_B.smax_l != 0.0) {
-        Y[c_ix] = proc_control_node_B.smax_l / proc_control_node_B.b_A_m1[iy +
+      proc_control_node_B.smax_e = Y[c_ix];
+      if (proc_control_node_B.smax_e != 0.0) {
+        Y[c_ix] = proc_control_node_B.smax_e / proc_control_node_B.b_A_m1[iy +
           proc_control_node_B.ix_o];
         for (c_k = 0; c_k < iy; c_k++) {
           d = c_k + proc_control_node_B.ip;
@@ -18763,21 +18755,21 @@ void proc_control_nodeModelClass::proc_control_mpc_constraintcoef(const real_T
     i = static_cast<int8_T>((proc_control_node_B.i_ld + 1) * 12 + 1);
     for (proc_control_node_B.i34 = 0; proc_control_node_B.i34 < 12;
          proc_control_node_B.i34++) {
-      proc_control_node_B.rows_i[proc_control_node_B.i34] = static_cast<int8_T>
+      proc_control_node_B.rows_f[proc_control_node_B.i34] = static_cast<int8_T>
         (proc_control_node_B.i34 + i);
       proc_control_node_B.i33 = 0;
       i_0 = 0;
       for (i_1 = 0; i_1 < 8; i_1++) {
-        proc_control_node_B.Sum_iz = 0.0;
+        proc_control_node_B.Sum_e = 0.0;
         tmp = 0;
         for (i_2 = 0; i_2 < 20; i_2++) {
-          proc_control_node_B.Sum_iz += proc_control_node_B.CA_p[tmp +
+          proc_control_node_B.Sum_e += proc_control_node_B.CA_p[tmp +
             proc_control_node_B.i34] * Bu[i_2 + i_0];
           tmp += 12;
         }
 
         CA_tmp = proc_control_node_B.i33 + proc_control_node_B.i34;
-        proc_control_node_B.Sum_i[CA_tmp] += proc_control_node_B.Sum_iz;
+        proc_control_node_B.Sum_i[CA_tmp] += proc_control_node_B.Sum_e;
         proc_control_node_B.i33 += 12;
         i_0 += 20;
       }
@@ -18788,10 +18780,10 @@ void proc_control_nodeModelClass::proc_control_mpc_constraintcoef(const real_T
       for (proc_control_node_B.i33 = 0; proc_control_node_B.i33 < 12;
            proc_control_node_B.i33++) {
         CA_tmp = 12 * proc_control_node_B.i34 + proc_control_node_B.i33;
-        proc_control_node_B.Sum_iz = proc_control_node_B.Sum_i[CA_tmp];
-        b_Su1[(proc_control_node_B.rows_i[proc_control_node_B.i33] + 120 *
-               proc_control_node_B.i34) - 1] = proc_control_node_B.Sum_iz;
-        proc_control_node_B.Sum_f[CA_tmp] = proc_control_node_B.Sum_iz;
+        proc_control_node_B.Sum_e = proc_control_node_B.Sum_i[CA_tmp];
+        b_Su1[(proc_control_node_B.rows_f[proc_control_node_B.i33] + 120 *
+               proc_control_node_B.i34) - 1] = proc_control_node_B.Sum_e;
+        proc_control_node_B.Sum_f[CA_tmp] = proc_control_node_B.Sum_e;
       }
     }
 
@@ -18802,7 +18794,7 @@ void proc_control_nodeModelClass::proc_control_mpc_constraintcoef(const real_T
         proc_control_node_B.Sum_f[proc_control_node_B.i33 + 12 *
           (proc_control_node_B.i34 + 8)] = proc_control_node_B.Su_c[(120 *
           proc_control_node_B.i34 +
-          proc_control_node_B.rows_i[proc_control_node_B.i33]) - 13];
+          proc_control_node_B.rows_f[proc_control_node_B.i33]) - 13];
       }
     }
 
@@ -18811,7 +18803,7 @@ void proc_control_nodeModelClass::proc_control_mpc_constraintcoef(const real_T
       for (proc_control_node_B.i33 = 0; proc_control_node_B.i33 < 12;
            proc_control_node_B.i33++) {
         proc_control_node_B.Su_c
-          [(proc_control_node_B.rows_i[proc_control_node_B.i33] + 120 *
+          [(proc_control_node_B.rows_f[proc_control_node_B.i33] + 120 *
             proc_control_node_B.i34) - 1] = proc_control_node_B.Sum_f[12 *
           proc_control_node_B.i34 + proc_control_node_B.i33];
       }
@@ -18838,7 +18830,7 @@ void proc_control_nodeModelClass::proc_control_mpc_constraintcoef(const real_T
            proc_control_node_B.i33++) {
         proc_control_node_B.CA_i[proc_control_node_B.i33 + 12 *
           (proc_control_node_B.i34 + 1)] = b_Hv[(120 * proc_control_node_B.i34 +
-          proc_control_node_B.rows_i[proc_control_node_B.i33]) - 13];
+          proc_control_node_B.rows_f[proc_control_node_B.i33]) - 13];
       }
     }
 
@@ -18846,7 +18838,7 @@ void proc_control_nodeModelClass::proc_control_mpc_constraintcoef(const real_T
          proc_control_node_B.i34++) {
       for (proc_control_node_B.i33 = 0; proc_control_node_B.i33 < 12;
            proc_control_node_B.i33++) {
-        b_Hv[(proc_control_node_B.rows_i[proc_control_node_B.i33] + 120 *
+        b_Hv[(proc_control_node_B.rows_f[proc_control_node_B.i33] + 120 *
               proc_control_node_B.i34) - 1] = proc_control_node_B.CA_i[12 *
           proc_control_node_B.i34 + proc_control_node_B.i33];
       }
@@ -18877,7 +18869,7 @@ void proc_control_nodeModelClass::proc_control_mpc_constraintcoef(const real_T
          proc_control_node_B.i34++) {
       for (proc_control_node_B.i33 = 0; proc_control_node_B.i33 < 12;
            proc_control_node_B.i33++) {
-        b_Sx[(proc_control_node_B.rows_i[proc_control_node_B.i33] + 120 *
+        b_Sx[(proc_control_node_B.rows_f[proc_control_node_B.i33] + 120 *
               proc_control_node_B.i34) - 1] = proc_control_node_B.CA_p[12 *
           proc_control_node_B.i34 + proc_control_node_B.i33];
       }
@@ -19162,12 +19154,12 @@ int32_T proc_control_nodeModelClass::proc_control_node_xpotrf_g(real_T b_A[289])
           b_iy = ((proc_control_node_B.j_gv - 1) * 17 + proc_control_node_B.j_gv)
             + 2;
           for (b_k = proc_control_node_B.j_gv + 2; b_k <= b_iy; b_k += 17) {
-            proc_control_node_B.c_a = -b_A[b_ix];
+            proc_control_node_B.c_f = -b_A[b_ix];
             proc_control_node_B.iy_p = proc_control_node_B.idxAjj + 1;
             d = (b_k - proc_control_node_B.j_gv) + 15;
             for (ia = b_k; ia <= d; ia++) {
               b_A[proc_control_node_B.iy_p] += b_A[ia - 1] *
-                proc_control_node_B.c_a;
+                proc_control_node_B.c_f;
               proc_control_node_B.iy_p++;
             }
 
@@ -19269,19 +19261,19 @@ void proc_control_nodeModelClass::proc_control_n_mpc_checkhessian(real_T b_H[289
     proc_control_node_B.Tries = 0;
     exitg2 = false;
     while ((!exitg2) && (proc_control_node_B.Tries < 17)) {
-      proc_control_node_B.s_k = 0.0;
+      proc_control_node_B.s_a0 = 0.0;
       for (proc_control_node_B.Tries_i = 0; proc_control_node_B.Tries_i < 17;
            proc_control_node_B.Tries_i++) {
-        proc_control_node_B.s_k += fabs(b_H[17 * proc_control_node_B.Tries_i +
+        proc_control_node_B.s_a0 += fabs(b_H[17 * proc_control_node_B.Tries_i +
           proc_control_node_B.Tries]);
       }
 
-      if (rtIsNaN(proc_control_node_B.s_k)) {
+      if (rtIsNaN(proc_control_node_B.s_a0)) {
         proc_control_node_B.normH = (rtNaN);
         exitg2 = true;
       } else {
-        if (proc_control_node_B.s_k > proc_control_node_B.normH) {
-          proc_control_node_B.normH = proc_control_node_B.s_k;
+        if (proc_control_node_B.s_a0 > proc_control_node_B.normH) {
+          proc_control_node_B.normH = proc_control_node_B.s_a0;
         }
 
         proc_control_node_B.Tries++;
@@ -19353,15 +19345,15 @@ void proc_control_nodeModelClass::proc_control_node_trisolve(const real_T b_A
   int32_T tmp;
   int32_T tmp_0;
   for (j = 0; j < 17; j++) {
-    proc_control_node_B.jBcol_c = 17 * j;
+    proc_control_node_B.jBcol_n = 17 * j;
     for (k = 0; k < 17; k++) {
       proc_control_node_B.kAcol = 17 * k;
-      tmp = k + proc_control_node_B.jBcol_c;
+      tmp = k + proc_control_node_B.jBcol_n;
       proc_control_node_B.d5 = b_B[tmp];
       if (proc_control_node_B.d5 != 0.0) {
         b_B[tmp] = proc_control_node_B.d5 / b_A[k + proc_control_node_B.kAcol];
         for (i = k + 2; i < 18; i++) {
-          tmp_0 = (i + proc_control_node_B.jBcol_c) - 1;
+          tmp_0 = (i + proc_control_node_B.jBcol_n) - 1;
           b_B[tmp_0] -= b_A[(i + proc_control_node_B.kAcol) - 1] * b_B[tmp];
         }
       }
@@ -19374,17 +19366,17 @@ void proc_control_nodeModelClass::proc_control_node_Unconstrained(const real_T
   b_Hinv[289], const real_T f[17], real_T x[17], int16_T n)
 {
   int32_T i;
-  proc_control_node_B.i_g = 1;
-  while (proc_control_node_B.i_g - 1 <= n - 1) {
+  proc_control_node_B.i_kx = 1;
+  while (proc_control_node_B.i_kx - 1 <= n - 1) {
     proc_control_node_B.b_Hinv = 0.0;
     for (i = 0; i < 17; i++) {
       proc_control_node_B.b_Hinv += -b_Hinv[(17 * i + static_cast<int16_T>
-        (proc_control_node_B.i_g)) - 1] * f[i];
+        (proc_control_node_B.i_kx)) - 1] * f[i];
     }
 
-    x[static_cast<int16_T>(proc_control_node_B.i_g) - 1] =
+    x[static_cast<int16_T>(proc_control_node_B.i_kx) - 1] =
       proc_control_node_B.b_Hinv;
-    proc_control_node_B.i_g++;
+    proc_control_node_B.i_kx++;
   }
 }
 
@@ -19429,14 +19421,14 @@ real_T proc_control_nodeModelClass::proc_control_node_maximum(const real_T x[17]
   int32_T k;
   boolean_T exitg1;
   if (!rtIsNaN(x[0])) {
-    proc_control_node_B.idx_a = 1;
+    proc_control_node_B.idx_h = 1;
   } else {
-    proc_control_node_B.idx_a = 0;
+    proc_control_node_B.idx_h = 0;
     k = 2;
     exitg1 = false;
     while ((!exitg1) && (k < 18)) {
       if (!rtIsNaN(x[k - 1])) {
-        proc_control_node_B.idx_a = k;
+        proc_control_node_B.idx_h = k;
         exitg1 = true;
       } else {
         k++;
@@ -19444,16 +19436,16 @@ real_T proc_control_nodeModelClass::proc_control_node_maximum(const real_T x[17]
     }
   }
 
-  if (proc_control_node_B.idx_a == 0) {
+  if (proc_control_node_B.idx_h == 0) {
     ex = x[0];
   } else {
-    ex = x[proc_control_node_B.idx_a - 1];
-    while (proc_control_node_B.idx_a + 1 <= 17) {
-      if (ex < x[proc_control_node_B.idx_a]) {
-        ex = x[proc_control_node_B.idx_a];
+    ex = x[proc_control_node_B.idx_h - 1];
+    while (proc_control_node_B.idx_h + 1 <= 17) {
+      if (ex < x[proc_control_node_B.idx_h]) {
+        ex = x[proc_control_node_B.idx_h];
       }
 
-      proc_control_node_B.idx_a++;
+      proc_control_node_B.idx_h++;
     }
   }
 
@@ -19497,21 +19489,21 @@ real_T proc_control_nodeModelClass::proc_control_node_xnrm2_p(int32_T n, const
     } else {
       proc_control_node_B.scale_d = 3.3121686421112381E-170;
       proc_control_node_B.kend = (ix0 + n) - 1;
-      proc_control_node_B.k_c = ix0;
-      while (proc_control_node_B.k_c <= proc_control_node_B.kend) {
-        proc_control_node_B.absxk_o = fabs(x[proc_control_node_B.k_c - 1]);
+      proc_control_node_B.k_j1 = ix0;
+      while (proc_control_node_B.k_j1 <= proc_control_node_B.kend) {
+        proc_control_node_B.absxk_o = fabs(x[proc_control_node_B.k_j1 - 1]);
         if (proc_control_node_B.absxk_o > proc_control_node_B.scale_d) {
-          proc_control_node_B.t_l = proc_control_node_B.scale_d /
+          proc_control_node_B.t_lw = proc_control_node_B.scale_d /
             proc_control_node_B.absxk_o;
-          y = y * proc_control_node_B.t_l * proc_control_node_B.t_l + 1.0;
+          y = y * proc_control_node_B.t_lw * proc_control_node_B.t_lw + 1.0;
           proc_control_node_B.scale_d = proc_control_node_B.absxk_o;
         } else {
-          proc_control_node_B.t_l = proc_control_node_B.absxk_o /
+          proc_control_node_B.t_lw = proc_control_node_B.absxk_o /
             proc_control_node_B.scale_d;
-          y += proc_control_node_B.t_l * proc_control_node_B.t_l;
+          y += proc_control_node_B.t_lw * proc_control_node_B.t_lw;
         }
 
-        proc_control_node_B.k_c++;
+        proc_control_node_B.k_j1++;
       }
 
       y = proc_control_node_B.scale_d * sqrt(y);
@@ -19538,17 +19530,17 @@ void proc_control_nodeModelClass::proc_control_node_xgemv_b(int32_T b_m, int32_T
     proc_control_node_B.iac = ia0;
     while (proc_control_node_B.iac <= proc_control_node_B.b_h) {
       proc_control_node_B.ix_b = ix0;
-      proc_control_node_B.c_c = 0.0;
-      proc_control_node_B.d_ei = (proc_control_node_B.iac + b_m) - 1;
+      proc_control_node_B.c_e = 0.0;
+      proc_control_node_B.d_e = (proc_control_node_B.iac + b_m) - 1;
       proc_control_node_B.ia_lb = proc_control_node_B.iac;
-      while (proc_control_node_B.ia_lb <= proc_control_node_B.d_ei) {
-        proc_control_node_B.c_c += b_A[proc_control_node_B.ia_lb - 1] *
+      while (proc_control_node_B.ia_lb <= proc_control_node_B.d_e) {
+        proc_control_node_B.c_e += b_A[proc_control_node_B.ia_lb - 1] *
           x[proc_control_node_B.ix_b - 1];
         proc_control_node_B.ix_b++;
         proc_control_node_B.ia_lb++;
       }
 
-      y[proc_control_node_B.b_iy_p] += proc_control_node_B.c_c;
+      y[proc_control_node_B.b_iy_p] += proc_control_node_B.c_e;
       proc_control_node_B.b_iy_p++;
       proc_control_node_B.iac += 17;
     }
@@ -19563,24 +19555,24 @@ void proc_control_nodeModelClass::proc_control_node_xgerc_g(int32_T b_m, int32_T
   if (!(alpha1 == 0.0)) {
     proc_control_node_B.jA = ia0 - 1;
     proc_control_node_B.jy = 0;
-    proc_control_node_B.j_f = 0;
-    while (proc_control_node_B.j_f <= n - 1) {
+    proc_control_node_B.j_l = 0;
+    while (proc_control_node_B.j_l <= n - 1) {
       if (y[proc_control_node_B.jy] != 0.0) {
         proc_control_node_B.temp = y[proc_control_node_B.jy] * alpha1;
-        proc_control_node_B.ix_l = ix0;
-        proc_control_node_B.b_j = b_m + proc_control_node_B.jA;
+        proc_control_node_B.ix_d = ix0;
+        proc_control_node_B.b_f = b_m + proc_control_node_B.jA;
         proc_control_node_B.ijA = proc_control_node_B.jA;
-        while (proc_control_node_B.ijA + 1 <= proc_control_node_B.b_j) {
-          b_A[proc_control_node_B.ijA] += b_A[proc_control_node_B.ix_l - 1] *
+        while (proc_control_node_B.ijA + 1 <= proc_control_node_B.b_f) {
+          b_A[proc_control_node_B.ijA] += b_A[proc_control_node_B.ix_d - 1] *
             proc_control_node_B.temp;
-          proc_control_node_B.ix_l++;
+          proc_control_node_B.ix_d++;
           proc_control_node_B.ijA++;
         }
       }
 
       proc_control_node_B.jy++;
       proc_control_node_B.jA += 17;
-      proc_control_node_B.j_f++;
+      proc_control_node_B.j_l++;
     }
   }
 }
@@ -19643,14 +19635,14 @@ void proc_control_nodeModelClass::proc_control_node_qrf_h(real_T b_A[289],
   int32_T ia0, int32_T b_m, int32_T n, int32_T nfxd, real_T tau[17])
 {
   memset(&proc_control_node_B.work[0], 0, 17U * sizeof(real_T));
-  proc_control_node_B.i_du = 0;
-  while (proc_control_node_B.i_du <= nfxd - 1) {
-    proc_control_node_B.ii = ((proc_control_node_B.i_du * 17 + ia0) +
-      proc_control_node_B.i_du) - 1;
-    proc_control_node_B.mmi_tmp = b_m - proc_control_node_B.i_du;
-    if (proc_control_node_B.i_du + 1 < b_m) {
+  proc_control_node_B.i_o = 0;
+  while (proc_control_node_B.i_o <= nfxd - 1) {
+    proc_control_node_B.ii = ((proc_control_node_B.i_o * 17 + ia0) +
+      proc_control_node_B.i_o) - 1;
+    proc_control_node_B.mmi_tmp = b_m - proc_control_node_B.i_o;
+    if (proc_control_node_B.i_o + 1 < b_m) {
       proc_control_node_B.b_atmp = b_A[proc_control_node_B.ii];
-      tau[proc_control_node_B.i_du] = 0.0;
+      tau[proc_control_node_B.i_o] = 0.0;
       if (proc_control_node_B.mmi_tmp > 0) {
         proc_control_node_B.beta1 = proc_control_node_xnrm2_p
           (proc_control_node_B.mmi_tmp - 1, b_A, proc_control_node_B.ii + 2);
@@ -19667,11 +19659,10 @@ void proc_control_nodeModelClass::proc_control_node_qrf_h(real_T b_A[289],
               proc_control_node_B.mmi_tmp;
             do {
               proc_control_node_B.knt++;
-              proc_control_node_B.b_k_o = proc_control_node_B.ii + 1;
-              while (proc_control_node_B.b_k_o + 1 <= proc_control_node_B.mmip1)
-              {
-                b_A[proc_control_node_B.b_k_o] *= 9.9792015476736E+291;
-                proc_control_node_B.b_k_o++;
+              proc_control_node_B.b_k = proc_control_node_B.ii + 1;
+              while (proc_control_node_B.b_k + 1 <= proc_control_node_B.mmip1) {
+                b_A[proc_control_node_B.b_k] *= 9.9792015476736E+291;
+                proc_control_node_B.b_k++;
               }
 
               proc_control_node_B.beta1 *= 9.9792015476736E+291;
@@ -19686,14 +19677,14 @@ void proc_control_nodeModelClass::proc_control_node_qrf_h(real_T b_A[289],
               proc_control_node_B.beta1 = -proc_control_node_B.beta1;
             }
 
-            tau[proc_control_node_B.i_du] = (proc_control_node_B.beta1 -
+            tau[proc_control_node_B.i_o] = (proc_control_node_B.beta1 -
               proc_control_node_B.b_atmp) / proc_control_node_B.beta1;
             proc_control_node_B.b_atmp = 1.0 / (proc_control_node_B.b_atmp -
               proc_control_node_B.beta1);
-            proc_control_node_B.b_k_o = proc_control_node_B.ii + 1;
-            while (proc_control_node_B.b_k_o + 1 <= proc_control_node_B.mmip1) {
-              b_A[proc_control_node_B.b_k_o] *= proc_control_node_B.b_atmp;
-              proc_control_node_B.b_k_o++;
+            proc_control_node_B.b_k = proc_control_node_B.ii + 1;
+            while (proc_control_node_B.b_k + 1 <= proc_control_node_B.mmip1) {
+              b_A[proc_control_node_B.b_k] *= proc_control_node_B.b_atmp;
+              proc_control_node_B.b_k++;
             }
 
             proc_control_node_B.mmip1 = 0;
@@ -19704,7 +19695,7 @@ void proc_control_nodeModelClass::proc_control_node_qrf_h(real_T b_A[289],
 
             proc_control_node_B.b_atmp = proc_control_node_B.beta1;
           } else {
-            tau[proc_control_node_B.i_du] = (proc_control_node_B.beta1 -
+            tau[proc_control_node_B.i_o] = (proc_control_node_B.beta1 -
               b_A[proc_control_node_B.ii]) / proc_control_node_B.beta1;
             proc_control_node_B.b_atmp = 1.0 / (b_A[proc_control_node_B.ii] -
               proc_control_node_B.beta1);
@@ -19723,20 +19714,20 @@ void proc_control_nodeModelClass::proc_control_node_qrf_h(real_T b_A[289],
 
       b_A[proc_control_node_B.ii] = proc_control_node_B.b_atmp;
     } else {
-      tau[proc_control_node_B.i_du] = 0.0;
+      tau[proc_control_node_B.i_o] = 0.0;
     }
 
-    if (proc_control_node_B.i_du + 1 < n) {
+    if (proc_control_node_B.i_o + 1 < n) {
       proc_control_node_B.b_atmp = b_A[proc_control_node_B.ii];
       b_A[proc_control_node_B.ii] = 1.0;
       proc_control_node_xzlarf_o(proc_control_node_B.mmi_tmp, (n -
-        proc_control_node_B.i_du) - 1, proc_control_node_B.ii + 1,
-        tau[proc_control_node_B.i_du], b_A, proc_control_node_B.ii + 18,
+        proc_control_node_B.i_o) - 1, proc_control_node_B.ii + 1,
+        tau[proc_control_node_B.i_o], b_A, proc_control_node_B.ii + 18,
         proc_control_node_B.work);
       b_A[proc_control_node_B.ii] = proc_control_node_B.b_atmp;
     }
 
-    proc_control_node_B.i_du++;
+    proc_control_node_B.i_o++;
   }
 }
 
@@ -19888,11 +19879,11 @@ void proc_control_nodeModelClass::proc_control_node_KWIKfactor(const real_T
       while (proc_control_node_B.i_dd - 1 <= n - 1) {
         proc_control_node_B.f_i = 1;
         while (proc_control_node_B.f_i - 1 <= n - 1) {
-          proc_control_node_B.b_Linv_j = 0.0;
+          proc_control_node_B.b_Linv_h = 0.0;
           for (proc_control_node_B.RLinv_tmp_tmp = 0;
                proc_control_node_B.RLinv_tmp_tmp < 17;
                proc_control_node_B.RLinv_tmp_tmp++) {
-            proc_control_node_B.b_Linv_j += b_Linv[(static_cast<int16_T>
+            proc_control_node_B.b_Linv_h += b_Linv[(static_cast<int16_T>
               (proc_control_node_B.i_dd) - 1) * 17 +
               proc_control_node_B.RLinv_tmp_tmp] * proc_control_node_B.QQ[(
               static_cast<int16_T>(proc_control_node_B.f_i) - 1) * 17 +
@@ -19901,7 +19892,7 @@ void proc_control_nodeModelClass::proc_control_node_KWIKfactor(const real_T
 
           proc_control_node_B.TL[(static_cast<int16_T>(proc_control_node_B.i_dd)
             + 17 * (static_cast<int16_T>(proc_control_node_B.f_i) - 1)) - 1] =
-            proc_control_node_B.b_Linv_j;
+            proc_control_node_B.b_Linv_h;
           proc_control_node_B.f_i++;
         }
 
@@ -20329,7 +20320,7 @@ void proc_control_nodeModelClass::proc_control_node_qpkwik(const real_T b_Linv
       kNext = 0;
       for (proc_control_node_B.i_e = 0; proc_control_node_B.i_e < 32;
            proc_control_node_B.i_e++) {
-        proc_control_node_B.t_m =
+        proc_control_node_B.t_k =
           proc_control_node_B.cTol[proc_control_node_B.i_e];
         if (!cTolComputed) {
           for (proc_control_node_B.U_tmp = 0; proc_control_node_B.U_tmp < 17;
@@ -20343,22 +20334,22 @@ void proc_control_nodeModelClass::proc_control_node_qpkwik(const real_T b_Linv
                                 proc_control_node_B.z_i);
           proc_control_node_B.cVal = proc_control_node_maximum
             (proc_control_node_B.z_i);
-          if ((!(proc_control_node_B.t_m > proc_control_node_B.cVal)) &&
+          if ((!(proc_control_node_B.t_k > proc_control_node_B.cVal)) &&
               (!rtIsNaN(proc_control_node_B.cVal))) {
-            proc_control_node_B.t_m = proc_control_node_B.cVal;
+            proc_control_node_B.t_k = proc_control_node_B.cVal;
           }
         }
 
         if (iA[proc_control_node_B.i_e] == 0) {
-          proc_control_node_B.b_Ac_k = 0.0;
+          proc_control_node_B.b_Ac_j = 0.0;
           for (proc_control_node_B.U_tmp = 0; proc_control_node_B.U_tmp < 17;
                proc_control_node_B.U_tmp++) {
-            proc_control_node_B.b_Ac_k += b_Ac[proc_control_node_B.i_e +
+            proc_control_node_B.b_Ac_j += b_Ac[proc_control_node_B.i_e +
               (proc_control_node_B.U_tmp << 5)] * x[proc_control_node_B.U_tmp];
           }
 
-          proc_control_node_B.cVal = (proc_control_node_B.b_Ac_k -
-            b[proc_control_node_B.i_e]) / proc_control_node_B.t_m;
+          proc_control_node_B.cVal = (proc_control_node_B.b_Ac_j -
+            b[proc_control_node_B.i_e]) / proc_control_node_B.t_k;
           if (proc_control_node_B.cVal < proc_control_node_B.cMin) {
             proc_control_node_B.cMin = proc_control_node_B.cVal;
             kNext = static_cast<int16_T>(proc_control_node_B.i_e + 1);
@@ -20366,7 +20357,7 @@ void proc_control_nodeModelClass::proc_control_node_qpkwik(const real_T b_Linv
         }
 
         proc_control_node_B.cTol[proc_control_node_B.i_e] =
-          proc_control_node_B.t_m;
+          proc_control_node_B.t_k;
       }
 
       cTolComputed = true;
@@ -20424,10 +20415,10 @@ void proc_control_nodeModelClass::proc_control_node_qpkwik(const real_T b_Linv
 
                 proc_control_node_B.i_e = 1;
                 while (proc_control_node_B.i_e - 1 <= nA - 1) {
-                  proc_control_node_B.b_Ac_k = 0.0;
+                  proc_control_node_B.b_Ac_j = 0.0;
                   for (proc_control_node_B.U_tmp = 0; proc_control_node_B.U_tmp <
                        17; proc_control_node_B.U_tmp++) {
-                    proc_control_node_B.b_Ac_k += b_Ac
+                    proc_control_node_B.b_Ac_j += b_Ac
                       [((proc_control_node_B.U_tmp << 5) + kNext) - 1] *
                       proc_control_node_B.b_D[(static_cast<int16_T>
                       (proc_control_node_B.i_e) - 1) * 17 +
@@ -20435,7 +20426,7 @@ void proc_control_nodeModelClass::proc_control_node_qpkwik(const real_T b_Linv
                   }
 
                   proc_control_node_B.r_j[static_cast<int16_T>
-                    (proc_control_node_B.i_e) - 1] = proc_control_node_B.b_Ac_k;
+                    (proc_control_node_B.i_e) - 1] = proc_control_node_B.b_Ac_j;
                   proc_control_node_B.i_e++;
                 }
 
@@ -20465,12 +20456,12 @@ void proc_control_nodeModelClass::proc_control_node_qpkwik(const real_T b_Linv
               if ((nA != 0) && (!ColdReset)) {
                 proc_control_node_B.i_e = 1;
                 while (proc_control_node_B.i_e - 1 <= nA - 1) {
-                  proc_control_node_B.t_m = proc_control_node_B.r_j
+                  proc_control_node_B.t_k = proc_control_node_B.r_j
                     [static_cast<int16_T>(proc_control_node_B.i_e) - 1];
-                  if (proc_control_node_B.t_m > 1.0E-12) {
+                  if (proc_control_node_B.t_k > 1.0E-12) {
                     proc_control_node_B.cVal = lambda[proc_control_node_B.iC[
                       static_cast<int16_T>(proc_control_node_B.i_e) - 1] - 1] /
-                      proc_control_node_B.t_m;
+                      proc_control_node_B.t_k;
                     if ((kDrop == 0) || (proc_control_node_B.cVal <
                                          proc_control_node_B.rMin)) {
                       proc_control_node_B.rMin = proc_control_node_B.cVal;
@@ -20499,15 +20490,15 @@ void proc_control_nodeModelClass::proc_control_node_qpkwik(const real_T b_Linv
                 proc_control_node_B.cVal = 0.0;
                 ColdReset = true;
               } else {
-                proc_control_node_B.b_Ac_k = 0.0;
+                proc_control_node_B.b_Ac_j = 0.0;
                 for (proc_control_node_B.U_tmp = 0; proc_control_node_B.U_tmp <
                      17; proc_control_node_B.U_tmp++) {
-                  proc_control_node_B.b_Ac_k += b_Ac[((proc_control_node_B.U_tmp
+                  proc_control_node_B.b_Ac_j += b_Ac[((proc_control_node_B.U_tmp
                     << 5) + kNext) - 1] * x[proc_control_node_B.U_tmp];
                 }
 
                 proc_control_node_B.cVal = (b[kNext - 1] -
-                  proc_control_node_B.b_Ac_k) / proc_control_node_B.cVal;
+                  proc_control_node_B.b_Ac_j) / proc_control_node_B.cVal;
                 ColdReset = false;
               }
 
@@ -20516,14 +20507,14 @@ void proc_control_nodeModelClass::proc_control_node_qpkwik(const real_T b_Linv
                 exitg1 = 1;
               } else {
                 if (ColdReset) {
-                  proc_control_node_B.t_m = proc_control_node_B.cMin;
+                  proc_control_node_B.t_k = proc_control_node_B.cMin;
                 } else if (DualFeasible) {
-                  proc_control_node_B.t_m = proc_control_node_B.cVal;
+                  proc_control_node_B.t_k = proc_control_node_B.cVal;
                 } else if ((proc_control_node_B.cMin < proc_control_node_B.cVal)
                            || rtIsNaN(proc_control_node_B.cVal)) {
-                  proc_control_node_B.t_m = proc_control_node_B.cMin;
+                  proc_control_node_B.t_k = proc_control_node_B.cMin;
                 } else {
-                  proc_control_node_B.t_m = proc_control_node_B.cVal;
+                  proc_control_node_B.t_k = proc_control_node_B.cVal;
                 }
 
                 proc_control_node_B.i_e = 1;
@@ -20532,7 +20523,7 @@ void proc_control_nodeModelClass::proc_control_node_qpkwik(const real_T b_Linv
                     static_cast<int16_T>(proc_control_node_B.i_e) - 1];
                   lambda[proc_control_node_B.lambda_tmp_tmp - 1] -=
                     proc_control_node_B.r_j[static_cast<int16_T>
-                    (proc_control_node_B.i_e) - 1] * proc_control_node_B.t_m;
+                    (proc_control_node_B.i_e) - 1] * proc_control_node_B.t_k;
                   if ((proc_control_node_B.lambda_tmp_tmp <= 32) &&
                       (lambda[proc_control_node_B.lambda_tmp_tmp - 1] < 0.0)) {
                     lambda[proc_control_node_B.lambda_tmp_tmp - 1] = 0.0;
@@ -20541,8 +20532,8 @@ void proc_control_nodeModelClass::proc_control_node_qpkwik(const real_T b_Linv
                   proc_control_node_B.i_e++;
                 }
 
-                lambda[kNext - 1] += proc_control_node_B.t_m;
-                if (proc_control_node_B.t_m == proc_control_node_B.cMin) {
+                lambda[kNext - 1] += proc_control_node_B.t_k;
+                if (proc_control_node_B.t_k == proc_control_node_B.cMin) {
                   proc_control_nod_DropConstraint(kDrop, iA, &nA,
                     proc_control_node_B.iC);
                 }
@@ -20550,11 +20541,11 @@ void proc_control_nodeModelClass::proc_control_node_qpkwik(const real_T b_Linv
                 if (!ColdReset) {
                   for (proc_control_node_B.U_tmp = 0; proc_control_node_B.U_tmp <
                        17; proc_control_node_B.U_tmp++) {
-                    x[proc_control_node_B.U_tmp] += proc_control_node_B.t_m *
+                    x[proc_control_node_B.U_tmp] += proc_control_node_B.t_k *
                       proc_control_node_B.z_i[proc_control_node_B.U_tmp];
                   }
 
-                  if (proc_control_node_B.t_m == proc_control_node_B.cVal) {
+                  if (proc_control_node_B.t_k == proc_control_node_B.cVal) {
                     if (nA == 17) {
                       *status = -1.0;
                       exitg1 = 1;
@@ -20628,44 +20619,44 @@ void proc_control_nodeModelClass::proc_control_node_mpc_solveQP(const real_T
   memset(&f[0], 0, 17U * sizeof(real_T));
   for (proc_control_node_B.i_fo = 0; proc_control_node_B.i_fo < 16;
        proc_control_node_B.i_fo++) {
-    proc_control_node_B.b_Kx_kb = 0.0;
+    proc_control_node_B.b_Kx_hj = 0.0;
     for (proc_control_node_B.i36 = 0; proc_control_node_B.i36 < 20;
          proc_control_node_B.i36++) {
-      proc_control_node_B.b_Kx_kb += b_Kx[20 * proc_control_node_B.i_fo +
+      proc_control_node_B.b_Kx_hj += b_Kx[20 * proc_control_node_B.i_fo +
         proc_control_node_B.i36] * xQP[proc_control_node_B.i36];
     }
 
-    proc_control_node_B.b_Kr_hj = 0.0;
+    proc_control_node_B.b_Kr_d = 0.0;
     for (proc_control_node_B.i36 = 0; proc_control_node_B.i36 < 120;
          proc_control_node_B.i36++) {
-      proc_control_node_B.b_Kr_hj += b_Kr[120 * proc_control_node_B.i_fo +
+      proc_control_node_B.b_Kr_d += b_Kr[120 * proc_control_node_B.i_fo +
         proc_control_node_B.i36] * rseq[proc_control_node_B.i36];
     }
 
-    proc_control_node_B.b_Ku1_d = 0.0;
+    proc_control_node_B.b_Ku1_j = 0.0;
     for (proc_control_node_B.i36 = 0; proc_control_node_B.i36 < 8;
          proc_control_node_B.i36++) {
-      proc_control_node_B.b_Ku1_d += b_Ku1[(proc_control_node_B.i_fo << 3) +
+      proc_control_node_B.b_Ku1_j += b_Ku1[(proc_control_node_B.i_fo << 3) +
         proc_control_node_B.i36] * old_u[proc_control_node_B.i36];
     }
 
-    proc_control_node_B.b_Kv_j = 0.0;
+    proc_control_node_B.b_Kv_np = 0.0;
     for (proc_control_node_B.i36 = 0; proc_control_node_B.i36 < 11;
          proc_control_node_B.i36++) {
-      proc_control_node_B.b_Kv_j += b_Kv[11 * proc_control_node_B.i_fo +
+      proc_control_node_B.b_Kv_np += b_Kv[11 * proc_control_node_B.i_fo +
         proc_control_node_B.i36] * vseq[proc_control_node_B.i36];
     }
 
-    proc_control_node_B.b_Kut_np = 0.0;
+    proc_control_node_B.b_Kut_j = 0.0;
     for (proc_control_node_B.i36 = 0; proc_control_node_B.i36 < 80;
          proc_control_node_B.i36++) {
-      proc_control_node_B.b_Kut_np += b_Kut[80 * proc_control_node_B.i_fo +
+      proc_control_node_B.b_Kut_j += b_Kut[80 * proc_control_node_B.i_fo +
         proc_control_node_B.i36] * b_utarget[proc_control_node_B.i36];
     }
 
-    f[proc_control_node_B.i_fo] = (((proc_control_node_B.b_Kx_kb +
-      proc_control_node_B.b_Kr_hj) + proc_control_node_B.b_Ku1_d) +
-      proc_control_node_B.b_Kv_j) + proc_control_node_B.b_Kut_np;
+    f[proc_control_node_B.i_fo] = (((proc_control_node_B.b_Kx_hj +
+      proc_control_node_B.b_Kr_d) + proc_control_node_B.b_Ku1_j) +
+      proc_control_node_B.b_Kv_np) + proc_control_node_B.b_Kut_j;
   }
 
   for (proc_control_node_B.i_fo = 0; proc_control_node_B.i_fo < 32;
@@ -20856,8 +20847,8 @@ void proc_control_nodeModelClass::proc_control_mpcblock_optimizer(const real_T
 
   memcpy(&proc_control_node_B.b_Linv_m[0], &b_H[0], 289U * sizeof(real_T));
   proc_control_n_mpc_checkhessian(proc_control_node_B.b_Linv_m,
-    proc_control_node_B.c_Linv_j, &proc_control_node_B.BadH_k);
-  if (proc_control_node_B.BadH_k > 1.0) {
+    proc_control_node_B.c_Linv_j, &proc_control_node_B.BadH_i);
+  if (proc_control_node_B.BadH_i > 1.0) {
     proc_control_node_B.kidx_j = 0;
     for (proc_control_node_B.kidx_m = 0; proc_control_node_B.kidx_m < 8;
          proc_control_node_B.kidx_m++) {
@@ -20901,17 +20892,17 @@ void proc_control_nodeModelClass::proc_control_mpcblock_optimizer(const real_T
     for (proc_control_node_B.i_k = 0; proc_control_node_B.i_k < 32;
          proc_control_node_B.i_k++) {
       iAout[proc_control_node_B.i_k] = iA[proc_control_node_B.i_k];
-      proc_control_node_B.BadH_k = 0.0;
+      proc_control_node_B.BadH_i = 0.0;
       proc_control_node_B.b_j1_p = 0;
       for (proc_control_node_B.kidx_j = 0; proc_control_node_B.kidx_j < 20;
            proc_control_node_B.kidx_j++) {
-        proc_control_node_B.BadH_k += b_Mx[proc_control_node_B.b_j1_p +
+        proc_control_node_B.BadH_i += b_Mx[proc_control_node_B.b_j1_p +
           proc_control_node_B.i_k] * x[proc_control_node_B.kidx_j];
         proc_control_node_B.b_j1_p += 32;
       }
 
       proc_control_node_B.b_Mlim_i[proc_control_node_B.i_k] =
-        b_Mlim[proc_control_node_B.i_k] + proc_control_node_B.BadH_k;
+        b_Mlim[proc_control_node_B.i_k] + proc_control_node_B.BadH_i;
       proc_control_node_B.b_Mu1_d[proc_control_node_B.i_k] = 0.0;
     }
 
@@ -20954,11 +20945,11 @@ void proc_control_nodeModelClass::proc_control_mpcblock_optimizer(const real_T
 
     for (proc_control_node_B.b_j1_p = 0; proc_control_node_B.b_j1_p < 32;
          proc_control_node_B.b_j1_p++) {
-      proc_control_node_B.BadH_k = 0.0;
+      proc_control_node_B.BadH_i = 0.0;
       proc_control_node_B.kidx_j = 0;
       for (proc_control_node_B.kidx_m = 0; proc_control_node_B.kidx_m < 11;
            proc_control_node_B.kidx_m++) {
-        proc_control_node_B.BadH_k += b_Mv[proc_control_node_B.kidx_j +
+        proc_control_node_B.BadH_i += b_Mv[proc_control_node_B.kidx_j +
           proc_control_node_B.b_j1_p] * vseq[proc_control_node_B.kidx_m];
         proc_control_node_B.kidx_j += 32;
       }
@@ -20966,7 +20957,7 @@ void proc_control_nodeModelClass::proc_control_mpcblock_optimizer(const real_T
       proc_control_node_B.b_Mlim_g4[proc_control_node_B.b_j1_p] =
         -((proc_control_node_B.b_Mlim_i[proc_control_node_B.b_j1_p] +
            proc_control_node_B.b_Mu1_d[proc_control_node_B.b_j1_p]) +
-          proc_control_node_B.BadH_k);
+          proc_control_node_B.BadH_i);
     }
 
     proc_control_node_mpc_solveQP(x, proc_control_node_B.b_Kx_m,
@@ -20990,343 +20981,343 @@ void proc_control_nodeModelClass::proc_control_nod_AUVEulerSimFcn(const real_T
 {
   real_T out1_tmp;
   real_T out1_tmp_0;
-  proc_control_node_B.t5_g = cos(in1[3]);
-  proc_control_node_B.t6_l = cos(in1[5]);
-  proc_control_node_B.t9_ge = cos(in1[4]);
-  proc_control_node_B.t11_pv = sin(in1[3]);
-  proc_control_node_B.t12_k = sin(in1[5]);
-  proc_control_node_B.t13_l = sin(in1[4]);
-  proc_control_node_B.t20_bf = in1[10] / 500.0;
-  proc_control_node_B.t24_c = in1[9] / 1000.0;
-  proc_control_node_B.t26_fb = in1[11] * 0.018;
-  proc_control_node_B.t46_o = in1[6] * 32.4648;
-  proc_control_node_B.t49_d = in1[7] * 43.6156;
+  proc_control_node_B.t5_l = cos(in1[3]);
+  proc_control_node_B.t6_ge = cos(in1[5]);
+  proc_control_node_B.t9_p = cos(in1[4]);
+  proc_control_node_B.t11_k = sin(in1[3]);
+  proc_control_node_B.t12_l = sin(in1[5]);
+  proc_control_node_B.t13_bf = sin(in1[4]);
+  proc_control_node_B.t20_c = in1[10] / 500.0;
+  proc_control_node_B.t24_f = in1[9] / 1000.0;
+  proc_control_node_B.t26_o = in1[11] * 0.018;
+  proc_control_node_B.t46_d = in1[6] * 32.4648;
+  proc_control_node_B.t49_l = in1[7] * 43.6156;
   proc_control_node_B.t50_l = in1[8] * 46.7695;
-  proc_control_node_B.t14_l = 1.0 / proc_control_node_B.t9_ge;
-  proc_control_node_B.t53_d = proc_control_node_B.t20_bf +
-    proc_control_node_B.t26_fb;
-  proc_control_node_B.t20_bf += proc_control_node_B.t24_c;
-  proc_control_node_B.t24_c += proc_control_node_B.t26_fb;
-  proc_control_node_B.t26_fb = in1[10] * 0.558 + proc_control_node_B.t46_o;
-  proc_control_node_B.t62_k = in1[9] * 0.062 + proc_control_node_B.t50_l;
-  proc_control_node_B.t63_f = in1[11] * 0.031 + proc_control_node_B.t49_d;
+  proc_control_node_B.t14_d = 1.0 / proc_control_node_B.t9_p;
+  proc_control_node_B.t53_k = proc_control_node_B.t20_c +
+    proc_control_node_B.t26_o;
+  proc_control_node_B.t20_c += proc_control_node_B.t24_f;
+  proc_control_node_B.t24_f += proc_control_node_B.t26_o;
+  proc_control_node_B.t26_o = in1[10] * 0.558 + proc_control_node_B.t46_d;
+  proc_control_node_B.t62_f = in1[9] * 0.062 + proc_control_node_B.t50_l;
+  proc_control_node_B.t63_p = in1[11] * 0.031 + proc_control_node_B.t49_l;
   proc_control_node_B.t66 = (in1[10] / 125.0 + in1[11] / 250.0) + in1[9] * 0.592;
-  proc_control_node_B.t46_o = in1[11] * 0.062 + -proc_control_node_B.t46_o;
-  proc_control_node_B.t49_d = in1[9] * 0.558 + -proc_control_node_B.t49_d;
+  proc_control_node_B.t46_d = in1[11] * 0.062 + -proc_control_node_B.t46_d;
+  proc_control_node_B.t49_l = in1[9] * 0.558 + -proc_control_node_B.t49_l;
   proc_control_node_B.t50_l = in1[10] * 0.031 + -proc_control_node_B.t50_l;
-  proc_control_node_B.t68_p3 = (in1[9] / 250.0 + -(in1[10] / 1000.0)) + in1[11] *
+  proc_control_node_B.t68_k = (in1[9] / 250.0 + -(in1[10] / 1000.0)) + in1[11] *
     1.8864;
   proc_control_node_B.t69_k = (in1[9] / 125.0 + -(in1[11] / 1000.0)) + in1[10] *
     1.7228;
-  proc_control_node_B.out1_tmp_k = proc_control_node_B.t11_pv *
-    proc_control_node_B.t12_k;
-  proc_control_node_B.out1_tmp_iv = proc_control_node_B.t5_g *
-    proc_control_node_B.t6_l;
-  proc_control_node_B.out1_tmp_ew = proc_control_node_B.t5_g *
-    proc_control_node_B.t12_k;
-  proc_control_node_B.out1_tmp_f = proc_control_node_B.t6_l *
-    proc_control_node_B.t11_pv;
-  out1[0] = ((proc_control_node_B.out1_tmp_ew - proc_control_node_B.out1_tmp_f *
-              proc_control_node_B.t13_l) * -in1[7] +
-             (proc_control_node_B.out1_tmp_iv * proc_control_node_B.t13_l +
-              proc_control_node_B.out1_tmp_k) * in1[8]) +
-    proc_control_node_B.t6_l * proc_control_node_B.t9_ge * in1[6];
-  out1[1] = ((proc_control_node_B.out1_tmp_k * proc_control_node_B.t13_l +
-              proc_control_node_B.out1_tmp_iv) * in1[7] -
-             (proc_control_node_B.out1_tmp_f - proc_control_node_B.out1_tmp_ew *
-              proc_control_node_B.t13_l) * in1[8]) + proc_control_node_B.t9_ge *
-    proc_control_node_B.t12_k * in1[6];
-  proc_control_node_B.out1_tmp_k = proc_control_node_B.t5_g *
-    proc_control_node_B.t9_ge;
-  proc_control_node_B.out1_tmp_iv = proc_control_node_B.t9_ge *
-    proc_control_node_B.t11_pv;
-  out1[2] = (proc_control_node_B.out1_tmp_iv * in1[7] +
-             -proc_control_node_B.t13_l * in1[6]) +
-    proc_control_node_B.out1_tmp_k * in1[8];
-  proc_control_node_B.out1_tmp_ew = in1[10] * proc_control_node_B.t11_pv;
-  proc_control_node_B.out1_tmp_f = in1[11] * proc_control_node_B.t5_g;
-  out1[3] = (proc_control_node_B.out1_tmp_ew * proc_control_node_B.t13_l *
-             proc_control_node_B.t14_l + in1[9]) +
-    proc_control_node_B.out1_tmp_f * proc_control_node_B.t13_l *
-    proc_control_node_B.t14_l;
-  out1[4] = in1[10] * proc_control_node_B.t5_g - in1[11] *
-    proc_control_node_B.t11_pv;
-  out1[5] = proc_control_node_B.out1_tmp_ew * proc_control_node_B.t14_l +
-    proc_control_node_B.out1_tmp_f * proc_control_node_B.t14_l;
-  proc_control_node_B.out1_tmp_ew = in1[9] * proc_control_node_B.t53_d;
-  proc_control_node_B.out1_tmp_f = in1[9] * (fabs(in1[9]) * 0.167 +
+  proc_control_node_B.out1_tmp_iv = proc_control_node_B.t11_k *
+    proc_control_node_B.t12_l;
+  proc_control_node_B.out1_tmp_ew = proc_control_node_B.t5_l *
+    proc_control_node_B.t6_ge;
+  proc_control_node_B.out1_tmp_f = proc_control_node_B.t5_l *
+    proc_control_node_B.t12_l;
+  proc_control_node_B.out1_tmp_k = proc_control_node_B.t6_ge *
+    proc_control_node_B.t11_k;
+  out1[0] = ((proc_control_node_B.out1_tmp_f - proc_control_node_B.out1_tmp_k *
+              proc_control_node_B.t13_bf) * -in1[7] +
+             (proc_control_node_B.out1_tmp_ew * proc_control_node_B.t13_bf +
+              proc_control_node_B.out1_tmp_iv) * in1[8]) +
+    proc_control_node_B.t6_ge * proc_control_node_B.t9_p * in1[6];
+  out1[1] = ((proc_control_node_B.out1_tmp_iv * proc_control_node_B.t13_bf +
+              proc_control_node_B.out1_tmp_ew) * in1[7] -
+             (proc_control_node_B.out1_tmp_k - proc_control_node_B.out1_tmp_f *
+              proc_control_node_B.t13_bf) * in1[8]) + proc_control_node_B.t9_p *
+    proc_control_node_B.t12_l * in1[6];
+  proc_control_node_B.out1_tmp_iv = proc_control_node_B.t5_l *
+    proc_control_node_B.t9_p;
+  proc_control_node_B.out1_tmp_ew = proc_control_node_B.t9_p *
+    proc_control_node_B.t11_k;
+  out1[2] = (proc_control_node_B.out1_tmp_ew * in1[7] +
+             -proc_control_node_B.t13_bf * in1[6]) +
+    proc_control_node_B.out1_tmp_iv * in1[8];
+  proc_control_node_B.out1_tmp_f = in1[10] * proc_control_node_B.t11_k;
+  proc_control_node_B.out1_tmp_k = in1[11] * proc_control_node_B.t5_l;
+  out1[3] = (proc_control_node_B.out1_tmp_f * proc_control_node_B.t13_bf *
+             proc_control_node_B.t14_d + in1[9]) +
+    proc_control_node_B.out1_tmp_k * proc_control_node_B.t13_bf *
+    proc_control_node_B.t14_d;
+  out1[4] = in1[10] * proc_control_node_B.t5_l - in1[11] *
+    proc_control_node_B.t11_k;
+  out1[5] = proc_control_node_B.out1_tmp_f * proc_control_node_B.t14_d +
+    proc_control_node_B.out1_tmp_k * proc_control_node_B.t14_d;
+  proc_control_node_B.out1_tmp_f = in1[9] * proc_control_node_B.t53_k;
+  proc_control_node_B.out1_tmp_k = in1[9] * (fabs(in1[9]) * 0.167 +
     3.3333333333333335);
-  proc_control_node_B.t6_l = in1[9] * proc_control_node_B.t62_k;
-  proc_control_node_B.t12_k = in1[9] * proc_control_node_B.t49_d;
-  proc_control_node_B.t14_l = in1[9] * proc_control_node_B.t68_p3;
-  proc_control_node_B.out1_tmp_kx = in1[9] * proc_control_node_B.t69_k;
-  proc_control_node_B.out1_tmp_ne = in1[10] * (fabs(in1[10]) / 10.0 +
+  proc_control_node_B.t6_ge = in1[9] * proc_control_node_B.t62_f;
+  proc_control_node_B.t12_l = in1[9] * proc_control_node_B.t49_l;
+  proc_control_node_B.t14_d = in1[9] * proc_control_node_B.t68_k;
+  proc_control_node_B.out1_tmp_ne = in1[9] * proc_control_node_B.t69_k;
+  proc_control_node_B.out1_tmp_it = in1[10] * (fabs(in1[10]) / 10.0 +
     2.3333333333333335);
-  proc_control_node_B.out1_tmp_it = in1[10] * proc_control_node_B.t24_c;
-  proc_control_node_B.out1_tmp_im = in1[10] * proc_control_node_B.t26_fb;
-  proc_control_node_B.out1_tmp_o2 = in1[10] * proc_control_node_B.t50_l;
-  proc_control_node_B.out1_tmp_dn = in1[10] * proc_control_node_B.t66;
-  proc_control_node_B.t68_p3 *= in1[10];
-  proc_control_node_B.out1_tmp_iu = in1[11] * (fabs(in1[11]) * 0.102 + 5.0);
-  proc_control_node_B.out1_tmp_gy = in1[11] * proc_control_node_B.t20_bf;
-  proc_control_node_B.out1_tmp_cv = in1[11] * proc_control_node_B.t46_o;
-  out1_tmp = in1[11] * proc_control_node_B.t63_f;
+  proc_control_node_B.out1_tmp_im = in1[10] * proc_control_node_B.t24_f;
+  proc_control_node_B.out1_tmp_o2 = in1[10] * proc_control_node_B.t26_o;
+  proc_control_node_B.out1_tmp_dn = in1[10] * proc_control_node_B.t50_l;
+  proc_control_node_B.out1_tmp_iu = in1[10] * proc_control_node_B.t66;
+  proc_control_node_B.t68_k *= in1[10];
+  proc_control_node_B.out1_tmp_gy = in1[11] * (fabs(in1[11]) * 0.102 + 5.0);
+  proc_control_node_B.out1_tmp_cv = in1[11] * proc_control_node_B.t20_c;
+  proc_control_node_B.out1_tmp_ee = in1[11] * proc_control_node_B.t46_d;
+  out1_tmp = in1[11] * proc_control_node_B.t63_p;
   proc_control_node_B.t66 *= in1[11];
   proc_control_node_B.t69_k *= in1[11];
-  proc_control_node_B.t5_g = proc_control_node_B.t9_ge *
-    (proc_control_node_B.t5_g * 0.062 + -(proc_control_node_B.t11_pv * 0.746622));
-  proc_control_node_B.t9_ge = (fabs(in1[6]) * 1.17 + 15.0) * in1[6];
-  proc_control_node_B.t53_d *= in1[6];
-  proc_control_node_B.t63_f *= in1[6];
+  proc_control_node_B.t5_l = proc_control_node_B.t9_p *
+    (proc_control_node_B.t5_l * 0.062 + -(proc_control_node_B.t11_k * 0.746622));
+  proc_control_node_B.t9_p = (fabs(in1[6]) * 1.17 + 15.0) * in1[6];
+  proc_control_node_B.t53_k *= in1[6];
+  proc_control_node_B.t63_p *= in1[6];
   proc_control_node_B.t50_l *= in1[6];
-  proc_control_node_B.t11_pv = (fabs(in1[7]) * 0.82 + 20.0) * in1[7];
-  proc_control_node_B.t24_c *= in1[7];
-  proc_control_node_B.t46_o *= in1[7];
-  proc_control_node_B.t62_k *= in1[7];
+  proc_control_node_B.t11_k = (fabs(in1[7]) * 0.82 + 20.0) * in1[7];
+  proc_control_node_B.t24_f *= in1[7];
+  proc_control_node_B.t46_d *= in1[7];
+  proc_control_node_B.t62_f *= in1[7];
   out1_tmp_0 = (fabs(in1[8]) * 0.756 + 23.333333333333332) * in1[8];
-  proc_control_node_B.t20_bf *= in1[8];
-  proc_control_node_B.t26_fb *= in1[8];
-  proc_control_node_B.t49_d *= in1[8];
+  proc_control_node_B.t20_c *= in1[8];
+  proc_control_node_B.t26_o *= in1[8];
+  proc_control_node_B.t49_l *= in1[8];
   out1[6] = ((((((((((((((in2[0] * -0.00033076834054020519 + in2[1] *
     1.8595780444550231E-21) + in2[2] * 0.00033506403327449372) + (in2[3] *
     0.00033363213569639753 - in2[4] * 0.001819638864719295)) + (in2[5] *
     -0.0018124211550371481 + in2[6] * 0.0018538731733468781)) + (in2[7] *
-    0.001778186846409557 + proc_control_node_B.t13_l * 0.20690082595613279)) +
+    0.001778186846409557 + proc_control_node_B.t13_bf * 0.20690082595613279)) +
                      (((in2[0] * 1.4142135623730951 * 0.015171119710606879 +
                         in2[1] * 1.4142135623730951 * 0.014928824155507611) +
                        in2[2] * 1.4142135623730951 * 0.015171119710606879) +
                       in2[3] * 1.4142135623730951 * 0.01516372519659284)) +
-                    (((proc_control_node_B.out1_tmp_ew * -0.96028628902704993 -
-                       proc_control_node_B.out1_tmp_f * 0.0001303522588356414) +
-                      proc_control_node_B.t6_l * 9.4803055144857715E-7) -
-                     proc_control_node_B.t12_k * 6.8231348244175949E-6)) +
-                   (((proc_control_node_B.t14_l * -0.010033314971702871 -
-                      proc_control_node_B.out1_tmp_kx * 0.0010125044874363649) +
-                     proc_control_node_B.out1_tmp_ne * 0.010033314971702871) -
-                    proc_control_node_B.out1_tmp_it * 2.9388947094905889E-5)) +
-                  (((proc_control_node_B.out1_tmp_im * -6.8231348244175949E-6 +
-                     proc_control_node_B.out1_tmp_o2 * 0.030976977065388711) +
-                    proc_control_node_B.out1_tmp_dn * 0.0010125044874363649) -
-                   proc_control_node_B.t68_p3 * 0.0001303522588356414)) +
-                 (((proc_control_node_B.out1_tmp_iu * -0.0010125044874363649 +
-                    proc_control_node_B.out1_tmp_gy * 0.0002115171795569455) +
-                   proc_control_node_B.out1_tmp_cv * 9.4803055144857715E-7) +
+                    (((proc_control_node_B.out1_tmp_f * -0.96028628902704993 -
+                       proc_control_node_B.out1_tmp_k * 0.0001303522588356414) +
+                      proc_control_node_B.t6_ge * 9.4803055144857715E-7) -
+                     proc_control_node_B.t12_l * 6.8231348244175949E-6)) +
+                   (((proc_control_node_B.t14_d * -0.010033314971702871 -
+                      proc_control_node_B.out1_tmp_ne * 0.0010125044874363649) +
+                     proc_control_node_B.out1_tmp_it * 0.010033314971702871) -
+                    proc_control_node_B.out1_tmp_im * 2.9388947094905889E-5)) +
+                  (((proc_control_node_B.out1_tmp_o2 * -6.8231348244175949E-6 +
+                     proc_control_node_B.out1_tmp_dn * 0.030976977065388711) +
+                    proc_control_node_B.out1_tmp_iu * 0.0010125044874363649) -
+                   proc_control_node_B.t68_k * 0.0001303522588356414)) +
+                 (((proc_control_node_B.out1_tmp_gy * -0.0010125044874363649 +
+                    proc_control_node_B.out1_tmp_cv * 0.0002115171795569455) +
+                   proc_control_node_B.out1_tmp_ee * 9.4803055144857715E-7) +
                   out1_tmp * 0.030976977065388711)) + ((proc_control_node_B.t66 *
     0.010033314971702871 + proc_control_node_B.t69_k * 0.0001303522588356414) +
-    proc_control_node_B.out1_tmp_k * 0.0030804819903427929)) +
-               ((proc_control_node_B.out1_tmp_iv * 0.0003038485611411295 +
-                 proc_control_node_B.t5_g * 0.0012787556591776421) -
-                proc_control_node_B.t9_ge * 0.030976977065388711)) +
-              (((proc_control_node_B.t53_d * 0.0040409200239048832 -
-                 proc_control_node_B.t63_f * 0.0010125044874363649) +
+    proc_control_node_B.out1_tmp_iv * 0.0030804819903427929)) +
+               ((proc_control_node_B.out1_tmp_ew * 0.0003038485611411295 +
+                 proc_control_node_B.t5_l * 0.0012787556591776421) -
+                proc_control_node_B.t9_p * 0.030976977065388711)) +
+              (((proc_control_node_B.t53_k * 0.0040409200239048832 -
+                 proc_control_node_B.t63_p * 0.0010125044874363649) +
                 proc_control_node_B.t50_l * 0.010033314971702871) -
-               proc_control_node_B.t11_pv * 9.4803055144857715E-7)) +
-             (((proc_control_node_B.t24_c * -0.311032764122789 -
-                proc_control_node_B.t46_o * 0.0010125044874363649) -
-               proc_control_node_B.t62_k * 0.0001303522588356414) + out1_tmp_0 *
-              6.8231348244175949E-6)) + ((proc_control_node_B.t20_bf *
-    0.031387639110527318 + proc_control_node_B.t26_fb * 0.010033314971702871) -
-    proc_control_node_B.t49_d * 0.0001303522588356414);
+               proc_control_node_B.t11_k * 9.4803055144857715E-7)) +
+             (((proc_control_node_B.t24_f * -0.311032764122789 -
+                proc_control_node_B.t46_d * 0.0010125044874363649) -
+               proc_control_node_B.t62_f * 0.0001303522588356414) + out1_tmp_0 *
+              6.8231348244175949E-6)) + ((proc_control_node_B.t20_c *
+    0.031387639110527318 + proc_control_node_B.t26_o * 0.010033314971702871) -
+    proc_control_node_B.t49_l * 0.0001303522588356414);
   out1[7] = (((((((((((((((in2[0] * 0.00013975754063522079 + in2[1] *
     7.9244610288113972E-21) + in2[2] * -0.00014157257363048341) + (in2[3] *
     -0.0001409675626320625 - in2[4] * 0.0034249251816346319)) + (in2[5] *
     0.003387750973601051 + in2[6] * 0.0035708122797193441)) + (in2[7] *
-    -0.0035336380716857632 + proc_control_node_B.t13_l * 0.00049601054978465754))
+    -0.0035336380716857632 + proc_control_node_B.t13_bf * 0.00049601054978465754))
                       + ((in2[0] * 1.4142135623730951 * -0.01090649593858282 +
     in2[1] * 1.4142135623730951 * 0.011000123045544621) - in2[2] *
     1.4142135623730951 * 0.01090649593858282)) + ((in2[3] * 1.4142135623730951 *
-    0.01090087173345982 - proc_control_node_B.out1_tmp_ew *
-    2.9388947094905889E-5) - proc_control_node_B.out1_tmp_f *
-    0.021882274381510681)) + (((proc_control_node_B.t6_l * 0.02320783323245932 -
-    proc_control_node_B.t12_k * 2.9076309096921531E-5) -
-    proc_control_node_B.t14_l * 0.0001026911824132076) +
-    proc_control_node_B.out1_tmp_kx * 0.00042780737967584029)) +
-                   (((proc_control_node_B.out1_tmp_ne * 0.0001026911824132076 -
-                      proc_control_node_B.out1_tmp_it * 0.71944283020623911) -
-                     proc_control_node_B.out1_tmp_im * 2.9076309096921531E-5) +
-                    proc_control_node_B.out1_tmp_o2 * 9.4803055144857715E-7)) +
-                  (((proc_control_node_B.out1_tmp_dn * -0.00042780737967584029 -
-                     proc_control_node_B.t68_p3 * 0.021882274381510681) +
-                    proc_control_node_B.out1_tmp_iu * 0.00042780737967584029) +
-                   proc_control_node_B.out1_tmp_gy * 0.00090136558200456737)) +
-                 (((proc_control_node_B.out1_tmp_cv * 0.02320783323245932 +
-                    out1_tmp * 9.4803055144857715E-7) + proc_control_node_B.t66 *
-                   0.0001026911824132076) + proc_control_node_B.t69_k *
-                  0.021882274381510681)) + ((proc_control_node_B.out1_tmp_k *
-    0.0001558786802929103 - proc_control_node_B.out1_tmp_iv *
-    0.09962138533478937) + proc_control_node_B.t5_g * 0.2146651116826197)) +
-               (((proc_control_node_B.t9_ge * -9.4803055144857715E-7 +
-                  proc_control_node_B.t53_d * 0.678350505826831) +
-                 proc_control_node_B.t63_f * 0.00042780737967584029) +
+    0.01090087173345982 - proc_control_node_B.out1_tmp_f * 2.9388947094905889E-5)
+    - proc_control_node_B.out1_tmp_k * 0.021882274381510681)) +
+                    (((proc_control_node_B.t6_ge * 0.02320783323245932 -
+                       proc_control_node_B.t12_l * 2.9076309096921531E-5) -
+                      proc_control_node_B.t14_d * 0.0001026911824132076) +
+                     proc_control_node_B.out1_tmp_ne * 0.00042780737967584029))
+                   + (((proc_control_node_B.out1_tmp_it * 0.0001026911824132076
+                        - proc_control_node_B.out1_tmp_im * 0.71944283020623911)
+                       - proc_control_node_B.out1_tmp_o2 * 2.9076309096921531E-5)
+                      + proc_control_node_B.out1_tmp_dn * 9.4803055144857715E-7))
+                  + (((proc_control_node_B.out1_tmp_iu * -0.00042780737967584029
+                       - proc_control_node_B.t68_k * 0.021882274381510681) +
+                      proc_control_node_B.out1_tmp_gy * 0.00042780737967584029)
+                     + proc_control_node_B.out1_tmp_cv * 0.00090136558200456737))
+                 + (((proc_control_node_B.out1_tmp_ee * 0.02320783323245932 +
+                      out1_tmp * 9.4803055144857715E-7) +
+                     proc_control_node_B.t66 * 0.0001026911824132076) +
+                    proc_control_node_B.t69_k * 0.021882274381510681)) +
+                ((proc_control_node_B.out1_tmp_iv * 0.0001558786802929103 -
+                  proc_control_node_B.out1_tmp_ew * 0.09962138533478937) +
+                 proc_control_node_B.t5_l * 0.2146651116826197)) +
+               (((proc_control_node_B.t9_p * -9.4803055144857715E-7 +
+                  proc_control_node_B.t53_k * 0.678350505826831) +
+                 proc_control_node_B.t63_p * 0.00042780737967584029) +
                 proc_control_node_B.t50_l * 0.0001026911824132076)) +
-              ((proc_control_node_B.t11_pv * -0.02320783323245932 -
-                proc_control_node_B.t24_c * 0.0031834266548094372) +
-               proc_control_node_B.t46_o * 0.00042780737967584029)) +
-             (((proc_control_node_B.t62_k * -0.021882274381510681 + out1_tmp_0 *
-                2.9076309096921531E-5) - proc_control_node_B.t20_bf *
-               0.013262028769951049) + proc_control_node_B.t26_fb *
-              0.0001026911824132076)) + proc_control_node_B.t49_d *
+              ((proc_control_node_B.t11_k * -0.02320783323245932 -
+                proc_control_node_B.t24_f * 0.0031834266548094372) +
+               proc_control_node_B.t46_d * 0.00042780737967584029)) +
+             (((proc_control_node_B.t62_f * -0.021882274381510681 + out1_tmp_0 *
+                2.9076309096921531E-5) - proc_control_node_B.t20_c *
+               0.013262028769951049) + proc_control_node_B.t26_o *
+              0.0001026911824132076)) + proc_control_node_B.t49_l *
     -0.021882274381510681;
   out1[8] = ((((((((((((((in2[0] * -1.725827915740819E-6 + in2[1] *
     -5.8281975682474322E-18) + in2[2] * 1.748241265284163E-6) + (in2[3] *
     1.740770148765829E-6 - in2[4] * 0.02095639900015615)) + (in2[5] *
     0.021100316216985739 - in2[6] * 0.021822949502860629)) + (in2[7] *
-    0.02167903228603104 - proc_control_node_B.t13_l * 0.0029379207602901669)) +
+    0.02167903228603104 - proc_control_node_B.t13_bf * 0.0029379207602901669)) +
                      ((in2[0] * 1.4142135623730951 * -4.8869263875916949E-5 +
                        in2[1] * 1.4142135623730951 * 6.6264429389244648E-5) -
                       in2[2] * 1.4142135623730951 * 4.8869263875916949E-5)) +
                     (((in2[3] * 1.4142135623730951 * 6.7490056888775055E-5 +
-                       proc_control_node_B.out1_tmp_ew * 0.0002115171795569455)
-                      + proc_control_node_B.out1_tmp_f * 0.002272431716587712) -
-                     proc_control_node_B.t6_l * 2.9076309096921531E-5)) +
-                   (((proc_control_node_B.t12_k * 0.021384731826702759 +
-                      proc_control_node_B.t14_l * 0.00039756137245743289) -
-                     proc_control_node_B.out1_tmp_kx * 5.2828771531483014E-6) -
-                    proc_control_node_B.out1_tmp_ne * 0.00039756137245743289)) +
-                  (((proc_control_node_B.out1_tmp_it * 0.00090136558200456737 +
-                     proc_control_node_B.out1_tmp_im * 0.021384731826702759) -
-                    proc_control_node_B.out1_tmp_o2 * 6.8231348244175949E-6) +
-                   proc_control_node_B.out1_tmp_dn * 5.2828771531483014E-6)) +
-                 (((proc_control_node_B.t68_p3 * 0.002272431716587712 -
-                    proc_control_node_B.out1_tmp_iu * 5.2828771531483014E-6) -
-                   proc_control_node_B.out1_tmp_gy * 0.66292668662778553) -
-                  proc_control_node_B.out1_tmp_cv * 2.9076309096921531E-5)) +
+                       proc_control_node_B.out1_tmp_f * 0.0002115171795569455) +
+                      proc_control_node_B.out1_tmp_k * 0.002272431716587712) -
+                     proc_control_node_B.t6_ge * 2.9076309096921531E-5)) +
+                   (((proc_control_node_B.t12_l * 0.021384731826702759 +
+                      proc_control_node_B.t14_d * 0.00039756137245743289) -
+                     proc_control_node_B.out1_tmp_ne * 5.2828771531483014E-6) -
+                    proc_control_node_B.out1_tmp_it * 0.00039756137245743289)) +
+                  (((proc_control_node_B.out1_tmp_im * 0.00090136558200456737 +
+                     proc_control_node_B.out1_tmp_o2 * 0.021384731826702759) -
+                    proc_control_node_B.out1_tmp_dn * 6.8231348244175949E-6) +
+                   proc_control_node_B.out1_tmp_iu * 5.2828771531483014E-6)) +
+                 (((proc_control_node_B.t68_k * 0.002272431716587712 -
+                    proc_control_node_B.out1_tmp_gy * 5.2828771531483014E-6) -
+                   proc_control_node_B.out1_tmp_cv * 0.66292668662778553) -
+                  proc_control_node_B.out1_tmp_ee * 2.9076309096921531E-5)) +
                 ((out1_tmp * -6.8231348244175949E-6 - proc_control_node_B.t66 *
                   0.00039756137245743289) - proc_control_node_B.t69_k *
-                 0.002272431716587712)) + ((proc_control_node_B.out1_tmp_k *
-    -0.091796606188097957 + proc_control_node_B.out1_tmp_iv *
-    0.0001262558405802736) - proc_control_node_B.t5_g * 0.022292555139725449)) +
-              (((proc_control_node_B.t9_ge * 6.8231348244175949E-6 -
-                 proc_control_node_B.t53_d * 0.070445383214219059) -
-                proc_control_node_B.t63_f * 5.2828771531483014E-6) -
+                 0.002272431716587712)) + ((proc_control_node_B.out1_tmp_iv *
+    -0.091796606188097957 + proc_control_node_B.out1_tmp_ew *
+    0.0001262558405802736) - proc_control_node_B.t5_l * 0.022292555139725449)) +
+              (((proc_control_node_B.t9_p * 6.8231348244175949E-6 -
+                 proc_control_node_B.t53_k * 0.070445383214219059) -
+                proc_control_node_B.t63_p * 5.2828771531483014E-6) -
                proc_control_node_B.t50_l * 0.00039756137245743289)) +
-             (((proc_control_node_B.t11_pv * 2.9076309096921531E-5 +
-                proc_control_node_B.t24_c * 0.01232440254618042) -
-               proc_control_node_B.t46_o * 5.2828771531483014E-6) +
-              proc_control_node_B.t62_k * 0.002272431716587712)) + (((out1_tmp_0
-    * -0.021384731826702759 + proc_control_node_B.t20_bf *
-    0.00016376919174759729) - proc_control_node_B.t26_fb *
-    0.00039756137245743289) + proc_control_node_B.t49_d * 0.002272431716587712);
+             (((proc_control_node_B.t11_k * 2.9076309096921531E-5 +
+                proc_control_node_B.t24_f * 0.01232440254618042) -
+               proc_control_node_B.t46_d * 5.2828771531483014E-6) +
+              proc_control_node_B.t62_f * 0.002272431716587712)) + (((out1_tmp_0
+    * -0.021384731826702759 + proc_control_node_B.t20_c * 0.00016376919174759729)
+    - proc_control_node_B.t26_o * 0.00039756137245743289) +
+    proc_control_node_B.t49_l * 0.002272431716587712);
   out1[9] = (((((((((((((((((in2[0] * 0.0013021350951669831 + in2[1] *
     6.1932883292401409E-19) + in2[2] * -0.00131904594055876) + (in2[3] *
     -0.0013134089920948341 - in2[4] * 0.26767193546582568)) + (in2[5] *
     0.26476621250220889 + in2[6] * 0.2790736050389333)) + (in2[7] *
-    -0.27616788207531651 + proc_control_node_B.t13_l * 0.056926116941144737)) +
+    -0.27616788207531651 + proc_control_node_B.t13_bf * 0.056926116941144737)) +
                         ((in2[0] * 1.4142135623730951 * 0.043593198825375247 -
     in2[1] * 1.4142135623730951 * 0.043051831063235027) + in2[2] *
     1.4142135623730951 * 0.043593198825375247)) + ((in2[3] * 1.4142135623730951 *
-    -0.043976565543532631 - proc_control_node_B.out1_tmp_ew *
-    0.0040409200239048832) - proc_control_node_B.out1_tmp_f * 1.71018810547529))
-                      + ((proc_control_node_B.t6_l * 0.021882274381510681 -
-    proc_control_node_B.t12_k * 0.002272431716587712) -
-    proc_control_node_B.t14_l * 0.0080268590155159435)) +
-                     ((proc_control_node_B.out1_tmp_kx * 0.0039859244840414 +
-                       proc_control_node_B.out1_tmp_ne * 0.0080268590155159435)
-                      - proc_control_node_B.out1_tmp_it * 0.678350505826831)) +
-                    ((proc_control_node_B.out1_tmp_im * -0.002272431716587712 +
-                      proc_control_node_B.out1_tmp_o2 * 0.0001303522588356414) -
-                     proc_control_node_B.out1_tmp_dn * 0.0039859244840414)) +
-                   ((proc_control_node_B.t68_p3 * -1.71018810547529 +
-                     proc_control_node_B.out1_tmp_iu * 0.0039859244840414) +
-                    proc_control_node_B.out1_tmp_gy * 0.070445383214219059)) +
-                  ((proc_control_node_B.out1_tmp_cv * 0.021882274381510681 +
+    -0.043976565543532631 - proc_control_node_B.out1_tmp_f *
+    0.0040409200239048832) - proc_control_node_B.out1_tmp_k * 1.71018810547529))
+                      + ((proc_control_node_B.t6_ge * 0.021882274381510681 -
+    proc_control_node_B.t12_l * 0.002272431716587712) -
+    proc_control_node_B.t14_d * 0.0080268590155159435)) +
+                     ((proc_control_node_B.out1_tmp_ne * 0.0039859244840414 +
+                       proc_control_node_B.out1_tmp_it * 0.0080268590155159435)
+                      - proc_control_node_B.out1_tmp_im * 0.678350505826831)) +
+                    ((proc_control_node_B.out1_tmp_o2 * -0.002272431716587712 +
+                      proc_control_node_B.out1_tmp_dn * 0.0001303522588356414) -
+                     proc_control_node_B.out1_tmp_iu * 0.0039859244840414)) +
+                   ((proc_control_node_B.t68_k * -1.71018810547529 +
+                     proc_control_node_B.out1_tmp_gy * 0.0039859244840414) +
+                    proc_control_node_B.out1_tmp_cv * 0.070445383214219059)) +
+                  ((proc_control_node_B.out1_tmp_ee * 0.021882274381510681 +
                     out1_tmp * 0.0001303522588356414) + proc_control_node_B.t66 *
                    0.0080268590155159435)) + ((proc_control_node_B.t69_k *
-    1.71018810547529 + proc_control_node_B.out1_tmp_k * 0.01218289469126858) -
-    proc_control_node_B.out1_tmp_iv * 0.095020813300146653)) +
-                ((proc_control_node_B.t5_g * 16.7769453147126 -
-                  proc_control_node_B.t9_ge * 0.0001303522588356414) +
-                 proc_control_node_B.t53_d * 53.015831269733987)) +
-               ((proc_control_node_B.t63_f * 0.0039859244840414 +
+    1.71018810547529 + proc_control_node_B.out1_tmp_iv * 0.01218289469126858) -
+    proc_control_node_B.out1_tmp_ew * 0.095020813300146653)) +
+                ((proc_control_node_B.t5_l * 16.7769453147126 -
+                  proc_control_node_B.t9_p * 0.0001303522588356414) +
+                 proc_control_node_B.t53_k * 53.015831269733987)) +
+               ((proc_control_node_B.t63_p * 0.0039859244840414 +
                  proc_control_node_B.t50_l * 0.0080268590155159435) -
-                proc_control_node_B.t11_pv * 0.021882274381510681)) +
-              ((proc_control_node_B.t24_c * -0.2488326294809943 +
-                proc_control_node_B.t46_o * 0.0039859244840414) -
-               proc_control_node_B.t62_k * 1.71018810547529)) + ((out1_tmp_0 *
-    0.002272431716587712 - proc_control_node_B.t20_bf * 0.1235636590052834) +
-              proc_control_node_B.t26_fb * 0.0080268590155159435)) +
-    proc_control_node_B.t49_d * -1.71018810547529;
+                proc_control_node_B.t11_k * 0.021882274381510681)) +
+              ((proc_control_node_B.t24_f * -0.2488326294809943 +
+                proc_control_node_B.t46_d * 0.0039859244840414) -
+               proc_control_node_B.t62_f * 1.71018810547529)) + ((out1_tmp_0 *
+    0.002272431716587712 - proc_control_node_B.t20_c * 0.1235636590052834) +
+              proc_control_node_B.t26_o * 0.0080268590155159435)) +
+    proc_control_node_B.t49_l * -1.71018810547529;
   out1[10] = ((((((((((((((((in2[0] * 5.24748238233168E-7 - in2[1] *
     1.083514276897426E-19) + in2[2] * -5.3156315041823265E-7) + (in2[3] *
     -5.2929151302328333E-7 + in2[4] * 0.10593667623599359)) + (in2[5] *
     0.10537885436940329 - in2[6] * 0.10793139553633729)) + (in2[7] *
-    -0.1033841350690595 - proc_control_node_B.t13_l * 4.3185698628399987)) +
+    -0.1033841350690595 - proc_control_node_B.t13_bf * 4.3185698628399987)) +
                         ((in2[0] * 1.4142135623730951 * 0.013457654526727991 +
     in2[1] * 1.4142135623730951 * 0.013869054980635681) + in2[2] *
     1.4142135623730951 * 0.013457654526727991)) + ((in2[3] * 1.4142135623730951 *
-    0.01386868232130781 + proc_control_node_B.out1_tmp_ew * 0.311032764122789) +
-    proc_control_node_B.out1_tmp_f * 0.0080268590155159435)) +
-                      (((proc_control_node_B.t6_l * -0.0001026911824132076 +
-    proc_control_node_B.t12_k * 0.00039756137245743289) +
-                        proc_control_node_B.t14_l * 0.58374455968341665) +
-                       proc_control_node_B.out1_tmp_kx * 1.606290206365557E-6))
-                     + ((proc_control_node_B.out1_tmp_ne * -0.58374455968341665
-    + proc_control_node_B.out1_tmp_it * 0.0031834266548094372) +
-                        proc_control_node_B.out1_tmp_im * 0.00039756137245743289))
-                    + (((proc_control_node_B.out1_tmp_o2 * -0.010033314971702871
-    - proc_control_node_B.out1_tmp_dn * 1.606290206365557E-6) +
-                        proc_control_node_B.t68_p3 * 0.0080268590155159435) +
-                       proc_control_node_B.out1_tmp_iu * 1.606290206365557E-6))
-                   + ((proc_control_node_B.out1_tmp_gy * -0.01232440254618042 -
-                       proc_control_node_B.out1_tmp_cv * 0.0001026911824132076)
+    0.01386868232130781 + proc_control_node_B.out1_tmp_f * 0.311032764122789) +
+    proc_control_node_B.out1_tmp_k * 0.0080268590155159435)) +
+                      (((proc_control_node_B.t6_ge * -0.0001026911824132076 +
+    proc_control_node_B.t12_l * 0.00039756137245743289) +
+                        proc_control_node_B.t14_d * 0.58374455968341665) +
+                       proc_control_node_B.out1_tmp_ne * 1.606290206365557E-6))
+                     + ((proc_control_node_B.out1_tmp_it * -0.58374455968341665
+    + proc_control_node_B.out1_tmp_im * 0.0031834266548094372) +
+                        proc_control_node_B.out1_tmp_o2 * 0.00039756137245743289))
+                    + (((proc_control_node_B.out1_tmp_dn * -0.010033314971702871
+    - proc_control_node_B.out1_tmp_iu * 1.606290206365557E-6) +
+                        proc_control_node_B.t68_k * 0.0080268590155159435) +
+                       proc_control_node_B.out1_tmp_gy * 1.606290206365557E-6))
+                   + ((proc_control_node_B.out1_tmp_cv * -0.01232440254618042 -
+                       proc_control_node_B.out1_tmp_ee * 0.0001026911824132076)
                       - out1_tmp * 0.010033314971702871)) +
                   ((proc_control_node_B.t66 * -0.58374455968341665 -
                     proc_control_node_B.t69_k * 0.0080268590155159435) -
-                   proc_control_node_B.out1_tmp_k * 0.17922689172220771)) +
-                 ((proc_control_node_B.out1_tmp_iv * 0.000439745529355291 -
-                   proc_control_node_B.t5_g * 0.078743486942211408) +
-                  proc_control_node_B.t9_ge * 0.010033314971702871)) +
-                ((proc_control_node_B.t53_d * -0.2488326294809943 +
-                  proc_control_node_B.t63_f * 1.606290206365557E-6) -
+                   proc_control_node_B.out1_tmp_iv * 0.17922689172220771)) +
+                 ((proc_control_node_B.out1_tmp_ew * 0.000439745529355291 -
+                   proc_control_node_B.t5_l * 0.078743486942211408) +
+                  proc_control_node_B.t9_p * 0.010033314971702871)) +
+                ((proc_control_node_B.t53_k * -0.2488326294809943 +
+                  proc_control_node_B.t63_p * 1.606290206365557E-6) -
                  proc_control_node_B.t50_l * 0.58374455968341665)) +
-               (((proc_control_node_B.t11_pv * 0.0001026911824132076 +
-                  proc_control_node_B.t24_c * 18.096081350185919) +
-                 proc_control_node_B.t46_o * 1.606290206365557E-6) +
-                proc_control_node_B.t62_k * 0.0080268590155159435)) +
-              ((out1_tmp_0 * -0.00039756137245743289 -
-                proc_control_node_B.t20_bf * 4.9794996397332282E-5) -
-               proc_control_node_B.t26_fb * 0.58374455968341665)) +
-    proc_control_node_B.t49_d * 0.0080268590155159435;
+               (((proc_control_node_B.t11_k * 0.0001026911824132076 +
+                  proc_control_node_B.t24_f * 18.096081350185919) +
+                 proc_control_node_B.t46_d * 1.606290206365557E-6) +
+                proc_control_node_B.t62_f * 0.0080268590155159435)) +
+              ((out1_tmp_0 * -0.00039756137245743289 - proc_control_node_B.t20_c
+                * 4.9794996397332282E-5) - proc_control_node_B.t26_o *
+               0.58374455968341665)) + proc_control_node_B.t49_l *
+    0.0080268590155159435;
   out1[11] = (((((((((((((((in2[0] * -0.1731941163298826 + in2[1] *
     -1.4397960202092559E-21) + in2[2] * 0.175443390567933) + (in2[3] *
     0.17469363248858291 + in2[4] * 0.00062021813460420567)) + (in2[5] *
     -0.0006207996116589 - in2[6] * 0.00064672437426625525)) + (in2[7] *
-    0.00064730585132094889 + proc_control_node_B.t13_l * 0.32680566187003413)) +
-                       ((in2[0] * 1.4142135623730951 * 0.00059255494878017434 -
-    in2[1] * 1.4142135623730951 * 0.1225770464045467) + in2[2] *
-                        1.4142135623730951 * 0.00059255494878017434)) + ((in2[3]
-    * 1.4142135623730951 * 0.00041984673608298361 -
-    proc_control_node_B.out1_tmp_ew * 0.031387639110527318) +
-    proc_control_node_B.out1_tmp_f * 0.0039859244840414)) +
-                     (((proc_control_node_B.t6_l * -0.00042780737967584029 +
-                        proc_control_node_B.t12_k * 5.2828771531483014E-6) -
-                       proc_control_node_B.t14_l * 1.606290206365557E-6) -
-                      proc_control_node_B.out1_tmp_kx * 0.53015902215788635)) +
-                    (((proc_control_node_B.out1_tmp_ne * 1.606290206365557E-6 +
-                       proc_control_node_B.out1_tmp_it * 0.013262028769951049) +
-                      proc_control_node_B.out1_tmp_im * 5.2828771531483014E-6) +
-                     proc_control_node_B.out1_tmp_o2 * 0.0010125044874363649)) +
-                   ((proc_control_node_B.out1_tmp_dn * 0.53015902215788635 +
-                     proc_control_node_B.t68_p3 * 0.0039859244840414) -
-                    proc_control_node_B.out1_tmp_iu * 0.53015902215788635)) +
-                  (((proc_control_node_B.out1_tmp_gy * -0.00016376919174759729 -
-                     proc_control_node_B.out1_tmp_cv * 0.00042780737967584029) +
+    0.00064730585132094889 + proc_control_node_B.t13_bf * 0.32680566187003413))
+                       + ((in2[0] * 1.4142135623730951 * 0.00059255494878017434
+    - in2[1] * 1.4142135623730951 * 0.1225770464045467) + in2[2] *
+    1.4142135623730951 * 0.00059255494878017434)) + ((in2[3] *
+    1.4142135623730951 * 0.00041984673608298361 - proc_control_node_B.out1_tmp_f
+    * 0.031387639110527318) + proc_control_node_B.out1_tmp_k *
+    0.0039859244840414)) + (((proc_control_node_B.t6_ge *
+    -0.00042780737967584029 + proc_control_node_B.t12_l * 5.2828771531483014E-6)
+    - proc_control_node_B.t14_d * 1.606290206365557E-6) -
+    proc_control_node_B.out1_tmp_ne * 0.53015902215788635)) +
+                    (((proc_control_node_B.out1_tmp_it * 1.606290206365557E-6 +
+                       proc_control_node_B.out1_tmp_im * 0.013262028769951049) +
+                      proc_control_node_B.out1_tmp_o2 * 5.2828771531483014E-6) +
+                     proc_control_node_B.out1_tmp_dn * 0.0010125044874363649)) +
+                   ((proc_control_node_B.out1_tmp_iu * 0.53015902215788635 +
+                     proc_control_node_B.t68_k * 0.0039859244840414) -
+                    proc_control_node_B.out1_tmp_gy * 0.53015902215788635)) +
+                  (((proc_control_node_B.out1_tmp_cv * -0.00016376919174759729 -
+                     proc_control_node_B.out1_tmp_ee * 0.00042780737967584029) +
                     out1_tmp * 0.0010125044874363649) + proc_control_node_B.t66 *
                    1.606290206365557E-6)) + ((proc_control_node_B.t69_k *
-    -0.0039859244840414 - proc_control_node_B.out1_tmp_k * 2.2159046954574339E-5)
-    + proc_control_node_B.out1_tmp_iv * 0.16306065763088379)) +
-                ((proc_control_node_B.t5_g * -0.03910191918844614 -
-                  proc_control_node_B.t9_ge * 0.0010125044874363649) -
-                 proc_control_node_B.t53_d * 0.1235636590052834)) +
-               (((proc_control_node_B.t63_f * -0.53015902215788635 +
+    -0.0039859244840414 - proc_control_node_B.out1_tmp_iv *
+    2.2159046954574339E-5) + proc_control_node_B.out1_tmp_ew *
+    0.16306065763088379)) + ((proc_control_node_B.t5_l * -0.03910191918844614 -
+    proc_control_node_B.t9_p * 0.0010125044874363649) -
+    proc_control_node_B.t53_k * 0.1235636590052834)) +
+               (((proc_control_node_B.t63_p * -0.53015902215788635 +
                   proc_control_node_B.t50_l * 1.606290206365557E-6) +
-                 proc_control_node_B.t11_pv * 0.00042780737967584029) -
-                proc_control_node_B.t24_c * 4.9794996397332282E-5)) +
-              ((proc_control_node_B.t46_o * -0.53015902215788635 +
-                proc_control_node_B.t62_k * 0.0039859244840414) - out1_tmp_0 *
-               5.2828771531483014E-6)) + ((proc_control_node_B.t20_bf *
-    16.434929686894481 + proc_control_node_B.t26_fb * 1.606290206365557E-6) +
-    proc_control_node_B.t49_d * 0.0039859244840414);
+                 proc_control_node_B.t11_k * 0.00042780737967584029) -
+                proc_control_node_B.t24_f * 4.9794996397332282E-5)) +
+              ((proc_control_node_B.t46_d * -0.53015902215788635 +
+                proc_control_node_B.t62_f * 0.0039859244840414) - out1_tmp_0 *
+               5.2828771531483014E-6)) + ((proc_control_node_B.t20_c *
+    16.434929686894481 + proc_control_node_B.t26_o * 1.606290206365557E-6) +
+    proc_control_node_B.t49_l * 0.0039859244840414);
 }
 
 // Function for MATLAB Function: '<S133>/MATLAB Function2'
@@ -21353,10 +21344,10 @@ int32_T proc_control_nodeModelClass::proc_control_node_xgetrfs_c(real_T A[169],
     proc_control_node_B.smax = fabs(A[proc_control_node_B.c_dg]);
     for (iy = 2; iy <= 13 - proc_control_node_B.b_j_b; iy++) {
       proc_control_node_B.ix_f++;
-      proc_control_node_B.y_mx = fabs(A[proc_control_node_B.ix_f]);
-      if (proc_control_node_B.y_mx > proc_control_node_B.smax) {
+      proc_control_node_B.y_of = fabs(A[proc_control_node_B.ix_f]);
+      if (proc_control_node_B.y_of > proc_control_node_B.smax) {
         jA = iy - 1;
-        proc_control_node_B.smax = proc_control_node_B.y_mx;
+        proc_control_node_B.smax = proc_control_node_B.y_of;
       }
     }
 
@@ -21477,15 +21468,15 @@ void proc_control_nodeModelClass::proc__PadeApproximantOfDegree_k(const real_T
        proc_control_node_B.i16++) {
     memset(&proc_control_node_B.A2[proc_control_node_B.i16 * 13], 0, 13U *
            sizeof(real_T));
-    for (proc_control_node_B.e_k = 0; proc_control_node_B.e_k < 13;
-         proc_control_node_B.e_k++) {
+    for (proc_control_node_B.e_k_a = 0; proc_control_node_B.e_k_a < 13;
+         proc_control_node_B.e_k_a++) {
       for (proc_control_node_B.e_k_d = 0; proc_control_node_B.e_k_d < 13;
            proc_control_node_B.e_k_d++) {
         proc_control_node_B.A2_tmp = 13 * proc_control_node_B.i16 +
           proc_control_node_B.e_k_d;
         proc_control_node_B.A2[proc_control_node_B.A2_tmp] += A[13 *
-          proc_control_node_B.e_k + proc_control_node_B.e_k_d] * A[13 *
-          proc_control_node_B.i16 + proc_control_node_B.e_k];
+          proc_control_node_B.e_k_a + proc_control_node_B.e_k_d] * A[13 *
+          proc_control_node_B.i16 + proc_control_node_B.e_k_a];
       }
     }
   }
@@ -21495,8 +21486,8 @@ void proc_control_nodeModelClass::proc__PadeApproximantOfDegree_k(const real_T
            sizeof(real_T));
     proc_control_node_B.e_k_d = 0;
     proc_control_node_B.A2_tmp = 0;
-    for (proc_control_node_B.e_k = 0; proc_control_node_B.e_k < 13;
-         proc_control_node_B.e_k++) {
+    for (proc_control_node_B.e_k_a = 0; proc_control_node_B.e_k_a < 13;
+         proc_control_node_B.e_k_a++) {
       memset(&proc_control_node_B.A4_p[proc_control_node_B.A2_tmp], 0, 13U *
              sizeof(real_T));
       proc_control_node_B.U_p[proc_control_node_B.e_k_d] += 60.0;
@@ -21505,8 +21496,8 @@ void proc_control_nodeModelClass::proc__PadeApproximantOfDegree_k(const real_T
     }
 
     proc_control_node_B.e_k_d = 0;
-    for (proc_control_node_B.e_k = 0; proc_control_node_B.e_k < 13;
-         proc_control_node_B.e_k++) {
+    for (proc_control_node_B.e_k_a = 0; proc_control_node_B.e_k_a < 13;
+         proc_control_node_B.e_k_a++) {
       proc_control_node_B.A2_tmp = 0;
       for (proc_control_node_B.i17 = 0; proc_control_node_B.i17 < 13;
            proc_control_node_B.i17++) {
@@ -21534,22 +21525,22 @@ void proc_control_nodeModelClass::proc__PadeApproximantOfDegree_k(const real_T
         proc_control_node_B.A2[proc_control_node_B.i16];
     }
 
-    proc_control_node_B.d_e = 120.0;
+    proc_control_node_B.d_m = 120.0;
   } else {
     for (proc_control_node_B.i16 = 0; proc_control_node_B.i16 < 13;
          proc_control_node_B.i16++) {
       memset(&proc_control_node_B.A3[proc_control_node_B.i16 * 13], 0, 13U *
              sizeof(real_T));
-      for (proc_control_node_B.e_k = 0; proc_control_node_B.e_k < 13;
-           proc_control_node_B.e_k++) {
+      for (proc_control_node_B.e_k_a = 0; proc_control_node_B.e_k_a < 13;
+           proc_control_node_B.e_k_a++) {
         for (proc_control_node_B.e_k_d = 0; proc_control_node_B.e_k_d < 13;
              proc_control_node_B.e_k_d++) {
           proc_control_node_B.A2_tmp = 13 * proc_control_node_B.i16 +
             proc_control_node_B.e_k_d;
           proc_control_node_B.A3[proc_control_node_B.A2_tmp] +=
-            proc_control_node_B.A2[13 * proc_control_node_B.e_k +
+            proc_control_node_B.A2[13 * proc_control_node_B.e_k_a +
             proc_control_node_B.e_k_d] * proc_control_node_B.A2[13 *
-            proc_control_node_B.i16 + proc_control_node_B.e_k];
+            proc_control_node_B.i16 + proc_control_node_B.e_k_a];
         }
       }
     }
@@ -21564,8 +21555,8 @@ void proc_control_nodeModelClass::proc__PadeApproximantOfDegree_k(const real_T
 
       proc_control_node_B.e_k_d = 0;
       proc_control_node_B.A2_tmp = 0;
-      for (proc_control_node_B.e_k = 0; proc_control_node_B.e_k < 13;
-           proc_control_node_B.e_k++) {
+      for (proc_control_node_B.e_k_a = 0; proc_control_node_B.e_k_a < 13;
+           proc_control_node_B.e_k_a++) {
         memset(&proc_control_node_B.A4_p[proc_control_node_B.A2_tmp], 0, 13U *
                sizeof(real_T));
         proc_control_node_B.U_p[proc_control_node_B.e_k_d] += 15120.0;
@@ -21574,8 +21565,8 @@ void proc_control_nodeModelClass::proc__PadeApproximantOfDegree_k(const real_T
       }
 
       proc_control_node_B.e_k_d = 0;
-      for (proc_control_node_B.e_k = 0; proc_control_node_B.e_k < 13;
-           proc_control_node_B.e_k++) {
+      for (proc_control_node_B.e_k_a = 0; proc_control_node_B.e_k_a < 13;
+           proc_control_node_B.e_k_a++) {
         proc_control_node_B.A2_tmp = 0;
         for (proc_control_node_B.i17 = 0; proc_control_node_B.i17 < 13;
              proc_control_node_B.i17++) {
@@ -21604,22 +21595,22 @@ void proc_control_nodeModelClass::proc__PadeApproximantOfDegree_k(const real_T
           proc_control_node_B.A2[proc_control_node_B.i16];
       }
 
-      proc_control_node_B.d_e = 30240.0;
+      proc_control_node_B.d_m = 30240.0;
     } else {
       for (proc_control_node_B.i16 = 0; proc_control_node_B.i16 < 13;
            proc_control_node_B.i16++) {
         memset(&proc_control_node_B.A4[proc_control_node_B.i16 * 13], 0, 13U *
                sizeof(real_T));
-        for (proc_control_node_B.e_k = 0; proc_control_node_B.e_k < 13;
-             proc_control_node_B.e_k++) {
+        for (proc_control_node_B.e_k_a = 0; proc_control_node_B.e_k_a < 13;
+             proc_control_node_B.e_k_a++) {
           for (proc_control_node_B.e_k_d = 0; proc_control_node_B.e_k_d < 13;
                proc_control_node_B.e_k_d++) {
             proc_control_node_B.A2_tmp = 13 * proc_control_node_B.i16 +
               proc_control_node_B.e_k_d;
             proc_control_node_B.A4[proc_control_node_B.A2_tmp] +=
-              proc_control_node_B.A3[13 * proc_control_node_B.e_k +
+              proc_control_node_B.A3[13 * proc_control_node_B.e_k_a +
               proc_control_node_B.e_k_d] * proc_control_node_B.A2[13 *
-              proc_control_node_B.i16 + proc_control_node_B.e_k];
+              proc_control_node_B.i16 + proc_control_node_B.e_k_a];
           }
         }
       }
@@ -21636,8 +21627,8 @@ void proc_control_nodeModelClass::proc__PadeApproximantOfDegree_k(const real_T
 
         proc_control_node_B.e_k_d = 0;
         proc_control_node_B.A2_tmp = 0;
-        for (proc_control_node_B.e_k = 0; proc_control_node_B.e_k < 13;
-             proc_control_node_B.e_k++) {
+        for (proc_control_node_B.e_k_a = 0; proc_control_node_B.e_k_a < 13;
+             proc_control_node_B.e_k_a++) {
           memset(&proc_control_node_B.A4_p[proc_control_node_B.A2_tmp], 0, 13U *
                  sizeof(real_T));
           proc_control_node_B.U_p[proc_control_node_B.e_k_d] += 8.64864E+6;
@@ -21646,8 +21637,8 @@ void proc_control_nodeModelClass::proc__PadeApproximantOfDegree_k(const real_T
         }
 
         proc_control_node_B.e_k_d = 0;
-        for (proc_control_node_B.e_k = 0; proc_control_node_B.e_k < 13;
-             proc_control_node_B.e_k++) {
+        for (proc_control_node_B.e_k_a = 0; proc_control_node_B.e_k_a < 13;
+             proc_control_node_B.e_k_a++) {
           proc_control_node_B.A2_tmp = 0;
           for (proc_control_node_B.i17 = 0; proc_control_node_B.i17 < 13;
                proc_control_node_B.i17++) {
@@ -21677,7 +21668,7 @@ void proc_control_nodeModelClass::proc__PadeApproximantOfDegree_k(const real_T
             proc_control_node_B.A2[proc_control_node_B.i16];
         }
 
-        proc_control_node_B.d_e = 1.729728E+7;
+        proc_control_node_B.d_m = 1.729728E+7;
         break;
 
        case 9:
@@ -21685,16 +21676,16 @@ void proc_control_nodeModelClass::proc__PadeApproximantOfDegree_k(const real_T
              proc_control_node_B.i16++) {
           memset(&proc_control_node_B.V[proc_control_node_B.i16 * 13], 0, 13U *
                  sizeof(real_T));
-          for (proc_control_node_B.e_k = 0; proc_control_node_B.e_k < 13;
-               proc_control_node_B.e_k++) {
+          for (proc_control_node_B.e_k_a = 0; proc_control_node_B.e_k_a < 13;
+               proc_control_node_B.e_k_a++) {
             for (proc_control_node_B.e_k_d = 0; proc_control_node_B.e_k_d < 13;
                  proc_control_node_B.e_k_d++) {
               proc_control_node_B.A2_tmp = 13 * proc_control_node_B.i16 +
                 proc_control_node_B.e_k_d;
               proc_control_node_B.V[proc_control_node_B.A2_tmp] +=
-                proc_control_node_B.A4[13 * proc_control_node_B.e_k +
+                proc_control_node_B.A4[13 * proc_control_node_B.e_k_a +
                 proc_control_node_B.e_k_d] * proc_control_node_B.A2[13 *
-                proc_control_node_B.i16 + proc_control_node_B.e_k];
+                proc_control_node_B.i16 + proc_control_node_B.e_k_a];
             }
           }
         }
@@ -21710,8 +21701,8 @@ void proc_control_nodeModelClass::proc__PadeApproximantOfDegree_k(const real_T
 
         proc_control_node_B.e_k_d = 0;
         proc_control_node_B.A2_tmp = 0;
-        for (proc_control_node_B.e_k = 0; proc_control_node_B.e_k < 13;
-             proc_control_node_B.e_k++) {
+        for (proc_control_node_B.e_k_a = 0; proc_control_node_B.e_k_a < 13;
+             proc_control_node_B.e_k_a++) {
           memset(&proc_control_node_B.A4_p[proc_control_node_B.A2_tmp], 0, 13U *
                  sizeof(real_T));
           proc_control_node_B.U_p[proc_control_node_B.e_k_d] += 8.8216128E+9;
@@ -21720,8 +21711,8 @@ void proc_control_nodeModelClass::proc__PadeApproximantOfDegree_k(const real_T
         }
 
         proc_control_node_B.e_k_d = 0;
-        for (proc_control_node_B.e_k = 0; proc_control_node_B.e_k < 13;
-             proc_control_node_B.e_k++) {
+        for (proc_control_node_B.e_k_a = 0; proc_control_node_B.e_k_a < 13;
+             proc_control_node_B.e_k_a++) {
           proc_control_node_B.A2_tmp = 0;
           for (proc_control_node_B.i17 = 0; proc_control_node_B.i17 < 13;
                proc_control_node_B.i17++) {
@@ -21752,7 +21743,7 @@ void proc_control_nodeModelClass::proc__PadeApproximantOfDegree_k(const real_T
             proc_control_node_B.A2[proc_control_node_B.i16];
         }
 
-        proc_control_node_B.d_e = 1.76432256E+10;
+        proc_control_node_B.d_m = 1.76432256E+10;
         break;
 
        default:
@@ -21765,8 +21756,8 @@ void proc_control_nodeModelClass::proc__PadeApproximantOfDegree_k(const real_T
         }
 
         proc_control_node_B.e_k_d = 0;
-        for (proc_control_node_B.e_k = 0; proc_control_node_B.e_k < 13;
-             proc_control_node_B.e_k++) {
+        for (proc_control_node_B.e_k_a = 0; proc_control_node_B.e_k_a < 13;
+             proc_control_node_B.e_k_a++) {
           proc_control_node_B.U_p[proc_control_node_B.e_k_d] +=
             3.238237626624E+16;
           proc_control_node_B.e_k_d += 14;
@@ -21783,13 +21774,13 @@ void proc_control_nodeModelClass::proc__PadeApproximantOfDegree_k(const real_T
         for (proc_control_node_B.i16 = 0; proc_control_node_B.i16 < 13;
              proc_control_node_B.i16++) {
           proc_control_node_B.e_k_d = 0;
-          for (proc_control_node_B.e_k = 0; proc_control_node_B.e_k < 13;
-               proc_control_node_B.e_k++) {
-            proc_control_node_B.d_e = 0.0;
+          for (proc_control_node_B.e_k_a = 0; proc_control_node_B.e_k_a < 13;
+               proc_control_node_B.e_k_a++) {
+            proc_control_node_B.d_m = 0.0;
             proc_control_node_B.A2_tmp = 0;
             for (proc_control_node_B.i17 = 0; proc_control_node_B.i17 < 13;
                  proc_control_node_B.i17++) {
-              proc_control_node_B.d_e +=
+              proc_control_node_B.d_m +=
                 proc_control_node_B.A4[proc_control_node_B.A2_tmp +
                 proc_control_node_B.i16] *
                 proc_control_node_B.V[proc_control_node_B.i17 +
@@ -21801,7 +21792,7 @@ void proc_control_nodeModelClass::proc__PadeApproximantOfDegree_k(const real_T
               proc_control_node_B.i16;
             proc_control_node_B.A4_p[proc_control_node_B.A2_tmp] =
               proc_control_node_B.U_p[proc_control_node_B.A2_tmp] +
-              proc_control_node_B.d_e;
+              proc_control_node_B.d_m;
             proc_control_node_B.e_k_d += 13;
           }
         }
@@ -21810,16 +21801,16 @@ void proc_control_nodeModelClass::proc__PadeApproximantOfDegree_k(const real_T
              proc_control_node_B.i16++) {
           memset(&proc_control_node_B.U_p[proc_control_node_B.i16 * 13], 0, 13U *
                  sizeof(real_T));
-          for (proc_control_node_B.e_k = 0; proc_control_node_B.e_k < 13;
-               proc_control_node_B.e_k++) {
+          for (proc_control_node_B.e_k_a = 0; proc_control_node_B.e_k_a < 13;
+               proc_control_node_B.e_k_a++) {
             for (proc_control_node_B.e_k_d = 0; proc_control_node_B.e_k_d < 13;
                  proc_control_node_B.e_k_d++) {
               proc_control_node_B.A2_tmp = 13 * proc_control_node_B.i16 +
                 proc_control_node_B.e_k_d;
               proc_control_node_B.U_p[proc_control_node_B.A2_tmp] += A[13 *
-                proc_control_node_B.e_k + proc_control_node_B.e_k_d] *
+                proc_control_node_B.e_k_a + proc_control_node_B.e_k_d] *
                 proc_control_node_B.A4_p[13 * proc_control_node_B.i16 +
-                proc_control_node_B.e_k];
+                proc_control_node_B.e_k_a];
             }
           }
         }
@@ -21835,13 +21826,13 @@ void proc_control_nodeModelClass::proc__PadeApproximantOfDegree_k(const real_T
         for (proc_control_node_B.i16 = 0; proc_control_node_B.i16 < 13;
              proc_control_node_B.i16++) {
           proc_control_node_B.e_k_d = 0;
-          for (proc_control_node_B.e_k = 0; proc_control_node_B.e_k < 13;
-               proc_control_node_B.e_k++) {
-            proc_control_node_B.d_e = 0.0;
+          for (proc_control_node_B.e_k_a = 0; proc_control_node_B.e_k_a < 13;
+               proc_control_node_B.e_k_a++) {
+            proc_control_node_B.d_m = 0.0;
             proc_control_node_B.A2_tmp = 0;
             for (proc_control_node_B.i17 = 0; proc_control_node_B.i17 < 13;
                  proc_control_node_B.i17++) {
-              proc_control_node_B.d_e +=
+              proc_control_node_B.d_m +=
                 proc_control_node_B.A4[proc_control_node_B.A2_tmp +
                 proc_control_node_B.i16] *
                 proc_control_node_B.A4_p[proc_control_node_B.i17 +
@@ -21853,7 +21844,7 @@ void proc_control_nodeModelClass::proc__PadeApproximantOfDegree_k(const real_T
               proc_control_node_B.i16;
             proc_control_node_B.V[proc_control_node_B.A2_tmp] =
               ((proc_control_node_B.A4[proc_control_node_B.A2_tmp] *
-                6.704425728E+11 + proc_control_node_B.d_e) +
+                6.704425728E+11 + proc_control_node_B.d_m) +
                proc_control_node_B.A3[proc_control_node_B.A2_tmp] *
                1.29060195264E+14) +
               proc_control_node_B.A2[proc_control_node_B.A2_tmp] *
@@ -21862,30 +21853,30 @@ void proc_control_nodeModelClass::proc__PadeApproximantOfDegree_k(const real_T
           }
         }
 
-        proc_control_node_B.d_e = 6.476475253248E+16;
+        proc_control_node_B.d_m = 6.476475253248E+16;
         break;
       }
     }
   }
 
   proc_control_node_B.e_k_d = 0;
-  for (proc_control_node_B.e_k = 0; proc_control_node_B.e_k < 13;
-       proc_control_node_B.e_k++) {
-    proc_control_node_B.V[proc_control_node_B.e_k_d] += proc_control_node_B.d_e;
+  for (proc_control_node_B.e_k_a = 0; proc_control_node_B.e_k_a < 13;
+       proc_control_node_B.e_k_a++) {
+    proc_control_node_B.V[proc_control_node_B.e_k_d] += proc_control_node_B.d_m;
     proc_control_node_B.e_k_d += 14;
   }
 
-  for (proc_control_node_B.e_k = 0; proc_control_node_B.e_k < 169;
-       proc_control_node_B.e_k++) {
-    proc_control_node_B.V[proc_control_node_B.e_k] -=
-      proc_control_node_B.U_p[proc_control_node_B.e_k];
-    proc_control_node_B.U_p[proc_control_node_B.e_k] *= 2.0;
+  for (proc_control_node_B.e_k_a = 0; proc_control_node_B.e_k_a < 169;
+       proc_control_node_B.e_k_a++) {
+    proc_control_node_B.V[proc_control_node_B.e_k_a] -=
+      proc_control_node_B.U_p[proc_control_node_B.e_k_a];
+    proc_control_node_B.U_p[proc_control_node_B.e_k_a] *= 2.0;
   }
 
   proc_control_node_lusolve_e(proc_control_node_B.V, proc_control_node_B.U_p, F);
   proc_control_node_B.e_k_d = 0;
-  for (proc_control_node_B.e_k = 0; proc_control_node_B.e_k < 13;
-       proc_control_node_B.e_k++) {
+  for (proc_control_node_B.e_k_a = 0; proc_control_node_B.e_k_a < 13;
+       proc_control_node_B.e_k_a++) {
     F[proc_control_node_B.e_k_d]++;
     proc_control_node_B.e_k_d += 14;
   }
@@ -21902,14 +21893,14 @@ void proc_control_nodeModelClass::proc_control_node_expm(real_T A[169], real_T
 
   boolean_T exitg1;
   proc_control_node_B.normA = 0.0;
-  proc_control_node_B.b_j_g = 0;
+  proc_control_node_B.b_j = 0;
   exitg1 = false;
-  while ((!exitg1) && (proc_control_node_B.b_j_g < 13)) {
+  while ((!exitg1) && (proc_control_node_B.b_j < 13)) {
     proc_control_node_B.b_s = 0.0;
-    for (proc_control_node_B.b_i_gz = 0; proc_control_node_B.b_i_gz < 13;
-         proc_control_node_B.b_i_gz++) {
-      proc_control_node_B.b_s += fabs(A[13 * proc_control_node_B.b_j_g +
-        proc_control_node_B.b_i_gz]);
+    for (proc_control_node_B.b_i_gy = 0; proc_control_node_B.b_i_gy < 13;
+         proc_control_node_B.b_i_gy++) {
+      proc_control_node_B.b_s += fabs(A[13 * proc_control_node_B.b_j +
+        proc_control_node_B.b_i_gy]);
     }
 
     if (rtIsNaN(proc_control_node_B.b_s)) {
@@ -21920,19 +21911,19 @@ void proc_control_nodeModelClass::proc_control_node_expm(real_T A[169], real_T
         proc_control_node_B.normA = proc_control_node_B.b_s;
       }
 
-      proc_control_node_B.b_j_g++;
+      proc_control_node_B.b_j++;
     }
   }
 
   if (proc_control_node_B.normA <= 5.3719203511481517) {
-    proc_control_node_B.b_j_g = 0;
+    proc_control_node_B.b_j = 0;
     exitg1 = false;
-    while ((!exitg1) && (proc_control_node_B.b_j_g < 5)) {
-      if (proc_control_node_B.normA <= theta[proc_control_node_B.b_j_g]) {
-        proc__PadeApproximantOfDegree_k(A, b[proc_control_node_B.b_j_g], F);
+    while ((!exitg1) && (proc_control_node_B.b_j < 5)) {
+      if (proc_control_node_B.normA <= theta[proc_control_node_B.b_j]) {
+        proc__PadeApproximantOfDegree_k(A, b[proc_control_node_B.b_j], F);
         exitg1 = true;
       } else {
-        proc_control_node_B.b_j_g++;
+        proc_control_node_B.b_j++;
       }
     }
   } else {
@@ -21940,50 +21931,50 @@ void proc_control_nodeModelClass::proc_control_node_expm(real_T A[169], real_T
     if ((!rtIsInf(proc_control_node_B.b_s)) && (!rtIsNaN(proc_control_node_B.b_s)))
     {
       proc_control_node_B.b_s = frexp(proc_control_node_B.b_s,
-        &proc_control_node_B.e_a);
+        &proc_control_node_B.e_g);
     } else {
-      proc_control_node_B.e_a = 0;
+      proc_control_node_B.e_g = 0;
     }
 
-    proc_control_node_B.normA = proc_control_node_B.e_a;
+    proc_control_node_B.normA = proc_control_node_B.e_g;
     if (proc_control_node_B.b_s == 0.5) {
-      proc_control_node_B.normA = static_cast<real_T>(proc_control_node_B.e_a) -
+      proc_control_node_B.normA = static_cast<real_T>(proc_control_node_B.e_g) -
         1.0;
     }
 
     proc_control_node_B.b_s = rt_powd_snf(2.0, proc_control_node_B.normA);
-    for (proc_control_node_B.b_i_gz = 0; proc_control_node_B.b_i_gz < 169;
-         proc_control_node_B.b_i_gz++) {
-      A[proc_control_node_B.b_i_gz] /= proc_control_node_B.b_s;
+    for (proc_control_node_B.b_i_gy = 0; proc_control_node_B.b_i_gy < 169;
+         proc_control_node_B.b_i_gy++) {
+      A[proc_control_node_B.b_i_gy] /= proc_control_node_B.b_s;
     }
 
     proc__PadeApproximantOfDegree_k(A, 13, F);
-    proc_control_node_B.b_j_g = 0;
-    while (proc_control_node_B.b_j_g <= static_cast<int32_T>
+    proc_control_node_B.b_j = 0;
+    while (proc_control_node_B.b_j <= static_cast<int32_T>
            (proc_control_node_B.normA) - 1) {
-      for (proc_control_node_B.b_i_gz = 0; proc_control_node_B.b_i_gz < 13;
-           proc_control_node_B.b_i_gz++) {
-        proc_control_node_B.e_a = 0;
+      for (proc_control_node_B.b_i_gy = 0; proc_control_node_B.b_i_gy < 13;
+           proc_control_node_B.b_i_gy++) {
+        proc_control_node_B.e_g = 0;
         for (proc_control_node_B.i13 = 0; proc_control_node_B.i13 < 13;
              proc_control_node_B.i13++) {
-          proc_control_node_B.F_tmp = proc_control_node_B.e_a +
-            proc_control_node_B.b_i_gz;
+          proc_control_node_B.F_tmp = proc_control_node_B.e_g +
+            proc_control_node_B.b_i_gy;
           proc_control_node_B.F[proc_control_node_B.F_tmp] = 0.0;
           proc_control_node_B.i15 = 0;
           for (proc_control_node_B.i14 = 0; proc_control_node_B.i14 < 13;
                proc_control_node_B.i14++) {
             proc_control_node_B.F[proc_control_node_B.F_tmp] +=
-              F[proc_control_node_B.i15 + proc_control_node_B.b_i_gz] *
-              F[proc_control_node_B.i14 + proc_control_node_B.e_a];
+              F[proc_control_node_B.i15 + proc_control_node_B.b_i_gy] *
+              F[proc_control_node_B.i14 + proc_control_node_B.e_g];
             proc_control_node_B.i15 += 13;
           }
 
-          proc_control_node_B.e_a += 13;
+          proc_control_node_B.e_g += 13;
         }
       }
 
       memcpy(&F[0], &proc_control_node_B.F[0], 169U * sizeof(real_T));
-      proc_control_node_B.b_j_g++;
+      proc_control_node_B.b_j++;
     }
   }
 }
@@ -22327,16 +22318,16 @@ void proc_control_nodeModelClass::proc_contr_mpc_constraintcoef_m(const real_T
       proc_control_node_B.i30 = 0;
       i_0 = 0;
       for (i_1 = 0; i_1 < 8; i_1++) {
-        proc_control_node_B.Sum_ft = 0.0;
+        proc_control_node_B.Sum_on = 0.0;
         tmp = 0;
         for (i_2 = 0; i_2 < 21; i_2++) {
-          proc_control_node_B.Sum_ft += proc_control_node_B.CA[tmp +
+          proc_control_node_B.Sum_on += proc_control_node_B.CA[tmp +
             proc_control_node_B.i31] * Bu[i_2 + i_0];
           tmp += 13;
         }
 
         CA_tmp = proc_control_node_B.i30 + proc_control_node_B.i31;
-        proc_control_node_B.Sum_n[CA_tmp] += proc_control_node_B.Sum_ft;
+        proc_control_node_B.Sum_n[CA_tmp] += proc_control_node_B.Sum_on;
         proc_control_node_B.i30 += 13;
         i_0 += 21;
       }
@@ -22347,10 +22338,10 @@ void proc_control_nodeModelClass::proc_contr_mpc_constraintcoef_m(const real_T
       for (proc_control_node_B.i30 = 0; proc_control_node_B.i30 < 13;
            proc_control_node_B.i30++) {
         CA_tmp = 13 * proc_control_node_B.i31 + proc_control_node_B.i30;
-        proc_control_node_B.Sum_ft = proc_control_node_B.Sum_n[CA_tmp];
+        proc_control_node_B.Sum_on = proc_control_node_B.Sum_n[CA_tmp];
         b_Su1[(proc_control_node_B.rows[proc_control_node_B.i30] + 130 *
-               proc_control_node_B.i31) - 1] = proc_control_node_B.Sum_ft;
-        proc_control_node_B.Sum_d[CA_tmp] = proc_control_node_B.Sum_ft;
+               proc_control_node_B.i31) - 1] = proc_control_node_B.Sum_on;
+        proc_control_node_B.Sum_d[CA_tmp] = proc_control_node_B.Sum_on;
       }
     }
 
@@ -22470,13 +22461,13 @@ void proc_control_nodeModelClass::proc_con_mpc_calculatehessian_c(const real_T
   ixw = 1;
   for (proc_control_node_B.i_eh = 0; proc_control_node_B.i_eh < 130;
        proc_control_node_B.i_eh++) {
-    proc_control_node_B.b_Wy_o = b_Wy[ixw - 1];
+    proc_control_node_B.b_Wy_i = b_Wy[ixw - 1];
     for (proc_control_node_B.i32 = 0; proc_control_node_B.i32 < 16;
          proc_control_node_B.i32++) {
       proc_control_node_B.b_Kr_tmp_l = 130 * proc_control_node_B.i32 +
         proc_control_node_B.i_eh;
       b_Kr[proc_control_node_B.b_Kr_tmp_l] =
-        b_SuJm[proc_control_node_B.b_Kr_tmp_l] * proc_control_node_B.b_Wy_o;
+        b_SuJm[proc_control_node_B.b_Kr_tmp_l] * proc_control_node_B.b_Wy_i;
     }
 
     proc_control_node_B.i32 = ixw + 1;
@@ -22486,10 +22477,10 @@ void proc_control_nodeModelClass::proc_con_mpc_calculatehessian_c(const real_T
 
     ixw = static_cast<int16_T>(proc_control_node_B.i32);
     if (static_cast<int16_T>(proc_control_node_B.i32) > 13) {
-      proc_control_node_B.b_Wy_o = rt_roundd_snf(13.0 - b_ny);
-      if (proc_control_node_B.b_Wy_o < 32768.0) {
-        if (proc_control_node_B.b_Wy_o >= -32768.0) {
-          ixw = static_cast<int16_T>(proc_control_node_B.b_Wy_o);
+      proc_control_node_B.b_Wy_i = rt_roundd_snf(13.0 - b_ny);
+      if (proc_control_node_B.b_Wy_i < 32768.0) {
+        if (proc_control_node_B.b_Wy_i >= -32768.0) {
+          ixw = static_cast<int16_T>(proc_control_node_B.b_Wy_i);
         } else {
           ixw = MIN_int16_T;
         }
@@ -22498,9 +22489,9 @@ void proc_control_nodeModelClass::proc_con_mpc_calculatehessian_c(const real_T
       }
 
       proc_control_node_B.i32 = ixw + 1;
-      if (proc_control_node_B.b_Wy_o < 32768.0) {
-        if (proc_control_node_B.b_Wy_o >= -32768.0) {
-          ixw = static_cast<int16_T>(proc_control_node_B.b_Wy_o);
+      if (proc_control_node_B.b_Wy_i < 32768.0) {
+        if (proc_control_node_B.b_Wy_i >= -32768.0) {
+          ixw = static_cast<int16_T>(proc_control_node_B.b_Wy_i);
         } else {
           ixw = MIN_int16_T;
         }
@@ -22546,10 +22537,10 @@ void proc_control_nodeModelClass::proc_con_mpc_calculatehessian_c(const real_T
        proc_control_node_B.i32++) {
     for (proc_control_node_B.i_eh = 0; proc_control_node_B.i_eh < 16;
          proc_control_node_B.i_eh++) {
-      proc_control_node_B.b_Wy_o = 0.0;
+      proc_control_node_B.b_Wy_i = 0.0;
       for (proc_control_node_B.b_Kr_tmp_l = 0; proc_control_node_B.b_Kr_tmp_l <
            80; proc_control_node_B.b_Kr_tmp_l++) {
-        proc_control_node_B.b_Wy_o += I2Jm[80 * proc_control_node_B.i32 +
+        proc_control_node_B.b_Wy_i += I2Jm[80 * proc_control_node_B.i32 +
           proc_control_node_B.b_Kr_tmp_l] * b_Kut[80 * proc_control_node_B.i_eh
           + proc_control_node_B.b_Kr_tmp_l];
       }
@@ -22559,7 +22550,7 @@ void proc_control_nodeModelClass::proc_con_mpc_calculatehessian_c(const real_T
       b_H[proc_control_node_B.b_Kr_tmp_l] =
         (proc_control_node_B.b_SuJm_l[proc_control_node_B.b_Kr_tmp_l] +
          proc_control_node_B.b_Jm_m[proc_control_node_B.b_Kr_tmp_l]) +
-        proc_control_node_B.b_Wy_o;
+        proc_control_node_B.b_Wy_i;
     }
 
     for (proc_control_node_B.i_eh = 0; proc_control_node_B.i_eh < 8;
@@ -22640,44 +22631,44 @@ void proc_control_nodeModelClass::proc_control_node_mpc_solveQP_g(const real_T
   memset(&f[0], 0, 17U * sizeof(real_T));
   for (proc_control_node_B.i_j = 0; proc_control_node_B.i_j < 16;
        proc_control_node_B.i_j++) {
-    proc_control_node_B.b_Kx_k = 0.0;
+    proc_control_node_B.b_Kx_h = 0.0;
     for (proc_control_node_B.i5 = 0; proc_control_node_B.i5 < 21;
          proc_control_node_B.i5++) {
-      proc_control_node_B.b_Kx_k += b_Kx[21 * proc_control_node_B.i_j +
+      proc_control_node_B.b_Kx_h += b_Kx[21 * proc_control_node_B.i_j +
         proc_control_node_B.i5] * xQP[proc_control_node_B.i5];
     }
 
-    proc_control_node_B.b_Kr_h = 0.0;
+    proc_control_node_B.b_Kr_b = 0.0;
     for (proc_control_node_B.i5 = 0; proc_control_node_B.i5 < 130;
          proc_control_node_B.i5++) {
-      proc_control_node_B.b_Kr_h += b_Kr[130 * proc_control_node_B.i_j +
+      proc_control_node_B.b_Kr_b += b_Kr[130 * proc_control_node_B.i_j +
         proc_control_node_B.i5] * rseq[proc_control_node_B.i5];
     }
 
-    proc_control_node_B.b_Ku1_b = 0.0;
+    proc_control_node_B.b_Ku1_o = 0.0;
     for (proc_control_node_B.i5 = 0; proc_control_node_B.i5 < 8;
          proc_control_node_B.i5++) {
-      proc_control_node_B.b_Ku1_b += b_Ku1[(proc_control_node_B.i_j << 3) +
+      proc_control_node_B.b_Ku1_o += b_Ku1[(proc_control_node_B.i_j << 3) +
         proc_control_node_B.i5] * old_u[proc_control_node_B.i5];
     }
 
-    proc_control_node_B.b_Kv_o = 0.0;
+    proc_control_node_B.b_Kv_n = 0.0;
     for (proc_control_node_B.i5 = 0; proc_control_node_B.i5 < 11;
          proc_control_node_B.i5++) {
-      proc_control_node_B.b_Kv_o += b_Kv[11 * proc_control_node_B.i_j +
+      proc_control_node_B.b_Kv_n += b_Kv[11 * proc_control_node_B.i_j +
         proc_control_node_B.i5] * vseq[proc_control_node_B.i5];
     }
 
-    proc_control_node_B.b_Kut_n = 0.0;
+    proc_control_node_B.b_Kut_m = 0.0;
     for (proc_control_node_B.i5 = 0; proc_control_node_B.i5 < 80;
          proc_control_node_B.i5++) {
-      proc_control_node_B.b_Kut_n += b_Kut[80 * proc_control_node_B.i_j +
+      proc_control_node_B.b_Kut_m += b_Kut[80 * proc_control_node_B.i_j +
         proc_control_node_B.i5] * b_utarget[proc_control_node_B.i5];
     }
 
-    f[proc_control_node_B.i_j] = (((proc_control_node_B.b_Kx_k +
-      proc_control_node_B.b_Kr_h) + proc_control_node_B.b_Ku1_b) +
-      proc_control_node_B.b_Kv_o) + proc_control_node_B.b_Kut_n;
+    f[proc_control_node_B.i_j] = (((proc_control_node_B.b_Kx_h +
+      proc_control_node_B.b_Kr_b) + proc_control_node_B.b_Ku1_o) +
+      proc_control_node_B.b_Kv_n) + proc_control_node_B.b_Kut_m;
   }
 
   for (proc_control_node_B.i_j = 0; proc_control_node_B.i_j < 32;
@@ -24026,75 +24017,78 @@ void proc_control_nodeModelClass::step()
       proc_control_node_B.scale = 3.3121686421112381E-170;
       proc_control_node_B.absxk = fabs(proc_control_node_B.In1_n.Orientation.W);
       if (proc_control_node_B.absxk > 3.3121686421112381E-170) {
-        proc_control_node_B.d_f = 1.0;
+        proc_control_node_B.d_cy = 1.0;
         proc_control_node_B.scale = proc_control_node_B.absxk;
       } else {
         proc_control_node_B.t = proc_control_node_B.absxk /
           3.3121686421112381E-170;
-        proc_control_node_B.d_f = proc_control_node_B.t * proc_control_node_B.t;
+        proc_control_node_B.d_cy = proc_control_node_B.t * proc_control_node_B.t;
       }
 
       proc_control_node_B.absxk = fabs(proc_control_node_B.In1_n.Orientation.X);
       if (proc_control_node_B.absxk > proc_control_node_B.scale) {
         proc_control_node_B.t = proc_control_node_B.scale /
           proc_control_node_B.absxk;
-        proc_control_node_B.d_f = proc_control_node_B.d_f *
+        proc_control_node_B.d_cy = proc_control_node_B.d_cy *
           proc_control_node_B.t * proc_control_node_B.t + 1.0;
         proc_control_node_B.scale = proc_control_node_B.absxk;
       } else {
         proc_control_node_B.t = proc_control_node_B.absxk /
           proc_control_node_B.scale;
-        proc_control_node_B.d_f += proc_control_node_B.t * proc_control_node_B.t;
+        proc_control_node_B.d_cy += proc_control_node_B.t *
+          proc_control_node_B.t;
       }
 
       proc_control_node_B.absxk = fabs(proc_control_node_B.In1_n.Orientation.Y);
       if (proc_control_node_B.absxk > proc_control_node_B.scale) {
         proc_control_node_B.t = proc_control_node_B.scale /
           proc_control_node_B.absxk;
-        proc_control_node_B.d_f = proc_control_node_B.d_f *
+        proc_control_node_B.d_cy = proc_control_node_B.d_cy *
           proc_control_node_B.t * proc_control_node_B.t + 1.0;
         proc_control_node_B.scale = proc_control_node_B.absxk;
       } else {
         proc_control_node_B.t = proc_control_node_B.absxk /
           proc_control_node_B.scale;
-        proc_control_node_B.d_f += proc_control_node_B.t * proc_control_node_B.t;
+        proc_control_node_B.d_cy += proc_control_node_B.t *
+          proc_control_node_B.t;
       }
 
       proc_control_node_B.absxk = fabs(proc_control_node_B.In1_n.Orientation.Z);
       if (proc_control_node_B.absxk > proc_control_node_B.scale) {
         proc_control_node_B.t = proc_control_node_B.scale /
           proc_control_node_B.absxk;
-        proc_control_node_B.d_f = proc_control_node_B.d_f *
+        proc_control_node_B.d_cy = proc_control_node_B.d_cy *
           proc_control_node_B.t * proc_control_node_B.t + 1.0;
         proc_control_node_B.scale = proc_control_node_B.absxk;
       } else {
         proc_control_node_B.t = proc_control_node_B.absxk /
           proc_control_node_B.scale;
-        proc_control_node_B.d_f += proc_control_node_B.t * proc_control_node_B.t;
+        proc_control_node_B.d_cy += proc_control_node_B.t *
+          proc_control_node_B.t;
       }
 
-      proc_control_node_B.d_f = proc_control_node_B.scale * sqrt
-        (proc_control_node_B.d_f);
+      proc_control_node_B.d_cy = proc_control_node_B.scale * sqrt
+        (proc_control_node_B.d_cy);
       proc_control_node_B.Saturation_c = proc_control_node_B.In1_n.Orientation.W
-        / proc_control_node_B.d_f;
-      proc_control_node_B.b_p[0] = rtIsNaN(proc_control_node_B.Saturation_c);
+        / proc_control_node_B.d_cy;
+      proc_control_node_B.b_dg[0] = rtIsNaN(proc_control_node_B.Saturation_c);
       proc_control_node_B.n[0] = proc_control_node_B.Saturation_c;
       proc_control_node_B.Saturation_c = proc_control_node_B.In1_n.Orientation.X
-        / proc_control_node_B.d_f;
-      proc_control_node_B.b_p[1] = rtIsNaN(proc_control_node_B.Saturation_c);
+        / proc_control_node_B.d_cy;
+      proc_control_node_B.b_dg[1] = rtIsNaN(proc_control_node_B.Saturation_c);
       proc_control_node_B.n[1] = proc_control_node_B.Saturation_c;
       proc_control_node_B.Saturation_c = proc_control_node_B.In1_n.Orientation.Y
-        / proc_control_node_B.d_f;
-      proc_control_node_B.b_p[2] = rtIsNaN(proc_control_node_B.Saturation_c);
+        / proc_control_node_B.d_cy;
+      proc_control_node_B.b_dg[2] = rtIsNaN(proc_control_node_B.Saturation_c);
       proc_control_node_B.n[2] = proc_control_node_B.Saturation_c;
       proc_control_node_B.Saturation_c = proc_control_node_B.In1_n.Orientation.Z
-        / proc_control_node_B.d_f;
-      proc_control_node_B.b_p[3] = rtIsNaN(proc_control_node_B.Saturation_c);
+        / proc_control_node_B.d_cy;
+      proc_control_node_B.b_dg[3] = rtIsNaN(proc_control_node_B.Saturation_c);
       rtb_Reset_j = true;
       proc_control_node_B.i_c = 0;
       exitg1 = false;
       while ((!exitg1) && (proc_control_node_B.i_c < 4)) {
-        if (!proc_control_node_B.b_p[proc_control_node_B.i_c]) {
+        if (!proc_control_node_B.b_dg[proc_control_node_B.i_c]) {
           rtb_Reset_j = false;
           exitg1 = true;
         } else {
@@ -24291,13 +24285,13 @@ void proc_control_nodeModelClass::step()
       // Outputs for Atomic SubSystem: '<S50>/Subscribe2'
       // MATLABSystem: '<S60>/SourceBlock'
       rtb_Reset = Sub_proc_control_node_31_1305.getLatestMessage
-        (&proc_control_node_B.b_varargout_2_d);
+        (&proc_control_node_B.b_varargout_2_jr);
 
       // Outputs for Enabled SubSystem: '<S60>/Enabled Subsystem' incorporates:
       //   EnablePort: '<S63>/Enable'
 
       if (rtb_Reset) {
-        proc_control_node_B.In1_om = proc_control_node_B.b_varargout_2_d;
+        proc_control_node_B.In1_om = proc_control_node_B.b_varargout_2_jr;
       }
 
       // End of Outputs for SubSystem: '<S60>/Enabled Subsystem'
@@ -24392,13 +24386,13 @@ void proc_control_nodeModelClass::step()
       // Outputs for Atomic SubSystem: '<S49>/Subscribe2'
       // MATLABSystem: '<S54>/SourceBlock'
       rtb_Reset = Sub_proc_control_node_31_1302.getLatestMessage
-        (&proc_control_node_B.b_varargout_2_d);
+        (&proc_control_node_B.b_varargout_2_jr);
 
       // Outputs for Enabled SubSystem: '<S54>/Enabled Subsystem' incorporates:
       //   EnablePort: '<S57>/Enable'
 
       if (rtb_Reset) {
-        proc_control_node_B.In1_e = proc_control_node_B.b_varargout_2_d;
+        proc_control_node_B.In1_e = proc_control_node_B.b_varargout_2_jr;
       }
 
       // End of Outputs for SubSystem: '<S54>/Enabled Subsystem'
@@ -24430,76 +24424,76 @@ void proc_control_nodeModelClass::step()
     proc_control_node_B.scale = 3.3121686421112381E-170;
     proc_control_node_B.absxk = fabs(proc_control_node_B.t);
     if (proc_control_node_B.absxk > 3.3121686421112381E-170) {
-      proc_control_node_B.d_f = 1.0;
+      proc_control_node_B.d_cy = 1.0;
       proc_control_node_B.scale = proc_control_node_B.absxk;
     } else {
       proc_control_node_B.t = proc_control_node_B.absxk /
         3.3121686421112381E-170;
-      proc_control_node_B.d_f = proc_control_node_B.t * proc_control_node_B.t;
+      proc_control_node_B.d_cy = proc_control_node_B.t * proc_control_node_B.t;
     }
 
     proc_control_node_B.absxk = fabs(proc_control_node_B.n[1]);
     if (proc_control_node_B.absxk > proc_control_node_B.scale) {
       proc_control_node_B.t = proc_control_node_B.scale /
         proc_control_node_B.absxk;
-      proc_control_node_B.d_f = proc_control_node_B.d_f * proc_control_node_B.t *
-        proc_control_node_B.t + 1.0;
+      proc_control_node_B.d_cy = proc_control_node_B.d_cy *
+        proc_control_node_B.t * proc_control_node_B.t + 1.0;
       proc_control_node_B.scale = proc_control_node_B.absxk;
     } else {
       proc_control_node_B.t = proc_control_node_B.absxk /
         proc_control_node_B.scale;
-      proc_control_node_B.d_f += proc_control_node_B.t * proc_control_node_B.t;
+      proc_control_node_B.d_cy += proc_control_node_B.t * proc_control_node_B.t;
     }
 
     proc_control_node_B.absxk = fabs(proc_control_node_B.n[2]);
     if (proc_control_node_B.absxk > proc_control_node_B.scale) {
       proc_control_node_B.t = proc_control_node_B.scale /
         proc_control_node_B.absxk;
-      proc_control_node_B.d_f = proc_control_node_B.d_f * proc_control_node_B.t *
-        proc_control_node_B.t + 1.0;
+      proc_control_node_B.d_cy = proc_control_node_B.d_cy *
+        proc_control_node_B.t * proc_control_node_B.t + 1.0;
       proc_control_node_B.scale = proc_control_node_B.absxk;
     } else {
       proc_control_node_B.t = proc_control_node_B.absxk /
         proc_control_node_B.scale;
-      proc_control_node_B.d_f += proc_control_node_B.t * proc_control_node_B.t;
+      proc_control_node_B.d_cy += proc_control_node_B.t * proc_control_node_B.t;
     }
 
     proc_control_node_B.absxk = fabs(proc_control_node_B.n[3]);
     if (proc_control_node_B.absxk > proc_control_node_B.scale) {
       proc_control_node_B.t = proc_control_node_B.scale /
         proc_control_node_B.absxk;
-      proc_control_node_B.d_f = proc_control_node_B.d_f * proc_control_node_B.t *
-        proc_control_node_B.t + 1.0;
+      proc_control_node_B.d_cy = proc_control_node_B.d_cy *
+        proc_control_node_B.t * proc_control_node_B.t + 1.0;
       proc_control_node_B.scale = proc_control_node_B.absxk;
     } else {
       proc_control_node_B.t = proc_control_node_B.absxk /
         proc_control_node_B.scale;
-      proc_control_node_B.d_f += proc_control_node_B.t * proc_control_node_B.t;
+      proc_control_node_B.d_cy += proc_control_node_B.t * proc_control_node_B.t;
     }
 
-    proc_control_node_B.d_f = proc_control_node_B.scale * sqrt
-      (proc_control_node_B.d_f);
+    proc_control_node_B.d_cy = proc_control_node_B.scale * sqrt
+      (proc_control_node_B.d_cy);
     proc_control_node_B.Saturation_c = proc_control_node_B.n[0] /
-      proc_control_node_B.d_f;
-    proc_control_node_B.b_p[0] = rtIsNaN(proc_control_node_B.Saturation_c);
+      proc_control_node_B.d_cy;
+    proc_control_node_B.b_dg[0] = rtIsNaN(proc_control_node_B.Saturation_c);
     proc_control_node_B.n[0] = proc_control_node_B.Saturation_c;
     proc_control_node_B.Saturation_c = proc_control_node_B.n[1] /
-      proc_control_node_B.d_f;
-    proc_control_node_B.b_p[1] = rtIsNaN(proc_control_node_B.Saturation_c);
+      proc_control_node_B.d_cy;
+    proc_control_node_B.b_dg[1] = rtIsNaN(proc_control_node_B.Saturation_c);
     proc_control_node_B.n[1] = proc_control_node_B.Saturation_c;
     proc_control_node_B.Saturation_c = proc_control_node_B.n[2] /
-      proc_control_node_B.d_f;
-    proc_control_node_B.b_p[2] = rtIsNaN(proc_control_node_B.Saturation_c);
+      proc_control_node_B.d_cy;
+    proc_control_node_B.b_dg[2] = rtIsNaN(proc_control_node_B.Saturation_c);
     proc_control_node_B.n[2] = proc_control_node_B.Saturation_c;
     proc_control_node_B.Saturation_c = proc_control_node_B.n[3] /
-      proc_control_node_B.d_f;
-    proc_control_node_B.b_p[3] = rtIsNaN(proc_control_node_B.Saturation_c);
+      proc_control_node_B.d_cy;
+    proc_control_node_B.b_dg[3] = rtIsNaN(proc_control_node_B.Saturation_c);
     proc_control_node_B.n[3] = proc_control_node_B.Saturation_c;
     rtb_Reset_j = true;
     proc_control_node_B.i_c = 0;
     exitg1 = false;
     while ((!exitg1) && (proc_control_node_B.i_c < 4)) {
-      if (!proc_control_node_B.b_p[proc_control_node_B.i_c]) {
+      if (!proc_control_node_B.b_dg[proc_control_node_B.i_c]) {
         rtb_Reset_j = false;
         exitg1 = true;
       } else {
@@ -24625,7 +24619,7 @@ void proc_control_nodeModelClass::step()
       proc_control_node_B.fcn1_k;
 
     // Product: '<S257>/Product'
-    proc_control_node_B.d_f = proc_control_node_B.Product2_l /
+    proc_control_node_B.d_cy = proc_control_node_B.Product2_l /
       proc_control_node_B.fcn1_k;
 
     // Product: '<S257>/Product2'
@@ -24656,10 +24650,10 @@ void proc_control_nodeModelClass::step()
 
     proc_control_node_B.t = proc_control_node_B.rtb_PressureDepth_Data -
       (((proc_control_node_B.Product1_n * proc_control_node_B.t +
-         proc_control_node_B.d_f * proc_control_node_B.fcn1_k) *
+         proc_control_node_B.d_cy * proc_control_node_B.fcn1_k) *
         proc_control_node_P.Gain_Gain_j * proc_control_node_P.physics.DepthPose
         [0] + (proc_control_node_B.fcn1_k * proc_control_node_B.t -
-               proc_control_node_B.d_f * proc_control_node_B.Product1_n) *
+               proc_control_node_B.d_cy * proc_control_node_B.Product1_n) *
         proc_control_node_P.Gain1_Gain_j *
         proc_control_node_P.physics.DepthPose[1]) +
        ((proc_control_node_P.Constant_Value_a1 - proc_control_node_B.Product1_n *
@@ -24681,9 +24675,9 @@ void proc_control_nodeModelClass::step()
     if ((proc_control_node_B.Probe[0] >
          proc_control_node_P.LowPassFilterDiscreteorContin_b) || rtIsNaN
         (proc_control_node_P.LowPassFilterDiscreteorContin_b)) {
-      proc_control_node_B.d_f = proc_control_node_B.Probe[0];
+      proc_control_node_B.d_cy = proc_control_node_B.Probe[0];
     } else {
-      proc_control_node_B.d_f =
+      proc_control_node_B.d_cy =
         proc_control_node_P.LowPassFilterDiscreteorContin_b;
     }
 
@@ -24795,8 +24789,8 @@ void proc_control_nodeModelClass::step()
 
     proc_control_node_DW.Integrator_IC_LOADING = 0U;
     proc_control_node_DW.Integrator_DSTATE_o += 1.0 / (static_cast<real_T>
-      (proc_control_node_B.d_f == 0.0) * 2.2204460492503131e-16 +
-      proc_control_node_B.d_f) * (proc_control_node_B.Product1_n -
+      (proc_control_node_B.d_cy == 0.0) * 2.2204460492503131e-16 +
+      proc_control_node_B.d_cy) * (proc_control_node_B.Product1_n -
       proc_control_node_B.Saturation_c) * proc_control_node_P.Integrator_gainval;
     if (proc_control_node_DW.Integrator_DSTATE_o >=
         proc_control_node_P.Integrator_UpperSat) {
@@ -24826,43 +24820,46 @@ void proc_control_nodeModelClass::step()
         // Gain: '<S267>/1//2' incorporates:
         //   Constant: '<S266>/si y devant'
 
-        proc_control_node_B.d_f = proc_control_node_P.u2_Gain_b *
+        proc_control_node_B.d_cy = proc_control_node_P.u2_Gain_b *
           proc_control_node_P.siydevant_Value[0];
 
         // Trigonometry: '<S267>/sincos'
-        proc_control_node_B.rtb_Gain_f_idx_0 = sin(proc_control_node_B.d_f);
-        proc_control_node_B.VectorConcatenate_p[0] = cos(proc_control_node_B.d_f);
+        proc_control_node_B.rtb_Gain_f_idx_0 = sin(proc_control_node_B.d_cy);
+        proc_control_node_B.VectorConcatenate_p[0] = cos
+          (proc_control_node_B.d_cy);
 
         // Gain: '<S267>/1//2' incorporates:
         //   Constant: '<S266>/si y devant'
 
-        proc_control_node_B.d_f = proc_control_node_P.u2_Gain_b *
+        proc_control_node_B.d_cy = proc_control_node_P.u2_Gain_b *
           proc_control_node_P.siydevant_Value[1];
 
         // Trigonometry: '<S267>/sincos'
-        proc_control_node_B.Product2_l = sin(proc_control_node_B.d_f);
-        proc_control_node_B.VectorConcatenate_p[1] = cos(proc_control_node_B.d_f);
+        proc_control_node_B.Product2_l = sin(proc_control_node_B.d_cy);
+        proc_control_node_B.VectorConcatenate_p[1] = cos
+          (proc_control_node_B.d_cy);
 
         // Gain: '<S267>/1//2' incorporates:
         //   Constant: '<S266>/si y devant'
 
-        proc_control_node_B.d_f = proc_control_node_P.u2_Gain_b *
+        proc_control_node_B.d_cy = proc_control_node_P.u2_Gain_b *
           proc_control_node_P.siydevant_Value[2];
 
         // Trigonometry: '<S267>/sincos'
-        proc_control_node_B.fcn2 = sin(proc_control_node_B.d_f);
-        proc_control_node_B.VectorConcatenate_p[2] = cos(proc_control_node_B.d_f);
+        proc_control_node_B.fcn2 = sin(proc_control_node_B.d_cy);
+        proc_control_node_B.VectorConcatenate_p[2] = cos
+          (proc_control_node_B.d_cy);
 
         // Fcn: '<S267>/q0' incorporates:
         //   Fcn: '<S267>/q3'
 
-        proc_control_node_B.d_f = proc_control_node_B.VectorConcatenate_p[0] *
+        proc_control_node_B.d_cy = proc_control_node_B.VectorConcatenate_p[0] *
           proc_control_node_B.VectorConcatenate_p[1];
         proc_control_node_B.Product1_n = proc_control_node_B.rtb_Gain_f_idx_0 *
           proc_control_node_B.Product2_l;
 
         // Fcn: '<S267>/q0'
-        proc_control_node_B.q0 = proc_control_node_B.d_f *
+        proc_control_node_B.q0 = proc_control_node_B.d_cy *
           proc_control_node_B.VectorConcatenate_p[2] -
           proc_control_node_B.Product1_n * proc_control_node_B.fcn2;
 
@@ -24885,7 +24882,7 @@ void proc_control_nodeModelClass::step()
           proc_control_node_B.rtb_Gain_f_idx_0 * proc_control_node_B.fcn2;
 
         // Fcn: '<S267>/q3'
-        proc_control_node_B.q3 = proc_control_node_B.d_f *
+        proc_control_node_B.q3 = proc_control_node_B.d_cy *
           proc_control_node_B.fcn2 + proc_control_node_B.Product1_n *
           proc_control_node_B.VectorConcatenate_p[2];
       }
@@ -25289,7 +25286,7 @@ void proc_control_nodeModelClass::step()
             proc_control_node_P.R2_Value[proc_control_node_B.i_c];
           proc_control_node_B.y_f[proc_control_node_B.idx_i + 14] =
             proc_control_node_P.R2_Value[proc_control_node_B.i_c + 3];
-          proc_control_node_B.y_f[proc_control_node_B.idx_i + 15] =
+          proc_control_node_B.y_f[(proc_control_node_B.i_c << 4) + 15] =
             proc_control_node_P.R2_Value[proc_control_node_B.i_c + 6];
         }
 
@@ -25596,7 +25593,7 @@ void proc_control_nodeModelClass::step()
         proc_control_node_B.Divide3);
 
       // Product: '<S125>/Product'
-      proc_control_node_B.d_f = proc_control_node_B.Divide /
+      proc_control_node_B.d_cy = proc_control_node_B.Divide /
         proc_control_node_B.t;
 
       // Product: '<S125>/Product1'
@@ -25613,7 +25610,7 @@ void proc_control_nodeModelClass::step()
 
       // Fcn: '<S121>/fcn3'
       proc_control_node_B.rtb_Gain_f_idx_0 = (proc_control_node_B.scale *
-        proc_control_node_B.t + proc_control_node_B.d_f *
+        proc_control_node_B.t + proc_control_node_B.d_cy *
         proc_control_node_B.absxk) * 2.0;
 
       // If: '<S126>/If' incorporates:
@@ -25645,8 +25642,8 @@ void proc_control_nodeModelClass::step()
       // Fcn: '<S121>/fcn2' incorporates:
       //   Fcn: '<S121>/fcn5'
 
-      proc_control_node_B.d_cy = proc_control_node_B.d_f *
-        proc_control_node_B.d_f;
+      proc_control_node_B.d_n = proc_control_node_B.d_cy *
+        proc_control_node_B.d_cy;
       proc_control_node_B.d1 = proc_control_node_B.scale *
         proc_control_node_B.scale;
       proc_control_node_B.d2 = proc_control_node_B.absxk *
@@ -25662,8 +25659,8 @@ void proc_control_nodeModelClass::step()
 
       proc_control_node_B.msg_f.Pose.Pose.Orientation.X = rt_atan2d_snf
         ((proc_control_node_B.absxk * proc_control_node_B.t -
-          proc_control_node_B.d_f * proc_control_node_B.scale) * -2.0,
-         ((proc_control_node_B.d_cy - proc_control_node_B.d1) -
+          proc_control_node_B.d_cy * proc_control_node_B.scale) * -2.0,
+         ((proc_control_node_B.d_n - proc_control_node_B.d1) -
           proc_control_node_B.d2) + proc_control_node_B.Saturation_c) *
         proc_control_node_P.Gain_Gain_ei;
 
@@ -25688,8 +25685,8 @@ void proc_control_nodeModelClass::step()
         (proc_control_node_B.rtb_Gain_f_idx_0);
       proc_control_node_B.msg_f.Pose.Pose.Orientation.Z = rt_atan2d_snf
         ((proc_control_node_B.scale * proc_control_node_B.absxk -
-          proc_control_node_B.d_f * proc_control_node_B.t) * -2.0,
-         ((proc_control_node_B.d_cy + proc_control_node_B.d1) -
+          proc_control_node_B.d_cy * proc_control_node_B.t) * -2.0,
+         ((proc_control_node_B.d_n + proc_control_node_B.d1) -
           proc_control_node_B.d2) - proc_control_node_B.Saturation_c) *
         proc_control_node_P.Gain_Gain_ei;
       proc_control_node_B.msg_f.Twist.Twist.Linear.X =
@@ -26322,11 +26319,11 @@ void proc_control_nodeModelClass::step()
         //
         //          end
         //  transformer le point en fonction du frame
-        proc_control_node_B.d_cy = rt_roundd_snf
+        proc_control_node_B.d_n = rt_roundd_snf
           (proc_control_node_B.DataTypeConversion1[0]);
-        if (proc_control_node_B.d_cy < 256.0) {
-          if (proc_control_node_B.d_cy >= 0.0) {
-            tmp = static_cast<uint8_T>(proc_control_node_B.d_cy);
+        if (proc_control_node_B.d_n < 256.0) {
+          if (proc_control_node_B.d_n >= 0.0) {
+            tmp = static_cast<uint8_T>(proc_control_node_B.d_n);
           } else {
             tmp = 0U;
           }
@@ -26859,14 +26856,6 @@ void proc_control_nodeModelClass::step()
       proc_control_node_B.TmpSignalConversionAtSFunct[2] =
         proc_control_node_B.n[2] + proc_control_node_B.rtb_Gain_f_idx_0;
       memset(&proc_control_node_B.dCoefs[0], 0, 36U * sizeof(real_T));
-
-      // Update for DiscreteIntegrator: '<S304>/Discrete-Time Integrator'
-      proc_control_node_DW.DiscreteTimeIntegrator_DSTATE =
-        proc_control_node_B.t13 + proc_control_node_B.fcn2;
-
-      // MATLABSystem: '<S306>/Polynomial Trajectory1' incorporates:
-      //   SignalConversion generated from: '<S290>/Transpose2'
-
       proc_control_node_B.coffset = 0;
       for (proc_control_node_B.ibmat = 0; proc_control_node_B.ibmat < 3;
            proc_control_node_B.ibmat++) {
@@ -26879,17 +26868,70 @@ void proc_control_nodeModelClass::step()
             static_cast<real_T>(3 - proc_control_node_B.ibmat);
         }
 
-        proc_control_node_B.imvec[proc_control_node_B.ibmat] =
-          proc_control_node_B.WorldPosition[proc_control_node_B.ibmat];
         proc_control_node_B.coffset += 9;
       }
+
+      // Update for DiscreteIntegrator: '<S304>/Discrete-Time Integrator'
+      proc_control_node_DW.DiscreteTimeIntegrator_DSTATE =
+        proc_control_node_B.t13 + proc_control_node_B.fcn2;
+
+      // MATLABSystem: '<S306>/Polynomial Trajectory1'
+      proc_control_node_ppval_b(proc_control_node_B.n,
+        proc_control_node_B.pp_coefs, proc_control_node_B.fcn2,
+        proc_control_node_B.u2);
+      proc_control_node_ppval_b(proc_control_node_B.TmpSignalConversionAtSFunct,
+        proc_control_node_B.dCoefs, proc_control_node_B.fcn2,
+        proc_control_node_B.dv30);
+
+      // End of Outputs for SubSystem: '<S290>/Trajectory generator'
+
+      // Math: '<S290>/Transpose' incorporates:
+      //   MATLABSystem: '<S304>/Rotation Trajectory'
+      //   SignalConversion generated from: '<S290>/Transpose'
+
+      proc_control_node_B.imvec[0] = proc_control_node_B.u2[0];
+      proc_control_node_B.imvec[1] = proc_control_node_B.u2[1];
+      proc_control_node_B.imvec[2] = proc_control_node_B.u2[2];
+
+      // Outputs for Resettable SubSystem: '<S290>/Trajectory generator' incorporates:
+      //   ResetPort: '<S304>/Reset'
+
+      proc_control_node_B.imvec[3] = proc_control_node_B.rq[0];
+      proc_control_node_B.imvec[4] = proc_control_node_B.rq[1];
+      proc_control_node_B.imvec[5] = proc_control_node_B.rq[2];
+      proc_control_node_B.imvec[6] = proc_control_node_B.rq[3];
+
+      // End of Outputs for SubSystem: '<S290>/Trajectory generator'
+      proc_control_node_B.imvec[7] = proc_control_node_B.dv30[0];
+
+      // Outputs for Resettable SubSystem: '<S290>/Trajectory generator' incorporates:
+      //   ResetPort: '<S304>/Reset'
+
+      proc_control_node_B.imvec[10] = proc_control_node_B.VectorConcatenate_p[0];
+
+      // End of Outputs for SubSystem: '<S290>/Trajectory generator'
+      proc_control_node_B.imvec[8] = proc_control_node_B.dv30[1];
+
+      // Outputs for Resettable SubSystem: '<S290>/Trajectory generator' incorporates:
+      //   ResetPort: '<S304>/Reset'
+
+      proc_control_node_B.imvec[11] = proc_control_node_B.VectorConcatenate_p[1];
+
+      // End of Outputs for SubSystem: '<S290>/Trajectory generator'
+      proc_control_node_B.imvec[9] = proc_control_node_B.dv30[2];
+
+      // Outputs for Resettable SubSystem: '<S290>/Trajectory generator' incorporates:
+      //   ResetPort: '<S304>/Reset'
+
+      proc_control_node_B.imvec[12] = proc_control_node_B.VectorConcatenate_p[2];
 
       // End of Outputs for SubSystem: '<S290>/Trajectory generator'
 
       // MATLABSystem: '<S290>/MATLAB System' incorporates:
       //   MATLABSystem: '<S290>/MATLAB System1'
-      //   MATLABSystem: '<S304>/Rotation Trajectory'
-      //   MATLABSystem: '<S306>/Polynomial Trajectory1'
+      //   Math: '<S290>/Transpose'
+      //   Math: '<S290>/Transpose1'
+      //   Selector: '<S301>/Selector4'
 
       if (proc_control_node_DW.obj.linearConvergence !=
           proc_control_node_P.MATLABSystem_linearConvergence) {
@@ -26954,58 +26996,14 @@ void proc_control_nodeModelClass::step()
       //  Insertion des nouveaux points.
       // if new == this.generationNumber %new>
       if (proc_control_node_DW.obj.bufferCount + 1.0 < 6001.0) {
-        // Outputs for Resettable SubSystem: '<S290>/Trajectory generator' incorporates:
-        //   ResetPort: '<S304>/Reset'
+        for (proc_control_node_B.i_c = 0; proc_control_node_B.i_c < 13;
+             proc_control_node_B.i_c++) {
+          proc_control_node_DW.obj.poseBuffer[(static_cast<int32_T>
+            (proc_control_node_DW.obj.bufferCount + 1.0) + 6001 *
+            proc_control_node_B.i_c) - 1] =
+            proc_control_node_B.imvec[proc_control_node_B.i_c];
+        }
 
-        // MATLABSystem: '<S306>/Polynomial Trajectory1'
-        proc_control_node_ppval_b(proc_control_node_B.n,
-          proc_control_node_B.pp_coefs, proc_control_node_B.fcn2,
-          proc_control_node_B.u2);
-        proc_control_node_ppval_b
-          (proc_control_node_B.TmpSignalConversionAtSFunct,
-           proc_control_node_B.dCoefs, proc_control_node_B.fcn2,
-           proc_control_node_B.dv30);
-        proc_control_node_DW.obj.poseBuffer[static_cast<int32_T>
-          (proc_control_node_DW.obj.bufferCount + 1.0) - 1] =
-          proc_control_node_B.u2[0];
-        proc_control_node_DW.obj.poseBuffer[static_cast<int32_T>
-          (proc_control_node_DW.obj.bufferCount + 1.0) + 6000] =
-          proc_control_node_B.u2[1];
-        proc_control_node_DW.obj.poseBuffer[static_cast<int32_T>
-          (proc_control_node_DW.obj.bufferCount + 1.0) + 12001] =
-          proc_control_node_B.u2[2];
-        proc_control_node_DW.obj.poseBuffer[static_cast<int32_T>
-          (proc_control_node_DW.obj.bufferCount + 1.0) + 18002] =
-          proc_control_node_B.rq[0];
-        proc_control_node_DW.obj.poseBuffer[static_cast<int32_T>
-          (proc_control_node_DW.obj.bufferCount + 1.0) + 24003] =
-          proc_control_node_B.rq[1];
-        proc_control_node_DW.obj.poseBuffer[static_cast<int32_T>
-          (proc_control_node_DW.obj.bufferCount + 1.0) + 30004] =
-          proc_control_node_B.rq[2];
-        proc_control_node_DW.obj.poseBuffer[static_cast<int32_T>
-          (proc_control_node_DW.obj.bufferCount + 1.0) + 36005] =
-          proc_control_node_B.rq[3];
-        proc_control_node_DW.obj.poseBuffer[static_cast<int32_T>
-          (proc_control_node_DW.obj.bufferCount + 1.0) + 42006] =
-          proc_control_node_B.dv30[0];
-        proc_control_node_DW.obj.poseBuffer[static_cast<int32_T>
-          (proc_control_node_DW.obj.bufferCount + 1.0) + 60009] =
-          proc_control_node_B.VectorConcatenate_p[0];
-        proc_control_node_DW.obj.poseBuffer[static_cast<int32_T>
-          (proc_control_node_DW.obj.bufferCount + 1.0) + 48007] =
-          proc_control_node_B.dv30[1];
-        proc_control_node_DW.obj.poseBuffer[static_cast<int32_T>
-          (proc_control_node_DW.obj.bufferCount + 1.0) + 66010] =
-          proc_control_node_B.VectorConcatenate_p[1];
-        proc_control_node_DW.obj.poseBuffer[static_cast<int32_T>
-          (proc_control_node_DW.obj.bufferCount + 1.0) + 54008] =
-          proc_control_node_B.dv30[2];
-        proc_control_node_DW.obj.poseBuffer[static_cast<int32_T>
-          (proc_control_node_DW.obj.bufferCount + 1.0) + 72011] =
-          proc_control_node_B.VectorConcatenate_p[2];
-
-        // End of Outputs for SubSystem: '<S290>/Trajectory generator'
         // this.poseBuffer(this.bufferCount:count + this.bufferCount,:) = pose(1:count+1,:) 
         proc_control_node_DW.obj.bufferCount++;
         proc_control_node_DW.obj.generationNumber++;
@@ -27017,20 +27015,42 @@ void proc_control_nodeModelClass::step()
       TrajectoryManager_SendCurrentPo(&proc_control_node_DW.obj,
         proc_control_node_B.y_n_o);
 
+      //  Fonction qui verifie le target reached
+      //  vérifier si la trajectoire est fini
+      for (proc_control_node_B.i_c = 0; proc_control_node_B.i_c < 7;
+           proc_control_node_B.i_c++) {
+        proc_control_node_B.x[proc_control_node_B.i_c] =
+          proc_control_node_B.imvec[proc_control_node_B.i_c] -
+          proc_control_node_B.Selector4[proc_control_node_B.i_c];
+        proc_control_node_B.TmpSignalConversionAtMATLAB[proc_control_node_B.i_c]
+          = fabs(proc_control_node_B.x[proc_control_node_B.i_c]);
+      }
+
+      proc_control_node_DW.obj.done = true;
+      proc_control_node_B.i_c = 0;
+      exitg1 = false;
+      while ((!exitg1) && (proc_control_node_B.i_c < 7)) {
+        if (!(proc_control_node_B.TmpSignalConversionAtMATLAB[proc_control_node_B.i_c]
+              < 0.001)) {
+          proc_control_node_DW.obj.done = false;
+          exitg1 = true;
+        } else {
+          proc_control_node_B.i_c++;
+        }
+      }
+
       // Merge: '<S9>/Merge1' incorporates:
       //   MATLABSystem: '<S290>/MATLAB System'
 
-      //  Fonction qui verifie le target reached
       proc_control_node_B.Merge1 = false;
 
       // MATLABSystem: '<S290>/MATLAB System' incorporates:
       //   Math: '<S290>/Transpose1'
-      //   Math: '<S290>/Transpose2'
       //   Selector: '<S301>/Selector4'
       //   SignalConversion generated from: '<S290>/Transpose2'
 
       //  vérifier le traget reached si la trajectoire est terminé
-      if (!proc_control_node_DW.obj.done) {
+      if (proc_control_node_DW.obj.done) {
         //  calcule de l'erreur de langle en 3D avec le quaternion
         proc_control_node_B.qRel[0] = ((proc_control_node_B.qS2W[0] *
           proc_control_node_B.Selector4[3] - -proc_control_node_B.Selector4[4] *
@@ -27055,11 +27075,11 @@ void proc_control_nodeModelClass::step()
 
         //  vérifier si le sub est dans la zone de convergence (sphérique / conique) 
         proc_control_node_B.u2[0] = proc_control_node_B.Selector4[0] -
-          proc_control_node_B.imvec[0];
+          proc_control_node_B.WorldPosition[0];
         proc_control_node_B.u2[1] = proc_control_node_B.Selector4[1] -
-          proc_control_node_B.imvec[1];
+          proc_control_node_B.WorldPosition[1];
         proc_control_node_B.u2[2] = proc_control_node_B.Selector4[2] -
-          proc_control_node_B.imvec[2];
+          proc_control_node_B.WorldPosition[2];
         if ((proc_control_node_norm_b(proc_control_node_B.u2) <
              proc_control_node_DW.obj.linearConvergence) && (2.0 * rt_atan2d_snf
              (proc_control_node_norm_b(&proc_control_node_B.qRel[1]),
@@ -27680,7 +27700,7 @@ void proc_control_nodeModelClass::step()
           proc_control_node_B.constValues[15];
         proc_control_node_B.t14 = proc_control_node_B.constValues[0] *
           proc_control_node_B.constValues[16];
-        proc_control_node_B.d_f = proc_control_node_B.constValues[0] *
+        proc_control_node_B.d_cy = proc_control_node_B.constValues[0] *
           proc_control_node_B.constValues[17];
         proc_control_node_B.scale =
           proc_control_node_B.TmpSignalConversionAtTransp[12] *
@@ -27707,11 +27727,11 @@ void proc_control_nodeModelClass::step()
         proc_control_node_B.t65_tmp =
           proc_control_node_B.TmpSignalConversionAtTransp[5] *
           proc_control_node_B.TmpSignalConversionAtTransp[6];
-        proc_control_node_B.t65_tmp_h =
+        proc_control_node_B.t65_tmp_k =
           proc_control_node_B.TmpSignalConversionAtTransp[3] *
           proc_control_node_B.TmpSignalConversionAtTransp[4];
         proc_control_node_B.absxk = proc_control_node_B.t65_tmp * 2.0 +
-          proc_control_node_B.t65_tmp_h * 2.0;
+          proc_control_node_B.t65_tmp_k * 2.0;
         proc_control_node_B.t56 =
           (proc_control_node_B.TmpSignalConversionAtTransp[11] *
            proc_control_node_B.constValues[17] +
@@ -27736,11 +27756,11 @@ void proc_control_nodeModelClass::step()
         proc_control_node_B.t25_tmp =
           proc_control_node_B.TmpSignalConversionAtTransp[4] *
           proc_control_node_B.TmpSignalConversionAtTransp[6];
-        proc_control_node_B.t25_tmp_n =
+        proc_control_node_B.t25_tmp_h =
           proc_control_node_B.TmpSignalConversionAtTransp[3] *
           proc_control_node_B.TmpSignalConversionAtTransp[5];
         proc_control_node_B.t = proc_control_node_B.t25_tmp * 2.0 +
-          -(proc_control_node_B.t25_tmp_n * 2.0);
+          -(proc_control_node_B.t25_tmp_h * 2.0);
         proc_control_node_B.t70 =
           (proc_control_node_B.TmpSignalConversionAtTransp[4] *
            proc_control_node_B.TmpSignalConversionAtTransp[4] * 2.0 +
@@ -27753,13 +27773,13 @@ void proc_control_nodeModelClass::step()
         proc_control_node_B.pp_coefs[1] = 0.0;
         proc_control_node_B.pp_coefs[2] = 0.0;
         proc_control_node_B.pp_coefs[3] = 0.0;
-        proc_control_node_B.pp_coefs[4] = proc_control_node_B.d_f;
+        proc_control_node_B.pp_coefs[4] = proc_control_node_B.d_cy;
         proc_control_node_B.pp_coefs[5] = -proc_control_node_B.t14;
         proc_control_node_B.pp_coefs[6] = 0.0;
         proc_control_node_B.pp_coefs[7] = -proc_control_node_B.constValues[34] +
           proc_control_node_B.constValues[0];
         proc_control_node_B.pp_coefs[8] = 0.0;
-        proc_control_node_B.pp_coefs[9] = -proc_control_node_B.d_f;
+        proc_control_node_B.pp_coefs[9] = -proc_control_node_B.d_cy;
         proc_control_node_B.pp_coefs[10] = 0.0;
         proc_control_node_B.pp_coefs[11] = proc_control_node_B.t13;
         proc_control_node_B.pp_coefs[12] = 0.0;
@@ -27770,13 +27790,13 @@ void proc_control_nodeModelClass::step()
         proc_control_node_B.pp_coefs[16] = -proc_control_node_B.t13;
         proc_control_node_B.pp_coefs[17] = 0.0;
         proc_control_node_B.pp_coefs[18] = 0.0;
-        proc_control_node_B.pp_coefs[19] = -proc_control_node_B.d_f;
+        proc_control_node_B.pp_coefs[19] = -proc_control_node_B.d_cy;
         proc_control_node_B.pp_coefs[20] = proc_control_node_B.t14;
         proc_control_node_B.pp_coefs[21] = proc_control_node_B.constValues[6] -
           proc_control_node_B.constValues[36];
         proc_control_node_B.pp_coefs[22] = proc_control_node_B.constValues[9];
         proc_control_node_B.pp_coefs[23] = proc_control_node_B.constValues[12];
-        proc_control_node_B.pp_coefs[24] = proc_control_node_B.d_f;
+        proc_control_node_B.pp_coefs[24] = proc_control_node_B.d_cy;
         proc_control_node_B.pp_coefs[25] = 0.0;
         proc_control_node_B.pp_coefs[26] = -proc_control_node_B.t13;
         proc_control_node_B.pp_coefs[27] = proc_control_node_B.constValues[7];
@@ -27820,11 +27840,11 @@ void proc_control_nodeModelClass::step()
         proc_control_node_B.dCoefs[1] = 0.0;
         proc_control_node_B.dCoefs[2] = 0.0;
         proc_control_node_B.dCoefs[3] = -proc_control_node_B.t21;
-        proc_control_node_B.d_cy =
+        proc_control_node_B.d_n =
           proc_control_node_B.TmpSignalConversionAtTransp[11] *
           proc_control_node_B.constValues[15] -
           proc_control_node_B.TmpSignalConversionAtTransp[9];
-        proc_control_node_B.dCoefs[4] = proc_control_node_B.d_cy *
+        proc_control_node_B.dCoefs[4] = proc_control_node_B.d_n *
           proc_control_node_B.constValues[0] + proc_control_node_B.Product1_n;
         proc_control_node_B.dCoefs[5] = -proc_control_node_B.fcn1_k +
           proc_control_node_B.t58;
@@ -27864,7 +27884,7 @@ void proc_control_nodeModelClass::step()
         proc_control_node_B.dCoefs[23] = ((proc_control_node_B.MATLABSystem_o6 +
           proc_control_node_B.Divide3) + proc_control_node_B.t9) -
           proc_control_node_B.t12;
-        proc_control_node_B.dCoefs[24] = proc_control_node_B.d_cy *
+        proc_control_node_B.dCoefs[24] = proc_control_node_B.d_n *
           -proc_control_node_B.constValues[0] + -proc_control_node_B.Product1_n;
         proc_control_node_B.dCoefs[25] = proc_control_node_B.t17;
         proc_control_node_B.dCoefs[26] = proc_control_node_B.Product2_l -
@@ -27983,10 +28003,10 @@ void proc_control_nodeModelClass::step()
           * (proc_control_node_B.constValues[0] +
              -proc_control_node_B.Saturation_c);
         proc_control_node_B.rtb_Gain3_n[0] = (proc_control_node_B.t25_tmp -
-          proc_control_node_B.t25_tmp_n) * proc_control_node_B.MATLABSystem_o5 *
+          proc_control_node_B.t25_tmp_h) * proc_control_node_B.MATLABSystem_o5 *
           -2.0;
         proc_control_node_B.rtb_Gain3_n[1] = (proc_control_node_B.t65_tmp +
-          proc_control_node_B.t65_tmp_h) * proc_control_node_B.MATLABSystem_o5 *
+          proc_control_node_B.t65_tmp_k) * proc_control_node_B.MATLABSystem_o5 *
           -2.0;
         proc_control_node_B.rtb_Gain3_n[2] = proc_control_node_B.MATLABSystem_o5
           * proc_control_node_B.t70;
@@ -27998,7 +28018,7 @@ void proc_control_nodeModelClass::step()
           proc_control_node_B.constValues[40] *
           -proc_control_node_B.Saturation_c;
         proc_control_node_B.rtb_Gain3_n[3] = ((proc_control_node_B.constValues
-          [40] * proc_control_node_B.d_f * proc_control_node_B.absxk +
+          [40] * proc_control_node_B.d_cy * proc_control_node_B.absxk +
           proc_control_node_B.MATLABSystem_o6 * proc_control_node_B.t70) +
           proc_control_node_B.MATLABSystem_o5 *
           -proc_control_node_B.Saturation_c * proc_control_node_B.absxk) +
@@ -28009,7 +28029,7 @@ void proc_control_nodeModelClass::step()
           proc_control_node_B.constValues[40] * proc_control_node_B.Saturation_c;
         proc_control_node_B.rtb_Gain3_n[4] = ((proc_control_node_B.t13 *
           proc_control_node_B.t70 + proc_control_node_B.constValues[40] *
-          -proc_control_node_B.d_f * proc_control_node_B.t) +
+          -proc_control_node_B.d_cy * proc_control_node_B.t) +
           proc_control_node_B.t14 * proc_control_node_B.t70) +
           proc_control_node_B.MATLABSystem_o5 * proc_control_node_B.Saturation_c
           * proc_control_node_B.t;
@@ -28402,15 +28422,15 @@ void proc_control_nodeModelClass::step()
         if ((!rtIsInf(proc_control_node_B.MATLABSystem_o5)) && (!rtIsNaN
              (proc_control_node_B.MATLABSystem_o5))) {
           proc_control_node_B.MATLABSystem_o5 = frexp
-            (proc_control_node_B.MATLABSystem_o5, &proc_control_node_B.e_ih);
+            (proc_control_node_B.MATLABSystem_o5, &proc_control_node_B.e_i);
         } else {
-          proc_control_node_B.e_ih = 0;
+          proc_control_node_B.e_i = 0;
         }
 
-        proc_control_node_B.rtb_Gain_f_idx_0 = proc_control_node_B.e_ih;
+        proc_control_node_B.rtb_Gain_f_idx_0 = proc_control_node_B.e_i;
         if (proc_control_node_B.MATLABSystem_o5 == 0.5) {
           proc_control_node_B.rtb_Gain_f_idx_0 = static_cast<real_T>
-            (proc_control_node_B.e_ih) - 1.0;
+            (proc_control_node_B.e_i) - 1.0;
         }
 
         proc_control_node_B.MATLABSystem_o5 = rt_powd_snf(2.0,
@@ -28432,13 +28452,13 @@ void proc_control_nodeModelClass::step()
             proc_control_node_B.ibmat = 0;
             for (proc_control_node_B.coffset = 0; proc_control_node_B.coffset <
                  12; proc_control_node_B.coffset++) {
-              proc_control_node_B.e_ih = proc_control_node_B.ibmat +
+              proc_control_node_B.e_i = proc_control_node_B.ibmat +
                 proc_control_node_B.i_c;
-              proc_control_node_B.y_g2[proc_control_node_B.e_ih] = 0.0;
+              proc_control_node_B.y_g2[proc_control_node_B.e_i] = 0.0;
               proc_control_node_B.aoffset = 0;
               for (proc_control_node_B.i1 = 0; proc_control_node_B.i1 < 12;
                    proc_control_node_B.i1++) {
-                proc_control_node_B.y_g2[proc_control_node_B.e_ih] +=
+                proc_control_node_B.y_g2[proc_control_node_B.e_i] +=
                   proc_control_node_B.A_l[proc_control_node_B.aoffset +
                   proc_control_node_B.i_c] *
                   proc_control_node_B.A_l[proc_control_node_B.i1 +
@@ -28471,7 +28491,7 @@ void proc_control_nodeModelClass::step()
       // Outputs for Enabled SubSystem: '<S263>/Subsystem2' incorporates:
       //   EnablePort: '<S266>/Enable'
 
-      proc_control_node_B.e_ih = 0;
+      proc_control_node_B.e_i = 0;
       proc_control_node_B.ibmat = 0;
       proc_control_node_B.coffset = 0;
 
@@ -28495,7 +28515,7 @@ void proc_control_nodeModelClass::step()
         // Outputs for Enabled SubSystem: '<S263>/Subsystem2' incorporates:
         //   EnablePort: '<S266>/Enable'
 
-        proc_control_node_B.pp_coefs[proc_control_node_B.e_ih] = 1.0;
+        proc_control_node_B.pp_coefs[proc_control_node_B.e_i] = 1.0;
 
         // End of Outputs for SubSystem: '<S263>/Subsystem2'
         // End of Outputs for SubSystem: '<S8>/DVL Mesurments'
@@ -28541,7 +28561,7 @@ void proc_control_nodeModelClass::step()
         // Outputs for Enabled SubSystem: '<S263>/Subsystem2' incorporates:
         //   EnablePort: '<S266>/Enable'
 
-        proc_control_node_B.e_ih += 7;
+        proc_control_node_B.e_i += 7;
         proc_control_node_B.ibmat += 6;
         proc_control_node_B.coffset += 12;
 
@@ -28558,12 +28578,12 @@ void proc_control_nodeModelClass::step()
            proc_control_node_B.coffset++) {
         for (proc_control_node_B.aoffset = 0; proc_control_node_B.aoffset < 6;
              proc_control_node_B.aoffset++) {
-          proc_control_node_B.e_ih = proc_control_node_B.aoffset +
+          proc_control_node_B.e_i = proc_control_node_B.aoffset +
             proc_control_node_B.i_c;
-          proc_control_node_B.constValues_c[proc_control_node_B.e_ih] =
+          proc_control_node_B.constValues_c[proc_control_node_B.e_i] =
             proc_control_node_B.A_l[(proc_control_node_B.aoffset +
             proc_control_node_B.ibmat) + 78] -
-            proc_control_node_B.pp_coefs[proc_control_node_B.e_ih];
+            proc_control_node_B.pp_coefs[proc_control_node_B.e_i];
         }
 
         proc_control_node_B.i_c += 6;
@@ -28771,7 +28791,7 @@ void proc_control_nodeModelClass::step()
         // Outputs for Enabled SubSystem: '<S263>/Subsystem2' incorporates:
         //   EnablePort: '<S266>/Enable'
 
-        proc_control_node_B.e_ih = 0;
+        proc_control_node_B.e_i = 0;
 
         // End of Outputs for SubSystem: '<S263>/Subsystem2'
         // End of Outputs for SubSystem: '<S8>/DVL Mesurments'
@@ -28795,10 +28815,10 @@ void proc_control_nodeModelClass::step()
 
           proc_control_node_B.rseq_k[proc_control_node_B.idx_i +
             proc_control_node_B.coffset] =
-            proc_control_node_B.y_h_p[proc_control_node_B.e_ih +
+            proc_control_node_B.y_h_p[proc_control_node_B.e_i +
             proc_control_node_B.ibmat] -
             proc_control_node_B.DX_l[proc_control_node_B.idx_i];
-          proc_control_node_B.e_ih += 10;
+          proc_control_node_B.e_i += 10;
 
           // End of Outputs for SubSystem: '<S263>/Subsystem2'
           // End of Outputs for SubSystem: '<S8>/DVL Mesurments'
@@ -29035,7 +29055,7 @@ void proc_control_nodeModelClass::step()
       // Outputs for Enabled SubSystem: '<S263>/Subsystem2' incorporates:
       //   EnablePort: '<S266>/Enable'
 
-      proc_control_node_B.e_ih = 0;
+      proc_control_node_B.e_i = 0;
       proc_control_node_B.ibmat = 0;
       proc_control_node_B.coffset = 0;
 
@@ -29059,7 +29079,7 @@ void proc_control_nodeModelClass::step()
         // Outputs for Enabled SubSystem: '<S263>/Subsystem2' incorporates:
         //   EnablePort: '<S266>/Enable'
 
-        proc_control_node_B.pp_coefs[proc_control_node_B.e_ih] = 1.0;
+        proc_control_node_B.pp_coefs[proc_control_node_B.e_i] = 1.0;
 
         // End of Outputs for SubSystem: '<S263>/Subsystem2'
         // End of Outputs for SubSystem: '<S8>/DVL Mesurments'
@@ -29105,7 +29125,7 @@ void proc_control_nodeModelClass::step()
         // Outputs for Enabled SubSystem: '<S263>/Subsystem2' incorporates:
         //   EnablePort: '<S266>/Enable'
 
-        proc_control_node_B.e_ih += 7;
+        proc_control_node_B.e_i += 7;
         proc_control_node_B.ibmat += 6;
         proc_control_node_B.coffset += 13;
 
@@ -29301,7 +29321,7 @@ void proc_control_nodeModelClass::step()
         // Outputs for Enabled SubSystem: '<S263>/Subsystem2' incorporates:
         //   EnablePort: '<S266>/Enable'
 
-        proc_control_node_B.e_ih = 0;
+        proc_control_node_B.e_i = 0;
 
         // End of Outputs for SubSystem: '<S263>/Subsystem2'
         // End of Outputs for SubSystem: '<S8>/DVL Mesurments'
@@ -29325,10 +29345,10 @@ void proc_control_nodeModelClass::step()
 
           proc_control_node_B.rseq[proc_control_node_B.idx_i +
             proc_control_node_B.coffset] =
-            proc_control_node_B.y_n_o[proc_control_node_B.e_ih +
+            proc_control_node_B.y_n_o[proc_control_node_B.e_i +
             proc_control_node_B.ibmat] -
             proc_control_node_B.imz[proc_control_node_B.idx_i];
-          proc_control_node_B.e_ih += 10;
+          proc_control_node_B.e_i += 10;
 
           // End of Outputs for SubSystem: '<S263>/Subsystem2'
           // End of Outputs for SubSystem: '<S8>/DVL Mesurments'
@@ -29765,63 +29785,63 @@ void proc_control_nodeModelClass::step()
     proc_control_node_B.scale = 3.3121686421112381E-170;
     proc_control_node_B.absxk = fabs(proc_control_node_X.Integrator1_CSTATE[0]);
     if (proc_control_node_B.absxk > 3.3121686421112381E-170) {
-      proc_control_node_B.d_f = 1.0;
+      proc_control_node_B.d_cy = 1.0;
       proc_control_node_B.scale = proc_control_node_B.absxk;
     } else {
       proc_control_node_B.t = proc_control_node_B.absxk /
         3.3121686421112381E-170;
-      proc_control_node_B.d_f = proc_control_node_B.t * proc_control_node_B.t;
+      proc_control_node_B.d_cy = proc_control_node_B.t * proc_control_node_B.t;
     }
 
     proc_control_node_B.absxk = fabs(proc_control_node_X.Integrator1_CSTATE[1]);
     if (proc_control_node_B.absxk > proc_control_node_B.scale) {
       proc_control_node_B.t = proc_control_node_B.scale /
         proc_control_node_B.absxk;
-      proc_control_node_B.d_f = proc_control_node_B.d_f * proc_control_node_B.t *
-        proc_control_node_B.t + 1.0;
+      proc_control_node_B.d_cy = proc_control_node_B.d_cy *
+        proc_control_node_B.t * proc_control_node_B.t + 1.0;
       proc_control_node_B.scale = proc_control_node_B.absxk;
     } else {
       proc_control_node_B.t = proc_control_node_B.absxk /
         proc_control_node_B.scale;
-      proc_control_node_B.d_f += proc_control_node_B.t * proc_control_node_B.t;
+      proc_control_node_B.d_cy += proc_control_node_B.t * proc_control_node_B.t;
     }
 
     proc_control_node_B.absxk = fabs(proc_control_node_X.Integrator1_CSTATE[2]);
     if (proc_control_node_B.absxk > proc_control_node_B.scale) {
       proc_control_node_B.t = proc_control_node_B.scale /
         proc_control_node_B.absxk;
-      proc_control_node_B.d_f = proc_control_node_B.d_f * proc_control_node_B.t *
-        proc_control_node_B.t + 1.0;
+      proc_control_node_B.d_cy = proc_control_node_B.d_cy *
+        proc_control_node_B.t * proc_control_node_B.t + 1.0;
       proc_control_node_B.scale = proc_control_node_B.absxk;
     } else {
       proc_control_node_B.t = proc_control_node_B.absxk /
         proc_control_node_B.scale;
-      proc_control_node_B.d_f += proc_control_node_B.t * proc_control_node_B.t;
+      proc_control_node_B.d_cy += proc_control_node_B.t * proc_control_node_B.t;
     }
 
     proc_control_node_B.absxk = fabs(proc_control_node_X.Integrator1_CSTATE[3]);
     if (proc_control_node_B.absxk > proc_control_node_B.scale) {
       proc_control_node_B.t = proc_control_node_B.scale /
         proc_control_node_B.absxk;
-      proc_control_node_B.d_f = proc_control_node_B.d_f * proc_control_node_B.t *
-        proc_control_node_B.t + 1.0;
+      proc_control_node_B.d_cy = proc_control_node_B.d_cy *
+        proc_control_node_B.t * proc_control_node_B.t + 1.0;
       proc_control_node_B.scale = proc_control_node_B.absxk;
     } else {
       proc_control_node_B.t = proc_control_node_B.absxk /
         proc_control_node_B.scale;
-      proc_control_node_B.d_f += proc_control_node_B.t * proc_control_node_B.t;
+      proc_control_node_B.d_cy += proc_control_node_B.t * proc_control_node_B.t;
     }
 
-    proc_control_node_B.d_f = proc_control_node_B.scale * sqrt
-      (proc_control_node_B.d_f);
+    proc_control_node_B.d_cy = proc_control_node_B.scale * sqrt
+      (proc_control_node_B.d_cy);
     proc_control_node_B.y_g[0] = proc_control_node_X.Integrator1_CSTATE[0] /
-      proc_control_node_B.d_f;
+      proc_control_node_B.d_cy;
     proc_control_node_B.y_g[1] = proc_control_node_X.Integrator1_CSTATE[1] /
-      proc_control_node_B.d_f;
+      proc_control_node_B.d_cy;
     proc_control_node_B.y_g[2] = proc_control_node_X.Integrator1_CSTATE[2] /
-      proc_control_node_B.d_f;
+      proc_control_node_B.d_cy;
     proc_control_node_B.y_g[3] = proc_control_node_X.Integrator1_CSTATE[3] /
-      proc_control_node_B.d_f;
+      proc_control_node_B.d_cy;
 
     // End of MATLAB Function: '<S1>/Quaternion Normalise'
     if (rtmIsMajorTimeStep((&proc_control_node_M)) &&
@@ -30128,10 +30148,10 @@ void proc_control_nodeModelClass::step()
 
       proc_control_node_B.t12 = proc_control_node_B.Divide1 *
         proc_control_node_B.t9;
-      proc_control_node_B.d_f = proc_control_node_B.fcn2 *
+      proc_control_node_B.d_cy = proc_control_node_B.fcn2 *
         proc_control_node_B.t11;
       proc_control_node_B.MATLABSystem_o5 = proc_control_node_B.t12 *
-        proc_control_node_B.Divide - proc_control_node_B.d_f *
+        proc_control_node_B.Divide - proc_control_node_B.d_cy *
         proc_control_node_B.MATLABSystem_o7;
 
       // Fcn: '<S33>/q0' incorporates:
@@ -30145,7 +30165,7 @@ void proc_control_nodeModelClass::step()
 
       // Fcn: '<S33>/q1'
       proc_control_node_B.Divide1 = proc_control_node_B.t12 *
-        proc_control_node_B.MATLABSystem_o7 + proc_control_node_B.d_f *
+        proc_control_node_B.MATLABSystem_o7 + proc_control_node_B.d_cy *
         proc_control_node_B.Divide;
 
       // Fcn: '<S33>/q3'

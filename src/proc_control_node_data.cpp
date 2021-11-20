@@ -9,7 +9,7 @@
 //
 // Model version                  : 1.194
 // Simulink Coder version         : 9.5 (R2021a) 14-Nov-2020
-// C/C++ source code generated on : Fri Nov 19 14:23:11 2021
+// C/C++ source code generated on : Fri Nov 19 22:01:48 2021
 //
 // Target selection: ert.tlc
 // Embedded hardware selection: ARM Compatible->ARM 64-bit (LLP64)
@@ -223,32 +223,32 @@ proc_control_nodeModelClass::P_proc_control_node_T proc_control_nodeModelClass::
   // Variable: dMaxX
   //  Referenced by: '<S14>/X Drift'
 
-  0.37676536768193336,
+  0.379986079314394,
 
   // Variable: dMaxY
   //  Referenced by: '<S14>/Y Drift'
 
-  1.1228454253476925,
+  0.41028374288432545,
 
   // Variable: dMinX
   //  Referenced by: '<S14>/X Drift'
 
-  -0.37374752959113022,
+  -0.043211152898408711,
 
   // Variable: dMinY
   //  Referenced by: '<S14>/Y Drift'
 
-  -1.0585983003553603,
+  -0.31009008147048295,
 
   // Variable: dSeedX
   //  Referenced by: '<S14>/X Drift'
 
-  2.0,
+  8.0,
 
   // Variable: dSeedY
   //  Referenced by: '<S14>/Y Drift'
 
-  9.0,
+  3.0,
 
   // Variable: dampA
   //  Referenced by: '<S14>/Constant'
@@ -2894,15 +2894,15 @@ proc_control_nodeModelClass::P_proc_control_node_T proc_control_nodeModelClass::
 
   { 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 },
 
-  // Expression: .2
+  // Expression: .25
   //  Referenced by: '<S290>/MATLAB System'
 
-  0.2,
+  0.25,
 
-  // Expression: .20
+  // Expression: .22
   //  Referenced by: '<S290>/MATLAB System'
 
-  0.2,
+  0.22,
 
   // Expression: 2
   //  Referenced by: '<S290>/MATLAB System'

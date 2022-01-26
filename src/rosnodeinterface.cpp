@@ -1,5 +1,5 @@
 // Copyright 2019-2021 The MathWorks, Inc.
-// Generated 19-Nov-2021 22:02:03
+// Generated 25-Jan-2022 19:25:28
 
 #ifdef _MSC_VER
 
@@ -56,7 +56,8 @@ namespace ros
         ROS_INFO("** Starting the model \"proc_control_node\" **\n");
 
         //initialize the model which will initialize the publishers and subscribers
-        mModel = std::make_shared<proc_control_nodeModelClass>();
+        mModel = std::make_shared<proc_control_nodeModelClass>(
+          );
         rtmSetErrorStatus(mModel->getRTM(), (NULL));
         mModel->initialize();
 
@@ -123,8 +124,7 @@ namespace ros
     void NodeInterface::schedulerThread(void)
     {
       while (mRunModel) {
-        std::this_thread::sleep_until(std::chrono::system_clock::now() + std::
-          chrono::nanoseconds(16666667));
+        std::this_thread::sleep_for(std::chrono::nanoseconds(20000000));
         mBaseRateSem.notify();
       }
     }

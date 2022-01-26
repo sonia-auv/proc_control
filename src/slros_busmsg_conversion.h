@@ -16,8 +16,11 @@
 #include <sonia_common/AddPose.h>
 #include <sonia_common/BodyVelocityDVL.h>
 #include <sonia_common/KillSwitchMsg.h>
+#include <sonia_common/MpcGains.h>
+#include <sonia_common/MpcInfo.h>
 #include <std_msgs/Bool.h>
 #include <std_msgs/Float32.h>
+#include <std_msgs/Float32MultiArray.h>
 #include <std_msgs/Header.h>
 #include <std_msgs/Int8.h>
 #include <std_msgs/MultiArrayDimension.h>
@@ -70,11 +73,20 @@ void convertToBus(SL_Bus_proc_control_node_sonia_common_BodyVelocityDVL* busPtr,
 void convertFromBus(sonia_common::KillSwitchMsg* msgPtr, SL_Bus_proc_control_node_sonia_common_KillSwitchMsg const* busPtr);
 void convertToBus(SL_Bus_proc_control_node_sonia_common_KillSwitchMsg* busPtr, sonia_common::KillSwitchMsg const* msgPtr);
 
+void convertFromBus(sonia_common::MpcGains* msgPtr, SL_Bus_proc_control_node_sonia_common_MpcGains const* busPtr);
+void convertToBus(SL_Bus_proc_control_node_sonia_common_MpcGains* busPtr, sonia_common::MpcGains const* msgPtr);
+
+void convertFromBus(sonia_common::MpcInfo* msgPtr, SL_Bus_proc_control_node_sonia_common_MpcInfo const* busPtr);
+void convertToBus(SL_Bus_proc_control_node_sonia_common_MpcInfo* busPtr, sonia_common::MpcInfo const* msgPtr);
+
 void convertFromBus(std_msgs::Bool* msgPtr, SL_Bus_proc_control_node_std_msgs_Bool const* busPtr);
 void convertToBus(SL_Bus_proc_control_node_std_msgs_Bool* busPtr, std_msgs::Bool const* msgPtr);
 
 void convertFromBus(std_msgs::Float32* msgPtr, SL_Bus_proc_control_node_std_msgs_Float32 const* busPtr);
 void convertToBus(SL_Bus_proc_control_node_std_msgs_Float32* busPtr, std_msgs::Float32 const* msgPtr);
+
+void convertFromBus(std_msgs::Float32MultiArray* msgPtr, SL_Bus_proc_control_node_std_msgs_Float32MultiArray const* busPtr);
+void convertToBus(SL_Bus_proc_control_node_std_msgs_Float32MultiArray* busPtr, std_msgs::Float32MultiArray const* msgPtr);
 
 void convertFromBus(std_msgs::Header* msgPtr, SL_Bus_proc_control_node_std_msgs_Header const* busPtr);
 void convertToBus(SL_Bus_proc_control_node_std_msgs_Header* busPtr, std_msgs::Header const* msgPtr);

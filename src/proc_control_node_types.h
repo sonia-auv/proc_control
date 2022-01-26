@@ -7,9 +7,9 @@
 //
 // Code generated for Simulink model 'proc_control_node'.
 //
-// Model version                  : 1.194
-// Simulink Coder version         : 9.5 (R2021a) 14-Nov-2020
-// C/C++ source code generated on : Fri Nov 19 22:01:48 2021
+// Model version                  : 2.13
+// Simulink Coder version         : 9.6 (R2021b) 14-May-2021
+// C/C++ source code generated on : Tue Jan 25 19:25:11 2022
 //
 // Target selection: ert.tlc
 // Embedded hardware selection: ARM Compatible->ARM 64-bit (LLP64)
@@ -290,6 +290,58 @@ struct SL_Bus_proc_control_node_std_msgs_Int8
 
 #endif
 
+#ifndef DEFINED_TYPEDEF_FOR_SL_Bus_proc_control_node_sonia_common_MpcGains_
+#define DEFINED_TYPEDEF_FOR_SL_Bus_proc_control_node_sonia_common_MpcGains_
+
+// MsgType=sonia_common/MpcGains
+struct SL_Bus_proc_control_node_sonia_common_MpcGains
+{
+  // IsVarLen=1:VarLenCategory=data:VarLenElem=OV_SL_Info:TruncateAction=warn
+  real_T OV[128];
+
+  // IsVarLen=1:VarLenCategory=length:VarLenElem=OV
+  SL_Bus_ROSVariableLengthArrayInfo OV_SL_Info;
+
+  // IsVarLen=1:VarLenCategory=data:VarLenElem=MV_SL_Info:TruncateAction=warn
+  real_T MV[128];
+
+  // IsVarLen=1:VarLenCategory=length:VarLenElem=MV
+  SL_Bus_ROSVariableLengthArrayInfo MV_SL_Info;
+
+  // IsVarLen=1:VarLenCategory=data:VarLenElem=MVR_SL_Info:TruncateAction=warn
+  real_T MVR[128];
+
+  // IsVarLen=1:VarLenCategory=length:VarLenElem=MVR
+  SL_Bus_ROSVariableLengthArrayInfo MVR_SL_Info;
+  real_T MaxThrust;
+  real_T MinThrust;
+};
+
+#endif
+
+#ifndef DEFINED_TYPEDEF_FOR_SL_Bus_proc_control_node_sonia_common_MpcInfo_
+#define DEFINED_TYPEDEF_FOR_SL_Bus_proc_control_node_sonia_common_MpcInfo_
+
+// MsgType=sonia_common/MpcInfo
+struct SL_Bus_proc_control_node_sonia_common_MpcInfo
+{
+  boolean_T IsMpcAlive;
+  boolean_T TargetReached;
+
+  // IsVarLen=1:VarLenCategory=data:VarLenElem=ThrustersStatus_SL_Info:TruncateAction=warn 
+  boolean_T ThrustersStatus[128];
+
+  // IsVarLen=1:VarLenCategory=length:VarLenElem=ThrustersStatus
+  SL_Bus_ROSVariableLengthArrayInfo ThrustersStatus_SL_Info;
+  int8_T MpcStatus;
+  uint8_T MpcMode;
+
+  // MsgType=sonia_common/MpcGains
+  SL_Bus_proc_control_node_sonia_common_MpcGains CurrentGains;
+};
+
+#endif
+
 #ifndef DEFINED_TYPEDEF_FOR_SL_Bus_proc_control_node_geometry_msgs_PoseWithCovariance_
 #define DEFINED_TYPEDEF_FOR_SL_Bus_proc_control_node_geometry_msgs_PoseWithCovariance_
 
@@ -340,6 +392,24 @@ struct SL_Bus_proc_control_node_nav_msgs_Odometry
 
 #endif
 
+#ifndef DEFINED_TYPEDEF_FOR_SL_Bus_proc_control_node_std_msgs_Float32MultiArray_
+#define DEFINED_TYPEDEF_FOR_SL_Bus_proc_control_node_std_msgs_Float32MultiArray_
+
+// MsgType=std_msgs/Float32MultiArray
+struct SL_Bus_proc_control_node_std_msgs_Float32MultiArray
+{
+  // MsgType=std_msgs/MultiArrayLayout
+  SL_Bus_proc_control_node_std_msgs_MultiArrayLayout Layout;
+
+  // IsVarLen=1:VarLenCategory=data:VarLenElem=Data_SL_Info:TruncateAction=warn
+  real32_T Data[128];
+
+  // IsVarLen=1:VarLenCategory=length:VarLenElem=Data
+  SL_Bus_ROSVariableLengthArrayInfo Data_SL_Info;
+};
+
+#endif
+
 #ifndef DEFINED_TYPEDEF_FOR_SL_Bus_proc_control_node_sonia_common_AddPose_
 #define DEFINED_TYPEDEF_FOR_SL_Bus_proc_control_node_sonia_common_AddPose_
 
@@ -381,6 +451,155 @@ struct SL_Bus_proc_control_node_std_msgs_UInt8
 
 #endif
 
+#ifndef DEFINED_TYPEDEF_FOR_struct_TwLBlfNkvWMsfhgV3V7Kq_
+#define DEFINED_TYPEDEF_FOR_struct_TwLBlfNkvWMsfhgV3V7Kq_
+
+struct struct_TwLBlfNkvWMsfhgV3V7Kq
+{
+  real_T sampletime;
+  uint8_T reference_frame[5];
+  uint8_T model_name[4];
+};
+
+#endif
+
+#ifndef DEFINED_TYPEDEF_FOR_struct_BYV1v0JTV2y829hAXU8EsH_
+#define DEFINED_TYPEDEF_FOR_struct_BYV1v0JTV2y829hAXU8EsH_
+
+struct struct_BYV1v0JTV2y829hAXU8EsH
+{
+  real_T sampletime;
+};
+
+#endif
+
+#ifndef DEFINED_TYPEDEF_FOR_struct_4Lvq7LtKpIm8G8O0CIUbZG_
+#define DEFINED_TYPEDEF_FOR_struct_4Lvq7LtKpIm8G8O0CIUbZG_
+
+struct struct_4Lvq7LtKpIm8G8O0CIUbZG
+{
+  real_T noisePower;
+};
+
+#endif
+
+#ifndef DEFINED_TYPEDEF_FOR_struct_tipWWLHFyO6mZg5xLHM82C_
+#define DEFINED_TYPEDEF_FOR_struct_tipWWLHFyO6mZg5xLHM82C_
+
+struct struct_tipWWLHFyO6mZg5xLHM82C
+{
+  real_T noisePower;
+  real_T bias[3];
+};
+
+#endif
+
+#ifndef DEFINED_TYPEDEF_FOR_struct_nichiEb3TqRft5GXkLqwcH_
+#define DEFINED_TYPEDEF_FOR_struct_nichiEb3TqRft5GXkLqwcH_
+
+struct struct_nichiEb3TqRft5GXkLqwcH
+{
+  real_T sampletime;
+  struct_4Lvq7LtKpIm8G8O0CIUbZG gyro;
+  struct_tipWWLHFyO6mZg5xLHM82C acc;
+};
+
+#endif
+
+#ifndef DEFINED_TYPEDEF_FOR_struct_8zYLNriJQWPhULCLE0jyyG_
+#define DEFINED_TYPEDEF_FOR_struct_8zYLNriJQWPhULCLE0jyyG_
+
+struct struct_8zYLNriJQWPhULCLE0jyyG
+{
+  real_T power;
+};
+
+#endif
+
+#ifndef DEFINED_TYPEDEF_FOR_struct_j2ZTjHDmrecexjM3Gz267C_
+#define DEFINED_TYPEDEF_FOR_struct_j2ZTjHDmrecexjM3Gz267C_
+
+struct struct_j2ZTjHDmrecexjM3Gz267C
+{
+  real_T sampletime;
+  real_T maxSpeedThres;
+  real_T resolution;
+  struct_8zYLNriJQWPhULCLE0jyyG noise;
+};
+
+#endif
+
+#ifndef DEFINED_TYPEDEF_FOR_struct_afPUPQRjkHeR1XM8hg47JH_
+#define DEFINED_TYPEDEF_FOR_struct_afPUPQRjkHeR1XM8hg47JH_
+
+struct struct_afPUPQRjkHeR1XM8hg47JH
+{
+  real_T sampletime;
+  real_T resolution;
+  struct_8zYLNriJQWPhULCLE0jyyG noise;
+};
+
+#endif
+
+#ifndef DEFINED_TYPEDEF_FOR_struct_5Yhz8rp3B0bGuAPq2uQMgD_
+#define DEFINED_TYPEDEF_FOR_struct_5Yhz8rp3B0bGuAPq2uQMgD_
+
+struct struct_5Yhz8rp3B0bGuAPq2uQMgD
+{
+  real_T sampletime;
+  real_T power;
+};
+
+#endif
+
+#ifndef DEFINED_TYPEDEF_FOR_struct_ThsNGT9p9TkUKD9Kk0FX9D_
+#define DEFINED_TYPEDEF_FOR_struct_ThsNGT9p9TkUKD9Kk0FX9D_
+
+struct struct_ThsNGT9p9TkUKD9Kk0FX9D
+{
+  struct_nichiEb3TqRft5GXkLqwcH imu;
+  struct_j2ZTjHDmrecexjM3Gz267C dvl;
+  struct_afPUPQRjkHeR1XM8hg47JH depth;
+  struct_5Yhz8rp3B0bGuAPq2uQMgD noise;
+};
+
+#endif
+
+#ifndef DEFINED_TYPEDEF_FOR_struct_AffJq6cCxQVAMZUY7gzatF_
+#define DEFINED_TYPEDEF_FOR_struct_AffJq6cCxQVAMZUY7gzatF_
+
+struct struct_AffJq6cCxQVAMZUY7gzatF
+{
+  struct_TwLBlfNkvWMsfhgV3V7Kq gazebo;
+  struct_BYV1v0JTV2y829hAXU8EsH unity;
+  struct_ThsNGT9p9TkUKD9Kk0FX9D sensors;
+};
+
+#endif
+
+#ifndef DEFINED_TYPEDEF_FOR_struct_SqczGJVM1s2EbgKSygGASD_
+#define DEFINED_TYPEDEF_FOR_struct_SqczGJVM1s2EbgKSygGASD_
+
+struct struct_SqczGJVM1s2EbgKSygGASD
+{
+  real_T sampletime;
+  struct_BYV1v0JTV2y829hAXU8EsH imuDepth;
+  struct_BYV1v0JTV2y829hAXU8EsH dvl;
+};
+
+#endif
+
+#ifndef DEFINED_TYPEDEF_FOR_struct_km1VGdrSgDw9o5zbPZirGD_
+#define DEFINED_TYPEDEF_FOR_struct_km1VGdrSgDw9o5zbPZirGD_
+
+struct struct_km1VGdrSgDw9o5zbPZirGD
+{
+  real_T sampletime;
+  struct_SqczGJVM1s2EbgKSygGASD procNav;
+};
+
+#endif
+
 #ifndef DEFINED_TYPEDEF_FOR_struct_ZrQKn1ZmSobvV9swgXlOXB_
 #define DEFINED_TYPEDEF_FOR_struct_ZrQKn1ZmSobvV9swgXlOXB_
 
@@ -404,6 +623,17 @@ struct struct_ZrQKn1ZmSobvV9swgXlOXB
 
 #endif
 
+#ifndef DEFINED_TYPEDEF_FOR_struct_66StMACXdcQWPTRE70iCnD_
+#define DEFINED_TYPEDEF_FOR_struct_66StMACXdcQWPTRE70iCnD_
+
+struct struct_66StMACXdcQWPTRE70iCnD
+{
+  real_T faultThres;
+  real_T faultSample;
+};
+
+#endif
+
 #ifndef DEFINED_TYPEDEF_FOR_struct_tPdF4cj4QxksKOpHPnjYAD_
 #define DEFINED_TYPEDEF_FOR_struct_tPdF4cj4QxksKOpHPnjYAD_
 
@@ -416,22 +646,23 @@ struct struct_tPdF4cj4QxksKOpHPnjYAD
 
 #endif
 
-#ifndef DEFINED_TYPEDEF_FOR_struct_tms366ZdLAbQ6I7by2QYMH_
-#define DEFINED_TYPEDEF_FOR_struct_tms366ZdLAbQ6I7by2QYMH_
+#ifndef DEFINED_TYPEDEF_FOR_struct_IOGSiU1XikL9sZPS7RAWhG_
+#define DEFINED_TYPEDEF_FOR_struct_IOGSiU1XikL9sZPS7RAWhG_
 
-struct struct_tms366ZdLAbQ6I7by2QYMH
+struct struct_IOGSiU1XikL9sZPS7RAWhG
 {
   struct_tPdF4cj4QxksKOpHPnjYAD defaut;
   struct_tPdF4cj4QxksKOpHPnjYAD c10;
+  struct_tPdF4cj4QxksKOpHPnjYAD c11;
   struct_tPdF4cj4QxksKOpHPnjYAD c19;
 };
 
 #endif
 
-#ifndef DEFINED_TYPEDEF_FOR_struct_o8hsIzLhLtBwbMcAhMRRVC_
-#define DEFINED_TYPEDEF_FOR_struct_o8hsIzLhLtBwbMcAhMRRVC_
+#ifndef DEFINED_TYPEDEF_FOR_struct_FqrHx7QY0wpF1HYahFYzXB_
+#define DEFINED_TYPEDEF_FOR_struct_FqrHx7QY0wpF1HYahFYzXB_
 
-struct struct_o8hsIzLhLtBwbMcAhMRRVC
+struct struct_FqrHx7QY0wpF1HYahFYzXB
 {
   real_T nx;
   real_T ny;
@@ -442,40 +673,74 @@ struct struct_o8hsIzLhLtBwbMcAhMRRVC
   real_T dts;
   real_T tmax;
   real_T tmin;
-  struct_tms366ZdLAbQ6I7by2QYMH gains;
+  struct_66StMACXdcQWPTRE70iCnD thrusters;
+  struct_IOGSiU1XikL9sZPS7RAWhG gains;
+  real_T ConfigDefaut[29];
+  real_T Config10[29];
+  real_T Config11[29];
+  real_T Config19[29];
+  real_T gainsList[90];
 };
 
 #endif
 
-#ifndef DEFINED_TYPEDEF_FOR_struct_RoPeIRaOs110XaoEJ1OUdD_
-#define DEFINED_TYPEDEF_FOR_struct_RoPeIRaOs110XaoEJ1OUdD_
+#ifndef DEFINED_TYPEDEF_FOR_struct_ufqIMyHD2vQ8RfLYE7OdnG_
+#define DEFINED_TYPEDEF_FOR_struct_ufqIMyHD2vQ8RfLYE7OdnG_
 
-struct struct_RoPeIRaOs110XaoEJ1OUdD
+struct struct_ufqIMyHD2vQ8RfLYE7OdnG
 {
-  uint8_T reference_frame[5];
-  uint8_T model_name[4];
+  real_T adapQMpcMode[4];
+  real_T openLoopMode[2];
+  real_T LtvQMpcMode;
+  real_T rosGains;
+  real_T NlmpcMode;
+  real_T adapEMpcMode;
 };
 
 #endif
 
-#ifndef DEFINED_TYPEDEF_FOR_struct_qYRJtcce7MM7XuQ3AAWdMD_
-#define DEFINED_TYPEDEF_FOR_struct_qYRJtcce7MM7XuQ3AAWdMD_
+#ifndef DEFINED_TYPEDEF_FOR_struct_Fcl3OWFFDL64qkAOtsVYAC_
+#define DEFINED_TYPEDEF_FOR_struct_Fcl3OWFFDL64qkAOtsVYAC_
 
-struct struct_qYRJtcce7MM7XuQ3AAWdMD
+struct struct_Fcl3OWFFDL64qkAOtsVYAC
 {
-  real_T MaxIterations;
+  real_T trajMode;
+  real_T singleWpts[5];
+  real_T SpaceMouseMode[3];
+};
+
+#endif
+
+#ifndef DEFINED_TYPEDEF_FOR_struct_x7JWpgYpPywnYpZFC6VmZH_
+#define DEFINED_TYPEDEF_FOR_struct_x7JWpgYpPywnYpZFC6VmZH_
+
+struct struct_x7JWpgYpPywnYpZFC6VmZH
+{
+  real_T init;
+  struct_ufqIMyHD2vQ8RfLYE7OdnG control;
+  struct_Fcl3OWFFDL64qkAOtsVYAC traj;
+};
+
+#endif
+
+#ifndef DEFINED_TYPEDEF_FOR_struct_WTmPWsEMvOzNnnAVv5fQNC_
+#define DEFINED_TYPEDEF_FOR_struct_WTmPWsEMvOzNnnAVv5fQNC_
+
+struct struct_WTmPWsEMvOzNnnAVv5fQNC
+{
+  int32_T MaxIterations;
   real_T ConstraintTolerance;
   boolean_T UseWarmStart;
 };
 
 #endif
 
-#ifndef DEFINED_TYPEDEF_FOR_struct_SmvKLCDySlKdToNTroAGyF_
-#define DEFINED_TYPEDEF_FOR_struct_SmvKLCDySlKdToNTroAGyF_
+#ifndef DEFINED_TYPEDEF_FOR_struct_WHjMt45Sk148iktWsfFxl_
+#define DEFINED_TYPEDEF_FOR_struct_WHjMt45Sk148iktWsfFxl_
 
-struct struct_SmvKLCDySlKdToNTroAGyF
+struct struct_WHjMt45Sk148iktWsfFxl
 {
-  real_T MaxIterations;
+  int32_T MaxIterations;
   real_T ConstraintTolerance;
   real_T OptimalityTolerance;
   real_T ComplementarityTolerance;
@@ -484,43 +749,64 @@ struct struct_SmvKLCDySlKdToNTroAGyF
 
 #endif
 
-#ifndef DEFINED_TYPEDEF_FOR_struct_aH4cViuPz8aZIf26PeppuD_
-#define DEFINED_TYPEDEF_FOR_struct_aH4cViuPz8aZIf26PeppuD_
+#ifndef DEFINED_TYPEDEF_FOR_struct_lnQ9KXdSZFplhcBp5LBCc_
+#define DEFINED_TYPEDEF_FOR_struct_lnQ9KXdSZFplhcBp5LBCc_
 
-struct struct_aH4cViuPz8aZIf26PeppuD
+struct struct_lnQ9KXdSZFplhcBp5LBCc
 {
-  real_T MaxIterations;
+  int32_T MaxIterations;
   real_T ConstraintTolerance;
   real_T DiscreteConstraintTolerance;
   boolean_T RoundingAtRootNode;
-  real_T MaxPendingNodes;
+  int32_T MaxPendingNodes;
 };
 
 #endif
 
-#ifndef DEFINED_TYPEDEF_FOR_struct_OiyVcB1FUG5CFSJbxuJtpE_
-#define DEFINED_TYPEDEF_FOR_struct_OiyVcB1FUG5CFSJbxuJtpE_
+#ifndef DEFINED_TYPEDEF_FOR_struct_hZWlT12TcLzIbjyXO4CjGF_
+#define DEFINED_TYPEDEF_FOR_struct_hZWlT12TcLzIbjyXO4CjGF_
 
-struct struct_OiyVcB1FUG5CFSJbxuJtpE
+struct struct_hZWlT12TcLzIbjyXO4CjGF
 {
   real_T World_Position[3];
   real_T Quaternion[4];
-  real_T Linear_Acceleration[3];
+};
+
+#endif
+
+#ifndef DEFINED_TYPEDEF_FOR_struct_ORe84o0x5GBDisGKnu34DG_
+#define DEFINED_TYPEDEF_FOR_struct_ORe84o0x5GBDisGKnu34DG_
+
+struct struct_ORe84o0x5GBDisGKnu34DG
+{
   real_T Body_Velocity[3];
+  real_T Linear_Acceleration[3];
   real_T Angular_Rate[3];
 };
 
 #endif
 
-#ifndef DEFINED_TYPEDEF_FOR_struct_JrdoudM4E0qVbDLWIvaxAF_
-#define DEFINED_TYPEDEF_FOR_struct_JrdoudM4E0qVbDLWIvaxAF_
+#ifndef DEFINED_TYPEDEF_FOR_struct_PfHmiUbQ4BloXTikN7th4F_
+#define DEFINED_TYPEDEF_FOR_struct_PfHmiUbQ4BloXTikN7th4F_
 
-struct struct_JrdoudM4E0qVbDLWIvaxAF
+struct struct_PfHmiUbQ4BloXTikN7th4F
+{
+  struct_hZWlT12TcLzIbjyXO4CjGF signal1;
+  struct_ORe84o0x5GBDisGKnu34DG signal2;
+};
+
+#endif
+
+#ifndef DEFINED_TYPEDEF_FOR_struct_nUfw8kBPNF0FwLMMzG6AD_
+#define DEFINED_TYPEDEF_FOR_struct_nUfw8kBPNF0FwLMMzG6AD_
+
+struct struct_nUfw8kBPNF0FwLMMzG6AD
 {
   real_T Pressure_Depth;
   real_T Quaternion[4];
-  real_T Angular_Rate[3];
   real_T DVL_Velocity[3];
+  real_T Angular_Rate[3];
+  real_T Linear_Acceleration[3];
 };
 
 #endif
@@ -538,6 +824,32 @@ struct struct_4PbJwSXWqPjMkDpID5GvdG
 };
 
 #endif
+
+#ifndef DEFINED_TYPEDEF_FOR_struct_fCppgaREqjbtxAN9QqIjrB_
+#define DEFINED_TYPEDEF_FOR_struct_fCppgaREqjbtxAN9QqIjrB_
+
+struct struct_fCppgaREqjbtxAN9QqIjrB
+{
+  real_T mvmin[8];
+  real_T mvmax[8];
+  real_T ywt[13];
+  real_T mvwt[8];
+  real_T dmwwt[8];
+  boolean_T thrustersStatus[8];
+  boolean_T kill;
+};
+
+#endif
+
+#ifndef struct_fixed_system_DivideByConstant_T
+#define struct_fixed_system_DivideByConstant_T
+
+struct fixed_system_DivideByConstant_T
+{
+  int32_T isInitialized;
+};
+
+#endif                                // struct_fixed_system_DivideByConstant_T
 
 #ifndef struct_ros_slroscpp_internal_block_S_T
 #define struct_ros_slroscpp_internal_block_S_T
@@ -563,7 +875,7 @@ struct ros_slroscpp_internal_block_P_T
 
 #endif                                // struct_ros_slroscpp_internal_block_P_T
 
-// Custom Type definition for MATLAB Function: '<S216>/NLMPC'
+// Custom Type definition for MATLAB Function: '<S262>/NLMPC'
 #ifndef struct_sG8JZ69axY52WWR6RKyApQC_proc__T
 #define struct_sG8JZ69axY52WWR6RKyApQC_proc__T
 
@@ -604,45 +916,18 @@ struct s7RdrPWkr8UPAUyTdDJkLaG_proc__T
 
 #endif                                // struct_s7RdrPWkr8UPAUyTdDJkLaG_proc__T
 
-#ifndef struct_mpcManager_proc_control_node_T
-#define struct_mpcManager_proc_control_node_T
+#ifndef struct_quaternion_proc_control_node_T
+#define struct_quaternion_proc_control_node_T
 
-struct mpcManager_proc_control_node_T
+struct quaternion_proc_control_node_T
 {
-  int32_T isInitialized;
-  real_T Config10[29];
-  real_T Config19[29];
-  real_T Tmin[8];
-  real_T Tmax[8];
-  real_T MecConst[41];
-  real_T mvInit[8];
-  real_T eInit;
-  real_T init;
-  real_T xInit[13];
+  real_T a;
+  real_T b;
+  real_T c;
+  real_T d;
 };
 
-#endif                                 // struct_mpcManager_proc_control_node_T
-
-// Custom Type definition for MATLAB Function: '<S216>/NLMPC'
-#ifndef struct_s1TgE9KstXgkd2qJxO1bF4F_proc__T
-#define struct_s1TgE9KstXgkd2qJxO1bF4F_proc__T
-
-struct s1TgE9KstXgkd2qJxO1bF4F_proc__T
-{
-  char_T SolverName[7];
-  int32_T MaxIterations;
-  real_T StepTolerance;
-  real_T OptimalityTolerance;
-  real_T ConstraintTolerance;
-  real_T ObjectiveLimit;
-  real_T PricingTolerance;
-  real_T ConstrRelTolFactor;
-  real_T ProbRelTolFactor;
-  boolean_T RemainFeasible;
-  boolean_T IterDisplayQP;
-};
-
-#endif                                // struct_s1TgE9KstXgkd2qJxO1bF4F_proc__T
+#endif                                 // struct_quaternion_proc_control_node_T
 
 #ifndef struct_OpenLoopController_proc_contr_T
 #define struct_OpenLoopController_proc_contr_T
@@ -667,6 +952,54 @@ struct OpenLoopController_proc_contr_T
 };
 
 #endif                                // struct_OpenLoopController_proc_contr_T
+
+// Custom Type definition for MATLAB Function: '<S262>/NLMPC'
+#ifndef struct_somzaGboVhDG7PNQS6E98jD_proc__T
+#define struct_somzaGboVhDG7PNQS6E98jD_proc__T
+
+struct somzaGboVhDG7PNQS6E98jD_proc__T
+{
+  char_T SolverName[7];
+  int32_T MaxIterations;
+  real_T StepTolerance;
+  real_T OptimalityTolerance;
+  real_T ConstraintTolerance;
+  real_T ObjectiveLimit;
+  real_T PricingTolerance;
+  real_T ConstrRelTolFactor;
+  real_T ProbRelTolFactor;
+  boolean_T RemainFeasible;
+  boolean_T IterDisplayQP;
+};
+
+#endif                                // struct_somzaGboVhDG7PNQS6E98jD_proc__T
+
+#ifndef struct_cell_wrap_proc_control_node_T
+#define struct_cell_wrap_proc_control_node_T
+
+struct cell_wrap_proc_control_node_T
+{
+  uint32_T f1[8];
+};
+
+#endif                                 // struct_cell_wrap_proc_control_node_T
+
+#ifndef struct_mpcManager_proc_control_node_T
+#define struct_mpcManager_proc_control_node_T
+
+struct mpcManager_proc_control_node_T
+{
+  int32_T isInitialized;
+  cell_wrap_proc_control_node_T inputVarSize[6];
+  real_T init;
+  real_T currentFaultCount[8];
+  boolean_T isThrusterFault[8];
+  real_T rosOV[13];
+  real_T rosMV[8];
+  real_T rosMVR[8];
+};
+
+#endif                                 // struct_mpcManager_proc_control_node_T
 
 #ifndef struct_TrajectoryManager_proc_contro_T
 #define struct_TrajectoryManager_proc_contro_T
@@ -700,16 +1033,6 @@ struct AddPose_proc_control_node_T
 };
 
 #endif                                 // struct_AddPose_proc_control_node_T
-
-#ifndef struct_cell_wrap_proc_control_node_T
-#define struct_cell_wrap_proc_control_node_T
-
-struct cell_wrap_proc_control_node_T
-{
-  uint32_T f1[8];
-};
-
-#endif                                 // struct_cell_wrap_proc_control_node_T
 
 #ifndef struct_robotics_slcore_internal_bloc_T
 #define struct_robotics_slcore_internal_bloc_T
@@ -800,7 +1123,7 @@ struct emxArray_real_T_1845x1845_pro_T
 
 #endif                                // struct_emxArray_real_T_1845x1845_pro_T
 
-// Custom Type definition for MATLAB Function: '<S216>/NLMPC'
+// Custom Type definition for MATLAB Function: '<S262>/NLMPC'
 #ifndef struct_s_TNXzMnREVvDmNpLFpsTLBC_proc_T
 #define struct_s_TNXzMnREVvDmNpLFpsTLBC_proc_T
 
@@ -844,10 +1167,10 @@ struct s_qYIvDqP9yRqtt40IDZ89JG_proc_T
 
 #endif                                // struct_s_qYIvDqP9yRqtt40IDZ89JG_proc_T
 
-#ifndef struct_szeIbzRjxClbCFpzxneSihD_proc__T
-#define struct_szeIbzRjxClbCFpzxneSihD_proc__T
+#ifndef struct_s6FZHgorTEIlMmVIrDGGTjF_proc__T
+#define struct_s6FZHgorTEIlMmVIrDGGTjF_proc__T
 
-struct szeIbzRjxClbCFpzxneSihD_proc__T
+struct s6FZHgorTEIlMmVIrDGGTjF_proc__T
 {
   real_T Ts;
   real_T CurrentStates[13];
@@ -861,33 +1184,33 @@ struct szeIbzRjxClbCFpzxneSihD_proc__T
   real_T MVIndex[8];
 };
 
-#endif                                // struct_szeIbzRjxClbCFpzxneSihD_proc__T
+#endif                                // struct_s6FZHgorTEIlMmVIrDGGTjF_proc__T
 
-#ifndef struct_s_Lp6pmmWxpA7Vb4QEQ54m0G_proc_T
-#define struct_s_Lp6pmmWxpA7Vb4QEQ54m0G_proc_T
+#ifndef struct_s_LRhiFHI8WqJfZ5r22AQmGF_proc_T
+#define struct_s_LRhiFHI8WqJfZ5r22AQmGF_proc_T
 
-struct s_Lp6pmmWxpA7Vb4QEQ54m0G_proc_T
+struct s_LRhiFHI8WqJfZ5r22AQmGF_proc_T
 {
   s_qYIvDqP9yRqtt40IDZ89JG_proc_T runtimedata;
-  szeIbzRjxClbCFpzxneSihD_proc__T userdata;
+  s6FZHgorTEIlMmVIrDGGTjF_proc__T userdata;
 };
 
-#endif                                // struct_s_Lp6pmmWxpA7Vb4QEQ54m0G_proc_T
+#endif                                // struct_s_LRhiFHI8WqJfZ5r22AQmGF_proc_T
 
 #ifndef struct_anonymous_function_proc_contr_T
 #define struct_anonymous_function_proc_contr_T
 
 struct anonymous_function_proc_contr_T
 {
-  s_Lp6pmmWxpA7Vb4QEQ54m0G_proc_T workspace;
+  s_LRhiFHI8WqJfZ5r22AQmGF_proc_T workspace;
 };
 
 #endif                                // struct_anonymous_function_proc_contr_T
 
-#ifndef struct_s_OFDCtz0SnDbKkoK04vkDPE_proc_T
-#define struct_s_OFDCtz0SnDbKkoK04vkDPE_proc_T
+#ifndef struct_s_lkFpKxHZB0M4xOcTLHVN2_proc__T
+#define struct_s_lkFpKxHZB0M4xOcTLHVN2_proc__T
 
-struct s_OFDCtz0SnDbKkoK04vkDPE_proc_T
+struct s_lkFpKxHZB0M4xOcTLHVN2_proc__T
 {
   anonymous_function_proc_contr_T objfun;
   anonymous_function_proc_contr_T nonlcon;
@@ -900,7 +1223,7 @@ struct s_OFDCtz0SnDbKkoK04vkDPE_proc_T
   boolean_T ScaleProblem;
 };
 
-#endif                                // struct_s_OFDCtz0SnDbKkoK04vkDPE_proc_T
+#endif                                // struct_s_lkFpKxHZB0M4xOcTLHVN2_proc__T
 
 #ifndef struct_emxArray_real_T_580_proc_cont_T
 #define struct_emxArray_real_T_580_proc_cont_T
@@ -946,7 +1269,7 @@ struct emxArray_int32_T_1845_proc_co_T
 
 #endif                                // struct_emxArray_int32_T_1845_proc_co_T
 
-// Custom Type definition for MATLAB Function: '<S216>/NLMPC'
+// Custom Type definition for MATLAB Function: '<S262>/NLMPC'
 #ifndef struct_s_UjlJWoQEHmSUKFcPTad7eC_proc_T
 #define struct_s_UjlJWoQEHmSUKFcPTad7eC_proc_T
 
@@ -994,39 +1317,6 @@ struct s_UjlJWoQEHmSUKFcPTad7eC_proc_T
 };
 
 #endif                                // struct_s_UjlJWoQEHmSUKFcPTad7eC_proc_T
-
-#ifndef struct_emxArray_real_T_987_proc_cont_T
-#define struct_emxArray_real_T_987_proc_cont_T
-
-struct emxArray_real_T_987_proc_cont_T
-{
-  real_T data[987];
-  int32_T size;
-};
-
-#endif                                // struct_emxArray_real_T_987_proc_cont_T
-
-// Custom Type definition for MATLAB Function: '<S216>/NLMPC'
-#ifndef struct_s_oZGbvi5mjKKebHB9aR5DoG_proc_T
-#define struct_s_oZGbvi5mjKKebHB9aR5DoG_proc_T
-
-struct s_oZGbvi5mjKKebHB9aR5DoG_proc_T
-{
-  emxArray_real_T_988_proc_cont_T grad;
-  emxArray_real_T_987_proc_cont_T Hx;
-  boolean_T hasLinear;
-  int32_T nvar;
-  int32_T maxVar;
-  real_T beta;
-  real_T rho;
-  int32_T objtype;
-  int32_T prev_objtype;
-  int32_T prev_nvar;
-  boolean_T prev_hasLinear;
-  real_T gammaScalar;
-};
-
-#endif                                // struct_s_oZGbvi5mjKKebHB9aR5DoG_proc_T
 
 #ifndef struct_s_OnOuVjEActeQRN4FyNqSwB_proc_T
 #define struct_s_OnOuVjEActeQRN4FyNqSwB_proc_T
@@ -1095,7 +1385,7 @@ struct emxArray_boolean_T_1845_proc__T
 
 #endif                                // struct_emxArray_boolean_T_1845_proc__T
 
-// Custom Type definition for MATLAB Function: '<S216>/NLMPC'
+// Custom Type definition for MATLAB Function: '<S262>/NLMPC'
 #ifndef struct_s_UO30ZLdjVaUTEWcJEu5YnC_proc_T
 #define struct_s_UO30ZLdjVaUTEWcJEu5YnC_proc_T
 
@@ -1143,6 +1433,39 @@ struct s_UO30ZLdjVaUTEWcJEu5YnC_proc_T
 
 #endif                                // struct_s_UO30ZLdjVaUTEWcJEu5YnC_proc_T
 
+#ifndef struct_emxArray_real_T_987_proc_cont_T
+#define struct_emxArray_real_T_987_proc_cont_T
+
+struct emxArray_real_T_987_proc_cont_T
+{
+  real_T data[987];
+  int32_T size;
+};
+
+#endif                                // struct_emxArray_real_T_987_proc_cont_T
+
+// Custom Type definition for MATLAB Function: '<S262>/NLMPC'
+#ifndef struct_s_oZGbvi5mjKKebHB9aR5DoG_proc_T
+#define struct_s_oZGbvi5mjKKebHB9aR5DoG_proc_T
+
+struct s_oZGbvi5mjKKebHB9aR5DoG_proc_T
+{
+  emxArray_real_T_988_proc_cont_T grad;
+  emxArray_real_T_987_proc_cont_T Hx;
+  boolean_T hasLinear;
+  int32_T nvar;
+  int32_T maxVar;
+  real_T beta;
+  real_T rho;
+  int32_T objtype;
+  int32_T prev_objtype;
+  int32_T prev_nvar;
+  boolean_T prev_hasLinear;
+  real_T gammaScalar;
+};
+
+#endif                                // struct_s_oZGbvi5mjKKebHB9aR5DoG_proc_T
+
 #ifndef struct_s_2F24x1ekvOt8ZUO1knVMv_proc__T
 #define struct_s_2F24x1ekvOt8ZUO1knVMv_proc__T
 
@@ -1172,11 +1495,11 @@ struct emxArray_real_T_260_proc_cont_T
 
 #endif                                // struct_emxArray_real_T_260_proc_cont_T
 
-// Custom Type definition for MATLAB Function: '<S216>/NLMPC'
-#ifndef struct_s_AqB8dTfcPiuMENKH5zWTbG_proc_T
-#define struct_s_AqB8dTfcPiuMENKH5zWTbG_proc_T
+// Custom Type definition for MATLAB Function: '<S262>/NLMPC'
+#ifndef struct_s_CULt7UgaiymoVdgSwojRWD_proc_T
+#define struct_s_CULt7UgaiymoVdgSwojRWD_proc_T
 
-struct s_AqB8dTfcPiuMENKH5zWTbG_proc_T
+struct s_CULt7UgaiymoVdgSwojRWD_proc_T
 {
   anonymous_function_proc_contr_T objfun;
   anonymous_function_proc_contr_T nonlin;
@@ -1199,7 +1522,7 @@ struct s_AqB8dTfcPiuMENKH5zWTbG_proc_T
   int32_T FiniteDifferenceType;
 };
 
-#endif                                // struct_s_AqB8dTfcPiuMENKH5zWTbG_proc_T
+#endif                                // struct_s_CULt7UgaiymoVdgSwojRWD_proc_T
 #endif                                 // RTW_HEADER_proc_control_node_types_h_
 
 //

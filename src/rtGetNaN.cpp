@@ -7,9 +7,9 @@
 //
 // Code generated for Simulink model 'proc_control_node'.
 //
-// Model version                  : 1.194
-// Simulink Coder version         : 9.5 (R2021a) 14-Nov-2020
-// C/C++ source code generated on : Fri Nov 19 22:01:48 2021
+// Model version                  : 2.13
+// Simulink Coder version         : 9.6 (R2021b) 14-May-2021
+// C/C++ source code generated on : Tue Jan 25 19:25:11 2022
 //
 // Target selection: ert.tlc
 // Embedded hardware selection: ARM Compatible->ARM 64-bit (LLP64)
@@ -30,8 +30,10 @@ extern "C" {
   //
   real_T rtGetNaN(void)
   {
-    size_t bitsPerReal = sizeof(real_T) * (NumBitsPerChar);
-    real_T nan = 0.0;
+    size_t bitsPerReal{ sizeof(real_T) * (NumBitsPerChar) };
+
+    real_T nan{ 0.0 };
+
     if (bitsPerReal == 32U) {
       nan = rtGetNaNF();
     } else {
@@ -54,7 +56,7 @@ extern "C" {
   //
   real32_T rtGetNaNF(void)
   {
-    IEEESingle nanF = { { 0.0F } };
+    IEEESingle nanF{ { 0.0F } };
 
     nanF.wordL.wordLuint = 0xFFC00000U;
     return nanF.wordL.wordLreal;

@@ -1,4 +1,4 @@
-/* Copyright 2014-2021 The MathWorks, Inc. */
+/* Copyright 2014-2018 The MathWorks, Inc. */
 
 #ifndef _SLROS_GENERIC_PUBSUB_H_
 #define _SLROS_GENERIC_PUBSUB_H_

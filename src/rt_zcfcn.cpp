@@ -7,9 +7,9 @@
 //
 // Code generated for Simulink model 'proc_control_node'.
 //
-// Model version                  : 1.194
-// Simulink Coder version         : 9.5 (R2021a) 14-Nov-2020
-// C/C++ source code generated on : Fri Nov 19 22:01:48 2021
+// Model version                  : 2.13
+// Simulink Coder version         : 9.6 (R2021b) 14-May-2021
+// C/C++ source code generated on : Tue Jan 25 19:25:11 2022
 //
 // Target selection: ert.tlc
 // Embedded hardware selection: ARM Compatible->ARM 64-bit (LLP64)
@@ -25,10 +25,10 @@ extern "C" {
   {
     slZcEventType zcsDir;
     slZcEventType tempEv;
-    ZCEventType zcEvent = NO_ZCEVENT;  // assume
+    ZCEventType zcEvent{ NO_ZCEVENT }; // assume
 
     // zcEvent matrix
-    static const slZcEventType eventMatrix[4][4] = {
+    static const slZcEventType eventMatrix[4][4]{
       //          ZER              POS              NEG              UNK
       { SL_ZCS_EVENT_NUL, SL_ZCS_EVENT_Z2P, SL_ZCS_EVENT_Z2N, SL_ZCS_EVENT_NUL },// ZER
 
@@ -40,17 +40,18 @@ extern "C" {
     };
 
     // get prevZcEvent and prevZcSign from prevZc
-    slZcEventType prevEv = (slZcEventType)(((uint8_T)(*prevZc)) >> 2);
-    slZcSignalSignType prevSign = (slZcSignalSignType)(((uint8_T)(*prevZc)) &
-      (uint8_T)0x03);
+    slZcEventType prevEv{ (slZcEventType)(((uint8_T)(*prevZc)) >> 2) };
+
+    slZcSignalSignType prevSign{ (slZcSignalSignType)(((uint8_T)(*prevZc)) &
+      (uint8_T)0x03) };
 
     // get current zcSignal sign from current zcSignal value
-    slZcSignalSignType currSign = (slZcSignalSignType)((currValue) > 0.0 ?
+    slZcSignalSignType currSign{ (slZcSignalSignType)((currValue) > 0.0 ?
       SL_ZCS_SIGN_POS :
-      ((currValue) < 0.0 ? SL_ZCS_SIGN_NEG : SL_ZCS_SIGN_ZERO));
+      ((currValue) < 0.0 ? SL_ZCS_SIGN_NEG : SL_ZCS_SIGN_ZERO)) };
 
     // get current zcEvent based on prev and current zcSignal value
-    slZcEventType currEv = eventMatrix[prevSign][currSign];
+    slZcEventType currEv { eventMatrix[prevSign][currSign] };
 
     // get slZcEventType from ZCDirection
     switch (zcDir) {

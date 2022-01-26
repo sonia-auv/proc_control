@@ -119,7 +119,8 @@ typedef struct _ssSolverInfo_tag {
     boolean_T   isOutputMethodComputed;
     int_T       maxZcBracketingIterations;
     boolean_T   isMinorOutputWithModeChange;
-    int_T       maxZcPerIntegrationInterval;
+    int_T       maxZcPerStep;
+    real_T**    zcSignalPtr;
 } ssSolverInfo;
 
 /* Support old name RTWSolverInfo */
@@ -260,7 +261,24 @@ typedef ssSolverInfo RTWSolverInfo;
 #define rtsiSetIsMinorOutputWithModeChange(S,sn) ((S)->isMinorOutputWithModeChange  = (sn))
 #define rtsiGetIsMinorOutputWithModeChange(S)    (S)->isMinorOutputWithModeChange
 
-#define rtsiGetIsOkayToUpdateMode(S) (rtsiGetSimTimeStep(S) == MAJOR_TIME_STEP || rtsiGetIsMinorOutputWithModeChange(S)) 
+#define rtsiGetIsOkayToUpdateMode(S) (rtsiGetSimTimeStep(S) == MAJOR_TIME_STEP || rtsiGetIsMinorOutputWithModeChange(S))
+
+#define rtsiSetSolverZcSignalPtr(S,zcp) ((S)->zcSignalPtr = (zcp))
+#define rtsiSetSolverZcSignalVector(S, zcp) (*((S)->zcSignalPtr) = (zcp))
+#define rtsiGetSolverZcSignalVector(S) *((S)->zcSignalPtr)
+
+
+#define rtsiSetSolverZcEventsVector(S, ptr) ((S)->zcEventsVector = (ptr))
+#define rtsiGetSolverZcEventsVector(S)  ((S)->zcEventsVector)
+
+#define rtsiSetSolverZcSignalAttrib(S, ptr)  ((S)->zcSignalAttrib = (ptr))
+#define rtsiGetSolverZcSignalAttrib(S)  ((S)->zcSignalAttrib)
+
+#define rtsiSetSolverZcSignalVectorLength(S, n) ((S)->zcSignalVectorLength = (n))
+#define rtsiGetSolverZcSignalVectorLength(S) ((S)->zcSignalVectorLength)
+
+#define rtsiSetSolverFoundContZcEvents(S, val) ((S)->foundContZcEvents = (val))
+#define rtsiGetSolverFoundContZcEvents(S) ((S)->foundContZcEvents)
 
 #endif /* !NO_FLOATS */
 

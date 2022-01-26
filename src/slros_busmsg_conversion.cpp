@@ -313,6 +313,58 @@ void convertToBus(SL_Bus_proc_control_node_sonia_common_KillSwitchMsg* busPtr, s
 }
 
 
+// Conversions between SL_Bus_proc_control_node_sonia_common_MpcGains and sonia_common::MpcGains
+
+void convertFromBus(sonia_common::MpcGains* msgPtr, SL_Bus_proc_control_node_sonia_common_MpcGains const* busPtr)
+{
+  const std::string rosMessageType("sonia_common/MpcGains");
+
+  convertFromBusVariablePrimitiveArray(msgPtr->MV, busPtr->MV, busPtr->MV_SL_Info);
+  convertFromBusVariablePrimitiveArray(msgPtr->MVR, busPtr->MVR, busPtr->MVR_SL_Info);
+  msgPtr->max_thrust =  busPtr->MaxThrust;
+  msgPtr->min_thrust =  busPtr->MinThrust;
+  convertFromBusVariablePrimitiveArray(msgPtr->OV, busPtr->OV, busPtr->OV_SL_Info);
+}
+
+void convertToBus(SL_Bus_proc_control_node_sonia_common_MpcGains* busPtr, sonia_common::MpcGains const* msgPtr)
+{
+  const std::string rosMessageType("sonia_common/MpcGains");
+
+  convertToBusVariablePrimitiveArray(busPtr->MV, busPtr->MV_SL_Info, msgPtr->MV, slros::EnabledWarning(rosMessageType, "MV"));
+  convertToBusVariablePrimitiveArray(busPtr->MVR, busPtr->MVR_SL_Info, msgPtr->MVR, slros::EnabledWarning(rosMessageType, "MVR"));
+  busPtr->MaxThrust =  msgPtr->max_thrust;
+  busPtr->MinThrust =  msgPtr->min_thrust;
+  convertToBusVariablePrimitiveArray(busPtr->OV, busPtr->OV_SL_Info, msgPtr->OV, slros::EnabledWarning(rosMessageType, "OV"));
+}
+
+
+// Conversions between SL_Bus_proc_control_node_sonia_common_MpcInfo and sonia_common::MpcInfo
+
+void convertFromBus(sonia_common::MpcInfo* msgPtr, SL_Bus_proc_control_node_sonia_common_MpcInfo const* busPtr)
+{
+  const std::string rosMessageType("sonia_common/MpcInfo");
+
+  convertFromBus(&msgPtr->currentGains, &busPtr->CurrentGains);
+  msgPtr->is_mpc_alive =  busPtr->IsMpcAlive;
+  msgPtr->mpc_mode =  busPtr->MpcMode;
+  msgPtr->mpc_status =  busPtr->MpcStatus;
+  msgPtr->target_reached =  busPtr->TargetReached;
+  convertFromBusVariablePrimitiveArray(msgPtr->thrusters_status, busPtr->ThrustersStatus, busPtr->ThrustersStatus_SL_Info);
+}
+
+void convertToBus(SL_Bus_proc_control_node_sonia_common_MpcInfo* busPtr, sonia_common::MpcInfo const* msgPtr)
+{
+  const std::string rosMessageType("sonia_common/MpcInfo");
+
+  convertToBus(&busPtr->CurrentGains, &msgPtr->currentGains);
+  busPtr->IsMpcAlive =  msgPtr->is_mpc_alive;
+  busPtr->MpcMode =  msgPtr->mpc_mode;
+  busPtr->MpcStatus =  msgPtr->mpc_status;
+  busPtr->TargetReached =  msgPtr->target_reached;
+  convertToBusVariablePrimitiveArray(busPtr->ThrustersStatus, busPtr->ThrustersStatus_SL_Info, msgPtr->thrusters_status, slros::EnabledWarning(rosMessageType, "thrusters_status"));
+}
+
+
 // Conversions between SL_Bus_proc_control_node_std_msgs_Bool and std_msgs::Bool
 
 void convertFromBus(std_msgs::Bool* msgPtr, SL_Bus_proc_control_node_std_msgs_Bool const* busPtr)
@@ -344,6 +396,25 @@ void convertToBus(SL_Bus_proc_control_node_std_msgs_Float32* busPtr, std_msgs::F
   const std::string rosMessageType("std_msgs/Float32");
 
   busPtr->Data =  msgPtr->data;
+}
+
+
+// Conversions between SL_Bus_proc_control_node_std_msgs_Float32MultiArray and std_msgs::Float32MultiArray
+
+void convertFromBus(std_msgs::Float32MultiArray* msgPtr, SL_Bus_proc_control_node_std_msgs_Float32MultiArray const* busPtr)
+{
+  const std::string rosMessageType("std_msgs/Float32MultiArray");
+
+  convertFromBusVariablePrimitiveArray(msgPtr->data, busPtr->Data, busPtr->Data_SL_Info);
+  convertFromBus(&msgPtr->layout, &busPtr->Layout);
+}
+
+void convertToBus(SL_Bus_proc_control_node_std_msgs_Float32MultiArray* busPtr, std_msgs::Float32MultiArray const* msgPtr)
+{
+  const std::string rosMessageType("std_msgs/Float32MultiArray");
+
+  convertToBusVariablePrimitiveArray(busPtr->Data, busPtr->Data_SL_Info, msgPtr->data, slros::EnabledWarning(rosMessageType, "data"));
+  convertToBus(&busPtr->Layout, &msgPtr->layout);
 }
 
 

@@ -9,7 +9,7 @@
 //
 // Model version                  : 2.13
 // Simulink Coder version         : 9.6 (R2021b) 14-May-2021
-// C/C++ source code generated on : Tue Jan 25 19:25:11 2022
+// C/C++ source code generated on : Mon Jan 31 17:55:14 2022
 //
 // Target selection: ert.tlc
 // Embedded hardware selection: ARM Compatible->ARM 64-bit (LLP64)
@@ -316,32 +316,32 @@ proc_control_nodeModelClass::P_proc_control_node_T proc_control_nodeModelClass::
   // Variable: dMaxX
   //  Referenced by: '<S14>/X Drift'
 
-  0.431331900901062,
+  0.016099061326147412,
 
   // Variable: dMaxY
   //  Referenced by: '<S14>/Y Drift'
 
-  0.61416290511000793,
+  1.477987416527061,
 
   // Variable: dMinX
   //  Referenced by: '<S14>/X Drift'
 
-  -0.29310019731915155,
+  -0.47524817922688706,
 
   // Variable: dMinY
   //  Referenced by: '<S14>/Y Drift'
 
-  -0.947163514285642,
+  -1.4695472620439012,
 
   // Variable: dSeedX
   //  Referenced by: '<S14>/X Drift'
 
-  9.0,
+  4.0,
 
   // Variable: dSeedY
   //  Referenced by: '<S14>/Y Drift'
 
-  0.0,
+  3.0,
 
   // Variable: dampA
   //  Referenced by: '<S14>/Constant'

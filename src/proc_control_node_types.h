@@ -7,9 +7,9 @@
 //
 // Code generated for Simulink model 'proc_control_node'.
 //
-// Model version                  : 2.13
+// Model version                  : 2.49
 // Simulink Coder version         : 9.6 (R2021b) 14-May-2021
-// C/C++ source code generated on : Mon Jan 31 19:02:39 2022
+// C/C++ source code generated on : Tue Feb  8 23:25:43 2022
 //
 // Target selection: ert.tlc
 // Embedded hardware selection: ARM Compatible->ARM 64-bit (LLP64)
@@ -327,6 +327,7 @@ struct SL_Bus_proc_control_node_sonia_common_MpcInfo
 {
   boolean_T IsMpcAlive;
   boolean_T TargetReached;
+  boolean_T IsTrajectoryDone;
 
   // IsVarLen=1:VarLenCategory=data:VarLenElem=ThrustersStatus_SL_Info:TruncateAction=warn 
   boolean_T ThrustersStatus[128];
@@ -410,6 +411,63 @@ struct SL_Bus_proc_control_node_std_msgs_Float32MultiArray
 
 #endif
 
+#ifndef DEFINED_TYPEDEF_FOR_SL_Bus_proc_control_node_geometry_msgs_Transform_
+#define DEFINED_TYPEDEF_FOR_SL_Bus_proc_control_node_geometry_msgs_Transform_
+
+// MsgType=geometry_msgs/Transform
+struct SL_Bus_proc_control_node_geometry_msgs_Transform
+{
+  // MsgType=geometry_msgs/Vector3
+  SL_Bus_proc_control_node_geometry_msgs_Vector3 Translation;
+
+  // MsgType=geometry_msgs/Quaternion
+  SL_Bus_proc_control_node_geometry_msgs_Quaternion Rotation;
+};
+
+#endif
+
+#ifndef DEFINED_TYPEDEF_FOR_SL_Bus_proc_control_node_ros_time_Duration_
+#define DEFINED_TYPEDEF_FOR_SL_Bus_proc_control_node_ros_time_Duration_
+
+// MsgType=ros_time/Duration
+struct SL_Bus_proc_control_node_ros_time_Duration
+{
+  real_T Sec;
+  real_T Nsec;
+};
+
+#endif
+
+#ifndef DEFINED_TYPEDEF_FOR_SL_Bus_proc_control_node_MultiDOFJointTrajectoryPo_9xm16l_
+#define DEFINED_TYPEDEF_FOR_SL_Bus_proc_control_node_MultiDOFJointTrajectoryPo_9xm16l_
+
+// MsgType=trajectory_msgs/MultiDOFJointTrajectoryPoint
+struct SL_Bus_proc_control_node_MultiDOFJointTrajectoryPo_9xm16l
+{
+  // MsgType=geometry_msgs/Transform:IsVarLen=1:VarLenCategory=data:VarLenElem=Transforms_SL_Info:TruncateAction=warn 
+  SL_Bus_proc_control_node_geometry_msgs_Transform Transforms[2000];
+
+  // IsVarLen=1:VarLenCategory=length:VarLenElem=Transforms
+  SL_Bus_ROSVariableLengthArrayInfo Transforms_SL_Info;
+
+  // MsgType=geometry_msgs/Twist:IsVarLen=1:VarLenCategory=data:VarLenElem=Velocities_SL_Info:TruncateAction=warn 
+  SL_Bus_proc_control_node_geometry_msgs_Twist Velocities[2000];
+
+  // IsVarLen=1:VarLenCategory=length:VarLenElem=Velocities
+  SL_Bus_ROSVariableLengthArrayInfo Velocities_SL_Info;
+
+  // MsgType=geometry_msgs/Twist:IsVarLen=1:VarLenCategory=data:VarLenElem=Accelerations_SL_Info:TruncateAction=warn 
+  SL_Bus_proc_control_node_geometry_msgs_Twist Accelerations[2000];
+
+  // IsVarLen=1:VarLenCategory=length:VarLenElem=Accelerations
+  SL_Bus_ROSVariableLengthArrayInfo Accelerations_SL_Info;
+
+  // MsgType=ros_time/Duration
+  SL_Bus_proc_control_node_ros_time_Duration TimeFromStart;
+};
+
+#endif
+
 #ifndef DEFINED_TYPEDEF_FOR_SL_Bus_proc_control_node_sonia_common_AddPose_
 #define DEFINED_TYPEDEF_FOR_SL_Bus_proc_control_node_sonia_common_AddPose_
 
@@ -425,17 +483,6 @@ struct SL_Bus_proc_control_node_sonia_common_AddPose
   uint8_T Speed;
   real_T Fine;
   boolean_T Rotation;
-};
-
-#endif
-
-#ifndef DEFINED_TYPEDEF_FOR_SL_Bus_proc_control_node_sonia_common_KillSwitchMsg_
-#define DEFINED_TYPEDEF_FOR_SL_Bus_proc_control_node_sonia_common_KillSwitchMsg_
-
-// MsgType=sonia_common/KillSwitchMsg
-struct SL_Bus_proc_control_node_sonia_common_KillSwitchMsg
-{
-  boolean_T State;
 };
 
 #endif
@@ -634,6 +681,28 @@ struct struct_66StMACXdcQWPTRE70iCnD
 
 #endif
 
+#ifndef DEFINED_TYPEDEF_FOR_struct_eVcYNZ0vvRj7fFY0iEy2lH_
+#define DEFINED_TYPEDEF_FOR_struct_eVcYNZ0vvRj7fFY0iEy2lH_
+
+struct struct_eVcYNZ0vvRj7fFY0iEy2lH
+{
+  real_T bufferSize;
+};
+
+#endif
+
+#ifndef DEFINED_TYPEDEF_FOR_struct_OCQDNHOqoOJyX3Zc3S3wnB_
+#define DEFINED_TYPEDEF_FOR_struct_OCQDNHOqoOJyX3Zc3S3wnB_
+
+struct struct_OCQDNHOqoOJyX3Zc3S3wnB
+{
+  real_T linearTol;
+  real_T angularTol;
+  real_T timeInTol;
+};
+
+#endif
+
 #ifndef DEFINED_TYPEDEF_FOR_struct_tPdF4cj4QxksKOpHPnjYAD_
 #define DEFINED_TYPEDEF_FOR_struct_tPdF4cj4QxksKOpHPnjYAD_
 
@@ -659,10 +728,10 @@ struct struct_IOGSiU1XikL9sZPS7RAWhG
 
 #endif
 
-#ifndef DEFINED_TYPEDEF_FOR_struct_FqrHx7QY0wpF1HYahFYzXB_
-#define DEFINED_TYPEDEF_FOR_struct_FqrHx7QY0wpF1HYahFYzXB_
+#ifndef DEFINED_TYPEDEF_FOR_struct_KO2CdYYo4jwJijs9CUXyO_
+#define DEFINED_TYPEDEF_FOR_struct_KO2CdYYo4jwJijs9CUXyO_
 
-struct struct_FqrHx7QY0wpF1HYahFYzXB
+struct struct_KO2CdYYo4jwJijs9CUXyO
 {
   real_T nx;
   real_T ny;
@@ -674,11 +743,9 @@ struct struct_FqrHx7QY0wpF1HYahFYzXB
   real_T tmax;
   real_T tmin;
   struct_66StMACXdcQWPTRE70iCnD thrusters;
+  struct_eVcYNZ0vvRj7fFY0iEy2lH trajectory;
+  struct_OCQDNHOqoOJyX3Zc3S3wnB targetReached;
   struct_IOGSiU1XikL9sZPS7RAWhG gains;
-  real_T ConfigDefaut[29];
-  real_T Config10[29];
-  real_T Config11[29];
-  real_T Config19[29];
   real_T gainsList[90];
 };
 
@@ -875,7 +942,7 @@ struct ros_slroscpp_internal_block_P_T
 
 #endif                                // struct_ros_slroscpp_internal_block_P_T
 
-// Custom Type definition for MATLAB Function: '<S262>/NLMPC'
+// Custom Type definition for MATLAB Function: '<S268>/NLMPC'
 #ifndef struct_sG8JZ69axY52WWR6RKyApQC_proc__T
 #define struct_sG8JZ69axY52WWR6RKyApQC_proc__T
 
@@ -953,7 +1020,7 @@ struct OpenLoopController_proc_contr_T
 
 #endif                                // struct_OpenLoopController_proc_contr_T
 
-// Custom Type definition for MATLAB Function: '<S262>/NLMPC'
+// Custom Type definition for MATLAB Function: '<S268>/NLMPC'
 #ifndef struct_somzaGboVhDG7PNQS6E98jD_proc__T
 #define struct_somzaGboVhDG7PNQS6E98jD_proc__T
 
@@ -1000,6 +1067,24 @@ struct mpcManager_proc_control_node_T
 };
 
 #endif                                 // struct_mpcManager_proc_control_node_T
+
+#ifndef struct_MultiTrajectoryManager_proc_c_T
+#define struct_MultiTrajectoryManager_proc_c_T
+
+struct MultiTrajectoryManager_proc_c_T
+{
+  int32_T isInitialized;
+  real_T poseBuffer[78000];
+  real_T bufferCount;
+  boolean_T done;
+  real_T targetReachedCount;
+  real_T initialPose[7];
+  boolean_T init;
+  real_T dummy;
+  real_T emptyArray[13];
+};
+
+#endif                                // struct_MultiTrajectoryManager_proc_c_T
 
 #ifndef struct_TrajectoryManager_proc_contro_T
 #define struct_TrajectoryManager_proc_contro_T
@@ -1123,7 +1208,7 @@ struct emxArray_real_T_1845x1845_pro_T
 
 #endif                                // struct_emxArray_real_T_1845x1845_pro_T
 
-// Custom Type definition for MATLAB Function: '<S262>/NLMPC'
+// Custom Type definition for MATLAB Function: '<S268>/NLMPC'
 #ifndef struct_s_TNXzMnREVvDmNpLFpsTLBC_proc_T
 #define struct_s_TNXzMnREVvDmNpLFpsTLBC_proc_T
 
@@ -1269,7 +1354,7 @@ struct emxArray_int32_T_1845_proc_co_T
 
 #endif                                // struct_emxArray_int32_T_1845_proc_co_T
 
-// Custom Type definition for MATLAB Function: '<S262>/NLMPC'
+// Custom Type definition for MATLAB Function: '<S268>/NLMPC'
 #ifndef struct_s_UjlJWoQEHmSUKFcPTad7eC_proc_T
 #define struct_s_UjlJWoQEHmSUKFcPTad7eC_proc_T
 
@@ -1385,7 +1470,7 @@ struct emxArray_boolean_T_1845_proc__T
 
 #endif                                // struct_emxArray_boolean_T_1845_proc__T
 
-// Custom Type definition for MATLAB Function: '<S262>/NLMPC'
+// Custom Type definition for MATLAB Function: '<S268>/NLMPC'
 #ifndef struct_s_UO30ZLdjVaUTEWcJEu5YnC_proc_T
 #define struct_s_UO30ZLdjVaUTEWcJEu5YnC_proc_T
 
@@ -1444,7 +1529,7 @@ struct emxArray_real_T_987_proc_cont_T
 
 #endif                                // struct_emxArray_real_T_987_proc_cont_T
 
-// Custom Type definition for MATLAB Function: '<S262>/NLMPC'
+// Custom Type definition for MATLAB Function: '<S268>/NLMPC'
 #ifndef struct_s_oZGbvi5mjKKebHB9aR5DoG_proc_T
 #define struct_s_oZGbvi5mjKKebHB9aR5DoG_proc_T
 
@@ -1495,7 +1580,7 @@ struct emxArray_real_T_260_proc_cont_T
 
 #endif                                // struct_emxArray_real_T_260_proc_cont_T
 
-// Custom Type definition for MATLAB Function: '<S262>/NLMPC'
+// Custom Type definition for MATLAB Function: '<S268>/NLMPC'
 #ifndef struct_s_CULt7UgaiymoVdgSwojRWD_proc_T
 #define struct_s_CULt7UgaiymoVdgSwojRWD_proc_T
 

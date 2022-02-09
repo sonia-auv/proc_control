@@ -106,6 +106,25 @@ void convertToBus(SL_Bus_proc_control_node_geometry_msgs_Quaternion* busPtr, geo
 }
 
 
+// Conversions between SL_Bus_proc_control_node_geometry_msgs_Transform and geometry_msgs::Transform
+
+void convertFromBus(geometry_msgs::Transform* msgPtr, SL_Bus_proc_control_node_geometry_msgs_Transform const* busPtr)
+{
+  const std::string rosMessageType("geometry_msgs/Transform");
+
+  convertFromBus(&msgPtr->rotation, &busPtr->Rotation);
+  convertFromBus(&msgPtr->translation, &busPtr->Translation);
+}
+
+void convertToBus(SL_Bus_proc_control_node_geometry_msgs_Transform* busPtr, geometry_msgs::Transform const* msgPtr)
+{
+  const std::string rosMessageType("geometry_msgs/Transform");
+
+  convertToBus(&busPtr->Rotation, &msgPtr->rotation);
+  convertToBus(&busPtr->Translation, &msgPtr->translation);
+}
+
+
 // Conversions between SL_Bus_proc_control_node_geometry_msgs_Twist and geometry_msgs::Twist
 
 void convertFromBus(geometry_msgs::Twist* msgPtr, SL_Bus_proc_control_node_geometry_msgs_Twist const* busPtr)
@@ -185,6 +204,25 @@ void convertToBus(SL_Bus_proc_control_node_nav_msgs_Odometry* busPtr, nav_msgs::
   convertToBus(&busPtr->Header, &msgPtr->header);
   convertToBus(&busPtr->Pose, &msgPtr->pose);
   convertToBus(&busPtr->Twist, &msgPtr->twist);
+}
+
+
+// Conversions between SL_Bus_proc_control_node_ros_time_Duration and ros::Duration
+
+void convertFromBus(ros::Duration* msgPtr, SL_Bus_proc_control_node_ros_time_Duration const* busPtr)
+{
+  const std::string rosMessageType("ros_time/Duration");
+
+  msgPtr->nsec =  busPtr->Nsec;
+  msgPtr->sec =  busPtr->Sec;
+}
+
+void convertToBus(SL_Bus_proc_control_node_ros_time_Duration* busPtr, ros::Duration const* msgPtr)
+{
+  const std::string rosMessageType("ros_time/Duration");
+
+  busPtr->Nsec =  msgPtr->nsec;
+  busPtr->Sec =  msgPtr->sec;
 }
 
 
@@ -296,23 +334,6 @@ void convertToBus(SL_Bus_proc_control_node_sonia_common_BodyVelocityDVL* busPtr,
 }
 
 
-// Conversions between SL_Bus_proc_control_node_sonia_common_KillSwitchMsg and sonia_common::KillSwitchMsg
-
-void convertFromBus(sonia_common::KillSwitchMsg* msgPtr, SL_Bus_proc_control_node_sonia_common_KillSwitchMsg const* busPtr)
-{
-  const std::string rosMessageType("sonia_common/KillSwitchMsg");
-
-  msgPtr->state =  busPtr->State;
-}
-
-void convertToBus(SL_Bus_proc_control_node_sonia_common_KillSwitchMsg* busPtr, sonia_common::KillSwitchMsg const* msgPtr)
-{
-  const std::string rosMessageType("sonia_common/KillSwitchMsg");
-
-  busPtr->State =  msgPtr->state;
-}
-
-
 // Conversions between SL_Bus_proc_control_node_sonia_common_MpcGains and sonia_common::MpcGains
 
 void convertFromBus(sonia_common::MpcGains* msgPtr, SL_Bus_proc_control_node_sonia_common_MpcGains const* busPtr)
@@ -346,6 +367,7 @@ void convertFromBus(sonia_common::MpcInfo* msgPtr, SL_Bus_proc_control_node_soni
 
   convertFromBus(&msgPtr->currentGains, &busPtr->CurrentGains);
   msgPtr->is_mpc_alive =  busPtr->IsMpcAlive;
+  msgPtr->is_trajectory_done =  busPtr->IsTrajectoryDone;
   msgPtr->mpc_mode =  busPtr->MpcMode;
   msgPtr->mpc_status =  busPtr->MpcStatus;
   msgPtr->target_reached =  busPtr->TargetReached;
@@ -358,6 +380,7 @@ void convertToBus(SL_Bus_proc_control_node_sonia_common_MpcInfo* busPtr, sonia_c
 
   convertToBus(&busPtr->CurrentGains, &msgPtr->currentGains);
   busPtr->IsMpcAlive =  msgPtr->is_mpc_alive;
+  busPtr->IsTrajectoryDone =  msgPtr->is_trajectory_done;
   busPtr->MpcMode =  msgPtr->mpc_mode;
   busPtr->MpcStatus =  msgPtr->mpc_status;
   busPtr->TargetReached =  msgPtr->target_reached;
@@ -529,5 +552,28 @@ void convertToBus(SL_Bus_proc_control_node_std_msgs_UInt8* busPtr, std_msgs::UIn
   const std::string rosMessageType("std_msgs/UInt8");
 
   busPtr->Data =  msgPtr->data;
+}
+
+
+// Conversions between SL_Bus_proc_control_node_MultiDOFJointTrajectoryPo_9xm16l and trajectory_msgs::MultiDOFJointTrajectoryPoint
+
+void convertFromBus(trajectory_msgs::MultiDOFJointTrajectoryPoint* msgPtr, SL_Bus_proc_control_node_MultiDOFJointTrajectoryPo_9xm16l const* busPtr)
+{
+  const std::string rosMessageType("trajectory_msgs/MultiDOFJointTrajectoryPoint");
+
+  convertFromBusVariableNestedArray(msgPtr->accelerations, busPtr->Accelerations, busPtr->Accelerations_SL_Info);
+  convertFromBus(&msgPtr->time_from_start, &busPtr->TimeFromStart);
+  convertFromBusVariableNestedArray(msgPtr->transforms, busPtr->Transforms, busPtr->Transforms_SL_Info);
+  convertFromBusVariableNestedArray(msgPtr->velocities, busPtr->Velocities, busPtr->Velocities_SL_Info);
+}
+
+void convertToBus(SL_Bus_proc_control_node_MultiDOFJointTrajectoryPo_9xm16l* busPtr, trajectory_msgs::MultiDOFJointTrajectoryPoint const* msgPtr)
+{
+  const std::string rosMessageType("trajectory_msgs/MultiDOFJointTrajectoryPoint");
+
+  convertToBusVariableNestedArray(busPtr->Accelerations, busPtr->Accelerations_SL_Info, msgPtr->accelerations, slros::EnabledWarning(rosMessageType, "accelerations"));
+  convertToBus(&busPtr->TimeFromStart, &msgPtr->time_from_start);
+  convertToBusVariableNestedArray(busPtr->Transforms, busPtr->Transforms_SL_Info, msgPtr->transforms, slros::EnabledWarning(rosMessageType, "transforms"));
+  convertToBusVariableNestedArray(busPtr->Velocities, busPtr->Velocities_SL_Info, msgPtr->velocities, slros::EnabledWarning(rosMessageType, "velocities"));
 }
 

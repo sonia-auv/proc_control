@@ -7,15 +7,16 @@
 #include <geometry_msgs/Pose.h>
 #include <geometry_msgs/PoseWithCovariance.h>
 #include <geometry_msgs/Quaternion.h>
+#include <geometry_msgs/Transform.h>
 #include <geometry_msgs/Twist.h>
 #include <geometry_msgs/TwistWithCovariance.h>
 #include <geometry_msgs/Vector3.h>
 #include <nav_msgs/Odometry.h>
+#include <ros/duration.h>
 #include <ros/time.h>
 #include <sensor_msgs/Imu.h>
 #include <sonia_common/AddPose.h>
 #include <sonia_common/BodyVelocityDVL.h>
-#include <sonia_common/KillSwitchMsg.h>
 #include <sonia_common/MpcGains.h>
 #include <sonia_common/MpcInfo.h>
 #include <std_msgs/Bool.h>
@@ -27,6 +28,7 @@
 #include <std_msgs/MultiArrayLayout.h>
 #include <std_msgs/UInt16MultiArray.h>
 #include <std_msgs/UInt8.h>
+#include <trajectory_msgs/MultiDOFJointTrajectoryPoint.h>
 #include "proc_control_node_types.h"
 #include "slros_msgconvert_utils.h"
 
@@ -46,6 +48,9 @@ void convertToBus(SL_Bus_proc_control_node_geometry_msgs_PoseWithCovariance* bus
 void convertFromBus(geometry_msgs::Quaternion* msgPtr, SL_Bus_proc_control_node_geometry_msgs_Quaternion const* busPtr);
 void convertToBus(SL_Bus_proc_control_node_geometry_msgs_Quaternion* busPtr, geometry_msgs::Quaternion const* msgPtr);
 
+void convertFromBus(geometry_msgs::Transform* msgPtr, SL_Bus_proc_control_node_geometry_msgs_Transform const* busPtr);
+void convertToBus(SL_Bus_proc_control_node_geometry_msgs_Transform* busPtr, geometry_msgs::Transform const* msgPtr);
+
 void convertFromBus(geometry_msgs::Twist* msgPtr, SL_Bus_proc_control_node_geometry_msgs_Twist const* busPtr);
 void convertToBus(SL_Bus_proc_control_node_geometry_msgs_Twist* busPtr, geometry_msgs::Twist const* msgPtr);
 
@@ -58,6 +63,9 @@ void convertToBus(SL_Bus_proc_control_node_geometry_msgs_Vector3* busPtr, geomet
 void convertFromBus(nav_msgs::Odometry* msgPtr, SL_Bus_proc_control_node_nav_msgs_Odometry const* busPtr);
 void convertToBus(SL_Bus_proc_control_node_nav_msgs_Odometry* busPtr, nav_msgs::Odometry const* msgPtr);
 
+void convertFromBus(ros::Duration* msgPtr, SL_Bus_proc_control_node_ros_time_Duration const* busPtr);
+void convertToBus(SL_Bus_proc_control_node_ros_time_Duration* busPtr, ros::Duration const* msgPtr);
+
 void convertFromBus(ros::Time* msgPtr, SL_Bus_proc_control_node_ros_time_Time const* busPtr);
 void convertToBus(SL_Bus_proc_control_node_ros_time_Time* busPtr, ros::Time const* msgPtr);
 
@@ -69,9 +77,6 @@ void convertToBus(SL_Bus_proc_control_node_sonia_common_AddPose* busPtr, sonia_c
 
 void convertFromBus(sonia_common::BodyVelocityDVL* msgPtr, SL_Bus_proc_control_node_sonia_common_BodyVelocityDVL const* busPtr);
 void convertToBus(SL_Bus_proc_control_node_sonia_common_BodyVelocityDVL* busPtr, sonia_common::BodyVelocityDVL const* msgPtr);
-
-void convertFromBus(sonia_common::KillSwitchMsg* msgPtr, SL_Bus_proc_control_node_sonia_common_KillSwitchMsg const* busPtr);
-void convertToBus(SL_Bus_proc_control_node_sonia_common_KillSwitchMsg* busPtr, sonia_common::KillSwitchMsg const* msgPtr);
 
 void convertFromBus(sonia_common::MpcGains* msgPtr, SL_Bus_proc_control_node_sonia_common_MpcGains const* busPtr);
 void convertToBus(SL_Bus_proc_control_node_sonia_common_MpcGains* busPtr, sonia_common::MpcGains const* msgPtr);
@@ -105,6 +110,9 @@ void convertToBus(SL_Bus_proc_control_node_std_msgs_UInt16MultiArray* busPtr, st
 
 void convertFromBus(std_msgs::UInt8* msgPtr, SL_Bus_proc_control_node_std_msgs_UInt8 const* busPtr);
 void convertToBus(SL_Bus_proc_control_node_std_msgs_UInt8* busPtr, std_msgs::UInt8 const* msgPtr);
+
+void convertFromBus(trajectory_msgs::MultiDOFJointTrajectoryPoint* msgPtr, SL_Bus_proc_control_node_MultiDOFJointTrajectoryPo_9xm16l const* busPtr);
+void convertToBus(SL_Bus_proc_control_node_MultiDOFJointTrajectoryPo_9xm16l* busPtr, trajectory_msgs::MultiDOFJointTrajectoryPoint const* msgPtr);
 
 
 #endif

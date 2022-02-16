@@ -27,11 +27,11 @@ SimulinkSubscriber<std_msgs::Float32MultiArray, SL_Bus_proc_control_node_std_msg
 // For Block proc_control_node/Subsystem Controller/MPC manager/Subscribe1
 SimulinkSubscriber<sonia_common::MpcGains, SL_Bus_proc_control_node_sonia_common_MpcGains> Sub_proc_control_node_182_1643;
 
-// For Block proc_control_node/Subsystem Trajectory/Subscribe
-SimulinkSubscriber<trajectory_msgs::MultiDOFJointTrajectoryPoint, SL_Bus_proc_control_node_MultiDOFJointTrajectoryPo_9xm16l> Sub_proc_control_node_184_1581;
-
 // For Block proc_control_node/Subsystem Trajectory/Subsystem/Subscribe2
 SimulinkSubscriber<geometry_msgs::Twist, SL_Bus_proc_control_node_geometry_msgs_Twist> Sub_proc_control_node_184_1122;
+
+// For Block proc_control_node/Subsystem Trajectory/Subsystem1/Subscribe
+SimulinkSubscriber<trajectory_msgs::MultiDOFJointTrajectoryPoint, SL_Bus_proc_control_node_MultiDOFJointTrajectoryPo_9xm16l> Sub_proc_control_node_184_1581;
 
 // For Block proc_control_node/Subsystem Trajectory/singleWpts Trajectory/Subscribe
 SimulinkSubscriber<sonia_common::AddPose, SL_Bus_proc_control_node_sonia_common_AddPose> Sub_proc_control_node_184_1168;
@@ -81,9 +81,6 @@ SimulinkPublisher<std_msgs::Int8, SL_Bus_proc_control_node_std_msgs_Int8> Pub_pr
 // For Block proc_control_node/Send Data to ROS/Publish4
 SimulinkPublisher<std_msgs::Bool, SL_Bus_proc_control_node_std_msgs_Bool> Pub_proc_control_node_106;
 
-// For Block proc_control_node/Send Data to ROS/Publish5
-SimulinkPublisher<geometry_msgs::Pose, SL_Bus_proc_control_node_geometry_msgs_Pose> Pub_proc_control_node_322;
-
 // For Block proc_control_node/Send Data to ROS/Subsystem/Publish5
 SimulinkPublisher<sonia_common::MpcInfo, SL_Bus_proc_control_node_sonia_common_MpcInfo> Pub_proc_control_node_287;
 
@@ -92,6 +89,9 @@ SimulinkPublisher<std_msgs::Bool, SL_Bus_proc_control_node_std_msgs_Bool> Pub_pr
 
 // For Block proc_control_node/Sensor Manager/Send To Telemetry /Publish
 SimulinkPublisher<nav_msgs::Odometry, SL_Bus_proc_control_node_nav_msgs_Odometry> Pub_proc_control_node_163;
+
+// For Block proc_control_node/Subsystem Trajectory/SubsystemAuto/Publish5
+SimulinkPublisher<geometry_msgs::Pose, SL_Bus_proc_control_node_geometry_msgs_Pose> Pub_proc_control_node_184_1596;
 
 void slros_node_init(int argc, char** argv)
 {

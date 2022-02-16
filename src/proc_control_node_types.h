@@ -7,9 +7,9 @@
 //
 // Code generated for Simulink model 'proc_control_node'.
 //
-// Model version                  : 2.49
+// Model version                  : 2.54
 // Simulink Coder version         : 9.6 (R2021b) 14-May-2021
-// C/C++ source code generated on : Tue Feb  8 23:25:43 2022
+// C/C++ source code generated on : Tue Feb 15 19:35:39 2022
 //
 // Target selection: ert.tlc
 // Embedded hardware selection: ARM Compatible->ARM 64-bit (LLP64)
@@ -942,7 +942,7 @@ struct ros_slroscpp_internal_block_P_T
 
 #endif                                // struct_ros_slroscpp_internal_block_P_T
 
-// Custom Type definition for MATLAB Function: '<S268>/NLMPC'
+// Custom Type definition for MATLAB Function: '<S265>/NLMPC'
 #ifndef struct_sG8JZ69axY52WWR6RKyApQC_proc__T
 #define struct_sG8JZ69axY52WWR6RKyApQC_proc__T
 
@@ -1020,7 +1020,7 @@ struct OpenLoopController_proc_contr_T
 
 #endif                                // struct_OpenLoopController_proc_contr_T
 
-// Custom Type definition for MATLAB Function: '<S268>/NLMPC'
+// Custom Type definition for MATLAB Function: '<S265>/NLMPC'
 #ifndef struct_somzaGboVhDG7PNQS6E98jD_proc__T
 #define struct_somzaGboVhDG7PNQS6E98jD_proc__T
 
@@ -1208,7 +1208,7 @@ struct emxArray_real_T_1845x1845_pro_T
 
 #endif                                // struct_emxArray_real_T_1845x1845_pro_T
 
-// Custom Type definition for MATLAB Function: '<S268>/NLMPC'
+// Custom Type definition for MATLAB Function: '<S265>/NLMPC'
 #ifndef struct_s_TNXzMnREVvDmNpLFpsTLBC_proc_T
 #define struct_s_TNXzMnREVvDmNpLFpsTLBC_proc_T
 
@@ -1354,7 +1354,7 @@ struct emxArray_int32_T_1845_proc_co_T
 
 #endif                                // struct_emxArray_int32_T_1845_proc_co_T
 
-// Custom Type definition for MATLAB Function: '<S268>/NLMPC'
+// Custom Type definition for MATLAB Function: '<S265>/NLMPC'
 #ifndef struct_s_UjlJWoQEHmSUKFcPTad7eC_proc_T
 #define struct_s_UjlJWoQEHmSUKFcPTad7eC_proc_T
 
@@ -1470,7 +1470,7 @@ struct emxArray_boolean_T_1845_proc__T
 
 #endif                                // struct_emxArray_boolean_T_1845_proc__T
 
-// Custom Type definition for MATLAB Function: '<S268>/NLMPC'
+// Custom Type definition for MATLAB Function: '<S265>/NLMPC'
 #ifndef struct_s_UO30ZLdjVaUTEWcJEu5YnC_proc_T
 #define struct_s_UO30ZLdjVaUTEWcJEu5YnC_proc_T
 
@@ -1529,7 +1529,7 @@ struct emxArray_real_T_987_proc_cont_T
 
 #endif                                // struct_emxArray_real_T_987_proc_cont_T
 
-// Custom Type definition for MATLAB Function: '<S268>/NLMPC'
+// Custom Type definition for MATLAB Function: '<S265>/NLMPC'
 #ifndef struct_s_oZGbvi5mjKKebHB9aR5DoG_proc_T
 #define struct_s_oZGbvi5mjKKebHB9aR5DoG_proc_T
 
@@ -1580,7 +1580,7 @@ struct emxArray_real_T_260_proc_cont_T
 
 #endif                                // struct_emxArray_real_T_260_proc_cont_T
 
-// Custom Type definition for MATLAB Function: '<S268>/NLMPC'
+// Custom Type definition for MATLAB Function: '<S265>/NLMPC'
 #ifndef struct_s_CULt7UgaiymoVdgSwojRWD_proc_T
 #define struct_s_CULt7UgaiymoVdgSwojRWD_proc_T
 

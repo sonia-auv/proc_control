@@ -27,7 +27,7 @@ extern SimulinkSubscriber<std_msgs::Float32, SL_Bus_proc_control_node_std_msgs_F
 extern SimulinkSubscriber<sonia_common::BodyVelocityDVL, SL_Bus_proc_control_node_sonia_common_BodyVelocityDVL> Sub_proc_control_node_31_1242;
 
 // For Block proc_control_node/Subsystem Controller/MPC manager/Subscribe
-extern SimulinkSubscriber<std_msgs::Float32MultiArray, SL_Bus_proc_control_node_std_msgs_Float32MultiArray> Sub_proc_control_node_182_1620;
+extern SimulinkSubscriber<std_msgs::Float64MultiArray, SL_Bus_proc_control_node_std_msgs_Float64MultiArray> Sub_proc_control_node_182_1620;
 
 // For Block proc_control_node/Subsystem Controller/MPC manager/Subscribe1
 extern SimulinkSubscriber<sonia_common::MpcGains, SL_Bus_proc_control_node_sonia_common_MpcGains> Sub_proc_control_node_182_1643;
@@ -59,6 +59,9 @@ extern SimulinkSubscriber<std_msgs::Bool, SL_Bus_proc_control_node_std_msgs_Bool
 // For Block proc_control_node/Subsystem1/startSim
 extern SimulinkSubscriber<geometry_msgs::Pose, SL_Bus_proc_control_node_geometry_msgs_Pose> Sub_proc_control_node_185_11;
 
+// For Block proc_control_node/Modle Physique/Modele Thruster/Publish2
+extern SimulinkPublisher<std_msgs::Int16MultiArray, SL_Bus_proc_control_node_std_msgs_Int16MultiArray> Pub_proc_control_node_19_1361;
+
 // For Block proc_control_node/ROS Output/Send DVL msg/Publish
 extern SimulinkPublisher<sonia_common::BodyVelocityDVL, SL_Bus_proc_control_node_sonia_common_BodyVelocityDVL> Pub_proc_control_node_41;
 
@@ -68,23 +71,11 @@ extern SimulinkPublisher<std_msgs::Float32, SL_Bus_proc_control_node_std_msgs_Fl
 // For Block proc_control_node/ROS Output/Send IMU msg/Publish imu_info
 extern SimulinkPublisher<sensor_msgs::Imu, SL_Bus_proc_control_node_sensor_msgs_Imu> Pub_proc_control_node_47;
 
-// For Block proc_control_node/ROS Output/Send to Gazebo/Publish
-extern SimulinkPublisher<gazebo_msgs::ModelState, SL_Bus_proc_control_node_gazebo_msgs_ModelState> Pub_proc_control_node_63;
-
 // For Block proc_control_node/ROS Output/Send to Unity/Publish
 extern SimulinkPublisher<geometry_msgs::Pose, SL_Bus_proc_control_node_geometry_msgs_Pose> Pub_proc_control_node_75;
 
-// For Block proc_control_node/Send Data to ROS/Publish1
-extern SimulinkPublisher<std_msgs::Bool, SL_Bus_proc_control_node_std_msgs_Bool> Pub_proc_control_node_122;
-
 // For Block proc_control_node/Send Data to ROS/Publish2
 extern SimulinkPublisher<std_msgs::UInt16MultiArray, SL_Bus_proc_control_node_std_msgs_UInt16MultiArray> Pub_proc_control_node_104;
-
-// For Block proc_control_node/Send Data to ROS/Publish3
-extern SimulinkPublisher<std_msgs::Int8, SL_Bus_proc_control_node_std_msgs_Int8> Pub_proc_control_node_105;
-
-// For Block proc_control_node/Send Data to ROS/Publish4
-extern SimulinkPublisher<std_msgs::Bool, SL_Bus_proc_control_node_std_msgs_Bool> Pub_proc_control_node_106;
 
 // For Block proc_control_node/Send Data to ROS/Subsystem/Publish5
 extern SimulinkPublisher<sonia_common::MpcInfo, SL_Bus_proc_control_node_sonia_common_MpcInfo> Pub_proc_control_node_287;

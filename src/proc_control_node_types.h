@@ -7,9 +7,9 @@
 //
 // Code generated for Simulink model 'proc_control_node'.
 //
-// Model version                  : 2.54
+// Model version                  : 2.59
 // Simulink Coder version         : 9.6 (R2021b) 14-May-2021
-// C/C++ source code generated on : Tue Feb 15 19:35:39 2022
+// C/C++ source code generated on : Tue Feb 22 22:39:41 2022
 //
 // Target selection: ert.tlc
 // Embedded hardware selection: ARM Compatible->ARM 64-bit (LLP64)
@@ -22,6 +22,68 @@
 #include "zero_crossing_types.h"
 
 // Model Code Variants
+#ifndef DEFINED_TYPEDEF_FOR_SL_Bus_ROSVariableLengthArrayInfo_
+#define DEFINED_TYPEDEF_FOR_SL_Bus_ROSVariableLengthArrayInfo_
+
+struct SL_Bus_ROSVariableLengthArrayInfo
+{
+  uint32_T CurrentLength;
+  uint32_T ReceivedLength;
+};
+
+#endif
+
+#ifndef DEFINED_TYPEDEF_FOR_SL_Bus_proc_control_node_std_msgs_MultiArrayDimension_
+#define DEFINED_TYPEDEF_FOR_SL_Bus_proc_control_node_std_msgs_MultiArrayDimension_
+
+// MsgType=std_msgs/MultiArrayDimension
+struct SL_Bus_proc_control_node_std_msgs_MultiArrayDimension
+{
+  // PrimitiveROSType=string:IsVarLen=1:VarLenCategory=data:VarLenElem=Label_SL_Info:TruncateAction=warn 
+  uint8_T Label[128];
+
+  // IsVarLen=1:VarLenCategory=length:VarLenElem=Label
+  SL_Bus_ROSVariableLengthArrayInfo Label_SL_Info;
+  uint32_T Size;
+  uint32_T Stride;
+};
+
+#endif
+
+#ifndef DEFINED_TYPEDEF_FOR_SL_Bus_proc_control_node_std_msgs_MultiArrayLayout_
+#define DEFINED_TYPEDEF_FOR_SL_Bus_proc_control_node_std_msgs_MultiArrayLayout_
+
+// MsgType=std_msgs/MultiArrayLayout
+struct SL_Bus_proc_control_node_std_msgs_MultiArrayLayout
+{
+  // MsgType=std_msgs/MultiArrayDimension:IsVarLen=1:VarLenCategory=data:VarLenElem=Dim_SL_Info:TruncateAction=warn 
+  SL_Bus_proc_control_node_std_msgs_MultiArrayDimension Dim[16];
+
+  // IsVarLen=1:VarLenCategory=length:VarLenElem=Dim
+  SL_Bus_ROSVariableLengthArrayInfo Dim_SL_Info;
+  uint32_T DataOffset;
+};
+
+#endif
+
+#ifndef DEFINED_TYPEDEF_FOR_SL_Bus_proc_control_node_std_msgs_Int16MultiArray_
+#define DEFINED_TYPEDEF_FOR_SL_Bus_proc_control_node_std_msgs_Int16MultiArray_
+
+// MsgType=std_msgs/Int16MultiArray
+struct SL_Bus_proc_control_node_std_msgs_Int16MultiArray
+{
+  // MsgType=std_msgs/MultiArrayLayout
+  SL_Bus_proc_control_node_std_msgs_MultiArrayLayout Layout;
+
+  // IsVarLen=1:VarLenCategory=data:VarLenElem=Data_SL_Info:TruncateAction=warn
+  int16_T Data[128];
+
+  // IsVarLen=1:VarLenCategory=length:VarLenElem=Data
+  SL_Bus_ROSVariableLengthArrayInfo Data_SL_Info;
+};
+
+#endif
+
 #ifndef DEFINED_TYPEDEF_FOR_SL_Bus_proc_control_node_ros_time_Time_
 #define DEFINED_TYPEDEF_FOR_SL_Bus_proc_control_node_ros_time_Time_
 
@@ -30,17 +92,6 @@ struct SL_Bus_proc_control_node_ros_time_Time
 {
   real_T Sec;
   real_T Nsec;
-};
-
-#endif
-
-#ifndef DEFINED_TYPEDEF_FOR_SL_Bus_ROSVariableLengthArrayInfo_
-#define DEFINED_TYPEDEF_FOR_SL_Bus_ROSVariableLengthArrayInfo_
-
-struct SL_Bus_ROSVariableLengthArrayInfo
-{
-  uint32_T CurrentLength;
-  uint32_T ReceivedLength;
 };
 
 #endif
@@ -175,92 +226,6 @@ struct SL_Bus_proc_control_node_geometry_msgs_Pose
 
 #endif
 
-#ifndef DEFINED_TYPEDEF_FOR_SL_Bus_proc_control_node_geometry_msgs_Twist_
-#define DEFINED_TYPEDEF_FOR_SL_Bus_proc_control_node_geometry_msgs_Twist_
-
-// MsgType=geometry_msgs/Twist
-struct SL_Bus_proc_control_node_geometry_msgs_Twist
-{
-  // MsgType=geometry_msgs/Vector3
-  SL_Bus_proc_control_node_geometry_msgs_Vector3 Linear;
-
-  // MsgType=geometry_msgs/Vector3
-  SL_Bus_proc_control_node_geometry_msgs_Vector3 Angular;
-};
-
-#endif
-
-#ifndef DEFINED_TYPEDEF_FOR_SL_Bus_proc_control_node_gazebo_msgs_ModelState_
-#define DEFINED_TYPEDEF_FOR_SL_Bus_proc_control_node_gazebo_msgs_ModelState_
-
-// MsgType=gazebo_msgs/ModelState
-struct SL_Bus_proc_control_node_gazebo_msgs_ModelState
-{
-  // PrimitiveROSType=string:IsVarLen=1:VarLenCategory=data:VarLenElem=ModelName_SL_Info:TruncateAction=warn 
-  uint8_T ModelName[128];
-
-  // IsVarLen=1:VarLenCategory=length:VarLenElem=ModelName
-  SL_Bus_ROSVariableLengthArrayInfo ModelName_SL_Info;
-
-  // MsgType=geometry_msgs/Pose
-  SL_Bus_proc_control_node_geometry_msgs_Pose Pose;
-
-  // MsgType=geometry_msgs/Twist
-  SL_Bus_proc_control_node_geometry_msgs_Twist Twist;
-
-  // PrimitiveROSType=string:IsVarLen=1:VarLenCategory=data:VarLenElem=ReferenceFrame_SL_Info:TruncateAction=warn 
-  uint8_T ReferenceFrame[128];
-
-  // IsVarLen=1:VarLenCategory=length:VarLenElem=ReferenceFrame
-  SL_Bus_ROSVariableLengthArrayInfo ReferenceFrame_SL_Info;
-};
-
-#endif
-
-#ifndef DEFINED_TYPEDEF_FOR_SL_Bus_proc_control_node_std_msgs_Bool_
-#define DEFINED_TYPEDEF_FOR_SL_Bus_proc_control_node_std_msgs_Bool_
-
-// MsgType=std_msgs/Bool
-struct SL_Bus_proc_control_node_std_msgs_Bool
-{
-  boolean_T Data;
-};
-
-#endif
-
-#ifndef DEFINED_TYPEDEF_FOR_SL_Bus_proc_control_node_std_msgs_MultiArrayDimension_
-#define DEFINED_TYPEDEF_FOR_SL_Bus_proc_control_node_std_msgs_MultiArrayDimension_
-
-// MsgType=std_msgs/MultiArrayDimension
-struct SL_Bus_proc_control_node_std_msgs_MultiArrayDimension
-{
-  // PrimitiveROSType=string:IsVarLen=1:VarLenCategory=data:VarLenElem=Label_SL_Info:TruncateAction=warn 
-  uint8_T Label[128];
-
-  // IsVarLen=1:VarLenCategory=length:VarLenElem=Label
-  SL_Bus_ROSVariableLengthArrayInfo Label_SL_Info;
-  uint32_T Size;
-  uint32_T Stride;
-};
-
-#endif
-
-#ifndef DEFINED_TYPEDEF_FOR_SL_Bus_proc_control_node_std_msgs_MultiArrayLayout_
-#define DEFINED_TYPEDEF_FOR_SL_Bus_proc_control_node_std_msgs_MultiArrayLayout_
-
-// MsgType=std_msgs/MultiArrayLayout
-struct SL_Bus_proc_control_node_std_msgs_MultiArrayLayout
-{
-  // MsgType=std_msgs/MultiArrayDimension:IsVarLen=1:VarLenCategory=data:VarLenElem=Dim_SL_Info:TruncateAction=warn 
-  SL_Bus_proc_control_node_std_msgs_MultiArrayDimension Dim[16];
-
-  // IsVarLen=1:VarLenCategory=length:VarLenElem=Dim
-  SL_Bus_ROSVariableLengthArrayInfo Dim_SL_Info;
-  uint32_T DataOffset;
-};
-
-#endif
-
 #ifndef DEFINED_TYPEDEF_FOR_SL_Bus_proc_control_node_std_msgs_UInt16MultiArray_
 #define DEFINED_TYPEDEF_FOR_SL_Bus_proc_control_node_std_msgs_UInt16MultiArray_
 
@@ -275,17 +240,6 @@ struct SL_Bus_proc_control_node_std_msgs_UInt16MultiArray
 
   // IsVarLen=1:VarLenCategory=length:VarLenElem=Data
   SL_Bus_ROSVariableLengthArrayInfo Data_SL_Info;
-};
-
-#endif
-
-#ifndef DEFINED_TYPEDEF_FOR_SL_Bus_proc_control_node_std_msgs_Int8_
-#define DEFINED_TYPEDEF_FOR_SL_Bus_proc_control_node_std_msgs_Int8_
-
-// MsgType=std_msgs/Int8
-struct SL_Bus_proc_control_node_std_msgs_Int8
-{
-  int8_T Data;
 };
 
 #endif
@@ -343,6 +297,17 @@ struct SL_Bus_proc_control_node_sonia_common_MpcInfo
 
 #endif
 
+#ifndef DEFINED_TYPEDEF_FOR_SL_Bus_proc_control_node_std_msgs_Bool_
+#define DEFINED_TYPEDEF_FOR_SL_Bus_proc_control_node_std_msgs_Bool_
+
+// MsgType=std_msgs/Bool
+struct SL_Bus_proc_control_node_std_msgs_Bool
+{
+  boolean_T Data;
+};
+
+#endif
+
 #ifndef DEFINED_TYPEDEF_FOR_SL_Bus_proc_control_node_geometry_msgs_PoseWithCovariance_
 #define DEFINED_TYPEDEF_FOR_SL_Bus_proc_control_node_geometry_msgs_PoseWithCovariance_
 
@@ -352,6 +317,21 @@ struct SL_Bus_proc_control_node_geometry_msgs_PoseWithCovariance
   // MsgType=geometry_msgs/Pose
   SL_Bus_proc_control_node_geometry_msgs_Pose Pose;
   real_T Covariance[36];
+};
+
+#endif
+
+#ifndef DEFINED_TYPEDEF_FOR_SL_Bus_proc_control_node_geometry_msgs_Twist_
+#define DEFINED_TYPEDEF_FOR_SL_Bus_proc_control_node_geometry_msgs_Twist_
+
+// MsgType=geometry_msgs/Twist
+struct SL_Bus_proc_control_node_geometry_msgs_Twist
+{
+  // MsgType=geometry_msgs/Vector3
+  SL_Bus_proc_control_node_geometry_msgs_Vector3 Linear;
+
+  // MsgType=geometry_msgs/Vector3
+  SL_Bus_proc_control_node_geometry_msgs_Vector3 Angular;
 };
 
 #endif
@@ -393,17 +373,17 @@ struct SL_Bus_proc_control_node_nav_msgs_Odometry
 
 #endif
 
-#ifndef DEFINED_TYPEDEF_FOR_SL_Bus_proc_control_node_std_msgs_Float32MultiArray_
-#define DEFINED_TYPEDEF_FOR_SL_Bus_proc_control_node_std_msgs_Float32MultiArray_
+#ifndef DEFINED_TYPEDEF_FOR_SL_Bus_proc_control_node_std_msgs_Float64MultiArray_
+#define DEFINED_TYPEDEF_FOR_SL_Bus_proc_control_node_std_msgs_Float64MultiArray_
 
-// MsgType=std_msgs/Float32MultiArray
-struct SL_Bus_proc_control_node_std_msgs_Float32MultiArray
+// MsgType=std_msgs/Float64MultiArray
+struct SL_Bus_proc_control_node_std_msgs_Float64MultiArray
 {
   // MsgType=std_msgs/MultiArrayLayout
   SL_Bus_proc_control_node_std_msgs_MultiArrayLayout Layout;
 
   // IsVarLen=1:VarLenCategory=data:VarLenElem=Data_SL_Info:TruncateAction=warn
-  real32_T Data[128];
+  real_T Data[128];
 
   // IsVarLen=1:VarLenCategory=length:VarLenElem=Data
   SL_Bus_ROSVariableLengthArrayInfo Data_SL_Info;
@@ -908,6 +888,18 @@ struct struct_fCppgaREqjbtxAN9QqIjrB
 
 #endif
 
+#ifndef struct_ros_slroscpp_internal_block_P_T
+#define struct_ros_slroscpp_internal_block_P_T
+
+struct ros_slroscpp_internal_block_P_T
+{
+  boolean_T matlabCodegenIsDeleted;
+  int32_T isInitialized;
+  boolean_T isSetupComplete;
+};
+
+#endif                                // struct_ros_slroscpp_internal_block_P_T
+
 #ifndef struct_fixed_system_DivideByConstant_T
 #define struct_fixed_system_DivideByConstant_T
 
@@ -930,19 +922,7 @@ struct ros_slroscpp_internal_block_S_T
 
 #endif                                // struct_ros_slroscpp_internal_block_S_T
 
-#ifndef struct_ros_slroscpp_internal_block_P_T
-#define struct_ros_slroscpp_internal_block_P_T
-
-struct ros_slroscpp_internal_block_P_T
-{
-  boolean_T matlabCodegenIsDeleted;
-  int32_T isInitialized;
-  boolean_T isSetupComplete;
-};
-
-#endif                                // struct_ros_slroscpp_internal_block_P_T
-
-// Custom Type definition for MATLAB Function: '<S265>/NLMPC'
+// Custom Type definition for MATLAB Function: '<S242>/NLMPC'
 #ifndef struct_sG8JZ69axY52WWR6RKyApQC_proc__T
 #define struct_sG8JZ69axY52WWR6RKyApQC_proc__T
 
@@ -1020,7 +1000,7 @@ struct OpenLoopController_proc_contr_T
 
 #endif                                // struct_OpenLoopController_proc_contr_T
 
-// Custom Type definition for MATLAB Function: '<S265>/NLMPC'
+// Custom Type definition for MATLAB Function: '<S242>/NLMPC'
 #ifndef struct_somzaGboVhDG7PNQS6E98jD_proc__T
 #define struct_somzaGboVhDG7PNQS6E98jD_proc__T
 
@@ -1208,7 +1188,7 @@ struct emxArray_real_T_1845x1845_pro_T
 
 #endif                                // struct_emxArray_real_T_1845x1845_pro_T
 
-// Custom Type definition for MATLAB Function: '<S265>/NLMPC'
+// Custom Type definition for MATLAB Function: '<S242>/NLMPC'
 #ifndef struct_s_TNXzMnREVvDmNpLFpsTLBC_proc_T
 #define struct_s_TNXzMnREVvDmNpLFpsTLBC_proc_T
 
@@ -1354,7 +1334,7 @@ struct emxArray_int32_T_1845_proc_co_T
 
 #endif                                // struct_emxArray_int32_T_1845_proc_co_T
 
-// Custom Type definition for MATLAB Function: '<S265>/NLMPC'
+// Custom Type definition for MATLAB Function: '<S242>/NLMPC'
 #ifndef struct_s_UjlJWoQEHmSUKFcPTad7eC_proc_T
 #define struct_s_UjlJWoQEHmSUKFcPTad7eC_proc_T
 
@@ -1470,7 +1450,7 @@ struct emxArray_boolean_T_1845_proc__T
 
 #endif                                // struct_emxArray_boolean_T_1845_proc__T
 
-// Custom Type definition for MATLAB Function: '<S265>/NLMPC'
+// Custom Type definition for MATLAB Function: '<S242>/NLMPC'
 #ifndef struct_s_UO30ZLdjVaUTEWcJEu5YnC_proc_T
 #define struct_s_UO30ZLdjVaUTEWcJEu5YnC_proc_T
 
@@ -1529,7 +1509,7 @@ struct emxArray_real_T_987_proc_cont_T
 
 #endif                                // struct_emxArray_real_T_987_proc_cont_T
 
-// Custom Type definition for MATLAB Function: '<S265>/NLMPC'
+// Custom Type definition for MATLAB Function: '<S242>/NLMPC'
 #ifndef struct_s_oZGbvi5mjKKebHB9aR5DoG_proc_T
 #define struct_s_oZGbvi5mjKKebHB9aR5DoG_proc_T
 
@@ -1580,7 +1560,7 @@ struct emxArray_real_T_260_proc_cont_T
 
 #endif                                // struct_emxArray_real_T_260_proc_cont_T
 
-// Custom Type definition for MATLAB Function: '<S265>/NLMPC'
+// Custom Type definition for MATLAB Function: '<S242>/NLMPC'
 #ifndef struct_s_CULt7UgaiymoVdgSwojRWD_proc_T
 #define struct_s_CULt7UgaiymoVdgSwojRWD_proc_T
 

@@ -7,9 +7,9 @@
 //
 // Code generated for Simulink model 'proc_control_node'.
 //
-// Model version                  : 2.54
+// Model version                  : 2.59
 // Simulink Coder version         : 9.6 (R2021b) 14-May-2021
-// C/C++ source code generated on : Tue Feb 15 19:35:39 2022
+// C/C++ source code generated on : Tue Feb 22 22:39:41 2022
 //
 // Target selection: ert.tlc
 // Embedded hardware selection: ARM Compatible->ARM 64-bit (LLP64)
@@ -48,6 +48,8 @@ extern real_T rt_atan2d_snf(real_T u0, real_T u1);
 extern real_T rt_urand_Upu32_Yd_f_pw_snf(uint32_T *u);
 extern real_T rt_nrand_Upu32_Yd_f_pw_snf(uint32_T *u);
 extern uint32_T plook_u32d_binckpang(real_T u, const real_T bp[], uint32_T
+  maxIndex, uint32_T *prevIndex);
+extern uint32_T plook_u32d_binckpan(real_T u, const real_T bp[], uint32_T
   maxIndex, uint32_T *prevIndex);
 extern uint32_T plook_u32u16_binckpan(uint16_T u, const uint16_T bp[], uint32_T
   maxIndex, uint32_T *prevIndex);

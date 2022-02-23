@@ -1,29 +1,6 @@
 #include "slros_busmsg_conversion.h"
 
 
-// Conversions between SL_Bus_proc_control_node_gazebo_msgs_ModelState and gazebo_msgs::ModelState
-
-void convertFromBus(gazebo_msgs::ModelState* msgPtr, SL_Bus_proc_control_node_gazebo_msgs_ModelState const* busPtr)
-{
-  const std::string rosMessageType("gazebo_msgs/ModelState");
-
-  convertFromBusVariablePrimitiveArray(msgPtr->model_name, busPtr->ModelName, busPtr->ModelName_SL_Info);
-  convertFromBus(&msgPtr->pose, &busPtr->Pose);
-  convertFromBusVariablePrimitiveArray(msgPtr->reference_frame, busPtr->ReferenceFrame, busPtr->ReferenceFrame_SL_Info);
-  convertFromBus(&msgPtr->twist, &busPtr->Twist);
-}
-
-void convertToBus(SL_Bus_proc_control_node_gazebo_msgs_ModelState* busPtr, gazebo_msgs::ModelState const* msgPtr)
-{
-  const std::string rosMessageType("gazebo_msgs/ModelState");
-
-  convertToBusVariablePrimitiveArray(busPtr->ModelName, busPtr->ModelName_SL_Info, msgPtr->model_name, slros::EnabledWarning(rosMessageType, "model_name"));
-  convertToBus(&busPtr->Pose, &msgPtr->pose);
-  convertToBusVariablePrimitiveArray(busPtr->ReferenceFrame, busPtr->ReferenceFrame_SL_Info, msgPtr->reference_frame, slros::EnabledWarning(rosMessageType, "reference_frame"));
-  convertToBus(&busPtr->Twist, &msgPtr->twist);
-}
-
-
 // Conversions between SL_Bus_proc_control_node_geometry_msgs_Point and geometry_msgs::Point
 
 void convertFromBus(geometry_msgs::Point* msgPtr, SL_Bus_proc_control_node_geometry_msgs_Point const* busPtr)
@@ -422,19 +399,19 @@ void convertToBus(SL_Bus_proc_control_node_std_msgs_Float32* busPtr, std_msgs::F
 }
 
 
-// Conversions between SL_Bus_proc_control_node_std_msgs_Float32MultiArray and std_msgs::Float32MultiArray
+// Conversions between SL_Bus_proc_control_node_std_msgs_Float64MultiArray and std_msgs::Float64MultiArray
 
-void convertFromBus(std_msgs::Float32MultiArray* msgPtr, SL_Bus_proc_control_node_std_msgs_Float32MultiArray const* busPtr)
+void convertFromBus(std_msgs::Float64MultiArray* msgPtr, SL_Bus_proc_control_node_std_msgs_Float64MultiArray const* busPtr)
 {
-  const std::string rosMessageType("std_msgs/Float32MultiArray");
+  const std::string rosMessageType("std_msgs/Float64MultiArray");
 
   convertFromBusVariablePrimitiveArray(msgPtr->data, busPtr->Data, busPtr->Data_SL_Info);
   convertFromBus(&msgPtr->layout, &busPtr->Layout);
 }
 
-void convertToBus(SL_Bus_proc_control_node_std_msgs_Float32MultiArray* busPtr, std_msgs::Float32MultiArray const* msgPtr)
+void convertToBus(SL_Bus_proc_control_node_std_msgs_Float64MultiArray* busPtr, std_msgs::Float64MultiArray const* msgPtr)
 {
-  const std::string rosMessageType("std_msgs/Float32MultiArray");
+  const std::string rosMessageType("std_msgs/Float64MultiArray");
 
   convertToBusVariablePrimitiveArray(busPtr->Data, busPtr->Data_SL_Info, msgPtr->data, slros::EnabledWarning(rosMessageType, "data"));
   convertToBus(&busPtr->Layout, &msgPtr->layout);
@@ -462,20 +439,22 @@ void convertToBus(SL_Bus_proc_control_node_std_msgs_Header* busPtr, std_msgs::He
 }
 
 
-// Conversions between SL_Bus_proc_control_node_std_msgs_Int8 and std_msgs::Int8
+// Conversions between SL_Bus_proc_control_node_std_msgs_Int16MultiArray and std_msgs::Int16MultiArray
 
-void convertFromBus(std_msgs::Int8* msgPtr, SL_Bus_proc_control_node_std_msgs_Int8 const* busPtr)
+void convertFromBus(std_msgs::Int16MultiArray* msgPtr, SL_Bus_proc_control_node_std_msgs_Int16MultiArray const* busPtr)
 {
-  const std::string rosMessageType("std_msgs/Int8");
+  const std::string rosMessageType("std_msgs/Int16MultiArray");
 
-  msgPtr->data =  busPtr->Data;
+  convertFromBusVariablePrimitiveArray(msgPtr->data, busPtr->Data, busPtr->Data_SL_Info);
+  convertFromBus(&msgPtr->layout, &busPtr->Layout);
 }
 
-void convertToBus(SL_Bus_proc_control_node_std_msgs_Int8* busPtr, std_msgs::Int8 const* msgPtr)
+void convertToBus(SL_Bus_proc_control_node_std_msgs_Int16MultiArray* busPtr, std_msgs::Int16MultiArray const* msgPtr)
 {
-  const std::string rosMessageType("std_msgs/Int8");
+  const std::string rosMessageType("std_msgs/Int16MultiArray");
 
-  busPtr->Data =  msgPtr->data;
+  convertToBusVariablePrimitiveArray(busPtr->Data, busPtr->Data_SL_Info, msgPtr->data, slros::EnabledWarning(rosMessageType, "data"));
+  convertToBus(&busPtr->Layout, &msgPtr->layout);
 }
 
 

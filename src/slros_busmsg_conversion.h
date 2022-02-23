@@ -2,7 +2,6 @@
 #define _SLROS_BUSMSG_CONVERSION_H_
 
 #include <ros/ros.h>
-#include <gazebo_msgs/ModelState.h>
 #include <geometry_msgs/Point.h>
 #include <geometry_msgs/Pose.h>
 #include <geometry_msgs/PoseWithCovariance.h>
@@ -21,9 +20,9 @@
 #include <sonia_common/MpcInfo.h>
 #include <std_msgs/Bool.h>
 #include <std_msgs/Float32.h>
-#include <std_msgs/Float32MultiArray.h>
+#include <std_msgs/Float64MultiArray.h>
 #include <std_msgs/Header.h>
-#include <std_msgs/Int8.h>
+#include <std_msgs/Int16MultiArray.h>
 #include <std_msgs/MultiArrayDimension.h>
 #include <std_msgs/MultiArrayLayout.h>
 #include <std_msgs/UInt16MultiArray.h>
@@ -32,9 +31,6 @@
 #include "proc_control_node_types.h"
 #include "slros_msgconvert_utils.h"
 
-
-void convertFromBus(gazebo_msgs::ModelState* msgPtr, SL_Bus_proc_control_node_gazebo_msgs_ModelState const* busPtr);
-void convertToBus(SL_Bus_proc_control_node_gazebo_msgs_ModelState* busPtr, gazebo_msgs::ModelState const* msgPtr);
 
 void convertFromBus(geometry_msgs::Point* msgPtr, SL_Bus_proc_control_node_geometry_msgs_Point const* busPtr);
 void convertToBus(SL_Bus_proc_control_node_geometry_msgs_Point* busPtr, geometry_msgs::Point const* msgPtr);
@@ -90,14 +86,14 @@ void convertToBus(SL_Bus_proc_control_node_std_msgs_Bool* busPtr, std_msgs::Bool
 void convertFromBus(std_msgs::Float32* msgPtr, SL_Bus_proc_control_node_std_msgs_Float32 const* busPtr);
 void convertToBus(SL_Bus_proc_control_node_std_msgs_Float32* busPtr, std_msgs::Float32 const* msgPtr);
 
-void convertFromBus(std_msgs::Float32MultiArray* msgPtr, SL_Bus_proc_control_node_std_msgs_Float32MultiArray const* busPtr);
-void convertToBus(SL_Bus_proc_control_node_std_msgs_Float32MultiArray* busPtr, std_msgs::Float32MultiArray const* msgPtr);
+void convertFromBus(std_msgs::Float64MultiArray* msgPtr, SL_Bus_proc_control_node_std_msgs_Float64MultiArray const* busPtr);
+void convertToBus(SL_Bus_proc_control_node_std_msgs_Float64MultiArray* busPtr, std_msgs::Float64MultiArray const* msgPtr);
 
 void convertFromBus(std_msgs::Header* msgPtr, SL_Bus_proc_control_node_std_msgs_Header const* busPtr);
 void convertToBus(SL_Bus_proc_control_node_std_msgs_Header* busPtr, std_msgs::Header const* msgPtr);
 
-void convertFromBus(std_msgs::Int8* msgPtr, SL_Bus_proc_control_node_std_msgs_Int8 const* busPtr);
-void convertToBus(SL_Bus_proc_control_node_std_msgs_Int8* busPtr, std_msgs::Int8 const* msgPtr);
+void convertFromBus(std_msgs::Int16MultiArray* msgPtr, SL_Bus_proc_control_node_std_msgs_Int16MultiArray const* busPtr);
+void convertToBus(SL_Bus_proc_control_node_std_msgs_Int16MultiArray* busPtr, std_msgs::Int16MultiArray const* msgPtr);
 
 void convertFromBus(std_msgs::MultiArrayDimension* msgPtr, SL_Bus_proc_control_node_std_msgs_MultiArrayDimension const* busPtr);
 void convertToBus(SL_Bus_proc_control_node_std_msgs_MultiArrayDimension* busPtr, std_msgs::MultiArrayDimension const* msgPtr);

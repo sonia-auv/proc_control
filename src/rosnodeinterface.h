@@ -1,5 +1,12 @@
-// Copyright 2019-2020 The MathWorks, Inc.
-// Generated 22-Feb-2022 22:39:59
+//
+// File rosnodeinterface.h
+//
+// Code generated for Simulink model 'proc_control'.
+//
+// Model version                  : 3.1
+// Simulink Coder version         : 9.7 (R2022a) 13-Nov-2021
+// C/C++ source code generated on : Thu Apr 07 22:25:22 2022
+//
 
 #ifndef _ROS_MATLAB_NODEINTERFACE_
 #define _ROS_MATLAB_NODEINTERFACE_
@@ -23,8 +30,8 @@
 
 #endif                                 //_MSC_VER
 
-#include "proc_control_node.h"
-#include "proc_control_node_types.h"
+#include "proc_control.h"
+#include "proc_control_types.h"
 #include <thread>
 #include <atomic>
 #include <chrono>
@@ -78,7 +85,7 @@ namespace ros
 
       //
       std::shared_ptr<ros::NodeHandle> mNode;
-      std::shared_ptr<proc_control_nodeModelClass> mModel;
+      std::shared_ptr<proc_control> mModel;
       Semaphore mBaseRateSem;
       std::shared_ptr<std::thread> mBaseRateThread;
       std::shared_ptr<std::thread> mSchedulerThread;
@@ -107,7 +114,7 @@ namespace ros
       }
 
       //
-      std::shared_ptr<proc_control_nodeModelClass> getModel()
+      std::shared_ptr<proc_control> getModel()
       {
         return mModel;
       }

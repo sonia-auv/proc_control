@@ -1,5 +1,12 @@
-// Copyright 2019-2020 The MathWorks, Inc.
-// Generated 22-Feb-2022 22:39:59
+//
+// File main.cpp
+//
+// Code generated for Simulink model 'proc_control'.
+//
+// Model version                  : 3.1
+// Simulink Coder version         : 9.7 (R2022a) 13-Nov-2021
+// C/C++ source code generated on : Thu Apr 07 22:25:22 2022
+//
 
 #include <stdio.h>
 #include "rosnodeinterface.h"

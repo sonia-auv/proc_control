@@ -10,7 +10,7 @@
 #ifndef EXTSHARE
 #define EXTSHARE
 
-typedef enum { 
+typedef enum {
     /*================================
      * Packets/actions to target.
      *==============================*/
@@ -44,9 +44,9 @@ typedef enum {
     /*================================
      * Packets/actions from target.
      *==============================*/
-    
+
     /* responses */
-    EXT_CONNECT_RESPONSE,   /* must not be 0! */
+    EXT_CONNECT_RESPONSE, /* must not be 0! */
     EXT_DISCONNECT_REQUEST_RESPONSE,
     EXT_SETPARAM_RESPONSE,
     EXT_GETPARAMS_RESPONSE,
@@ -68,7 +68,7 @@ typedef enum {
      * This packet only applies to normal mode (see
      * EXT_TERMINATE_LOG_SESSION)
      */
-    EXT_TERMINATE_LOG_EVENT,     
+    EXT_TERMINATE_LOG_EVENT,
 
     /*
      * This packet is sent from the target at the end of each data logging
@@ -85,26 +85,20 @@ typedef enum {
      */
     EXT_DAEMON_ACK,
 
-    EXTENDED = 255          /* reserved for extending beyond 254 ID's */
+    EXTENDED = 255 /* reserved for extending beyond 254 ID's */
 } ExtModeAction;
 
 
-typedef enum {
-  STATUS_OK,
-  NOT_ENOUGH_MEMORY
-} ResponseStatus;
+typedef enum { STATUS_OK, NOT_ENOUGH_MEMORY } ResponseStatus;
 
-typedef enum {
-  LittleEndian,
-  BigEndian
-} MachByteOrder;
+typedef enum { LittleEndian, BigEndian } MachByteOrder;
 
 #ifndef TARGETSIMSTATUS_DEFINED
 #define TARGETSIMSTATUS_DEFINED
 typedef enum {
     TARGET_STATUS_NOT_CONNECTED,
     TARGET_STATUS_WAITING_TO_START,
-    TARGET_STATUS_STARTING, /* in the process of starting - host waiting 
+    TARGET_STATUS_STARTING, /* in the process of starting - host waiting
                                for confirmation */
 
     TARGET_STATUS_RUNNING,
@@ -118,13 +112,13 @@ typedef enum {
  * in target bytes.
  */
 typedef struct PktHeader_tag {
-    uint32_T type;  /* packet type */
-    uint32_T size;  /* number of bytes to follow */
+    uint32_T type; /* packet type */
+    uint32_T size; /* number of bytes to follow */
 } PktHeader;
 #define NUM_HDR_ELS (2)
 
 #ifndef FALSE
-enum {FALSE, TRUE};
+enum { FALSE, TRUE };
 #endif
 
 #define NO_ERR (0)

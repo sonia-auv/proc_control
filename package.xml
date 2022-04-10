@@ -4,7 +4,7 @@
   <description>
   This package is generated from proc_control Simulink model.
   </description>
-  <maintainer email="rosuser@test.com">Les Alex</maintainer>
+  <maintainer email="alexandre.lamarre.2@ens.etsmtl.ca">Les Alex</maintainer>
   <license>BSD</license>
 
   <buildtool_depend>catkin</buildtool_depend>

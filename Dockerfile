@@ -16,6 +16,7 @@ LABEL net.etsmtl.sonia-auv.node.name=${NODE_NAME}
 
 ENV SONIA_WS=${SONIA_HOME}/ros_sonia_ws
 
+ENV NODE_NAME=${NODE_NAME}
 ENV NODE_PATH=${SONIA_WS}/src/${NODE_NAME}
 ENV LAUNCH_FILE=${NODE_NAME}.launch
 ENV SCRIPT_DIR=${SONIA_WS}/scripts

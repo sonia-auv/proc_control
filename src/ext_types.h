@@ -22,6 +22,7 @@
  ****************************************/
 #if defined(EXTMODE_STATIC) && !defined(XCP_MEM_DAQ_RESERVED_POOLS_NUMBER)
 #  include "mem_mgr.h"
+#  include <stdlib.h>
 #  define malloc ExtModeMalloc
 #  define calloc ExtModeCalloc
 #  define free   ExtModeFree

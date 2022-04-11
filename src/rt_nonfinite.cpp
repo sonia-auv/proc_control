@@ -5,11 +5,11 @@
 //
 // File: rt_nonfinite.cpp
 //
-// Code generated for Simulink model 'proc_control_node'.
+// Code generated for Simulink model 'proc_control'.
 //
-// Model version                  : 1.194
-// Simulink Coder version         : 9.5 (R2021a) 14-Nov-2020
-// C/C++ source code generated on : Fri Nov 19 22:01:48 2021
+// Model version                  : 3.1
+// Simulink Coder version         : 9.7 (R2022a) 13-Nov-2021
+// C/C++ source code generated on : Thu Apr  7 22:25:07 2022
 //
 // Target selection: ert.tlc
 // Embedded hardware selection: ARM Compatible->ARM 64-bit (LLP64)
@@ -17,13 +17,26 @@
 // Validation result: Not run
 //
 
-//
-//  Abstract:
-//       Function to initialize non-finites,
-//       (Inf, NaN and -Inf).
-#include "rt_nonfinite.h"
+extern "C" {
+
 #include "rtGetNaN.h"
+
+}
+  extern "C"
+{
+
 #include "rtGetInf.h"
+
+}
+
+#include <stddef.h>
+#include "rtwtypes.h"
+
+extern "C" {
+
+#include "rt_nonfinite.h"
+
+}
 #define NumBitsPerChar                 8U
 
 extern "C" {
@@ -66,8 +79,10 @@ extern "C" {
   // Test if value is not a number
   boolean_T rtIsNaN(real_T value)
   {
-    boolean_T result = (boolean_T) 0;
-    size_t bitsPerReal = sizeof(real_T) * (NumBitsPerChar);
+    boolean_T result{ (boolean_T) 0 };
+
+    size_t bitsPerReal{ sizeof(real_T) * (NumBitsPerChar) };
+
     if (bitsPerReal == 32U) {
       result = rtIsNaNF((real32_T)value);
     } else {

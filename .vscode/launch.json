@@ -9,7 +9,7 @@
             "type": "ros",
             "request": "launch",
             "preLaunchTask": "build",
-            "target": "/home/sonia/ros_sonia_ws/src/proc_control/launch/full_loop.launch",
+            "target": "/home/sonia/ros_sonia_ws/src/proc_control/launch/proc_control_node.launch", // change launch file to proc_control when matlab is fixed
         }
     ]
 }

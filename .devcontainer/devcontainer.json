@@ -19,6 +19,7 @@
 		"--security-opt",
 		"seccomp=unconfined",
 		"--rm",
+		"--env", "AUV=AUV8",
 		"--network",
 		"host"
 	],

@@ -5,11 +5,11 @@
 //
 // File: rtGetNaN.cpp
 //
-// Code generated for Simulink model 'proc_control_node'.
+// Code generated for Simulink model 'proc_control'.
 //
-// Model version                  : 1.194
-// Simulink Coder version         : 9.5 (R2021a) 14-Nov-2020
-// C/C++ source code generated on : Fri Nov 19 22:01:48 2021
+// Model version                  : 3.1
+// Simulink Coder version         : 9.7 (R2022a) 13-Nov-2021
+// C/C++ source code generated on : Thu Apr  7 22:25:07 2022
 //
 // Target selection: ert.tlc
 // Embedded hardware selection: ARM Compatible->ARM 64-bit (LLP64)
@@ -17,10 +17,20 @@
 // Validation result: Not run
 //
 
-//
-//  Abstract:
-//       Function to initialize non-finite, NaN
+#include "rtwtypes.h"
+
+extern "C" {
+
 #include "rtGetNaN.h"
+
+}
+#include <stddef.h>
+
+extern "C" {
+
+#include "rt_nonfinite.h"
+
+}
 #define NumBitsPerChar                 8U
 
 extern "C" {
@@ -30,8 +40,10 @@ extern "C" {
   //
   real_T rtGetNaN(void)
   {
-    size_t bitsPerReal = sizeof(real_T) * (NumBitsPerChar);
-    real_T nan = 0.0;
+    size_t bitsPerReal{ sizeof(real_T) * (NumBitsPerChar) };
+
+    real_T nan{ 0.0 };
+
     if (bitsPerReal == 32U) {
       nan = rtGetNaNF();
     } else {
@@ -54,7 +66,7 @@ extern "C" {
   //
   real32_T rtGetNaNF(void)
   {
-    IEEESingle nanF = { { 0.0F } };
+    IEEESingle nanF{ { 0.0F } };
 
     nanF.wordL.wordLuint = 0xFFC00000U;
     return nanF.wordL.wordLreal;

@@ -1,5 +1,12 @@
-// Copyright 2019-2021 The MathWorks, Inc.
-// Generated 19-Nov-2021 22:02:03
+//
+// File rosnodeinterface.cpp
+//
+// Code generated for Simulink model 'proc_control'.
+//
+// Model version                  : 3.1
+// Simulink Coder version         : 9.7 (R2022a) 13-Nov-2021
+// C/C++ source code generated on : Thu Apr 07 22:25:22 2022
+//
 
 #ifdef _MSC_VER
 
@@ -23,7 +30,7 @@
 
 #endif                                 //_MSC_VER
 
-#include "proc_control_node.h"
+#include "proc_control.h"
 #include "rosnodeinterface.h"
 #include <thread>
 #include <chrono>
@@ -53,10 +60,11 @@ namespace ros
     {
       try {
         mNode = std::make_shared<ros::NodeHandle>();
-        ROS_INFO("** Starting the model \"proc_control_node\" **\n");
+        ROS_INFO("** Starting the model \"proc_control\" **\n");
 
         //initialize the model which will initialize the publishers and subscribers
-        mModel = std::make_shared<proc_control_nodeModelClass>();
+        mModel = std::make_shared<proc_control>(
+          );
         rtmSetErrorStatus(mModel->getRTM(), (NULL));
         mModel->initialize();
 
@@ -123,8 +131,7 @@ namespace ros
     void NodeInterface::schedulerThread(void)
     {
       while (mRunModel) {
-        std::this_thread::sleep_until(std::chrono::system_clock::now() + std::
-          chrono::nanoseconds(16666667));
+        std::this_thread::sleep_for(std::chrono::nanoseconds(20000000));
         mBaseRateSem.notify();
       }
     }

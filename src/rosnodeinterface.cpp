@@ -3,9 +3,9 @@
 //
 // Code generated for Simulink model 'proc_control'.
 //
-// Model version                  : 3.1
+// Model version                  : 3.10
 // Simulink Coder version         : 9.7 (R2022a) 13-Nov-2021
-// C/C++ source code generated on : Thu Apr 07 22:25:22 2022
+// C/C++ source code generated on : Thu Apr 28 22:59:07 2022
 //
 
 #ifdef _MSC_VER

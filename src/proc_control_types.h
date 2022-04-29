@@ -7,9 +7,9 @@
 //
 // Code generated for Simulink model 'proc_control'.
 //
-// Model version                  : 3.1
+// Model version                  : 3.10
 // Simulink Coder version         : 9.7 (R2022a) 13-Nov-2021
-// C/C++ source code generated on : Thu Apr  7 22:25:07 2022
+// C/C++ source code generated on : Thu Apr 28 22:58:52 2022
 //
 // Target selection: ert.tlc
 // Embedded hardware selection: ARM Compatible->ARM 64-bit (LLP64)
@@ -828,6 +828,7 @@ struct quaternion_proc_control_T
 struct TrimPlant_proc_control_T
 {
   real_T lastQuat[4];
+  real_T xl[13];
 };
 
 #endif                                 // struct_TrimPlant_proc_control_T
@@ -999,57 +1000,57 @@ struct rosCommandManager_proc_contro_T
 
 #endif                                // struct_rosCommandManager_proc_contro_T
 
-#ifndef struct_emxArray_real_T_988x260_proc__T
-#define struct_emxArray_real_T_988x260_proc__T
+#ifndef struct_emxArray_real_T_980x260_proc__T
+#define struct_emxArray_real_T_980x260_proc__T
 
-struct emxArray_real_T_988x260_proc__T
+struct emxArray_real_T_980x260_proc__T
 {
-  real_T data[256880];
+  real_T data[254800];
   int32_T size[2];
 };
 
-#endif                                // struct_emxArray_real_T_988x260_proc__T
+#endif                                // struct_emxArray_real_T_980x260_proc__T
 
-#ifndef struct_emxArray_real_T_988x130_proc__T
-#define struct_emxArray_real_T_988x130_proc__T
+#ifndef struct_emxArray_real_T_980x130_proc__T
+#define struct_emxArray_real_T_980x130_proc__T
 
-struct emxArray_real_T_988x130_proc__T
+struct emxArray_real_T_980x130_proc__T
 {
-  real_T data[128440];
+  real_T data[127400];
   int32_T size[2];
 };
 
-#endif                                // struct_emxArray_real_T_988x130_proc__T
+#endif                                // struct_emxArray_real_T_980x130_proc__T
 
-#ifndef struct_emxArray_real_T_1845x988_proc_T
-#define struct_emxArray_real_T_1845x988_proc_T
+#ifndef struct_emxArray_real_T_1829x980_proc_T
+#define struct_emxArray_real_T_1829x980_proc_T
 
-struct emxArray_real_T_1845x988_proc_T
+struct emxArray_real_T_1829x980_proc_T
 {
-  real_T data[1822860];
+  real_T data[1792420];
   int32_T size[2];
 };
 
-#endif                                // struct_emxArray_real_T_1845x988_proc_T
+#endif                                // struct_emxArray_real_T_1829x980_proc_T
 
-#ifndef struct_emxArray_real_T_1845x1845_pro_T
-#define struct_emxArray_real_T_1845x1845_pro_T
+#ifndef struct_emxArray_real_T_1829x1829_pro_T
+#define struct_emxArray_real_T_1829x1829_pro_T
 
-struct emxArray_real_T_1845x1845_pro_T
+struct emxArray_real_T_1829x1829_pro_T
 {
-  real_T data[3404025];
+  real_T data[3345241];
   int32_T size[2];
 };
 
-#endif                                // struct_emxArray_real_T_1845x1845_pro_T
+#endif                                // struct_emxArray_real_T_1829x1829_pro_T
 
 // Custom Type definition for MATLAB Function: '<S209>/NLMPC'
-#ifndef struct_s_TNXzMnREVvDmNpLFpsTLBC_proc_T
-#define struct_s_TNXzMnREVvDmNpLFpsTLBC_proc_T
+#ifndef struct_s_8RbNZtrzTH63iHAPCwMh6G_proc_T
+#define struct_s_8RbNZtrzTH63iHAPCwMh6G_proc_T
 
-struct s_TNXzMnREVvDmNpLFpsTLBC_proc_T
+struct s_8RbNZtrzTH63iHAPCwMh6G_proc_T
 {
-  emxArray_real_T_1845x1845_pro_T FMat;
+  emxArray_real_T_1829x1829_pro_T FMat;
   int32_T ldm;
   int32_T ndims;
   int32_T info;
@@ -1060,7 +1061,7 @@ struct s_TNXzMnREVvDmNpLFpsTLBC_proc_T
   real_T workspace2_;
 };
 
-#endif                                // struct_s_TNXzMnREVvDmNpLFpsTLBC_proc_T
+#endif                                // struct_s_8RbNZtrzTH63iHAPCwMh6G_proc_T
 
 #ifndef struct_s_qYIvDqP9yRqtt40IDZ89JG_proc_T
 #define struct_s_qYIvDqP9yRqtt40IDZ89JG_proc_T
@@ -1156,44 +1157,44 @@ struct emxArray_real_T_580_proc_cont_T
 
 #endif                                // struct_emxArray_real_T_580_proc_cont_T
 
-#ifndef struct_emxArray_real_T_988_proc_cont_T
-#define struct_emxArray_real_T_988_proc_cont_T
+#ifndef struct_emxArray_real_T_980_proc_cont_T
+#define struct_emxArray_real_T_980_proc_cont_T
 
-struct emxArray_real_T_988_proc_cont_T
+struct emxArray_real_T_980_proc_cont_T
 {
-  real_T data[988];
+  real_T data[980];
   int32_T size;
 };
 
-#endif                                // struct_emxArray_real_T_988_proc_cont_T
+#endif                                // struct_emxArray_real_T_980_proc_cont_T
 
-#ifndef struct_emxArray_real_T_1845_proc_con_T
-#define struct_emxArray_real_T_1845_proc_con_T
+#ifndef struct_emxArray_real_T_1829_proc_con_T
+#define struct_emxArray_real_T_1829_proc_con_T
 
-struct emxArray_real_T_1845_proc_con_T
+struct emxArray_real_T_1829_proc_con_T
 {
-  real_T data[1845];
+  real_T data[1829];
   int32_T size;
 };
 
-#endif                                // struct_emxArray_real_T_1845_proc_con_T
+#endif                                // struct_emxArray_real_T_1829_proc_con_T
 
-#ifndef struct_emxArray_int32_T_1845_proc_co_T
-#define struct_emxArray_int32_T_1845_proc_co_T
+#ifndef struct_emxArray_int32_T_1829_proc_co_T
+#define struct_emxArray_int32_T_1829_proc_co_T
 
-struct emxArray_int32_T_1845_proc_co_T
+struct emxArray_int32_T_1829_proc_co_T
 {
-  int32_T data[1845];
+  int32_T data[1829];
   int32_T size;
 };
 
-#endif                                // struct_emxArray_int32_T_1845_proc_co_T
+#endif                                // struct_emxArray_int32_T_1829_proc_co_T
 
 // Custom Type definition for MATLAB Function: '<S209>/NLMPC'
-#ifndef struct_s_UjlJWoQEHmSUKFcPTad7eC_proc_T
-#define struct_s_UjlJWoQEHmSUKFcPTad7eC_proc_T
+#ifndef struct_s_VA2YLuOkHrWNKQO7FEpyoH_proc_T
+#define struct_s_VA2YLuOkHrWNKQO7FEpyoH_proc_T
 
-struct s_UjlJWoQEHmSUKFcPTad7eC_proc_T
+struct s_VA2YLuOkHrWNKQO7FEpyoH_proc_T
 {
   int32_T nVarMax;
   int32_T mNonlinIneq;
@@ -1204,112 +1205,112 @@ struct s_UjlJWoQEHmSUKFcPTad7eC_proc_T
   int32_T iNonEq0;
   real_T sqpFval;
   real_T sqpFval_old;
-  real_T xstarsqp[147];
-  real_T xstarsqp_old[147];
+  real_T xstarsqp[139];
+  real_T xstarsqp_old[139];
   emxArray_real_T_580_proc_cont_T cIneq;
   emxArray_real_T_580_proc_cont_T cIneq_old;
   real_T cEq[130];
   real_T cEq_old[130];
-  emxArray_real_T_988_proc_cont_T grad;
-  emxArray_real_T_988_proc_cont_T grad_old;
+  emxArray_real_T_980_proc_cont_T grad;
+  emxArray_real_T_980_proc_cont_T grad_old;
   int32_T FunctionEvaluations;
   int32_T sqpIterations;
   int32_T sqpExitFlag;
-  emxArray_real_T_1845_proc_con_T lambdasqp;
-  emxArray_real_T_1845_proc_con_T lambdaStopTest;
-  emxArray_real_T_1845_proc_con_T lambdaStopTestPrev;
+  emxArray_real_T_1829_proc_con_T lambdasqp;
+  emxArray_real_T_1829_proc_con_T lambdaStopTest;
+  emxArray_real_T_1829_proc_con_T lambdaStopTestPrev;
   real_T steplength;
-  emxArray_real_T_988_proc_cont_T delta_x;
-  emxArray_real_T_988_proc_cont_T socDirection;
-  emxArray_int32_T_1845_proc_co_T workingset_old;
-  emxArray_real_T_988x260_proc__T JacCineqTrans_old;
-  emxArray_real_T_988x130_proc__T JacCeqTrans_old;
-  emxArray_real_T_988_proc_cont_T gradLag;
-  emxArray_real_T_988_proc_cont_T delta_gradLag;
-  emxArray_real_T_988_proc_cont_T xstar;
+  emxArray_real_T_980_proc_cont_T delta_x;
+  emxArray_real_T_980_proc_cont_T socDirection;
+  emxArray_int32_T_1829_proc_co_T workingset_old;
+  emxArray_real_T_980x260_proc__T JacCineqTrans_old;
+  emxArray_real_T_980x130_proc__T JacCeqTrans_old;
+  emxArray_real_T_980_proc_cont_T gradLag;
+  emxArray_real_T_980_proc_cont_T delta_gradLag;
+  emxArray_real_T_980_proc_cont_T xstar;
   real_T fstar;
   real_T firstorderopt;
-  emxArray_real_T_1845_proc_con_T lambda;
+  emxArray_real_T_1829_proc_con_T lambda;
   int32_T state;
   real_T maxConstr;
   int32_T iterations;
-  emxArray_real_T_988_proc_cont_T searchDir;
+  emxArray_real_T_980_proc_cont_T searchDir;
 };
 
-#endif                                // struct_s_UjlJWoQEHmSUKFcPTad7eC_proc_T
+#endif                                // struct_s_VA2YLuOkHrWNKQO7FEpyoH_proc_T
 
-#ifndef struct_s_OnOuVjEActeQRN4FyNqSwB_proc_T
-#define struct_s_OnOuVjEActeQRN4FyNqSwB_proc_T
+#ifndef struct_s_j0X3urodUv3ospvkLXsspC_proc_T
+#define struct_s_j0X3urodUv3ospvkLXsspC_proc_T
 
-struct s_OnOuVjEActeQRN4FyNqSwB_proc_T
+struct s_j0X3urodUv3ospvkLXsspC_proc_T
 {
-  emxArray_real_T_1845x988_proc_T workspace_double;
-  emxArray_int32_T_1845_proc_co_T workspace_int;
-  emxArray_int32_T_1845_proc_co_T workspace_sort;
+  emxArray_real_T_1829x980_proc_T workspace_double;
+  emxArray_int32_T_1829_proc_co_T workspace_int;
+  emxArray_int32_T_1829_proc_co_T workspace_sort;
 };
 
-#endif                                // struct_s_OnOuVjEActeQRN4FyNqSwB_proc_T
+#endif                                // struct_s_j0X3urodUv3ospvkLXsspC_proc_T
 
-#ifndef struct_emxArray_real_T_573040_proc_c_T
-#define struct_emxArray_real_T_573040_proc_c_T
+#ifndef struct_emxArray_real_T_568400_proc_c_T
+#define struct_emxArray_real_T_568400_proc_c_T
 
-struct emxArray_real_T_573040_proc_c_T
+struct emxArray_real_T_568400_proc_c_T
 {
-  real_T data[573040];
+  real_T data[568400];
   int32_T size;
 };
 
-#endif                                // struct_emxArray_real_T_573040_proc_c_T
+#endif                                // struct_emxArray_real_T_568400_proc_c_T
 
-#ifndef struct_emxArray_real_T_128440_proc_c_T
-#define struct_emxArray_real_T_128440_proc_c_T
+#ifndef struct_emxArray_real_T_127400_proc_c_T
+#define struct_emxArray_real_T_127400_proc_c_T
 
-struct emxArray_real_T_128440_proc_c_T
+struct emxArray_real_T_127400_proc_c_T
 {
-  real_T data[128440];
+  real_T data[127400];
   int32_T size;
 };
 
-#endif                                // struct_emxArray_real_T_128440_proc_c_T
+#endif                                // struct_emxArray_real_T_127400_proc_c_T
 
-#ifndef struct_emxArray_int32_T_988_proc_con_T
-#define struct_emxArray_int32_T_988_proc_con_T
+#ifndef struct_emxArray_int32_T_980_proc_con_T
+#define struct_emxArray_int32_T_980_proc_con_T
 
-struct emxArray_int32_T_988_proc_con_T
+struct emxArray_int32_T_980_proc_con_T
 {
-  int32_T data[988];
+  int32_T data[980];
   int32_T size;
 };
 
-#endif                                // struct_emxArray_int32_T_988_proc_con_T
+#endif                                // struct_emxArray_int32_T_980_proc_con_T
 
-#ifndef struct_emxArray_real_T_1822860_proc__T
-#define struct_emxArray_real_T_1822860_proc__T
+#ifndef struct_emxArray_real_T_1792420_proc__T
+#define struct_emxArray_real_T_1792420_proc__T
 
-struct emxArray_real_T_1822860_proc__T
+struct emxArray_real_T_1792420_proc__T
 {
-  real_T data[1822860];
+  real_T data[1792420];
   int32_T size;
 };
 
-#endif                                // struct_emxArray_real_T_1822860_proc__T
+#endif                                // struct_emxArray_real_T_1792420_proc__T
 
-#ifndef struct_emxArray_boolean_T_1845_proc__T
-#define struct_emxArray_boolean_T_1845_proc__T
+#ifndef struct_emxArray_boolean_T_1829_proc__T
+#define struct_emxArray_boolean_T_1829_proc__T
 
-struct emxArray_boolean_T_1845_proc__T
+struct emxArray_boolean_T_1829_proc__T
 {
-  boolean_T data[1845];
+  boolean_T data[1829];
   int32_T size;
 };
 
-#endif                                // struct_emxArray_boolean_T_1845_proc__T
+#endif                                // struct_emxArray_boolean_T_1829_proc__T
 
 // Custom Type definition for MATLAB Function: '<S209>/NLMPC'
-#ifndef struct_s_UO30ZLdjVaUTEWcJEu5YnC_proc_T
-#define struct_s_UO30ZLdjVaUTEWcJEu5YnC_proc_T
+#ifndef struct_s_gnTVUZmGpKWoq4tCE9AGn_proc__T
+#define struct_s_gnTVUZmGpKWoq4tCE9AGn_proc__T
 
-struct s_UO30ZLdjVaUTEWcJEu5YnC_proc_T
+struct s_gnTVUZmGpKWoq4tCE9AGn_proc__T
 {
   int32_T mConstr;
   int32_T mConstrOrig;
@@ -1318,21 +1319,21 @@ struct s_UO30ZLdjVaUTEWcJEu5YnC_proc_T
   int32_T nVarOrig;
   int32_T nVarMax;
   int32_T ldA;
-  emxArray_real_T_573040_proc_c_T Aineq;
+  emxArray_real_T_568400_proc_c_T Aineq;
   emxArray_real_T_580_proc_cont_T bineq;
-  emxArray_real_T_128440_proc_c_T Aeq;
+  emxArray_real_T_127400_proc_c_T Aeq;
   real_T beq[130];
-  emxArray_real_T_988_proc_cont_T lb;
-  emxArray_real_T_988_proc_cont_T ub;
-  emxArray_int32_T_988_proc_con_T indexLB;
-  emxArray_int32_T_988_proc_con_T indexUB;
-  emxArray_int32_T_988_proc_con_T indexFixed;
+  emxArray_real_T_980_proc_cont_T lb;
+  emxArray_real_T_980_proc_cont_T ub;
+  emxArray_int32_T_980_proc_con_T indexLB;
+  emxArray_int32_T_980_proc_con_T indexUB;
+  emxArray_int32_T_980_proc_con_T indexFixed;
   int32_T mEqRemoved;
   int32_T indexEqRemoved[130];
-  emxArray_real_T_1822860_proc__T ATwset;
-  emxArray_real_T_1845_proc_con_T bwset;
+  emxArray_real_T_1792420_proc__T ATwset;
+  emxArray_real_T_1829_proc_con_T bwset;
   int32_T nActiveConstr;
-  emxArray_real_T_1845_proc_con_T maxConstrWorkspace;
+  emxArray_real_T_1829_proc_con_T maxConstrWorkspace;
   int32_T sizes[5];
   int32_T sizesNormal[5];
   int32_T sizesPhaseOne[5];
@@ -1343,35 +1344,35 @@ struct s_UO30ZLdjVaUTEWcJEu5YnC_proc_T
   int32_T isActiveIdxPhaseOne[6];
   int32_T isActiveIdxRegularized[6];
   int32_T isActiveIdxRegPhaseOne[6];
-  emxArray_boolean_T_1845_proc__T isActiveConstr;
-  emxArray_int32_T_1845_proc_co_T Wid;
-  emxArray_int32_T_1845_proc_co_T Wlocalidx;
+  emxArray_boolean_T_1829_proc__T isActiveConstr;
+  emxArray_int32_T_1829_proc_co_T Wid;
+  emxArray_int32_T_1829_proc_co_T Wlocalidx;
   int32_T nWConstr[5];
   int32_T probType;
   real_T SLACK0;
 };
 
-#endif                                // struct_s_UO30ZLdjVaUTEWcJEu5YnC_proc_T
+#endif                                // struct_s_gnTVUZmGpKWoq4tCE9AGn_proc__T
 
-#ifndef struct_emxArray_real_T_987_proc_cont_T
-#define struct_emxArray_real_T_987_proc_cont_T
+#ifndef struct_emxArray_real_T_979_proc_cont_T
+#define struct_emxArray_real_T_979_proc_cont_T
 
-struct emxArray_real_T_987_proc_cont_T
+struct emxArray_real_T_979_proc_cont_T
 {
-  real_T data[987];
+  real_T data[979];
   int32_T size;
 };
 
-#endif                                // struct_emxArray_real_T_987_proc_cont_T
+#endif                                // struct_emxArray_real_T_979_proc_cont_T
 
 // Custom Type definition for MATLAB Function: '<S209>/NLMPC'
-#ifndef struct_s_oZGbvi5mjKKebHB9aR5DoG_proc_T
-#define struct_s_oZGbvi5mjKKebHB9aR5DoG_proc_T
+#ifndef struct_s_wbACub5hw4pAYPfHb1hrsB_proc_T
+#define struct_s_wbACub5hw4pAYPfHb1hrsB_proc_T
 
-struct s_oZGbvi5mjKKebHB9aR5DoG_proc_T
+struct s_wbACub5hw4pAYPfHb1hrsB_proc_T
 {
-  emxArray_real_T_988_proc_cont_T grad;
-  emxArray_real_T_987_proc_cont_T Hx;
+  emxArray_real_T_980_proc_cont_T grad;
+  emxArray_real_T_979_proc_cont_T Hx;
   boolean_T hasLinear;
   int32_T nvar;
   int32_T maxVar;
@@ -1384,25 +1385,25 @@ struct s_oZGbvi5mjKKebHB9aR5DoG_proc_T
   real_T gammaScalar;
 };
 
-#endif                                // struct_s_oZGbvi5mjKKebHB9aR5DoG_proc_T
+#endif                                // struct_s_wbACub5hw4pAYPfHb1hrsB_proc_T
 
-#ifndef struct_s_2F24x1ekvOt8ZUO1knVMv_proc__T
-#define struct_s_2F24x1ekvOt8ZUO1knVMv_proc__T
+#ifndef struct_s_Ref0liQlfQOPmAop9i3aPH_proc_T
+#define struct_s_Ref0liQlfQOPmAop9i3aPH_proc_T
 
-struct s_2F24x1ekvOt8ZUO1knVMv_proc__T
+struct s_Ref0liQlfQOPmAop9i3aPH_proc_T
 {
   int32_T ldq;
-  emxArray_real_T_1845x1845_pro_T QR;
-  emxArray_real_T_1845x1845_pro_T Q;
-  emxArray_int32_T_1845_proc_co_T jpvt;
+  emxArray_real_T_1829x1829_pro_T QR;
+  emxArray_real_T_1829x1829_pro_T Q;
+  emxArray_int32_T_1829_proc_co_T jpvt;
   int32_T mrows;
   int32_T ncols;
-  emxArray_real_T_1845_proc_con_T tau;
+  emxArray_real_T_1829_proc_con_T tau;
   int32_T minRowCol;
   boolean_T usedPivoting;
 };
 
-#endif                                // struct_s_2F24x1ekvOt8ZUO1knVMv_proc__T
+#endif                                // struct_s_Ref0liQlfQOPmAop9i3aPH_proc_T
 
 #ifndef struct_emxArray_real_T_260_proc_cont_T
 #define struct_emxArray_real_T_260_proc_cont_T
@@ -1416,10 +1417,10 @@ struct emxArray_real_T_260_proc_cont_T
 #endif                                // struct_emxArray_real_T_260_proc_cont_T
 
 // Custom Type definition for MATLAB Function: '<S209>/NLMPC'
-#ifndef struct_s_CULt7UgaiymoVdgSwojRWD_proc_T
-#define struct_s_CULt7UgaiymoVdgSwojRWD_proc_T
+#ifndef struct_s_IDHIEhzA2KtfYk7ehxTmaH_proc_T
+#define struct_s_IDHIEhzA2KtfYk7ehxTmaH_proc_T
 
-struct s_CULt7UgaiymoVdgSwojRWD_proc_T
+struct s_IDHIEhzA2KtfYk7ehxTmaH_proc_T
 {
   anonymous_function_proc_contr_T objfun;
   anonymous_function_proc_contr_T nonlin;
@@ -1436,13 +1437,13 @@ struct s_CULt7UgaiymoVdgSwojRWD_proc_T
   boolean_T SpecifyObjectiveGradient;
   boolean_T SpecifyConstraintGradient;
   boolean_T isEmptyNonlcon;
-  boolean_T hasLB[147];
-  boolean_T hasUB[147];
+  boolean_T hasLB[139];
+  boolean_T hasUB[139];
   boolean_T hasBounds;
   int32_T FiniteDifferenceType;
 };
 
-#endif                                // struct_s_CULt7UgaiymoVdgSwojRWD_proc_T
+#endif                                // struct_s_IDHIEhzA2KtfYk7ehxTmaH_proc_T
 #endif                                 // RTW_HEADER_proc_control_types_h_
 
 //

@@ -9,14 +9,8 @@
 //
 // Model version                  : 3.1
 // Simulink Coder version         : 9.7 (R2022a) 13-Nov-2021
-// C/C++ source code generated on : Thu Apr  7 22:25:07 2022
+// C/C++ source code generated on : Thu Apr  7 23:11:26 2022
 //
-// Target selection: ert.tlc
-// Embedded hardware selection: ARM Compatible->ARM 64-bit (LLP64)
-// Code generation objectives: Unspecified
-// Validation result: Not run
-//
-
 #ifndef ZERO_CROSSING_TYPES_H
 #define ZERO_CROSSING_TYPES_H
 #include "rtwtypes.h"

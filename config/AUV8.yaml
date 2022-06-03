@@ -6,7 +6,7 @@
 
 #TargetReached
 /proc_control/target_reached/linear_tolerance : 0.2 # meters
-/proc_control/target_reached/angular_tolerance : 0.1 # radians
+/proc_control/target_reached/angular_tolerance : 0.3# radians
 /proc_control/target_reached/time_in_tolerance : 3 # seconds
 
 #MPC Gains Default
@@ -15,7 +15,7 @@
 /proc_control/mpc/gains/default/mvr : '0.1,0.1,0.1,0.1,0.3,0.3,0.3,0.3'
 
 #MPC Gain Mode 10
-/proc_control/mpc/gains/c10/ov : '30,30,30,45,45,45,45,1,1,1,1,1,1'
+/proc_control/mpc/gains/c10/ov : '30,30,30,45,45,45,45,0,0,0,0,0,0'
 /proc_control/mpc/gains/c10/mv : '0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0'
 /proc_control/mpc/gains/c10/mvr : '0.4,0.4,0.4,0.4,0.5,0.5,0.5,0.5'
 

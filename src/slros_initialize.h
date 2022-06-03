@@ -98,10 +98,13 @@ extern SimulinkPublisher<sonia_common::MpcInfo, SL_Bus_proc_control_sonia_common
 // For Block proc_control/Sensor Manager/Send Sensor ON/Publish
 extern SimulinkPublisher<std_msgs::Bool, SL_Bus_proc_control_std_msgs_Bool> Pub_proc_control_116;
 
+// For Block proc_control/Sensor Manager/Send To Mapping/Publish
+extern SimulinkPublisher<geometry_msgs::Pose, SL_Bus_proc_control_geometry_msgs_Pose> Pub_proc_control_388;
+
 // For Block proc_control/Sensor Manager/Send To Telemetry /Publish
 extern SimulinkPublisher<nav_msgs::Odometry, SL_Bus_proc_control_nav_msgs_Odometry> Pub_proc_control_163;
 
-// For Block proc_control/Subsystem Trajectory/SubsystemAuto/Publish5
+// For Block proc_control/Subsystem Trajectory/Subsystem2/Publish5
 extern SimulinkPublisher<geometry_msgs::Pose, SL_Bus_proc_control_geometry_msgs_Pose> Pub_proc_control_184_1596;
 
 void slros_node_init(int argc, char** argv);

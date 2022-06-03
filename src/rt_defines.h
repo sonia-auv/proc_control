@@ -9,12 +9,7 @@
 //
 // Model version                  : 3.1
 // Simulink Coder version         : 9.7 (R2022a) 13-Nov-2021
-// C/C++ source code generated on : Thu Apr  7 22:25:07 2022
-//
-// Target selection: ert.tlc
-// Embedded hardware selection: ARM Compatible->ARM 64-bit (LLP64)
-// Code generation objectives: Unspecified
-// Validation result: Not run
+// C/C++ source code generated on : Thu Apr  7 23:11:26 2022
 //
 #ifndef RTW_HEADER_rt_defines_h_
 #define RTW_HEADER_rt_defines_h_

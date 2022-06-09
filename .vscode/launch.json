@@ -1,0 +1,15 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "ROS: Launch",
+            "type": "ros",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "target": "/home/sonia/ros_sonia_ws/src/proc_control/launch/proc_control_node.launch", // change launch file to proc_control when matlab is fixed
+        }
+    ]
+}

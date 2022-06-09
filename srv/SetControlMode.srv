@@ -1,5 +1,0 @@
-int8 PositionMode = 0
-int8 VelocityMode = 1
-
-int8 mode
----

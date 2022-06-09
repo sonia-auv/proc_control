@@ -1,6 +1,8 @@
 <launch>
-	<node name="proc_control"
-	    pkg="proc_control"
-	    type="proc_control_node"
-	    output="screen" />
-</launch>
+
+    <!-- find to be changed to proc_control when the node will be changed in matlab/simulink -->
+    <rosparam file="$(find proc_control)/config/$(env AUV).yaml" command="load" ns="/proc_control"/>
+
+    <node name="proc_control_node" pkg="proc_control" type="proc_control_node" output="screen"/>
+
+</launch> 

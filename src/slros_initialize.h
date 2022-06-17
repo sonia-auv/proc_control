@@ -3,6 +3,7 @@
 
 #include "slros_busmsg_conversion.h"
 #include "slros_generic.h"
+#include "slros_time.h"
 #include "proc_control_types.h"
 
 extern ros::NodeHandle * SLROSNodePtr;
@@ -89,6 +90,9 @@ extern SimulinkPublisher<sonia_common::PingMsg, SL_Bus_proc_control_sonia_common
 // For Block proc_control/ROS Output/Send to Unity/Publish
 extern SimulinkPublisher<geometry_msgs::Pose, SL_Bus_proc_control_geometry_msgs_Pose> Pub_proc_control_75;
 
+// For Block proc_control/Send Data to ROS/Publish
+extern SimulinkPublisher<std_msgs::Int8MultiArray, SL_Bus_proc_control_std_msgs_Int8MultiArray> Pub_proc_control_102;
+
 // For Block proc_control/Send Data to ROS/Publish2
 extern SimulinkPublisher<std_msgs::UInt16MultiArray, SL_Bus_proc_control_std_msgs_UInt16MultiArray> Pub_proc_control_104;
 
@@ -97,9 +101,6 @@ extern SimulinkPublisher<sonia_common::MpcInfo, SL_Bus_proc_control_sonia_common
 
 // For Block proc_control/Sensor Manager/Send Sensor ON/Publish
 extern SimulinkPublisher<std_msgs::Bool, SL_Bus_proc_control_std_msgs_Bool> Pub_proc_control_116;
-
-// For Block proc_control/Sensor Manager/Send To Mapping/Publish
-extern SimulinkPublisher<geometry_msgs::Pose, SL_Bus_proc_control_geometry_msgs_Pose> Pub_proc_control_388;
 
 // For Block proc_control/Sensor Manager/Send To Telemetry /Publish
 extern SimulinkPublisher<nav_msgs::Odometry, SL_Bus_proc_control_nav_msgs_Odometry> Pub_proc_control_163;

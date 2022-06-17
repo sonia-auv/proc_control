@@ -84,6 +84,9 @@ SimulinkPublisher<sonia_common::PingMsg, SL_Bus_proc_control_sonia_common_PingMs
 // For Block proc_control/ROS Output/Send to Unity/Publish
 SimulinkPublisher<geometry_msgs::Pose, SL_Bus_proc_control_geometry_msgs_Pose> Pub_proc_control_75;
 
+// For Block proc_control/Send Data to ROS/Publish
+SimulinkPublisher<std_msgs::Int8MultiArray, SL_Bus_proc_control_std_msgs_Int8MultiArray> Pub_proc_control_102;
+
 // For Block proc_control/Send Data to ROS/Publish2
 SimulinkPublisher<std_msgs::UInt16MultiArray, SL_Bus_proc_control_std_msgs_UInt16MultiArray> Pub_proc_control_104;
 
@@ -92,9 +95,6 @@ SimulinkPublisher<sonia_common::MpcInfo, SL_Bus_proc_control_sonia_common_MpcInf
 
 // For Block proc_control/Sensor Manager/Send Sensor ON/Publish
 SimulinkPublisher<std_msgs::Bool, SL_Bus_proc_control_std_msgs_Bool> Pub_proc_control_116;
-
-// For Block proc_control/Sensor Manager/Send To Mapping/Publish
-SimulinkPublisher<geometry_msgs::Pose, SL_Bus_proc_control_geometry_msgs_Pose> Pub_proc_control_388;
 
 // For Block proc_control/Sensor Manager/Send To Telemetry /Publish
 SimulinkPublisher<nav_msgs::Odometry, SL_Bus_proc_control_nav_msgs_Odometry> Pub_proc_control_163;

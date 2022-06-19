@@ -99,7 +99,7 @@ SimulinkPublisher<std_msgs::Bool, SL_Bus_proc_control_std_msgs_Bool> Pub_proc_co
 // For Block proc_control/Sensor Manager/Send To Telemetry /Publish
 SimulinkPublisher<nav_msgs::Odometry, SL_Bus_proc_control_nav_msgs_Odometry> Pub_proc_control_163;
 
-// For Block proc_control/Subsystem Trajectory/Subsystem2/Publish5
+// For Block proc_control/Subsystem Trajectory/sendCurrentTarget/Publish5
 SimulinkPublisher<geometry_msgs::Pose, SL_Bus_proc_control_geometry_msgs_Pose> Pub_proc_control_184_1596;
 
 void slros_node_init(int argc, char** argv)

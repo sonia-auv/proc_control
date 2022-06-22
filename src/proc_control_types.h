@@ -7,9 +7,9 @@
 //
 // Code generated for Simulink model 'proc_control'.
 //
-// Model version                  : 3.75
+// Model version                  : 3.78
 // Simulink Coder version         : 9.7 (R2022a) 13-Nov-2021
-// C/C++ source code generated on : Sun Jun 19 00:04:38 2022
+// C/C++ source code generated on : Wed Jun 22 00:14:42 2022
 //
 // Target selection: ert.tlc
 // Embedded hardware selection: ARM Compatible->ARM 64-bit (LLP64)
@@ -574,13 +574,26 @@ struct struct_SqczGJVM1s2EbgKSygGASD
 
 #endif
 
-#ifndef DEFINED_TYPEDEF_FOR_struct_km1VGdrSgDw9o5zbPZirGD_
-#define DEFINED_TYPEDEF_FOR_struct_km1VGdrSgDw9o5zbPZirGD_
+#ifndef DEFINED_TYPEDEF_FOR_struct_73ULE1ZHcrdLIbdHDrkhVE_
+#define DEFINED_TYPEDEF_FOR_struct_73ULE1ZHcrdLIbdHDrkhVE_
 
-struct struct_km1VGdrSgDw9o5zbPZirGD
+struct struct_73ULE1ZHcrdLIbdHDrkhVE
+{
+  real_T nx;
+  real_T nu;
+  real_T pmax;
+};
+
+#endif
+
+#ifndef DEFINED_TYPEDEF_FOR_struct_NcrFNcCLyfIiPyIhZ39Cx_
+#define DEFINED_TYPEDEF_FOR_struct_NcrFNcCLyfIiPyIhZ39Cx_
+
+struct struct_NcrFNcCLyfIiPyIhZ39Cx
 {
   real_T sampletime;
   struct_SqczGJVM1s2EbgKSygGASD procNav;
+  struct_73ULE1ZHcrdLIbdHDrkhVE MPC;
 };
 
 #endif
@@ -856,16 +869,6 @@ struct sj4ROHEH4aFW0Ul74HJ1BrG_proc__T
 
 #endif                                // struct_sj4ROHEH4aFW0Ul74HJ1BrG_proc__T
 
-#ifndef struct_s69z5j67qcMWJNVTaeqYm0F_proc__T
-#define struct_s69z5j67qcMWJNVTaeqYm0F_proc__T
-
-struct s69z5j67qcMWJNVTaeqYm0F_proc__T
-{
-  real_T bufferSize;
-};
-
-#endif                                // struct_s69z5j67qcMWJNVTaeqYm0F_proc__T
-
 #ifndef struct_sptfy9BnzbSorGr55X6uPND_proc__T
 #define struct_sptfy9BnzbSorGr55X6uPND_proc__T
 
@@ -877,6 +880,36 @@ struct sptfy9BnzbSorGr55X6uPND_proc__T
 };
 
 #endif                                // struct_sptfy9BnzbSorGr55X6uPND_proc__T
+
+#ifndef struct_s69z5j67qcMWJNVTaeqYm0F_proc__T
+#define struct_s69z5j67qcMWJNVTaeqYm0F_proc__T
+
+struct s69z5j67qcMWJNVTaeqYm0F_proc__T
+{
+  real_T bufferSize;
+};
+
+#endif                                // struct_s69z5j67qcMWJNVTaeqYm0F_proc__T
+
+#ifndef struct_rtString_2_proc_control_T
+#define struct_rtString_2_proc_control_T
+
+struct rtString_2_proc_control_T
+{
+  int32_T __dummy;
+};
+
+#endif                                 // struct_rtString_2_proc_control_T
+
+#ifndef struct_rtString_3_proc_control_T
+#define struct_rtString_3_proc_control_T
+
+struct rtString_3_proc_control_T
+{
+  int32_T __dummy;
+};
+
+#endif                                 // struct_rtString_3_proc_control_T
 
 // Custom Type definition for MATLAB Function: '<S203>/NLMPC'
 #ifndef struct_sG8JZ69axY52WWR6RKyApQC_proc__T
@@ -931,6 +964,16 @@ struct ros_ParameterTree_proc_contro_T
 
 #endif                                // struct_ros_ParameterTree_proc_contro_T
 
+#ifndef struct_RosparamClass_proc_control_T
+#define struct_RosparamClass_proc_control_T
+
+struct RosparamClass_proc_control_T
+{
+  ros_ParameterTree_proc_contro_T *ptree;
+};
+
+#endif                                 // struct_RosparamClass_proc_control_T
+
 #ifndef struct_quaternion_proc_control_T
 #define struct_quaternion_proc_control_T
 
@@ -943,6 +986,17 @@ struct quaternion_proc_control_T
 };
 
 #endif                                 // struct_quaternion_proc_control_T
+
+#ifndef struct_soQZ0DjsL3ZwKIOubxAV4LF_proc__T
+#define struct_soQZ0DjsL3ZwKIOubxAV4LF_proc__T
+
+struct soQZ0DjsL3ZwKIOubxAV4LF_proc__T
+{
+  real_T T[48];
+  real_T tau;
+};
+
+#endif                                // struct_soQZ0DjsL3ZwKIOubxAV4LF_proc__T
 
 #ifndef struct_sQSvg2w6vNyRpXblLz81CVE_proc__T
 #define struct_sQSvg2w6vNyRpXblLz81CVE_proc__T
@@ -980,17 +1034,58 @@ struct sw6XGAsqPRjEuE5AMiznTdG_proc__T
 
 #endif                                // struct_sw6XGAsqPRjEuE5AMiznTdG_proc__T
 
-#ifndef struct_TrimPlant_proc_control_T
-#define struct_TrimPlant_proc_control_T
+#ifndef struct_s_QQTXc7ZBBhFLHQPpBpl59F_proc_T
+#define struct_s_QQTXc7ZBBhFLHQPpBpl59F_proc_T
 
-struct TrimPlant_proc_control_T
+struct s_QQTXc7ZBBhFLHQPpBpl59F_proc_T
 {
-  real_T qkm[4];
-  real_T qkt[4];
-  real_T xl[13];
+  real_T nx;
+  real_T ny;
+  real_T nu;
+  real_T Ts;
+  real_T p;
+  real_T m;
+  real_T dts;
+  real_T tmax;
+  real_T tmin;
+  sj4ROHEH4aFW0Ul74HJ1BrG_proc__T thrusters;
+  rtString_1_proc_control_T JacobianFnc;
+  rtString_2_proc_control_T StateFnc;
+  real_T Xi[13];
+  real_T Ui[8];
+  s69z5j67qcMWJNVTaeqYm0F_proc__T trajectory;
+  sptfy9BnzbSorGr55X6uPND_proc__T targetReached;
+  sw6XGAsqPRjEuE5AMiznTdG_proc__T gains;
 };
 
-#endif                                 // struct_TrimPlant_proc_control_T
+#endif                                // struct_s_QQTXc7ZBBhFLHQPpBpl59F_proc_T
+
+#ifndef struct_sbv1VLiPFPVTXtR4uL6inzG_proc__T
+#define struct_sbv1VLiPFPVTXtR4uL6inzG_proc__T
+
+struct sbv1VLiPFPVTXtR4uL6inzG_proc__T
+{
+  real_T mass;
+  real_T volume;
+  real_T rho;
+  real_T g;
+  real_T dvlCenterDist;
+  real_T height;
+  real_T _I[9];
+  real_T RG[3];
+  real_T RB[3];
+  real_T CDL[6];
+  real_T CDQ[6];
+  real_T AF[3];
+  real_T AddedMass[6];
+  real_T DepthPose[3];
+  real_T hydroPose[3];
+  real_T sonarPose[3];
+  real_T dvlRotation[3];
+  soQZ0DjsL3ZwKIOubxAV4LF_proc__T thruster;
+};
+
+#endif                                // struct_sbv1VLiPFPVTXtR4uL6inzG_proc__T
 
 #ifndef struct_OpenLoopController_proc_contr_T
 #define struct_OpenLoopController_proc_contr_T
@@ -1037,10 +1132,10 @@ struct somzaGboVhDG7PNQS6E98jD_proc__T
 
 #endif                                // struct_somzaGboVhDG7PNQS6E98jD_proc__T
 
-#ifndef struct_s_7vBX1zenk0LKJmqg9QFAeC_proc_T
-#define struct_s_7vBX1zenk0LKJmqg9QFAeC_proc_T
+#ifndef struct_s_wI7f5IA0w6gsn13SX5QRKH_proc_T
+#define struct_s_wI7f5IA0w6gsn13SX5QRKH_proc_T
 
-struct s_7vBX1zenk0LKJmqg9QFAeC_proc_T
+struct s_wI7f5IA0w6gsn13SX5QRKH_proc_T
 {
   real_T nx;
   real_T ny;
@@ -1059,27 +1154,36 @@ struct s_7vBX1zenk0LKJmqg9QFAeC_proc_T
   s69z5j67qcMWJNVTaeqYm0F_proc__T trajectory;
   sptfy9BnzbSorGr55X6uPND_proc__T targetReached;
   sw6XGAsqPRjEuE5AMiznTdG_proc__T gains;
-  real_T gainsList[90];
   boolean_T forceCopy;
 };
 
-#endif                                // struct_s_7vBX1zenk0LKJmqg9QFAeC_proc_T
+#endif                                // struct_s_wI7f5IA0w6gsn13SX5QRKH_proc_T
 
-#ifndef struct_mpcManager_proc_control_T
-#define struct_mpcManager_proc_control_T
+#ifndef struct_s_53JskavUsKKIxAEKqKQ3ZC_proc_T
+#define struct_s_53JskavUsKKIxAEKqKQ3ZC_proc_T
 
-struct mpcManager_proc_control_T
+struct s_53JskavUsKKIxAEKqKQ3ZC_proc_T
 {
-  int32_T isInitialized;
-  real_T currentFaultCount[8];
-  boolean_T isThrusterFault[8];
-  real_T rosOV[13];
-  real_T rosMV[8];
-  real_T rosMVR[8];
-  s_7vBX1zenk0LKJmqg9QFAeC_proc_T MPC;
+  real_T nx;
+  real_T ny;
+  real_T nu;
+  real_T Ts;
+  real_T p;
+  real_T m;
+  real_T dts;
+  real_T tmax;
+  real_T tmin;
+  sj4ROHEH4aFW0Ul74HJ1BrG_proc__T thrusters;
+  rtString_proc_control_T JacobianFnc;
+  rtString_1_proc_control_T StateFnc;
+  real_T Xi[13];
+  real_T Ui[8];
+  s69z5j67qcMWJNVTaeqYm0F_proc__T trajectory;
+  sptfy9BnzbSorGr55X6uPND_proc__T targetReached;
+  sw6XGAsqPRjEuE5AMiznTdG_proc__T gains;
 };
 
-#endif                                 // struct_mpcManager_proc_control_T
+#endif                                // struct_s_53JskavUsKKIxAEKqKQ3ZC_proc_T
 
 #ifndef struct_quatDual_proc_control_T
 #define struct_quatDual_proc_control_T
@@ -1091,24 +1195,58 @@ struct quatDual_proc_control_T
 
 #endif                                 // struct_quatDual_proc_control_T
 
-#ifndef struct_MultiTrajectoryManager_proc_c_T
-#define struct_MultiTrajectoryManager_proc_c_T
+#ifndef struct_s_JJui4PLg9H697NLVpfkoLF_proc_T
+#define struct_s_JJui4PLg9H697NLVpfkoLF_proc_T
 
-struct MultiTrajectoryManager_proc_c_T
+struct s_JJui4PLg9H697NLVpfkoLF_proc_T
 {
-  int32_T isInitialized;
-  real_T poseBuffer[78000];
-  real_T bufferCount;
-  boolean_T done;
-  real_T targetReachedCount;
-  real_T initialPose[7];
-  boolean_T init;
-  real_T dummy;
-  real_T emptyArray[13];
-  s_7vBX1zenk0LKJmqg9QFAeC_proc_T MPC;
+  real_T nx;
+  real_T ny;
+  real_T nu;
+  real_T Ts;
+  real_T p;
+  real_T m;
+  real_T dts;
+  real_T tmax;
+  real_T tmin;
+  sj4ROHEH4aFW0Ul74HJ1BrG_proc__T thrusters;
+  rtString_2_proc_control_T JacobianFnc;
+  rtString_3_proc_control_T StateFnc;
+  real_T Xi[13];
+  real_T Ui[8];
+  s69z5j67qcMWJNVTaeqYm0F_proc__T trajectory;
+  sptfy9BnzbSorGr55X6uPND_proc__T targetReached;
+  sw6XGAsqPRjEuE5AMiznTdG_proc__T gains;
+  boolean_T forceCopy;
 };
 
-#endif                                // struct_MultiTrajectoryManager_proc_c_T
+#endif                                // struct_s_JJui4PLg9H697NLVpfkoLF_proc_T
+
+#ifndef struct_s_vokRjAVGCFjYhI9uwtNN2F_proc_T
+#define struct_s_vokRjAVGCFjYhI9uwtNN2F_proc_T
+
+struct s_vokRjAVGCFjYhI9uwtNN2F_proc_T
+{
+  real_T nx;
+  real_T ny;
+  real_T nu;
+  real_T Ts;
+  real_T p;
+  real_T m;
+  real_T dts;
+  real_T tmax;
+  real_T tmin;
+  sj4ROHEH4aFW0Ul74HJ1BrG_proc__T thrusters;
+  rtString_2_proc_control_T JacobianFnc;
+  rtString_3_proc_control_T StateFnc;
+  real_T Xi[13];
+  real_T Ui[8];
+  s69z5j67qcMWJNVTaeqYm0F_proc__T trajectory;
+  sptfy9BnzbSorGr55X6uPND_proc__T targetReached;
+  sw6XGAsqPRjEuE5AMiznTdG_proc__T gains;
+};
+
+#endif                                // struct_s_vokRjAVGCFjYhI9uwtNN2F_proc_T
 
 #ifndef struct_TrajectoryManager_proc_contro_T
 #define struct_TrajectoryManager_proc_contro_T
@@ -1197,6 +1335,108 @@ struct rosCommandManager_proc_contro_T
 };
 
 #endif                                // struct_rosCommandManager_proc_contro_T
+
+#ifndef struct_emxArray_char_T_proc_control_T
+#define struct_emxArray_char_T_proc_control_T
+
+struct emxArray_char_T_proc_control_T
+{
+  char_T *data;
+  int32_T *size;
+  int32_T allocatedSize;
+  int32_T numDimensions;
+  boolean_T canFreeData;
+};
+
+#endif                                 // struct_emxArray_char_T_proc_control_T
+
+#ifndef struct_AuvConfig_proc_control_T
+#define struct_AuvConfig_proc_control_T
+
+struct AuvConfig_proc_control_T
+{
+  emxArray_char_T_proc_control_T *auv;
+  sbv1VLiPFPVTXtR4uL6inzG_proc__T physics;
+  s_QQTXc7ZBBhFLHQPpBpl59F_proc_T MPC;
+};
+
+#endif                                 // struct_AuvConfig_proc_control_T
+
+#ifndef struct_TrimPlant_proc_control_T
+#define struct_TrimPlant_proc_control_T
+
+struct TrimPlant_proc_control_T
+{
+  int32_T isInitialized;
+  real_T qkm[4];
+  real_T qkt[4];
+  real_T xl[13];
+  AuvConfig_proc_control_T AUV;
+};
+
+#endif                                 // struct_TrimPlant_proc_control_T
+
+#ifndef struct_AuvConfig_proc_control_p_T
+#define struct_AuvConfig_proc_control_p_T
+
+struct AuvConfig_proc_control_p_T
+{
+  emxArray_char_T_proc_control_T *auv;
+  sbv1VLiPFPVTXtR4uL6inzG_proc__T physics;
+  s_53JskavUsKKIxAEKqKQ3ZC_proc_T MPC;
+};
+
+#endif                                 // struct_AuvConfig_proc_control_p_T
+
+#ifndef struct_mpcManager_proc_control_T
+#define struct_mpcManager_proc_control_T
+
+struct mpcManager_proc_control_T
+{
+  int32_T isInitialized;
+  real_T currentFaultCount[8];
+  boolean_T isThrusterFault[8];
+  real_T rosOV[13];
+  real_T rosMV[8];
+  real_T rosMVR[8];
+  real_T gainsList[90];
+  s_wI7f5IA0w6gsn13SX5QRKH_proc_T MPC;
+  AuvConfig_proc_control_p_T AUV;
+};
+
+#endif                                 // struct_mpcManager_proc_control_T
+
+#ifndef struct_AuvConfig_proc_control_pr_T
+#define struct_AuvConfig_proc_control_pr_T
+
+struct AuvConfig_proc_control_pr_T
+{
+  emxArray_char_T_proc_control_T *auv;
+  sbv1VLiPFPVTXtR4uL6inzG_proc__T physics;
+  s_vokRjAVGCFjYhI9uwtNN2F_proc_T MPC;
+};
+
+#endif                                 // struct_AuvConfig_proc_control_pr_T
+
+#ifndef struct_MultiTrajectoryManager_proc_c_T
+#define struct_MultiTrajectoryManager_proc_c_T
+
+struct MultiTrajectoryManager_proc_c_T
+{
+  int32_T isInitialized;
+  real_T poseBuffer[78000];
+  real_T bufferCount;
+  boolean_T done;
+  real_T targetReachedCount;
+  real_T initialPose[7];
+  boolean_T init;
+  real_T dummy;
+  real_T emptyArray[13];
+  s_JJui4PLg9H697NLVpfkoLF_proc_T MPC;
+  AuvConfig_proc_control_pr_T AUV;
+};
+
+#endif                                // struct_MultiTrajectoryManager_proc_c_T
 
 #ifndef struct_emxArray_real_T_proc_control_T
 #define struct_emxArray_real_T_proc_control_T
@@ -1435,18 +1675,6 @@ struct s_VA2YLuOkHrWNKQO7FEpyoH_proc_T
 
 #endif                                // struct_s_VA2YLuOkHrWNKQO7FEpyoH_proc_T
 
-#ifndef struct_s_j0X3urodUv3ospvkLXsspC_proc_T
-#define struct_s_j0X3urodUv3ospvkLXsspC_proc_T
-
-struct s_j0X3urodUv3ospvkLXsspC_proc_T
-{
-  emxArray_real_T_proc_control_T *workspace_double;
-  emxArray_int32_T_1829_proc_co_T workspace_int;
-  emxArray_int32_T_1829_proc_co_T workspace_sort;
-};
-
-#endif                                // struct_s_j0X3urodUv3ospvkLXsspC_proc_T
-
 #ifndef struct_emxArray_int32_T_980_proc_con_T
 #define struct_emxArray_int32_T_980_proc_con_T
 
@@ -1517,57 +1745,6 @@ struct s_gnTVUZmGpKWoq4tCE9AGn_proc__T
 
 #endif                                // struct_s_gnTVUZmGpKWoq4tCE9AGn_proc__T
 
-#ifndef struct_emxArray_real_T_979_proc_cont_T
-#define struct_emxArray_real_T_979_proc_cont_T
-
-struct emxArray_real_T_979_proc_cont_T
-{
-  real_T data[979];
-  int32_T size;
-};
-
-#endif                                // struct_emxArray_real_T_979_proc_cont_T
-
-// Custom Type definition for MATLAB Function: '<S203>/NLMPC'
-#ifndef struct_s_wbACub5hw4pAYPfHb1hrsB_proc_T
-#define struct_s_wbACub5hw4pAYPfHb1hrsB_proc_T
-
-struct s_wbACub5hw4pAYPfHb1hrsB_proc_T
-{
-  emxArray_real_T_980_proc_cont_T grad;
-  emxArray_real_T_979_proc_cont_T Hx;
-  boolean_T hasLinear;
-  int32_T nvar;
-  int32_T maxVar;
-  real_T beta;
-  real_T rho;
-  int32_T objtype;
-  int32_T prev_objtype;
-  int32_T prev_nvar;
-  boolean_T prev_hasLinear;
-  real_T gammaScalar;
-};
-
-#endif                                // struct_s_wbACub5hw4pAYPfHb1hrsB_proc_T
-
-#ifndef struct_s_Ref0liQlfQOPmAop9i3aPH_proc_T
-#define struct_s_Ref0liQlfQOPmAop9i3aPH_proc_T
-
-struct s_Ref0liQlfQOPmAop9i3aPH_proc_T
-{
-  int32_T ldq;
-  emxArray_real_T_proc_control_T *QR;
-  emxArray_real_T_proc_control_T *Q;
-  emxArray_int32_T_1829_proc_co_T jpvt;
-  int32_T mrows;
-  int32_T ncols;
-  emxArray_real_T_1829_proc_con_T tau;
-  int32_T minRowCol;
-  boolean_T usedPivoting;
-};
-
-#endif                                // struct_s_Ref0liQlfQOPmAop9i3aPH_proc_T
-
 #ifndef struct_emxArray_real_T_260_proc_cont_T
 #define struct_emxArray_real_T_260_proc_cont_T
 
@@ -1607,6 +1784,69 @@ struct s_IDHIEhzA2KtfYk7ehxTmaH_proc_T
 };
 
 #endif                                // struct_s_IDHIEhzA2KtfYk7ehxTmaH_proc_T
+
+#ifndef struct_s_j0X3urodUv3ospvkLXsspC_proc_T
+#define struct_s_j0X3urodUv3ospvkLXsspC_proc_T
+
+struct s_j0X3urodUv3ospvkLXsspC_proc_T
+{
+  emxArray_real_T_proc_control_T *workspace_double;
+  emxArray_int32_T_1829_proc_co_T workspace_int;
+  emxArray_int32_T_1829_proc_co_T workspace_sort;
+};
+
+#endif                                // struct_s_j0X3urodUv3ospvkLXsspC_proc_T
+
+#ifndef struct_s_Ref0liQlfQOPmAop9i3aPH_proc_T
+#define struct_s_Ref0liQlfQOPmAop9i3aPH_proc_T
+
+struct s_Ref0liQlfQOPmAop9i3aPH_proc_T
+{
+  int32_T ldq;
+  emxArray_real_T_proc_control_T *QR;
+  emxArray_real_T_proc_control_T *Q;
+  emxArray_int32_T_1829_proc_co_T jpvt;
+  int32_T mrows;
+  int32_T ncols;
+  emxArray_real_T_1829_proc_con_T tau;
+  int32_T minRowCol;
+  boolean_T usedPivoting;
+};
+
+#endif                                // struct_s_Ref0liQlfQOPmAop9i3aPH_proc_T
+
+#ifndef struct_emxArray_real_T_979_proc_cont_T
+#define struct_emxArray_real_T_979_proc_cont_T
+
+struct emxArray_real_T_979_proc_cont_T
+{
+  real_T data[979];
+  int32_T size;
+};
+
+#endif                                // struct_emxArray_real_T_979_proc_cont_T
+
+// Custom Type definition for MATLAB Function: '<S203>/NLMPC'
+#ifndef struct_s_wbACub5hw4pAYPfHb1hrsB_proc_T
+#define struct_s_wbACub5hw4pAYPfHb1hrsB_proc_T
+
+struct s_wbACub5hw4pAYPfHb1hrsB_proc_T
+{
+  emxArray_real_T_980_proc_cont_T grad;
+  emxArray_real_T_979_proc_cont_T Hx;
+  boolean_T hasLinear;
+  int32_T nvar;
+  int32_T maxVar;
+  real_T beta;
+  real_T rho;
+  int32_T objtype;
+  int32_T prev_objtype;
+  int32_T prev_nvar;
+  boolean_T prev_hasLinear;
+  real_T gammaScalar;
+};
+
+#endif                                // struct_s_wbACub5hw4pAYPfHb1hrsB_proc_T
 #endif                                 // RTW_HEADER_proc_control_types_h_
 
 //

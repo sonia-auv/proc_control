@@ -1,0 +1,16 @@
+
+<!---
+  Code generated for Simulink model 'proc_control'.
+  Generated on : Sat Jul 02 01:31:01 2022
+ -->
+<library path="lib/libproc_control">
+    <class name="proc_control/ControllerHost" type="proc_control::ControllerHost" base_class_type="controller_interface::ControllerBase">
+        <description>
+            ros_control controller hosting a Simulink model.
+        </description>
+    </class>
+</library>
+<!---
+ File trailer for generated code.
+ [EOF]
+-->

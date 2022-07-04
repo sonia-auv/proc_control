@@ -7,9 +7,9 @@
 //
 // Code generated for Simulink model 'proc_control'.
 //
-// Model version                  : 3.78
+// Model version                  : 3.63
 // Simulink Coder version         : 9.7 (R2022a) 13-Nov-2021
-// C/C++ source code generated on : Wed Jun 22 00:14:42 2022
+// C/C++ source code generated on : Mon Jul  4 00:42:11 2022
 //
 // Target selection: ert.tlc
 // Embedded hardware selection: ARM Compatible->ARM 64-bit (LLP64)
@@ -19,7 +19,6 @@
 #ifndef RTW_HEADER_proc_control_types_h_
 #define RTW_HEADER_proc_control_types_h_
 #include "rtwtypes.h"
-#include "mlroscpp_param.h"
 
 // Model Code Variants
 #ifndef DEFINED_TYPEDEF_FOR_SL_Bus_ROSVariableLengthArrayInfo_
@@ -206,6 +205,9 @@ struct SL_Bus_proc_control_sonia_common_PingMsg
 {
   // MsgType=std_msgs/Header
   SL_Bus_proc_control_std_msgs_Header Header;
+  real_T X;
+  real_T Y;
+  real_T Z;
   uint16_T Frequency;
   real_T Heading;
   real_T Elevation;
@@ -512,6 +514,105 @@ struct SL_Bus_proc_control_std_msgs_UInt8
 
 #endif
 
+#ifndef DEFINED_TYPEDEF_FOR_Defaut_
+#define DEFINED_TYPEDEF_FOR_Defaut_
+
+struct Defaut
+{
+  real_T OV[13];
+  real_T MV[8];
+  real_T MVR[8];
+};
+
+#endif
+
+#ifndef DEFINED_TYPEDEF_FOR_C10_
+#define DEFINED_TYPEDEF_FOR_C10_
+
+struct C10
+{
+  real_T OV[13];
+  real_T MV[8];
+  real_T MVR[8];
+};
+
+#endif
+
+#ifndef DEFINED_TYPEDEF_FOR_C11_
+#define DEFINED_TYPEDEF_FOR_C11_
+
+struct C11
+{
+  real_T OV[13];
+  real_T MV[8];
+  real_T MVR[8];
+};
+
+#endif
+
+#ifndef DEFINED_TYPEDEF_FOR_C19_
+#define DEFINED_TYPEDEF_FOR_C19_
+
+struct C19
+{
+  real_T OV[13];
+  real_T MV[8];
+  real_T MVR[8];
+};
+
+#endif
+
+#ifndef DEFINED_TYPEDEF_FOR_NoDvl_
+#define DEFINED_TYPEDEF_FOR_NoDvl_
+
+struct NoDvl
+{
+  real_T MV[8];
+};
+
+#endif
+
+#ifndef DEFINED_TYPEDEF_FOR_Gains_
+#define DEFINED_TYPEDEF_FOR_Gains_
+
+struct Gains
+{
+  Defaut defaut;
+  C10 c10;
+  C11 c11;
+  C19 c19;
+  NoDvl noDvl;
+  real_T p;
+  real_T m;
+  real_T tmax;
+  real_T tmin;
+};
+
+#endif
+
+#ifndef DEFINED_TYPEDEF_FOR_TargetReached_
+#define DEFINED_TYPEDEF_FOR_TargetReached_
+
+struct TargetReached
+{
+  real_T linearTol;
+  real_T angularTol;
+  real_T timeInTol;
+};
+
+#endif
+
+#ifndef DEFINED_TYPEDEF_FOR_mpcParams_
+#define DEFINED_TYPEDEF_FOR_mpcParams_
+
+struct mpcParams
+{
+  Gains gains;
+  TargetReached targetReached;
+};
+
+#endif
+
 #ifndef DEFINED_TYPEDEF_FOR_struct_qfomatEQOl7mLQ02Mpt2VE_
 #define DEFINED_TYPEDEF_FOR_struct_qfomatEQOl7mLQ02Mpt2VE_
 
@@ -574,26 +675,13 @@ struct struct_SqczGJVM1s2EbgKSygGASD
 
 #endif
 
-#ifndef DEFINED_TYPEDEF_FOR_struct_73ULE1ZHcrdLIbdHDrkhVE_
-#define DEFINED_TYPEDEF_FOR_struct_73ULE1ZHcrdLIbdHDrkhVE_
+#ifndef DEFINED_TYPEDEF_FOR_struct_km1VGdrSgDw9o5zbPZirGD_
+#define DEFINED_TYPEDEF_FOR_struct_km1VGdrSgDw9o5zbPZirGD_
 
-struct struct_73ULE1ZHcrdLIbdHDrkhVE
-{
-  real_T nx;
-  real_T nu;
-  real_T pmax;
-};
-
-#endif
-
-#ifndef DEFINED_TYPEDEF_FOR_struct_NcrFNcCLyfIiPyIhZ39Cx_
-#define DEFINED_TYPEDEF_FOR_struct_NcrFNcCLyfIiPyIhZ39Cx_
-
-struct struct_NcrFNcCLyfIiPyIhZ39Cx
+struct struct_km1VGdrSgDw9o5zbPZirGD
 {
   real_T sampletime;
   struct_SqczGJVM1s2EbgKSygGASD procNav;
-  struct_73ULE1ZHcrdLIbdHDrkhVE MPC;
 };
 
 #endif
@@ -740,20 +828,20 @@ struct struct_dhOFexlPAOq1XLxIBHN1J
 
 #endif
 
-#ifndef DEFINED_TYPEDEF_FOR_struct_WeVFs8E2CxxfxzE2lduteD_
-#define DEFINED_TYPEDEF_FOR_struct_WeVFs8E2CxxfxzE2lduteD_
+#ifndef DEFINED_TYPEDEF_FOR_struct_eJsqWOClzwG18rBvtrhWOG_
+#define DEFINED_TYPEDEF_FOR_struct_eJsqWOClzwG18rBvtrhWOG_
 
-struct struct_WeVFs8E2CxxfxzE2lduteD
+struct struct_eJsqWOClzwG18rBvtrhWOG
 {
   real_T mvmin[8];
   real_T mvmax[8];
   real_T ywt[13];
   real_T mvwt[8];
   real_T dmwwt[8];
-  real_T m;
-  real_T p;
   boolean_T thrustersStatus[8];
   boolean_T kill;
+  real_T p;
+  real_T m;
 };
 
 #endif
@@ -793,16 +881,27 @@ struct ros_slros_internal_block_Curr_T
 
 #endif                                // struct_ros_slros_internal_block_Curr_T
 
-// Custom Type definition for MATLAB Function: '<S203>/NLMPC'
-#ifndef struct_rtString_proc_control_T
-#define struct_rtString_proc_control_T
+#ifndef struct_String2DoubleArray_proc_contr_T
+#define struct_String2DoubleArray_proc_contr_T
 
-struct rtString_proc_control_T
+struct String2DoubleArray_proc_contr_T
 {
-  int32_T __dummy;
+  real_T lastMsg[128];
+  real_T lastValues[13];
 };
 
-#endif                                 // struct_rtString_proc_control_T
+#endif                                // struct_String2DoubleArray_proc_contr_T
+
+#ifndef struct_String2DoubleArray_proc_con_o_T
+#define struct_String2DoubleArray_proc_con_o_T
+
+struct String2DoubleArray_proc_con_o_T
+{
+  real_T lastMsg[128];
+  real_T lastValues[8];
+};
+
+#endif                                // struct_String2DoubleArray_proc_con_o_T
 
 #ifndef struct_AuvDifferentialEquation_proc__T
 #define struct_AuvDifferentialEquation_proc__T
@@ -826,16 +925,6 @@ struct ros_slroscpp_internal_block_P_T
 
 #endif                                // struct_ros_slroscpp_internal_block_P_T
 
-#ifndef struct_rtString_1_proc_control_T
-#define struct_rtString_1_proc_control_T
-
-struct rtString_1_proc_control_T
-{
-  int32_T __dummy;
-};
-
-#endif                                 // struct_rtString_1_proc_control_T
-
 #ifndef struct_fixed_system_DivideByConstant_T
 #define struct_fixed_system_DivideByConstant_T
 
@@ -857,59 +946,6 @@ struct ros_slroscpp_internal_block_S_T
 };
 
 #endif                                // struct_ros_slroscpp_internal_block_S_T
-
-#ifndef struct_sj4ROHEH4aFW0Ul74HJ1BrG_proc__T
-#define struct_sj4ROHEH4aFW0Ul74HJ1BrG_proc__T
-
-struct sj4ROHEH4aFW0Ul74HJ1BrG_proc__T
-{
-  real_T faultThres;
-  real_T faultSample;
-};
-
-#endif                                // struct_sj4ROHEH4aFW0Ul74HJ1BrG_proc__T
-
-#ifndef struct_sptfy9BnzbSorGr55X6uPND_proc__T
-#define struct_sptfy9BnzbSorGr55X6uPND_proc__T
-
-struct sptfy9BnzbSorGr55X6uPND_proc__T
-{
-  real_T linearTol;
-  real_T angularTol;
-  real_T timeInTol;
-};
-
-#endif                                // struct_sptfy9BnzbSorGr55X6uPND_proc__T
-
-#ifndef struct_s69z5j67qcMWJNVTaeqYm0F_proc__T
-#define struct_s69z5j67qcMWJNVTaeqYm0F_proc__T
-
-struct s69z5j67qcMWJNVTaeqYm0F_proc__T
-{
-  real_T bufferSize;
-};
-
-#endif                                // struct_s69z5j67qcMWJNVTaeqYm0F_proc__T
-
-#ifndef struct_rtString_2_proc_control_T
-#define struct_rtString_2_proc_control_T
-
-struct rtString_2_proc_control_T
-{
-  int32_T __dummy;
-};
-
-#endif                                 // struct_rtString_2_proc_control_T
-
-#ifndef struct_rtString_3_proc_control_T
-#define struct_rtString_3_proc_control_T
-
-struct rtString_3_proc_control_T
-{
-  int32_T __dummy;
-};
-
-#endif                                 // struct_rtString_3_proc_control_T
 
 // Custom Type definition for MATLAB Function: '<S203>/NLMPC'
 #ifndef struct_sG8JZ69axY52WWR6RKyApQC_proc__T
@@ -952,28 +988,6 @@ struct s7RdrPWkr8UPAUyTdDJkLaG_proc__T
 
 #endif                                // struct_s7RdrPWkr8UPAUyTdDJkLaG_proc__T
 
-// Custom Type definition for MATLABSystem: '<S294>/MATLAB System'
-#include "mlroscpp_param.h"
-#ifndef struct_ros_ParameterTree_proc_contro_T
-#define struct_ros_ParameterTree_proc_contro_T
-
-struct ros_ParameterTree_proc_contro_T
-{
-  MATLABROSParameter ParameterHelper;
-};
-
-#endif                                // struct_ros_ParameterTree_proc_contro_T
-
-#ifndef struct_RosparamClass_proc_control_T
-#define struct_RosparamClass_proc_control_T
-
-struct RosparamClass_proc_control_T
-{
-  ros_ParameterTree_proc_contro_T *ptree;
-};
-
-#endif                                 // struct_RosparamClass_proc_control_T
-
 #ifndef struct_quaternion_proc_control_T
 #define struct_quaternion_proc_control_T
 
@@ -987,105 +1001,17 @@ struct quaternion_proc_control_T
 
 #endif                                 // struct_quaternion_proc_control_T
 
-#ifndef struct_soQZ0DjsL3ZwKIOubxAV4LF_proc__T
-#define struct_soQZ0DjsL3ZwKIOubxAV4LF_proc__T
+#ifndef struct_TrimPlant_proc_control_T
+#define struct_TrimPlant_proc_control_T
 
-struct soQZ0DjsL3ZwKIOubxAV4LF_proc__T
+struct TrimPlant_proc_control_T
 {
-  real_T T[48];
-  real_T tau;
+  real_T qkm[4];
+  real_T qkt[4];
+  real_T xl[13];
 };
 
-#endif                                // struct_soQZ0DjsL3ZwKIOubxAV4LF_proc__T
-
-#ifndef struct_sQSvg2w6vNyRpXblLz81CVE_proc__T
-#define struct_sQSvg2w6vNyRpXblLz81CVE_proc__T
-
-struct sQSvg2w6vNyRpXblLz81CVE_proc__T
-{
-  real_T OV[13];
-  real_T MV[8];
-  real_T MVR[8];
-};
-
-#endif                                // struct_sQSvg2w6vNyRpXblLz81CVE_proc__T
-
-#ifndef struct_sPRnbmJa06XP3GhBYf06xgE_proc__T
-#define struct_sPRnbmJa06XP3GhBYf06xgE_proc__T
-
-struct sPRnbmJa06XP3GhBYf06xgE_proc__T
-{
-  real_T MV[8];
-};
-
-#endif                                // struct_sPRnbmJa06XP3GhBYf06xgE_proc__T
-
-#ifndef struct_sw6XGAsqPRjEuE5AMiznTdG_proc__T
-#define struct_sw6XGAsqPRjEuE5AMiznTdG_proc__T
-
-struct sw6XGAsqPRjEuE5AMiznTdG_proc__T
-{
-  sQSvg2w6vNyRpXblLz81CVE_proc__T defaut;
-  sQSvg2w6vNyRpXblLz81CVE_proc__T c10;
-  sQSvg2w6vNyRpXblLz81CVE_proc__T c11;
-  sQSvg2w6vNyRpXblLz81CVE_proc__T c19;
-  sPRnbmJa06XP3GhBYf06xgE_proc__T noDvl;
-};
-
-#endif                                // struct_sw6XGAsqPRjEuE5AMiznTdG_proc__T
-
-#ifndef struct_s_QQTXc7ZBBhFLHQPpBpl59F_proc_T
-#define struct_s_QQTXc7ZBBhFLHQPpBpl59F_proc_T
-
-struct s_QQTXc7ZBBhFLHQPpBpl59F_proc_T
-{
-  real_T nx;
-  real_T ny;
-  real_T nu;
-  real_T Ts;
-  real_T p;
-  real_T m;
-  real_T dts;
-  real_T tmax;
-  real_T tmin;
-  sj4ROHEH4aFW0Ul74HJ1BrG_proc__T thrusters;
-  rtString_1_proc_control_T JacobianFnc;
-  rtString_2_proc_control_T StateFnc;
-  real_T Xi[13];
-  real_T Ui[8];
-  s69z5j67qcMWJNVTaeqYm0F_proc__T trajectory;
-  sptfy9BnzbSorGr55X6uPND_proc__T targetReached;
-  sw6XGAsqPRjEuE5AMiznTdG_proc__T gains;
-};
-
-#endif                                // struct_s_QQTXc7ZBBhFLHQPpBpl59F_proc_T
-
-#ifndef struct_sbv1VLiPFPVTXtR4uL6inzG_proc__T
-#define struct_sbv1VLiPFPVTXtR4uL6inzG_proc__T
-
-struct sbv1VLiPFPVTXtR4uL6inzG_proc__T
-{
-  real_T mass;
-  real_T volume;
-  real_T rho;
-  real_T g;
-  real_T dvlCenterDist;
-  real_T height;
-  real_T _I[9];
-  real_T RG[3];
-  real_T RB[3];
-  real_T CDL[6];
-  real_T CDQ[6];
-  real_T AF[3];
-  real_T AddedMass[6];
-  real_T DepthPose[3];
-  real_T hydroPose[3];
-  real_T sonarPose[3];
-  real_T dvlRotation[3];
-  soQZ0DjsL3ZwKIOubxAV4LF_proc__T thruster;
-};
-
-#endif                                // struct_sbv1VLiPFPVTXtR4uL6inzG_proc__T
+#endif                                 // struct_TrimPlant_proc_control_T
 
 #ifndef struct_OpenLoopController_proc_contr_T
 #define struct_OpenLoopController_proc_contr_T
@@ -1132,121 +1058,40 @@ struct somzaGboVhDG7PNQS6E98jD_proc__T
 
 #endif                                // struct_somzaGboVhDG7PNQS6E98jD_proc__T
 
-#ifndef struct_s_wI7f5IA0w6gsn13SX5QRKH_proc_T
-#define struct_s_wI7f5IA0w6gsn13SX5QRKH_proc_T
+#ifndef struct_mpcManager_proc_control_T
+#define struct_mpcManager_proc_control_T
 
-struct s_wI7f5IA0w6gsn13SX5QRKH_proc_T
+struct mpcManager_proc_control_T
 {
-  real_T nx;
-  real_T ny;
-  real_T nu;
-  real_T Ts;
-  real_T p;
-  real_T m;
-  real_T dts;
-  real_T tmax;
-  real_T tmin;
-  sj4ROHEH4aFW0Ul74HJ1BrG_proc__T thrusters;
-  rtString_proc_control_T JacobianFnc;
-  rtString_1_proc_control_T StateFnc;
-  real_T Xi[13];
-  real_T Ui[8];
-  s69z5j67qcMWJNVTaeqYm0F_proc__T trajectory;
-  sptfy9BnzbSorGr55X6uPND_proc__T targetReached;
-  sw6XGAsqPRjEuE5AMiznTdG_proc__T gains;
-  boolean_T forceCopy;
+  int32_T isInitialized;
+  real_T init;
+  real_T currentFaultCount[8];
+  boolean_T isThrusterFault[8];
+  real_T rosOV[13];
+  real_T rosMV[8];
+  real_T rosMVR[8];
+  real_T gainsList[600];
 };
 
-#endif                                // struct_s_wI7f5IA0w6gsn13SX5QRKH_proc_T
+#endif                                 // struct_mpcManager_proc_control_T
 
-#ifndef struct_s_53JskavUsKKIxAEKqKQ3ZC_proc_T
-#define struct_s_53JskavUsKKIxAEKqKQ3ZC_proc_T
+#ifndef struct_MultiTrajectoryManager_proc_c_T
+#define struct_MultiTrajectoryManager_proc_c_T
 
-struct s_53JskavUsKKIxAEKqKQ3ZC_proc_T
+struct MultiTrajectoryManager_proc_c_T
 {
-  real_T nx;
-  real_T ny;
-  real_T nu;
-  real_T Ts;
-  real_T p;
-  real_T m;
-  real_T dts;
-  real_T tmax;
-  real_T tmin;
-  sj4ROHEH4aFW0Ul74HJ1BrG_proc__T thrusters;
-  rtString_proc_control_T JacobianFnc;
-  rtString_1_proc_control_T StateFnc;
-  real_T Xi[13];
-  real_T Ui[8];
-  s69z5j67qcMWJNVTaeqYm0F_proc__T trajectory;
-  sptfy9BnzbSorGr55X6uPND_proc__T targetReached;
-  sw6XGAsqPRjEuE5AMiznTdG_proc__T gains;
+  int32_T isInitialized;
+  real_T poseBuffer[78000];
+  real_T bufferCount;
+  boolean_T done;
+  real_T targetReachedCount;
+  real_T initialPose[7];
+  boolean_T init;
+  real_T dummy;
+  real_T emptyArray[13];
 };
 
-#endif                                // struct_s_53JskavUsKKIxAEKqKQ3ZC_proc_T
-
-#ifndef struct_quatDual_proc_control_T
-#define struct_quatDual_proc_control_T
-
-struct quatDual_proc_control_T
-{
-  real_T qk[4];
-};
-
-#endif                                 // struct_quatDual_proc_control_T
-
-#ifndef struct_s_JJui4PLg9H697NLVpfkoLF_proc_T
-#define struct_s_JJui4PLg9H697NLVpfkoLF_proc_T
-
-struct s_JJui4PLg9H697NLVpfkoLF_proc_T
-{
-  real_T nx;
-  real_T ny;
-  real_T nu;
-  real_T Ts;
-  real_T p;
-  real_T m;
-  real_T dts;
-  real_T tmax;
-  real_T tmin;
-  sj4ROHEH4aFW0Ul74HJ1BrG_proc__T thrusters;
-  rtString_2_proc_control_T JacobianFnc;
-  rtString_3_proc_control_T StateFnc;
-  real_T Xi[13];
-  real_T Ui[8];
-  s69z5j67qcMWJNVTaeqYm0F_proc__T trajectory;
-  sptfy9BnzbSorGr55X6uPND_proc__T targetReached;
-  sw6XGAsqPRjEuE5AMiznTdG_proc__T gains;
-  boolean_T forceCopy;
-};
-
-#endif                                // struct_s_JJui4PLg9H697NLVpfkoLF_proc_T
-
-#ifndef struct_s_vokRjAVGCFjYhI9uwtNN2F_proc_T
-#define struct_s_vokRjAVGCFjYhI9uwtNN2F_proc_T
-
-struct s_vokRjAVGCFjYhI9uwtNN2F_proc_T
-{
-  real_T nx;
-  real_T ny;
-  real_T nu;
-  real_T Ts;
-  real_T p;
-  real_T m;
-  real_T dts;
-  real_T tmax;
-  real_T tmin;
-  sj4ROHEH4aFW0Ul74HJ1BrG_proc__T thrusters;
-  rtString_2_proc_control_T JacobianFnc;
-  rtString_3_proc_control_T StateFnc;
-  real_T Xi[13];
-  real_T Ui[8];
-  s69z5j67qcMWJNVTaeqYm0F_proc__T trajectory;
-  sptfy9BnzbSorGr55X6uPND_proc__T targetReached;
-  sw6XGAsqPRjEuE5AMiznTdG_proc__T gains;
-};
-
-#endif                                // struct_s_vokRjAVGCFjYhI9uwtNN2F_proc_T
+#endif                                // struct_MultiTrajectoryManager_proc_c_T
 
 #ifndef struct_TrajectoryManager_proc_contro_T
 #define struct_TrajectoryManager_proc_contro_T
@@ -1336,108 +1181,6 @@ struct rosCommandManager_proc_contro_T
 
 #endif                                // struct_rosCommandManager_proc_contro_T
 
-#ifndef struct_emxArray_char_T_proc_control_T
-#define struct_emxArray_char_T_proc_control_T
-
-struct emxArray_char_T_proc_control_T
-{
-  char_T *data;
-  int32_T *size;
-  int32_T allocatedSize;
-  int32_T numDimensions;
-  boolean_T canFreeData;
-};
-
-#endif                                 // struct_emxArray_char_T_proc_control_T
-
-#ifndef struct_AuvConfig_proc_control_T
-#define struct_AuvConfig_proc_control_T
-
-struct AuvConfig_proc_control_T
-{
-  emxArray_char_T_proc_control_T *auv;
-  sbv1VLiPFPVTXtR4uL6inzG_proc__T physics;
-  s_QQTXc7ZBBhFLHQPpBpl59F_proc_T MPC;
-};
-
-#endif                                 // struct_AuvConfig_proc_control_T
-
-#ifndef struct_TrimPlant_proc_control_T
-#define struct_TrimPlant_proc_control_T
-
-struct TrimPlant_proc_control_T
-{
-  int32_T isInitialized;
-  real_T qkm[4];
-  real_T qkt[4];
-  real_T xl[13];
-  AuvConfig_proc_control_T AUV;
-};
-
-#endif                                 // struct_TrimPlant_proc_control_T
-
-#ifndef struct_AuvConfig_proc_control_p_T
-#define struct_AuvConfig_proc_control_p_T
-
-struct AuvConfig_proc_control_p_T
-{
-  emxArray_char_T_proc_control_T *auv;
-  sbv1VLiPFPVTXtR4uL6inzG_proc__T physics;
-  s_53JskavUsKKIxAEKqKQ3ZC_proc_T MPC;
-};
-
-#endif                                 // struct_AuvConfig_proc_control_p_T
-
-#ifndef struct_mpcManager_proc_control_T
-#define struct_mpcManager_proc_control_T
-
-struct mpcManager_proc_control_T
-{
-  int32_T isInitialized;
-  real_T currentFaultCount[8];
-  boolean_T isThrusterFault[8];
-  real_T rosOV[13];
-  real_T rosMV[8];
-  real_T rosMVR[8];
-  real_T gainsList[90];
-  s_wI7f5IA0w6gsn13SX5QRKH_proc_T MPC;
-  AuvConfig_proc_control_p_T AUV;
-};
-
-#endif                                 // struct_mpcManager_proc_control_T
-
-#ifndef struct_AuvConfig_proc_control_pr_T
-#define struct_AuvConfig_proc_control_pr_T
-
-struct AuvConfig_proc_control_pr_T
-{
-  emxArray_char_T_proc_control_T *auv;
-  sbv1VLiPFPVTXtR4uL6inzG_proc__T physics;
-  s_vokRjAVGCFjYhI9uwtNN2F_proc_T MPC;
-};
-
-#endif                                 // struct_AuvConfig_proc_control_pr_T
-
-#ifndef struct_MultiTrajectoryManager_proc_c_T
-#define struct_MultiTrajectoryManager_proc_c_T
-
-struct MultiTrajectoryManager_proc_c_T
-{
-  int32_T isInitialized;
-  real_T poseBuffer[78000];
-  real_T bufferCount;
-  boolean_T done;
-  real_T targetReachedCount;
-  real_T initialPose[7];
-  boolean_T init;
-  real_T dummy;
-  real_T emptyArray[13];
-  s_JJui4PLg9H697NLVpfkoLF_proc_T MPC;
-  AuvConfig_proc_control_pr_T AUV;
-};
-
-#endif                                // struct_MultiTrajectoryManager_proc_c_T
-
 #ifndef struct_emxArray_real_T_proc_control_T
 #define struct_emxArray_real_T_proc_control_T
 
@@ -1480,13 +1223,57 @@ struct emxArray_int32_T_proc_control_T
 
 #endif                                // struct_emxArray_int32_T_proc_control_T
 
+#ifndef struct_emxArray_real_T_980x260_proc__T
+#define struct_emxArray_real_T_980x260_proc__T
+
+struct emxArray_real_T_980x260_proc__T
+{
+  real_T data[254800];
+  int32_T size[2];
+};
+
+#endif                                // struct_emxArray_real_T_980x260_proc__T
+
+#ifndef struct_emxArray_real_T_980x130_proc__T
+#define struct_emxArray_real_T_980x130_proc__T
+
+struct emxArray_real_T_980x130_proc__T
+{
+  real_T data[127400];
+  int32_T size[2];
+};
+
+#endif                                // struct_emxArray_real_T_980x130_proc__T
+
+#ifndef struct_emxArray_real_T_1829x980_proc_T
+#define struct_emxArray_real_T_1829x980_proc_T
+
+struct emxArray_real_T_1829x980_proc_T
+{
+  real_T data[1792420];
+  int32_T size[2];
+};
+
+#endif                                // struct_emxArray_real_T_1829x980_proc_T
+
+#ifndef struct_emxArray_real_T_1829x1829_pro_T
+#define struct_emxArray_real_T_1829x1829_pro_T
+
+struct emxArray_real_T_1829x1829_pro_T
+{
+  real_T data[3345241];
+  int32_T size[2];
+};
+
+#endif                                // struct_emxArray_real_T_1829x1829_pro_T
+
 // Custom Type definition for MATLAB Function: '<S203>/NLMPC'
 #ifndef struct_s_8RbNZtrzTH63iHAPCwMh6G_proc_T
 #define struct_s_8RbNZtrzTH63iHAPCwMh6G_proc_T
 
 struct s_8RbNZtrzTH63iHAPCwMh6G_proc_T
 {
-  emxArray_real_T_proc_control_T *FMat;
+  emxArray_real_T_1829x1829_pro_T FMat;
   int32_T ldm;
   int32_T ndims;
   int32_T info;
@@ -1659,8 +1446,8 @@ struct s_VA2YLuOkHrWNKQO7FEpyoH_proc_T
   emxArray_real_T_980_proc_cont_T delta_x;
   emxArray_real_T_980_proc_cont_T socDirection;
   emxArray_int32_T_1829_proc_co_T workingset_old;
-  emxArray_real_T_proc_control_T *JacCineqTrans_old;
-  emxArray_real_T_proc_control_T *JacCeqTrans_old;
+  emxArray_real_T_980x260_proc__T JacCineqTrans_old;
+  emxArray_real_T_980x130_proc__T JacCeqTrans_old;
   emxArray_real_T_980_proc_cont_T gradLag;
   emxArray_real_T_980_proc_cont_T delta_gradLag;
   emxArray_real_T_980_proc_cont_T xstar;
@@ -1675,6 +1462,28 @@ struct s_VA2YLuOkHrWNKQO7FEpyoH_proc_T
 
 #endif                                // struct_s_VA2YLuOkHrWNKQO7FEpyoH_proc_T
 
+#ifndef struct_emxArray_real_T_568400_proc_c_T
+#define struct_emxArray_real_T_568400_proc_c_T
+
+struct emxArray_real_T_568400_proc_c_T
+{
+  real_T data[568400];
+  int32_T size;
+};
+
+#endif                                // struct_emxArray_real_T_568400_proc_c_T
+
+#ifndef struct_emxArray_real_T_127400_proc_c_T
+#define struct_emxArray_real_T_127400_proc_c_T
+
+struct emxArray_real_T_127400_proc_c_T
+{
+  real_T data[127400];
+  int32_T size;
+};
+
+#endif                                // struct_emxArray_real_T_127400_proc_c_T
+
 #ifndef struct_emxArray_int32_T_980_proc_con_T
 #define struct_emxArray_int32_T_980_proc_con_T
 
@@ -1685,6 +1494,17 @@ struct emxArray_int32_T_980_proc_con_T
 };
 
 #endif                                // struct_emxArray_int32_T_980_proc_con_T
+
+#ifndef struct_emxArray_real_T_1792420_proc__T
+#define struct_emxArray_real_T_1792420_proc__T
+
+struct emxArray_real_T_1792420_proc__T
+{
+  real_T data[1792420];
+  int32_T size;
+};
+
+#endif                                // struct_emxArray_real_T_1792420_proc__T
 
 #ifndef struct_emxArray_boolean_T_1829_proc__T
 #define struct_emxArray_boolean_T_1829_proc__T
@@ -1710,9 +1530,9 @@ struct s_gnTVUZmGpKWoq4tCE9AGn_proc__T
   int32_T nVarOrig;
   int32_T nVarMax;
   int32_T ldA;
-  emxArray_real_T_proc_control_T *Aineq;
+  emxArray_real_T_568400_proc_c_T Aineq;
   emxArray_real_T_580_proc_cont_T bineq;
-  emxArray_real_T_proc_control_T *Aeq;
+  emxArray_real_T_127400_proc_c_T Aeq;
   real_T beq[130];
   emxArray_real_T_980_proc_cont_T lb;
   emxArray_real_T_980_proc_cont_T ub;
@@ -1721,7 +1541,7 @@ struct s_gnTVUZmGpKWoq4tCE9AGn_proc__T
   emxArray_int32_T_980_proc_con_T indexFixed;
   int32_T mEqRemoved;
   int32_T indexEqRemoved[130];
-  emxArray_real_T_proc_control_T *ATwset;
+  emxArray_real_T_1792420_proc__T ATwset;
   emxArray_real_T_1829_proc_con_T bwset;
   int32_T nActiveConstr;
   emxArray_real_T_1829_proc_con_T maxConstrWorkspace;
@@ -1790,7 +1610,7 @@ struct s_IDHIEhzA2KtfYk7ehxTmaH_proc_T
 
 struct s_j0X3urodUv3ospvkLXsspC_proc_T
 {
-  emxArray_real_T_proc_control_T *workspace_double;
+  emxArray_real_T_1829x980_proc_T workspace_double;
   emxArray_int32_T_1829_proc_co_T workspace_int;
   emxArray_int32_T_1829_proc_co_T workspace_sort;
 };
@@ -1803,8 +1623,8 @@ struct s_j0X3urodUv3ospvkLXsspC_proc_T
 struct s_Ref0liQlfQOPmAop9i3aPH_proc_T
 {
   int32_T ldq;
-  emxArray_real_T_proc_control_T *QR;
-  emxArray_real_T_proc_control_T *Q;
+  emxArray_real_T_1829x1829_pro_T QR;
+  emxArray_real_T_1829x1829_pro_T Q;
   emxArray_int32_T_1829_proc_co_T jpvt;
   int32_T mrows;
   int32_T ncols;
@@ -1847,6 +1667,19 @@ struct s_wbACub5hw4pAYPfHb1hrsB_proc_T
 };
 
 #endif                                // struct_s_wbACub5hw4pAYPfHb1hrsB_proc_T
+
+#ifndef struct_ros_slros_internal_block_GetP_T
+#define struct_ros_slros_internal_block_GetP_T
+
+struct ros_slros_internal_block_GetP_T
+{
+  boolean_T matlabCodegenIsDeleted;
+  int32_T isInitialized;
+  boolean_T isSetupComplete;
+  f_robotics_slcore_internal_bl_T SampleTimeHandler;
+};
+
+#endif                                // struct_ros_slros_internal_block_GetP_T
 #endif                                 // RTW_HEADER_proc_control_types_h_
 
 //

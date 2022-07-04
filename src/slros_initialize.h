@@ -51,22 +51,22 @@ extern SimulinkSubscriber<trajectory_msgs::MultiDOFJointTrajectoryPoint, SL_Bus_
 // For Block proc_control/Subsystem Trajectory/singleWpts Trajectory/Subscribe
 extern SimulinkSubscriber<sonia_common::AddPose, SL_Bus_proc_control_sonia_common_AddPose> Sub_proc_control_184_1168;
 
-// For Block proc_control/Subsystem1/Subscribe1
+// For Block proc_control/Subsystem1/ROS Command Manager/Subscribe1
 extern SimulinkSubscriber<std_msgs::Bool, SL_Bus_proc_control_std_msgs_Bool> Sub_proc_control_185_12;
 
-// For Block proc_control/Subsystem1/Subscribe2
+// For Block proc_control/Subsystem1/ROS Command Manager/Subscribe2
 extern SimulinkSubscriber<std_msgs::UInt8, SL_Bus_proc_control_std_msgs_UInt8> Sub_proc_control_185_13;
 
-// For Block proc_control/Subsystem1/Subscribe3
+// For Block proc_control/Subsystem1/ROS Command Manager/Subscribe3
 extern SimulinkSubscriber<std_msgs::Bool, SL_Bus_proc_control_std_msgs_Bool> Sub_proc_control_185_14;
 
-// For Block proc_control/Subsystem1/Subscribe4
+// For Block proc_control/Subsystem1/ROS Command Manager/Subscribe4
 extern SimulinkSubscriber<std_msgs::Bool, SL_Bus_proc_control_std_msgs_Bool> Sub_proc_control_185_268;
 
-// For Block proc_control/Subsystem1/Subscribe5
+// For Block proc_control/Subsystem1/ROS Command Manager/Subscribe5
 extern SimulinkSubscriber<std_msgs::Bool, SL_Bus_proc_control_std_msgs_Bool> Sub_proc_control_185_270;
 
-// For Block proc_control/Subsystem1/startSim
+// For Block proc_control/Subsystem1/ROS Command Manager/startSim
 extern SimulinkSubscriber<geometry_msgs::Pose, SL_Bus_proc_control_geometry_msgs_Pose> Sub_proc_control_185_11;
 
 // For Block proc_control/Modle Physique/Modele Thruster/Send RPM to unity/Publish2
@@ -102,11 +102,71 @@ extern SimulinkPublisher<sonia_common::MpcInfo, SL_Bus_proc_control_sonia_common
 // For Block proc_control/Sensor Manager/Send Sensor ON/Publish
 extern SimulinkPublisher<std_msgs::Bool, SL_Bus_proc_control_std_msgs_Bool> Pub_proc_control_116;
 
-// For Block proc_control/Sensor Manager/Send To Telemetry /Publish
+// For Block proc_control/Sensor Manager/Send auv states/Publish
 extern SimulinkPublisher<nav_msgs::Odometry, SL_Bus_proc_control_nav_msgs_Odometry> Pub_proc_control_163;
 
-// For Block proc_control/Subsystem Trajectory/sendCurrentTarget/Publish5
+// For Block proc_control/Subsystem Trajectory/Subsystem2/Publish5
 extern SimulinkPublisher<geometry_msgs::Pose, SL_Bus_proc_control_geometry_msgs_Pose> Pub_proc_control_184_1596;
+
+// For Block proc_control/Subsystem1/Get_ROS_param /MPC_parameters/mpc gains/Gains defaut/Get Parameter
+extern SimulinkParameterArrayGetter<char_T, std::string> ParamGet_proc_control_185_465;
+
+// For Block proc_control/Subsystem1/Get_ROS_param /MPC_parameters/mpc gains/Gains defaut/Get Parameter1
+extern SimulinkParameterArrayGetter<char_T, std::string> ParamGet_proc_control_185_466;
+
+// For Block proc_control/Subsystem1/Get_ROS_param /MPC_parameters/mpc gains/Gains defaut/Get Parameter2
+extern SimulinkParameterArrayGetter<char_T, std::string> ParamGet_proc_control_185_467;
+
+// For Block proc_control/Subsystem1/Get_ROS_param /MPC_parameters/mpc gains/Gains mode 10/Get Parameter
+extern SimulinkParameterArrayGetter<char_T, std::string> ParamGet_proc_control_185_440;
+
+// For Block proc_control/Subsystem1/Get_ROS_param /MPC_parameters/mpc gains/Gains mode 10/Get Parameter1
+extern SimulinkParameterArrayGetter<char_T, std::string> ParamGet_proc_control_185_441;
+
+// For Block proc_control/Subsystem1/Get_ROS_param /MPC_parameters/mpc gains/Gains mode 10/Get Parameter2
+extern SimulinkParameterArrayGetter<char_T, std::string> ParamGet_proc_control_185_442;
+
+// For Block proc_control/Subsystem1/Get_ROS_param /MPC_parameters/mpc gains/Gains mode 11/Get Parameter
+extern SimulinkParameterArrayGetter<char_T, std::string> ParamGet_proc_control_185_453;
+
+// For Block proc_control/Subsystem1/Get_ROS_param /MPC_parameters/mpc gains/Gains mode 11/Get Parameter1
+extern SimulinkParameterArrayGetter<char_T, std::string> ParamGet_proc_control_185_454;
+
+// For Block proc_control/Subsystem1/Get_ROS_param /MPC_parameters/mpc gains/Gains mode 11/Get Parameter2
+extern SimulinkParameterArrayGetter<char_T, std::string> ParamGet_proc_control_185_455;
+
+// For Block proc_control/Subsystem1/Get_ROS_param /MPC_parameters/mpc gains/Gains mode 19/Get Parameter
+extern SimulinkParameterArrayGetter<char_T, std::string> ParamGet_proc_control_185_477;
+
+// For Block proc_control/Subsystem1/Get_ROS_param /MPC_parameters/mpc gains/Gains mode 19/Get Parameter1
+extern SimulinkParameterArrayGetter<char_T, std::string> ParamGet_proc_control_185_478;
+
+// For Block proc_control/Subsystem1/Get_ROS_param /MPC_parameters/mpc gains/Gains mode 19/Get Parameter2
+extern SimulinkParameterArrayGetter<char_T, std::string> ParamGet_proc_control_185_479;
+
+// For Block proc_control/Subsystem1/Get_ROS_param /MPC_parameters/mpc gains/Gains no dvl/Get Parameter1
+extern SimulinkParameterArrayGetter<char_T, std::string> ParamGet_proc_control_185_494;
+
+// For Block proc_control/Subsystem1/Get_ROS_param /MPC_parameters/mpc gains/Get Parameter
+extern SimulinkParameterGetter<int32_T, int> ParamGet_proc_control_185_529;
+
+// For Block proc_control/Subsystem1/Get_ROS_param /MPC_parameters/mpc gains/Get Parameter1
+extern SimulinkParameterGetter<int32_T, int> ParamGet_proc_control_185_530;
+
+// For Block proc_control/Subsystem1/Get_ROS_param /MPC_parameters/mpc gains/Get Parameter2
+extern SimulinkParameterGetter<real64_T, double> ParamGet_proc_control_185_533;
+
+// For Block proc_control/Subsystem1/Get_ROS_param /MPC_parameters/mpc gains/Get Parameter3
+extern SimulinkParameterGetter<real64_T, double> ParamGet_proc_control_185_534;
+
+// For Block proc_control/Subsystem1/Get_ROS_param /MPC_parameters/targetReached param/Get Parameter
+extern SimulinkParameterGetter<real64_T, double> ParamGet_proc_control_185_503;
+
+// For Block proc_control/Subsystem1/Get_ROS_param /MPC_parameters/targetReached param/Get Parameter1
+extern SimulinkParameterGetter<real64_T, double> ParamGet_proc_control_185_504;
+
+// For Block proc_control/Subsystem1/Get_ROS_param /MPC_parameters/targetReached param/Get Parameter2
+extern SimulinkParameterGetter<real64_T, double> ParamGet_proc_control_185_505;
 
 void slros_node_init(int argc, char** argv);
 

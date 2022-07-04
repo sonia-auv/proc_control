@@ -376,6 +376,9 @@ void convertFromBus(sonia_common::PingMsg* msgPtr, SL_Bus_proc_control_sonia_com
   msgPtr->frequency =  busPtr->Frequency;
   convertFromBus(&msgPtr->header, &busPtr->Header);
   msgPtr->heading =  busPtr->Heading;
+  msgPtr->x =  busPtr->X;
+  msgPtr->y =  busPtr->Y;
+  msgPtr->z =  busPtr->Z;
 }
 
 void convertToBus(SL_Bus_proc_control_sonia_common_PingMsg* busPtr, sonia_common::PingMsg const* msgPtr)
@@ -387,6 +390,9 @@ void convertToBus(SL_Bus_proc_control_sonia_common_PingMsg* busPtr, sonia_common
   busPtr->Frequency =  msgPtr->frequency;
   convertToBus(&busPtr->Header, &msgPtr->header);
   busPtr->Heading =  msgPtr->heading;
+  busPtr->X =  msgPtr->x;
+  busPtr->Y =  msgPtr->y;
+  busPtr->Z =  msgPtr->z;
 }
 
 

@@ -18,7 +18,6 @@
 #include <sonia_common/BodyVelocityDVL.h>
 #include <sonia_common/MpcGains.h>
 #include <sonia_common/MpcInfo.h>
-#include <sonia_common/PingMsg.h>
 #include <std_msgs/Bool.h>
 #include <std_msgs/Float32.h>
 #include <std_msgs/Float64MultiArray.h>
@@ -81,9 +80,6 @@ void convertToBus(SL_Bus_proc_control_sonia_common_MpcGains* busPtr, sonia_commo
 
 void convertFromBus(sonia_common::MpcInfo* msgPtr, SL_Bus_proc_control_sonia_common_MpcInfo const* busPtr);
 void convertToBus(SL_Bus_proc_control_sonia_common_MpcInfo* busPtr, sonia_common::MpcInfo const* msgPtr);
-
-void convertFromBus(sonia_common::PingMsg* msgPtr, SL_Bus_proc_control_sonia_common_PingMsg const* busPtr);
-void convertToBus(SL_Bus_proc_control_sonia_common_PingMsg* busPtr, sonia_common::PingMsg const* msgPtr);
 
 void convertFromBus(std_msgs::Bool* msgPtr, SL_Bus_proc_control_std_msgs_Bool const* busPtr);
 void convertToBus(SL_Bus_proc_control_std_msgs_Bool* busPtr, std_msgs::Bool const* msgPtr);

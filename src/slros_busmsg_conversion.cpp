@@ -365,37 +365,6 @@ void convertToBus(SL_Bus_proc_control_sonia_common_MpcInfo* busPtr, sonia_common
 }
 
 
-// Conversions between SL_Bus_proc_control_sonia_common_PingMsg and sonia_common::PingMsg
-
-void convertFromBus(sonia_common::PingMsg* msgPtr, SL_Bus_proc_control_sonia_common_PingMsg const* busPtr)
-{
-  const std::string rosMessageType("sonia_common/PingMsg");
-
-  msgPtr->debug =  busPtr->Debug;
-  msgPtr->elevation =  busPtr->Elevation;
-  msgPtr->frequency =  busPtr->Frequency;
-  convertFromBus(&msgPtr->header, &busPtr->Header);
-  msgPtr->heading =  busPtr->Heading;
-  msgPtr->x =  busPtr->X;
-  msgPtr->y =  busPtr->Y;
-  msgPtr->z =  busPtr->Z;
-}
-
-void convertToBus(SL_Bus_proc_control_sonia_common_PingMsg* busPtr, sonia_common::PingMsg const* msgPtr)
-{
-  const std::string rosMessageType("sonia_common/PingMsg");
-
-  busPtr->Debug =  msgPtr->debug;
-  busPtr->Elevation =  msgPtr->elevation;
-  busPtr->Frequency =  msgPtr->frequency;
-  convertToBus(&busPtr->Header, &msgPtr->header);
-  busPtr->Heading =  msgPtr->heading;
-  busPtr->X =  msgPtr->x;
-  busPtr->Y =  msgPtr->y;
-  busPtr->Z =  msgPtr->z;
-}
-
-
 // Conversions between SL_Bus_proc_control_std_msgs_Bool and std_msgs::Bool
 
 void convertFromBus(std_msgs::Bool* msgPtr, SL_Bus_proc_control_std_msgs_Bool const* busPtr)

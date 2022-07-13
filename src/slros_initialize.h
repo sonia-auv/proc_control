@@ -168,6 +168,54 @@ extern SimulinkParameterGetter<real64_T, double> ParamGet_proc_control_185_504;
 // For Block proc_control/Subsystem1/Get_ROS_param /MPC_parameters/targetReached param/Get Parameter2
 extern SimulinkParameterGetter<real64_T, double> ParamGet_proc_control_185_505;
 
+// For Block proc_control/Subsystem1/Get_ROS_param /physics constants/Get Parameter
+extern SimulinkParameterGetter<real64_T, double> ParamGet_proc_control_185_535;
+
+// For Block proc_control/Subsystem1/Get_ROS_param /physics constants/Get Parameter1
+extern SimulinkParameterGetter<real64_T, double> ParamGet_proc_control_185_540;
+
+// For Block proc_control/Subsystem1/Get_ROS_param /physics constants/Get Parameter10
+extern SimulinkParameterArrayGetter<char_T, std::string> ParamGet_proc_control_185_554;
+
+// For Block proc_control/Subsystem1/Get_ROS_param /physics constants/Get Parameter11
+extern SimulinkParameterArrayGetter<char_T, std::string> ParamGet_proc_control_185_556;
+
+// For Block proc_control/Subsystem1/Get_ROS_param /physics constants/Get Parameter12
+extern SimulinkParameterArrayGetter<char_T, std::string> ParamGet_proc_control_185_558;
+
+// For Block proc_control/Subsystem1/Get_ROS_param /physics constants/Get Parameter13
+extern SimulinkParameterArrayGetter<char_T, std::string> ParamGet_proc_control_185_560;
+
+// For Block proc_control/Subsystem1/Get_ROS_param /physics constants/Get Parameter14
+extern SimulinkParameterArrayGetter<char_T, std::string> ParamGet_proc_control_185_562;
+
+// For Block proc_control/Subsystem1/Get_ROS_param /physics constants/Get Parameter15
+extern SimulinkParameterArrayGetter<char_T, std::string> ParamGet_proc_control_185_568;
+
+// For Block proc_control/Subsystem1/Get_ROS_param /physics constants/Get Parameter2
+extern SimulinkParameterGetter<real64_T, double> ParamGet_proc_control_185_541;
+
+// For Block proc_control/Subsystem1/Get_ROS_param /physics constants/Get Parameter3
+extern SimulinkParameterGetter<real64_T, double> ParamGet_proc_control_185_542;
+
+// For Block proc_control/Subsystem1/Get_ROS_param /physics constants/Get Parameter4
+extern SimulinkParameterGetter<real64_T, double> ParamGet_proc_control_185_543;
+
+// For Block proc_control/Subsystem1/Get_ROS_param /physics constants/Get Parameter5
+extern SimulinkParameterArrayGetter<char_T, std::string> ParamGet_proc_control_185_544;
+
+// For Block proc_control/Subsystem1/Get_ROS_param /physics constants/Get Parameter6
+extern SimulinkParameterArrayGetter<char_T, std::string> ParamGet_proc_control_185_546;
+
+// For Block proc_control/Subsystem1/Get_ROS_param /physics constants/Get Parameter7
+extern SimulinkParameterArrayGetter<char_T, std::string> ParamGet_proc_control_185_548;
+
+// For Block proc_control/Subsystem1/Get_ROS_param /physics constants/Get Parameter8
+extern SimulinkParameterArrayGetter<char_T, std::string> ParamGet_proc_control_185_549;
+
+// For Block proc_control/Subsystem1/Get_ROS_param /physics constants/Get Parameter9
+extern SimulinkParameterArrayGetter<char_T, std::string> ParamGet_proc_control_185_552;
+
 void slros_node_init(int argc, char** argv);
 
 #endif

@@ -3,9 +3,9 @@
 //
 // Code generated for Simulink model 'proc_control'.
 //
-// Model version                  : 3.63
+// Model version                  : 3.73
 // Simulink Coder version         : 9.7 (R2022a) 13-Nov-2021
-// C/C++ source code generated on : Mon Jul 04 00:42:30 2022
+// C/C++ source code generated on : Wed Jul 13 14:47:39 2022
 //
 
 #ifndef _ROS_MATLAB_NODEINTERFACE_

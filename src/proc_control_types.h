@@ -7,9 +7,9 @@
 //
 // Code generated for Simulink model 'proc_control'.
 //
-// Model version                  : 3.63
+// Model version                  : 3.73
 // Simulink Coder version         : 9.7 (R2022a) 13-Nov-2021
-// C/C++ source code generated on : Mon Jul  4 00:42:11 2022
+// C/C++ source code generated on : Wed Jul 13 14:47:14 2022
 //
 // Target selection: ert.tlc
 // Embedded hardware selection: ARM Compatible->ARM 64-bit (LLP64)
@@ -613,6 +613,31 @@ struct mpcParams
 
 #endif
 
+#ifndef DEFINED_TYPEDEF_FOR_physicsConstants_
+#define DEFINED_TYPEDEF_FOR_physicsConstants_
+
+struct physicsConstants
+{
+  real_T rho;
+  real_T g;
+  real_T mass;
+  real_T volume;
+  real_T sub_height;
+  real_T rg[3];
+  real_T rb[3];
+  real_T cdl[6];
+  real_T cdq[6];
+  real_T added_mass[6];
+  real_T I[9];
+  real_T depth_pose[3];
+  real_T hydro_pose[3];
+  real_T sonar_pose[3];
+  real_T dvl_rotation[3];
+  real_T thrusters[48];
+};
+
+#endif
+
 #ifndef DEFINED_TYPEDEF_FOR_struct_qfomatEQOl7mLQ02Mpt2VE_
 #define DEFINED_TYPEDEF_FOR_struct_qfomatEQOl7mLQ02Mpt2VE_
 
@@ -675,13 +700,24 @@ struct struct_SqczGJVM1s2EbgKSygGASD
 
 #endif
 
-#ifndef DEFINED_TYPEDEF_FOR_struct_km1VGdrSgDw9o5zbPZirGD_
-#define DEFINED_TYPEDEF_FOR_struct_km1VGdrSgDw9o5zbPZirGD_
+#ifndef DEFINED_TYPEDEF_FOR_struct_WVxadzrSpZSPxdzWjVwoSG_
+#define DEFINED_TYPEDEF_FOR_struct_WVxadzrSpZSPxdzWjVwoSG_
 
-struct struct_km1VGdrSgDw9o5zbPZirGD
+struct struct_WVxadzrSpZSPxdzWjVwoSG
+{
+  real_T paramSampletime;
+};
+
+#endif
+
+#ifndef DEFINED_TYPEDEF_FOR_struct_Hf9190UGnfkO4yGDopBVwC_
+#define DEFINED_TYPEDEF_FOR_struct_Hf9190UGnfkO4yGDopBVwC_
+
+struct struct_Hf9190UGnfkO4yGDopBVwC
 {
   real_T sampletime;
   struct_SqczGJVM1s2EbgKSygGASD procNav;
+  struct_WVxadzrSpZSPxdzWjVwoSG ros;
 };
 
 #endif
@@ -886,7 +922,7 @@ struct ros_slros_internal_block_Curr_T
 
 struct String2DoubleArray_proc_contr_T
 {
-  real_T lastMsg[128];
+  real_T lastMsg[400];
   real_T lastValues[13];
 };
 
@@ -897,11 +933,33 @@ struct String2DoubleArray_proc_contr_T
 
 struct String2DoubleArray_proc_con_o_T
 {
-  real_T lastMsg[128];
+  real_T lastMsg[400];
   real_T lastValues[8];
 };
 
 #endif                                // struct_String2DoubleArray_proc_con_o_T
+
+#ifndef struct_String2DoubleArray_proc_co_oa_T
+#define struct_String2DoubleArray_proc_co_oa_T
+
+struct String2DoubleArray_proc_co_oa_T
+{
+  real_T lastMsg[400];
+  real_T lastValues[3];
+};
+
+#endif                                // struct_String2DoubleArray_proc_co_oa_T
+
+#ifndef struct_String2DoubleArray_proc_c_oaj_T
+#define struct_String2DoubleArray_proc_c_oaj_T
+
+struct String2DoubleArray_proc_c_oaj_T
+{
+  real_T lastMsg[400];
+  real_T lastValues[6];
+};
+
+#endif                                // struct_String2DoubleArray_proc_c_oaj_T
 
 #ifndef struct_AuvDifferentialEquation_proc__T
 #define struct_AuvDifferentialEquation_proc__T
@@ -1006,9 +1064,15 @@ struct quaternion_proc_control_T
 
 struct TrimPlant_proc_control_T
 {
+  int32_T isInitialized;
   real_T qkm[4];
   real_T qkt[4];
   real_T xl[13];
+  real_T Bc[104];
+  real_T C[169];
+  real_T D[104];
+  boolean_T init;
+  real_T constValues[38];
 };
 
 #endif                                 // struct_TrimPlant_proc_control_T
@@ -1162,6 +1226,28 @@ struct robotics_slcore_internal_bl_p_T
 };
 
 #endif                                // struct_robotics_slcore_internal_bl_p_T
+
+#ifndef struct_String2DoubleArray_proc_con_p_T
+#define struct_String2DoubleArray_proc_con_p_T
+
+struct String2DoubleArray_proc_con_p_T
+{
+  real_T lastMsg[400];
+  real_T lastValues[48];
+};
+
+#endif                                // struct_String2DoubleArray_proc_con_p_T
+
+#ifndef struct_String2DoubleArray_proc_co_pr_T
+#define struct_String2DoubleArray_proc_co_pr_T
+
+struct String2DoubleArray_proc_co_pr_T
+{
+  real_T lastMsg[400];
+  real_T lastValues[9];
+};
+
+#endif                                // struct_String2DoubleArray_proc_co_pr_T
 
 #ifndef struct_rosCommandManager_proc_contro_T
 #define struct_rosCommandManager_proc_contro_T

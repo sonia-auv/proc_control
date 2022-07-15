@@ -15,6 +15,9 @@ SimulinkSubscriber<sonia_common::BodyVelocityDVL, SL_Bus_proc_control_sonia_comm
 // For Block proc_control/ROS Input/AUV8/Subscribe2
 SimulinkSubscriber<std_msgs::Float32, SL_Bus_proc_control_std_msgs_Float32> Sub_proc_control_31_1302;
 
+// For Block proc_control/ROS Input/AUV8/Subscribe3
+SimulinkSubscriber<sonia_common::PingAngles, SL_Bus_proc_control_sonia_common_PingAngles> Sub_proc_control_31_1321;
+
 // For Block proc_control/ROS Input/Simulation/Subscribe
 SimulinkSubscriber<sensor_msgs::Imu, SL_Bus_proc_control_sensor_msgs_Imu> Sub_proc_control_31_1241;
 
@@ -23,6 +26,9 @@ SimulinkSubscriber<std_msgs::Float32, SL_Bus_proc_control_std_msgs_Float32> Sub_
 
 // For Block proc_control/ROS Input/Simulation/Subscribe1
 SimulinkSubscriber<sonia_common::BodyVelocityDVL, SL_Bus_proc_control_sonia_common_BodyVelocityDVL> Sub_proc_control_31_1242;
+
+// For Block proc_control/ROS Input/Simulation/Subscribe2
+SimulinkSubscriber<sonia_common::PingAngles, SL_Bus_proc_control_sonia_common_PingAngles> Sub_proc_control_31_1318;
 
 // For Block proc_control/Subsystem Controller/MPC manager/Subscribe
 SimulinkSubscriber<std_msgs::Float64MultiArray, SL_Bus_proc_control_std_msgs_Float64MultiArray> Sub_proc_control_182_1620;
@@ -72,6 +78,9 @@ SimulinkPublisher<std_msgs::Float32, SL_Bus_proc_control_std_msgs_Float32> Pub_p
 // For Block proc_control/ROS Output/Send IMU msg/Publish imu_info
 SimulinkPublisher<sensor_msgs::Imu, SL_Bus_proc_control_sensor_msgs_Imu> Pub_proc_control_47;
 
+// For Block proc_control/ROS Output/Send Ping msg/Publish Ping
+SimulinkPublisher<sonia_common::PingAngles, SL_Bus_proc_control_sonia_common_PingAngles> Pub_proc_control_350;
+
 // For Block proc_control/ROS Output/Send to Unity/Publish
 SimulinkPublisher<geometry_msgs::Pose, SL_Bus_proc_control_geometry_msgs_Pose> Pub_proc_control_75;
 
@@ -89,6 +98,9 @@ SimulinkPublisher<std_msgs::Bool, SL_Bus_proc_control_std_msgs_Bool> Pub_proc_co
 
 // For Block proc_control/Sensor Manager/Send auv states/Publish
 SimulinkPublisher<nav_msgs::Odometry, SL_Bus_proc_control_nav_msgs_Odometry> Pub_proc_control_163;
+
+// For Block proc_control/Subsystem Controller/Controller list/Adaptive MPC quaternion /Send mesurment residual/Publish
+SimulinkPublisher<nav_msgs::Odometry, SL_Bus_proc_control_nav_msgs_Odometry> Pub_proc_control_182_1725;
 
 // For Block proc_control/Subsystem Trajectory/Subsystem2/Publish5
 SimulinkPublisher<geometry_msgs::Pose, SL_Bus_proc_control_geometry_msgs_Pose> Pub_proc_control_184_1596;

@@ -7,9 +7,9 @@
 //
 // Code generated for Simulink model 'proc_control'.
 //
-// Model version                  : 3.74
+// Model version                  : 3.78
 // Simulink Coder version         : 9.7 (R2022a) 13-Nov-2021
-// C/C++ source code generated on : Wed Jul 13 15:26:04 2022
+// C/C++ source code generated on : Fri Jul 15 15:17:58 2022
 //
 // Target selection: ert.tlc
 // Embedded hardware selection: ARM Compatible->ARM 64-bit (LLP64)
@@ -193,6 +193,20 @@ struct SL_Bus_proc_control_sonia_common_BodyVelocityDVL
 struct SL_Bus_proc_control_std_msgs_Float32
 {
   real32_T Data;
+};
+
+#endif
+
+#ifndef DEFINED_TYPEDEF_FOR_SL_Bus_proc_control_sonia_common_PingAngles_
+#define DEFINED_TYPEDEF_FOR_SL_Bus_proc_control_sonia_common_PingAngles_
+
+// MsgType=sonia_common/PingAngles
+struct SL_Bus_proc_control_sonia_common_PingAngles
+{
+  // MsgType=std_msgs/Header
+  SL_Bus_proc_control_std_msgs_Header Header;
+  real_T Heading;
+  real_T Elevation;
 };
 
 #endif
@@ -898,50 +912,6 @@ struct ros_slros_internal_block_Curr_T
 
 #endif                                // struct_ros_slros_internal_block_Curr_T
 
-#ifndef struct_String2DoubleArray_proc_contr_T
-#define struct_String2DoubleArray_proc_contr_T
-
-struct String2DoubleArray_proc_contr_T
-{
-  real_T lastMsg[400];
-  real_T lastValues[13];
-};
-
-#endif                                // struct_String2DoubleArray_proc_contr_T
-
-#ifndef struct_String2DoubleArray_proc_con_o_T
-#define struct_String2DoubleArray_proc_con_o_T
-
-struct String2DoubleArray_proc_con_o_T
-{
-  real_T lastMsg[400];
-  real_T lastValues[8];
-};
-
-#endif                                // struct_String2DoubleArray_proc_con_o_T
-
-#ifndef struct_String2DoubleArray_proc_co_oa_T
-#define struct_String2DoubleArray_proc_co_oa_T
-
-struct String2DoubleArray_proc_co_oa_T
-{
-  real_T lastMsg[400];
-  real_T lastValues[3];
-};
-
-#endif                                // struct_String2DoubleArray_proc_co_oa_T
-
-#ifndef struct_String2DoubleArray_proc_c_oaj_T
-#define struct_String2DoubleArray_proc_c_oaj_T
-
-struct String2DoubleArray_proc_c_oaj_T
-{
-  real_T lastMsg[400];
-  real_T lastValues[6];
-};
-
-#endif                                // struct_String2DoubleArray_proc_c_oaj_T
-
 #ifndef struct_AuvDifferentialEquation_proc__T
 #define struct_AuvDifferentialEquation_proc__T
 
@@ -986,7 +956,7 @@ struct ros_slroscpp_internal_block_S_T
 
 #endif                                // struct_ros_slroscpp_internal_block_S_T
 
-// Custom Type definition for MATLAB Function: '<S196>/NLMPC'
+// Custom Type definition for MATLAB Function: '<S208>/NLMPC'
 #ifndef struct_sG8JZ69axY52WWR6RKyApQC_proc__T
 #define struct_sG8JZ69axY52WWR6RKyApQC_proc__T
 
@@ -1082,7 +1052,7 @@ struct OpenLoopController_proc_contr_T
 
 #endif                                // struct_OpenLoopController_proc_contr_T
 
-// Custom Type definition for MATLAB Function: '<S196>/NLMPC'
+// Custom Type definition for MATLAB Function: '<S208>/NLMPC'
 #ifndef struct_somzaGboVhDG7PNQS6E98jD_proc__T
 #define struct_somzaGboVhDG7PNQS6E98jD_proc__T
 
@@ -1208,13 +1178,24 @@ struct robotics_slcore_internal_bl_p_T
 
 #endif                                // struct_robotics_slcore_internal_bl_p_T
 
+#ifndef struct_String2DoubleArray_proc_contr_T
+#define struct_String2DoubleArray_proc_contr_T
+
+struct String2DoubleArray_proc_contr_T
+{
+  real_T lastMsg[400];
+  real_T lastValues[13];
+};
+
+#endif                                // struct_String2DoubleArray_proc_contr_T
+
 #ifndef struct_String2DoubleArray_proc_con_p_T
 #define struct_String2DoubleArray_proc_con_p_T
 
 struct String2DoubleArray_proc_con_p_T
 {
   real_T lastMsg[400];
-  real_T lastValues[48];
+  real_T lastValues[8];
 };
 
 #endif                                // struct_String2DoubleArray_proc_con_p_T
@@ -1225,10 +1206,43 @@ struct String2DoubleArray_proc_con_p_T
 struct String2DoubleArray_proc_co_pr_T
 {
   real_T lastMsg[400];
-  real_T lastValues[9];
+  real_T lastValues[3];
 };
 
 #endif                                // struct_String2DoubleArray_proc_co_pr_T
+
+#ifndef struct_String2DoubleArray_proc_c_pr3_T
+#define struct_String2DoubleArray_proc_c_pr3_T
+
+struct String2DoubleArray_proc_c_pr3_T
+{
+  real_T lastMsg[400];
+  real_T lastValues[48];
+};
+
+#endif                                // struct_String2DoubleArray_proc_c_pr3_T
+
+#ifndef struct_String2DoubleArray_proc__pr35_T
+#define struct_String2DoubleArray_proc__pr35_T
+
+struct String2DoubleArray_proc__pr35_T
+{
+  real_T lastMsg[400];
+  real_T lastValues[6];
+};
+
+#endif                                // struct_String2DoubleArray_proc__pr35_T
+
+#ifndef struct_String2DoubleArray_proc_pr351_T
+#define struct_String2DoubleArray_proc_pr351_T
+
+struct String2DoubleArray_proc_pr351_T
+{
+  real_T lastMsg[400];
+  real_T lastValues[9];
+};
+
+#endif                                // struct_String2DoubleArray_proc_pr351_T
 
 #ifndef struct_rosCommandManager_proc_contro_T
 #define struct_rosCommandManager_proc_contro_T
@@ -1247,6 +1261,20 @@ struct rosCommandManager_proc_contro_T
 };
 
 #endif                                // struct_rosCommandManager_proc_contro_T
+
+#ifndef struct_emxArray_char_T_proc_control_T
+#define struct_emxArray_char_T_proc_control_T
+
+struct emxArray_char_T_proc_control_T
+{
+  char_T *data;
+  int32_T *size;
+  int32_T allocatedSize;
+  int32_T numDimensions;
+  boolean_T canFreeData;
+};
+
+#endif                                 // struct_emxArray_char_T_proc_control_T
 
 #ifndef struct_emxArray_real_T_proc_control_T
 #define struct_emxArray_real_T_proc_control_T
@@ -1290,57 +1318,13 @@ struct emxArray_int32_T_proc_control_T
 
 #endif                                // struct_emxArray_int32_T_proc_control_T
 
-#ifndef struct_emxArray_real_T_980x260_proc__T
-#define struct_emxArray_real_T_980x260_proc__T
-
-struct emxArray_real_T_980x260_proc__T
-{
-  real_T data[254800];
-  int32_T size[2];
-};
-
-#endif                                // struct_emxArray_real_T_980x260_proc__T
-
-#ifndef struct_emxArray_real_T_980x130_proc__T
-#define struct_emxArray_real_T_980x130_proc__T
-
-struct emxArray_real_T_980x130_proc__T
-{
-  real_T data[127400];
-  int32_T size[2];
-};
-
-#endif                                // struct_emxArray_real_T_980x130_proc__T
-
-#ifndef struct_emxArray_real_T_1829x980_proc_T
-#define struct_emxArray_real_T_1829x980_proc_T
-
-struct emxArray_real_T_1829x980_proc_T
-{
-  real_T data[1792420];
-  int32_T size[2];
-};
-
-#endif                                // struct_emxArray_real_T_1829x980_proc_T
-
-#ifndef struct_emxArray_real_T_1829x1829_pro_T
-#define struct_emxArray_real_T_1829x1829_pro_T
-
-struct emxArray_real_T_1829x1829_pro_T
-{
-  real_T data[3345241];
-  int32_T size[2];
-};
-
-#endif                                // struct_emxArray_real_T_1829x1829_pro_T
-
-// Custom Type definition for MATLAB Function: '<S196>/NLMPC'
+// Custom Type definition for MATLAB Function: '<S208>/NLMPC'
 #ifndef struct_s_8RbNZtrzTH63iHAPCwMh6G_proc_T
 #define struct_s_8RbNZtrzTH63iHAPCwMh6G_proc_T
 
 struct s_8RbNZtrzTH63iHAPCwMh6G_proc_T
 {
-  emxArray_real_T_1829x1829_pro_T FMat;
+  emxArray_real_T_proc_control_T *FMat;
   int32_T ldm;
   int32_T ndims;
   int32_T info;
@@ -1480,7 +1464,7 @@ struct emxArray_int32_T_1829_proc_co_T
 
 #endif                                // struct_emxArray_int32_T_1829_proc_co_T
 
-// Custom Type definition for MATLAB Function: '<S196>/NLMPC'
+// Custom Type definition for MATLAB Function: '<S208>/NLMPC'
 #ifndef struct_s_VA2YLuOkHrWNKQO7FEpyoH_proc_T
 #define struct_s_VA2YLuOkHrWNKQO7FEpyoH_proc_T
 
@@ -1513,8 +1497,8 @@ struct s_VA2YLuOkHrWNKQO7FEpyoH_proc_T
   emxArray_real_T_980_proc_cont_T delta_x;
   emxArray_real_T_980_proc_cont_T socDirection;
   emxArray_int32_T_1829_proc_co_T workingset_old;
-  emxArray_real_T_980x260_proc__T JacCineqTrans_old;
-  emxArray_real_T_980x130_proc__T JacCeqTrans_old;
+  emxArray_real_T_proc_control_T *JacCineqTrans_old;
+  emxArray_real_T_proc_control_T *JacCeqTrans_old;
   emxArray_real_T_980_proc_cont_T gradLag;
   emxArray_real_T_980_proc_cont_T delta_gradLag;
   emxArray_real_T_980_proc_cont_T xstar;
@@ -1529,28 +1513,6 @@ struct s_VA2YLuOkHrWNKQO7FEpyoH_proc_T
 
 #endif                                // struct_s_VA2YLuOkHrWNKQO7FEpyoH_proc_T
 
-#ifndef struct_emxArray_real_T_568400_proc_c_T
-#define struct_emxArray_real_T_568400_proc_c_T
-
-struct emxArray_real_T_568400_proc_c_T
-{
-  real_T data[568400];
-  int32_T size;
-};
-
-#endif                                // struct_emxArray_real_T_568400_proc_c_T
-
-#ifndef struct_emxArray_real_T_127400_proc_c_T
-#define struct_emxArray_real_T_127400_proc_c_T
-
-struct emxArray_real_T_127400_proc_c_T
-{
-  real_T data[127400];
-  int32_T size;
-};
-
-#endif                                // struct_emxArray_real_T_127400_proc_c_T
-
 #ifndef struct_emxArray_int32_T_980_proc_con_T
 #define struct_emxArray_int32_T_980_proc_con_T
 
@@ -1561,17 +1523,6 @@ struct emxArray_int32_T_980_proc_con_T
 };
 
 #endif                                // struct_emxArray_int32_T_980_proc_con_T
-
-#ifndef struct_emxArray_real_T_1792420_proc__T
-#define struct_emxArray_real_T_1792420_proc__T
-
-struct emxArray_real_T_1792420_proc__T
-{
-  real_T data[1792420];
-  int32_T size;
-};
-
-#endif                                // struct_emxArray_real_T_1792420_proc__T
 
 #ifndef struct_emxArray_boolean_T_1829_proc__T
 #define struct_emxArray_boolean_T_1829_proc__T
@@ -1584,7 +1535,7 @@ struct emxArray_boolean_T_1829_proc__T
 
 #endif                                // struct_emxArray_boolean_T_1829_proc__T
 
-// Custom Type definition for MATLAB Function: '<S196>/NLMPC'
+// Custom Type definition for MATLAB Function: '<S208>/NLMPC'
 #ifndef struct_s_gnTVUZmGpKWoq4tCE9AGn_proc__T
 #define struct_s_gnTVUZmGpKWoq4tCE9AGn_proc__T
 
@@ -1597,9 +1548,9 @@ struct s_gnTVUZmGpKWoq4tCE9AGn_proc__T
   int32_T nVarOrig;
   int32_T nVarMax;
   int32_T ldA;
-  emxArray_real_T_568400_proc_c_T Aineq;
+  emxArray_real_T_proc_control_T *Aineq;
   emxArray_real_T_580_proc_cont_T bineq;
-  emxArray_real_T_127400_proc_c_T Aeq;
+  emxArray_real_T_proc_control_T *Aeq;
   real_T beq[130];
   emxArray_real_T_980_proc_cont_T lb;
   emxArray_real_T_980_proc_cont_T ub;
@@ -1608,7 +1559,7 @@ struct s_gnTVUZmGpKWoq4tCE9AGn_proc__T
   emxArray_int32_T_980_proc_con_T indexFixed;
   int32_T mEqRemoved;
   int32_T indexEqRemoved[130];
-  emxArray_real_T_1792420_proc__T ATwset;
+  emxArray_real_T_proc_control_T *ATwset;
   emxArray_real_T_1829_proc_con_T bwset;
   int32_T nActiveConstr;
   emxArray_real_T_1829_proc_con_T maxConstrWorkspace;
@@ -1643,7 +1594,7 @@ struct emxArray_real_T_260_proc_cont_T
 
 #endif                                // struct_emxArray_real_T_260_proc_cont_T
 
-// Custom Type definition for MATLAB Function: '<S196>/NLMPC'
+// Custom Type definition for MATLAB Function: '<S208>/NLMPC'
 #ifndef struct_s_IDHIEhzA2KtfYk7ehxTmaH_proc_T
 #define struct_s_IDHIEhzA2KtfYk7ehxTmaH_proc_T
 
@@ -1677,7 +1628,7 @@ struct s_IDHIEhzA2KtfYk7ehxTmaH_proc_T
 
 struct s_j0X3urodUv3ospvkLXsspC_proc_T
 {
-  emxArray_real_T_1829x980_proc_T workspace_double;
+  emxArray_real_T_proc_control_T *workspace_double;
   emxArray_int32_T_1829_proc_co_T workspace_int;
   emxArray_int32_T_1829_proc_co_T workspace_sort;
 };
@@ -1690,8 +1641,8 @@ struct s_j0X3urodUv3ospvkLXsspC_proc_T
 struct s_Ref0liQlfQOPmAop9i3aPH_proc_T
 {
   int32_T ldq;
-  emxArray_real_T_1829x1829_pro_T QR;
-  emxArray_real_T_1829x1829_pro_T Q;
+  emxArray_real_T_proc_control_T *QR;
+  emxArray_real_T_proc_control_T *Q;
   emxArray_int32_T_1829_proc_co_T jpvt;
   int32_T mrows;
   int32_T ncols;
@@ -1713,7 +1664,7 @@ struct emxArray_real_T_979_proc_cont_T
 
 #endif                                // struct_emxArray_real_T_979_proc_cont_T
 
-// Custom Type definition for MATLAB Function: '<S196>/NLMPC'
+// Custom Type definition for MATLAB Function: '<S208>/NLMPC'
 #ifndef struct_s_wbACub5hw4pAYPfHb1hrsB_proc_T
 #define struct_s_wbACub5hw4pAYPfHb1hrsB_proc_T
 

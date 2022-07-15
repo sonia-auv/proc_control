@@ -365,6 +365,27 @@ void convertToBus(SL_Bus_proc_control_sonia_common_MpcInfo* busPtr, sonia_common
 }
 
 
+// Conversions between SL_Bus_proc_control_sonia_common_PingAngles and sonia_common::PingAngles
+
+void convertFromBus(sonia_common::PingAngles* msgPtr, SL_Bus_proc_control_sonia_common_PingAngles const* busPtr)
+{
+  const std::string rosMessageType("sonia_common/PingAngles");
+
+  msgPtr->elevation =  busPtr->Elevation;
+  convertFromBus(&msgPtr->header, &busPtr->Header);
+  msgPtr->heading =  busPtr->Heading;
+}
+
+void convertToBus(SL_Bus_proc_control_sonia_common_PingAngles* busPtr, sonia_common::PingAngles const* msgPtr)
+{
+  const std::string rosMessageType("sonia_common/PingAngles");
+
+  busPtr->Elevation =  msgPtr->elevation;
+  convertToBus(&busPtr->Header, &msgPtr->header);
+  busPtr->Heading =  msgPtr->heading;
+}
+
+
 // Conversions between SL_Bus_proc_control_std_msgs_Bool and std_msgs::Bool
 
 void convertFromBus(std_msgs::Bool* msgPtr, SL_Bus_proc_control_std_msgs_Bool const* busPtr)

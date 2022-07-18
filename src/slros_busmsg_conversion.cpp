@@ -372,8 +372,10 @@ void convertFromBus(sonia_common::PingAngles* msgPtr, SL_Bus_proc_control_sonia_
   const std::string rosMessageType("sonia_common/PingAngles");
 
   msgPtr->elevation =  busPtr->Elevation;
+  msgPtr->frequency =  busPtr->Frequency;
   convertFromBus(&msgPtr->header, &busPtr->Header);
   msgPtr->heading =  busPtr->Heading;
+  msgPtr->snr =  busPtr->Snr;
 }
 
 void convertToBus(SL_Bus_proc_control_sonia_common_PingAngles* busPtr, sonia_common::PingAngles const* msgPtr)
@@ -381,8 +383,10 @@ void convertToBus(SL_Bus_proc_control_sonia_common_PingAngles* busPtr, sonia_com
   const std::string rosMessageType("sonia_common/PingAngles");
 
   busPtr->Elevation =  msgPtr->elevation;
+  busPtr->Frequency =  msgPtr->frequency;
   convertToBus(&busPtr->Header, &msgPtr->header);
   busPtr->Heading =  msgPtr->heading;
+  busPtr->Snr =  msgPtr->snr;
 }
 
 

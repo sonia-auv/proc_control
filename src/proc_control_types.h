@@ -9,7 +9,7 @@
 //
 // Model version                  : 3.79
 // Simulink Coder version         : 9.7 (R2022a) 13-Nov-2021
-// C/C++ source code generated on : Sat Jul 16 14:35:22 2022
+// C/C++ source code generated on : Mon Jul 18 07:32:28 2022
 //
 // Target selection: ert.tlc
 // Embedded hardware selection: ARM Compatible->ARM 64-bit (LLP64)
@@ -207,6 +207,8 @@ struct SL_Bus_proc_control_sonia_common_PingAngles
   SL_Bus_proc_control_std_msgs_Header Header;
   real_T Heading;
   real_T Elevation;
+  uint16_T Frequency;
+  uint16_T Snr;
 };
 
 #endif
@@ -912,16 +914,6 @@ struct ros_slros_internal_block_Curr_T
 
 #endif                                // struct_ros_slros_internal_block_Curr_T
 
-#ifndef struct_AuvDifferentialEquation_proc__T
-#define struct_AuvDifferentialEquation_proc__T
-
-struct AuvDifferentialEquation_proc__T
-{
-  int32_T isInitialized;
-};
-
-#endif                                // struct_AuvDifferentialEquation_proc__T
-
 #ifndef struct_ros_slroscpp_internal_block_P_T
 #define struct_ros_slroscpp_internal_block_P_T
 
@@ -956,7 +948,7 @@ struct ros_slroscpp_internal_block_S_T
 
 #endif                                // struct_ros_slroscpp_internal_block_S_T
 
-// Custom Type definition for MATLAB Function: '<S208>/NLMPC'
+// Custom Type definition for MATLAB Function: '<S209>/NLMPC'
 #ifndef struct_sG8JZ69axY52WWR6RKyApQC_proc__T
 #define struct_sG8JZ69axY52WWR6RKyApQC_proc__T
 
@@ -1010,6 +1002,19 @@ struct quaternion_proc_control_T
 
 #endif                                 // struct_quaternion_proc_control_T
 
+#ifndef struct_AuvDifferentialEquation_proc__T
+#define struct_AuvDifferentialEquation_proc__T
+
+struct AuvDifferentialEquation_proc__T
+{
+  int32_T isInitialized;
+  boolean_T init;
+  real_T constValues[38];
+  real_T Bc[104];
+};
+
+#endif                                // struct_AuvDifferentialEquation_proc__T
+
 #ifndef struct_TrimPlant_proc_control_T
 #define struct_TrimPlant_proc_control_T
 
@@ -1052,7 +1057,7 @@ struct OpenLoopController_proc_contr_T
 
 #endif                                // struct_OpenLoopController_proc_contr_T
 
-// Custom Type definition for MATLAB Function: '<S208>/NLMPC'
+// Custom Type definition for MATLAB Function: '<S209>/NLMPC'
 #ifndef struct_somzaGboVhDG7PNQS6E98jD_proc__T
 #define struct_somzaGboVhDG7PNQS6E98jD_proc__T
 
@@ -1348,7 +1353,7 @@ struct emxArray_real_T_1829x1829_pro_T
 
 #endif                                // struct_emxArray_real_T_1829x1829_pro_T
 
-// Custom Type definition for MATLAB Function: '<S208>/NLMPC'
+// Custom Type definition for MATLAB Function: '<S209>/NLMPC'
 #ifndef struct_s_8RbNZtrzTH63iHAPCwMh6G_proc_T
 #define struct_s_8RbNZtrzTH63iHAPCwMh6G_proc_T
 
@@ -1494,7 +1499,7 @@ struct emxArray_int32_T_1829_proc_co_T
 
 #endif                                // struct_emxArray_int32_T_1829_proc_co_T
 
-// Custom Type definition for MATLAB Function: '<S208>/NLMPC'
+// Custom Type definition for MATLAB Function: '<S209>/NLMPC'
 #ifndef struct_s_VA2YLuOkHrWNKQO7FEpyoH_proc_T
 #define struct_s_VA2YLuOkHrWNKQO7FEpyoH_proc_T
 
@@ -1598,7 +1603,7 @@ struct emxArray_boolean_T_1829_proc__T
 
 #endif                                // struct_emxArray_boolean_T_1829_proc__T
 
-// Custom Type definition for MATLAB Function: '<S208>/NLMPC'
+// Custom Type definition for MATLAB Function: '<S209>/NLMPC'
 #ifndef struct_s_gnTVUZmGpKWoq4tCE9AGn_proc__T
 #define struct_s_gnTVUZmGpKWoq4tCE9AGn_proc__T
 
@@ -1657,7 +1662,7 @@ struct emxArray_real_T_260_proc_cont_T
 
 #endif                                // struct_emxArray_real_T_260_proc_cont_T
 
-// Custom Type definition for MATLAB Function: '<S208>/NLMPC'
+// Custom Type definition for MATLAB Function: '<S209>/NLMPC'
 #ifndef struct_s_IDHIEhzA2KtfYk7ehxTmaH_proc_T
 #define struct_s_IDHIEhzA2KtfYk7ehxTmaH_proc_T
 
@@ -1727,7 +1732,7 @@ struct emxArray_real_T_979_proc_cont_T
 
 #endif                                // struct_emxArray_real_T_979_proc_cont_T
 
-// Custom Type definition for MATLAB Function: '<S208>/NLMPC'
+// Custom Type definition for MATLAB Function: '<S209>/NLMPC'
 #ifndef struct_s_wbACub5hw4pAYPfHb1hrsB_proc_T
 #define struct_s_wbACub5hw4pAYPfHb1hrsB_proc_T
 

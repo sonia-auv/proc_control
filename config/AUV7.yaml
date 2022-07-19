@@ -20,7 +20,7 @@
 # See properties section here : https://www.mathworks.com/help/mpc/ref/mpc.html
 # must be integers
 /proc_control/mpc/p : 10 # prediction horizon MAX 10
-/proc_control/mpc/m : 2 # control horizon (m<=P otherwise crash)
+/proc_control/mpc/m : 1 # control horizon (m<=P otherwise crash)
 
 
 #=========================================================================================================

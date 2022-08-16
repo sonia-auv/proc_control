@@ -18,12 +18,13 @@
 #include <sonia_common/BodyVelocityDVL.h>
 #include <sonia_common/MpcGains.h>
 #include <sonia_common/MpcInfo.h>
-#include <sonia_common/PingMsg.h>
+#include <sonia_common/PingAngles.h>
 #include <std_msgs/Bool.h>
 #include <std_msgs/Float32.h>
 #include <std_msgs/Float64MultiArray.h>
 #include <std_msgs/Header.h>
 #include <std_msgs/Int16MultiArray.h>
+#include <std_msgs/Int8MultiArray.h>
 #include <std_msgs/MultiArrayDimension.h>
 #include <std_msgs/MultiArrayLayout.h>
 #include <std_msgs/UInt16MultiArray.h>
@@ -81,8 +82,8 @@ void convertToBus(SL_Bus_proc_control_sonia_common_MpcGains* busPtr, sonia_commo
 void convertFromBus(sonia_common::MpcInfo* msgPtr, SL_Bus_proc_control_sonia_common_MpcInfo const* busPtr);
 void convertToBus(SL_Bus_proc_control_sonia_common_MpcInfo* busPtr, sonia_common::MpcInfo const* msgPtr);
 
-void convertFromBus(sonia_common::PingMsg* msgPtr, SL_Bus_proc_control_sonia_common_PingMsg const* busPtr);
-void convertToBus(SL_Bus_proc_control_sonia_common_PingMsg* busPtr, sonia_common::PingMsg const* msgPtr);
+void convertFromBus(sonia_common::PingAngles* msgPtr, SL_Bus_proc_control_sonia_common_PingAngles const* busPtr);
+void convertToBus(SL_Bus_proc_control_sonia_common_PingAngles* busPtr, sonia_common::PingAngles const* msgPtr);
 
 void convertFromBus(std_msgs::Bool* msgPtr, SL_Bus_proc_control_std_msgs_Bool const* busPtr);
 void convertToBus(SL_Bus_proc_control_std_msgs_Bool* busPtr, std_msgs::Bool const* msgPtr);
@@ -98,6 +99,9 @@ void convertToBus(SL_Bus_proc_control_std_msgs_Header* busPtr, std_msgs::Header 
 
 void convertFromBus(std_msgs::Int16MultiArray* msgPtr, SL_Bus_proc_control_std_msgs_Int16MultiArray const* busPtr);
 void convertToBus(SL_Bus_proc_control_std_msgs_Int16MultiArray* busPtr, std_msgs::Int16MultiArray const* msgPtr);
+
+void convertFromBus(std_msgs::Int8MultiArray* msgPtr, SL_Bus_proc_control_std_msgs_Int8MultiArray const* busPtr);
+void convertToBus(SL_Bus_proc_control_std_msgs_Int8MultiArray* busPtr, std_msgs::Int8MultiArray const* msgPtr);
 
 void convertFromBus(std_msgs::MultiArrayDimension* msgPtr, SL_Bus_proc_control_std_msgs_MultiArrayDimension const* busPtr);
 void convertToBus(SL_Bus_proc_control_std_msgs_MultiArrayDimension* busPtr, std_msgs::MultiArrayDimension const* msgPtr);

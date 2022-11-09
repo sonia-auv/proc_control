@@ -365,28 +365,28 @@ void convertToBus(SL_Bus_proc_control_sonia_common_MpcInfo* busPtr, sonia_common
 }
 
 
-// Conversions between SL_Bus_proc_control_sonia_common_PingMsg and sonia_common::PingMsg
+// Conversions between SL_Bus_proc_control_sonia_common_PingAngles and sonia_common::PingAngles
 
-void convertFromBus(sonia_common::PingMsg* msgPtr, SL_Bus_proc_control_sonia_common_PingMsg const* busPtr)
+void convertFromBus(sonia_common::PingAngles* msgPtr, SL_Bus_proc_control_sonia_common_PingAngles const* busPtr)
 {
-  const std::string rosMessageType("sonia_common/PingMsg");
+  const std::string rosMessageType("sonia_common/PingAngles");
 
-  msgPtr->debug =  busPtr->Debug;
   msgPtr->elevation =  busPtr->Elevation;
   msgPtr->frequency =  busPtr->Frequency;
   convertFromBus(&msgPtr->header, &busPtr->Header);
   msgPtr->heading =  busPtr->Heading;
+  msgPtr->snr =  busPtr->Snr;
 }
 
-void convertToBus(SL_Bus_proc_control_sonia_common_PingMsg* busPtr, sonia_common::PingMsg const* msgPtr)
+void convertToBus(SL_Bus_proc_control_sonia_common_PingAngles* busPtr, sonia_common::PingAngles const* msgPtr)
 {
-  const std::string rosMessageType("sonia_common/PingMsg");
+  const std::string rosMessageType("sonia_common/PingAngles");
 
-  busPtr->Debug =  msgPtr->debug;
   busPtr->Elevation =  msgPtr->elevation;
   busPtr->Frequency =  msgPtr->frequency;
   convertToBus(&busPtr->Header, &msgPtr->header);
   busPtr->Heading =  msgPtr->heading;
+  busPtr->Snr =  msgPtr->snr;
 }
 
 
@@ -477,6 +477,25 @@ void convertFromBus(std_msgs::Int16MultiArray* msgPtr, SL_Bus_proc_control_std_m
 void convertToBus(SL_Bus_proc_control_std_msgs_Int16MultiArray* busPtr, std_msgs::Int16MultiArray const* msgPtr)
 {
   const std::string rosMessageType("std_msgs/Int16MultiArray");
+
+  convertToBusVariablePrimitiveArray(busPtr->Data, busPtr->Data_SL_Info, msgPtr->data, slros::EnabledWarning(rosMessageType, "data"));
+  convertToBus(&busPtr->Layout, &msgPtr->layout);
+}
+
+
+// Conversions between SL_Bus_proc_control_std_msgs_Int8MultiArray and std_msgs::Int8MultiArray
+
+void convertFromBus(std_msgs::Int8MultiArray* msgPtr, SL_Bus_proc_control_std_msgs_Int8MultiArray const* busPtr)
+{
+  const std::string rosMessageType("std_msgs/Int8MultiArray");
+
+  convertFromBusVariablePrimitiveArray(msgPtr->data, busPtr->Data, busPtr->Data_SL_Info);
+  convertFromBus(&msgPtr->layout, &busPtr->Layout);
+}
+
+void convertToBus(SL_Bus_proc_control_std_msgs_Int8MultiArray* busPtr, std_msgs::Int8MultiArray const* msgPtr)
+{
+  const std::string rosMessageType("std_msgs/Int8MultiArray");
 
   convertToBusVariablePrimitiveArray(busPtr->Data, busPtr->Data_SL_Info, msgPtr->data, slros::EnabledWarning(rosMessageType, "data"));
   convertToBus(&busPtr->Layout, &msgPtr->layout);

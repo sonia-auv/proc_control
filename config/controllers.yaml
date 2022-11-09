@@ -1,0 +1,11 @@
+
+#  Code generated for Simulink model 'proc_control'.
+#  Generated on : Sat Jul 02 01:31:02 2022
+# This is a template YAML file. Modify this file to match the project requirements
+sl_proc_control:
+  type: "proc_control/ControllerHost"
+  joint_names: [inport]
+# File trailer for generated code.
+#
+# [EOF]
+#

@@ -1,6 +1,6 @@
 <package>
   <name>proc_control</name>
-  <version>1.4.3</version>
+  <version>1.5.0</version>
   <description>
   This package is generated from proc_control Simulink model.
   </description>

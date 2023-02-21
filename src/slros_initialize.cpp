@@ -42,7 +42,7 @@ SimulinkSubscriber<geometry_msgs::Twist, SL_Bus_proc_control_geometry_msgs_Twist
 // For Block proc_control/Subsystem Trajectory/Subsystem1/Subscribe
 SimulinkSubscriber<trajectory_msgs::MultiDOFJointTrajectoryPoint, SL_Bus_proc_control_MultiDOFJointTrajectoryPo_2ndf9w> Sub_proc_control_184_1581;
 
-// For Block proc_control/Subsystem Trajectory/singleWpts Trajectory/Subscribe
+// For Block proc_control/Subsystem Trajectory/singleWpts Trajectory (For control Debug ONLY)/Subscribe
 SimulinkSubscriber<sonia_common::AddPose, SL_Bus_proc_control_sonia_common_AddPose> Sub_proc_control_184_1168;
 
 // For Block proc_control/Subsystem1/ROS Command Manager/Subscribe1
@@ -63,7 +63,7 @@ SimulinkSubscriber<std_msgs::Bool, SL_Bus_proc_control_std_msgs_Bool> Sub_proc_c
 // For Block proc_control/Subsystem1/ROS Command Manager/startSim
 SimulinkSubscriber<geometry_msgs::Pose, SL_Bus_proc_control_geometry_msgs_Pose> Sub_proc_control_185_11;
 
-// For Block proc_control/Modle Physique/Modele Thruster/Send RPM to unity/Publish2
+// For Block proc_control/Modle Physique/Modele Thruster (Approximation)/Send RPM to unity/Publish2
 SimulinkPublisher<std_msgs::Int16MultiArray, SL_Bus_proc_control_std_msgs_Int16MultiArray> Pub_proc_control_19_1361;
 
 // For Block proc_control/Modle Physique/Sensor Model/Hydrophones Model/Publish
@@ -99,10 +99,10 @@ SimulinkPublisher<std_msgs::Bool, SL_Bus_proc_control_std_msgs_Bool> Pub_proc_co
 // For Block proc_control/Sensor Manager/Send auv states/Publish
 SimulinkPublisher<nav_msgs::Odometry, SL_Bus_proc_control_nav_msgs_Odometry> Pub_proc_control_163;
 
-// For Block proc_control/Subsystem Controller/Controller list/Adaptive MPC quaternion /Send mesurment residual/Publish
+// For Block proc_control/Subsystem Controller/Controller list/Adaptive MPC quaternion /Send mesurment residual /Publish
 SimulinkPublisher<nav_msgs::Odometry, SL_Bus_proc_control_nav_msgs_Odometry> Pub_proc_control_182_1725;
 
-// For Block proc_control/Subsystem Trajectory/Subsystem2/Publish5
+// For Block proc_control/Subsystem Trajectory/Send Current Target/Publish5
 SimulinkPublisher<geometry_msgs::Pose, SL_Bus_proc_control_geometry_msgs_Pose> Pub_proc_control_184_1596;
 
 // For Block proc_control/Subsystem1/Get_ROS_param /MPC_parameters/mpc gains/Gains defaut/Get Parameter

@@ -1,20 +1,20 @@
 //
-// Academic License - for use in teaching, academic research, and meeting
-// course requirements at degree granting institutions only.  Not for
-// government, commercial, or other organizational use.
+// Sponsored License - for use in support of a program or activity
+// sponsored by MathWorks.  Not for government, commercial or other
+// non-sponsored organizational use.
 //
 // File: trisolve_bR4rdVHP.cpp
 //
 // Code generated for Simulink model 'proc_control'.
 //
-// Model version                  : 3.10
+// Model version                  : 3.101
 // Simulink Coder version         : 9.7 (R2022a) 13-Nov-2021
-// C/C++ source code generated on : Thu Apr 28 22:47:52 2022
+// C/C++ source code generated on : Tue Feb 21 16:38:10 2023
 //
 #include "rtwtypes.h"
 #include "trisolve_bR4rdVHP.h"
 
-// Function for MATLAB Function: '<S171>/FixedHorizonOptimizer'
+// Function for MATLAB Function: '<S204>/FixedHorizonOptimizer'
 void trisolve_bR4rdVHP(const real_T b_A[81], real_T b_B[81])
 {
   for (int32_T j{0}; j < 9; j++) {

@@ -1,21 +1,21 @@
 //
-// Academic License - for use in teaching, academic research, and meeting
-// course requirements at degree granting institutions only.  Not for
-// government, commercial, or other organizational use.
+// Sponsored License - for use in support of a program or activity
+// sponsored by MathWorks.  Not for government, commercial or other
+// non-sponsored organizational use.
 //
 // File: recomputeBlockDiag_qmxFvKVu.cpp
 //
 // Code generated for Simulink model 'proc_control'.
 //
-// Model version                  : 3.35
+// Model version                  : 3.101
 // Simulink Coder version         : 9.7 (R2022a) 13-Nov-2021
-// C/C++ source code generated on : Wed Jun  8 21:53:38 2022
+// C/C++ source code generated on : Tue Feb 21 16:38:10 2023
 //
 #include "rtwtypes.h"
 #include "recomputeBlockDiag_qmxFvKVu.h"
 #include <cmath>
 
-// Function for MATLAB Function: '<S144>/MATLAB Function2'
+// Function for MATLAB Function: '<S133>/MATLAB Function2'
 void recomputeBlockDiag_qmxFvKVu(const real_T A[169], real_T F[169], const
   int32_T blockFormat[12])
 {

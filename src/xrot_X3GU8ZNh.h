@@ -3,7 +3,7 @@
 // sponsored by MathWorks.  Not for government, commercial or other
 // non-sponsored organizational use.
 //
-// File: log2_blLsPIAE.h
+// File: xrot_X3GU8ZNh.h
 //
 // Code generated for Simulink model 'proc_control'.
 //
@@ -11,13 +11,14 @@
 // Simulink Coder version         : 9.7 (R2022a) 13-Nov-2021
 // C/C++ source code generated on : Tue Feb 21 16:38:10 2023
 //
-#ifndef RTW_HEADER_log2_blLsPIAE_h_
-#define RTW_HEADER_log2_blLsPIAE_h_
+#ifndef RTW_HEADER_xrot_X3GU8ZNh_h_
+#define RTW_HEADER_xrot_X3GU8ZNh_h_
 #include "rtwtypes.h"
 
-extern real_T log2_blLsPIAE(real_T x);
+extern void xrot_X3GU8ZNh(int32_T n, real_T x[169], int32_T ix0, int32_T iy0,
+  real_T c, real_T s);
 
-#endif                                 // RTW_HEADER_log2_blLsPIAE_h_
+#endif                                 // RTW_HEADER_xrot_X3GU8ZNh_h_
 
 //
 // File trailer for generated code.

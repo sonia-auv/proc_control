@@ -1,20 +1,20 @@
 //
-// Academic License - for use in teaching, academic research, and meeting
-// course requirements at degree granting institutions only.  Not for
-// government, commercial, or other organizational use.
+// Sponsored License - for use in support of a program or activity
+// sponsored by MathWorks.  Not for government, commercial or other
+// non-sponsored organizational use.
 //
 // File: xgerc_6YFUaNlM.cpp
 //
 // Code generated for Simulink model 'proc_control'.
 //
-// Model version                  : 3.35
+// Model version                  : 3.101
 // Simulink Coder version         : 9.7 (R2022a) 13-Nov-2021
-// C/C++ source code generated on : Wed Jun  8 21:53:38 2022
+// C/C++ source code generated on : Tue Feb 21 16:38:10 2023
 //
 #include "rtwtypes.h"
 #include "xgerc_6YFUaNlM.h"
 
-// Function for MATLAB Function: '<S291>/Correct'
+// Function for MATLAB Function: '<S286>/Correct'
 void xgerc_6YFUaNlM(int32_T m, int32_T n, real_T alpha1, int32_T ix0, const
                     real_T y[3], real_T A[48], int32_T ia0)
 {

@@ -1,18 +1,19 @@
 //
-// Academic License - for use in teaching, academic research, and meeting
-// course requirements at degree granting institutions only.  Not for
-// government, commercial, or other organizational use.
+// Sponsored License - for use in support of a program or activity
+// sponsored by MathWorks.  Not for government, commercial or other
+// non-sponsored organizational use.
 //
 // File: plook_u32d_binckpang.cpp
 //
 // Code generated for Simulink model 'proc_control'.
 //
-// Model version                  : 3.1
+// Model version                  : 3.101
 // Simulink Coder version         : 9.7 (R2022a) 13-Nov-2021
-// C/C++ source code generated on : Thu Apr  7 23:11:26 2022
+// C/C++ source code generated on : Tue Feb 21 16:38:10 2023
 //
 #include "plook_u32d_binckpang.h"
 #include "binsearch_u32d_prevIdx.h"
+#include <string>
 #include "rtwtypes.h"
 
 uint32_T plook_u32d_binckpang(real_T u, const real_T bp[], uint32_T maxIndex,
@@ -28,7 +29,9 @@ uint32_T plook_u32d_binckpang(real_T u, const real_T bp[], uint32_T maxIndex,
   // Remove protection against out-of-range input in generated code: 'on'
 
   if (u < bp[maxIndex]) {
-    bpIndex = binsearch_u32d_prevIdx(u, bp, *prevIndex, maxIndex);
+    uint32_T startIndex;
+    startIndex = *prevIndex;
+    bpIndex = binsearch_u32d_prevIdx(u, bp, startIndex, maxIndex);
     if ((bpIndex < maxIndex) && (bp[bpIndex + 1U] - u <= u - bp[bpIndex])) {
       bpIndex++;
     }

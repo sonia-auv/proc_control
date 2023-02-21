@@ -1,15 +1,15 @@
 //
-// Academic License - for use in teaching, academic research, and meeting
-// course requirements at degree granting institutions only.  Not for
-// government, commercial, or other organizational use.
+// Sponsored License - for use in support of a program or activity
+// sponsored by MathWorks.  Not for government, commercial or other
+// non-sponsored organizational use.
 //
 // File: proc_control_types.h
 //
 // Code generated for Simulink model 'proc_control'.
 //
-// Model version                  : 3.79
+// Model version                  : 3.101
 // Simulink Coder version         : 9.7 (R2022a) 13-Nov-2021
-// C/C++ source code generated on : Mon Jul 18 07:32:28 2022
+// C/C++ source code generated on : Tue Feb 21 16:38:10 2023
 //
 // Target selection: ert.tlc
 // Embedded hardware selection: ARM Compatible->ARM 64-bit (LLP64)
@@ -948,7 +948,7 @@ struct ros_slroscpp_internal_block_S_T
 
 #endif                                // struct_ros_slroscpp_internal_block_S_T
 
-// Custom Type definition for MATLAB Function: '<S209>/NLMPC'
+// Custom Type definition for MATLAB Function: '<S208>/NLMPC'
 #ifndef struct_sG8JZ69axY52WWR6RKyApQC_proc__T
 #define struct_sG8JZ69axY52WWR6RKyApQC_proc__T
 
@@ -1057,7 +1057,7 @@ struct OpenLoopController_proc_contr_T
 
 #endif                                // struct_OpenLoopController_proc_contr_T
 
-// Custom Type definition for MATLAB Function: '<S209>/NLMPC'
+// Custom Type definition for MATLAB Function: '<S208>/NLMPC'
 #ifndef struct_somzaGboVhDG7PNQS6E98jD_proc__T
 #define struct_somzaGboVhDG7PNQS6E98jD_proc__T
 
@@ -1095,10 +1095,10 @@ struct mpcManager_proc_control_T
 
 #endif                                 // struct_mpcManager_proc_control_T
 
-#ifndef struct_MultiTrajectoryManager_proc_c_T
-#define struct_MultiTrajectoryManager_proc_c_T
+#ifndef struct_ProcPlannerManager_proc_contr_T
+#define struct_ProcPlannerManager_proc_contr_T
 
-struct MultiTrajectoryManager_proc_c_T
+struct ProcPlannerManager_proc_contr_T
 {
   int32_T isInitialized;
   real_T poseBuffer[78000];
@@ -1111,7 +1111,7 @@ struct MultiTrajectoryManager_proc_c_T
   real_T emptyArray[13];
 };
 
-#endif                                // struct_MultiTrajectoryManager_proc_c_T
+#endif                                // struct_ProcPlannerManager_proc_contr_T
 
 #ifndef struct_TrajectoryManager_proc_contro_T
 #define struct_TrajectoryManager_proc_contro_T
@@ -1353,7 +1353,7 @@ struct emxArray_real_T_1829x1829_pro_T
 
 #endif                                // struct_emxArray_real_T_1829x1829_pro_T
 
-// Custom Type definition for MATLAB Function: '<S209>/NLMPC'
+// Custom Type definition for MATLAB Function: '<S208>/NLMPC'
 #ifndef struct_s_8RbNZtrzTH63iHAPCwMh6G_proc_T
 #define struct_s_8RbNZtrzTH63iHAPCwMh6G_proc_T
 
@@ -1499,7 +1499,7 @@ struct emxArray_int32_T_1829_proc_co_T
 
 #endif                                // struct_emxArray_int32_T_1829_proc_co_T
 
-// Custom Type definition for MATLAB Function: '<S209>/NLMPC'
+// Custom Type definition for MATLAB Function: '<S208>/NLMPC'
 #ifndef struct_s_VA2YLuOkHrWNKQO7FEpyoH_proc_T
 #define struct_s_VA2YLuOkHrWNKQO7FEpyoH_proc_T
 
@@ -1603,7 +1603,7 @@ struct emxArray_boolean_T_1829_proc__T
 
 #endif                                // struct_emxArray_boolean_T_1829_proc__T
 
-// Custom Type definition for MATLAB Function: '<S209>/NLMPC'
+// Custom Type definition for MATLAB Function: '<S208>/NLMPC'
 #ifndef struct_s_gnTVUZmGpKWoq4tCE9AGn_proc__T
 #define struct_s_gnTVUZmGpKWoq4tCE9AGn_proc__T
 
@@ -1662,7 +1662,7 @@ struct emxArray_real_T_260_proc_cont_T
 
 #endif                                // struct_emxArray_real_T_260_proc_cont_T
 
-// Custom Type definition for MATLAB Function: '<S209>/NLMPC'
+// Custom Type definition for MATLAB Function: '<S208>/NLMPC'
 #ifndef struct_s_IDHIEhzA2KtfYk7ehxTmaH_proc_T
 #define struct_s_IDHIEhzA2KtfYk7ehxTmaH_proc_T
 
@@ -1732,7 +1732,7 @@ struct emxArray_real_T_979_proc_cont_T
 
 #endif                                // struct_emxArray_real_T_979_proc_cont_T
 
-// Custom Type definition for MATLAB Function: '<S209>/NLMPC'
+// Custom Type definition for MATLAB Function: '<S208>/NLMPC'
 #ifndef struct_s_wbACub5hw4pAYPfHb1hrsB_proc_T
 #define struct_s_wbACub5hw4pAYPfHb1hrsB_proc_T
 

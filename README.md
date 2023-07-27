@@ -6,10 +6,9 @@
 ![Average time to resolve an issue](https://isitmaintained.com/badge/resolution/sonia-auv/proc_control.svg)
 
 
-*Please read the instructions and fill in the blanks*
+Generated code from MATLAB's embeded coder. See .. for source code.
 
-
-One Paragraph of project description goes here
+Configuration files for both AUVs are located in config/
 
 ## Getting Started
 

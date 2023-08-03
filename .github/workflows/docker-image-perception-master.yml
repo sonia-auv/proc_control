@@ -58,13 +58,6 @@ jobs:
       - name: Set Target version
         run: echo "TARGET_VERSION=release-$(sed -n -e 's/.*<version>\(.*\)<\/version>.*/\1/p' package.xml)" >> $GITHUB_ENV
 
-      - name: Enable Docker Daemon Experimental Features
-        run: |
-          sudo rm /etc/docker/daemon.json
-          echo '{"experimental": true , "cgroup-parent": "/actions_job" }' | sudo tee -a /etc/docker/daemon.json
-          sudo service docker restart
-          docker version
-
       - name: Install QEMU to be able to compile on X86 into ARM64
         run: |
           sudo apt-get update

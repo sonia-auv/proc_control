@@ -1,20 +1,20 @@
 //
-// Academic License - for use in teaching, academic research, and meeting
-// course requirements at degree granting institutions only.  Not for
-// government, commercial, or other organizational use.
+// Sponsored License - for use in support of a program or activity
+// sponsored by MathWorks.  Not for government, commercial or other
+// non-sponsored organizational use.
 //
 // File: DropConstraint_rIRdy5KO.cpp
 //
 // Code generated for Simulink model 'proc_control'.
 //
-// Model version                  : 3.35
+// Model version                  : 3.101
 // Simulink Coder version         : 9.7 (R2022a) 13-Nov-2021
-// C/C++ source code generated on : Wed Jun  8 21:53:38 2022
+// C/C++ source code generated on : Tue Feb 21 16:38:10 2023
 //
 #include "rtwtypes.h"
 #include "DropConstraint_rIRdy5KO.h"
 
-// Function for MATLAB Function: '<S210>/FixedHorizonOptimizer'
+// Function for MATLAB Function: '<S204>/FixedHorizonOptimizer'
 void DropConstraint_rIRdy5KO(int32_T kDrop, boolean_T iA[226], int32_T *nA,
   int32_T iC[226])
 {

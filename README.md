@@ -6,10 +6,9 @@
 ![Average time to resolve an issue](https://isitmaintained.com/badge/resolution/sonia-auv/proc_control.svg)
 
 
-*Please read the instructions and fill in the blanks*
+Generated code of proc control located in [control library](https://github.com/sonia-auv/control_library) repo using MATLAB's 2022a embeded coder.
 
-
-One Paragraph of project description goes here
+Configuration files for both AUVs are located in config/. See our [documentation](https://wiki.sonia.etsmtl.ca/software/Navigation-and-Control/Tune-Controller-Parameters) for parameters tunning.
 
 ## Getting Started
 
@@ -17,8 +16,7 @@ Clone current project by using following command :
 ```bash
     git clone git@github.com:sonia-auv/proc_control.git
 ```
-
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+This is generated code, theres is not much to do with it. You can modified the simulink model and [generate new c++ code](https://wiki.sonia.etsmtl.ca/en/software/Navigation-and-Control/Generate-Cpp-Code). But don't edit those files directly.
 
 ### Prerequisites
 

@@ -1,15 +1,15 @@
 //
-// Academic License - for use in teaching, academic research, and meeting
-// course requirements at degree granting institutions only.  Not for
-// government, commercial, or other organizational use.
+// Sponsored License - for use in support of a program or activity
+// sponsored by MathWorks.  Not for government, commercial or other
+// non-sponsored organizational use.
 //
 // File: erf_lY1OuNdP.cpp
 //
 // Code generated for Simulink model 'proc_control'.
 //
-// Model version                  : 3.72
+// Model version                  : 3.101
 // Simulink Coder version         : 9.7 (R2022a) 13-Nov-2021
-// C/C++ source code generated on : Tue Jul 12 22:29:20 2022
+// C/C++ source code generated on : Tue Feb 21 16:38:10 2023
 //
 #include "rtwtypes.h"
 #include "erf_lY1OuNdP.h"
@@ -17,7 +17,7 @@
 #include <math.h>
 #include "rt_powd_snf.h"
 
-// Function for MATLAB Function: '<S284>/Predict'
+// Function for MATLAB Function: '<S289>/Predict'
 real_T erf_lY1OuNdP(real_T x)
 {
   real_T absx;

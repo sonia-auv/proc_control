@@ -1,15 +1,15 @@
 //
-// Academic License - for use in teaching, academic research, and meeting
-// course requirements at degree granting institutions only.  Not for
-// government, commercial, or other organizational use.
+// Sponsored License - for use in support of a program or activity
+// sponsored by MathWorks.  Not for government, commercial or other
+// non-sponsored organizational use.
 //
 // File: norm_GdpreYkZ.cpp
 //
 // Code generated for Simulink model 'proc_control'.
 //
-// Model version                  : 3.1
+// Model version                  : 3.101
 // Simulink Coder version         : 9.7 (R2022a) 13-Nov-2021
-// C/C++ source code generated on : Thu Apr  7 23:11:26 2022
+// C/C++ source code generated on : Tue Feb 21 16:38:10 2023
 //
 #include "rtwtypes.h"
 #include "norm_GdpreYkZ.h"
@@ -20,7 +20,7 @@ extern "C" {
 #include "rt_nonfinite.h"
 
 }
-// Function for MATLAB Function: '<S139>/MATLAB Function2'
+// Function for MATLAB Function: '<S133>/MATLAB Function2'
   real_T norm_GdpreYkZ(const real_T x[169])
 {
   real_T y;

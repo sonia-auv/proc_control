@@ -82,7 +82,7 @@
 
   
 # Center of mass              x     y     z
-/proc_control/physics/rg : '-0.005, 0.002, 0.009' # distance (m) between center of mass and the geometric center of the sub.
+/proc_control/physics/rg : '-0.0035, 0.001, 0.008' # distance (m) between center of mass and the geometric center of the sub.
 
 # Center of boyency           x     y     z
 /proc_control/physics/rb : '0.00, 0.00, -0.004' # distance (m) between center of boyency and the geometric center of the sub.
@@ -111,6 +111,13 @@
 
 # Sensors Definition
 #---------------------------------------------------------------------------------------------------------
+# Force dvl ON even when data is invalid
+# (If Set to TRUE, when dvl is lost, kalman filter will assume DVL return 0m/s)
+# (If set to FALSE' when dvl is lost Kalman will use the theorectical model)
+/proc_control/physics/dvl_lost_override : FALSE # Boolean
+
+# transformation of the DVL frame to body frame
+/proc_control/physics/dvl_rotation : '0.0, 0.0, 3.1415' # rad
 # depth sensor distance according to the geometric center
 /proc_control/physics/depth_pose : '0.0, 0.0, 0.160' # m
 
@@ -120,5 +127,4 @@
 # sonar distance acording to auv center
 /proc_control/physics/sonar_pose : '0.0, 0.0, 0.0' # m
 
-# transformation of the DVL frame to body frame
-/proc_control/physics/dvl_rotation : '0.0, 0.0, 3.1415' # rad
+
